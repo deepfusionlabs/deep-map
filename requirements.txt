@@ -16,7 +16,7 @@
 #     classifier uses (`deepmap doctor` crashes; 5.6 and older also reject notifications_min_severity), and
 #     6.0.0 cannot import its bolt layer on Windows (`socket.EAI_ADDRFAMILY`, guarded from 6.0.1). <7:
 #     unreleased.
-#   * graphifyy >=0.8.39,<0.8.52: exactly the releases validated — 0.8.39 and 0.8.51 end to end, the ones
+#   * graphifyy >=0.9.95,<0.9.96: exactly the releases validated — 0.8.39 and 0.8.51 end to end, the ones
 #     between diffed statically (build/graphify_extract.py). 0.8.39 has no CUDA/Metal/PowerShell-module
 #     parser (added 0.8.40-0.8.50; the setup verdict names such files and this upgrade), and 0.9.x changed
 #     the skip-dir walk the skipped-dir rescue relies on.
@@ -62,6 +62,6 @@ pyyaml                # benchmark/questions.yaml + repos.yaml parsing
 # The base wheel pulls ~25 tree-sitter grammars (python/js/ts/go/rust/java/… — the multi-language
 # surface). NEVER install graphifyy[all] (it would add openai/anthropic/yt-dlp/etc.). The import
 # name is `graphify`; NEVER rename it (ADR-010). Validated at graphifyy 0.8.39 and 0.8.51.
-graphifyy>=0.8.39,<0.8.52 # MIT — multi-language tree-sitter extraction engine (import graphify)
+graphifyy>=0.9.95,<0.9.96 # MIT — multi-language tree-sitter extraction engine (import graphify)
 
 # NOTE: Neo4j Community (GPLv3) is FETCHED by the installer, not pip-installed.
