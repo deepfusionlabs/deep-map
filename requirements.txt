@@ -34,7 +34,7 @@
 
 # --- retriever / graph runtime ---
 neo4j>=6.0.1,<7       # Apache-2.0 AND Python-2.0 — Bolt driver (floor/ceiling evidence above)
-mcp>=1.24,<2          # MIT — MCP Python SDK; the two MCP servers import mcp.server.fastmcp (gone in 2.x)
+mcp>=2.3.0,<3          # MIT — MCP Python SDK; the two MCP servers import mcp.server.fastmcp (gone in 2.x)
 # anyio arrives with mcp, but DeepMap also imports it DIRECTLY (build/mcp_bounds.py runs each MCP tool body in a
 # worker thread under a deadline; the search server bounds its project-guard roots request), so it is declared here
 # instead of being left to a transitive dependency (tests/compliance_gates.py fails on an undeclared third-party
