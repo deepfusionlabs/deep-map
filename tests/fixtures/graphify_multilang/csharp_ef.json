@@ -1,0 +1,555 @@
+{
+  "_note": "REAL captured 'graphify update --no-cluster' output over a minimal C#/EF Core sample (C# plugin step-0 diagnostic, 2026-07-11; socket tripwire armed - zero egress): two DbContexts (the field-report shape), a property-only entity (Order: nav properties, no methods), an entity with a method (LineItem.TotalPrice), block-namespace classes (Shop.Legacy { AuditEntry, Customer }), a file-scoped-namespace attribute-routed controller, an interface + implementation, and top-level-statement DI (Program.cs). Full node/link fields as emitted (incl. the duplicate 'dbcontext' node graphify emits - by_id dedupes). Ground truth for csharp_edges_gates: (1) graphify DOES node-ify property-only entity classes AND interfaces, with BARE names under BOTH namespace forms (a block namespace additionally yields a dotted 'Shop.Legacy' node); (2) external bases (DbContext/ControllerBase) carry EMPTY source_file so map_graph drops them; (3) graphify emits inherits/implements/references(attribute) links but map_graph reads only method/contains/calls/imports/rationale_for - so EF navigation/fluent wiring, attribute routes, and DI registrations yield NO DeepMap relationship: the exact field state the recognizer fixes; (4) Program.cs (top-level statements) yields ONLY a file-Module node.",
+  "nodes": [
+    {
+      "id": "controllers_orderscontroller",
+      "label": "OrdersController.cs",
+      "file_type": "code",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "controllers_orderscontroller_orderscontroller",
+      "label": "OrdersController",
+      "file_type": "code",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "controllerbase",
+      "label": "ControllerBase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "controllers_orderscontroller_orderscontroller_getorder",
+      "label": ".GetOrder()",
+      "file_type": "code",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "order",
+      "label": "Order",
+      "file_type": "code",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "httpget",
+      "label": "HttpGet",
+      "file_type": "code",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "controllers_orderscontroller_orderscontroller_createorder",
+      "label": ".CreateOrder()",
+      "file_type": "code",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "httppost",
+      "label": "HttpPost",
+      "file_type": "code",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "data_auditcontext",
+      "label": "AuditContext.cs",
+      "file_type": "code",
+      "source_file": "Data/AuditContext.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "data_auditcontext_auditcontext",
+      "label": "AuditContext",
+      "file_type": "code",
+      "source_file": "Data/AuditContext.cs",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "dbcontext",
+      "label": "DbContext",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "data_shopcontext",
+      "label": "ShopContext.cs",
+      "file_type": "code",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "data_shopcontext_shopcontext",
+      "label": "ShopContext",
+      "file_type": "code",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "dbcontext",
+      "label": "DbContext",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "data_shopcontext_shopcontext_onmodelcreating",
+      "label": ".OnModelCreating()",
+      "file_type": "code",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "modelbuilder",
+      "label": "ModelBuilder",
+      "file_type": "code",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_legacy",
+      "label": "Legacy.cs",
+      "file_type": "code",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_legacy_shop_legacy",
+      "label": "Shop.Legacy",
+      "file_type": "code",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_legacy_auditentry",
+      "label": "AuditEntry",
+      "file_type": "code",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_legacy_customer",
+      "label": "Customer",
+      "file_type": "code",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_lineitem",
+      "label": "LineItem.cs",
+      "file_type": "code",
+      "source_file": "Models/LineItem.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_lineitem_lineitem",
+      "label": "LineItem",
+      "file_type": "code",
+      "source_file": "Models/LineItem.cs",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_lineitem_lineitem_totalprice",
+      "label": ".TotalPrice()",
+      "file_type": "code",
+      "source_file": "Models/LineItem.cs",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_order",
+      "label": "Order.cs",
+      "file_type": "code",
+      "source_file": "Models/Order.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_order_order",
+      "label": "Order",
+      "file_type": "code",
+      "source_file": "Models/Order.cs",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "program",
+      "label": "Program.cs",
+      "file_type": "code",
+      "source_file": "Program.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_orderservice",
+      "label": "OrderService.cs",
+      "file_type": "code",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_orderservice_iorderservice",
+      "label": "IOrderService",
+      "file_type": "code",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_orderservice_iorderservice_place",
+      "label": ".Place()",
+      "file_type": "code",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_orderservice_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_orderservice_orderservice_place",
+      "label": ".Place()",
+      "file_type": "code",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L10",
+      "_origin": "ast"
+    }
+  ],
+  "links": [
+    {
+      "source": "controllers_orderscontroller",
+      "target": "mvc",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_orderscontroller",
+      "target": "models",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_orderscontroller",
+      "target": "controllers_orderscontroller_orderscontroller",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_orderscontroller_orderscontroller",
+      "target": "controllerbase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_orderscontroller_orderscontroller",
+      "target": "controllers_orderscontroller_orderscontroller_getorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_orderscontroller_orderscontroller_getorder",
+      "target": "order",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "controllers_orderscontroller_orderscontroller_getorder",
+      "target": "httpget",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "controllers_orderscontroller_orderscontroller",
+      "target": "controllers_orderscontroller_orderscontroller_createorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_orderscontroller_orderscontroller_createorder",
+      "target": "httppost",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "Controllers/OrdersController.cs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "data_auditcontext",
+      "target": "entityframeworkcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/AuditContext.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "data_auditcontext",
+      "target": "legacy",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/AuditContext.cs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "data_auditcontext",
+      "target": "data_auditcontext_auditcontext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/AuditContext.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "data_auditcontext_auditcontext",
+      "target": "dbcontext",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/AuditContext.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "data_shopcontext",
+      "target": "entityframeworkcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "data_shopcontext",
+      "target": "models",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "data_shopcontext",
+      "target": "data_shopcontext_shopcontext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "data_shopcontext_shopcontext",
+      "target": "dbcontext",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "data_shopcontext_shopcontext",
+      "target": "data_shopcontext_shopcontext_onmodelcreating",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "data_shopcontext_shopcontext_onmodelcreating",
+      "target": "modelbuilder",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "Data/ShopContext.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "models_legacy",
+      "target": "generic",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "models_legacy",
+      "target": "models_legacy_shop_legacy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "models_legacy",
+      "target": "models_legacy_auditentry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "models_legacy",
+      "target": "models_legacy_customer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Models/Legacy.cs",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "models_lineitem",
+      "target": "models_lineitem_lineitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Models/LineItem.cs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "models_lineitem_lineitem",
+      "target": "models_lineitem_lineitem_totalprice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Models/LineItem.cs",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "models_order",
+      "target": "models_order_order",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Models/Order.cs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "program",
+      "target": "services",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "Program.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "services_orderservice",
+      "target": "services_orderservice_iorderservice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "services_orderservice_iorderservice",
+      "target": "services_orderservice_iorderservice_place",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "services_orderservice",
+      "target": "services_orderservice_orderservice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "services_orderservice_orderservice",
+      "target": "services_orderservice_iorderservice",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "services_orderservice_orderservice",
+      "target": "services_orderservice_orderservice_place",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Services/OrderService.cs",
+      "source_location": "L10",
+      "weight": 1.0
+    }
+  ]
+}

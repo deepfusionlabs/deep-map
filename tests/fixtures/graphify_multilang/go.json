@@ -1,0 +1,111 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (go sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (socket tripwire armed).",
+  "nodes": [
+    {
+      "id": "orders",
+      "label": "orders.go",
+      "file_type": "code",
+      "source_file": "orders.go",
+      "source_location": "L1"
+    },
+    {
+      "id": "go_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "orders.go",
+      "source_location": "L5"
+    },
+    {
+      "id": "go_orderservice_placeorder",
+      "label": ".PlaceOrder()",
+      "file_type": "code",
+      "source_file": "orders.go",
+      "source_location": "L7"
+    },
+    {
+      "id": "go_orderservice_compute",
+      "label": ".Compute()",
+      "file_type": "code",
+      "source_file": "orders.go",
+      "source_location": "L12"
+    },
+    {
+      "id": "orders_save",
+      "label": "Save()",
+      "file_type": "code",
+      "source_file": "orders.go",
+      "source_location": "L20"
+    },
+    {
+      "id": "orders_checkout",
+      "label": "Checkout()",
+      "file_type": "code",
+      "source_file": "orders.go",
+      "source_location": "L24"
+    },
+    {
+      "id": "orders_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "orders.go",
+      "source_location": "L29"
+    }
+  ],
+  "links": [
+    {
+      "source": "orders",
+      "target": "go_pkg_fmt",
+      "relation": "imports_from"
+    },
+    {
+      "source": "orders",
+      "target": "go_orderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "go_orderservice",
+      "target": "go_orderservice_placeorder",
+      "relation": "method"
+    },
+    {
+      "source": "go_orderservice",
+      "target": "go_orderservice_compute",
+      "relation": "method"
+    },
+    {
+      "source": "orders",
+      "target": "orders_save",
+      "relation": "contains"
+    },
+    {
+      "source": "orders",
+      "target": "orders_checkout",
+      "relation": "contains"
+    },
+    {
+      "source": "orders",
+      "target": "orders_main",
+      "relation": "contains"
+    },
+    {
+      "source": "go_orderservice_placeorder",
+      "target": "go_orderservice_compute",
+      "relation": "calls"
+    },
+    {
+      "source": "go_orderservice_placeorder",
+      "target": "orders_save",
+      "relation": "calls"
+    },
+    {
+      "source": "orders_checkout",
+      "target": "go_orderservice_placeorder",
+      "relation": "calls"
+    },
+    {
+      "source": "orders_main",
+      "target": "orders_checkout",
+      "relation": "calls"
+    }
+  ]
+}

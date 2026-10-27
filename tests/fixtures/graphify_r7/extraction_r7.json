@@ -1,0 +1,1949 @@
+{
+ "_about": "Round-7 W5 fixtures: each entry = the source tree (files, LF), the REAL graph.json graphify 0.8.39 produced for it (captured 2026-09-27 via graphify_extract.extract_with_report), and 'golden' = map_graph(graph, root) on the PRE-round-7 code (the byte-identity baseline for the default-OFF flags). Regenerate only together with tests/extraction_r7_gates.py.",
+ "go": {
+  "files": {
+   "context_test.go": "package gin\n\nfunc must(err error) {\n\tif err != nil { panic(err) }\n}\n\nfunc TestX() {\n\tmust(nil)\n}\n",
+   "gin.go": "package gin\n\nimport (\n\t\"errors\"\n\t\"html/template\"\n\n\t\"example.com/app/util\"\n)\n\ntype Engine struct{}\n\nfunc (e *Engine) LoadHTMLGlob(p string) {\n\ttempl := template.Must(template.New(\"\").ParseGlob(p))\n\t_ = templ\n\t_ = errors.New(\"x\")\n\tutil.Helper()\n\te.Reset()\n\tlocal()\n}\n\nfunc (e *Engine) Reset() {}\n\nfunc local() {}\n\nfunc New() *Engine { return &Engine{} }\n",
+   "models/customer.go": "package models\n\ntype Customer struct {\n\tID uint\n}\n\nfunc (c *Customer) Save() error { return nil }\n",
+   "server/server.go": "package server\n\nimport \"net/http\"\n\ntype Server struct{}\n\nfunc (s *Server) Routes() {\n\thttp.HandleFunc(\"/x\", handleX)\n}\n\nfunc handleX(w http.ResponseWriter, r *http.Request) {}\n",
+   "util/util.go": "package util\n\nfunc Helper() {}\n"
+  },
+  "golden": {
+   "calls": [
+    [
+     "context_test_testx",
+     "must"
+    ],
+    [
+     "cap_go_engine_loadhtmlglob",
+     "New"
+    ],
+    [
+     "cap_go_engine_loadhtmlglob",
+     "Engine.Reset"
+    ],
+    [
+     "cap_go_engine_loadhtmlglob",
+     "local"
+    ],
+    [
+     "cap_go_engine_loadhtmlglob",
+     "must"
+    ],
+    [
+     "cap_go_engine_loadhtmlglob",
+     "Helper"
+    ]
+   ],
+   "imports": [],
+   "nodes": [
+    {
+     "body_summary": "context test: module",
+     "documented": false,
+     "key": "context_test",
+     "label": "Module",
+     "name": "context_test",
+     "source_file": "context_test.go",
+     "start_line": 1
+    },
+    {
+     "body_summary": "must: function",
+     "documented": false,
+     "key": "context_test_must",
+     "label": "Function",
+     "name": "must",
+     "source_file": "context_test.go",
+     "start_line": 3
+    },
+    {
+     "body_summary": "test x: function; calls must",
+     "documented": false,
+     "key": "context_test_testx",
+     "label": "Function",
+     "name": "TestX",
+     "source_file": "context_test.go",
+     "start_line": 7
+    },
+    {
+     "body_summary": "gin: module",
+     "documented": false,
+     "key": "gin",
+     "label": "Module",
+     "name": "gin",
+     "source_file": "gin.go",
+     "start_line": 1
+    },
+    {
+     "body_summary": "engine: class",
+     "documented": false,
+     "key": "cap_go_engine",
+     "label": "Class",
+     "name": "Engine",
+     "source_file": "gin.go",
+     "start_line": 10
+    },
+    {
+     "body_summary": "engine load html glob: method; calls new, engine reset, local, must, helper",
+     "documented": false,
+     "key": "cap_go_engine_loadhtmlglob",
+     "label": "Method",
+     "name": "Engine.LoadHTMLGlob",
+     "source_file": "gin.go",
+     "start_line": 12
+    },
+    {
+     "body_summary": "engine reset: method",
+     "documented": false,
+     "key": "cap_go_engine_reset",
+     "label": "Method",
+     "name": "Engine.Reset",
+     "source_file": "gin.go",
+     "start_line": 21
+    },
+    {
+     "body_summary": "local: function",
+     "documented": false,
+     "key": "gin_local",
+     "label": "Function",
+     "name": "local",
+     "source_file": "gin.go",
+     "start_line": 23
+    },
+    {
+     "body_summary": "new: function",
+     "documented": false,
+     "key": "gin_new",
+     "label": "Function",
+     "name": "New",
+     "source_file": "gin.go",
+     "start_line": 25
+    },
+    {
+     "body_summary": "customer: class",
+     "documented": false,
+     "key": "models_customer",
+     "label": "Class",
+     "name": "Customer",
+     "source_file": "models/customer.go",
+     "start_line": 3
+    },
+    {
+     "body_summary": "customer save: method",
+     "documented": false,
+     "key": "models_customer_save",
+     "label": "Method",
+     "name": "Customer.Save",
+     "source_file": "models/customer.go",
+     "start_line": 7
+    },
+    {
+     "body_summary": "server: class",
+     "documented": false,
+     "key": "server_server",
+     "label": "Class",
+     "name": "Server",
+     "source_file": "server/server.go",
+     "start_line": 5
+    },
+    {
+     "body_summary": "server routes: method",
+     "documented": false,
+     "key": "server_server_routes",
+     "label": "Method",
+     "name": "Server.Routes",
+     "source_file": "server/server.go",
+     "start_line": 7
+    },
+    {
+     "body_summary": "handle x: function",
+     "documented": false,
+     "key": "server_server_handlex",
+     "label": "Function",
+     "name": "handleX",
+     "source_file": "server/server.go",
+     "start_line": 11
+    },
+    {
+     "body_summary": "util: module",
+     "documented": false,
+     "key": "util_util",
+     "label": "Module",
+     "name": "util",
+     "source_file": "util/util.go",
+     "start_line": 1
+    },
+    {
+     "body_summary": "helper: function",
+     "documented": false,
+     "key": "util_util_helper",
+     "label": "Function",
+     "name": "Helper",
+     "source_file": "util/util.go",
+     "start_line": 3
+    }
+   ]
+  },
+  "graph": {
+   "input_tokens": 0,
+   "links": [
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "context_test",
+     "source_file": "context_test.go",
+     "source_location": "L3",
+     "target": "context_test_must",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "context_test",
+     "source_file": "context_test.go",
+     "source_location": "L7",
+     "target": "context_test_testx",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "call",
+     "relation": "calls",
+     "source": "context_test_testx",
+     "source_file": "context_test.go",
+     "source_location": "L8",
+     "target": "context_test_must",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports_from",
+     "source": "gin",
+     "source_file": "gin.go",
+     "source_location": "L4",
+     "target": "go_pkg_errors",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports_from",
+     "source": "gin",
+     "source_file": "gin.go",
+     "source_location": "L5",
+     "target": "go_pkg_html_template",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports_from",
+     "source": "gin",
+     "source_file": "gin.go",
+     "source_location": "L7",
+     "target": "go_pkg_example_com_app_util",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "gin",
+     "source_file": "gin.go",
+     "source_location": "L10",
+     "target": "cap_go_engine",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "cap_go_engine",
+     "source_file": "gin.go",
+     "source_location": "L12",
+     "target": "cap_go_engine_loadhtmlglob",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "cap_go_engine",
+     "source_file": "gin.go",
+     "source_location": "L21",
+     "target": "cap_go_engine_reset",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "gin",
+     "source_file": "gin.go",
+     "source_location": "L23",
+     "target": "gin_local",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "gin",
+     "source_file": "gin.go",
+     "source_location": "L25",
+     "target": "gin_new",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "return_type",
+     "relation": "references",
+     "source": "gin_new",
+     "source_file": "gin.go",
+     "source_location": "L25",
+     "target": "cap_go_engine",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "call",
+     "relation": "calls",
+     "source": "cap_go_engine_loadhtmlglob",
+     "source_file": "gin.go",
+     "source_location": "L13",
+     "target": "gin_new",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "call",
+     "relation": "calls",
+     "source": "cap_go_engine_loadhtmlglob",
+     "source_file": "gin.go",
+     "source_location": "L17",
+     "target": "cap_go_engine_reset",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "call",
+     "relation": "calls",
+     "source": "cap_go_engine_loadhtmlglob",
+     "source_file": "gin.go",
+     "source_location": "L18",
+     "target": "gin_local",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "models_customer",
+     "source_file": "models/customer.go",
+     "source_location": "L3",
+     "target": "models_customer",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "models_customer",
+     "source_file": "models/customer.go",
+     "source_location": "L7",
+     "target": "models_customer_save",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports_from",
+     "source": "server_server",
+     "source_file": "server/server.go",
+     "source_location": "L3",
+     "target": "go_pkg_net_http",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "server_server",
+     "source_file": "server/server.go",
+     "source_location": "L5",
+     "target": "server_server",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "server_server",
+     "source_file": "server/server.go",
+     "source_location": "L7",
+     "target": "server_server_routes",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "server_server",
+     "source_file": "server/server.go",
+     "source_location": "L11",
+     "target": "server_server_handlex",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "parameter_type",
+     "relation": "references",
+     "source": "server_server_handlex",
+     "source_file": "server/server.go",
+     "source_location": "L11",
+     "target": "responsewriter",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "parameter_type",
+     "relation": "references",
+     "source": "server_server_handlex",
+     "source_file": "server/server.go",
+     "source_location": "L11",
+     "target": "request",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "util_util",
+     "source_file": "util/util.go",
+     "source_location": "L3",
+     "target": "util_util_helper",
+     "weight": 1.0
+    },
+    {
+     "confidence": "INFERRED",
+     "confidence_score": 0.8,
+     "context": "call",
+     "relation": "calls",
+     "source": "cap_go_engine_loadhtmlglob",
+     "source_file": "gin.go",
+     "source_location": "L13",
+     "target": "context_test_must",
+     "weight": 1.0
+    },
+    {
+     "confidence": "INFERRED",
+     "confidence_score": 0.8,
+     "context": "call",
+     "relation": "calls",
+     "source": "cap_go_engine_loadhtmlglob",
+     "source_file": "gin.go",
+     "source_location": "L16",
+     "target": "util_util_helper",
+     "weight": 1.0
+    }
+   ],
+   "nodes": [
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "context_test",
+     "label": "context_test.go",
+     "source_file": "context_test.go",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "context_test_must",
+     "label": "must()",
+     "source_file": "context_test.go",
+     "source_location": "L3"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "context_test_testx",
+     "label": "TestX()",
+     "source_file": "context_test.go",
+     "source_location": "L7"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "gin",
+     "label": "gin.go",
+     "source_file": "gin.go",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "cap_go_engine",
+     "label": "Engine",
+     "source_file": "gin.go",
+     "source_location": "L10"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "cap_go_engine_loadhtmlglob",
+     "label": ".LoadHTMLGlob()",
+     "source_file": "gin.go",
+     "source_location": "L12"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "cap_go_engine_reset",
+     "label": ".Reset()",
+     "source_file": "gin.go",
+     "source_location": "L21"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "gin_local",
+     "label": "local()",
+     "source_file": "gin.go",
+     "source_location": "L23"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "gin_new",
+     "label": "New()",
+     "source_file": "gin.go",
+     "source_location": "L25"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "models_customer",
+     "label": "customer.go",
+     "source_file": "models/customer.go",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "models_customer",
+     "label": "Customer",
+     "source_file": "models/customer.go",
+     "source_location": "L3"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "models_customer_save",
+     "label": ".Save()",
+     "source_file": "models/customer.go",
+     "source_location": "L7"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "server_server",
+     "label": "server.go",
+     "source_file": "server/server.go",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "server_server",
+     "label": "Server",
+     "source_file": "server/server.go",
+     "source_location": "L5"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "server_server_routes",
+     "label": ".Routes()",
+     "source_file": "server/server.go",
+     "source_location": "L7"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "server_server_handlex",
+     "label": "handleX()",
+     "source_file": "server/server.go",
+     "source_location": "L11"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "responsewriter",
+     "label": "ResponseWriter",
+     "source_file": "server/server.go",
+     "source_location": "L11"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "request",
+     "label": "Request",
+     "source_file": "server/server.go",
+     "source_location": "L11"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "util_util",
+     "label": "util.go",
+     "source_file": "util/util.go",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "util_util_helper",
+     "label": "Helper()",
+     "source_file": "util/util.go",
+     "source_location": "L3"
+    }
+   ],
+   "output_tokens": 0
+  }
+ },
+ "py": {
+  "files": {
+   "scripts/doc.py": "def long_doc():\n    r\"\"\"Return the configured retry policy for the given queue, honouring overrides and defaults set elsewhere.\n\n    More detail here.\n    \"\"\"\n    return 1\n\n\nclass Loader:\n    \"\"\"\n    Load   things\n       from disk.  Second sentence here.\n    \"\"\"\n\n    def load(self):\n        '''Load one item. And more.'''\n        return 2\n",
+   "scripts/helper.py": "\"\"\"Helper module docstring.\"\"\"\n\n\ndef f():\n    return 2\n",
+   "scripts/helpers.py": "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\"\"\"Helpers: feature flags for the app.\n\nMore text.\"\"\"\n\n\ndef feature_enabled(x):\n    return x\n",
+   "scripts/pkg/__init__.py": "",
+   "scripts/pkg/mod.py": "def g():\n    # TODO: remove this legacy retry once the queue lands\n    return 3\n",
+   "scripts/run.py": "import helper\nfrom helper import f\nimport helpers as _hs\nimport pkg.mod\nfrom pkg import mod as m2\nimport typing\n\n_hs.feature_enabled(3)\n\n\ndef main():\n    _hs.feature_enabled(1)\n    helper.f()\n    pkg.mod.g()\n    m2.g()\n\n    def inner():\n        local_t()\n    inner()\n    return f()\n\n\ndef local_t():\n    return 1\n",
+   "scripts/todo_later.py": "\"\"\"Queue retry helpers.\"\"\"\n\n\ndef retry():\n    # TODO: drop after v2\n    return 1\n"
+  },
+  "golden": {
+   "calls": [
+    [
+     "scripts_run_main",
+     "f"
+    ]
+   ],
+   "imports": [
+    [
+     "scripts_run",
+     "pkg_mod"
+    ]
+   ],
+   "nodes": [
+    {
+     "body_summary": "doc: module",
+     "documented": false,
+     "key": "scripts_doc",
+     "label": "Module",
+     "name": "doc",
+     "source_file": "scripts/doc.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "r\"\"\"Return the configured retry policy for the given queue, honouring overrides",
+     "documented": true,
+     "key": "scripts_doc_long_doc",
+     "label": "Function",
+     "name": "long_doc",
+     "source_file": "scripts/doc.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "Load   things        from disk.  Second sentence here.",
+     "documented": true,
+     "key": "scripts_doc_loader",
+     "label": "Class",
+     "name": "Loader",
+     "source_file": "scripts/doc.py",
+     "start_line": 9
+    },
+    {
+     "body_summary": "Load one item. And more.",
+     "documented": true,
+     "key": "scripts_doc_loader_load",
+     "label": "Method",
+     "name": "Loader.load",
+     "source_file": "scripts/doc.py",
+     "start_line": 15
+    },
+    {
+     "body_summary": "Helper module docstring.",
+     "documented": true,
+     "key": "scripts_helper",
+     "label": "Module",
+     "name": "helper",
+     "source_file": "scripts/helper.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "f: function",
+     "documented": false,
+     "key": "scripts_helper_f",
+     "label": "Function",
+     "name": "f",
+     "source_file": "scripts/helper.py",
+     "start_line": 4
+    },
+    {
+     "body_summary": "helpers: module",
+     "documented": false,
+     "key": "scripts_helpers",
+     "label": "Module",
+     "name": "helpers",
+     "source_file": "scripts/helpers.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "feature enabled: function",
+     "documented": false,
+     "key": "scripts_helpers_feature_enabled",
+     "label": "Function",
+     "name": "feature_enabled",
+     "source_file": "scripts/helpers.py",
+     "start_line": 8
+    },
+    {
+     "body_summary": "init: module",
+     "documented": false,
+     "key": "pkg_init",
+     "label": "Module",
+     "name": "__init__",
+     "source_file": "scripts/pkg/__init__.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "# TODO: remove this legacy retry once the queue lands",
+     "documented": true,
+     "key": "pkg_mod",
+     "label": "Module",
+     "name": "mod",
+     "source_file": "scripts/pkg/mod.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "g: function",
+     "documented": false,
+     "key": "pkg_mod_g",
+     "label": "Function",
+     "name": "g",
+     "source_file": "scripts/pkg/mod.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "run: module",
+     "documented": false,
+     "key": "scripts_run",
+     "label": "Module",
+     "name": "run",
+     "source_file": "scripts/run.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "main: function; calls f",
+     "documented": false,
+     "key": "scripts_run_main",
+     "label": "Function",
+     "name": "main",
+     "source_file": "scripts/run.py",
+     "start_line": 11
+    },
+    {
+     "body_summary": "local t: function",
+     "documented": false,
+     "key": "scripts_run_local_t",
+     "label": "Function",
+     "name": "local_t",
+     "source_file": "scripts/run.py",
+     "start_line": 23
+    },
+    {
+     "body_summary": "# TODO: drop after v2",
+     "documented": true,
+     "key": "scripts_todo_later",
+     "label": "Module",
+     "name": "todo_later",
+     "source_file": "scripts/todo_later.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "retry: function",
+     "documented": false,
+     "key": "scripts_todo_later_retry",
+     "label": "Function",
+     "name": "retry",
+     "source_file": "scripts/todo_later.py",
+     "start_line": 4
+    }
+   ]
+  },
+  "graph": {
+   "input_tokens": 0,
+   "links": [
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_doc",
+     "source_file": "scripts/doc.py",
+     "source_location": "L1",
+     "target": "scripts_doc_long_doc",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_doc",
+     "source_file": "scripts/doc.py",
+     "source_location": "L9",
+     "target": "scripts_doc_loader",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "scripts_doc_loader",
+     "source_file": "scripts/doc.py",
+     "source_location": "L15",
+     "target": "scripts_doc_loader_load",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "rationale_for",
+     "source": "scripts_doc_rationale_2",
+     "source_file": "scripts/doc.py",
+     "source_location": "L2",
+     "target": "scripts_doc_long_doc",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "rationale_for",
+     "source": "scripts_doc_rationale_10",
+     "source_file": "scripts/doc.py",
+     "source_location": "L10",
+     "target": "scripts_doc_loader",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "rationale_for",
+     "source": "scripts_doc_rationale_16",
+     "source_file": "scripts/doc.py",
+     "source_location": "L16",
+     "target": "scripts_doc_loader_load",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_helper",
+     "source_file": "scripts/helper.py",
+     "source_location": "L4",
+     "target": "scripts_helper_f",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "rationale_for",
+     "source": "scripts_helper_rationale_1",
+     "source_file": "scripts/helper.py",
+     "source_location": "L1",
+     "target": "scripts_helper",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_helpers",
+     "source_file": "scripts/helpers.py",
+     "source_location": "L8",
+     "target": "scripts_helpers_feature_enabled",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "pkg_mod",
+     "source_file": "scripts/pkg/mod.py",
+     "source_location": "L1",
+     "target": "pkg_mod_g",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "rationale_for",
+     "source": "pkg_mod_rationale_2",
+     "source_file": "scripts/pkg/mod.py",
+     "source_location": "L2",
+     "target": "pkg_mod",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L1",
+     "target": "helper",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports_from",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L2",
+     "target": "helper",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L3",
+     "target": "helpers",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L4",
+     "target": "pkg_mod",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports_from",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L5",
+     "target": "pkg",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L6",
+     "target": "typing",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L11",
+     "target": "scripts_run_main",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_run",
+     "source_file": "scripts/run.py",
+     "source_location": "L23",
+     "target": "scripts_run_local_t",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_todo_later",
+     "source_file": "scripts/todo_later.py",
+     "source_location": "L4",
+     "target": "scripts_todo_later_retry",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "rationale_for",
+     "source": "scripts_todo_later_rationale_5",
+     "source_file": "scripts/todo_later.py",
+     "source_location": "L5",
+     "target": "scripts_todo_later",
+     "weight": 1.0
+    },
+    {
+     "confidence": "INFERRED",
+     "confidence_score": 0.8,
+     "context": "call",
+     "relation": "calls",
+     "source": "scripts_run_main",
+     "source_file": "scripts/run.py",
+     "source_location": "L20",
+     "target": "scripts_helper_f",
+     "weight": 1.0
+    }
+   ],
+   "nodes": [
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_doc",
+     "label": "doc.py",
+     "source_file": "scripts/doc.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_doc_long_doc",
+     "label": "long_doc()",
+     "source_file": "scripts/doc.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_doc_loader",
+     "label": "Loader",
+     "source_file": "scripts/doc.py",
+     "source_location": "L9"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_doc_loader_load",
+     "label": ".load()",
+     "source_file": "scripts/doc.py",
+     "source_location": "L15"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "rationale",
+     "id": "scripts_doc_rationale_2",
+     "label": "r\"\"\"Return the configured retry policy for the given queue, honouring overrides",
+     "source_file": "scripts/doc.py",
+     "source_location": "L2"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "rationale",
+     "id": "scripts_doc_rationale_10",
+     "label": "Load   things        from disk.  Second sentence here.",
+     "source_file": "scripts/doc.py",
+     "source_location": "L10"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "rationale",
+     "id": "scripts_doc_rationale_16",
+     "label": "Load one item. And more.",
+     "source_file": "scripts/doc.py",
+     "source_location": "L16"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_helper",
+     "label": "helper.py",
+     "source_file": "scripts/helper.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_helper_f",
+     "label": "f()",
+     "source_file": "scripts/helper.py",
+     "source_location": "L4"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "rationale",
+     "id": "scripts_helper_rationale_1",
+     "label": "Helper module docstring.",
+     "source_file": "scripts/helper.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_helpers",
+     "label": "helpers.py",
+     "source_file": "scripts/helpers.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_helpers_feature_enabled",
+     "label": "feature_enabled()",
+     "source_file": "scripts/helpers.py",
+     "source_location": "L8"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "pkg_init",
+     "label": "__init__.py",
+     "source_file": "scripts/pkg/__init__.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "pkg_mod",
+     "label": "mod.py",
+     "source_file": "scripts/pkg/mod.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "pkg_mod_g",
+     "label": "g()",
+     "source_file": "scripts/pkg/mod.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "rationale",
+     "id": "pkg_mod_rationale_2",
+     "label": "# TODO: remove this legacy retry once the queue lands",
+     "source_file": "scripts/pkg/mod.py",
+     "source_location": "L2"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_run",
+     "label": "run.py",
+     "source_file": "scripts/run.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_run_main",
+     "label": "main()",
+     "source_file": "scripts/run.py",
+     "source_location": "L11"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_run_local_t",
+     "label": "local_t()",
+     "source_file": "scripts/run.py",
+     "source_location": "L23"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_todo_later",
+     "label": "todo_later.py",
+     "source_file": "scripts/todo_later.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_todo_later_retry",
+     "label": "retry()",
+     "source_file": "scripts/todo_later.py",
+     "source_location": "L4"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "rationale",
+     "id": "scripts_todo_later_rationale_5",
+     "label": "# TODO: drop after v2",
+     "source_file": "scripts/todo_later.py",
+     "source_location": "L5"
+    }
+   ],
+   "output_tokens": 0
+  }
+ },
+ "py2": {
+  "files": {
+   "pkg2/matcher.py": "class StateMachineMatcher:\n    def match(self, path):\n        def _match(p):\n            return helper_top(p)\n        return _match(path)\n\n\ndef helper_top(p):\n    return p\n",
+   "scripts/ovl.py": "import typing as t\nfrom typing import overload\n\n\nclass Context:\n    @t.overload\n    def invoke(self, a: int) -> int: ...\n\n    @t.overload\n    def invoke(self, a: str) -> str: ...\n\n    def invoke(self, a):\n        \"\"\"Invoke the callback.\"\"\"\n        return a\n\n    @property\n    def name(self):\n        return 'x'\n\n    @name.setter\n    def name(self, v):\n        pass\n\n\n@overload\ndef top(a: int) -> int: ...\n@overload\ndef top(a: str) -> str: ...\ndef top(a):\n    return a\n",
+   "scripts/stubs.pyi": "from typing import overload\n\n@overload\ndef conv(a: int) -> int: ...\n@overload\ndef conv(a: str) -> str: ...\n",
+   "tests/test_routing.py": "class _Routing:\n    def _match(self, p):\n        return p\n\n\ndef test_it():\n    assert _Routing()._match(1) == 1\n"
+  },
+  "golden": {
+   "calls": [
+    [
+     "tests_test_routing_test_it",
+     "_Routing._match"
+    ],
+    [
+     "tests_test_routing_test_it",
+     "_Routing"
+    ],
+    [
+     "pkg2_matcher_statemachinematcher_match",
+     "_Routing._match"
+    ]
+   ],
+   "imports": [],
+   "nodes": [
+    {
+     "body_summary": "matcher: module",
+     "documented": false,
+     "key": "pkg2_matcher",
+     "label": "Module",
+     "name": "matcher",
+     "source_file": "pkg2/matcher.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "state machine matcher: class",
+     "documented": false,
+     "key": "pkg2_matcher_statemachinematcher",
+     "label": "Class",
+     "name": "StateMachineMatcher",
+     "source_file": "pkg2/matcher.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "state machine matcher match: method; calls routing match",
+     "documented": false,
+     "key": "pkg2_matcher_statemachinematcher_match",
+     "label": "Method",
+     "name": "StateMachineMatcher.match",
+     "source_file": "pkg2/matcher.py",
+     "start_line": 2
+    },
+    {
+     "body_summary": "helper top: function",
+     "documented": false,
+     "key": "pkg2_matcher_helper_top",
+     "label": "Function",
+     "name": "helper_top",
+     "source_file": "pkg2/matcher.py",
+     "start_line": 8
+    },
+    {
+     "body_summary": "ovl: module",
+     "documented": false,
+     "key": "scripts_ovl",
+     "label": "Module",
+     "name": "ovl",
+     "source_file": "scripts/ovl.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "context: class",
+     "documented": false,
+     "key": "scripts_ovl_context",
+     "label": "Class",
+     "name": "Context",
+     "source_file": "scripts/ovl.py",
+     "start_line": 5
+    },
+    {
+     "body_summary": "context invoke: method",
+     "documented": false,
+     "key": "scripts_ovl_context_invoke",
+     "label": "Method",
+     "name": "Context.invoke",
+     "source_file": "scripts/ovl.py",
+     "start_line": 7
+    },
+    {
+     "body_summary": "context name: method",
+     "documented": false,
+     "key": "scripts_ovl_context_name",
+     "label": "Method",
+     "name": "Context.name",
+     "source_file": "scripts/ovl.py",
+     "start_line": 17
+    },
+    {
+     "body_summary": "top: function",
+     "documented": false,
+     "key": "scripts_ovl_top",
+     "label": "Function",
+     "name": "top",
+     "source_file": "scripts/ovl.py",
+     "start_line": 26
+    },
+    {
+     "body_summary": "test routing: module",
+     "documented": false,
+     "key": "tests_test_routing",
+     "label": "Module",
+     "name": "test_routing",
+     "source_file": "tests/test_routing.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "routing: class",
+     "documented": false,
+     "key": "tests_test_routing_routing",
+     "label": "Class",
+     "name": "_Routing",
+     "source_file": "tests/test_routing.py",
+     "start_line": 1
+    },
+    {
+     "body_summary": "routing match: method",
+     "documented": false,
+     "key": "tests_test_routing_routing_match",
+     "label": "Method",
+     "name": "_Routing._match",
+     "source_file": "tests/test_routing.py",
+     "start_line": 2
+    },
+    {
+     "body_summary": "test it: function; calls routing match, routing",
+     "documented": false,
+     "key": "tests_test_routing_test_it",
+     "label": "Function",
+     "name": "test_it",
+     "source_file": "tests/test_routing.py",
+     "start_line": 6
+    }
+   ]
+  },
+  "graph": {
+   "input_tokens": 0,
+   "links": [
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "pkg2_matcher",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L1",
+     "target": "pkg2_matcher_statemachinematcher",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "pkg2_matcher_statemachinematcher",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L2",
+     "target": "pkg2_matcher_statemachinematcher_match",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "pkg2_matcher",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L8",
+     "target": "pkg2_matcher_helper_top",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports",
+     "source": "scripts_ovl",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L1",
+     "target": "typing",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "import",
+     "relation": "imports_from",
+     "source": "scripts_ovl",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L2",
+     "target": "typing",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_ovl",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L5",
+     "target": "scripts_ovl_context",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "scripts_ovl_context",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L7",
+     "target": "scripts_ovl_context_invoke",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "scripts_ovl_context",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L10",
+     "target": "scripts_ovl_context_invoke",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "scripts_ovl_context",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L12",
+     "target": "scripts_ovl_context_invoke",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "scripts_ovl_context",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L17",
+     "target": "scripts_ovl_context_name",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "scripts_ovl_context",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L21",
+     "target": "scripts_ovl_context_name",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_ovl",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L26",
+     "target": "scripts_ovl_top",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_ovl",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L28",
+     "target": "scripts_ovl_top",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "scripts_ovl",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L29",
+     "target": "scripts_ovl_top",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "tests_test_routing",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L1",
+     "target": "tests_test_routing_routing",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "tests_test_routing_routing",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L2",
+     "target": "tests_test_routing_routing_match",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "tests_test_routing",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L6",
+     "target": "tests_test_routing_test_it",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "call",
+     "relation": "calls",
+     "source": "tests_test_routing_test_it",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L7",
+     "target": "tests_test_routing_routing_match",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "context": "call",
+     "relation": "calls",
+     "source": "tests_test_routing_test_it",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L7",
+     "target": "tests_test_routing_routing",
+     "weight": 1.0
+    },
+    {
+     "confidence": "INFERRED",
+     "confidence_score": 0.8,
+     "context": "call",
+     "relation": "calls",
+     "source": "pkg2_matcher_statemachinematcher_match",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L5",
+     "target": "tests_test_routing_routing_match",
+     "weight": 1.0
+    }
+   ],
+   "nodes": [
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "pkg2_matcher",
+     "label": "matcher.py",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "pkg2_matcher_statemachinematcher",
+     "label": "StateMachineMatcher",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "pkg2_matcher_statemachinematcher_match",
+     "label": ".match()",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L2"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "pkg2_matcher_helper_top",
+     "label": "helper_top()",
+     "source_file": "pkg2/matcher.py",
+     "source_location": "L8"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_ovl",
+     "label": "ovl.py",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_ovl_context",
+     "label": "Context",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L5"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_ovl_context_invoke",
+     "label": ".invoke()",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L7"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_ovl_context_name",
+     "label": ".name()",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L17"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "scripts_ovl_top",
+     "label": "top()",
+     "source_file": "scripts/ovl.py",
+     "source_location": "L26"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "tests_test_routing",
+     "label": "test_routing.py",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "tests_test_routing_routing",
+     "label": "_Routing",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "tests_test_routing_routing_match",
+     "label": "._match()",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L2"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "tests_test_routing_test_it",
+     "label": "test_it()",
+     "source_file": "tests/test_routing.py",
+     "source_location": "L6"
+    }
+   ],
+   "output_tokens": 0
+  }
+ },
+ "rs": {
+  "files": {
+   "src/ser.rs": "pub trait Formatter {\n    fn begin_string(&mut self) -> u8 { 0 }\n    fn write_char_escape(&mut self) -> u8 {\n        self.begin_string()\n    }\n    fn required(&self) -> u8;\n}\n\npub struct CompactFormatter;\n\nimpl Formatter for CompactFormatter {\n    fn required(&self) -> u8 { 1 }\n}\n"
+  },
+  "golden": {
+   "calls": [],
+   "imports": [],
+   "nodes": [
+    {
+     "body_summary": "ser: module",
+     "documented": false,
+     "key": "src_ser",
+     "label": "Module",
+     "name": "ser",
+     "source_file": "src/ser.rs",
+     "start_line": 1
+    },
+    {
+     "body_summary": "formatter: class",
+     "documented": false,
+     "key": "src_ser_formatter",
+     "label": "Class",
+     "name": "Formatter",
+     "source_file": "src/ser.rs",
+     "start_line": 1
+    },
+    {
+     "body_summary": "compact formatter: class",
+     "documented": false,
+     "key": "src_ser_compactformatter",
+     "label": "Class",
+     "name": "CompactFormatter",
+     "source_file": "src/ser.rs",
+     "start_line": 9
+    },
+    {
+     "body_summary": "compact formatter required: method",
+     "documented": false,
+     "key": "src_ser_compactformatter_required",
+     "label": "Method",
+     "name": "CompactFormatter.required",
+     "source_file": "src/ser.rs",
+     "start_line": 12
+    }
+   ]
+  },
+  "graph": {
+   "input_tokens": 0,
+   "links": [
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "src_ser",
+     "source_file": "src/ser.rs",
+     "source_location": "L1",
+     "target": "src_ser_formatter",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "src_ser",
+     "source_file": "src/ser.rs",
+     "source_location": "L9",
+     "target": "src_ser_compactformatter",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "implements",
+     "source": "src_ser_compactformatter",
+     "source_file": "src/ser.rs",
+     "source_location": "L11",
+     "target": "src_ser_formatter",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "method",
+     "source": "src_ser_compactformatter",
+     "source_file": "src/ser.rs",
+     "source_location": "L12",
+     "target": "src_ser_compactformatter_required",
+     "weight": 1.0
+    }
+   ],
+   "nodes": [
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "src_ser",
+     "label": "ser.rs",
+     "source_file": "src/ser.rs",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "src_ser_formatter",
+     "label": "Formatter",
+     "source_file": "src/ser.rs",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "src_ser_compactformatter",
+     "label": "CompactFormatter",
+     "source_file": "src/ser.rs",
+     "source_location": "L9"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "src_ser_compactformatter_required",
+     "label": ".required()",
+     "source_file": "src/ser.rs",
+     "source_location": "L12"
+    }
+   ],
+   "output_tokens": 0
+  }
+ },
+ "ts": {
+  "files": {
+   "parse.ts": "export type $Parse = (x: number) => number;\nexport const _parse = (_Err: any) => (schema: any, value: any) => {\n  return schema.run(value);\n};\nexport const parse = /* @__PURE__ */ _parse(Error);\ninterface $ZodThing { a: number }\n\nexport const $ZodThing = $constructor(\"x\", (inst: any) => {\n  return inst;\n});\nexport function $constructor(n: string, f: any) { return f; }\nexport const plain = (a: number) => a + 1;\nexport const called = helper(1);\nfunction helper(x: number) { return x; }\n"
+  },
+  "golden": {
+   "calls": [],
+   "imports": [],
+   "nodes": [
+    {
+     "body_summary": "parse: module",
+     "documented": false,
+     "key": "parse",
+     "label": "Module",
+     "name": "parse",
+     "source_file": "parse.ts",
+     "start_line": 1
+    },
+    {
+     "body_summary": "parse: class",
+     "documented": false,
+     "key": "parse_parse",
+     "label": "Class",
+     "name": "$Parse",
+     "source_file": "parse.ts",
+     "start_line": 1
+    },
+    {
+     "body_summary": "zod thing: class",
+     "documented": false,
+     "key": "parse_zodthing",
+     "label": "Class",
+     "name": "$ZodThing",
+     "source_file": "parse.ts",
+     "start_line": 6
+    },
+    {
+     "body_summary": "constructor: function",
+     "documented": false,
+     "key": "parse_constructor",
+     "label": "Function",
+     "name": "$constructor",
+     "source_file": "parse.ts",
+     "start_line": 11
+    },
+    {
+     "body_summary": "plain: function",
+     "documented": false,
+     "key": "parse_plain",
+     "label": "Function",
+     "name": "plain",
+     "source_file": "parse.ts",
+     "start_line": 12
+    },
+    {
+     "body_summary": "called: class",
+     "documented": false,
+     "key": "parse_called",
+     "label": "Class",
+     "name": "called",
+     "source_file": "parse.ts",
+     "start_line": 13
+    },
+    {
+     "body_summary": "helper: function",
+     "documented": false,
+     "key": "parse_helper",
+     "label": "Function",
+     "name": "helper",
+     "source_file": "parse.ts",
+     "start_line": 14
+    }
+   ]
+  },
+  "graph": {
+   "input_tokens": 0,
+   "links": [
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L1",
+     "target": "parse_parse",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L2",
+     "target": "parse_parse",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L5",
+     "target": "parse_parse",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L6",
+     "target": "parse_zodthing",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L8",
+     "target": "parse_zodthing",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L11",
+     "target": "parse_constructor",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L12",
+     "target": "parse_plain",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L13",
+     "target": "parse_called",
+     "weight": 1.0
+    },
+    {
+     "confidence": "EXTRACTED",
+     "relation": "contains",
+     "source": "parse",
+     "source_file": "parse.ts",
+     "source_location": "L14",
+     "target": "parse_helper",
+     "weight": 1.0
+    }
+   ],
+   "nodes": [
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "parse",
+     "label": "parse.ts",
+     "source_file": "parse.ts",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "parse_parse",
+     "label": "$Parse",
+     "source_file": "parse.ts",
+     "source_location": "L1"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "parse_zodthing",
+     "label": "$ZodThing",
+     "source_file": "parse.ts",
+     "source_location": "L6"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "parse_constructor",
+     "label": "$constructor()",
+     "source_file": "parse.ts",
+     "source_location": "L11"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "parse_plain",
+     "label": "plain()",
+     "source_file": "parse.ts",
+     "source_location": "L12"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "parse_called",
+     "label": "called",
+     "source_file": "parse.ts",
+     "source_location": "L13"
+    },
+    {
+     "_origin": "ast",
+     "file_type": "code",
+     "id": "parse_helper",
+     "label": "helper()",
+     "source_file": "parse.ts",
+     "source_location": "L14"
+    }
+   ],
+   "output_tokens": 0
+  }
+ }
+}

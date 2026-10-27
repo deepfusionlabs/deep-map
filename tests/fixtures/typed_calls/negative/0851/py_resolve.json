@@ -1,0 +1,1356 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_shapes_gates.TREES['py_resolve'] (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_shapes_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_repo",
+    "source_file": "a/repo.py",
+    "source_location": "L1",
+    "target": "a_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_repo_repo",
+    "source_file": "a/repo.py",
+    "source_location": "L2",
+    "target": "a_repo_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_alt",
+    "source_file": "app/alt.py",
+    "source_location": "L1",
+    "target": "app_alt_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_alt_order",
+    "source_file": "app/alt.py",
+    "source_location": "L2",
+    "target": "app_alt_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_maybe",
+    "source_file": "app/maybe.py",
+    "source_location": "L1",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_maybe",
+    "source_file": "app/maybe.py",
+    "source_location": "L4",
+    "target": "app_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_maybe",
+    "source_file": "app/maybe.py",
+    "source_location": "L9",
+    "target": "app_maybe_spare",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_maybe_spare",
+    "source_file": "app/maybe.py",
+    "source_location": "L10",
+    "target": "app_maybe_spare_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_maybe",
+    "source_file": "app/maybe.py",
+    "source_location": "L14",
+    "target": "app_maybe_mn_type_checking_else",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_maybe_mn_type_checking_else",
+    "source_file": "app/maybe.py",
+    "source_location": "L14",
+    "target": "app_maybe_py_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_maybe_mn_type_checking_else",
+    "source_file": "app/maybe.py",
+    "source_location": "L15",
+    "target": "app_maybe_spare_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L2",
+    "target": "app_models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_models_order_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L10",
+    "target": "app_models_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_other",
+    "source_file": "app/models.py",
+    "source_location": "L11",
+    "target": "app_models_other_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_other",
+    "source_file": "app/models.py",
+    "source_location": "L15",
+    "target": "app_models_other_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L1",
+    "target": "os",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L2",
+    "target": "re",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L4",
+    "target": "app_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L7",
+    "target": "app_mods_finder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_mods_finder",
+    "source_file": "app/mods.py",
+    "source_location": "L8",
+    "target": "app_mods_finder_search",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_mods_finder",
+    "source_file": "app/mods.py",
+    "source_location": "L11",
+    "target": "app_mods_finder_join",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_mods_finder",
+    "source_file": "app/mods.py",
+    "source_location": "L14",
+    "target": "app_mods_finder_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_mods_finder",
+    "source_file": "app/mods.py",
+    "source_location": "L17",
+    "target": "app_mods_finder_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L21",
+    "target": "app_mods_load",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L28",
+    "target": "app_mods_ext_search",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L32",
+    "target": "app_mods_ext_join",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L36",
+    "target": "app_mods_mn_path_loaded",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L40",
+    "target": "app_mods_mn_class_alias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L45",
+    "target": "app_mods_pos_classref",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_mods_ext_search",
+    "source_file": "app/mods.py",
+    "source_location": "L29",
+    "target": "app_mods_finder_search",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_mods_ext_join",
+    "source_file": "app/mods.py",
+    "source_location": "L33",
+    "target": "app_mods_finder_join",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_mods_mn_class_alias",
+    "source_file": "app/mods.py",
+    "source_location": "L42",
+    "target": "app_mods_finder_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_pick",
+    "source_file": "app/pick.py",
+    "source_location": "L1",
+    "target": "b_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_pick",
+    "source_file": "app/pick.py",
+    "source_location": "L4",
+    "target": "app_pick_finder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_pick_finder",
+    "source_file": "app/pick.py",
+    "source_location": "L5",
+    "target": "app_pick_finder_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_pick",
+    "source_file": "app/pick.py",
+    "source_location": "L9",
+    "target": "app_pick_pick_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_pick_pick_b",
+    "source_file": "app/pick.py",
+    "source_location": "L9",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_pick_pick_b",
+    "source_file": "app/pick.py",
+    "source_location": "L10",
+    "target": "app_pick_finder_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_tryimp",
+    "source_file": "app/tryimp.py",
+    "source_location": "L2",
+    "target": "app_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_tryimp",
+    "source_file": "app/tryimp.py",
+    "source_location": "L4",
+    "target": "app_alt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_tryimp",
+    "source_file": "app/tryimp.py",
+    "source_location": "L7",
+    "target": "app_tryimp_spare2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_tryimp_spare2",
+    "source_file": "app/tryimp.py",
+    "source_location": "L8",
+    "target": "app_tryimp_spare2_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_tryimp",
+    "source_file": "app/tryimp.py",
+    "source_location": "L12",
+    "target": "app_tryimp_mn_try_two_classes",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_tryimp_mn_try_two_classes",
+    "source_file": "app/tryimp.py",
+    "source_location": "L12",
+    "target": "app_tryimp_py_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_tryimp",
+    "source_file": "app/tryimp.py",
+    "source_location": "L16",
+    "target": "app_tryimp_pos_try_ctor_free",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_tryimp_mn_try_two_classes",
+    "source_file": "app/tryimp.py",
+    "source_location": "L13",
+    "target": "app_tryimp_spare2_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_tryimp_pos_try_ctor_free",
+    "source_file": "app/tryimp.py",
+    "source_location": "L17",
+    "target": "app_tryimp_spare2_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_tryimp_pos_try_ctor_free",
+    "source_file": "app/tryimp.py",
+    "source_location": "L17",
+    "target": "app_tryimp_spare2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "b_repo",
+    "source_file": "b/repo.py",
+    "source_location": "L1",
+    "target": "b_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "b_repo_repo",
+    "source_file": "b/repo.py",
+    "source_location": "L2",
+    "target": "b_repo_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_app",
+    "source_file": "src/flask/app.py",
+    "source_location": "L1",
+    "target": "flask_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_app",
+    "source_file": "src/flask/app.py",
+    "source_location": "L4",
+    "target": "flask_app_flask",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_app_flask",
+    "source_file": "src/flask/app.py",
+    "source_location": "L5",
+    "target": "flask_app_flask_respond",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_app_flask",
+    "source_file": "src/flask/app.py",
+    "source_location": "L8",
+    "target": "flask_app_flask_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "flask_app_flask_respond",
+    "source_file": "src/flask/app.py",
+    "source_location": "L6",
+    "target": "flask_app_flask_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_init",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L1",
+    "target": "json_init_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_init",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L5",
+    "target": "json_init_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_provider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L1",
+    "target": "json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_provider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L4",
+    "target": "json_provider_defaultjsonprovider",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_provider_defaultjsonprovider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L5",
+    "target": "json_provider_defaultjsonprovider_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_provider_defaultjsonprovider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L8",
+    "target": "json_provider_defaultjsonprovider_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_tag",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L1",
+    "target": "json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_tag",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L4",
+    "target": "json_tag_taggedjsonserializer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_tag_taggedjsonserializer",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L5",
+    "target": "json_tag_taggedjsonserializer_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_tag_taggedjsonserializer",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L8",
+    "target": "json_tag_taggedjsonserializer_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_legacy",
+    "source_file": "tools/legacy.py",
+    "source_location": "L1",
+    "target": "tools_legacy_lr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "tools_legacy_lr",
+    "source_file": "tools/legacy.py",
+    "source_location": "L2",
+    "target": "tools_legacy_lr_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_lr",
+    "source_file": "tools/lr.py",
+    "source_location": "L1",
+    "target": "tools_lr_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "tools_main",
+    "source_file": "tools/main.py",
+    "source_location": "L1",
+    "target": "tools_lr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_main",
+    "source_file": "tools/main.py",
+    "source_location": "L4",
+    "target": "tools_main_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_maybe",
+    "source_file": "app/maybe.py",
+    "source_location": "L4",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_mods",
+    "source_file": "app/mods.py",
+    "source_location": "L4",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_pick",
+    "source_file": "app/pick.py",
+    "source_location": "L1",
+    "target": "b_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_tryimp",
+    "source_file": "app/tryimp.py",
+    "source_location": "L2",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_tryimp",
+    "source_file": "app/tryimp.py",
+    "source_location": "L4",
+    "target": "app_alt_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "flask_app",
+    "source_file": "src/flask/app.py",
+    "source_location": "L1",
+    "target": "json_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_maybe_spare",
+    "source_file": "app/maybe.py",
+    "source_location": "L4",
+    "target": "app_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_mods_finder",
+    "source_file": "app/mods.py",
+    "source_location": "L4",
+    "target": "app_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_pick_finder",
+    "source_file": "app/pick.py",
+    "source_location": "L1",
+    "target": "a_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_tryimp_spare2",
+    "source_file": "app/tryimp.py",
+    "source_location": "L2",
+    "target": "app_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_tryimp_spare2",
+    "source_file": "app/tryimp.py",
+    "source_location": "L4",
+    "target": "app_alt_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "tools_main_main",
+    "source_file": "tools/main.py",
+    "source_location": "L5",
+    "target": "tools_legacy_lr_run",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_repo",
+    "label": "repo.py",
+    "source_file": "a/repo.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_repo_repo",
+    "label": "Repo",
+    "source_file": "a/repo.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_repo_repo_find",
+    "label": ".find()",
+    "source_file": "a/repo.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_alt",
+    "label": "alt.py",
+    "source_file": "app/alt.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_alt_order",
+    "label": "Order",
+    "source_file": "app/alt.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_alt_order_save",
+    "label": ".save()",
+    "source_file": "app/alt.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_maybe",
+    "label": "maybe.py",
+    "source_file": "app/maybe.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_maybe_spare",
+    "label": "Spare",
+    "source_file": "app/maybe.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_maybe_spare_save",
+    "label": ".save()",
+    "source_file": "app/maybe.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_maybe_mn_type_checking_else",
+    "label": "mn_type_checking_else()",
+    "source_file": "app/maybe.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_maybe_py_order",
+    "label": "Order",
+    "origin_file": "app/maybe.py",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models",
+    "label": "models.py",
+    "source_file": "app/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order",
+    "label": "Order",
+    "source_file": "app/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_save",
+    "label": ".save()",
+    "source_file": "app/models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_create",
+    "label": ".create()",
+    "source_file": "app/models.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_other",
+    "label": "Other",
+    "source_file": "app/models.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_other_save",
+    "label": ".save()",
+    "source_file": "app/models.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_other_create",
+    "label": ".create()",
+    "source_file": "app/models.py",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods",
+    "label": "mods.py",
+    "source_file": "app/mods.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_finder",
+    "label": "Finder",
+    "source_file": "app/mods.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_finder_search",
+    "label": ".search()",
+    "source_file": "app/mods.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_finder_join",
+    "label": ".join()",
+    "source_file": "app/mods.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_finder_main",
+    "label": ".main()",
+    "source_file": "app/mods.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_finder_create",
+    "label": ".create()",
+    "source_file": "app/mods.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_load",
+    "label": "_load()",
+    "source_file": "app/mods.py",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_ext_search",
+    "label": "ext_search()",
+    "source_file": "app/mods.py",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_ext_join",
+    "label": "ext_join()",
+    "source_file": "app/mods.py",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_mn_path_loaded",
+    "label": "mn_path_loaded()",
+    "source_file": "app/mods.py",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_mn_class_alias",
+    "label": "mn_class_alias()",
+    "source_file": "app/mods.py",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mods_pos_classref",
+    "label": "pos_classref()",
+    "source_file": "app/mods.py",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pick",
+    "label": "pick.py",
+    "source_file": "app/pick.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pick_finder",
+    "label": "Finder",
+    "source_file": "app/pick.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pick_finder_find",
+    "label": ".find()",
+    "source_file": "app/pick.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pick_pick_b",
+    "label": "pick_b()",
+    "source_file": "app/pick.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repo",
+    "label": "Repo",
+    "origin_file": "app/pick.py",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tryimp",
+    "label": "tryimp.py",
+    "source_file": "app/tryimp.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tryimp_spare2",
+    "label": "Spare2",
+    "source_file": "app/tryimp.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tryimp_spare2_save",
+    "label": ".save()",
+    "source_file": "app/tryimp.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tryimp_mn_try_two_classes",
+    "label": "mn_try_two_classes()",
+    "source_file": "app/tryimp.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tryimp_py_order",
+    "label": "Order",
+    "origin_file": "app/tryimp.py",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tryimp_pos_try_ctor_free",
+    "label": "pos_try_ctor_free()",
+    "source_file": "app/tryimp.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_repo",
+    "label": "repo.py",
+    "source_file": "b/repo.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_repo_repo",
+    "label": "Repo",
+    "source_file": "b/repo.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_repo_repo_find",
+    "label": ".find()",
+    "source_file": "b/repo.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_init",
+    "label": "__init__.py",
+    "source_file": "src/flask/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_app",
+    "label": "app.py",
+    "source_file": "src/flask/app.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_app_flask",
+    "label": "Flask",
+    "source_file": "src/flask/app.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_app_flask_respond",
+    "label": ".respond()",
+    "source_file": "src/flask/app.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_app_flask_dumps",
+    "label": ".dumps()",
+    "source_file": "src/flask/app.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init",
+    "label": "__init__.py",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init_dumps",
+    "label": "dumps()",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init_loads",
+    "label": "loads()",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider",
+    "label": "provider.py",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider",
+    "label": "DefaultJSONProvider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider_dumps",
+    "label": ".dumps()",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider_loads",
+    "label": ".loads()",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag",
+    "label": "tag.py",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_taggedjsonserializer",
+    "label": "TaggedJSONSerializer",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_taggedjsonserializer_dumps",
+    "label": ".dumps()",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_taggedjsonserializer_loads",
+    "label": ".loads()",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_init",
+    "label": "__init__.py",
+    "source_file": "tools/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_legacy",
+    "label": "legacy.py",
+    "source_file": "tools/legacy.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_legacy_lr",
+    "label": "LR",
+    "source_file": "tools/legacy.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_legacy_lr_run",
+    "label": ".run()",
+    "source_file": "tools/legacy.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_lr",
+    "label": "lr.py",
+    "source_file": "tools/lr.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_lr_run",
+    "label": "run()",
+    "source_file": "tools/lr.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main",
+    "label": "main.py",
+    "source_file": "tools/main.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main_main",
+    "label": "main()",
+    "source_file": "tools/main.py",
+    "source_location": "L4"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "1a900c1dc448adc7afa361a6e061d03753389c0aaa06a51dbf3c359f6f8d5f2d"
+}

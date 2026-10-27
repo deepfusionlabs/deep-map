@@ -1,0 +1,1418 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_py_gates.TREES['dispatch'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_py_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L1",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L3",
+    "target": "app_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L6",
+    "target": "app_cmds_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_command",
+    "source_file": "app/cmds.py",
+    "source_location": "L7",
+    "target": "app_cmds_command_get_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_command",
+    "source_file": "app/cmds.py",
+    "source_location": "L10",
+    "target": "app_cmds_command_list_commands",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_command",
+    "source_file": "app/cmds.py",
+    "source_location": "L13",
+    "target": "app_cmds_command_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L17",
+    "target": "app_cmds_group",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_cmds_group",
+    "source_file": "app/cmds.py",
+    "source_location": "L17",
+    "target": "app_cmds_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_group",
+    "source_file": "app/cmds.py",
+    "source_location": "L18",
+    "target": "app_cmds_group_get_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_group",
+    "source_file": "app/cmds.py",
+    "source_location": "L21",
+    "target": "app_cmds_group_list_commands",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_group",
+    "source_file": "app/cmds.py",
+    "source_location": "L24",
+    "target": "app_cmds_group_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L28",
+    "target": "app_cmds_commandcollection",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_cmds_commandcollection",
+    "source_file": "app/cmds.py",
+    "source_location": "L28",
+    "target": "app_cmds_group",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_commandcollection",
+    "source_file": "app/cmds.py",
+    "source_location": "L29",
+    "target": "app_cmds_commandcollection_get_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_commandcollection",
+    "source_file": "app/cmds.py",
+    "source_location": "L32",
+    "target": "app_cmds_commandcollection_list_commands",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L36",
+    "target": "app_cmds_lookalike",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_lookalike",
+    "source_file": "app/cmds.py",
+    "source_location": "L37",
+    "target": "app_cmds_lookalike_get_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L41",
+    "target": "app_cmds_context",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_context",
+    "source_file": "app/cmds.py",
+    "source_location": "L42",
+    "target": "app_cmds_context_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_cmds_context_init",
+    "source_file": "app/cmds.py",
+    "source_location": "L42",
+    "target": "app_cmds_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_context",
+    "source_file": "app/cmds.py",
+    "source_location": "L45",
+    "target": "app_cmds_context_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L49",
+    "target": "app_cmds_parameter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_parameter",
+    "source_file": "app/cmds.py",
+    "source_location": "L50",
+    "target": "app_cmds_parameter_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_cmds_parameter_init",
+    "source_file": "app/cmds.py",
+    "source_location": "L50",
+    "target": "paramtype",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_parameter",
+    "source_file": "app/cmds.py",
+    "source_location": "L53",
+    "target": "app_cmds_parameter_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L57",
+    "target": "app_cmds_complete_visible_commands",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_cmds_complete_visible_commands",
+    "source_file": "app/cmds.py",
+    "source_location": "L57",
+    "target": "app_cmds_context",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L63",
+    "target": "app_cmds_made_exact",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L68",
+    "target": "app_cmds_trailer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_cmds_trailer",
+    "source_file": "app/cmds.py",
+    "source_location": "L69",
+    "target": "app_cmds_trailer_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_cmds_context_to_info_dict",
+    "source_file": "app/cmds.py",
+    "source_location": "L46",
+    "target": "app_cmds_trailer_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_cmds_parameter_info_dict",
+    "source_file": "app/cmds.py",
+    "source_location": "L54",
+    "target": "app_cmds_trailer_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_cmds_complete_visible_commands",
+    "source_file": "app/cmds.py",
+    "source_location": "L59",
+    "target": "app_cmds_commandcollection_list_commands",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_cmds_complete_visible_commands",
+    "source_file": "app/cmds.py",
+    "source_location": "L60",
+    "target": "app_cmds_lookalike_get_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_cmds_made_exact",
+    "source_file": "app/cmds.py",
+    "source_location": "L64",
+    "target": "app_cmds_group",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_cmds_made_exact",
+    "source_file": "app/cmds.py",
+    "source_location": "L65",
+    "target": "app_cmds_lookalike_get_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L1",
+    "target": "app_dispatch_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_base",
+    "source_file": "app/dispatch.py",
+    "source_location": "L2",
+    "target": "app_dispatch_base_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L6",
+    "target": "app_dispatch_sub",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_dispatch_sub",
+    "source_file": "app/dispatch.py",
+    "source_location": "L6",
+    "target": "app_dispatch_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_sub",
+    "source_file": "app/dispatch.py",
+    "source_location": "L7",
+    "target": "app_dispatch_sub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L11",
+    "target": "app_dispatch_leaf",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_leaf",
+    "source_file": "app/dispatch.py",
+    "source_location": "L12",
+    "target": "app_dispatch_leaf_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L16",
+    "target": "app_dispatch_mn_override_param",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_dispatch_mn_override_param",
+    "source_file": "app/dispatch.py",
+    "source_location": "L16",
+    "target": "app_dispatch_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L20",
+    "target": "app_dispatch_leaf_sibling",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_dispatch_leaf_sibling",
+    "source_file": "app/dispatch.py",
+    "source_location": "L20",
+    "target": "app_dispatch_leaf",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L24",
+    "target": "app_dispatch_session",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_session",
+    "source_file": "app/dispatch.py",
+    "source_location": "L25",
+    "target": "app_dispatch_session_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L29",
+    "target": "app_dispatch_othersession",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_othersession",
+    "source_file": "app/dispatch.py",
+    "source_location": "L30",
+    "target": "app_dispatch_othersession_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L34",
+    "target": "app_dispatch_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_holder",
+    "source_file": "app/dispatch.py",
+    "source_location": "L35",
+    "target": "app_dispatch_holder_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_holder",
+    "source_file": "app/dispatch.py",
+    "source_location": "L38",
+    "target": "app_dispatch_holder_mn_field_rebound_in_subclass",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L42",
+    "target": "app_dispatch_subholder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_dispatch_subholder",
+    "source_file": "app/dispatch.py",
+    "source_location": "L42",
+    "target": "app_dispatch_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_subholder",
+    "source_file": "app/dispatch.py",
+    "source_location": "L43",
+    "target": "app_dispatch_subholder_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L48",
+    "target": "app_dispatch_root",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_root",
+    "source_file": "app/dispatch.py",
+    "source_location": "L49",
+    "target": "app_dispatch_root_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L53",
+    "target": "app_dispatch_mixin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_dispatch_mixin",
+    "source_file": "app/dispatch.py",
+    "source_location": "L53",
+    "target": "app_dispatch_root",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_mixin",
+    "source_file": "app/dispatch.py",
+    "source_location": "L54",
+    "target": "app_dispatch_mixin_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L58",
+    "target": "app_dispatch_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_dispatch_other",
+    "source_file": "app/dispatch.py",
+    "source_location": "L58",
+    "target": "app_dispatch_root",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_dispatch_other",
+    "source_file": "app/dispatch.py",
+    "source_location": "L59",
+    "target": "app_dispatch_other_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_dispatch",
+    "source_file": "app/dispatch.py",
+    "source_location": "L63",
+    "target": "app_dispatch_model",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_dispatch_model",
+    "source_file": "app/dispatch.py",
+    "source_location": "L63",
+    "target": "app_dispatch_mixin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_dispatch_model",
+    "source_file": "app/dispatch.py",
+    "source_location": "L63",
+    "target": "app_dispatch_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_dispatch_mn_override_param",
+    "source_file": "app/dispatch.py",
+    "source_location": "L17",
+    "target": "app_dispatch_leaf_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_dispatch_leaf_sibling",
+    "source_file": "app/dispatch.py",
+    "source_location": "L21",
+    "target": "app_dispatch_leaf_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_dispatch_holder_init",
+    "source_file": "app/dispatch.py",
+    "source_location": "L36",
+    "target": "app_dispatch_session",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_dispatch_holder_mn_field_rebound_in_subclass",
+    "source_file": "app/dispatch.py",
+    "source_location": "L39",
+    "target": "app_dispatch_othersession_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_dispatch_subholder_init",
+    "source_file": "app/dispatch.py",
+    "source_location": "L45",
+    "target": "app_dispatch_othersession",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_dispatch_mixin_save",
+    "source_file": "app/dispatch.py",
+    "source_location": "L55",
+    "target": "app_dispatch_other_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_kinds",
+    "source_file": "app/kinds.py",
+    "source_location": "L1",
+    "target": "app_kinds_paramtype",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_kinds_paramtype",
+    "source_file": "app/kinds.py",
+    "source_location": "L2",
+    "target": "app_kinds_paramtype_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_kinds",
+    "source_file": "app/kinds.py",
+    "source_location": "L6",
+    "target": "app_kinds_choice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_kinds_choice",
+    "source_file": "app/kinds.py",
+    "source_location": "L6",
+    "target": "app_kinds_paramtype",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_kinds_choice",
+    "source_file": "app/kinds.py",
+    "source_location": "L7",
+    "target": "app_kinds_choice_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_kinds",
+    "source_file": "app/kinds.py",
+    "source_location": "L11",
+    "target": "app_kinds_path",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_kinds_path",
+    "source_file": "app/kinds.py",
+    "source_location": "L11",
+    "target": "app_kinds_paramtype",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_kinds_path",
+    "source_file": "app/kinds.py",
+    "source_location": "L12",
+    "target": "app_kinds_path_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_kinds",
+    "source_file": "app/kinds.py",
+    "source_location": "L16",
+    "target": "app_kinds_unrelated",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_kinds_unrelated",
+    "source_file": "app/kinds.py",
+    "source_location": "L17",
+    "target": "app_kinds_unrelated_to_info_dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L1",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L4",
+    "target": "app_proto_finder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_proto_finder",
+    "source_file": "app/proto.py",
+    "source_location": "L4",
+    "target": "protocol",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_proto_finder",
+    "source_file": "app/proto.py",
+    "source_location": "L5",
+    "target": "app_proto_finder_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L9",
+    "target": "app_proto_sqlfinder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_proto_sqlfinder",
+    "source_file": "app/proto.py",
+    "source_location": "L10",
+    "target": "app_proto_sqlfinder_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L14",
+    "target": "app_proto_use_finder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_proto_use_finder",
+    "source_file": "app/proto.py",
+    "source_location": "L14",
+    "target": "app_proto_finder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_proto_use_finder",
+    "source_file": "app/proto.py",
+    "source_location": "L15",
+    "target": "app_proto_sqlfinder_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "app_cmds",
+    "source_file": "app/cmds.py",
+    "source_location": "L3",
+    "target": "app_kinds",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds",
+    "label": "cmds.py",
+    "source_file": "app/cmds.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_command",
+    "label": "Command",
+    "source_file": "app/cmds.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_command_get_command",
+    "label": ".get_command()",
+    "source_file": "app/cmds.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_command_list_commands",
+    "label": ".list_commands()",
+    "source_file": "app/cmds.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_command_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/cmds.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_group",
+    "label": "Group",
+    "source_file": "app/cmds.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_group_get_command",
+    "label": ".get_command()",
+    "source_file": "app/cmds.py",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_group_list_commands",
+    "label": ".list_commands()",
+    "source_file": "app/cmds.py",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_group_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/cmds.py",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_commandcollection",
+    "label": "CommandCollection",
+    "source_file": "app/cmds.py",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_commandcollection_get_command",
+    "label": ".get_command()",
+    "source_file": "app/cmds.py",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_commandcollection_list_commands",
+    "label": ".list_commands()",
+    "source_file": "app/cmds.py",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_lookalike",
+    "label": "Lookalike",
+    "source_file": "app/cmds.py",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_lookalike_get_command",
+    "label": ".get_command()",
+    "source_file": "app/cmds.py",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_context",
+    "label": "Context",
+    "source_file": "app/cmds.py",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_context_init",
+    "label": ".__init__()",
+    "source_file": "app/cmds.py",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_context_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/cmds.py",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_parameter",
+    "label": "Parameter",
+    "source_file": "app/cmds.py",
+    "source_location": "L49"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_parameter_init",
+    "label": ".__init__()",
+    "source_file": "app/cmds.py",
+    "source_location": "L50"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paramtype",
+    "label": "ParamType",
+    "source_file": "app/cmds.py",
+    "source_location": "L50"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_parameter_info_dict",
+    "label": ".info_dict()",
+    "source_file": "app/cmds.py",
+    "source_location": "L53"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_complete_visible_commands",
+    "label": "complete_visible_commands()",
+    "source_file": "app/cmds.py",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_made_exact",
+    "label": "made_exact()",
+    "source_file": "app/cmds.py",
+    "source_location": "L63"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_trailer",
+    "label": "Trailer",
+    "source_file": "app/cmds.py",
+    "source_location": "L68"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_cmds_trailer_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/cmds.py",
+    "source_location": "L69"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch",
+    "label": "dispatch.py",
+    "source_file": "app/dispatch.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_base",
+    "label": "Base",
+    "source_file": "app/dispatch.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_base_m",
+    "label": ".m()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_sub",
+    "label": "Sub",
+    "source_file": "app/dispatch.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_sub_m",
+    "label": ".m()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_leaf",
+    "label": "Leaf",
+    "source_file": "app/dispatch.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_leaf_m",
+    "label": ".m()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_mn_override_param",
+    "label": "mn_override_param()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_leaf_sibling",
+    "label": "leaf_sibling()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_session",
+    "label": "Session",
+    "source_file": "app/dispatch.py",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_session_get",
+    "label": ".get()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_othersession",
+    "label": "OtherSession",
+    "source_file": "app/dispatch.py",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_othersession_get",
+    "label": ".get()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_holder",
+    "label": "Holder",
+    "source_file": "app/dispatch.py",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_holder_init",
+    "label": ".__init__()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_holder_mn_field_rebound_in_subclass",
+    "label": ".mn_field_rebound_in_subclass()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_subholder",
+    "label": "SubHolder",
+    "source_file": "app/dispatch.py",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_subholder_init",
+    "label": ".__init__()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_root",
+    "label": "Root",
+    "source_file": "app/dispatch.py",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_root_save",
+    "label": ".save()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L49"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_mixin",
+    "label": "Mixin",
+    "source_file": "app/dispatch.py",
+    "source_location": "L53"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_mixin_save",
+    "label": ".save()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L54"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_other",
+    "label": "Other",
+    "source_file": "app/dispatch.py",
+    "source_location": "L58"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_other_save",
+    "label": ".save()",
+    "source_file": "app/dispatch.py",
+    "source_location": "L59"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_dispatch_model",
+    "label": "Model",
+    "source_file": "app/dispatch.py",
+    "source_location": "L63"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds",
+    "label": "kinds.py",
+    "source_file": "app/kinds.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_paramtype",
+    "label": "ParamType",
+    "source_file": "app/kinds.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_paramtype_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/kinds.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_choice",
+    "label": "Choice",
+    "source_file": "app/kinds.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_choice_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/kinds.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_path",
+    "label": "Path",
+    "source_file": "app/kinds.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_path_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/kinds.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_unrelated",
+    "label": "Unrelated",
+    "source_file": "app/kinds.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_kinds_unrelated_to_info_dict",
+    "label": ".to_info_dict()",
+    "source_file": "app/kinds.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto",
+    "label": "proto.py",
+    "source_file": "app/proto.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_finder",
+    "label": "Finder",
+    "source_file": "app/proto.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "protocol",
+    "label": "Protocol",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_finder_find",
+    "label": ".find()",
+    "source_file": "app/proto.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_sqlfinder",
+    "label": "SqlFinder",
+    "source_file": "app/proto.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_sqlfinder_find",
+    "label": ".find()",
+    "source_file": "app/proto.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_use_finder",
+    "label": "use_finder()",
+    "source_file": "app/proto.py",
+    "source_location": "L14"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "ee186dff468ed82b5668ec89c05dac79c2a04344e5b2c17f32829aee77ed4f32"
+}

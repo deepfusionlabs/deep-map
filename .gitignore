@@ -1,0 +1,60 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+# Cygwin/MSYS crash dumps (e.g. bash.exe.stackdump); never source
+*.stackdump
+
+# Python (the product/retriever stack)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# Transient
+*.tmp
+*.orig
+*.rej
+
+# Graphify / tool output (regenerated, not source)
+graphify-out/
+
+# DeepMap per-repo runtime state written by the installer/provisioner
+# (.deepmap/instance.json = git-hook ownership; .deepmap/provision.lock = spawn lock)
+.deepmap/
+
+# MCP wiring: /deep-map:setup writes each project's own .mcp.json (the port pair the registry gives that project).
+# The plugin does not ship one: a copy at the plugin root pointed every project set up after the first at the first
+# project's servers, so its tools answered from the first project's graph. This checkout's file is its own wiring.
+.mcp.json
+
+# oss-kit transient state (a config.json, if any, stays tracked)
+.oss-kit/*
+!.oss-kit/config.json
+.oss-kit/.onboarding-nudged
+.oss-kit/.mutation-running
+.oss-kit/.autopilot-active
+.oss-kit/.autopilot-iter
+.oss-kit/.autopilot-stop
+
+# DeepInit local nudge state (per-machine freshness-prompt tracking; not project content)
+.ai/.deepinit-nudge-snooze
+.ai/.deepinit-nudge-state
+
+# Local secrets — NEVER commit (e.g. the benchmark judge's OPENROUTER_API_KEY / ANTHROPIC_API_KEY)
+.env
+.env.*
+*.env.local
+secrets.local.*
+
+# benchmark run/dry-run outputs (timestamped dirs); benchmark/results/TEMPLATE.md stays tracked
+benchmark/results/*/
+benchmark/results/*.log
+
+# NOTE: .ai/ (DeepInit deep docs + report) and CLAUDE.md.<date>.bak (dated, reversible
+# DeepInit backups) are not ignored on purpose: where they exist, they are committed.

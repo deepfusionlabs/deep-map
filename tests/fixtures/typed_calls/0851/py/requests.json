@@ -1,0 +1,344 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_py_gates.TREES['requests'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_py_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "requests_init",
+    "source_file": "src/requests/__init__.py",
+    "source_location": "L1",
+    "target": "requests_sessions",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "requests_init",
+    "source_file": "src/requests/__init__.py",
+    "source_location": "L2",
+    "target": "requests_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "requests_sessions",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L1",
+    "target": "requests_sessions_sessionredirectmixin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "requests_sessions_sessionredirectmixin",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L2",
+    "target": "requests_sessions_sessionredirectmixin_resolve_redirects",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "requests_sessions",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L6",
+    "target": "requests_sessions_session",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "requests_sessions_session",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L6",
+    "target": "requests_sessions_sessionredirectmixin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "requests_sessions_session",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L7",
+    "target": "requests_sessions_session_setstate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "requests_sessions_session",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L11",
+    "target": "requests_sessions_session_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "requests_sessions_session",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L14",
+    "target": "requests_sessions_session_request",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "requests_sessions_sessionredirectmixin_resolve_redirects",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L3",
+    "target": "requests_sessions_session_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "requests_sessions_session_request",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L15",
+    "target": "requests_sessions_session_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "tests_test_requests",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L1",
+    "target": "requests",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "tests_test_requests",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L2",
+    "target": "requests_sessions",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tests_test_requests",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L5",
+    "target": "tests_test_requests_test_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tests_test_requests",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L11",
+    "target": "tests_test_requests_redirectsession",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "tests_test_requests_redirectsession",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L11",
+    "target": "requests_sessions_sessionredirectmixin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "tests_test_requests_redirectsession",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L12",
+    "target": "tests_test_requests_redirectsession_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tests_test_requests",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L16",
+    "target": "tests_test_requests_test_redirect",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "tests_test_requests_test_send",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L7",
+    "target": "tests_test_requests_redirectsession_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "tests_test_requests_test_redirect",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L17",
+    "target": "tests_test_requests_redirectsession",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "tests_test_requests_test_redirect",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L18",
+    "target": "tests_test_requests_redirectsession_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "export",
+    "relation": "re_exports",
+    "source": "requests_init",
+    "source_file": "src/requests/__init__.py",
+    "source_location": "L1",
+    "target": "requests_sessions",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "requests_init",
+    "source_file": "src/requests/__init__.py",
+    "source_location": "L1",
+    "target": "requests_sessions_session",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "tests_test_requests_redirectsession",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L2",
+    "target": "requests_sessions_sessionredirectmixin",
+    "weight": 0.8
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_init",
+    "label": "__init__.py",
+    "source_file": "src/requests/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_sessions",
+    "label": "sessions.py",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_sessions_sessionredirectmixin",
+    "label": "SessionRedirectMixin",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_sessions_sessionredirectmixin_resolve_redirects",
+    "label": ".resolve_redirects()",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_sessions_session",
+    "label": "Session",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_sessions_session_setstate",
+    "label": ".__setstate__()",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_sessions_session_send",
+    "label": ".send()",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "requests_sessions_session_request",
+    "label": ".request()",
+    "source_file": "src/requests/sessions.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_test_requests",
+    "label": "test_requests.py",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_test_requests_test_send",
+    "label": "test_send()",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_test_requests_redirectsession",
+    "label": "RedirectSession",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_test_requests_redirectsession_send",
+    "label": ".send()",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_test_requests_test_redirect",
+    "label": "test_redirect()",
+    "source_file": "tests/test_requests.py",
+    "source_location": "L16"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "00078817d187c209260cccaad3d8e31d76c9faf90507e67d7c3e490a27351ce8"
+}

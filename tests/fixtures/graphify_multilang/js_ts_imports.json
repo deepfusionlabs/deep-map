@@ -1,0 +1,153 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (js_ts_imports sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (socket tripwire armed).",
+  "nodes": [
+    {
+      "id": "src_main",
+      "label": "main.ts",
+      "file_type": "code",
+      "source_file": "src/main.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_main_gamma",
+      "label": "{ gamma }",
+      "file_type": "code",
+      "source_file": "src/main.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_main_run",
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "src/main.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_util",
+      "label": "util.ts",
+      "file_type": "code",
+      "source_file": "src/util.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_util_alpha",
+      "label": "alpha()",
+      "file_type": "code",
+      "source_file": "src/util.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_util_beta",
+      "label": "beta()",
+      "file_type": "code",
+      "source_file": "src/util.ts",
+      "source_location": "L2"
+    },
+    {
+      "id": "src_util_delta",
+      "label": "delta()",
+      "file_type": "code",
+      "source_file": "src/util.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_util_default",
+      "label": "Default",
+      "file_type": "code",
+      "source_file": "src/util.ts",
+      "source_location": "L4"
+    }
+  ],
+  "links": [
+    {
+      "source": "src_main",
+      "target": "src_util",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_main",
+      "target": "src_util_alpha",
+      "relation": "imports"
+    },
+    {
+      "source": "src_main",
+      "target": "src_util_beta",
+      "relation": "imports"
+    },
+    {
+      "source": "src_main",
+      "target": "src_util",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_main",
+      "target": "src_util",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_main",
+      "target": "tmp_gfx_imp_src_types",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_main",
+      "target": "src_types_cfg",
+      "relation": "imports"
+    },
+    {
+      "source": "src_main",
+      "target": "src_util",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_main",
+      "target": "src_util_gamma",
+      "relation": "imports"
+    },
+    {
+      "source": "src_main",
+      "target": "src_main_gamma",
+      "relation": "contains"
+    },
+    {
+      "source": "src_main",
+      "target": "src_main_run",
+      "relation": "contains"
+    },
+    {
+      "source": "src_util",
+      "target": "src_util_alpha",
+      "relation": "contains"
+    },
+    {
+      "source": "src_util",
+      "target": "src_util_beta",
+      "relation": "contains"
+    },
+    {
+      "source": "src_util",
+      "target": "src_util_delta",
+      "relation": "contains"
+    },
+    {
+      "source": "src_util",
+      "target": "src_util_default",
+      "relation": "contains"
+    },
+    {
+      "source": "src_main",
+      "target": "src_util_default",
+      "relation": "imports"
+    },
+    {
+      "source": "src_main_run",
+      "target": "src_util_alpha",
+      "relation": "calls"
+    },
+    {
+      "source": "src_main_run",
+      "target": "src_util_beta",
+      "relation": "calls"
+    }
+  ]
+}

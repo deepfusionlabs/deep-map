@@ -1,0 +1,895 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/precise_family_gates.TREES['probe_py'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/precise_family_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "helpers",
+    "source_file": "helpers.py",
+    "source_location": "L1",
+    "target": "helpers_compute_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "helpers",
+    "source_file": "helpers.py",
+    "source_location": "L5",
+    "target": "helpers_format_money",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models",
+    "source_file": "models.py",
+    "source_location": "L1",
+    "target": "models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order",
+    "source_file": "models.py",
+    "source_location": "L2",
+    "target": "models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order",
+    "source_file": "models.py",
+    "source_location": "L5",
+    "target": "models_order_archive_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models",
+    "source_file": "models.py",
+    "source_location": "L9",
+    "target": "models_invoice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_invoice",
+    "source_file": "models.py",
+    "source_location": "L10",
+    "target": "models_invoice_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models",
+    "source_file": "models.py",
+    "source_location": "L14",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_repo",
+    "source_file": "models.py",
+    "source_location": "L15",
+    "target": "models_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_repo",
+    "source_file": "models.py",
+    "source_location": "L18",
+    "target": "models_repo_find_by_id",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models",
+    "source_file": "models.py",
+    "source_location": "L22",
+    "target": "models_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_cache",
+    "source_file": "models.py",
+    "source_location": "L23",
+    "target": "models_cache_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L1",
+    "target": "helpers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L2",
+    "target": "helpers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L3",
+    "target": "helpers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L7",
+    "target": "service_s1_typed_param",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "service_s1_typed_param",
+    "source_file": "service.py",
+    "source_location": "L7",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L12",
+    "target": "service_s2_local_ctor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L18",
+    "target": "service_service",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L19",
+    "target": "service_service_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "service_service_init",
+    "source_file": "service.py",
+    "source_location": "L19",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L23",
+    "target": "service_service_s3_s4_fields",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L29",
+    "target": "service_service_own_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L32",
+    "target": "service_service_get_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "service_service_get_repo",
+    "source_file": "service.py",
+    "source_location": "L32",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L35",
+    "target": "service_service_s7_self_chain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L39",
+    "target": "service_get_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "service_get_repo",
+    "source_file": "service.py",
+    "source_location": "L39",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L43",
+    "target": "service_s7_return_chain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L48",
+    "target": "service_s8_module_alias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L57",
+    "target": "service_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "service_holder",
+    "source_file": "service.py",
+    "source_location": "L60",
+    "target": "service_holder_s5_typed_field",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L64",
+    "target": "service_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "service_local",
+    "source_file": "service.py",
+    "source_location": "L65",
+    "target": "service_local_persist_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L69",
+    "target": "service_s9_same_file_ctor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_s2_local_ctor",
+    "source_file": "service.py",
+    "source_location": "L13",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_service_s3_s4_fields",
+    "source_file": "service.py",
+    "source_location": "L27",
+    "target": "service_service_own_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_service_s7_self_chain",
+    "source_file": "service.py",
+    "source_location": "L36",
+    "target": "service_get_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_get_repo",
+    "source_file": "service.py",
+    "source_location": "L40",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_s7_return_chain",
+    "source_file": "service.py",
+    "source_location": "L44",
+    "target": "service_get_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_s9_same_file_ctor",
+    "source_file": "service.py",
+    "source_location": "L70",
+    "target": "service_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_s9_same_file_ctor",
+    "source_file": "service.py",
+    "source_location": "L71",
+    "target": "service_local_persist_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L3",
+    "target": "helpers_format_money",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "service",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_s2_local_ctor",
+    "source_file": "service.py",
+    "source_location": "L13",
+    "target": "models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_get_repo",
+    "source_file": "service.py",
+    "source_location": "L40",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "service_s8_module_alias",
+    "source_file": "service.py",
+    "source_location": "L51",
+    "target": "helpers_format_money",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "order",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "repo",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_holder",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_local",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "order",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "repo",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_holder",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_local",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "order",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_cache",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_service",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_cache",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "repo",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_cache",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_holder",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_cache",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "service_local",
+    "source_file": "service.py",
+    "source_location": "L4",
+    "target": "models_cache",
+    "weight": 0.8
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "service_service_init",
+    "source_file": "service.py",
+    "source_location": "L21",
+    "target": "models_cache",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "helpers",
+    "label": "helpers.py",
+    "source_file": "helpers.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "helpers_compute_total",
+    "label": "compute_total()",
+    "source_file": "helpers.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "helpers_format_money",
+    "label": "format_money()",
+    "source_file": "helpers.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models",
+    "label": "models.py",
+    "source_file": "models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order",
+    "label": "Order",
+    "source_file": "models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_save",
+    "label": ".save()",
+    "source_file": "models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_archive_order",
+    "label": ".archive_order()",
+    "source_file": "models.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_invoice",
+    "label": "Invoice",
+    "source_file": "models.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_invoice_save",
+    "label": ".save()",
+    "source_file": "models.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo",
+    "label": "Repo",
+    "source_file": "models.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_find",
+    "label": ".find()",
+    "source_file": "models.py",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_find_by_id",
+    "label": ".find_by_id()",
+    "source_file": "models.py",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_cache",
+    "label": "Cache",
+    "source_file": "models.py",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_cache_find",
+    "label": ".find()",
+    "source_file": "models.py",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service",
+    "label": "service.py",
+    "source_file": "service.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_s1_typed_param",
+    "label": "s1_typed_param()",
+    "source_file": "service.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "order",
+    "label": "Order",
+    "source_file": "service.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_s2_local_ctor",
+    "label": "s2_local_ctor()",
+    "source_file": "service.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_service",
+    "label": "Service",
+    "source_file": "service.py",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_service_init",
+    "label": ".__init__()",
+    "source_file": "service.py",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repo",
+    "label": "Repo",
+    "source_file": "service.py",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_service_s3_s4_fields",
+    "label": ".s3_s4_fields()",
+    "source_file": "service.py",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_service_own_helper",
+    "label": ".own_helper()",
+    "source_file": "service.py",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_service_get_repo",
+    "label": ".get_repo()",
+    "source_file": "service.py",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_service_s7_self_chain",
+    "label": ".s7_self_chain()",
+    "source_file": "service.py",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_get_repo",
+    "label": "get_repo()",
+    "source_file": "service.py",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_s7_return_chain",
+    "label": "s7_return_chain()",
+    "source_file": "service.py",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_s8_module_alias",
+    "label": "s8_module_alias()",
+    "source_file": "service.py",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_holder",
+    "label": "Holder",
+    "source_file": "service.py",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_holder_s5_typed_field",
+    "label": ".s5_typed_field()",
+    "source_file": "service.py",
+    "source_location": "L60"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_local",
+    "label": "Local",
+    "source_file": "service.py",
+    "source_location": "L64"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_local_persist_local",
+    "label": ".persist_local()",
+    "source_file": "service.py",
+    "source_location": "L65"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "service_s9_same_file_ctor",
+    "label": "s9_same_file_ctor()",
+    "source_file": "service.py",
+    "source_location": "L69"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "2e5d56b399e95e3c9d8aea7c7dc59bee6912a869ed803c9015bd9c9783a179a1"
+}

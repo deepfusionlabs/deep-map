@@ -1,0 +1,67 @@
+# DeepMap — runtime + harness dependencies.
+#
+# PINNED to the VALIDATED ranges for the three packages whose releases are known to break DeepMap
+# (ROUND-3 E3 + ROUND-4 F3, 2026-09-26). BOTH ends of every range are MEASURED, not guessed. The SAME
+# ranges are in install.sh, install.ps1 and .github/workflows/validate.yml — each installs them with
+# `pip install --upgrade`, so an older copy that already satisfies a spec is lifted to the top of the range
+# (pip otherwise keeps it as "already satisfied") — and build/graphify_extract.py's SUPPORTED_GRAPHIFY_SPEC
+# names graphify's. tests/compliance_gates.py fails if a source installs one of them bare, without
+# --upgrade, with a different range, or with a range that admits a release measured broken; and
+# scripts/ml_stack_selfcheck.py (run last by both installers) fails when an installed copy is out of range.
+#   * mcp >=1.24: 1.13.x and older die at import next to the pydantic 2.13 / starlette 1.7 a fresh resolve
+#     installs (`TypeError: issubclass() arg 1 must be a class`); 1.14-1.23 start the servers but lack the
+#     client API the MCP gates drive (`streamable_http_client`, new in 1.24). <2: 2.x removed
+#     `mcp.server.fastmcp`, which both MCP servers import.
+#   * neo4j >=6.0.1: every 5.x driver lacks `neo4j.exceptions.ConnectionPoolError`, which the CLI's error
+#     classifier uses (`deepmap doctor` crashes; 5.6 and older also reject notifications_min_severity), and
+#     6.0.0 cannot import its bolt layer on Windows (`socket.EAI_ADDRFAMILY`, guarded from 6.0.1). <7:
+#     unreleased.
+#   * graphifyy >=0.8.39,<0.8.52: exactly the releases validated — 0.8.39 and 0.8.51 end to end, the ones
+#     between diffed statically (build/graphify_extract.py). 0.8.39 has no CUDA/Metal/PowerShell-module
+#     parser (added 0.8.40-0.8.50; the setup verdict names such files and this upgrade), and 0.9.x changed
+#     the skip-dir walk the skipped-dir rescue relies on.
+# Evidence (full tests/run_all.py in real venvs, Python 3.13 on Windows; logs in the round-4 W8 record):
+#   floors  mcp 1.24.0 + neo4j 6.0.1 + graphifyy 0.8.39  and  top  mcp 1.30.0 + neo4j 6.3.1 + graphifyy
+#   0.8.51 (each with the pydantic 2.13.5 / starlette 1.7.0 / anyio 4.15.1 a fresh resolve installs) match
+#   the validated mcp 1.28.1 / neo4j 6.2.0 run suite for suite; mcp 1.14.0, neo4j 5.7.0 and neo4j 6.0.0
+#   fail it. `pip index versions` (2026-09-26): mcp 2.2.0, neo4j 6.3.1, graphifyy 0.9.68 are the newest.
+# Widen a range only after re-running the gate suite on the new release. The other deps stay
+# unpinned (no known break), except anyio, which carries only mcp's own floor (see its line).
+# License/role for each is in THIRD-PARTY-LICENSES.md.
+#
+# ranx is intentionally absent — the retriever is ranx-free (pure-Python _weighted_rrf);
+# re-add only if a deployed-path grep confirms it is still used (T11 / plan §0.4).
+
+# --- retriever / graph runtime ---
+neo4j>=6.0.1,<7       # Apache-2.0 AND Python-2.0 — Bolt driver (floor/ceiling evidence above)
+mcp>=1.24,<2          # MIT — MCP Python SDK; the two MCP servers import mcp.server.fastmcp (gone in 2.x)
+# anyio arrives with mcp, but DeepMap also imports it DIRECTLY (build/mcp_bounds.py runs each MCP tool body in a
+# worker thread under a deadline; the search server bounds its project-guard roots request), so it is declared here
+# instead of being left to a transitive dependency (tests/compliance_gates.py fails on an undeclared third-party
+# import). Floor = mcp's own requirement (mcp 1.28.1 metadata: anyio>=4.5; the abandon_on_cancel= DeepMap passes to
+# to_thread.run_sync is new in anyio 4.1), so declaring it never changes what pip resolves next to mcp. No ceiling:
+# no known breaking release. Both installers install it next to mcp, with this floor, in mcp's own pip command
+# (tests/f6_installer_declared_specs_r283_gates.py); CI gets it through mcp. The round-4 venvs above ran the full
+# suite on anyio 4.15.1; the Windows dev box runs anyio 4.9.0 next to mcp 1.28.1.
+anyio>=4.5            # MIT — imported directly (see above); installed next to mcp
+
+# --- embeddings (CPU ML stack) ---
+torch                 # BSD-3-Clause — install the CPU build via the install scripts
+sentence-transformers # Apache-2.0
+transformers          # Apache-2.0
+huggingface_hub       # model pre-download (snapshot_download)
+
+# --- benchmark harness + configs ---
+pyyaml                # benchmark/questions.yaml + repos.yaml parsing
+
+# --- multi-language extraction engine (the graphify default; DEEPMAP_EXTRACTOR=graphify|auto) ---
+# The upstream AST engine (import graphify, MIT). Installed BARE — no extras — on purpose:
+# graphify's LLM providers (openai/anthropic/bedrock/…) are OPTIONAL extras, so a bare install
+# ships NO LLM SDK at all. Combined with `graphify update --no-cluster` (the only path DeepMap
+# invokes — NO LLM, NO clustering), multi-language extraction is zero-egress BY CONSTRUCTION.
+# The base wheel pulls ~25 tree-sitter grammars (python/js/ts/go/rust/java/… — the multi-language
+# surface). NEVER install graphifyy[all] (it would add openai/anthropic/yt-dlp/etc.). The import
+# name is `graphify`; NEVER rename it (ADR-010). Validated at graphifyy 0.8.39 and 0.8.51.
+graphifyy>=0.8.39,<0.8.52 # MIT — multi-language tree-sitter extraction engine (import graphify)
+
+# NOTE: Neo4j Community (GPLv3) is FETCHED by the installer, not pip-installed.

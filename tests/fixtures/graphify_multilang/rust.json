@@ -1,0 +1,101 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (rust sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (socket tripwire armed).",
+  "nodes": [
+    {
+      "id": "src_db",
+      "label": "db.rs",
+      "file_type": "code",
+      "source_file": "src/db.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_db_save",
+      "label": "save()",
+      "file_type": "code",
+      "source_file": "src/db.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_lib",
+      "label": "lib.rs",
+      "file_type": "code",
+      "source_file": "src/lib.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_lib_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "src/lib.rs",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_lib_orderservice_place_order",
+      "label": ".place_order()",
+      "file_type": "code",
+      "source_file": "src/lib.rs",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_lib_orderservice_compute",
+      "label": ".compute()",
+      "file_type": "code",
+      "source_file": "src/lib.rs",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_lib_checkout",
+      "label": "checkout()",
+      "file_type": "code",
+      "source_file": "src/lib.rs",
+      "source_location": "L16"
+    }
+  ],
+  "links": [
+    {
+      "source": "src_db",
+      "target": "src_db_save",
+      "relation": "contains"
+    },
+    {
+      "source": "src_lib",
+      "target": "save",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_lib",
+      "target": "src_lib_orderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "src_lib_orderservice",
+      "target": "src_lib_orderservice_place_order",
+      "relation": "method"
+    },
+    {
+      "source": "src_lib_orderservice",
+      "target": "src_lib_orderservice_compute",
+      "relation": "method"
+    },
+    {
+      "source": "src_lib",
+      "target": "src_lib_checkout",
+      "relation": "contains"
+    },
+    {
+      "source": "src_lib_orderservice_place_order",
+      "target": "src_lib_orderservice_compute",
+      "relation": "calls"
+    },
+    {
+      "source": "src_lib_checkout",
+      "target": "src_lib_orderservice_place_order",
+      "relation": "calls"
+    },
+    {
+      "source": "src_lib_orderservice_place_order",
+      "target": "src_db_save",
+      "relation": "calls"
+    }
+  ]
+}

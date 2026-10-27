@@ -1,0 +1,280 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_shapes_gates.TREES['mix'] (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_shapes_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "helpers_orders_helper",
+    "source_file": "app/helpers/orders_helper.rb",
+    "source_location": "L2",
+    "target": "helpers_orders_helper_total_label",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_no_order",
+    "source_file": "app/no_order.py",
+    "source_location": "L1",
+    "target": "app_no_order_mn_ts_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_py_order",
+    "source_file": "app/py_order.py",
+    "source_location": "L1",
+    "target": "app_py_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_py_order_order",
+    "source_file": "app/py_order.py",
+    "source_location": "L2",
+    "target": "app_py_order_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_py_order",
+    "source_file": "app/py_order.py",
+    "source_location": "L6",
+    "target": "app_py_order_py_ctor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_py_order",
+    "source_file": "app/py_order.py",
+    "source_location": "L10",
+    "target": "app_py_order_shared",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_py_order_py_ctor",
+    "source_file": "app/py_order.py",
+    "source_location": "L7",
+    "target": "app_py_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_order",
+    "source_file": "web/order.ts",
+    "source_location": "L1",
+    "target": "web_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_order_order",
+    "source_file": "web/order.ts",
+    "source_location": "L2",
+    "target": "web_order_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "web_use",
+    "source_file": "web/use.ts",
+    "source_location": "L1",
+    "target": "web_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_use",
+    "source_file": "web/use.ts",
+    "source_location": "L1",
+    "target": "web_util_shared",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_use",
+    "source_file": "web/use.ts",
+    "source_location": "L3",
+    "target": "web_use_useshared",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_util",
+    "source_file": "web/util.js",
+    "source_location": "L1",
+    "target": "web_util_shared",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "web_use_useshared",
+    "source_file": "web/use.ts",
+    "source_location": "L4",
+    "target": "web_util_shared",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "helpers_orders_helper",
+    "label": "orders_helper.rb",
+    "source_file": "app/helpers/orders_helper.rb",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "helpers_orders_helper_total_label",
+    "label": "total_label()",
+    "source_file": "app/helpers/orders_helper.rb",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_no_order",
+    "label": "no_order.py",
+    "source_file": "app/no_order.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_no_order_mn_ts_order",
+    "label": "mn_ts_order()",
+    "source_file": "app/no_order.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_py_order",
+    "label": "py_order.py",
+    "source_file": "app/py_order.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_py_order_order",
+    "label": "Order",
+    "source_file": "app/py_order.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_py_order_order_save",
+    "label": ".save()",
+    "source_file": "app/py_order.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_py_order_py_ctor",
+    "label": "py_ctor()",
+    "source_file": "app/py_order.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_py_order_shared",
+    "label": "shared()",
+    "source_file": "app/py_order.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_order",
+    "label": "order.ts",
+    "source_file": "web/order.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_order_order",
+    "label": "Order",
+    "source_file": "web/order.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_order_order_save",
+    "label": ".save()",
+    "source_file": "web/order.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_use",
+    "label": "use.ts",
+    "source_file": "web/use.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_use_useshared",
+    "label": "useShared()",
+    "source_file": "web/use.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_util",
+    "label": "util.js",
+    "source_file": "web/util.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_util_shared",
+    "label": "shared()",
+    "source_file": "web/util.js",
+    "source_location": "L1"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "38c8307d7b62b994aa201614970692272c79cd6649013889f3aa5557c85f1cd3"
+}

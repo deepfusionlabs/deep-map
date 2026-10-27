@@ -1,0 +1,116 @@
+{
+  "_note": "REAL captured 'graphify update --no-cluster' output over a minimal Rails model sample (Ph2 step-0 diagnostic, 2026-07-09): a def-less DSL-only model (Order), a model with a def (LineItem), and namespaced classes in BOTH source shapes (module Admin/class AuditLog -> bare name; class Admin::Override -> '::' name). Full node/link fields as emitted. Ground truth for rails_edges_gates: graphify DOES node-ify def-less model classes; associations/DSL yield NO relationships.",
+  "nodes": [
+    {
+      "id": "models_admin",
+      "label": "admin.rb",
+      "file_type": "code",
+      "source_file": "app/models/admin.rb",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_admin_auditlog",
+      "label": "AuditLog",
+      "file_type": "code",
+      "source_file": "app/models/admin.rb",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_admin_admin_override",
+      "label": "Admin::Override",
+      "file_type": "code",
+      "source_file": "app/models/admin.rb",
+      "source_location": "L7",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_line_item",
+      "label": "line_item.rb",
+      "file_type": "code",
+      "source_file": "app/models/line_item.rb",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_line_item_lineitem",
+      "label": "LineItem",
+      "file_type": "code",
+      "source_file": "app/models/line_item.rb",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_line_item_lineitem_total_price",
+      "label": ".total_price()",
+      "file_type": "code",
+      "source_file": "app/models/line_item.rb",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_order",
+      "label": "order.rb",
+      "file_type": "code",
+      "source_file": "app/models/order.rb",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_order_order",
+      "label": "Order",
+      "file_type": "code",
+      "source_file": "app/models/order.rb",
+      "source_location": "L1",
+      "_origin": "ast"
+    }
+  ],
+  "links": [
+    {
+      "source": "models_admin",
+      "target": "models_admin_auditlog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/admin.rb",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "models_admin",
+      "target": "models_admin_admin_override",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/admin.rb",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "models_line_item",
+      "target": "models_line_item_lineitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/line_item.rb",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "models_line_item_lineitem",
+      "target": "models_line_item_lineitem_total_price",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/line_item.rb",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "models_order",
+      "target": "models_order_order",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/order.rb",
+      "source_location": "L1",
+      "weight": 1.0
+    }
+  ]
+}

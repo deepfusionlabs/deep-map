@@ -1,0 +1,658 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_ts_gates.TREES['js_app'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L1",
+    "target": "services_index",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L1",
+    "target": "services_index_userservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L1",
+    "target": "controllers_user_controller_userservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L2",
+    "target": "services_user_service",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L2",
+    "target": "controllers_user_controller_usersvc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L3",
+    "target": "models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L3",
+    "target": "controllers_user_controller_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L4",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L4",
+    "target": "models_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L4",
+    "target": "controllers_user_controller_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L6",
+    "target": "controllers_user_controller_show",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L15",
+    "target": "controllers_user_controller_ctl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "controllers_user_controller_ctl",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L16",
+    "target": "controllers_user_controller_ctl_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "controllers_user_controller_ctl",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L21",
+    "target": "controllers_user_controller_ctl_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "controllers_user_controller_ctl",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L23",
+    "target": "controllers_user_controller_ctl_missing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "controllers_user_controller",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L28",
+    "target": "controllers_user_controller_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "controllers_user_controller_other",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L29",
+    "target": "controllers_user_controller_other_nothere",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "controllers_user_controller_ctl_run",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L17",
+    "target": "controllers_user_controller_ctl_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "controllers_user_controller_ctl_missing",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L24",
+    "target": "controllers_user_controller_other_nothere",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "esm_u",
+    "source_file": "src/esm/u.mjs",
+    "source_location": "L1",
+    "target": "esm_u_f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "esm_use",
+    "source_file": "src/esm/use.mjs",
+    "source_location": "L1",
+    "target": "esm_u",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "esm_use",
+    "source_file": "src/esm/use.mjs",
+    "source_location": "L3",
+    "target": "esm_use_callf",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "models_order",
+    "source_file": "src/models/order.js",
+    "source_location": "L1",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "models_order",
+    "source_file": "src/models/order.js",
+    "source_location": "L1",
+    "target": "models_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "src/models/order.js",
+    "source_location": "L1",
+    "target": "models_order_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "src/models/order.js",
+    "source_location": "L3",
+    "target": "models_order_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_base",
+    "source_file": "src/models/order.js",
+    "source_location": "L4",
+    "target": "models_order_base_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "src/models/order.js",
+    "source_location": "L9",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/models/order.js",
+    "source_location": "L12",
+    "target": "models_order_order_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/models/order.js",
+    "source_location": "L17",
+    "target": "models_order_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "models_order_order_save",
+    "source_file": "src/models/order.js",
+    "source_location": "L18",
+    "target": "models_order_base_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_repo",
+    "source_file": "src/models/repo.js",
+    "source_location": "L1",
+    "target": "models_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_repo_repo",
+    "source_file": "src/models/repo.js",
+    "source_location": "L2",
+    "target": "models_repo_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_repo_repo",
+    "source_file": "src/models/repo.js",
+    "source_location": "L6",
+    "target": "models_repo_repo_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_repo",
+    "source_file": "src/models/repo.js",
+    "source_location": "L11",
+    "target": "models_repo_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_repo_cache",
+    "source_file": "src/models/repo.js",
+    "source_location": "L12",
+    "target": "models_repo_cache_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_user_service",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L1",
+    "target": "services_user_service_getuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_user_service",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L3",
+    "target": "services_user_service_createuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_user_service",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L5",
+    "target": "services_user_service_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "services_user_service_createuser",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L3",
+    "target": "services_user_service_getuser",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller",
+    "label": "user.controller.js",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_userservice",
+    "label": "{ userService }",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_usersvc",
+    "label": "userSvc",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_order",
+    "label": "Order",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_repo",
+    "label": "{ Repo }",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_show",
+    "label": "show()",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_ctl",
+    "label": "Ctl",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_ctl_run",
+    "label": ".run()",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_ctl_go",
+    "label": ".go()",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_ctl_missing",
+    "label": ".missing()",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_other",
+    "label": "Other",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllers_user_controller_other_nothere",
+    "label": ".notHere()",
+    "source_file": "src/controllers/user.controller.js",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "esm_u",
+    "label": "u.mjs",
+    "source_file": "src/esm/u.mjs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "esm_u_f",
+    "label": "f()",
+    "source_file": "src/esm/u.mjs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "esm_use",
+    "label": "use.mjs",
+    "source_file": "src/esm/use.mjs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "esm_use_callf",
+    "label": "callF()",
+    "source_file": "src/esm/use.mjs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order",
+    "label": "order.js",
+    "source_file": "src/models/order.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_repo",
+    "label": "{ Repo }",
+    "source_file": "src/models/order.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_base",
+    "label": "Base",
+    "source_file": "src/models/order.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_base_helper",
+    "label": ".helper()",
+    "source_file": "src/models/order.js",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order",
+    "label": "Order",
+    "source_file": "src/models/order.js",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_constructor",
+    "label": ".constructor()",
+    "source_file": "src/models/order.js",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_save",
+    "label": ".save()",
+    "source_file": "src/models/order.js",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo",
+    "label": "repo.js",
+    "source_file": "src/models/repo.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_repo",
+    "label": "Repo",
+    "source_file": "src/models/repo.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_repo_find",
+    "label": ".find()",
+    "source_file": "src/models/repo.js",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_repo_create",
+    "label": ".create()",
+    "source_file": "src/models/repo.js",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_cache",
+    "label": "Cache",
+    "source_file": "src/models/repo.js",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_cache_find",
+    "label": ".find()",
+    "source_file": "src/models/repo.js",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_index",
+    "label": "index.js",
+    "source_file": "src/services/index.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_user_service",
+    "label": "user.service.js",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_user_service_getuser",
+    "label": "getUser()",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_user_service_createuser",
+    "label": "createUser()",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_user_service_helper",
+    "label": "helper()",
+    "source_file": "src/services/user.service.js",
+    "source_location": "L5"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "7dcb5c9e0de29a1c79d70f6557461d9bc8d8b33759738b96d785110143f196d4"
+}

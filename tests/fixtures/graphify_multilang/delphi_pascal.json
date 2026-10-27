@@ -1,0 +1,132 @@
+{
+ "_note": "REAL captured `graphify update --no-cluster` output (Delphi/Object-Pascal sample: .pas unit + .dpr program + .inc include), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (no LLM; --no-cluster).",
+ "nodes": [
+  {
+   "id": "src_helpers",
+   "label": "Helpers.inc",
+   "file_type": "code",
+   "source_file": "src/Helpers.inc",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_helpers_doubleit",
+   "label": "DoubleIt()",
+   "file_type": "code",
+   "source_file": "src/Helpers.inc",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_main",
+   "label": "Main.dpr",
+   "file_type": "code",
+   "source_file": "src/Main.dpr",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_main_main",
+   "label": "Main",
+   "file_type": "code",
+   "source_file": "src/Main.dpr",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_main_checkout",
+   "label": "Checkout()",
+   "file_type": "code",
+   "source_file": "src/Main.dpr",
+   "source_location": "L6"
+  },
+  {
+   "id": "src_orderservice",
+   "label": "OrderService.pas",
+   "file_type": "code",
+   "source_file": "src/OrderService.pas",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_orderservice_orderservice",
+   "label": "OrderService",
+   "file_type": "code",
+   "source_file": "src/OrderService.pas",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_orderservice_torderservice",
+   "label": "TOrderService",
+   "file_type": "code",
+   "source_file": "src/OrderService.pas",
+   "source_location": "L6"
+  },
+  {
+   "id": "src_orderservice_torderservice_placeorder",
+   "label": "PlaceOrder()",
+   "file_type": "code",
+   "source_file": "src/OrderService.pas",
+   "source_location": "L8"
+  },
+  {
+   "id": "src_orderservice_torderservice_compute",
+   "label": "Compute()",
+   "file_type": "code",
+   "source_file": "src/OrderService.pas",
+   "source_location": "L9"
+  }
+ ],
+ "links": [
+  {
+   "relation": "contains",
+   "source": "src_helpers",
+   "target": "src_helpers_doubleit"
+  },
+  {
+   "relation": "contains",
+   "source": "src_main",
+   "target": "src_main_main"
+  },
+  {
+   "relation": "imports",
+   "source": "src_main_main",
+   "target": "src_orderservice"
+  },
+  {
+   "relation": "contains",
+   "source": "src_main_main",
+   "target": "src_main_checkout"
+  },
+  {
+   "relation": "contains",
+   "source": "src_orderservice",
+   "target": "src_orderservice_orderservice"
+  },
+  {
+   "relation": "contains",
+   "source": "src_orderservice_orderservice",
+   "target": "src_orderservice_torderservice"
+  },
+  {
+   "relation": "method",
+   "source": "src_orderservice_torderservice",
+   "target": "src_orderservice_torderservice_placeorder"
+  },
+  {
+   "relation": "method",
+   "source": "src_orderservice_torderservice",
+   "target": "src_orderservice_torderservice_compute"
+  },
+  {
+   "relation": "method",
+   "source": "src_orderservice_torderservice",
+   "target": "src_orderservice_torderservice_compute"
+  },
+  {
+   "relation": "method",
+   "source": "src_orderservice_torderservice",
+   "target": "src_orderservice_torderservice_placeorder"
+  },
+  {
+   "relation": "calls",
+   "source": "src_orderservice_torderservice_placeorder",
+   "target": "src_orderservice_torderservice_compute"
+  }
+ ]
+}

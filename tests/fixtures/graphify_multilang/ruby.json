@@ -1,0 +1,96 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (ruby sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (socket tripwire armed).",
+  "nodes": [
+    {
+      "id": "db",
+      "label": "db.rb",
+      "file_type": "code",
+      "source_file": "db.rb",
+      "source_location": "L1"
+    },
+    {
+      "id": "db_save",
+      "label": "save()",
+      "file_type": "code",
+      "source_file": "db.rb",
+      "source_location": "L2"
+    },
+    {
+      "id": "orders",
+      "label": "orders.rb",
+      "file_type": "code",
+      "source_file": "orders.rb",
+      "source_location": "L1"
+    },
+    {
+      "id": "orders_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "orders.rb",
+      "source_location": "L3"
+    },
+    {
+      "id": "orders_orderservice_place_order",
+      "label": ".place_order()",
+      "file_type": "code",
+      "source_file": "orders.rb",
+      "source_location": "L4"
+    },
+    {
+      "id": "orders_orderservice_compute",
+      "label": ".compute()",
+      "file_type": "code",
+      "source_file": "orders.rb",
+      "source_location": "L8"
+    },
+    {
+      "id": "orders_checkout",
+      "label": "checkout()",
+      "file_type": "code",
+      "source_file": "orders.rb",
+      "source_location": "L13"
+    }
+  ],
+  "links": [
+    {
+      "source": "db",
+      "target": "db_save",
+      "relation": "contains"
+    },
+    {
+      "source": "orders",
+      "target": "orders_orderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "orders_orderservice",
+      "target": "orders_orderservice_place_order",
+      "relation": "method"
+    },
+    {
+      "source": "orders_orderservice",
+      "target": "orders_orderservice_compute",
+      "relation": "method"
+    },
+    {
+      "source": "orders",
+      "target": "orders_checkout",
+      "relation": "contains"
+    },
+    {
+      "source": "orders_orderservice_place_order",
+      "target": "orders_orderservice_compute",
+      "relation": "calls"
+    },
+    {
+      "source": "orders_checkout",
+      "target": "orders_orderservice_place_order",
+      "relation": "calls"
+    },
+    {
+      "source": "orders_orderservice_place_order",
+      "target": "db_save",
+      "relation": "calls"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (Java Spring/JPA sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (--no-cluster, no LLM). Proves graphify node-ifies the annotated @Entity/@RestController classes (bare names) but map_graph reads NONE of its inherits/references relations -> the field state the java_edges recognizer fixes.",
+  "nodes": [
+    {
+      "id": "model_order",
+      "label": "Order.java",
+      "file_type": "code",
+      "source_file": "src/model/Order.java",
+      "source_location": "L1"
+    },
+    {
+      "id": "model_order_order",
+      "label": "Order",
+      "file_type": "code",
+      "source_file": "src/model/Order.java",
+      "source_location": "L5"
+    },
+    {
+      "id": "baseentity",
+      "label": "BaseEntity",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "web_ordercontroller",
+      "label": "OrderController.java",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L1"
+    },
+    {
+      "id": "web_ordercontroller_ordercontroller",
+      "label": "OrderController",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L3"
+    },
+    {
+      "id": "web_ordercontroller_ordercontroller_ordercontroller",
+      "label": ".OrderController()",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L8"
+    },
+    {
+      "id": "orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L8"
+    },
+    {
+      "id": "web_ordercontroller_ordercontroller_get",
+      "label": ".get()",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L12"
+    },
+    {
+      "id": "long",
+      "label": "Long",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L12"
+    },
+    {
+      "id": "order",
+      "label": "Order",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L12"
+    },
+    {
+      "id": "getmapping",
+      "label": "GetMapping",
+      "file_type": "code",
+      "source_file": "src/web/OrderController.java",
+      "source_location": "L12"
+    }
+  ],
+  "links": [
+    {
+      "source": "model_order",
+      "target": "list",
+      "relation": "imports"
+    },
+    {
+      "source": "model_order",
+      "target": "model_order_order",
+      "relation": "contains"
+    },
+    {
+      "source": "model_order_order",
+      "target": "baseentity",
+      "relation": "inherits"
+    },
+    {
+      "source": "web_ordercontroller",
+      "target": "web_ordercontroller_ordercontroller",
+      "relation": "contains"
+    },
+    {
+      "source": "web_ordercontroller_ordercontroller",
+      "target": "web_ordercontroller_ordercontroller_ordercontroller",
+      "relation": "method"
+    },
+    {
+      "source": "web_ordercontroller_ordercontroller_ordercontroller",
+      "target": "orderservice",
+      "relation": "references"
+    },
+    {
+      "source": "web_ordercontroller_ordercontroller",
+      "target": "web_ordercontroller_ordercontroller_get",
+      "relation": "method"
+    },
+    {
+      "source": "web_ordercontroller_ordercontroller_get",
+      "target": "long",
+      "relation": "references"
+    },
+    {
+      "source": "web_ordercontroller_ordercontroller_get",
+      "target": "order",
+      "relation": "references"
+    },
+    {
+      "source": "web_ordercontroller_ordercontroller_get",
+      "target": "getmapping",
+      "relation": "references"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_ts_gates.TREES['ts_globals'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly",
+    "source_file": "src/poly.js",
+    "source_location": "L1",
+    "target": "src_poly_capitalize",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly",
+    "source_file": "src/poly.js",
+    "source_location": "L6",
+    "target": "src_poly_greet",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_poly_greet",
+    "source_file": "src/poly.js",
+    "source_location": "L7",
+    "target": "src_poly_capitalize",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly2",
+    "source_file": "src/poly2.ts",
+    "source_location": "L2",
+    "target": "src_poly2_string",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly2",
+    "source_file": "src/poly2.ts",
+    "source_location": "L7",
+    "target": "src_poly2_shout",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly2",
+    "source_file": "src/poly2.ts",
+    "source_location": "L13",
+    "target": "src_poly2_loud",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly2",
+    "source_file": "src/poly2.ts",
+    "source_location": "L17",
+    "target": "src_poly2_loud2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_poly2_loud",
+    "source_file": "src/poly2.ts",
+    "source_location": "L14",
+    "target": "src_poly2_shout",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_poly2_loud2",
+    "source_file": "src/poly2.ts",
+    "source_location": "L18",
+    "target": "src_poly2_shout",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly",
+    "label": "poly.js",
+    "source_file": "src/poly.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly_capitalize",
+    "label": "capitalize()",
+    "source_file": "src/poly.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly_greet",
+    "label": "greet()",
+    "source_file": "src/poly.js",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly2",
+    "label": "poly2.ts",
+    "source_file": "src/poly2.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly2_string",
+    "label": "String",
+    "source_file": "src/poly2.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly2_shout",
+    "label": "shout()",
+    "source_file": "src/poly2.ts",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly2_loud",
+    "label": "loud()",
+    "source_file": "src/poly2.ts",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly2_loud2",
+    "label": "loud2()",
+    "source_file": "src/poly2.ts",
+    "source_location": "L17"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "c0cae103a7664b457230ca03a7c2df2d40f59468e586be7ed97fb1bedf259b95"
+}

@@ -1,0 +1,340 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_ts_gates.TREES['ts_dispatch'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_shapes",
+    "source_file": "src/shapes.ts",
+    "source_location": "L1",
+    "target": "src_shapes_leaf",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_shapes_leaf",
+    "source_file": "src/shapes.ts",
+    "source_location": "L2",
+    "target": "src_shapes_leaf_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_shapes",
+    "source_file": "src/shapes.ts",
+    "source_location": "L7",
+    "target": "src_shapes_onleaf",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_shapes",
+    "source_file": "src/shapes.ts",
+    "source_location": "L11",
+    "target": "src_shapes_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_shapes_base",
+    "source_file": "src/shapes.ts",
+    "source_location": "L12",
+    "target": "src_shapes_base_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_shapes_base",
+    "source_file": "src/shapes.ts",
+    "source_location": "L16",
+    "target": "src_shapes_base_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_shapes",
+    "source_file": "src/shapes.ts",
+    "source_location": "L21",
+    "target": "src_shapes_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_shapes",
+    "source_file": "src/shapes.ts",
+    "source_location": "L25",
+    "target": "src_shapes_made",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_shapes",
+    "source_file": "src/shapes.ts",
+    "source_location": "L30",
+    "target": "src_shapes_sub",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_shapes_sub",
+    "source_file": "src/shapes.ts",
+    "source_location": "L31",
+    "target": "src_shapes_sub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_shapes_onleaf",
+    "source_file": "src/shapes.ts",
+    "source_location": "L8",
+    "target": "src_shapes_sub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_shapes_base_run",
+    "source_file": "src/shapes.ts",
+    "source_location": "L17",
+    "target": "src_shapes_sub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_shapes_use",
+    "source_file": "src/shapes.ts",
+    "source_location": "L22",
+    "target": "src_shapes_sub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_shapes_made",
+    "source_file": "src/shapes.ts",
+    "source_location": "L27",
+    "target": "src_shapes_sub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_sub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L1",
+    "target": "src_shapes",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_sub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L1",
+    "target": "src_shapes_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_sub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L3",
+    "target": "src_sub2_sub2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_sub2_sub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L4",
+    "target": "src_sub2_sub2_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_sub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L9",
+    "target": "src_sub2_viasub2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_sub2_viasub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L10",
+    "target": "src_sub2_sub2_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "type",
+    "relation": "inherits",
+    "source": "src_shapes_sub",
+    "source_file": "src/shapes.ts",
+    "source_location": "L30",
+    "target": "src_shapes_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "type",
+    "relation": "inherits",
+    "source": "src_sub2_sub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L3",
+    "target": "src_shapes_base",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes",
+    "label": "shapes.ts",
+    "source_file": "src/shapes.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_leaf",
+    "label": "Leaf",
+    "source_file": "src/shapes.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_leaf_m",
+    "label": ".m()",
+    "source_file": "src/shapes.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_onleaf",
+    "label": "onLeaf()",
+    "source_file": "src/shapes.ts",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_base",
+    "label": "Base",
+    "source_file": "src/shapes.ts",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_base_m",
+    "label": ".m()",
+    "source_file": "src/shapes.ts",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_base_run",
+    "label": ".run()",
+    "source_file": "src/shapes.ts",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_use",
+    "label": "use()",
+    "source_file": "src/shapes.ts",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_made",
+    "label": "made()",
+    "source_file": "src/shapes.ts",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_sub",
+    "label": "Sub",
+    "source_file": "src/shapes.ts",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shapes_sub_m",
+    "label": ".m()",
+    "source_file": "src/shapes.ts",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sub2",
+    "label": "sub2.ts",
+    "source_file": "src/sub2.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sub2_sub2",
+    "label": "Sub2",
+    "source_file": "src/sub2.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sub2_sub2_m",
+    "label": ".m()",
+    "source_file": "src/sub2.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sub2_viasub2",
+    "label": "viaSub2()",
+    "source_file": "src/sub2.ts",
+    "source_location": "L9"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "622157455c837b9237341b700201031b80912fdc0c958b1af2e34f5227d10528"
+}

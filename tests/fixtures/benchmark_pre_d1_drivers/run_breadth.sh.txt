@@ -1,0 +1,151 @@
+#!/usr/bin/env bash
+# ---------------------------------------------------------------------------
+# run_breadth.sh — RESUMABLE driver for the MULTI-LANGUAGE breadth benchmark
+# (and, via FAMILY=, the Python depth re-run). A sibling of run_g3_n4.sh: it only
+# orchestrates the existing entrypoints (build/deepmap_cli.py, run_benchmark.py);
+# build/retrieval.py is never touched, nothing is fabricated or published.
+#
+# Two modes:
+#   MODE=loop  (default) — Opus anchor only, n=1, CAPTURE-ONLY (no paid judge).
+#                          The fast improvement-loop pass: read the FREE completeness
+#                          signal afterwards with `python benchmark/completeness_only.py <ids>`.
+#   MODE=final           — Opus anchor + any $CLAUDE_MODELS, n=$RUNS (default 2), then
+#                          the blind Stage-2 --score (parallel) and a --merge.
+#
+# SPENDS: the Claude arm(s) + (final only) the blind judge run on your Claude Code
+# PLAN (~$0 out-of-pocket, ANTHROPIC_API_KEY unset). No OpenRouter. Only the OPERATOR
+# should launch it. Resumable: a repo whose run-id already has captures (loop) or is
+# scored (final) is skipped, so a re-launch continues where it stopped.
+#
+# Usage:
+#   export NEO4J_PASSWORD=deepmap
+#   MODE=loop  bash benchmark/run_breadth.sh                      # multi-lang, Opus n=1, free signal
+#   MODE=final CLAUDE_MODELS="claude-sonnet-5" bash benchmark/run_breadth.sh
+#   REPOS="pallets/flask pallets/werkzeug pallets/click fastapi/fastapi" \
+#     FAMILY="runtime_edge,multi_hop" RUNS=4 MODE=final PREFIX=depthn4 \
+#     bash benchmark/run_breadth.sh                               # the Python DEPTH n=4 re-run
+#
+# Env (all optional):
+#   REPOS="a/b c/d"     repos to run (default: the 4 breadth repos). Names as in repos.yaml.
+#   MODE=loop|final     see above (default loop).
+#   FAMILY=f1,f2        restrict to these question families (passed to run_benchmark --family).
+#   RUNS=<n>            runs/arm (default: loop=1, final=2).
+#   CLAUDE_MODELS="..." extra Claude arms for final mode (space-separated model ids).
+#   PREFIX=<str>        run-id prefix (default: breadth). run-id = <PREFIX>-<owner__name>.
+#   CLONES=<dir>        pinned-clone root (default /tmp/deepmap-bench-clones).
+#   TIMEOUT_S=<sec>     per-run claude timeout (default 180; caps a hang).
+#   SKIP_MCP_START=1    don't (re)start the detached MCP servers.
+#   SKIP_PROBE=1        skip the pre-flight --probe (only if it already passed this session).
+#   DO_CLONE=1          clone/checkout any missing repo at its pinned SHA.
+# ---------------------------------------------------------------------------
+set -uo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$REPO_ROOT"
+
+CLONES="${CLONES:-/tmp/deepmap-bench-clones}"
+RESULTS="benchmark/results"
+MODE="${MODE:-loop}"
+PREFIX="${PREFIX:-breadth}"
+TIMEOUT_S="${TIMEOUT_S:-180}"
+FAMILY="${FAMILY:-}"
+CLAUDE_MODELS="${CLAUDE_MODELS:-}"
+DEFAULT_BREADTH="julienschmidt/httprouter serde-rs/json gin-gonic/gin colinhacks/zod"
+REPOS="${REPOS:-$DEFAULT_BREADTH}"
+LOG="${DRIVER_LOG:-$RESULTS/${PREFIX}-driver.log}"
+if [ "$MODE" = "final" ]; then RUNS="${RUNS:-2}"; else RUNS="${RUNS:-1}"; fi
+
+mkdir -p "$RESULTS"
+exec > >(tee -a "$LOG") 2>&1
+log() { printf '[breadth %s] %s\n' "$(date -u +%H:%M:%S)" "$*"; }
+die() { printf '[breadth ERROR] %s\n' "$*" >&2; exit 1; }
+
+export DEEPMAP_REAL_ENGINE=1
+export PYTHONUNBUFFERED=1
+export PYTHONUTF8=1
+: "${NEO4J_PASSWORD:?set NEO4J_PASSWORD (dev default: deepmap)}"
+command -v python >/dev/null 2>&1 || die "python not on PATH"
+command -v claude >/dev/null 2>&1 || die "claude (Claude Code CLI) not on PATH — the arm(s) + judge need it"
+[ -f benchmark/repos.yaml ] || die "benchmark/repos.yaml missing — run from a DeepMap checkout"
+
+sanitize() { printf '%s' "${1//\//__}"; }
+
+# scored | captured | none  (for resume)
+classify_run() {
+  python - "$1" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path("benchmark/results") / sys.argv[1] / "results.json"
+if not p.is_file():
+    print("none"); sys.exit(0)
+try:
+    print("scored" if json.loads(p.read_text(encoding="utf-8")).get("measured") else "captured")
+except Exception:
+    print("none")
+PY
+}
+# has any capture been written for this run-id? (loop mode has no results.json)
+has_captures() { compgen -G "$RESULTS/$1/**/record.json" >/dev/null 2>&1 || find "$RESULTS/$1" -name record.json 2>/dev/null | grep -q .; }
+
+clone_if_needed() {  # <name>
+  local name="$1" san url sha dir
+  san="$(sanitize "$name")"; dir="$CLONES/$san"
+  [ -d "$dir/.git" ] && return 0
+  [ "${DO_CLONE:-0}" = "1" ] || die "clone missing: $dir (clone it at its pinned SHA, or re-run with DO_CLONE=1)"
+  read -r url sha < <(python -c "import yaml,sys
+n=sys.argv[1]
+for r in yaml.safe_load(open('benchmark/repos.yaml'))['repos']:
+    if r['name']==n: print(r['url'], r['pinned_sha']); break" "$name" | tr -d '\r')
+  [ -n "$url" ] && [ -n "$sha" ] || die "no url/pinned_sha for $name in repos.yaml"
+  mkdir -p "$CLONES"; log "clone $name -> $dir @ ${sha:0:12}"
+  git clone "$url" "$dir" && git -C "$dir" checkout "$sha"
+}
+
+# --- MCP servers + probe -----------------------------------------------------
+if [ "${SKIP_MCP_START:-0}" != "1" ]; then log "starting detached MCP servers (idempotent)…"; python build/provision.py mcp-start; fi
+if [ "${SKIP_PROBE:-0}" != "1" ]; then
+  log "pre-flight --probe (ON loads / OFF isolated / capture-path)…"
+  python benchmark/run_benchmark.py --probe || die "--probe failed — fix MCP wiring before the matrix"
+  log "probe OK"
+fi
+
+# --- extra Claude arms (final mode) -----------------------------------------
+MODEL_ARGS=(); for m in $CLAUDE_MODELS; do MODEL_ARGS+=(--claude-model "$m"); done
+FAM_ARGS=(); [ -n "$FAMILY" ] && FAM_ARGS+=(--family "$FAMILY")
+
+log "MODE=$MODE  RUNS=$RUNS  PREFIX=$PREFIX  FAMILY='${FAMILY:-*}'  arms=Opus${CLAUDE_MODELS:+ + $CLAUDE_MODELS}"
+log "repos: $REPOS"
+
+RUN_IDS=()
+for name in $REPOS; do
+  san="$(sanitize "$name")"; rid="${PREFIX}-$san"; dir="$CLONES/$san"
+  RUN_IDS+=("$rid")
+  state="$(classify_run "$rid" | tr -d '\r')"
+  if [ "$MODE" = "final" ] && [ "$state" = "scored" ]; then log "SKIP $name — already scored ($rid)"; continue; fi
+  if [ "$MODE" = "final" ] && [ "$state" = "captured" ]; then
+    log "RESUME $name — captured; blind score only ($rid)"
+    python benchmark/run_benchmark.py --score "$rid" --score-workers 6; continue
+  fi
+  if [ "$MODE" = "loop" ] && has_captures "$rid"; then log "SKIP $name — loop captures exist ($rid)"; continue; fi
+
+  clone_if_needed "$name"
+  log "sync $name graph at its pinned SHA…"
+  python build/deepmap_cli.py sync "$dir" --switch-project --stale-cleanup 2>&1 | grep -v 'it/s\|HF_TOKEN\|Loading weights' | tail -3
+  log "capture $name (n=$RUNS, MODE=$MODE)…"
+  python benchmark/run_benchmark.py --repo "$name" --clone-root "$CLONES" --run-id "$rid" \
+    --runs-per-arm "$RUNS" --timeout-s "$TIMEOUT_S" "${FAM_ARGS[@]}" "${MODEL_ARGS[@]}"
+  if [ "$MODE" = "final" ]; then
+    log "blind Stage-2 score $name…"; python benchmark/run_benchmark.py --score "$rid" --score-workers 6
+    log "measured $name ($rid)"
+  else
+    log "captured $name ($rid) — read FREE completeness with: python benchmark/completeness_only.py $rid"
+  fi
+done
+
+if [ "$MODE" = "final" ]; then
+  log "merge → $RESULTS/${PREFIX}-combined/results.md"
+  python benchmark/run_benchmark.py --merge "$(IFS=,; echo "${RUN_IDS[*]}")" --run-id "${PREFIX}-combined"
+  log "DONE. Combined table: $RESULTS/${PREFIX}-combined/results.md"
+else
+  log "LOOP DONE. Free completeness across all: python benchmark/completeness_only.py ${RUN_IDS[*]}"
+fi

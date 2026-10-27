@@ -1,0 +1,16 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (a synthetic CommonJS/prototype module in the express style: `function Router(){}; Router.prototype.handle=...; module.exports=Router`), trimmed to the fields build/graphify_extract.map_graph reads. DOCUMENTS the honest limitation: graphify emits NO `method` edges for CommonJS/prototype JavaScript (the prototype-assigned methods aren't even captured as nodes), so members type as :Function and 0 :Method are produced -- the express weakness. Contrast js_esm_class.json (modern ES-class JS types :Method correctly). Zero-egress capture.",
+  "nodes": [
+    {"id": "lib_router", "label": "router.js", "file_type": "code", "source_file": "lib/router.js", "source_location": "L1"},
+    {"id": "lib_router_router", "label": "Router()", "file_type": "code", "source_file": "lib/router.js", "source_location": "L3"},
+    {"id": "lib_router_match", "label": "match()", "file_type": "code", "source_file": "lib/router.js", "source_location": "L13"},
+    {"id": "lib_app", "label": "app.js", "file_type": "code", "source_file": "lib/app.js", "source_location": "L1"},
+    {"id": "lib_app_createapplication", "label": "createApplication()", "file_type": "code", "source_file": "lib/app.js", "source_location": "L3"}
+  ],
+  "links": [
+    {"source": "lib_app", "target": "lib_router", "relation": "imports_from"},
+    {"source": "lib_router", "target": "lib_router_router", "relation": "contains"},
+    {"source": "lib_router", "target": "lib_router_match", "relation": "contains"},
+    {"source": "lib_app", "target": "lib_app_createapplication", "relation": "contains"}
+  ]
+}

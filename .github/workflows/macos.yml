@@ -1,0 +1,157 @@
+name: macos
+
+# DeepMap on real macOS: GitHub-hosted Apple-silicon runners. MANUAL ONLY. Start it from the Actions tab
+# (macos -> Run workflow) or with `gh workflow run macos.yml` (inputs: `-f suite=true -f live=both`). It never runs
+# on push or pull_request: a run with the defaults takes about 100-120 macOS runner minutes. On a public repository
+# standard GitHub-hosted runners are free; on a private one macOS minutes are billed, at a higher per-minute rate than
+# Linux minutes (GitHub's Actions billing documentation has the current rates).
+#
+# Two jobs:
+#  * suite: tests/run_all.py, the whole no-Neo4j suite validate.yml runs on ubuntu-latest, on macOS 15 and macOS 26,
+#    one leg at each end of the graphify range (the top, which installs get, and the floor of the supported range).
+#  * live: tests/live_macos_e2e.py runs the real first-time /deep-map:setup path from a BARE Python on a fresh runner
+#    (DeepMap's own environment, a real Neo4j 5.26.32 download, the model, the graph, the MCP servers), then the
+#    tools, the darwin process-identity readers on live processes, stop + heal, every hook as hooks.json spells it
+#    (sh / bash / zsh and a Dock-launched PATH), /var vs /private/var and letter-case spellings, and auto-sync; then
+#    tests/live_per_project_isolation.py (two more real instances). The report lands in the job summary (known
+#    macOS issues are listed apart from new failures) and, with every log, as an artifact.
+# Pins: the suite's test deps are read from requirements.txt below, so this file holds no copy of the ranges
+# tests/compliance_gates.py locks in requirements.txt / install.sh / install.ps1 / validate.yml.
+# Labels: macos-15 is on Neo4j 5.26's documented macOS list (11 to 15); macos-26 (macos-latest since July 2026) is
+# what a new Mac runs and is not on that list. Never macos-14 (retired 2026-11-02). No Intel leg: PyTorch publishes
+# no macOS x86_64 wheel after 2.2.2, so DeepMap's ML stack cannot be installed on an Intel Mac.
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: "Run the no-Neo4j suite on macOS 15 and macOS 26 (about 15 min each)"
+        type: boolean
+        default: true
+      live:
+        description: "Run the live end-to-end check on which macOS (about 40 min each)"
+        type: choice
+        options: [both, macos-15, macos-26, none]
+        default: both
+
+permissions:
+  contents: read
+
+# `shell: bash` gives every step `bash --noprofile --norc -eo pipefail {0}`; without it a step runs as `bash -e {0}`,
+# and `python tests/run_all.py | tee ...` would report tee's exit code, so a RED suite would read green.
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: macos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  suite:
+    if: ${{ inputs.suite }}
+    name: suite (${{ matrix.os }}, Python ${{ matrix.python }}, graphify ${{ matrix.graphify }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-15, python: "3.13", graphify: top }
+          - { os: macos-26, python: "3.12", graphify: floor }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Record the machine
+        run: |
+          sw_vers; uname -m; sysctl -n hw.ncpu hw.memsize
+          echo "nofile soft=$(ulimit -Sn) hard=$(ulimit -Hn)"; launchctl limit maxfiles || true
+          python -c "import sys, sysconfig, multiprocessing as m, tempfile, os; print(sys.version); print(sys.executable, 'framework=' + str(sysconfig.get_config_var('PYTHONFRAMEWORK')), 'start=' + m.get_start_method()); print(tempfile.gettempdir(), '->', os.path.realpath(tempfile.gettempdir()))"
+          java -version 2>&1 | head -1 || true; echo "JAVA_HOME=$JAVA_HOME"
+          which -a python python3 bash zsh dash pwsh git || true
+
+      # The same packages validate.yml installs (pyyaml + the three pinned ones), with the ranges taken from
+      # requirements.txt itself; the floor leg installs graphifyy at the range's lower bound.
+      - name: Install test deps (pins read from requirements.txt)
+        env:
+          GRAPHIFY_END: ${{ matrix.graphify }}
+        run: |
+          python - > "$RUNNER_TEMP/ci-requirements.txt" <<'PY'
+          import os, re
+          for line in open("requirements.txt", encoding="utf-8"):
+              spec = line.split("#", 1)[0].strip()
+              name = re.split(r"[<>=!~;\[ ]", spec, maxsplit=1)[0].lower()
+              if name == "graphifyy" and os.environ["GRAPHIFY_END"] == "floor":
+                  spec = "graphifyy==" + re.search(r">=\s*([0-9][0-9A-Za-z.]*)", spec).group(1)
+              if name in ("neo4j", "mcp", "graphifyy"):
+                  print(spec)
+          PY
+          cat "$RUNNER_TEMP/ci-requirements.txt"
+          python -m pip install --upgrade pip pyyaml -r "$RUNNER_TEMP/ci-requirements.txt"
+          python -m pip list --format=freeze | grep -iE '^(neo4j|mcp|graphifyy|pyyaml)=='
+
+      - name: Run the no-Neo4j validation gate
+        run: python tests/run_all.py 2>&1 | tee "$RUNNER_TEMP/run_all.log"
+
+      - name: Keep the suite log
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: suite-${{ matrix.os }}-py${{ matrix.python }}-graphify-${{ matrix.graphify }}
+          path: ${{ runner.temp }}/run_all.log
+          if-no-files-found: ignore
+
+  live:
+    if: ${{ inputs.live != 'none' }}
+    name: live end-to-end (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(inputs.live == 'both' && '["macos-15", "macos-26"]' || format('["{0}"]', inputs.live)) }}
+    env:
+      NEO4J_PASSWORD: deepmap
+      DEEPMAP_EXTRACTOR: graphify   # pinned: `auto` would fall back to ast silently and the run would measure the wrong engine
+      DEEPMAP_LIVE_TEST: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # A BARE interpreter, nothing pip-installed: setup then builds DeepMap's own environment (<DEEPMAP_HOME>/venv),
+      # as /deep-map:setup does on a fresh Mac. The runner's DEEPMAP_HOME (~/.deepmap) starts empty, so the real
+      # Neo4j download and checksum path runs too.
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      # Its own timeout, so a hung check fails this step and the steps below still run (and upload what it wrote:
+      # the script rewrites report.json at every phase).
+      - name: Live macOS end-to-end check
+        timeout-minutes: 90
+        run: python tests/live_macos_e2e.py --report "$RUNNER_TEMP/macos-live"
+
+      - name: Live per-project isolation (two more real Neo4j instances)
+        if: ${{ !cancelled() }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/macos-live"
+          vpy="$HOME/.deepmap/venv/bin/python"
+          if [ ! -x "$vpy" ]; then echo "no DeepMap environment at $vpy (setup failed in the step above)"; exit 1; fi
+          "$vpy" tests/live_per_project_isolation.py 2>&1 | tee "$RUNNER_TEMP/macos-live/live_per_project_isolation.log"
+
+      - name: Keep the report and logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: live-${{ matrix.os }}
+          path: ${{ runner.temp }}/macos-live
+          if-no-files-found: ignore

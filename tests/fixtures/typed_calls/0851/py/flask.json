@@ -1,0 +1,557 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_py_gates.TREES['flask'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_py_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_init",
+    "source_file": "src/flask/__init__.py",
+    "source_location": "L1",
+    "target": "flask_app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_app",
+    "source_file": "src/flask/app.py",
+    "source_location": "L1",
+    "target": "sansio_app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_app",
+    "source_file": "src/flask/app.py",
+    "source_location": "L4",
+    "target": "flask_app_flask",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "flask_app_flask",
+    "source_file": "src/flask/app.py",
+    "source_location": "L4",
+    "target": "sansio_app_app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_app_flask",
+    "source_file": "src/flask/app.py",
+    "source_location": "L5",
+    "target": "flask_app_flask_full_dispatch_request",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flask_ctx",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L3",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_ctx",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L6",
+    "target": "flask_app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_ctx",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L9",
+    "target": "flask_ctx_appcontext",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_ctx_appcontext",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L10",
+    "target": "flask_ctx_appcontext_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "flask_ctx_appcontext_init",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L10",
+    "target": "flask_app_flask",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_ctx_appcontext",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L13",
+    "target": "flask_ctx_appcontext_push",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_init",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L1",
+    "target": "json_init_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_init",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L5",
+    "target": "json_init_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_provider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L1",
+    "target": "json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_provider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L4",
+    "target": "json_provider_defaultjsonprovider",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_provider_defaultjsonprovider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L5",
+    "target": "json_provider_defaultjsonprovider_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_provider_defaultjsonprovider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L8",
+    "target": "json_provider_defaultjsonprovider_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_tag",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L1",
+    "target": "json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_tag",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L4",
+    "target": "json_tag_taggedjsonserializer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_tag_taggedjsonserializer",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L5",
+    "target": "json_tag_taggedjsonserializer_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_tag_taggedjsonserializer",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L8",
+    "target": "json_tag_taggedjsonserializer_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "sansio_app",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L1",
+    "target": "sansio_scaffold",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sansio_app",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L4",
+    "target": "sansio_app_app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "sansio_app_app",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L4",
+    "target": "sansio_scaffold_scaffold",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sansio_app_app",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L5",
+    "target": "sansio_app_app_ensure_sync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sansio_app_app",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L8",
+    "target": "sansio_app_app_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sansio_scaffold",
+    "source_file": "src/flask/sansio/scaffold.py",
+    "source_location": "L1",
+    "target": "sansio_scaffold_scaffold",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sansio_scaffold_scaffold",
+    "source_file": "src/flask/sansio/scaffold.py",
+    "source_location": "L2",
+    "target": "sansio_scaffold_scaffold_check",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "export",
+    "relation": "re_exports",
+    "source": "flask_init",
+    "source_file": "src/flask/__init__.py",
+    "source_location": "L1",
+    "target": "flask_app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flask_init",
+    "source_file": "src/flask/__init__.py",
+    "source_location": "L1",
+    "target": "flask_app_flask",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flask_app",
+    "source_file": "src/flask/app.py",
+    "source_location": "L1",
+    "target": "sansio_app_app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flask_ctx",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L6",
+    "target": "flask_app_flask",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "sansio_app",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L1",
+    "target": "sansio_scaffold_scaffold",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "flask_ctx_appcontext",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L6",
+    "target": "flask_app_flask",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "sansio_app_app",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L1",
+    "target": "sansio_scaffold_scaffold",
+    "weight": 0.8
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_init",
+    "label": "__init__.py",
+    "source_file": "src/flask/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_app",
+    "label": "app.py",
+    "source_file": "src/flask/app.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_app_flask",
+    "label": "Flask",
+    "source_file": "src/flask/app.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_app_flask_full_dispatch_request",
+    "label": ".full_dispatch_request()",
+    "source_file": "src/flask/app.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx",
+    "label": "ctx.py",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx_appcontext",
+    "label": "AppContext",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx_appcontext_init",
+    "label": ".__init__()",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx_appcontext_push",
+    "label": ".push()",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init",
+    "label": "__init__.py",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init_dumps",
+    "label": "dumps()",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init_loads",
+    "label": "loads()",
+    "source_file": "src/flask/json/__init__.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider",
+    "label": "provider.py",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider",
+    "label": "DefaultJSONProvider",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider_dumps",
+    "label": ".dumps()",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider_loads",
+    "label": ".loads()",
+    "source_file": "src/flask/json/provider.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag",
+    "label": "tag.py",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_taggedjsonserializer",
+    "label": "TaggedJSONSerializer",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_taggedjsonserializer_dumps",
+    "label": ".dumps()",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_taggedjsonserializer_loads",
+    "label": ".loads()",
+    "source_file": "src/flask/json/tag.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_init",
+    "label": "__init__.py",
+    "source_file": "src/flask/sansio/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_app",
+    "label": "app.py",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_app_app",
+    "label": "App",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_app_app_ensure_sync",
+    "label": ".ensure_sync()",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_app_app_handle",
+    "label": ".handle()",
+    "source_file": "src/flask/sansio/app.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_scaffold",
+    "label": "scaffold.py",
+    "source_file": "src/flask/sansio/scaffold.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_scaffold_scaffold",
+    "label": "Scaffold",
+    "source_file": "src/flask/sansio/scaffold.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sansio_scaffold_scaffold_check",
+    "label": "._check()",
+    "source_file": "src/flask/sansio/scaffold.py",
+    "source_location": "L2"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "63c8d65feafefcf2f50bc10efcfe667b084e9292ceda86170e9f0dcf155f4312"
+}

@@ -1,0 +1,976 @@
+{
+ "_doc": "Ground truth for T2. Set A = intent queries about the PRODUCT (build/) - the concepts the task named; expected symbols verified by reading build/*.py. Set B = intent queries whose implementation lives in the INDEXED part of the repo (hooks/, benchmark/, scripts/, install.*). type: concept|symbol|code. expected: list of [file, name]; a hit = any returned row whose file matches AND whose name equals the expected name or ends with '.'+name.",
+ "_provenance": {
+  "recovered_from": "recovered verbatim from the 2026-09 internal validation run: the one written copy of its search-quality query set (2026-09-24), read back unchanged (that file was never written or edited again during the run); original_sha256 is that file's hash",
+  "original_sha256": "25481c7385539f13f79925d6cf266cca7c286ca0cdda436af6b0173ec8bc4187",
+  "used_by": "the self-repository retrieval query set (65 queries over MCP) of the 2026-09 internal validation run, and the call-linking kit's self corpus (measure_self.py)",
+  "queries": 65,
+  "rebaseline": "re-baselined at the RC SHA: `python benchmark/call_linking/measure_self.py check --tree <RC tree>` lists every expected [file, name] pair that no longer exists; such a pair is reported in RESULTS.md, never silently dropped, and the set itself is not edited after PREREG"
+ },
+ "queries": [
+  {
+   "id": "A-C01",
+   "set": "A",
+   "type": "concept",
+   "q": "combine several ranked result lists into one ranking using reciprocal rank with a weight per arm",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "_weighted_rrf"
+    ]
+   ]
+  },
+  {
+   "id": "A-C02",
+   "set": "A",
+   "type": "concept",
+   "q": "give each project its own pair of MCP server ports and remember the assignment in a registry file",
+   "expected": [
+    [
+     "build/port_registry.py",
+     "allocate_ports"
+    ],
+    [
+     "build/port_registry.py",
+     "_allocate_pair"
+    ]
+   ]
+  },
+  {
+   "id": "A-C03",
+   "set": "A",
+   "type": "concept",
+   "q": "refuse to adopt the default database port when the live instance there belongs to a different project",
+   "expected": [
+    [
+     "build/provision.py",
+     "_base_adopt_ok"
+    ],
+    [
+     "build/port_registry.py",
+     "_allocate_pair"
+    ],
+    [
+     "build/port_registry.py",
+     "allocate_neo4j_ports"
+    ]
+   ]
+  },
+  {
+   "id": "A-C04",
+   "set": "A",
+   "type": "concept",
+   "q": "never wipe the graph when extraction produced zero nodes or the folder is not a repository root",
+   "expected": [
+    [
+     "build/sync.py",
+     "_cleanup_is_safe"
+    ],
+    [
+     "build/sync.py",
+     "sync"
+    ]
+   ]
+  },
+  {
+   "id": "A-C05",
+   "set": "A",
+   "type": "concept",
+   "q": "stop two sync processes from writing at once using an operating system file lock that is released if the process crashes",
+   "expected": [
+    [
+     "build/sync.py",
+     "_acquire_sync_lock"
+    ],
+    [
+     "build/sync.py",
+     "_os_lock"
+    ],
+    [
+     "build/sync.py",
+     "_acquire_instance_lock"
+    ]
+   ]
+  },
+  {
+   "id": "A-C06",
+   "set": "A",
+   "type": "concept",
+   "q": "escape reserved characters in the user's words before sending them to the keyword fulltext index",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "_build_fts_query"
+    ]
+   ]
+  },
+  {
+   "id": "A-C07",
+   "set": "A",
+   "type": "concept",
+   "q": "find everything that transitively depends on a symbol across several hops of call and framework edges",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "query_impact"
+    ],
+    [
+     "build/retrieval.py",
+     "impact"
+    ]
+   ]
+  },
+  {
+   "id": "A-C08",
+   "set": "A",
+   "type": "concept",
+   "q": "automatically revert learned ranking weights back to equal when the newest slice of data shows they got worse",
+   "expected": [
+    [
+     "build/tune_weights.py",
+     "apply_drift_guard"
+    ],
+    [
+     "build/tune_weights.py",
+     "check_drift"
+    ]
+   ]
+  },
+  {
+   "id": "A-C09",
+   "set": "A",
+   "type": "concept",
+   "q": "make uppercase file extensions such as UNIT1.PAS parse by mapping them onto the lowercase extractor inside worker processes",
+   "expected": [
+    [
+     "build/graphify_case_shim.py",
+     "alias_suffixes"
+    ],
+    [
+     "build/graphify_case_shim.py",
+     "_aliases_from_env"
+    ],
+    [
+     "build/graphify_case_shim.py",
+     "main"
+    ]
+   ]
+  },
+  {
+   "id": "A-C10",
+   "set": "A",
+   "type": "concept",
+   "q": "keep generated artifact folders out of git status by dropping a nested ignore file that ignores everything",
+   "expected": [
+    [
+     "build/sync.py",
+     "_ensure_artifact_gitignore"
+    ]
+   ]
+  },
+  {
+   "id": "A-C11",
+   "set": "A",
+   "type": "concept",
+   "q": "count source files per language on disk and compare with extracted nodes to flag a low coverage layer",
+   "expected": [
+    [
+     "build/verdict.py",
+     "build_coverage"
+    ],
+    [
+     "build/verdict.py",
+     "_coverage_reasons"
+    ],
+    [
+     "build/verdict.py",
+     "extension_census"
+    ]
+   ]
+  },
+  {
+   "id": "A-C12",
+   "set": "A",
+   "type": "concept",
+   "q": "turn ActiveRecord association declarations like has_many and belongs_to into typed graph edges",
+   "expected": [
+    [
+     "build/ruby_rails_edges.py",
+     "recognize"
+    ]
+   ]
+  },
+  {
+   "id": "A-C13",
+   "set": "A",
+   "type": "concept",
+   "q": "limit how many results a search or impact request may return and clamp out-of-range values with a note",
+   "expected": [
+    [
+     "build/mcp_bounds.py",
+     "clamp_int"
+    ]
+   ]
+  },
+  {
+   "id": "A-C14",
+   "set": "A",
+   "type": "concept",
+   "q": "write a readable one-line description of a function from its name, parameters and callees when it has no docstring",
+   "expected": [
+    [
+     "build/summarize.py",
+     "summarize"
+    ],
+    [
+     "build/summarize.py",
+     "summarize_callable"
+    ],
+    [
+     "build/summarize.py",
+     "humanize"
+    ]
+   ]
+  },
+  {
+   "id": "A-C15",
+   "set": "A",
+   "type": "concept",
+   "q": "grade how certain a call edge is depending on how many symbols the called name resolves to",
+   "expected": [
+    [
+     "build/edge_resolve.py",
+     "_grade"
+    ],
+    [
+     "build/sync.py",
+     "_edge_confidence"
+    ]
+   ]
+  },
+  {
+   "id": "A-C16",
+   "set": "A",
+   "type": "concept",
+   "q": "drop vendored third-party libraries and minified javascript bundles from the extracted graph",
+   "expected": [
+    [
+     "build/sync.py",
+     "_maybe_exclude_vendor"
+    ],
+    [
+     "build/sync.py",
+     "_is_vendor_path"
+    ]
+   ]
+  },
+  {
+   "id": "A-C17",
+   "set": "A",
+   "type": "concept",
+   "q": "refuse a re-sync that would delete more than half of the existing edges unless the user forces it",
+   "expected": [
+    [
+     "build/sync.py",
+     "_prune_decision"
+    ],
+    [
+     "build/sync.py",
+     "_prune_blast_radius"
+    ]
+   ]
+  },
+  {
+   "id": "A-C18",
+   "set": "A",
+   "type": "concept",
+   "q": "reject a Windows database password containing shell metacharacters instead of silently mangling it",
+   "expected": [
+    [
+     "build/provision.py",
+     "_win_password_cmd_safe"
+    ]
+   ]
+  },
+  {
+   "id": "A-C19",
+   "set": "A",
+   "type": "concept",
+   "q": "skip re-parsing unchanged files by caching per-file extraction output keyed on the content hash",
+   "expected": [
+    [
+     "build/extract_cache.py",
+     "incremental_extract"
+    ],
+    [
+     "build/extract_cache.py",
+     "load_cache"
+    ]
+   ]
+  },
+  {
+   "id": "A-C20",
+   "set": "A",
+   "type": "concept",
+   "q": "only apply learned fusion weights to live search when every activation gate condition passes",
+   "expected": [
+    [
+     "build/learned_fusion.py",
+     "resolve_arm_weights_for_live"
+    ],
+    [
+     "build/learned_fusion.py",
+     "load_applied_weights"
+    ],
+    [
+     "build/learned_fusion.py",
+     "gate_reasons"
+    ]
+   ]
+  },
+  {
+   "id": "A-C21",
+   "set": "A",
+   "type": "concept",
+   "q": "when a foreign program already holds the default Neo4j port, drop the shared base claim and move the project to its own port",
+   "expected": [
+    [
+     "build/provision.py",
+     "_base_held_by_other"
+    ],
+    [
+     "build/provision.py",
+     "_release_foreign_base_claim"
+    ]
+   ]
+  },
+  {
+   "id": "A-C22",
+   "set": "A",
+   "type": "concept",
+   "q": "remember which project started an MCP server process in a sidecar file so a restart only kills servers we own",
+   "expected": [
+    [
+     "build/provision.py",
+     "_write_mcp_owner"
+    ],
+    [
+     "build/provision.py",
+     "_own_mcp_server_pid"
+    ],
+    [
+     "build/provision.py",
+     "_restart_own_mcp_server"
+    ],
+    [
+     "build/provision.py",
+     "_mcp_ownerfile"
+    ]
+   ]
+  },
+  {
+   "id": "A-S01",
+   "set": "A",
+   "type": "symbol",
+   "q": "_weighted_rrf",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "_weighted_rrf"
+    ]
+   ]
+  },
+  {
+   "id": "A-S02",
+   "set": "A",
+   "type": "symbol",
+   "q": "neo4j_uri_for",
+   "expected": [
+    [
+     "build/port_registry.py",
+     "neo4j_uri_for"
+    ]
+   ]
+  },
+  {
+   "id": "A-S03",
+   "set": "A",
+   "type": "symbol",
+   "q": "DeepMapRetriever",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "DeepMapRetriever"
+    ]
+   ]
+  },
+  {
+   "id": "A-S04",
+   "set": "A",
+   "type": "symbol",
+   "q": "apply_drift_guard",
+   "expected": [
+    [
+     "build/tune_weights.py",
+     "apply_drift_guard"
+    ]
+   ]
+  },
+  {
+   "id": "A-S05",
+   "set": "A",
+   "type": "symbol",
+   "q": "_ensure_artifact_gitignore",
+   "expected": [
+    [
+     "build/sync.py",
+     "_ensure_artifact_gitignore"
+    ]
+   ]
+  },
+  {
+   "id": "A-X01",
+   "set": "A",
+   "type": "code",
+   "q": "_weighted_rrf(runs_by_arm, weights) -> dict[str, float]",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "_weighted_rrf"
+    ]
+   ]
+  },
+  {
+   "id": "A-X02",
+   "set": "A",
+   "type": "code",
+   "q": "score * (1.0 + log(1.0 + toFloat(inDegree)))",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "_arm_graph_weighted_one"
+    ],
+    [
+     "build/retrieval.py",
+     "_arm_graph_weighted"
+    ]
+   ]
+  },
+  {
+   "id": "A-X03",
+   "set": "A",
+   "type": "code",
+   "q": "symbol.lstrip(\".\").replace(\"#\", \".\")",
+   "expected": [
+    [
+     "build/retrieval.py",
+     "query_impact"
+    ],
+    [
+     "build/retrieval.py",
+     "query_callers"
+    ]
+   ]
+  },
+  {
+   "id": "A-X04",
+   "set": "A",
+   "type": "code",
+   "q": "bolt://localhost:7687 neo4j_uri_for(root)",
+   "expected": [
+    [
+     "build/port_registry.py",
+     "neo4j_uri_for"
+    ]
+   ]
+  },
+  {
+   "id": "A-X05",
+   "set": "A",
+   "type": "code",
+   "q": "p.suffix.lower() == \".py\" rglob(\"*\") __pycache__ \\ as_posix()",
+   "expected": [
+    [
+     "build/sync.py",
+     "_iter_ast_files"
+    ]
+   ]
+  },
+  {
+   "id": "B-C01",
+   "set": "B",
+   "type": "concept",
+   "q": "count how many times a hook fired in the current session, saved atomically and bounded to recent sessions",
+   "expected": [
+    [
+     "hooks/deepmap_hook_state.py",
+     "bump_session_count"
+    ]
+   ]
+  },
+  {
+   "id": "B-C02",
+   "set": "B",
+   "type": "concept",
+   "q": "remind the agent once per session to prefer semantic code search before it greps",
+   "expected": [
+    [
+     "hooks/deepmap_presearch_nudge.py",
+     "main"
+    ],
+    [
+     "hooks/deepmap_presearch_nudge.py",
+     "deepmap_presearch_nudge"
+    ]
+   ]
+  },
+  {
+   "id": "B-C03",
+   "set": "B",
+   "type": "concept",
+   "q": "warn that the code graph may be out of date right after the agent edits files",
+   "expected": [
+    [
+     "hooks/deepmap_postedit_syncflag.py",
+     "main"
+    ],
+    [
+     "hooks/deepmap_postedit_syncflag.py",
+     "_should_fire"
+    ],
+    [
+     "hooks/deepmap_postedit_syncflag.py",
+     "deepmap_postedit_syncflag"
+    ]
+   ]
+  },
+  {
+   "id": "B-C04",
+   "set": "B",
+   "type": "concept",
+   "q": "bring the database and search servers back up automatically after a reboot when a new session starts",
+   "expected": [
+    [
+     "hooks/deepmap_sessionstart_heal.py",
+     "main"
+    ],
+    [
+     "hooks/deepmap_sessionstart_heal.py",
+     "deepmap_sessionstart_heal"
+    ]
+   ]
+  },
+  {
+   "id": "B-C05",
+   "set": "B",
+   "type": "concept",
+   "q": "record which returned search hits the agent afterwards opened or edited, as a learning signal",
+   "expected": [
+    [
+     "hooks/deepmap_access_hook.py",
+     "extract_access"
+    ],
+    [
+     "hooks/deepmap_access_hook.py",
+     "main"
+    ],
+    [
+     "hooks/deepmap_access_hook.py",
+     "build_access_event"
+    ],
+    [
+     "hooks/deepmap_access_hook.py",
+     "deepmap_access_hook"
+    ]
+   ]
+  },
+  {
+   "id": "B-C06",
+   "set": "B",
+   "type": "concept",
+   "q": "tell the agent at session start which language layer was barely indexed so an empty answer means not indexed",
+   "expected": [
+    [
+     "hooks/deepmap_sessionstart_notify.py",
+     "_coverage_gaps"
+    ],
+    [
+     "hooks/deepmap_sessionstart_notify.py",
+     "_announce"
+    ]
+   ]
+  },
+  {
+   "id": "B-C07",
+   "set": "B",
+   "type": "concept",
+   "q": "quickly probe whether a workspace folder looks like a software project by looking for source files",
+   "expected": [
+    [
+     "hooks/deepmap_sessionstart_notify.py",
+     "_looks_like_code"
+    ]
+   ]
+  },
+  {
+   "id": "B-C08",
+   "set": "B",
+   "type": "concept",
+   "q": "make sure a relative path requested by the model cannot escape the cloned repository directory",
+   "expected": [
+    [
+     "benchmark/arm_openrouter.py",
+     "_resolve_in_clone"
+    ]
+   ]
+  },
+  {
+   "id": "B-C09",
+   "set": "B",
+   "type": "concept",
+   "q": "run an OpenAI style tool calling conversation loop for one question until the model answers",
+   "expected": [
+    [
+     "benchmark/arm_openrouter.py",
+     "run_agentic_loop"
+    ]
+   ]
+  },
+  {
+   "id": "B-C10",
+   "set": "B",
+   "type": "concept",
+   "q": "make a non-Claude model's answer look like the claude CLI json output so the same scorer can grade it",
+   "expected": [
+    [
+     "benchmark/arm_openrouter.py",
+     "build_openrouter_envelope"
+    ]
+   ]
+  },
+  {
+   "id": "B-C11",
+   "set": "B",
+   "type": "concept",
+   "q": "restore the cloned repo to a clean checkout at the pinned commit before every benchmark run",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "reset_pristine"
+    ],
+    [
+     "benchmark/run_benchmark.py",
+     "reset_pristine_argv"
+    ]
+   ]
+  },
+  {
+   "id": "B-C12",
+   "set": "B",
+   "type": "concept",
+   "q": "fail if the graph used by the tool-enabled arm was built from a different commit than the pinned one",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "assert_graph_at_pinned_sha"
+    ],
+    [
+     "benchmark/run_benchmark.py",
+     "read_graph_build_sha"
+    ]
+   ]
+  },
+  {
+   "id": "B-C13",
+   "set": "B",
+   "type": "concept",
+   "q": "parse a small subset of YAML with only the standard library when PyYAML is not installed",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "_minimal_yaml_list"
+    ],
+    [
+     "benchmark/run_benchmark.py",
+     "_load_yaml"
+    ]
+   ]
+  },
+  {
+   "id": "B-C14",
+   "set": "B",
+   "type": "concept",
+   "q": "refuse to spend money on paid model arms unless the operator explicitly confirmed the spend",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "require_spend_confirmation"
+    ]
+   ]
+  },
+  {
+   "id": "B-C15",
+   "set": "B",
+   "type": "concept",
+   "q": "check whether a file path with a line number is cited in the agent's answer without over-crediting a longer line",
+   "expected": [
+    [
+     "benchmark/score_completeness.py",
+     "_file_line_present"
+    ]
+   ]
+  },
+  {
+   "id": "B-C16",
+   "set": "B",
+   "type": "concept",
+   "q": "pull the JSON verdict object out of a grader reply that may be wrapped in prose or code fences",
+   "expected": [
+    [
+     "benchmark/score_correctness.py",
+     "_extract_json"
+    ],
+    [
+     "benchmark/score_correctness.py",
+     "parse_judge_verdict"
+    ]
+   ]
+  },
+  {
+   "id": "B-C17",
+   "set": "B",
+   "type": "concept",
+   "q": "build the prompt for a grader that must not learn which arm produced the answer",
+   "expected": [
+    [
+     "benchmark/score_correctness.py",
+     "build_judge_prompt"
+    ]
+   ]
+  },
+  {
+   "id": "B-C18",
+   "set": "B",
+   "type": "concept",
+   "q": "project how many dollars a benchmark matrix will cost before running it",
+   "expected": [
+    [
+     "benchmark/cost_estimate.py",
+     "estimate_costs"
+    ],
+    [
+     "benchmark/cost_estimate.py",
+     "estimate"
+    ],
+    [
+     "benchmark/run_benchmark.py",
+     "cost_projection"
+    ]
+   ]
+  },
+  {
+   "id": "B-C19",
+   "set": "B",
+   "type": "concept",
+   "q": "load the sentence embedding model and embed a probe string to verify the machine learning stack works",
+   "expected": [
+    [
+     "scripts/ml_stack_selfcheck.py",
+     "check_model"
+    ]
+   ]
+  },
+  {
+   "id": "B-C20",
+   "set": "B",
+   "type": "concept",
+   "q": "median, min and max of metrics across repeated runs grouped by question and arm",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "aggregate"
+    ],
+    [
+     "benchmark/completeness_only.py",
+     "_median_by_qid_arm"
+    ]
+   ]
+  },
+  {
+   "id": "B-C21",
+   "set": "B",
+   "type": "concept",
+   "q": "install version control hooks so the code graph resyncs automatically after each commit",
+   "expected": [
+    [
+     "install.sh",
+     "install_git_hooks"
+    ],
+    [
+     "install.ps1",
+     "Install-DeepMapGitHooks"
+    ]
+   ]
+  },
+  {
+   "id": "B-C22",
+   "set": "B",
+   "type": "concept",
+   "q": "leave runs that crashed or exited non-zero out of the median computation",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "_is_errored_run"
+    ],
+    [
+     "benchmark/run_benchmark.py",
+     "aggregate"
+    ]
+   ]
+  },
+  {
+   "id": "B-S01",
+   "set": "B",
+   "type": "symbol",
+   "q": "bump_session_count",
+   "expected": [
+    [
+     "hooks/deepmap_hook_state.py",
+     "bump_session_count"
+    ]
+   ]
+  },
+  {
+   "id": "B-S02",
+   "set": "B",
+   "type": "symbol",
+   "q": "run_agentic_loop",
+   "expected": [
+    [
+     "benchmark/arm_openrouter.py",
+     "run_agentic_loop"
+    ]
+   ]
+  },
+  {
+   "id": "B-S03",
+   "set": "B",
+   "type": "symbol",
+   "q": "assert_pinned_clean",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "assert_pinned_clean"
+    ]
+   ]
+  },
+  {
+   "id": "B-S04",
+   "set": "B",
+   "type": "symbol",
+   "q": "score_completeness",
+   "expected": [
+    [
+     "benchmark/score_completeness.py",
+     "score_completeness"
+    ]
+   ]
+  },
+  {
+   "id": "B-S05",
+   "set": "B",
+   "type": "symbol",
+   "q": "Install-MLStack",
+   "expected": [
+    [
+     "install.ps1",
+     "Install-MLStack"
+    ]
+   ]
+  },
+  {
+   "id": "B-X01",
+   "set": "B",
+   "type": "code",
+   "q": "emit(\"PreToolUse\", NUDGE_TEXT)",
+   "expected": [
+    [
+     "hooks/deepmap_presearch_nudge.py",
+     "main"
+    ],
+    [
+     "hooks/deepmap_hook_state.py",
+     "emit"
+    ]
+   ]
+  },
+  {
+   "id": "B-X02",
+   "set": "B",
+   "type": "code",
+   "q": "return count % every == 1  # 1st, N+1th",
+   "expected": [
+    [
+     "hooks/deepmap_postedit_syncflag.py",
+     "_should_fire"
+    ]
+   ]
+  },
+  {
+   "id": "B-X03",
+   "set": "B",
+   "type": "code",
+   "q": "git -C <dir> reset --hard <sha> && git clean -fdx --exclude=.deepmap",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "reset_pristine_argv"
+    ],
+    [
+     "benchmark/run_benchmark.py",
+     "reset_pristine"
+    ]
+   ]
+  },
+  {
+   "id": "B-X04",
+   "set": "B",
+   "type": "code",
+   "q": "'mcp__deepmap-search__deepmap_impact' -> 'deepmap_impact' rsplit(\"__\", 1)",
+   "expected": [
+    [
+     "hooks/deepmap_access_hook.py",
+     "_tool_base"
+    ]
+   ]
+  },
+  {
+   "id": "B-X05",
+   "set": "B",
+   "type": "code",
+   "q": "re.search(r\"(?<![A-Za-z0-9_])\" + re.escape(token) + r\"(?![A-Za-z0-9_])\", answer_norm)",
+   "expected": [
+    [
+     "benchmark/score_completeness.py",
+     "_word_present"
+    ],
+    [
+     "benchmark/score_completeness.py",
+     "_file_line_present"
+    ]
+   ]
+  },
+  {
+   "id": "B-X06",
+   "set": "B",
+   "type": "code",
+   "q": "strip trailing YAML comment: '#' only at ^start or after \\s whitespace, not inside \"quoted\" value",
+   "expected": [
+    [
+     "benchmark/run_benchmark.py",
+     "_strip_yaml_comment"
+    ]
+   ]
+  }
+ ]
+}

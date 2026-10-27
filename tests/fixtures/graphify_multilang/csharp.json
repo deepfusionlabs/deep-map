@@ -1,0 +1,96 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (csharp sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (socket tripwire armed).",
+  "nodes": [
+    {
+      "id": "orderservice",
+      "label": "OrderService.cs",
+      "file_type": "code",
+      "source_file": "OrderService.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "orderservice_shop",
+      "label": "Shop",
+      "file_type": "code",
+      "source_file": "OrderService.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "orderservice_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "OrderService.cs",
+      "source_location": "L2"
+    },
+    {
+      "id": "orderservice_orderservice_placeorder",
+      "label": ".PlaceOrder()",
+      "file_type": "code",
+      "source_file": "OrderService.cs",
+      "source_location": "L3"
+    },
+    {
+      "id": "orderservice_orderservice_compute",
+      "label": ".Compute()",
+      "file_type": "code",
+      "source_file": "OrderService.cs",
+      "source_location": "L7"
+    },
+    {
+      "id": "orderservice_db",
+      "label": "Db",
+      "file_type": "code",
+      "source_file": "OrderService.cs",
+      "source_location": "L13"
+    },
+    {
+      "id": "orderservice_db_save",
+      "label": ".Save()",
+      "file_type": "code",
+      "source_file": "OrderService.cs",
+      "source_location": "L14"
+    }
+  ],
+  "links": [
+    {
+      "source": "orderservice",
+      "target": "orderservice_shop",
+      "relation": "contains"
+    },
+    {
+      "source": "orderservice",
+      "target": "orderservice_orderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "orderservice_orderservice",
+      "target": "orderservice_orderservice_placeorder",
+      "relation": "method"
+    },
+    {
+      "source": "orderservice_orderservice",
+      "target": "orderservice_orderservice_compute",
+      "relation": "method"
+    },
+    {
+      "source": "orderservice",
+      "target": "orderservice_db",
+      "relation": "contains"
+    },
+    {
+      "source": "orderservice_db",
+      "target": "orderservice_db_save",
+      "relation": "method"
+    },
+    {
+      "source": "orderservice_orderservice_placeorder",
+      "target": "orderservice_orderservice_compute",
+      "relation": "calls"
+    },
+    {
+      "source": "orderservice_orderservice_placeorder",
+      "target": "orderservice_db_save",
+      "relation": "calls"
+    }
+  ]
+}

@@ -1,0 +1,1070 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/precise_family_gates.TREES['rekey_ts'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/precise_family_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_box",
+    "source_file": "src/box.ts",
+    "source_location": "L1",
+    "target": "src_box_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_box_box",
+    "source_file": "src/box.ts",
+    "source_location": "L2",
+    "target": "src_box_box_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_box_box",
+    "source_file": "src/box.ts",
+    "source_location": "L3",
+    "target": "src_box_box_open",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_box",
+    "source_file": "src/box.ts",
+    "source_location": "L8",
+    "target": "src_box_usebox",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_fmt_a",
+    "source_file": "src/fmt_a.ts",
+    "source_location": "L1",
+    "target": "src_fmt_a_fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_fmt_b",
+    "source_file": "src/fmt_b.ts",
+    "source_location": "L1",
+    "target": "src_fmt_b_fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_fmt_use",
+    "source_file": "src/fmt_use.ts",
+    "source_location": "L1",
+    "target": "src_fmt_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_fmt_use",
+    "source_file": "src/fmt_use.ts",
+    "source_location": "L1",
+    "target": "src_fmt_a_fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_fmt_use",
+    "source_file": "src/fmt_use.ts",
+    "source_location": "L3",
+    "target": "src_fmt_use_show",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L1",
+    "target": "src_parseutil_invalid",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L2",
+    "target": "src_parseutil_invalid",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L6",
+    "target": "src_parseutil_dirty",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L7",
+    "target": "src_parseutil_dirty",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L9",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L10",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L12",
+    "target": "src_parseutil_mergevalues",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L17",
+    "target": "src_parseutil_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_parseutil",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L21",
+    "target": "src_parseutil_shape",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_parseutil_dirty",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L7",
+    "target": "src_parseutil_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_parseutil_mergevalues",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L14",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L1",
+    "target": "src_parseutil",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L1",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L1",
+    "target": "src_parseutil_dirty",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L1",
+    "target": "src_parseutil_invalid",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L2",
+    "target": "src_parseutil",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L2",
+    "target": "src_parseutil_shape",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L3",
+    "target": "src_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L3",
+    "target": "src_box_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L5",
+    "target": "src_types_zodstring",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodstring",
+    "source_file": "src/types.ts",
+    "source_location": "L6",
+    "target": "src_types_zodstring_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L12",
+    "target": "src_types_zodnumber",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodnumber",
+    "source_file": "src/types.ts",
+    "source_location": "L13",
+    "target": "src_types_zodnumber_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L19",
+    "target": "src_types_zodbigint",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodbigint",
+    "source_file": "src/types.ts",
+    "source_location": "L20",
+    "target": "src_types_zodbigint_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L26",
+    "target": "src_types_zodboolean",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodboolean",
+    "source_file": "src/types.ts",
+    "source_location": "L27",
+    "target": "src_types_zodboolean_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L33",
+    "target": "src_types_zoddate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zoddate",
+    "source_file": "src/types.ts",
+    "source_location": "L34",
+    "target": "src_types_zoddate_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L40",
+    "target": "src_types_zodsymbol",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodsymbol",
+    "source_file": "src/types.ts",
+    "source_location": "L41",
+    "target": "src_types_zodsymbol_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L47",
+    "target": "src_types_zodundefined",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodundefined",
+    "source_file": "src/types.ts",
+    "source_location": "L48",
+    "target": "src_types_zodundefined_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L54",
+    "target": "src_types_zodnull",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodnull",
+    "source_file": "src/types.ts",
+    "source_location": "L55",
+    "target": "src_types_zodnull_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L61",
+    "target": "src_types_zodany",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodany",
+    "source_file": "src/types.ts",
+    "source_location": "L62",
+    "target": "src_types_zodany_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L68",
+    "target": "src_types_zodunknown",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodunknown",
+    "source_file": "src/types.ts",
+    "source_location": "L69",
+    "target": "src_types_zodunknown_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L75",
+    "target": "src_types_zodvoid",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodvoid",
+    "source_file": "src/types.ts",
+    "source_location": "L76",
+    "target": "src_types_zodvoid_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L82",
+    "target": "src_types_zodnever",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_types_zodnever",
+    "source_file": "src/types.ts",
+    "source_location": "L83",
+    "target": "src_types_zodnever_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L88",
+    "target": "src_types_wrapok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L93",
+    "target": "src_types_makebox",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L97",
+    "target": "src_types_makeshape",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_types",
+    "source_file": "src/types.ts",
+    "source_location": "L101",
+    "target": "src_types_newok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_fmt_use_show",
+    "source_file": "src/fmt_use.ts",
+    "source_location": "L4",
+    "target": "src_fmt_a_fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodstring_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L8",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodnumber_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L15",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodbigint_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L22",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodboolean_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L29",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zoddate_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L36",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodsymbol_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L43",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodundefined_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L50",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodnull_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L57",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodany_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L64",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodunknown_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L71",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodvoid_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L78",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_zodnever_parse",
+    "source_file": "src/types.ts",
+    "source_location": "L84",
+    "target": "src_parseutil_dirty",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_wrapok",
+    "source_file": "src/types.ts",
+    "source_location": "L90",
+    "target": "src_parseutil_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_types_makeshape",
+    "source_file": "src/types.ts",
+    "source_location": "L98",
+    "target": "src_parseutil_shape",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_box",
+    "label": "box.ts",
+    "source_file": "src/box.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_box_box",
+    "label": "Box",
+    "source_file": "src/box.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_box_box_constructor",
+    "label": ".constructor()",
+    "source_file": "src/box.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_box_box_open",
+    "label": ".open()",
+    "source_file": "src/box.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_box_usebox",
+    "label": "useBox()",
+    "source_file": "src/box.ts",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_fmt_a",
+    "label": "fmt_a.ts",
+    "source_file": "src/fmt_a.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_fmt_a_fmt",
+    "label": "Fmt",
+    "source_file": "src/fmt_a.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_fmt_b",
+    "label": "fmt_b.ts",
+    "source_file": "src/fmt_b.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_fmt_b_fmt",
+    "label": "Fmt()",
+    "source_file": "src/fmt_b.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_fmt_use",
+    "label": "fmt_use.ts",
+    "source_file": "src/fmt_use.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_fmt_use_show",
+    "label": "show()",
+    "source_file": "src/fmt_use.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_parseutil",
+    "label": "parseUtil.ts",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_parseutil_invalid",
+    "label": "INVALID",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_parseutil_dirty",
+    "label": "DIRTY",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_parseutil_ok",
+    "label": "OK",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_parseutil_mergevalues",
+    "label": "mergeValues()",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_parseutil_mark",
+    "label": "mark()",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_parseutil_shape",
+    "label": "Shape",
+    "source_file": "src/parseUtil.ts",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types",
+    "label": "types.ts",
+    "source_file": "src/types.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodstring",
+    "label": "ZodString",
+    "source_file": "src/types.ts",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodstring_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodnumber",
+    "label": "ZodNumber",
+    "source_file": "src/types.ts",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodnumber_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodbigint",
+    "label": "ZodBigInt",
+    "source_file": "src/types.ts",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodbigint_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodboolean",
+    "label": "ZodBoolean",
+    "source_file": "src/types.ts",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodboolean_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zoddate",
+    "label": "ZodDate",
+    "source_file": "src/types.ts",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zoddate_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodsymbol",
+    "label": "ZodSymbol",
+    "source_file": "src/types.ts",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodsymbol_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodundefined",
+    "label": "ZodUndefined",
+    "source_file": "src/types.ts",
+    "source_location": "L47"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodundefined_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodnull",
+    "label": "ZodNull",
+    "source_file": "src/types.ts",
+    "source_location": "L54"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodnull_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L55"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodany",
+    "label": "ZodAny",
+    "source_file": "src/types.ts",
+    "source_location": "L61"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodany_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L62"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodunknown",
+    "label": "ZodUnknown",
+    "source_file": "src/types.ts",
+    "source_location": "L68"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodunknown_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L69"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodvoid",
+    "label": "ZodVoid",
+    "source_file": "src/types.ts",
+    "source_location": "L75"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodvoid_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L76"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodnever",
+    "label": "ZodNever",
+    "source_file": "src/types.ts",
+    "source_location": "L82"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_zodnever_parse",
+    "label": "._parse()",
+    "source_file": "src/types.ts",
+    "source_location": "L83"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_wrapok",
+    "label": "wrapOk()",
+    "source_file": "src/types.ts",
+    "source_location": "L88"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_makebox",
+    "label": "makeBox()",
+    "source_file": "src/types.ts",
+    "source_location": "L93"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_makeshape",
+    "label": "makeShape()",
+    "source_file": "src/types.ts",
+    "source_location": "L97"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_types_newok",
+    "label": "newOk()",
+    "source_file": "src/types.ts",
+    "source_location": "L101"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "5f368365f76bfaaa4bf8d5802623bac3841d0e72a7d32e7dae0ab1f75652215c"
+}

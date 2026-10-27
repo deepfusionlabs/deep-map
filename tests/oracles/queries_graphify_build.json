@@ -1,0 +1,7 @@
+[
+  "compute reciprocal rank fusion across the search arms",
+  "how are embeddings generated for graph nodes",
+  "prune stale call edges when re-syncing the graph",
+  "acquire a single-writer lock before rebuilding",
+  "map the graphify graph into the typed schema"
+]

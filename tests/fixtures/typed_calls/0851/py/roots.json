@@ -1,0 +1,707 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_py_gates.TREES['roots'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_py_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "corepkg_user",
+    "source_file": "libs/core/corepkg/user.py",
+    "source_location": "L1",
+    "target": "corepkg_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "corepkg_user",
+    "source_file": "libs/core/corepkg/user.py",
+    "source_location": "L4",
+    "target": "corepkg_user_use_core",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "corepkg_util",
+    "source_file": "libs/core/corepkg/util.py",
+    "source_location": "L1",
+    "target": "corepkg_util_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "inner_mod",
+    "source_file": "nsp/inner/mod.py",
+    "source_location": "L1",
+    "target": "inner_mod_deep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pkg_a",
+    "source_file": "pkg/a.py",
+    "source_location": "L1",
+    "target": "b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_a",
+    "source_file": "pkg/a.py",
+    "source_location": "L4",
+    "target": "pkg_a_use_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_b",
+    "source_file": "pkg/b.py",
+    "source_location": "L1",
+    "target": "pkg_b_assist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pkg_ns_user",
+    "source_file": "pkg/ns_user.py",
+    "source_location": "L1",
+    "target": "nsp_inner_mod",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "pkg_ns_user",
+    "source_file": "pkg/ns_user.py",
+    "source_location": "L2",
+    "target": "nsp_inner",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_ns_user",
+    "source_file": "pkg/ns_user.py",
+    "source_location": "L5",
+    "target": "pkg_ns_user_use_ns",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_other",
+    "source_file": "pkg/other.py",
+    "source_location": "L1",
+    "target": "pkg_other_assist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L1",
+    "target": "pkg_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L2",
+    "target": "pkg_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L3",
+    "target": "pkg_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L6",
+    "target": "pkg_rel_use_rel",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L11",
+    "target": "pkg_rel_mn_alias_same_name",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L16",
+    "target": "pkg_rel_use_rel_only",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "roots_user",
+    "source_file": "roots_user.py",
+    "source_location": "L1",
+    "target": "shared",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "roots_user",
+    "source_file": "roots_user.py",
+    "source_location": "L4",
+    "target": "roots_user_use_shared",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "scripts_helper",
+    "source_file": "scripts/helper.py",
+    "source_location": "L1",
+    "target": "scripts_helper_assist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "scripts_run",
+    "source_file": "scripts/run.py",
+    "source_location": "L1",
+    "target": "helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "scripts_run",
+    "source_file": "scripts/run.py",
+    "source_location": "L4",
+    "target": "scripts_run_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shared",
+    "source_file": "shared.py",
+    "source_location": "L1",
+    "target": "shared_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_shared",
+    "source_file": "src/shared.py",
+    "source_location": "L1",
+    "target": "src_shared_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_legacy",
+    "source_file": "tools/legacy.py",
+    "source_location": "L1",
+    "target": "tools_legacy_lr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "tools_legacy_lr",
+    "source_file": "tools/legacy.py",
+    "source_location": "L2",
+    "target": "tools_legacy_lr_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_lr",
+    "source_file": "tools/lr.py",
+    "source_location": "L1",
+    "target": "tools_lr_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "tools_main",
+    "source_file": "tools/main.py",
+    "source_location": "L1",
+    "target": "tools_lr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_main",
+    "source_file": "tools/main.py",
+    "source_location": "L4",
+    "target": "tools_main_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "tools_main_a",
+    "source_file": "tools/main.py",
+    "source_location": "L5",
+    "target": "tools_main_a_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_main",
+    "source_file": "tools/main.py",
+    "source_location": "L9",
+    "target": "tools_main_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "tools_main_b",
+    "source_file": "tools/main.py",
+    "source_location": "L10",
+    "target": "tools_main_b_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_main",
+    "source_file": "tools/main.py",
+    "source_location": "L14",
+    "target": "tools_main_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L2",
+    "target": "pkg_b_assist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pkg_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L3",
+    "target": "pkg_other_assist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_rel_use_rel",
+    "source_file": "pkg/rel.py",
+    "source_location": "L8",
+    "target": "pkg_b_assist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_rel_mn_alias_same_name",
+    "source_file": "pkg/rel.py",
+    "source_location": "L13",
+    "target": "pkg_other_assist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "tools_main_main",
+    "source_file": "tools/main.py",
+    "source_location": "L15",
+    "target": "tools_legacy_lr_run",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "corepkg_init",
+    "label": "__init__.py",
+    "source_file": "libs/core/corepkg/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "corepkg_user",
+    "label": "user.py",
+    "source_file": "libs/core/corepkg/user.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "corepkg_user_use_core",
+    "label": "use_core()",
+    "source_file": "libs/core/corepkg/user.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "corepkg_util",
+    "label": "util.py",
+    "source_file": "libs/core/corepkg/util.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "corepkg_util_run",
+    "label": "run()",
+    "source_file": "libs/core/corepkg/util.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "inner_mod",
+    "label": "mod.py",
+    "source_file": "nsp/inner/mod.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "inner_mod_deep",
+    "label": "deep()",
+    "source_file": "nsp/inner/mod.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_init",
+    "label": "__init__.py",
+    "source_file": "pkg/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_a",
+    "label": "a.py",
+    "source_file": "pkg/a.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_a_use_b",
+    "label": "use_b()",
+    "source_file": "pkg/a.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_b",
+    "label": "b.py",
+    "source_file": "pkg/b.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_b_assist",
+    "label": "assist()",
+    "source_file": "pkg/b.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_ns_user",
+    "label": "ns_user.py",
+    "source_file": "pkg/ns_user.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_ns_user_use_ns",
+    "label": "use_ns()",
+    "source_file": "pkg/ns_user.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_other",
+    "label": "other.py",
+    "source_file": "pkg/other.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_other_assist",
+    "label": "assist()",
+    "source_file": "pkg/other.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_rel",
+    "label": "rel.py",
+    "source_file": "pkg/rel.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_rel_use_rel",
+    "label": "use_rel()",
+    "source_file": "pkg/rel.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_rel_mn_alias_same_name",
+    "label": "mn_alias_same_name()",
+    "source_file": "pkg/rel.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_rel_use_rel_only",
+    "label": "use_rel_only()",
+    "source_file": "pkg/rel.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "roots_user",
+    "label": "roots_user.py",
+    "source_file": "roots_user.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "roots_user_use_shared",
+    "label": "use_shared()",
+    "source_file": "roots_user.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_helper",
+    "label": "helper.py",
+    "source_file": "scripts/helper.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_helper_assist",
+    "label": "assist()",
+    "source_file": "scripts/helper.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_run",
+    "label": "run.py",
+    "source_file": "scripts/run.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_run_main",
+    "label": "main()",
+    "source_file": "scripts/run.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared",
+    "label": "shared.py",
+    "source_file": "shared.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_thing",
+    "label": "thing()",
+    "source_file": "shared.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shared",
+    "label": "shared.py",
+    "source_file": "src/shared.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shared_thing",
+    "label": "thing()",
+    "source_file": "src/shared.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_init",
+    "label": "__init__.py",
+    "source_file": "tools/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_legacy",
+    "label": "legacy.py",
+    "source_file": "tools/legacy.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_legacy_lr",
+    "label": "LR",
+    "source_file": "tools/legacy.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_legacy_lr_run",
+    "label": ".run()",
+    "source_file": "tools/legacy.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_lr",
+    "label": "lr.py",
+    "source_file": "tools/lr.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_lr_run",
+    "label": "run()",
+    "source_file": "tools/lr.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main",
+    "label": "main.py",
+    "source_file": "tools/main.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main_a",
+    "label": "A",
+    "source_file": "tools/main.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main_a_run",
+    "label": ".run()",
+    "source_file": "tools/main.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main_b",
+    "label": "B",
+    "source_file": "tools/main.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main_b_run",
+    "label": ".run()",
+    "source_file": "tools/main.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_main_main",
+    "label": "main()",
+    "source_file": "tools/main.py",
+    "source_location": "L14"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "443036286958e3aadebfbe88d51a465d2b289dce50e7fbaf2fb028fae9739173"
+}

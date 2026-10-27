@@ -1,0 +1,63 @@
+name: gitleaks
+
+# Secret scan of the whole git history (every branch and tag the checkout fetches) with the free gitleaks CLI and
+# this repository's .gitleaks.toml. That config extends gitleaks' default rules and allowlists only local, gitignored
+# .env files and a few named synthetic test values (see its comments). The .env allowlist is by path alone, so the
+# job first fails if any commit holds such a path: a committed one is never skipped silently. The release tarball is
+# pinned by version and by the sha256 published in that release's checksums file, so a changed download fails the job
+# before it runs. Findings are printed with the secret redacted, and any finding fails the job (exit code 1).
+# Run it locally on this repository's own history (a plain "gitleaks git ." reads every local ref, so a clone that
+# also fetched another repository, such as a benchmark corpus remote and its tags, reports that history too):
+#   gitleaks git --redact --config .gitleaks.toml --log-opts="--branches --remotes=origin" .
+# (This leaves out a commit that only a tag holds; CI also reads the tags, since its clone holds this repository only.)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GITLEAKS_VERSION: "8.30.1"
+      # sha256 of gitleaks_8.30.1_linux_x64.tar.gz, from gitleaks_8.30.1_checksums.txt of the v8.30.1 release
+      GITLEAKS_SHA256: "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install gitleaks (pinned, checksum verified)
+        run: |
+          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/$tarball" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${tarball}"
+          echo "${GITLEAKS_SHA256}  $RUNNER_TEMP/$tarball" | sha256sum --check --strict -
+          mkdir -p "$RUNNER_TEMP/gitleaks"
+          tar -xzf "$RUNNER_TEMP/$tarball" -C "$RUNNER_TEMP/gitleaks" gitleaks
+          "$RUNNER_TEMP/gitleaks/gitleaks" version
+
+      # .gitleaks.toml skips .env / .env.* / secrets.local.* by path (gitignored local secret files that only a
+      # working-tree scan can see). That skip would also hide one that was committed, so any such path in any commit
+      # of the scanned history (merges included) fails here. Keep this pattern equal to that allowlist's paths.
+      - name: No local secret file in the history
+        run: |
+          found="$(git log --all -m --format= --name-only -z \
+            | grep -zE '(^|/)(\.env|\.env\.[^/]+|secrets\.local\.[^/]+)$' | tr '\0' '\n' | sort -u || true)"
+          if [ -n "$found" ]; then
+            echo "::error::A local secret file is committed in this history; the gitleaks scan below skips it by path:"
+            printf '%s\n' "$found"
+            exit 1
+          fi
+          echo "No .env / .env.* / secrets.local.* file in any commit."
+
+      - name: Scan the git history
+        run: |
+          "$RUNNER_TEMP/gitleaks/gitleaks" git --no-banner --no-color --redact --verbose \
+            --config .gitleaks.toml --exit-code 1 .

@@ -1,0 +1,3049 @@
+{
+ "_about": "Round-8 J2 fixture: the REAL graph.json graphify 0.8.39 and 0.8.51 write (`graphify update <root> --no-cluster`) for four round-8 trees, plus 0.8.51's graph for the five round-7 trees (their 0.8.39 graphs are tests/fixtures/graphify_r7/extraction_r7.json). 0.8.51's writer collapses repeated nodes/links (build.dedupe_nodes / dedupe_edges); tests/extraction_r8_gates.py proves every engine-output correction gives the same answer on both shapes.",
+ "trees": {
+  "ts8": {
+   "files": {
+    "bench/lots-of-objects.ts": "import { generate } from \"./generate\";\nexport const $ = generate(10);\nexport function build() {\n  return $;\n}\n",
+    "bench/generate.ts": "export function generate(n: number) {\n  return n;\n}\n",
+    "kinds.ts": "export type Parse = { a: 1 };\nexport const _parse = function (x: number) { return x; };\nexport type Arrow = number;\nexport const _arrow = (x: number) => x;\nexport type Lit = number;\nexport const _lit = 5;\nexport type Thing = number;\nvar $thing = [1];\nexport type Gen = number;\nfunction* _gen() {\n  yield 1;\n}\nexport type Inner = string;\nexport function outer() {\n  class _inner {}\n  return _inner;\n}\nexport class Svc {\n  lookup() {\n    return 1;\n  }\n}\nexport const lookup = [1, 2];\nexport function over(a: string): string;\nexport function over(a: number): number;\nexport function over(a: any) {\n  return a;\n}\nexport type Obj = { b: 2 };\nexport const _obj = { b: 2 };\n"
+   }
+  },
+  "go8": {
+   "files": {
+    "binding/binding.go": "package binding\n\nimport \"net/http\"\n\ntype Binding interface {\n\tName() string\n}\n\nfunc Default(method string) Binding {\n\t_ = http.MethodGet\n\treturn nil\n}\n",
+    "binding/binding_nomsgpack.go": "//go:build nomsgpack\n\npackage binding\n\ntype Binding interface {\n\tName() string\n}\n",
+    "render/render.go": "package render\n\ntype Render interface {\n\tRender() error\n}\n\nfunc Use(r Render) error { return r.Render() }\n"
+   }
+  },
+  "py8": {
+   "files": {
+    "pkg/ovl.py": "from typing import overload, TYPE_CHECKING\n\nif TYPE_CHECKING:\n    @overload\n    def conv(a: int) -> int: ...\n    @overload\n    def conv(a: str) -> str: ...\n\ndef conv(a):\n    return a\n\n\nclass A:\n    if TYPE_CHECKING:\n        @overload\n        def get(self, k: int) -> int: ...\n        @overload\n        def get(self, k: str) -> str: ...\n    def get(self, k):\n        return k\n\n\nclass B:\n    @overload\n    def put(self, v: int) -> None: ...\n    @overload\n    def put(self, v: str) -> None: ...\n\n\nclass C:\n    def put(self, v):\n        return v\n"
+   }
+  },
+  "rescue8": {
+   "files": {
+    "pkg/__init__.py": "",
+    "pkg/store.py": "class Store:\n    def helper(self, x):\n        return x\n",
+    "pkg/app.py": "from pkg.store import Store\n\n\ndef run(obj):\n    helper(1)\n    return obj.helper(2)\n\n\ndef only():\n    return helper(3)\n\n\ndef helper2():\n    return 1\n",
+    "go/main.go": "package main\n\nfunc New() int { return 1 }\n",
+    "go/use.go": "package main\n\nimport \"strings\"\n\nfunc Use() int {\n\tb := new(strings.Builder)\n\t_ = b\n\treturn New()\n}\n\nfunc Only() int {\n\tb := new(strings.Builder)\n\t_ = b\n\treturn 0\n}\n"
+   }
+  }
+ },
+ "graphs": {
+  "0.8.39": {
+   "ts8": {
+    "nodes": [
+     {
+      "id": "bench_generate",
+      "label": "generate.ts",
+      "file_type": "code",
+      "source_file": "bench/generate.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "bench_generate_generate",
+      "label": "generate()",
+      "file_type": "code",
+      "source_file": "bench/generate.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "bench_lots_of_objects",
+      "label": "lots-of-objects.ts",
+      "file_type": "code",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "bench_lots_of_objects",
+      "label": "$",
+      "file_type": "code",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L2",
+      "_origin": "ast"
+     },
+     {
+      "id": "bench_lots_of_objects_build",
+      "label": "build()",
+      "file_type": "code",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds",
+      "label": "kinds.ts",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_parse",
+      "label": "Parse",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_arrow",
+      "label": "Arrow",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_lit",
+      "label": "Lit",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_thing",
+      "label": "Thing",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L7",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_gen",
+      "label": "Gen",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_inner",
+      "label": "Inner",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L13",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_outer",
+      "label": "outer()",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L14",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_svc",
+      "label": "Svc",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L18",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_svc_lookup",
+      "label": ".lookup()",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L19",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_lookup",
+      "label": "lookup",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L23",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_over",
+      "label": "over()",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L26",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_obj",
+      "label": "Obj",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L29",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "bench_generate",
+      "target": "bench_generate_generate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/generate.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_generate",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_generate_generate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_lots_of_objects",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_lots_of_objects_build",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_parse",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_arrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_arrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L4",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_lit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_thing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_gen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_inner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_outer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L14",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_svc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L18",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds_svc",
+      "target": "kinds_svc_lookup",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L19",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_lookup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L23",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_over",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L26",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_obj",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L29",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_obj",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L30",
+      "weight": 1.0
+     }
+    ]
+   },
+   "go8": {
+    "nodes": [
+     {
+      "id": "binding_binding_go_binding_binding",
+      "label": "binding.go",
+      "file_type": "code",
+      "source_file": "binding/binding.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "binding_binding_go_binding_binding",
+      "label": "Binding",
+      "file_type": "code",
+      "source_file": "binding/binding.go",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "binding_binding_default",
+      "label": "Default()",
+      "file_type": "code",
+      "source_file": "binding/binding.go",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "binding_binding_nomsgpack",
+      "label": "binding_nomsgpack.go",
+      "file_type": "code",
+      "source_file": "binding/binding_nomsgpack.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "binding_binding_nomsgpack_go_binding_binding",
+      "label": "Binding",
+      "file_type": "code",
+      "source_file": "binding/binding_nomsgpack.go",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "render_render",
+      "label": "render.go",
+      "file_type": "code",
+      "source_file": "render/render.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "render_render",
+      "label": "Render",
+      "file_type": "code",
+      "source_file": "render/render.go",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "render_render_use",
+      "label": "Use()",
+      "file_type": "code",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "binding_binding_go_binding_binding",
+      "target": "go_pkg_net_http",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "binding_binding_go_binding_binding",
+      "target": "binding_binding_go_binding_binding",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "binding_binding_go_binding_binding",
+      "target": "binding_binding_default",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "binding_binding_default",
+      "target": "binding_binding_go_binding_binding",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "return_type"
+     },
+     {
+      "source": "binding_binding_nomsgpack",
+      "target": "binding_binding_nomsgpack_go_binding_binding",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding_nomsgpack.go",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "render_render",
+      "target": "render_render",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "render_render",
+      "target": "render_render_use",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "render_render_use",
+      "target": "render_render",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+     },
+     {
+      "source": "render_render_use",
+      "target": "render_render",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "weight": 1.0
+     }
+    ]
+   },
+   "py8": {
+    "nodes": [
+     {
+      "id": "pkg_ovl",
+      "label": "ovl.py",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_conv",
+      "label": "conv()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_a",
+      "label": "A",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L13",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_get",
+      "label": "get()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L16",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_a_get",
+      "label": ".get()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L19",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_b",
+      "label": "B",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L23",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_b_put",
+      "label": ".put()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L25",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_c",
+      "label": "C",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L30",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_c_put",
+      "label": ".put()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L31",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "pkg_ovl",
+      "target": "typing",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_conv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_conv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_conv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_a",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_get",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L16",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_get",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L18",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl_a",
+      "target": "pkg_ovl_a_get",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L19",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_b",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L23",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl_b",
+      "target": "pkg_ovl_b_put",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L25",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl_b",
+      "target": "pkg_ovl_b_put",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L27",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_c",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L30",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl_c",
+      "target": "pkg_ovl_c_put",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L31",
+      "weight": 1.0
+     }
+    ]
+   },
+   "rescue8": {
+    "nodes": [
+     {
+      "id": "go_main",
+      "label": "main.go",
+      "file_type": "code",
+      "source_file": "go/main.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_main_new",
+      "label": "New()",
+      "file_type": "code",
+      "source_file": "go/main.go",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_use",
+      "label": "use.go",
+      "file_type": "code",
+      "source_file": "go/use.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_use_use",
+      "label": "Use()",
+      "file_type": "code",
+      "source_file": "go/use.go",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_use_only",
+      "label": "Only()",
+      "file_type": "code",
+      "source_file": "go/use.go",
+      "source_location": "L11",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "pkg/__init__.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app",
+      "label": "app.py",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app_run",
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L4",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app_only",
+      "label": "only()",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app_helper2",
+      "label": "helper2()",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L13",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_store",
+      "label": "store.py",
+      "file_type": "code",
+      "source_file": "pkg/store.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_store_store",
+      "label": "Store",
+      "file_type": "code",
+      "source_file": "pkg/store.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_store_store_helper",
+      "label": ".helper()",
+      "file_type": "code",
+      "source_file": "pkg/store.py",
+      "source_location": "L2",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "go_main",
+      "target": "go_main_new",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "go/main.go",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use",
+      "target": "go_pkg_strings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "go/use.go",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "go_use",
+      "target": "go_use_use",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "go/use.go",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use",
+      "target": "go_use_only",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "go/use.go",
+      "source_location": "L11",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_store",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_app_run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L4",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_app_only",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_app_helper2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_store",
+      "target": "pkg_store_store",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/store.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_store_store",
+      "target": "pkg_store_store_helper",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/store.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_store_store",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use_use",
+      "target": "go_main_new",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "go/use.go",
+      "source_location": "L6",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use_only",
+      "target": "go_main_new",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "go/use.go",
+      "source_location": "L12",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app_run",
+      "target": "pkg_store_store_helper",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "pkg/app.py",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app_only",
+      "target": "pkg_store_store_helper",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "pkg/app.py",
+      "source_location": "L10",
+      "weight": 1.0
+     }
+    ]
+   }
+  },
+  "0.8.51": {
+   "ts8": {
+    "nodes": [
+     {
+      "id": "bench_generate",
+      "label": "generate.ts",
+      "file_type": "code",
+      "source_file": "bench/generate.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "bench_generate_generate",
+      "label": "generate()",
+      "file_type": "code",
+      "source_file": "bench/generate.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "bench_lots_of_objects",
+      "label": "$",
+      "file_type": "code",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L2",
+      "_origin": "ast"
+     },
+     {
+      "id": "bench_lots_of_objects_build",
+      "label": "build()",
+      "file_type": "code",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds",
+      "label": "kinds.ts",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_parse",
+      "label": "Parse",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_arrow",
+      "label": "Arrow",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_lit",
+      "label": "Lit",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_thing",
+      "label": "Thing",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L7",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_gen",
+      "label": "Gen",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_inner",
+      "label": "Inner",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L13",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_outer",
+      "label": "outer()",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L14",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_svc",
+      "label": "Svc",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L18",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_svc_lookup",
+      "label": ".lookup()",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L19",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_lookup",
+      "label": "lookup",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L23",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_over",
+      "label": "over()",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L26",
+      "_origin": "ast"
+     },
+     {
+      "id": "kinds_obj",
+      "label": "Obj",
+      "file_type": "code",
+      "source_file": "kinds.ts",
+      "source_location": "L29",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "bench_generate",
+      "target": "bench_generate_generate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/generate.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_generate",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_generate_generate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_lots_of_objects",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "bench_lots_of_objects",
+      "target": "bench_lots_of_objects_build",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "bench/lots-of-objects.ts",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_parse",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_arrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_lit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_thing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_gen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_inner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_outer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L14",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_svc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L18",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds_svc",
+      "target": "kinds_svc_lookup",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L19",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_lookup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L23",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_over",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L26",
+      "weight": 1.0
+     },
+     {
+      "source": "kinds",
+      "target": "kinds_obj",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "kinds.ts",
+      "source_location": "L29",
+      "weight": 1.0
+     }
+    ]
+   },
+   "go8": {
+    "nodes": [
+     {
+      "id": "binding_binding_go_binding_binding",
+      "label": "Binding",
+      "file_type": "code",
+      "source_file": "binding/binding.go",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "binding_binding_default",
+      "label": "Default()",
+      "file_type": "code",
+      "source_file": "binding/binding.go",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "binding_binding_nomsgpack",
+      "label": "binding_nomsgpack.go",
+      "file_type": "code",
+      "source_file": "binding/binding_nomsgpack.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "binding_binding_nomsgpack_go_binding_binding",
+      "label": "Binding",
+      "file_type": "code",
+      "source_file": "binding/binding_nomsgpack.go",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "render_render",
+      "label": "Render",
+      "file_type": "code",
+      "source_file": "render/render.go",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "render_render_use",
+      "label": "Use()",
+      "file_type": "code",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "binding_binding_go_binding_binding",
+      "target": "go_pkg_net_http",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "binding_binding_go_binding_binding",
+      "target": "binding_binding_go_binding_binding",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "binding_binding_go_binding_binding",
+      "target": "binding_binding_default",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "binding_binding_default",
+      "target": "binding_binding_go_binding_binding",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding.go",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "return_type"
+     },
+     {
+      "source": "binding_binding_nomsgpack",
+      "target": "binding_binding_nomsgpack_go_binding_binding",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "binding/binding_nomsgpack.go",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "render_render",
+      "target": "render_render",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "render_render",
+      "target": "render_render_use",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "render_render_use",
+      "target": "render_render",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+     },
+     {
+      "source": "render_render_use",
+      "target": "render_render",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "render/render.go",
+      "source_location": "L7",
+      "weight": 1.0
+     }
+    ]
+   },
+   "py8": {
+    "nodes": [
+     {
+      "id": "pkg_ovl",
+      "label": "ovl.py",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_conv",
+      "label": "conv()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_a",
+      "label": "A",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L13",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_get",
+      "label": "get()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L16",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_a_get",
+      "label": ".get()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L19",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_b",
+      "label": "B",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L23",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_b_put",
+      "label": ".put()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L25",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_c",
+      "label": "C",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L30",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_ovl_c_put",
+      "label": ".put()",
+      "file_type": "code",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L31",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "pkg_ovl",
+      "target": "typing",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_conv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_a",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_get",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L16",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl_a",
+      "target": "pkg_ovl_a_get",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L19",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_b",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L23",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl_b",
+      "target": "pkg_ovl_b_put",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L25",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl",
+      "target": "pkg_ovl_c",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L30",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_ovl_c",
+      "target": "pkg_ovl_c_put",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/ovl.py",
+      "source_location": "L31",
+      "weight": 1.0
+     }
+    ]
+   },
+   "rescue8": {
+    "nodes": [
+     {
+      "id": "go_main",
+      "label": "main.go",
+      "file_type": "code",
+      "source_file": "go/main.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_main_new",
+      "label": "New()",
+      "file_type": "code",
+      "source_file": "go/main.go",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_use",
+      "label": "use.go",
+      "file_type": "code",
+      "source_file": "go/use.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_use_use",
+      "label": "Use()",
+      "file_type": "code",
+      "source_file": "go/use.go",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_use_only",
+      "label": "Only()",
+      "file_type": "code",
+      "source_file": "go/use.go",
+      "source_location": "L11",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "pkg/__init__.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app",
+      "label": "app.py",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app_run",
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L4",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app_only",
+      "label": "only()",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_app_helper2",
+      "label": "helper2()",
+      "file_type": "code",
+      "source_file": "pkg/app.py",
+      "source_location": "L13",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_store",
+      "label": "store.py",
+      "file_type": "code",
+      "source_file": "pkg/store.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_store_store",
+      "label": "Store",
+      "file_type": "code",
+      "source_file": "pkg/store.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_store_store_helper",
+      "label": ".helper()",
+      "file_type": "code",
+      "source_file": "pkg/store.py",
+      "source_location": "L2",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "go_main",
+      "target": "go_main_new",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "go/main.go",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use",
+      "target": "go_pkg_strings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "go/use.go",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "go_use",
+      "target": "go_use_use",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "go/use.go",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use",
+      "target": "go_use_only",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "go/use.go",
+      "source_location": "L11",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_store",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_app_run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L4",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_app_only",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_app_helper2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_store",
+      "target": "pkg_store_store",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/store.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_store_store",
+      "target": "pkg_store_store_helper",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/store.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app",
+      "target": "pkg_store_store",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg/app.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use_use",
+      "target": "go_main_new",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "go/use.go",
+      "source_location": "L6",
+      "weight": 1.0
+     },
+     {
+      "source": "go_use_only",
+      "target": "go_main_new",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "go/use.go",
+      "source_location": "L12",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app_run",
+      "target": "pkg_store_store_helper",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "pkg/app.py",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_app_only",
+      "target": "pkg_store_store_helper",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "pkg/app.py",
+      "source_location": "L10",
+      "weight": 1.0
+     }
+    ]
+   },
+   "py": {
+    "nodes": [
+     {
+      "id": "scripts_doc",
+      "label": "doc.py",
+      "file_type": "code",
+      "source_file": "scripts/doc.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_doc_long_doc",
+      "label": "long_doc()",
+      "file_type": "code",
+      "source_file": "scripts/doc.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_doc_loader",
+      "label": "Loader",
+      "file_type": "code",
+      "source_file": "scripts/doc.py",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_doc_loader_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "scripts/doc.py",
+      "source_location": "L15",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_doc_rationale_2",
+      "label": "r\"\"\"Return the configured retry policy for the given queue, honouring overrides",
+      "file_type": "rationale",
+      "source_file": "scripts/doc.py",
+      "source_location": "L2",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_doc_rationale_10",
+      "label": "Load   things        from disk.  Second sentence here.",
+      "file_type": "rationale",
+      "source_file": "scripts/doc.py",
+      "source_location": "L10",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_doc_rationale_16",
+      "label": "Load one item. And more.",
+      "file_type": "rationale",
+      "source_file": "scripts/doc.py",
+      "source_location": "L16",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_helper",
+      "label": "helper.py",
+      "file_type": "code",
+      "source_file": "scripts/helper.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_helper_f",
+      "label": "f()",
+      "file_type": "code",
+      "source_file": "scripts/helper.py",
+      "source_location": "L4",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_helper_rationale_1",
+      "label": "Helper module docstring.",
+      "file_type": "rationale",
+      "source_file": "scripts/helper.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_helpers",
+      "label": "helpers.py",
+      "file_type": "code",
+      "source_file": "scripts/helpers.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_helpers_feature_enabled",
+      "label": "feature_enabled()",
+      "file_type": "code",
+      "source_file": "scripts/helpers.py",
+      "source_location": "L8",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_init",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "scripts/pkg/__init__.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_mod",
+      "label": "mod.py",
+      "file_type": "code",
+      "source_file": "scripts/pkg/mod.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_mod_g",
+      "label": "g()",
+      "file_type": "code",
+      "source_file": "scripts/pkg/mod.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg_mod_rationale_2",
+      "label": "# TODO: remove this legacy retry once the queue lands",
+      "file_type": "rationale",
+      "source_file": "scripts/pkg/mod.py",
+      "source_location": "L2",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_run",
+      "label": "run.py",
+      "file_type": "code",
+      "source_file": "scripts/run.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_run_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/run.py",
+      "source_location": "L11",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_run_local_t",
+      "label": "local_t()",
+      "file_type": "code",
+      "source_file": "scripts/run.py",
+      "source_location": "L23",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_todo_later",
+      "label": "todo_later.py",
+      "file_type": "code",
+      "source_file": "scripts/todo_later.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_todo_later_retry",
+      "label": "retry()",
+      "file_type": "code",
+      "source_file": "scripts/todo_later.py",
+      "source_location": "L4",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_todo_later_rationale_5",
+      "label": "# TODO: drop after v2",
+      "file_type": "rationale",
+      "source_file": "scripts/todo_later.py",
+      "source_location": "L5",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "scripts_doc",
+      "target": "scripts_doc_long_doc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/doc.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_doc",
+      "target": "scripts_doc_loader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/doc.py",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_doc_loader",
+      "target": "scripts_doc_loader_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/doc.py",
+      "source_location": "L15",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_doc_rationale_2",
+      "target": "scripts_doc_long_doc",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/doc.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_doc_rationale_10",
+      "target": "scripts_doc_loader",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/doc.py",
+      "source_location": "L10",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_doc_rationale_16",
+      "target": "scripts_doc_loader_load",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/doc.py",
+      "source_location": "L16",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_helper",
+      "target": "scripts_helper_f",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/helper.py",
+      "source_location": "L4",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_helper_rationale_1",
+      "target": "scripts_helper",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/helper.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_helpers",
+      "target": "scripts_helpers_feature_enabled",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/helpers.py",
+      "source_location": "L8",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_mod",
+      "target": "pkg_mod_g",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/pkg/mod.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg_mod_rationale_2",
+      "target": "pkg_mod",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/pkg/mod.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "helper",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "helper",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "helpers",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "pkg_mod",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L4",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "pkg",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "typing",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L6",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "scripts_run_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L11",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run",
+      "target": "scripts_run_local_t",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run.py",
+      "source_location": "L23",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_todo_later",
+      "target": "scripts_todo_later_retry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/todo_later.py",
+      "source_location": "L4",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_todo_later_rationale_5",
+      "target": "scripts_todo_later",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/todo_later.py",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_run_main",
+      "target": "scripts_helper_f",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "scripts/run.py",
+      "source_location": "L20",
+      "weight": 1.0
+     }
+    ]
+   },
+   "py2": {
+    "nodes": [
+     {
+      "id": "pkg2_matcher",
+      "label": "matcher.py",
+      "file_type": "code",
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg2_matcher_statemachinematcher",
+      "label": "StateMachineMatcher",
+      "file_type": "code",
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg2_matcher_statemachinematcher_match",
+      "label": ".match()",
+      "file_type": "code",
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L2",
+      "_origin": "ast"
+     },
+     {
+      "id": "pkg2_matcher_helper_top",
+      "label": "helper_top()",
+      "file_type": "code",
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L8",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_ovl",
+      "label": "ovl.py",
+      "file_type": "code",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_ovl_context",
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_ovl_context_invoke",
+      "label": ".invoke()",
+      "file_type": "code",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L7",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_ovl_context_name",
+      "label": ".name()",
+      "file_type": "code",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L17",
+      "_origin": "ast"
+     },
+     {
+      "id": "scripts_ovl_top",
+      "label": "top()",
+      "file_type": "code",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L26",
+      "_origin": "ast"
+     },
+     {
+      "id": "tests_test_routing",
+      "label": "test_routing.py",
+      "file_type": "code",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "tests_test_routing_routing",
+      "label": "_Routing",
+      "file_type": "code",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "tests_test_routing_routing_match",
+      "label": "._match()",
+      "file_type": "code",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L2",
+      "_origin": "ast"
+     },
+     {
+      "id": "tests_test_routing_test_it",
+      "label": "test_it()",
+      "file_type": "code",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L6",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "pkg2_matcher",
+      "target": "pkg2_matcher_statemachinematcher",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg2_matcher_statemachinematcher",
+      "target": "pkg2_matcher_statemachinematcher_match",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg2_matcher",
+      "target": "pkg2_matcher_helper_top",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L8",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_ovl",
+      "target": "typing",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_ovl",
+      "target": "typing",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_ovl",
+      "target": "scripts_ovl_context",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_ovl_context",
+      "target": "scripts_ovl_context_invoke",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_ovl_context",
+      "target": "scripts_ovl_context_name",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L17",
+      "weight": 1.0
+     },
+     {
+      "source": "scripts_ovl",
+      "target": "scripts_ovl_top",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ovl.py",
+      "source_location": "L26",
+      "weight": 1.0
+     },
+     {
+      "source": "tests_test_routing",
+      "target": "tests_test_routing_routing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "tests_test_routing_routing",
+      "target": "tests_test_routing_routing_match",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L2",
+      "weight": 1.0
+     },
+     {
+      "source": "tests_test_routing",
+      "target": "tests_test_routing_test_it",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L6",
+      "weight": 1.0
+     },
+     {
+      "source": "tests_test_routing_test_it",
+      "target": "tests_test_routing_routing_match",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "tests_test_routing_test_it",
+      "target": "tests_test_routing_routing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_routing.py",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "pkg2_matcher_statemachinematcher_match",
+      "target": "tests_test_routing_routing_match",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "pkg2/matcher.py",
+      "source_location": "L5",
+      "weight": 1.0
+     }
+    ]
+   },
+   "go": {
+    "nodes": [
+     {
+      "id": "context_test",
+      "label": "context_test.go",
+      "file_type": "code",
+      "source_file": "context_test.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "context_test_must",
+      "label": "must()",
+      "file_type": "code",
+      "source_file": "context_test.go",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "context_test_testx",
+      "label": "TestX()",
+      "file_type": "code",
+      "source_file": "context_test.go",
+      "source_location": "L7",
+      "_origin": "ast"
+     },
+     {
+      "id": "gin",
+      "label": "gin.go",
+      "file_type": "code",
+      "source_file": "gin.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_engine",
+      "label": "Engine",
+      "file_type": "code",
+      "source_file": "gin.go",
+      "source_location": "L10",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_engine_loadhtmlglob",
+      "label": ".LoadHTMLGlob()",
+      "file_type": "code",
+      "source_file": "gin.go",
+      "source_location": "L12",
+      "_origin": "ast"
+     },
+     {
+      "id": "go_engine_reset",
+      "label": ".Reset()",
+      "file_type": "code",
+      "source_file": "gin.go",
+      "source_location": "L21",
+      "_origin": "ast"
+     },
+     {
+      "id": "gin_local",
+      "label": "local()",
+      "file_type": "code",
+      "source_file": "gin.go",
+      "source_location": "L23",
+      "_origin": "ast"
+     },
+     {
+      "id": "gin_new",
+      "label": "New()",
+      "file_type": "code",
+      "source_file": "gin.go",
+      "source_location": "L25",
+      "_origin": "ast"
+     },
+     {
+      "id": "models_customer",
+      "label": "Customer",
+      "file_type": "code",
+      "source_file": "models/customer.go",
+      "source_location": "L3",
+      "_origin": "ast"
+     },
+     {
+      "id": "models_customer_save",
+      "label": ".Save()",
+      "file_type": "code",
+      "source_file": "models/customer.go",
+      "source_location": "L7",
+      "_origin": "ast"
+     },
+     {
+      "id": "server_server",
+      "label": "Server",
+      "file_type": "code",
+      "source_file": "server/server.go",
+      "source_location": "L5",
+      "_origin": "ast"
+     },
+     {
+      "id": "server_server_routes",
+      "label": ".Routes()",
+      "file_type": "code",
+      "source_file": "server/server.go",
+      "source_location": "L7",
+      "_origin": "ast"
+     },
+     {
+      "id": "server_server_handlex",
+      "label": "handleX()",
+      "file_type": "code",
+      "source_file": "server/server.go",
+      "source_location": "L11",
+      "_origin": "ast"
+     },
+     {
+      "id": "responsewriter",
+      "label": "ResponseWriter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+     },
+     {
+      "id": "request",
+      "label": "Request",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+     },
+     {
+      "id": "util_util",
+      "label": "util.go",
+      "file_type": "code",
+      "source_file": "util/util.go",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "util_util_helper",
+      "label": "Helper()",
+      "file_type": "code",
+      "source_file": "util/util.go",
+      "source_location": "L3",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "context_test",
+      "target": "context_test_must",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "context_test.go",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "context_test",
+      "target": "context_test_testx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "context_test.go",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "context_test_testx",
+      "target": "context_test_must",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "context_test.go",
+      "source_location": "L8",
+      "weight": 1.0
+     },
+     {
+      "source": "gin",
+      "target": "go_pkg_errors",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "gin",
+      "target": "go_pkg_html_template",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "gin",
+      "target": "go_pkg_example_com_app_util",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "gin",
+      "target": "go_engine",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L10",
+      "weight": 1.0
+     },
+     {
+      "source": "go_engine",
+      "target": "go_engine_loadhtmlglob",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L12",
+      "weight": 1.0
+     },
+     {
+      "source": "go_engine",
+      "target": "go_engine_reset",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L21",
+      "weight": 1.0
+     },
+     {
+      "source": "gin",
+      "target": "gin_local",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L23",
+      "weight": 1.0
+     },
+     {
+      "source": "gin",
+      "target": "gin_new",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L25",
+      "weight": 1.0
+     },
+     {
+      "source": "gin_new",
+      "target": "go_engine",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "return_type"
+     },
+     {
+      "source": "go_engine_loadhtmlglob",
+      "target": "gin_new",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "go_engine_loadhtmlglob",
+      "target": "go_engine_reset",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L17",
+      "weight": 1.0
+     },
+     {
+      "source": "go_engine_loadhtmlglob",
+      "target": "gin_local",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "gin.go",
+      "source_location": "L18",
+      "weight": 1.0
+     },
+     {
+      "source": "models_customer",
+      "target": "models_customer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "models/customer.go",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "models_customer",
+      "target": "models_customer_save",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "models/customer.go",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "server_server",
+      "target": "go_pkg_net_http",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.go",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import"
+     },
+     {
+      "source": "server_server",
+      "target": "server_server",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.go",
+      "source_location": "L5",
+      "weight": 1.0
+     },
+     {
+      "source": "server_server",
+      "target": "server_server_routes",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.go",
+      "source_location": "L7",
+      "weight": 1.0
+     },
+     {
+      "source": "server_server",
+      "target": "server_server_handlex",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.go",
+      "source_location": "L11",
+      "weight": 1.0
+     },
+     {
+      "source": "server_server_handlex",
+      "target": "responsewriter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.go",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+     },
+     {
+      "source": "server_server_handlex",
+      "target": "request",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.go",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+     },
+     {
+      "source": "util_util",
+      "target": "util_util_helper",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "util/util.go",
+      "source_location": "L3",
+      "weight": 1.0
+     },
+     {
+      "source": "go_engine_loadhtmlglob",
+      "target": "context_test_must",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "gin.go",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "go_engine_loadhtmlglob",
+      "target": "util_util_helper",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "gin.go",
+      "source_location": "L16",
+      "weight": 1.0
+     }
+    ]
+   },
+   "ts": {
+    "nodes": [
+     {
+      "id": "parse",
+      "label": "parse.ts",
+      "file_type": "code",
+      "source_file": "parse.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "parse_parse",
+      "label": "$Parse",
+      "file_type": "code",
+      "source_file": "parse.ts",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "parse_zodthing",
+      "label": "$ZodThing",
+      "file_type": "code",
+      "source_file": "parse.ts",
+      "source_location": "L6",
+      "_origin": "ast"
+     },
+     {
+      "id": "parse_constructor",
+      "label": "$constructor()",
+      "file_type": "code",
+      "source_file": "parse.ts",
+      "source_location": "L11",
+      "_origin": "ast"
+     },
+     {
+      "id": "parse_plain",
+      "label": "plain()",
+      "file_type": "code",
+      "source_file": "parse.ts",
+      "source_location": "L12",
+      "_origin": "ast"
+     },
+     {
+      "id": "parse_called",
+      "label": "called",
+      "file_type": "code",
+      "source_file": "parse.ts",
+      "source_location": "L13",
+      "_origin": "ast"
+     },
+     {
+      "id": "parse_helper",
+      "label": "helper()",
+      "file_type": "code",
+      "source_file": "parse.ts",
+      "source_location": "L14",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "parse",
+      "target": "parse_parse",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "parse.ts",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "parse",
+      "target": "parse_zodthing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "parse.ts",
+      "source_location": "L6",
+      "weight": 1.0
+     },
+     {
+      "source": "parse",
+      "target": "parse_constructor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "parse.ts",
+      "source_location": "L11",
+      "weight": 1.0
+     },
+     {
+      "source": "parse",
+      "target": "parse_plain",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "parse.ts",
+      "source_location": "L12",
+      "weight": 1.0
+     },
+     {
+      "source": "parse",
+      "target": "parse_called",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "parse.ts",
+      "source_location": "L13",
+      "weight": 1.0
+     },
+     {
+      "source": "parse",
+      "target": "parse_helper",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "parse.ts",
+      "source_location": "L14",
+      "weight": 1.0
+     }
+    ]
+   },
+   "rs": {
+    "nodes": [
+     {
+      "id": "src_ser",
+      "label": "ser.rs",
+      "file_type": "code",
+      "source_file": "src/ser.rs",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "src_ser_formatter",
+      "label": "Formatter",
+      "file_type": "code",
+      "source_file": "src/ser.rs",
+      "source_location": "L1",
+      "_origin": "ast"
+     },
+     {
+      "id": "src_ser_compactformatter",
+      "label": "CompactFormatter",
+      "file_type": "code",
+      "source_file": "src/ser.rs",
+      "source_location": "L9",
+      "_origin": "ast"
+     },
+     {
+      "id": "src_ser_compactformatter_required",
+      "label": ".required()",
+      "file_type": "code",
+      "source_file": "src/ser.rs",
+      "source_location": "L12",
+      "_origin": "ast"
+     }
+    ],
+    "links": [
+     {
+      "source": "src_ser",
+      "target": "src_ser_formatter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ser.rs",
+      "source_location": "L1",
+      "weight": 1.0
+     },
+     {
+      "source": "src_ser",
+      "target": "src_ser_compactformatter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ser.rs",
+      "source_location": "L9",
+      "weight": 1.0
+     },
+     {
+      "source": "src_ser_compactformatter",
+      "target": "src_ser_formatter",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ser.rs",
+      "source_location": "L11",
+      "weight": 1.0
+     },
+     {
+      "source": "src_ser_compactformatter",
+      "target": "src_ser_compactformatter_required",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ser.rs",
+      "source_location": "L12",
+      "weight": 1.0
+     }
+    ]
+   }
+  }
+ }
+}

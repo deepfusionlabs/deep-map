@@ -1,0 +1,554 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/precise_family_gates.TREES['p1b_py'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/precise_family_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_models",
+    "source_file": "shop/models.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_models_order",
+    "source_file": "shop/models.py",
+    "source_location": "L2",
+    "target": "shop_models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_models",
+    "source_file": "shop/models.py",
+    "source_location": "L6",
+    "target": "shop_models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_models_repo",
+    "source_file": "shop/models.py",
+    "source_location": "L7",
+    "target": "shop_models_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L2",
+    "target": "shop_ext",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L5",
+    "target": "shop_svc_typed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "shop_svc_typed",
+    "source_file": "shop/svc.py",
+    "source_location": "L5",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "shop_svc_typed",
+    "source_file": "shop/svc.py",
+    "source_location": "L5",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "shop_svc_typed",
+    "source_file": "shop/svc.py",
+    "source_location": "L5",
+    "target": "widget",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L9",
+    "target": "shop_svc_once",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L13",
+    "target": "shop_svc_twice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L19",
+    "target": "shop_svc_widget",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L23",
+    "target": "shop_svc_commented",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L28",
+    "target": "shop_svc_both",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L34",
+    "target": "shop_svc_builder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_svc_builder",
+    "source_file": "shop/svc.py",
+    "source_location": "L35",
+    "target": "shop_svc_builder_build",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_svc_builder",
+    "source_file": "shop/svc.py",
+    "source_location": "L38",
+    "target": "shop_svc_builder_build_two",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_once",
+    "source_file": "shop/svc.py",
+    "source_location": "L10",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_twice",
+    "source_file": "shop/svc.py",
+    "source_location": "L14",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_widget",
+    "source_file": "shop/svc.py",
+    "source_location": "L20",
+    "target": "widget",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_commented",
+    "source_file": "shop/svc.py",
+    "source_location": "L25",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_both",
+    "source_file": "shop/svc.py",
+    "source_location": "L29",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_both",
+    "source_file": "shop/svc.py",
+    "source_location": "L30",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_builder_build",
+    "source_file": "shop/svc.py",
+    "source_location": "L36",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_builder_build_two",
+    "source_file": "shop/svc.py",
+    "source_location": "L39",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_once",
+    "source_file": "shop/svc.py",
+    "source_location": "L10",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_twice",
+    "source_file": "shop/svc.py",
+    "source_location": "L14",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_commented",
+    "source_file": "shop/svc.py",
+    "source_location": "L25",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_both",
+    "source_file": "shop/svc.py",
+    "source_location": "L29",
+    "target": "shop_models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_both",
+    "source_file": "shop/svc.py",
+    "source_location": "L30",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "order",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "repo",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "widget",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "shop_svc_builder",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "order",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "repo",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "widget",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "shop_svc_builder",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_repo",
+    "weight": 0.8
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_init",
+    "label": "__init__.py",
+    "source_file": "shop/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models",
+    "label": "models.py",
+    "source_file": "shop/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_order",
+    "label": "Order",
+    "source_file": "shop/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_order_save",
+    "label": ".save()",
+    "source_file": "shop/models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_repo",
+    "label": "Repo",
+    "source_file": "shop/models.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_repo_find",
+    "label": ".find()",
+    "source_file": "shop/models.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc",
+    "label": "svc.py",
+    "source_file": "shop/svc.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_typed",
+    "label": "typed()",
+    "source_file": "shop/svc.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "order",
+    "label": "Order",
+    "source_file": "shop/svc.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repo",
+    "label": "Repo",
+    "source_file": "shop/svc.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "widget",
+    "label": "Widget",
+    "source_file": "shop/svc.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_once",
+    "label": "once()",
+    "source_file": "shop/svc.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_twice",
+    "label": "twice()",
+    "source_file": "shop/svc.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_widget",
+    "label": "widget()",
+    "source_file": "shop/svc.py",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_commented",
+    "label": "commented()",
+    "source_file": "shop/svc.py",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_both",
+    "label": "both()",
+    "source_file": "shop/svc.py",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_builder",
+    "label": "Builder",
+    "source_file": "shop/svc.py",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_builder_build",
+    "label": ".build()",
+    "source_file": "shop/svc.py",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_builder_build_two",
+    "label": ".build_two()",
+    "source_file": "shop/svc.py",
+    "source_location": "L38"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "7a45c21a87bb1b5f86e67ac913484fc0f0a0b5e9920018371622e0f00b98791a"
+}

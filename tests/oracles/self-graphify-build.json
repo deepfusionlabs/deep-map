@@ -1,0 +1,205 @@
+{
+  "_meta": {
+    "contract": "TOP-K ORDERING of stable relpath::name:line keys; scores never compared (plan 0.3)",
+    "corpus": {
+      "builder": "graphify-default-sync",
+      "paths": null,
+      "sha": "9c8d50bceab96288f83877c5306167b54b6d918a",
+      "tree": "build"
+    },
+    "key_format": "relpath::name:line",
+    "repo_id": "self-graphify-build",
+    "retriever": "build/retrieval.py",
+    "rrf_k": 60,
+    "target": "--project (registry)",
+    "top_k": 10,
+    "uri": "bolt://localhost:7691",
+    "weights": {
+      "bm25": 1.0,
+      "graph_weighted": 1.0,
+      "vector": 1.0
+    }
+  },
+  "queries": {
+    "acquire a single-writer lock before rebuilding": {
+      "named": [
+        [
+          "Function",
+          "_acquire_lock"
+        ],
+        [
+          "Function",
+          "_release_lock"
+        ],
+        [
+          "Function",
+          "_acquire_sync_lock"
+        ],
+        [
+          "Function",
+          "_acquire_instance_lock"
+        ],
+        [
+          "Function",
+          "_os_lock"
+        ]
+      ],
+      "order": [
+        "port_registry.py::_acquire_lock:140",
+        "port_registry.py::_release_lock:165",
+        "sync.py::_acquire_sync_lock:64",
+        "sync.py::_os_lock:49",
+        "sync.py::_acquire_instance_lock:124",
+        "port_registry.py::_os_lock:112",
+        "port_registry.py::_lookup:250",
+        "sync.py::_release_sync_lock:83",
+        "port_registry.py::_lock_path:75",
+        "sync.py::_instance_lock_path:113"
+      ]
+    },
+    "compute reciprocal rank fusion across the search arms": {
+      "named": [
+        [
+          "Function",
+          "_weighted_rrf"
+        ],
+        [
+          "Function",
+          "mrr"
+        ],
+        [
+          "Function",
+          "_reciprocal_rank"
+        ],
+        [
+          "Function",
+          "_fuse"
+        ],
+        [
+          "Function",
+          "rerank"
+        ]
+      ],
+      "order": [
+        "retrieval.py::_weighted_rrf:138",
+        "tune_weights.py::mrr:123",
+        "tune_weights.py::_reciprocal_rank:116",
+        "tune_weights.py::_fuse:100",
+        "access_prior.py::rerank:154",
+        "tune_weights.py::_optimize:320",
+        "retrieval.py::DeepMapRetriever._arm_vector:481",
+        "retrieval_log.py::per_arm_candidates:347",
+        "learned_fusion.py::_read_learned_fusion:50",
+        "tune_weights.py::mapk:164"
+      ]
+    },
+    "how are embeddings generated for graph nodes": {
+      "named": [
+        [
+          "Function",
+          "_count_embedded_nodes"
+        ],
+        [
+          "Function",
+          "_graph_has_nodes"
+        ],
+        [
+          "Module",
+          "embeddings"
+        ],
+        [
+          "Function",
+          "iter_enrichable_nodes"
+        ],
+        [
+          "Function",
+          "_embed_docs"
+        ]
+      ],
+      "order": [
+        "sync.py::_count_embedded_nodes:782",
+        "sync.py::_graph_has_nodes:774",
+        "graphify_extract.py::_is_code_node:110",
+        "embeddings.py::compose_text:59",
+        "sync.py::_prune_blast_radius:670",
+        "embeddings.py::embeddings:1",
+        "enrich.py::iter_enrichable_nodes:361",
+        "enrich.py::compute_span:196",
+        "embeddings.py::_embed_docs:89",
+        "graphify_extract.py::map_graph:165"
+      ]
+    },
+    "map the graphify graph into the typed schema": {
+      "named": [
+        [
+          "Function",
+          "_rebuild_code"
+        ],
+        [
+          "Function",
+          "map_graph"
+        ],
+        [
+          "Function",
+          "demodulize"
+        ],
+        [
+          "Function",
+          "demodulize"
+        ],
+        [
+          "Class",
+          "TypedEdge"
+        ]
+      ],
+      "order": [
+        "sync.py::_rebuild_code:203",
+        "graphify_extract.py::map_graph:165",
+        "access_prior.py::_accumulate:73",
+        "sync.py::write_graph_build_manifest:883",
+        "graphify_extract.py::precise_calls_enabled:155",
+        "retrieval_log.py::build_record:216",
+        "retrieval.py::DeepMapRetriever._arm_graph_weighted_one:571",
+        "csharp_edges.py::demodulize:184",
+        "java_edges.py::demodulize:96",
+        "framework_edges.py::TypedEdge:43"
+      ]
+    },
+    "prune stale call edges when re-syncing the graph": {
+      "named": [
+        [
+          "Function",
+          "_prune_decision"
+        ],
+        [
+          "Function",
+          "_cleanup_is_safe"
+        ],
+        [
+          "Function",
+          "push_typed_edges"
+        ],
+        [
+          "Function",
+          "_staleness_line"
+        ],
+        [
+          "Function",
+          "prune_stale_edge_types"
+        ]
+      ],
+      "order": [
+        "sync.py::_prune_decision:688",
+        "sync.py::_cleanup_is_safe:635",
+        "retrieval_log.py::_redact_query:136",
+        "sync.py::_prune_blast_radius:670",
+        "sync.py::_drop_app_to_test_enabled:520",
+        "edge_resolve.py::push_typed_edges:143",
+        "edge_resolve.py::prune_stale_edge_types:118",
+        "deepmap_cli.py::_staleness_line:108",
+        "graphify_extract.py::_bare:127",
+        "language_recognizers.py::run:254"
+      ]
+    }
+  }
+}

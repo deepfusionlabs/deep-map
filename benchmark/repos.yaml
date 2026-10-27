@@ -1,0 +1,251 @@
+# benchmark/repos.yaml
+# =============================================================================
+# DeepMap with-vs-without head-to-head benchmark: OSS repo set
+# (the method: benchmark/README.md)
+#
+# STATUS: no benchmark result is published yet.
+#   This config file carries NO measured numbers; results live in benchmark/results/.
+#   The per-repo `pinned_sha` values are REAL 40-char SHAs (pinned 2026-06-30), and the
+#   questions' ground truth was independently re-verified (2026-07-08; see
+#   benchmark/CURATION_PROVENANCE.md). No benchmark number derived from these repos may
+#   appear in the README or on the product page until a blind-scored run on the current
+#   release is published with its raw outputs.
+# =============================================================================
+#
+# -----------------------------------------------------------------------------
+# methodology:
+#   (Authored as comments AND mirrored in the `methodology:` key below so the
+#    record is both human-readable and machine-parseable. Do not relax any rule:
+#    each is a product-thesis invariant.)
+#
+#   [N]   STRUCTURAL DIVERSITY, NOT POPULARITY. The set spans the grep-defeating
+#         structural regimes (registry indirection, lazy/deferred imports, dynamic
+#         require, monorepo aliases, include graphs, DI). Two hard constraints:
+#         (1) the language must have a grammar in DeepMap's extraction engine so the
+#         AST backbone is exercised, and (2) the repo must be large/tangled enough
+#         that multi-hop reachability genuinely matters (the value proposition: what
+#         grep fundamentally can't do). Small-N and INDICATIVE: do not over-claim
+#         from N repos. At least one obscure/under-documented repo is included so
+#         the OFF arm's grep can find strings but cannot reconstruct the transitive
+#         graph: the less-dismissable result.
+#
+#   [PIN] Each `pinned_sha` below is a REAL 40-char SHA, pinned 2026-06-30 from
+#         a fresh clone (re-pin and re-verify if the set changes).
+#         Before any ON-arm graph build the curator MUST confirm each pin and
+#         record an exact 40-char commit SHA per repo. The OFF arm greps that SHA
+#         and the ON arm's `/deep-map:setup` MUST build the Neo4j graph at the
+#         SAME SHA: graph staleness is disqualifying (the staleness rule).
+#         The runner's assert_pinned_clean FAILS CLOSED on a stale/dirty clone.
+#
+#   [LIC] LICENSE RECORDED PER REPO (required). Each entry records its
+#         upstream license verbatim. Recording is mandatory; redistribution is
+#         forbidden (see [CLONE]).
+#
+#   [CLONE] CLONE FOR MEASUREMENT, DO NOT REDISTRIBUTE. Repos are cloned fresh at
+#         measurement time at the pinned SHA and are NOT vendored into this repo.
+#         `benchmark/results/` holds only the questions, the metrics, and the
+#         captured agent transcripts/answers, NEVER the cloned source tree
+#         ("record, don't redistribute").
+#
+#   [ARMS] TWO ARMS DIFFER BY MCP-CONFIG, NOT PROMPT:
+#         - Arm A (DeepMap ON):  `claude -p "<question>" --model opus
+#             --output-format json --permission-mode acceptEdits
+#             --max-budget-usd <cap> --strict-mcp-config --mcp-config <the clone's
+#             servers>` WITH the DeepMap MCP servers loaded (deepmap_search,
+#             deepmap_impact, deepmap_cypher, deepmap_embed) PLUS built-in
+#             Read/Grep/Bash.
+#         - Arm B (DeepMap OFF): the IDENTICAL invocation but `--strict-mcp-config`
+#             with NO `--mcp-config`. Per the live `claude` CLI, --strict-mcp-config
+#             means "Only use MCP servers from --mcp-config, ignoring all other MCP
+#             configurations"; with no --mcp-config that is the EMPTY set of MCP
+#             servers (no DeepMap server, no Neo4j tool). Built-in Read/Grep/Bash
+#             are STILL available.
+#         FAIR BASELINE: grep is a first-class tool for BOTH arms. A DeepMap "win"
+#         must be a win over a real grep-capable Opus 4.8 agent, never a strawman,
+#         and an evaluator must be able to reproduce the run and see the losses.
+#         WIRING: both DeepMap server files (deepmap_search_server.py,
+#         deepmap_embed_server.py) are in build/, and the ON arm's --mcp-config is
+#         real HTTP wiring on the clone's own port pair; the `--probe` verifies at
+#         run time, before the matrix, that it loads in headless `claude`.
+#         FLAG SPELLINGS VERIFIED against the live `claude --version 2.1.129 --help`
+#         (all real): -p/--print, --model, --output-format json, --permission-mode
+#         acceptEdits, --max-budget-usd, --mcp-config, --strict-mcp-config.
+#         Re-confirm against the installed CLI before a run; a wrong flag must
+#         surface as a probe failure, never be invented.
+#
+#   [RUNS] 4 RUNS PER ARM, REPORT THE MEDIAN.
+#         Both arms are non-deterministic (the agent reasons in both), so both
+#         run counts = 4. Report median + min + max + n (variance, and any
+#         partial-survival median, stay visible). The median is a DeepMap choice.
+#
+#   [LEAD] LEAD METRIC = COMPLETENESS/CORRECTNESS ON HARD MULTI-HOP QUESTIONS,
+#         NOT tokens saved. Tool-calls, tokens, wall-clock, and cost_usd are
+#         REPORTED, never led with: token advantages erode as base models improve
+#         (Opus 4.8 greps well).
+#
+#   [LOSS] PUBLISH ITS OWN LOSSES. Every question family where grep ties or wins
+#         is reported, not hidden. Each question is tagged with whether it is the
+#         class grep fundamentally CANNOT do (multi-hop / transitive / runtime-edge /
+#         concept->implementation); single-hop lookups where grep wins are COUNTED
+#         AS LOSSES. Pre-run prose about where DeepMap wins/loses is tagged as a
+#         hypothesis ("HYPOTHESIS, not yet measured").
+#
+#   [MACHINE] MACHINE SPEC RECORDED. The run records OS, CPU/RAM,
+#         `claude --version`, Neo4j Community version, extraction-engine version,
+#         and the model id `claude-opus-4-8`. Captured in the results record, not
+#         here; the template fields are below under `machine_spec_template:`.
+#
+#   [SETUP] ON-arm setup cost is reported SEPARATELY. The per-repo
+#         `/deep-map:setup` cost (index-build wall-clock + embedding spend) is
+#         a one-time setup cost, NEVER folded into the per-question number.
+# -----------------------------------------------------------------------------
+
+schema: deepmap-validation/fd11-head-to-head/repos/v1
+status: not-published                   # no result is published yet; results live in benchmark/results/, NOT here
+model: claude-opus-4-8                   # the anchor arm's exact model id
+arms: [deepmap_on, deepmap_off]          # ON = MCP loaded; OFF = --strict-mcp-config, no --mcp-config
+
+methodology:
+  runs_per_arm: 4                        # [RUNS]
+  aggregate: median                      # report median + min + max + n
+  lead_metric: completeness_correctness  # [LEAD] NOT tokens
+  reported_not_led: [tool_calls, tokens, wall_clock_s, cost_usd]   # [LEAD]
+  baseline: fair                         # [ARMS] grep/Read/Bash available to BOTH arms
+  off_arm_mcp_config: strict-mcp-config-no-mcp-config-means-zero-servers   # [ARMS] no DeepMap servers, no Neo4j tool
+  both_arms_builtin_tools: [Read, Grep, Bash]   # [ARMS] grep is first-class for the baseline
+  publishes_own_losses: true             # [LOSS] grep-ties/wins reported, not hidden
+  single_hop_grep_wins_counted_as: loss  # [LOSS] no strawman wins
+  clone_policy: measurement-only-not-redistributed   # [CLONE] repos NOT vendored here
+  vendored_into_this_repo: false         # [CLONE] cloned fresh at the pinned SHA at run time
+  license_recorded_per_repo: true        # [LIC] required
+  shas_pinned: true                      # [PIN] real 40-char SHAs below (pinned 2026-06-30)
+  setup_cost_reported_separately: true   # [SETUP] one-time graph build, not per-question
+  mcp_wiring_status: real-http-wiring    # [ARMS] server files in build/; --probe verifies the load at run time
+  honesty_tag: "no result published yet; numbers only from a blind-scored run on the current release"
+
+# Machine spec is captured by the runner into the results record at run time
+# ([MACHINE]); these are TEMPLATE fields, empty until the run.
+machine_spec_template:
+  os: ""                                 # e.g. "Windows 11 Pro 10.0.26200"
+  cpu: ""
+  ram_gb: ""
+  claude_version: ""                     # `claude --version` via the runner
+  neo4j_community_version: ""
+  graphify_version: ""
+  model: claude-opus-4-8
+
+# -----------------------------------------------------------------------------
+# The repo set. Suggested N = 5 (within the 4-6 range), stratified across the
+# grep-defeating structural regimes and three+ languages. Drawn from a
+# candidate table; the curator may swap/extend but MUST keep license
+# recorded [LIC] and SHA pinned [PIN] for every entry, and SHOULD keep >=1 obscure
+# repo [N].
+#
+# Per-repo fields (record shape, repos.json -> here as YAML):
+#   name, url, pinned_sha, license, language/stack, size_loc, graphify_parseable,
+#   structural_property (why it is a good benchmark target — what grep can't follow),
+#   obscure (the "1 obscure" lesson flag).
+# size_loc is an APPROXIMATE planning hint, not a measured number; verify at pin time.
+# -----------------------------------------------------------------------------
+repos:
+  - name: psf/requests
+    url: https://github.com/psf/requests
+    pinned_sha: 23953c0c875219a715f081cf3de7c149a7629ccf
+    license: "Apache-2.0"
+    stack: Python
+    graphify_parseable: true
+    structural_property: |-
+      Polymorphic transport dispatch (Session->adapter mount registry->HTTPAdapter->urllib3) + runtime redirect/auth rebuild — grep finds call strings, not the runtime dispatch chain.
+  - name: pallets/flask
+    url: https://github.com/pallets/flask
+    pinned_sha: 36e4a824f340fdee7ed50937ba8e7f6bc7d17f81
+    license: "BSD-3-Clause"
+    stack: Python
+    graphify_parseable: true
+    structural_property: |-
+      WSGI->view dispatch via self-method chain + LocalProxy/ContextVar thread-locals + deferred blueprint registration — runtime edges with no static import to grep.
+  - name: pallets/click
+    url: https://github.com/pallets/click
+    pinned_sha: 679a7a0eccbdded7a6e85680bdaaf08003765e01
+    license: "BSD-3-Clause"
+    stack: Python
+    graphify_parseable: true
+    structural_property: |-
+      Decorator-built command tree + Context chaining + runtime Group command resolution + the param type-conversion pipeline — dispatch indirection grep cannot follow.
+  - name: pallets/werkzeug
+    url: https://github.com/pallets/werkzeug
+    pinned_sha: 1b00618e787f40dfb21eba29caf8f8be7c8e1d93
+    license: "BSD-3-Clause"
+    stack: Python
+    graphify_parseable: true
+    structural_property: |-
+      URL Map/Rule runtime matching + WSGI middleware + cached_property request parsing — the engine under many frameworks; routing edges resolve only at runtime.
+  - name: fastapi/fastapi
+    url: https://github.com/fastapi/fastapi
+    pinned_sha: 702fea83bb3ef0b558104835d7936af49650fb2d
+    license: "MIT"
+    stack: Python
+    graphify_parseable: true
+    structural_property: |-
+      Recursive dependency-injection resolution (Depends->solve_dependencies) + decorator->APIRoute wiring + security-scope propagation — DI edges exist only at runtime.
+
+  # --- MULTI-LANGUAGE BREADTH (added 2026-07-06) --------------------------------
+  # The "multi-language first" wing (fair cross-language surface only: concept_to_impl,
+  # transitive, single_hop_control, symbol_lookup — NO framework-edge blast-radius, which is
+  # Python-only). Retrieval-proven languages (Go/Rust/TS). SHAs pinned from fresh --depth 1
+  # clones 2026-07-06; node counts are the observed graphify build size (size-diversity hint).
+  # G0 dry-build PASSED for all four (typed nodes + CALLS + relevant search hits); express (JS)
+  # was DEMOTED at G0 — graphify's CommonJS/prototype extraction yielded ~0 methods / 29 CALLS
+  # and test-dominated retrieval (documented as a discovered limitation, not a scored repo).
+  - name: julienschmidt/httprouter
+    url: https://github.com/julienschmidt/httprouter
+    pinned_sha: 484018016424d215c0b87c42f4c9b57d980fbd00
+    license: "BSD-3-Clause"
+    stack: Go
+    size_loc: "~2k (103 graph nodes) — TINY tier"
+    graphify_parseable: true
+    structural_property: |-
+      Radix-tree HTTP routing: Router.Handle registers method+path into a prefix tree; ServeHTTP/Lookup walk the tree at request time with :param/*catchAll capture — the request->handler dispatch is tree traversal, not a static call grep can follow.
+  - name: serde-rs/json
+    url: https://github.com/serde-rs/json
+    pinned_sha: 827a315bf2198558f0325b07bcc1e2cd973aba2f
+    license: "MIT OR Apache-2.0"
+    stack: Rust
+    size_loc: "~15k (1295 graph nodes) — small-medium tier"
+    graphify_parseable: true
+    structural_property: |-
+      serde Deserializer/Visitor dispatch: from_str -> Deserializer -> parse_value -> trait-method deserialize_* -> Visitor callbacks. Rust generic + trait-method dispatch resolves by type, not by a textual call site.
+  - name: gin-gonic/gin
+    url: https://github.com/gin-gonic/gin
+    pinned_sha: 34dac209ffb6ef85cc78c5d217bbb7ad001d68fd
+    license: "MIT"
+    stack: Go
+    size_loc: "~18k (1582 graph nodes) — medium tier"
+    graphify_parseable: true
+    structural_property: |-
+      Engine.ServeHTTP -> handleHTTPRequest -> radix tree lookup -> HandlersChain executed in order via Context.Next()/c.index — the middleware+handler chain is assembled and driven at runtime.
+  - name: colinhacks/zod
+    url: https://github.com/colinhacks/zod
+    pinned_sha: 912f0f51b0ced654d0069741e7160834dca742ee
+    license: "MIT"
+    stack: TypeScript
+    size_loc: "~20k (3435 graph nodes; monorepo v3+v4+mini) — LARGE tier; questions pinned to one version subtree"
+    graphify_parseable: true
+    structural_property: |-
+      Schema.parse/safeParse -> _parse/_run -> type-specific parse -> issue collection. Validation dispatches through a class hierarchy of ZodType subclasses; the concrete _parse that runs is resolved by the schema instance, not a static call.
+
+# -----------------------------------------------------------------------------
+# Curator checklist before the ON-arm graph build (do NOT skip — each maps to a
+# methodology rule above). [x] = done when the set was pinned (2026-06-30); re-confirm if it changes:
+#   [x] Real 40-char SHA per repo (pinned from fresh clones 2026-06-30).         [PIN]
+#   [x] License confirmed against each repo's LICENSE file at the pinned SHA.    [LIC]
+#   [x] graphify_parseable confirmed (the extraction engine parses each).       [N]
+#   [ ] `/deep-map:setup` builds each ON-arm graph at the SAME pinned SHA.       [PIN]
+#   [x] Clones live OUTSIDE this repo; source is NOT committed.                  [CLONE]
+#   [ ] `--probe` passes: ON-arm servers load, OFF-arm has no
+#       Neo4j/DeepMap tool, JSON envelope well-formed — BEFORE the full matrix.  [ARMS]
+#   [x] Authoring questions: each is a grep-can't-do class; single-hop
+#       lookups go to the `where_grep_wins` section, counted as losses.          [LOSS]
+# Results files are TEMPLATES with empty/placeholder cells until a blind-scored run;
+# never fabricated values. No number reaches the README or the product page before then.
+# -----------------------------------------------------------------------------

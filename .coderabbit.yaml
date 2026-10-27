@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit pull-request reviews (free for public repositories once the CodeRabbit GitHub app is installed).
+language: en-US
+reviews:
+  profile: chill
+  auto_review:
+    enabled: true
+  path_filters:
+    # Captured engine output and test corpora: generated data, not code to review.
+    - "!tests/fixtures/**"

@@ -1,0 +1,4867 @@
+{
+ "_note": "REAL captured `graphify update --no-cluster` output (graphify 0.8.39) of APP in tests/typescript_edges_gates.py (NestJS, TypeORM, Express, Fastify, koa-router, Hono, Next.js, Angular + look-alikes), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (--no-cluster, no LLM). The engine node-ifies the classes / `Class.method` methods / functions / modules and persists NONE of the framework wiring.",
+ "_graphify_version": "0.8.39",
+ "_app_sha256": "298868acb43655efb3d125d6e24ede9ff787e584364ac0d4f89087777b9d6073",
+ "nodes": [
+  {
+   "id": "controllers_articles",
+   "label": "articles.ts",
+   "file_type": "code",
+   "source_file": "express/controllers/articles.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_articles_show",
+   "label": "show()",
+   "file_type": "code",
+   "source_file": "express/controllers/articles.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_legacy_controller",
+   "label": "legacy.controller.ts",
+   "file_type": "code",
+   "source_file": "express/controllers/legacy.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_legacy_controller_legacycontroller",
+   "label": "LegacyController",
+   "file_type": "code",
+   "source_file": "express/controllers/legacy.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_legacy_controller_legacycontroller_list",
+   "label": ".list()",
+   "file_type": "code",
+   "source_file": "express/controllers/legacy.controller.ts",
+   "source_location": "L2"
+  },
+  {
+   "id": "controllers_orders_controller",
+   "label": "orders.controller.ts",
+   "file_type": "code",
+   "source_file": "express/controllers/orders.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_orders_controller_orderscontroller",
+   "label": "OrdersController",
+   "file_type": "code",
+   "source_file": "express/controllers/orders.controller.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "controllers_orders_controller_orderscontroller_constructor",
+   "label": ".constructor()",
+   "file_type": "code",
+   "source_file": "express/controllers/orders.controller.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "controllers_orders_controller_orderscontroller_list",
+   "label": ".list()",
+   "file_type": "code",
+   "source_file": "express/controllers/orders.controller.ts",
+   "source_location": "L11"
+  },
+  {
+   "id": "controllers_orders_controller_orderscontroller_create",
+   "label": ".create()",
+   "file_type": "code",
+   "source_file": "express/controllers/orders.controller.ts",
+   "source_location": "L15"
+  },
+  {
+   "id": "controllers_people",
+   "label": "people.ts",
+   "file_type": "code",
+   "source_file": "express/controllers/people.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_people_show",
+   "label": "show()",
+   "file_type": "code",
+   "source_file": "express/controllers/people.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_products_controller",
+   "label": "products.controller.ts",
+   "file_type": "code",
+   "source_file": "express/controllers/products.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_products_controller_productscontroller",
+   "label": "ProductsController",
+   "file_type": "code",
+   "source_file": "express/controllers/products.controller.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "controllers_products_controller_productscontroller_create",
+   "label": ".create()",
+   "file_type": "code",
+   "source_file": "express/controllers/products.controller.ts",
+   "source_location": "L12"
+  },
+  {
+   "id": "express_controllers_users_js_controllers_users",
+   "label": "users.js",
+   "file_type": "code",
+   "source_file": "express/controllers/users.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "lib_compiled",
+   "label": "compiled.js",
+   "file_type": "code",
+   "source_file": "express/lib/compiled.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "lib_compiled_express_1",
+   "label": "express_1",
+   "file_type": "code",
+   "source_file": "express/lib/compiled.js",
+   "source_location": "L4"
+  },
+  {
+   "id": "lib_compiled_compiledroutes",
+   "label": "CompiledRoutes",
+   "file_type": "code",
+   "source_file": "express/lib/compiled.js",
+   "source_location": "L5"
+  },
+  {
+   "id": "lib_compiled_compiledroutes_constructor",
+   "label": ".constructor()",
+   "file_type": "code",
+   "source_file": "express/lib/compiled.js",
+   "source_location": "L6"
+  },
+  {
+   "id": "lib_compiled_compiledroutes_list",
+   "label": ".list()",
+   "file_type": "code",
+   "source_file": "express/lib/compiled.js",
+   "source_location": "L10"
+  },
+  {
+   "id": "middleware_async",
+   "label": "async.ts",
+   "file_type": "code",
+   "source_file": "express/middleware/async.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "middleware_async_asynchandler",
+   "label": "asyncHandler()",
+   "file_type": "code",
+   "source_file": "express/middleware/async.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "middleware_auth",
+   "label": "auth.js",
+   "file_type": "code",
+   "source_file": "express/middleware/auth.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "middleware_auth_requireauth",
+   "label": "requireAuth()",
+   "file_type": "code",
+   "source_file": "express/middleware/auth.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "middleware_validate",
+   "label": "validate.js",
+   "file_type": "code",
+   "source_file": "express/middleware/validate.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "middleware_validate_validate",
+   "label": "validate()",
+   "file_type": "code",
+   "source_file": "express/middleware/validate.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_badges",
+   "label": "badges.js",
+   "file_type": "code",
+   "source_file": "express/routes/badges.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_badges_express",
+   "label": "express",
+   "file_type": "code",
+   "source_file": "express/routes/badges.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_badges_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "express/routes/badges.js",
+   "source_location": "L3"
+  },
+  {
+   "id": "routes_badges_listbadges",
+   "label": "listBadges()",
+   "file_type": "code",
+   "source_file": "express/routes/badges.js",
+   "source_location": "L5"
+  },
+  {
+   "id": "routes_forms",
+   "label": "forms.ts",
+   "file_type": "code",
+   "source_file": "express/routes/forms.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_forms_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "express/routes/forms.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "routes_forms_show",
+   "label": "show()",
+   "file_type": "code",
+   "source_file": "express/routes/forms.ts",
+   "source_location": "L7"
+  },
+  {
+   "id": "express_routes_index_js_routes_index",
+   "label": "index.js",
+   "file_type": "code",
+   "source_file": "express/routes/index.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_index_express",
+   "label": "express",
+   "file_type": "code",
+   "source_file": "express/routes/index.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_index_usersrouter",
+   "label": "usersRouter",
+   "file_type": "code",
+   "source_file": "express/routes/index.js",
+   "source_location": "L2"
+  },
+  {
+   "id": "routes_index_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "express/routes/index.js",
+   "source_location": "L4"
+  },
+  {
+   "id": "routes_index_mounted",
+   "label": "mounted",
+   "file_type": "code",
+   "source_file": "express/routes/index.js",
+   "source_location": "L6"
+  },
+  {
+   "id": "routes_legacy",
+   "label": "legacy.ts",
+   "file_type": "code",
+   "source_file": "express/routes/legacy.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_legacy_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "express/routes/legacy.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "routes_legacy_legacy",
+   "label": "legacy",
+   "file_type": "code",
+   "source_file": "express/routes/legacy.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "routes_mvc",
+   "label": "mvc.ts",
+   "file_type": "code",
+   "source_file": "express/routes/mvc.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_mvc_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "express/routes/mvc.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "routes_products_route",
+   "label": "products.route.ts",
+   "file_type": "code",
+   "source_file": "express/routes/products.route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_products_route_productsroute",
+   "label": "ProductsRoute",
+   "file_type": "code",
+   "source_file": "express/routes/products.route.ts",
+   "source_location": "L7"
+  },
+  {
+   "id": "routes_products_route_productsroute_constructor",
+   "label": ".constructor()",
+   "file_type": "code",
+   "source_file": "express/routes/products.route.ts",
+   "source_location": "L12"
+  },
+  {
+   "id": "routes_users",
+   "label": "users.js",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_users_express",
+   "label": "express",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_users_controller",
+   "label": "controller",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L2"
+  },
+  {
+   "id": "routes_users_validate",
+   "label": "{ validate }",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L3"
+  },
+  {
+   "id": "routes_users_asynchandler",
+   "label": "asyncHandler",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L4"
+  },
+  {
+   "id": "routes_users_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L6"
+  },
+  {
+   "id": "routes_users_notafunction",
+   "label": "notAFunction",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L7"
+  },
+  {
+   "id": "routes_users_listusers",
+   "label": "listUsers()",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L9"
+  },
+  {
+   "id": "routes_users_createuser",
+   "label": "createUser()",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L13"
+  },
+  {
+   "id": "routes_users_getuser",
+   "label": "getUser()",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L24"
+  },
+  {
+   "id": "routes_users_updateuser",
+   "label": "updateUser()",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L28"
+  },
+  {
+   "id": "routes_users_buildhandler",
+   "label": "buildHandler()",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L32"
+  },
+  {
+   "id": "routes_users_proxy",
+   "label": "proxy()",
+   "file_type": "code",
+   "source_file": "express/routes/users.js",
+   "source_location": "L41"
+  },
+  {
+   "id": "express_server",
+   "label": "server.js",
+   "file_type": "code",
+   "source_file": "express/server.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "express_server_express",
+   "label": "express",
+   "file_type": "code",
+   "source_file": "express/server.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "express_server_apirouter",
+   "label": "apiRouter",
+   "file_type": "code",
+   "source_file": "express/server.js",
+   "source_location": "L2"
+  },
+  {
+   "id": "express_server_requireauth",
+   "label": "{ requireAuth }",
+   "file_type": "code",
+   "source_file": "express/server.js",
+   "source_location": "L3"
+  },
+  {
+   "id": "express_server_app",
+   "label": "app",
+   "file_type": "code",
+   "source_file": "express/server.js",
+   "source_location": "L5"
+  },
+  {
+   "id": "express_server_health",
+   "label": "health()",
+   "file_type": "code",
+   "source_file": "express/server.js",
+   "source_location": "L7"
+  },
+  {
+   "id": "test_users_test",
+   "label": "users.test.js",
+   "file_type": "code",
+   "source_file": "express/test/users.test.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "test_users_test_express",
+   "label": "express",
+   "file_type": "code",
+   "source_file": "express/test/users.test.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "test_users_test_usersrouter",
+   "label": "usersRouter",
+   "file_type": "code",
+   "source_file": "express/test/users.test.js",
+   "source_location": "L2"
+  },
+  {
+   "id": "test_users_test_app",
+   "label": "app",
+   "file_type": "code",
+   "source_file": "express/test/users.test.js",
+   "source_location": "L4"
+  },
+  {
+   "id": "hooks_auth",
+   "label": "auth.ts",
+   "file_type": "code",
+   "source_file": "fastify/hooks/auth.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "hooks_auth_authenticate",
+   "label": "authenticate()",
+   "file_type": "code",
+   "source_file": "fastify/hooks/auth.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_items",
+   "label": "items.ts",
+   "file_type": "code",
+   "source_file": "fastify/routes/items.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_items_listitems",
+   "label": "listItems()",
+   "file_type": "code",
+   "source_file": "fastify/routes/items.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "routes_items_getitem",
+   "label": "getItem()",
+   "file_type": "code",
+   "source_file": "fastify/routes/items.ts",
+   "source_location": "L7"
+  },
+  {
+   "id": "routes_items_itemroutes",
+   "label": "itemRoutes()",
+   "file_type": "code",
+   "source_file": "fastify/routes/items.ts",
+   "source_location": "L11"
+  },
+  {
+   "id": "fastify_server",
+   "label": "server.ts",
+   "file_type": "code",
+   "source_file": "fastify/server.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "fastify_server_app",
+   "label": "app",
+   "file_type": "code",
+   "source_file": "fastify/server.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "fastify_server_getstatus",
+   "label": "getStatus()",
+   "file_type": "code",
+   "source_file": "fastify/server.ts",
+   "source_location": "L7"
+  },
+  {
+   "id": "fastify_server_ping",
+   "label": "ping()",
+   "file_type": "code",
+   "source_file": "fastify/server.ts",
+   "source_location": "L11"
+  },
+  {
+   "id": "fastify_server_handler",
+   "label": "handler()",
+   "file_type": "code",
+   "source_file": "fastify/server.ts",
+   "source_location": "L15"
+  },
+  {
+   "id": "collab_route",
+   "label": "route.ts",
+   "file_type": "code",
+   "source_file": "forge/apps/app/app/api/collab/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "collab_route_post",
+   "label": "POST()",
+   "file_type": "code",
+   "source_file": "forge/apps/app/app/api/collab/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "app_next_config",
+   "label": "next.config.ts",
+   "file_type": "code",
+   "source_file": "forge/apps/app/next.config.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "app_next_config_nextconfig",
+   "label": "nextConfig",
+   "file_type": "code",
+   "source_file": "forge/apps/app/next.config.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "hono_index",
+   "label": "index.ts",
+   "file_type": "code",
+   "source_file": "hono/index.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "hono_index_api",
+   "label": "api",
+   "file_type": "code",
+   "source_file": "hono/index.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "hono_index_books",
+   "label": "books",
+   "file_type": "code",
+   "source_file": "hono/index.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "hono_index_getbook",
+   "label": "getBook()",
+   "file_type": "code",
+   "source_file": "hono/index.ts",
+   "source_location": "L8"
+  },
+  {
+   "id": "hono_index_updatepost",
+   "label": "updatePost()",
+   "file_type": "code",
+   "source_file": "hono/index.ts",
+   "source_location": "L12"
+  },
+  {
+   "id": "hono_posts",
+   "label": "posts.ts",
+   "file_type": "code",
+   "source_file": "hono/posts.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "hono_posts_listposts",
+   "label": "listPosts()",
+   "file_type": "code",
+   "source_file": "hono/posts.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_authors",
+   "label": "authors.ts",
+   "file_type": "code",
+   "source_file": "hono/routes/authors.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "routes_authors_authors",
+   "label": "authors",
+   "file_type": "code",
+   "source_file": "hono/routes/authors.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "routes_authors_listauthors",
+   "label": "listAuthors()",
+   "file_type": "code",
+   "source_file": "hono/routes/authors.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "hono_routes_index_ts_routes_index",
+   "label": "index.ts",
+   "file_type": "code",
+   "source_file": "hono/routes/index.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controller_general",
+   "label": "general.ts",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/general.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controller_general_generalcontroller",
+   "label": "GeneralController",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/general.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "controller_general_generalcontroller_helloworld",
+   "label": ".helloWorld()",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/general.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "controller_index",
+   "label": "index.ts",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/index.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controller_status",
+   "label": "status.ts",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/status.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controller_status_statuscontroller",
+   "label": "StatusController",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/status.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "controller_status_statuscontroller_show",
+   "label": ".show()",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/status.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "controller_user",
+   "label": "user.ts",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/user.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controller_user_usercontroller",
+   "label": "UserController",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/user.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "controller_user_usercontroller_getusers",
+   "label": ".getUsers()",
+   "file_type": "code",
+   "source_file": "koa2/src/controller/user.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "koa2_src_routes_ts_src_routes",
+   "label": "routes.ts",
+   "file_type": "code",
+   "source_file": "koa2/src/routes.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "koa2_src_routes_ts_src_routes_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "koa2/src/routes.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "koa_books",
+   "label": "books.js",
+   "file_type": "code",
+   "source_file": "koa/books.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "koa_books_koa",
+   "label": "Koa",
+   "file_type": "code",
+   "source_file": "koa/books.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "koa_books_router",
+   "label": "Router",
+   "file_type": "code",
+   "source_file": "koa/books.js",
+   "source_location": "L2"
+  },
+  {
+   "id": "koa_books_app",
+   "label": "app",
+   "file_type": "code",
+   "source_file": "koa/books.js",
+   "source_location": "L4"
+  },
+  {
+   "id": "koa_books_listbooks",
+   "label": "listBooks()",
+   "file_type": "code",
+   "source_file": "koa/books.js",
+   "source_location": "L7"
+  },
+  {
+   "id": "koa_books_removebook",
+   "label": "removeBook()",
+   "file_type": "code",
+   "source_file": "koa/books.js",
+   "source_location": "L11"
+  },
+  {
+   "id": "misc_base_repo",
+   "label": "base.repo.ts",
+   "file_type": "code",
+   "source_file": "misc/base.repo.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_base_repo_baserepo",
+   "label": "BaseRepo",
+   "file_type": "code",
+   "source_file": "misc/base.repo.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_legacy_controller",
+   "label": "legacy.controller.ts",
+   "file_type": "code",
+   "source_file": "misc/legacy.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_legacy_controller_legacycontroller",
+   "label": "LegacyController",
+   "file_type": "code",
+   "source_file": "misc/legacy.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_legacy_controller_legacycontroller_list",
+   "label": ".list()",
+   "file_type": "code",
+   "source_file": "misc/legacy.controller.ts",
+   "source_location": "L2"
+  },
+  {
+   "id": "misc_lookalikes",
+   "label": "lookalikes.ts",
+   "file_type": "code",
+   "source_file": "misc/lookalikes.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_lookalikes_cache",
+   "label": "cache",
+   "file_type": "code",
+   "source_file": "misc/lookalikes.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "misc_lookalikes_client",
+   "label": "client",
+   "file_type": "code",
+   "source_file": "misc/lookalikes.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "misc_lookalikes_onusers",
+   "label": "onUsers()",
+   "file_type": "code",
+   "source_file": "misc/lookalikes.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "misc_lookalikes_load",
+   "label": "load()",
+   "file_type": "code",
+   "source_file": "misc/lookalikes.ts",
+   "source_location": "L10"
+  },
+  {
+   "id": "misc_model",
+   "label": "model.ts",
+   "file_type": "code",
+   "source_file": "misc/model.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_model_model",
+   "label": "Model",
+   "file_type": "code",
+   "source_file": "misc/model.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_organizer",
+   "label": "organizer.ts",
+   "file_type": "code",
+   "source_file": "misc/organizer.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_organizer_organizer",
+   "label": "Organizer",
+   "file_type": "code",
+   "source_file": "misc/organizer.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_post",
+   "label": "post.ts",
+   "file_type": "code",
+   "source_file": "misc/post.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_post_post",
+   "label": "Post",
+   "file_type": "code",
+   "source_file": "misc/post.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "misc_users",
+   "label": "users.ts",
+   "file_type": "code",
+   "source_file": "misc/users.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_users_listusers",
+   "label": "listUsers()",
+   "file_type": "code",
+   "source_file": "misc/users.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_widget",
+   "label": "widget.tsx",
+   "file_type": "code",
+   "source_file": "misc/widget.tsx",
+   "source_location": "L1"
+  },
+  {
+   "id": "misc_widget_widget",
+   "label": "Widget()",
+   "file_type": "code",
+   "source_file": "misc/widget.tsx",
+   "source_location": "L3"
+  },
+  {
+   "id": "src_jobs_controller",
+   "label": "jobs.controller.ts",
+   "file_type": "code",
+   "source_file": "nest2/src/jobs.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_jobs_controller_jobscontroller",
+   "label": "JobsController",
+   "file_type": "code",
+   "source_file": "nest2/src/jobs.controller.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "src_jobs_controller_jobscontroller_enqueue",
+   "label": ".enqueue()",
+   "file_type": "code",
+   "source_file": "nest2/src/jobs.controller.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "nest2_src_main_ts_src_main",
+   "label": "main.ts",
+   "file_type": "code",
+   "source_file": "nest2/src/main.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "nest2_src_main_ts_src_main_bootstrap",
+   "label": "bootstrap()",
+   "file_type": "code",
+   "source_file": "nest2/src/main.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "bootstrap_main",
+   "label": "main.ts",
+   "file_type": "code",
+   "source_file": "nest3/src/bootstrap/main.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "bootstrap_main_bootstrap",
+   "label": "bootstrap()",
+   "file_type": "code",
+   "source_file": "nest3/src/bootstrap/main.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "modules_health_controller",
+   "label": "health.controller.ts",
+   "file_type": "code",
+   "source_file": "nest3/src/modules/health.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "modules_health_controller_healthcontroller",
+   "label": "HealthController",
+   "file_type": "code",
+   "source_file": "nest3/src/modules/health.controller.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "modules_health_controller_healthcontroller_check",
+   "label": ".check()",
+   "file_type": "code",
+   "source_file": "nest3/src/modules/health.controller.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "src_app_module",
+   "label": "app.module.ts",
+   "file_type": "code",
+   "source_file": "nest/src/app.module.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "src_app_module_appmodule",
+   "label": "AppModule",
+   "file_type": "code",
+   "source_file": "nest/src/app.module.ts",
+   "source_location": "L11"
+  },
+  {
+   "id": "cats_cat_entity",
+   "label": "cat.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cat.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "cats_cat_entity_cat",
+   "label": "Cat",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cat.entity.ts",
+   "source_location": "L9"
+  },
+  {
+   "id": "cats_cat_entity_cat_normalizename",
+   "label": ".normalizeName()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cat.entity.ts",
+   "source_location": "L31"
+  },
+  {
+   "id": "cats_cat_entity_cat_touch",
+   "label": ".touch()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cat.entity.ts",
+   "source_location": "L36"
+  },
+  {
+   "id": "cats_cats_controller",
+   "label": "cats.controller.ts",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller",
+   "label": "CatsController",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L10"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller_constructor",
+   "label": ".constructor()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L11"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller_findall",
+   "label": ".findAll()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L18"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller_findone",
+   "label": ".findOne()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L24"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller_create",
+   "label": ".create()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L30"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller_update",
+   "label": ".update()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L36"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller_remove",
+   "label": ".remove()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L42"
+  },
+  {
+   "id": "cats_cats_controller_catscontroller_events",
+   "label": ".events()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.controller.ts",
+   "source_location": "L47"
+  },
+  {
+   "id": "cats_cats_module",
+   "label": "cats.module.ts",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.module.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "cats_cats_module_catsmodule",
+   "label": "CatsModule",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.module.ts",
+   "source_location": "L14"
+  },
+  {
+   "id": "cats_cats_module_catsmodule_configure",
+   "label": ".configure()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.module.ts",
+   "source_location": "L15"
+  },
+  {
+   "id": "cats_cats_service",
+   "label": "cats.service.ts",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "cats_cats_service_catsservice",
+   "label": "CatsService",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L9"
+  },
+  {
+   "id": "cats_cats_service_catsservice_constructor",
+   "label": ".constructor()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L10"
+  },
+  {
+   "id": "cats_cats_service_catsservice_findall",
+   "label": ".findAll()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L15"
+  },
+  {
+   "id": "cats_cats_service_catsservice_findone",
+   "label": ".findOne()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L16"
+  },
+  {
+   "id": "cats_cats_service_catsservice_create",
+   "label": ".create()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L17"
+  },
+  {
+   "id": "cats_cats_service_catsservice_update",
+   "label": ".update()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L18"
+  },
+  {
+   "id": "cats_cats_service_catsservice_remove",
+   "label": ".remove()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L19"
+  },
+  {
+   "id": "cats_cats_service_catsservice_purgestale",
+   "label": ".purgeStale()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L22"
+  },
+  {
+   "id": "cats_cats_service_catsservice_heartbeat",
+   "label": ".heartbeat()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L25"
+  },
+  {
+   "id": "cats_cats_service_catsservice_oncatcreated",
+   "label": ".onCatCreated()",
+   "file_type": "code",
+   "source_file": "nest/src/cats/cats.service.ts",
+   "source_location": "L28"
+  },
+  {
+   "id": "cats_profile_entity",
+   "label": "profile.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/cats/profile.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "cats_profile_entity_profile",
+   "label": "Profile",
+   "file_type": "code",
+   "source_file": "nest/src/cats/profile.entity.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "cats_tag_entity",
+   "label": "tag.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/cats/tag.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "cats_tag_entity_tag",
+   "label": "Tag",
+   "file_type": "code",
+   "source_file": "nest/src/cats/tag.entity.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "cats_toy_entity",
+   "label": "toy.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/cats/toy.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "cats_toy_entity_toy",
+   "label": "Toy",
+   "file_type": "code",
+   "source_file": "nest/src/cats/toy.entity.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "common_audited_entity",
+   "label": "audited.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/common/audited.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "common_audited_entity_auditedentity",
+   "label": "AuditedEntity",
+   "file_type": "code",
+   "source_file": "nest/src/common/audited.entity.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "common_crud_controller",
+   "label": "crud.controller.ts",
+   "file_type": "code",
+   "source_file": "nest/src/common/crud.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "common_crud_controller_crudcontroller",
+   "label": "CrudController",
+   "file_type": "code",
+   "source_file": "nest/src/common/crud.controller.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "common_crud_controller_crudcontroller_findone",
+   "label": ".findOne()",
+   "file_type": "code",
+   "source_file": "nest/src/common/crud.controller.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "common_logger_middleware",
+   "label": "logger.middleware.ts",
+   "file_type": "code",
+   "source_file": "nest/src/common/logger.middleware.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "common_logger_middleware_loggermiddleware",
+   "label": "LoggerMiddleware",
+   "file_type": "code",
+   "source_file": "nest/src/common/logger.middleware.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "common_logger_middleware_loggermiddleware_use",
+   "label": ".use()",
+   "file_type": "code",
+   "source_file": "nest/src/common/logger.middleware.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "common_logging_interceptor",
+   "label": "logging.interceptor.ts",
+   "file_type": "code",
+   "source_file": "nest/src/common/logging.interceptor.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "common_logging_interceptor_logginginterceptor",
+   "label": "LoggingInterceptor",
+   "file_type": "code",
+   "source_file": "nest/src/common/logging.interceptor.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "common_logging_interceptor_logginginterceptor_intercept",
+   "label": ".intercept()",
+   "file_type": "code",
+   "source_file": "nest/src/common/logging.interceptor.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "common_roles_guard",
+   "label": "roles.guard.ts",
+   "file_type": "code",
+   "source_file": "nest/src/common/roles.guard.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "common_roles_guard_rolesguard",
+   "label": "RolesGuard",
+   "file_type": "code",
+   "source_file": "nest/src/common/roles.guard.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "common_roles_guard_rolesguard_canactivate",
+   "label": ".canActivate()",
+   "file_type": "code",
+   "source_file": "nest/src/common/roles.guard.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "config_config_service",
+   "label": "config.service.ts",
+   "file_type": "code",
+   "source_file": "nest/src/config/config.service.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "config_config_service_configservice",
+   "label": "ConfigService",
+   "file_type": "code",
+   "source_file": "nest/src/config/config.service.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "config_config_service_configservice_get",
+   "label": ".get()",
+   "file_type": "code",
+   "source_file": "nest/src/config/config.service.ts",
+   "source_location": "L2"
+  },
+  {
+   "id": "dogs_dogs_controller",
+   "label": "dogs.controller.ts",
+   "file_type": "code",
+   "source_file": "nest/src/dogs/dogs.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "dogs_dogs_controller_dogscontroller",
+   "label": "DogsController",
+   "file_type": "code",
+   "source_file": "nest/src/dogs/dogs.controller.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "events_event_entity",
+   "label": "event.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/events/event.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "events_event_entity_event",
+   "label": "Event",
+   "file_type": "code",
+   "source_file": "nest/src/events/event.entity.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "events_organizer_entity",
+   "label": "organizer.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/events/organizer.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "events_organizer_entity_organizerentity",
+   "label": "OrganizerEntity",
+   "file_type": "code",
+   "source_file": "nest/src/events/organizer.entity.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "events_ticket_entity",
+   "label": "ticket.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/events/ticket.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "events_ticket_entity_ticket",
+   "label": "Ticket",
+   "file_type": "code",
+   "source_file": "nest/src/events/ticket.entity.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "legacy_cats_service",
+   "label": "cats.service.ts",
+   "file_type": "code",
+   "source_file": "nest/src/legacy/cats.service.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "legacy_cats_service_catsservice",
+   "label": "CatsService",
+   "file_type": "code",
+   "source_file": "nest/src/legacy/cats.service.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "legacy_cats_service_catsservice_findall",
+   "label": ".findAll()",
+   "file_type": "code",
+   "source_file": "nest/src/legacy/cats.service.ts",
+   "source_location": "L2"
+  },
+  {
+   "id": "legacy_owner",
+   "label": "owner.ts",
+   "file_type": "code",
+   "source_file": "nest/src/legacy/owner.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "legacy_owner_owner",
+   "label": "Owner",
+   "file_type": "code",
+   "source_file": "nest/src/legacy/owner.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "log_log_controller",
+   "label": "log.controller.ts",
+   "file_type": "code",
+   "source_file": "nest/src/log/log.controller.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "log_log_controller_logcontroller",
+   "label": "LogController",
+   "file_type": "code",
+   "source_file": "nest/src/log/log.controller.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "log_log_controller_logcontroller_tail",
+   "label": ".tail()",
+   "file_type": "code",
+   "source_file": "nest/src/log/log.controller.ts",
+   "source_location": "L8"
+  },
+  {
+   "id": "nest_src_main_ts_src_main",
+   "label": "main.ts",
+   "file_type": "code",
+   "source_file": "nest/src/main.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "nest_src_main_ts_src_main_bootstrap",
+   "label": "bootstrap()",
+   "file_type": "code",
+   "source_file": "nest/src/main.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "orders_audio_consumer",
+   "label": "audio.consumer.ts",
+   "file_type": "code",
+   "source_file": "nest/src/orders/audio.consumer.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "orders_audio_consumer_audioconsumer",
+   "label": "AudioConsumer",
+   "file_type": "code",
+   "source_file": "nest/src/orders/audio.consumer.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "orders_audio_consumer_audioconsumer_transcode",
+   "label": ".transcode()",
+   "file_type": "code",
+   "source_file": "nest/src/orders/audio.consumer.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "orders_events_gateway",
+   "label": "events.gateway.ts",
+   "file_type": "code",
+   "source_file": "nest/src/orders/events.gateway.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "orders_events_gateway_eventsgateway",
+   "label": "EventsGateway",
+   "file_type": "code",
+   "source_file": "nest/src/orders/events.gateway.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "orders_events_gateway_eventsgateway_handleevent",
+   "label": ".handleEvent()",
+   "file_type": "code",
+   "source_file": "nest/src/orders/events.gateway.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "orders_orders_events",
+   "label": "orders.events.ts",
+   "file_type": "code",
+   "source_file": "nest/src/orders/orders.events.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "orders_orders_events_ordersevents",
+   "label": "OrdersEvents",
+   "file_type": "code",
+   "source_file": "nest/src/orders/orders.events.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "orders_orders_events_ordersevents_handleordercreated",
+   "label": ".handleOrderCreated()",
+   "file_type": "code",
+   "source_file": "nest/src/orders/orders.events.ts",
+   "source_location": "L7"
+  },
+  {
+   "id": "orders_orders_events_ordersevents_accumulate",
+   "label": ".accumulate()",
+   "file_type": "code",
+   "source_file": "nest/src/orders/orders.events.ts",
+   "source_location": "L12"
+  },
+  {
+   "id": "orders_orders_module",
+   "label": "orders.module.ts",
+   "file_type": "code",
+   "source_file": "nest/src/orders/orders.module.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "orders_orders_module_ordersmodule",
+   "label": "OrdersModule",
+   "file_type": "code",
+   "source_file": "nest/src/orders/orders.module.ts",
+   "source_location": "L7"
+  },
+  {
+   "id": "owners_address_entity",
+   "label": "address.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/owners/address.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "owners_address_entity_address",
+   "label": "Address",
+   "file_type": "code",
+   "source_file": "nest/src/owners/address.entity.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "owners_index",
+   "label": "index.ts",
+   "file_type": "code",
+   "source_file": "nest/src/owners/index.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "owners_owner_entity",
+   "label": "owner.entity.ts",
+   "file_type": "code",
+   "source_file": "nest/src/owners/owner.entity.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "owners_owner_entity_owner",
+   "label": "Owner",
+   "file_type": "code",
+   "source_file": "nest/src/owners/owner.entity.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "test_app_e2e_spec",
+   "label": "app.e2e-spec.ts",
+   "file_type": "code",
+   "source_file": "nest/test/app.e2e-spec.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "nest_tsconfig",
+   "label": "tsconfig.json",
+   "file_type": "code",
+   "source_file": "nest/tsconfig.json",
+   "source_location": "L1"
+  },
+  {
+   "id": "nest_tsconfig_compileroptions",
+   "label": "compilerOptions",
+   "file_type": "code",
+   "source_file": "nest/tsconfig.json",
+   "source_location": "L2"
+  },
+  {
+   "id": "nest_tsconfig_compileroptions_baseurl",
+   "label": "baseUrl",
+   "file_type": "code",
+   "source_file": "nest/tsconfig.json",
+   "source_location": "L3"
+  },
+  {
+   "id": "nest_tsconfig_compileroptions_paths",
+   "label": "paths",
+   "file_type": "code",
+   "source_file": "nest/tsconfig.json",
+   "source_location": "L4"
+  },
+  {
+   "id": "nest_tsconfig_paths_common",
+   "label": "@common/*",
+   "file_type": "code",
+   "source_file": "nest/tsconfig.json",
+   "source_location": "L4"
+  },
+  {
+   "id": "app_app_routes",
+   "label": "app.routes.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/app.routes.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "app_app_routes_routes",
+   "label": "routes",
+   "file_type": "code",
+   "source_file": "ng/src/app/app.routes.ts",
+   "source_location": "L8"
+  },
+  {
+   "id": "app_auth_guard",
+   "label": "auth.guard.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/auth.guard.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "app_auth_guard_authguard",
+   "label": "authGuard()",
+   "file_type": "code",
+   "source_file": "ng/src/app/auth.guard.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "app_hero_service",
+   "label": "hero.service.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/hero.service.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "app_hero_service_heroservice",
+   "label": "HeroService",
+   "file_type": "code",
+   "source_file": "ng/src/app/hero.service.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "app_hero_service_heroservice_constructor",
+   "label": ".constructor()",
+   "file_type": "code",
+   "source_file": "ng/src/app/hero.service.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "app_hero_service_heroservice_all",
+   "label": ".all()",
+   "file_type": "code",
+   "source_file": "ng/src/app/hero.service.ts",
+   "source_location": "L8"
+  },
+  {
+   "id": "heroes_hero_detail_component",
+   "label": "hero-detail.component.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/heroes/hero-detail.component.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "heroes_hero_detail_component_herodetailcomponent",
+   "label": "HeroDetailComponent",
+   "file_type": "code",
+   "source_file": "ng/src/app/heroes/hero-detail.component.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "heroes_heroes_component",
+   "label": "heroes.component.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/heroes/heroes.component.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "heroes_heroes_component_heroescomponent",
+   "label": "HeroesComponent",
+   "file_type": "code",
+   "source_file": "ng/src/app/heroes/heroes.component.ts",
+   "source_location": "L6"
+  },
+  {
+   "id": "heroes_heroes_component_heroescomponent_constructor",
+   "label": ".constructor()",
+   "file_type": "code",
+   "source_file": "ng/src/app/heroes/heroes.component.ts",
+   "source_location": "L9"
+  },
+  {
+   "id": "heroes_heroes_component_heroescomponent_load",
+   "label": ".load()",
+   "file_type": "code",
+   "source_file": "ng/src/app/heroes/heroes.component.ts",
+   "source_location": "L11"
+  },
+  {
+   "id": "app_message_service",
+   "label": "message.service.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/message.service.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "app_message_service_messageservice",
+   "label": "MessageService",
+   "file_type": "code",
+   "source_file": "ng/src/app/message.service.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "app_message_service_messageservice_add",
+   "label": ".add()",
+   "file_type": "code",
+   "source_file": "ng/src/app/message.service.ts",
+   "source_location": "L5"
+  },
+  {
+   "id": "orders_list_component",
+   "label": "list.component.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/orders/list.component.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "orders_list_component_listcomponent",
+   "label": "ListComponent",
+   "file_type": "code",
+   "source_file": "ng/src/app/orders/list.component.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "users_list_component",
+   "label": "list.component.ts",
+   "file_type": "code",
+   "source_file": "ng/src/app/users/list.component.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "users_list_component_listcomponent",
+   "label": "ListComponent",
+   "file_type": "code",
+   "source_file": "ng/src/app/users/list.component.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "subpath_package",
+   "label": "package.json",
+   "file_type": "code",
+   "source_file": "subpath/package.json",
+   "source_location": "L1"
+  },
+  {
+   "id": "subpath_package_name",
+   "label": "name",
+   "file_type": "code",
+   "source_file": "subpath/package.json",
+   "source_location": "L1"
+  },
+  {
+   "id": "subpath_package_type",
+   "label": "type",
+   "file_type": "code",
+   "source_file": "subpath/package.json",
+   "source_location": "L1"
+  },
+  {
+   "id": "subpath_package_imports",
+   "label": "imports",
+   "file_type": "code",
+   "source_file": "subpath/package.json",
+   "source_location": "L1"
+  },
+  {
+   "id": "subpath_package_imports_src",
+   "label": "#src/*",
+   "file_type": "code",
+   "source_file": "subpath/package.json",
+   "source_location": "L1"
+  },
+  {
+   "id": "subpath_src_controllers_users_ts_controllers_users",
+   "label": "users.ts",
+   "file_type": "code",
+   "source_file": "subpath/src/controllers/users.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "controllers_users_listusers",
+   "label": "listUsers()",
+   "file_type": "code",
+   "source_file": "subpath/src/controllers/users.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "repos_users_repo",
+   "label": "users.repo.ts",
+   "file_type": "code",
+   "source_file": "subpath/src/repos/users.repo.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "repos_users_repo_usersrepo",
+   "label": "UsersRepo",
+   "file_type": "code",
+   "source_file": "subpath/src/repos/users.repo.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "subpath_src_routes_ts_src_routes",
+   "label": "routes.ts",
+   "file_type": "code",
+   "source_file": "subpath/src/routes.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "subpath_src_routes_ts_src_routes_router",
+   "label": "router",
+   "file_type": "code",
+   "source_file": "subpath/src/routes.ts",
+   "source_location": "L4"
+  },
+  {
+   "id": "shared_base_repo",
+   "label": "base.repo.ts",
+   "file_type": "code",
+   "source_file": "subpath/src/shared/base.repo.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "shared_base_repo_baserepo",
+   "label": "BaseRepo",
+   "file_type": "code",
+   "source_file": "subpath/src/shared/base.repo.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "health_route",
+   "label": "route.ts",
+   "file_type": "code",
+   "source_file": "web/app/(marketing)/api/health/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "health_route_get",
+   "label": "GET()",
+   "file_type": "code",
+   "source_file": "web/app/(marketing)/api/health/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "internal_route",
+   "label": "route.ts",
+   "file_type": "code",
+   "source_file": "web/app/_lib/internal/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "internal_route_get",
+   "label": "GET()",
+   "file_type": "code",
+   "source_file": "web/app/_lib/internal/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "id_route",
+   "label": "route.ts",
+   "file_type": "code",
+   "source_file": "web/app/api/users/[id]/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "id_route_get",
+   "label": "GET()",
+   "file_type": "code",
+   "source_file": "web/app/api/users/[id]/route.ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "id_route_delete",
+   "label": "DELETE()",
+   "file_type": "code",
+   "source_file": "web/app/api/users/[id]/route.ts",
+   "source_location": "L7"
+  },
+  {
+   "id": "id_route_patch",
+   "label": "PATCH()",
+   "file_type": "code",
+   "source_file": "web/app/api/users/[id]/route.ts",
+   "source_location": "L11"
+  },
+  {
+   "id": "slug_route",
+   "label": "route.ts",
+   "file_type": "code",
+   "source_file": "web/app/docs/[...slug]/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "slug_route_get",
+   "label": "GET()",
+   "file_type": "code",
+   "source_file": "web/app/docs/[...slug]/route.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "items_itemid",
+   "label": "[itemId].ts",
+   "file_type": "code",
+   "source_file": "web/pages/api/items/[itemId].ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "items_itemid_handler",
+   "label": "handler()",
+   "file_type": "code",
+   "source_file": "web/pages/api/items/[itemId].ts",
+   "source_location": "L3"
+  },
+  {
+   "id": "legacy_index",
+   "label": "index.js",
+   "file_type": "code",
+   "source_file": "web/pages/api/legacy/index.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "legacy_index_legacyhandler",
+   "label": "legacyHandler()",
+   "file_type": "code",
+   "source_file": "web/pages/api/legacy/index.js",
+   "source_location": "L1"
+  },
+  {
+   "id": "zod_schemas",
+   "label": "schemas.ts",
+   "file_type": "code",
+   "source_file": "zod/schemas.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "zod_schemas_zodtype",
+   "label": "ZodType",
+   "file_type": "code",
+   "source_file": "zod/schemas.ts",
+   "source_location": "L1"
+  },
+  {
+   "id": "zod_schemas_zodstring",
+   "label": "ZodString",
+   "file_type": "code",
+   "source_file": "zod/schemas.ts",
+   "source_location": "L6"
+  }
+ ],
+ "links": [
+  {
+   "source": "controllers_articles",
+   "target": "controllers_articles_show",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/controllers/articles.ts"
+  },
+  {
+   "source": "controllers_legacy_controller",
+   "target": "controllers_legacy_controller_legacycontroller",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/controllers/legacy.controller.ts"
+  },
+  {
+   "source": "controllers_legacy_controller_legacycontroller",
+   "target": "controllers_legacy_controller_legacycontroller_list",
+   "relation": "method",
+   "source_location": "L2",
+   "source_file": "express/controllers/legacy.controller.ts"
+  },
+  {
+   "source": "controllers_orders_controller",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/controllers/orders.controller.ts"
+  },
+  {
+   "source": "controllers_orders_controller",
+   "target": "controllers_orders_controller_orderscontroller",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "express/controllers/orders.controller.ts"
+  },
+  {
+   "source": "controllers_orders_controller_orderscontroller",
+   "target": "controllers_orders_controller_orderscontroller_constructor",
+   "relation": "method",
+   "source_location": "L6",
+   "source_file": "express/controllers/orders.controller.ts"
+  },
+  {
+   "source": "controllers_orders_controller_orderscontroller",
+   "target": "controllers_orders_controller_orderscontroller_list",
+   "relation": "method",
+   "source_location": "L11",
+   "source_file": "express/controllers/orders.controller.ts"
+  },
+  {
+   "source": "controllers_orders_controller_orderscontroller",
+   "target": "controllers_orders_controller_orderscontroller_create",
+   "relation": "method",
+   "source_location": "L15",
+   "source_file": "express/controllers/orders.controller.ts"
+  },
+  {
+   "source": "controllers_people",
+   "target": "controllers_people_show",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/controllers/people.ts"
+  },
+  {
+   "source": "controllers_products_controller",
+   "target": "middleware_async",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/controllers/products.controller.ts"
+  },
+  {
+   "source": "controllers_products_controller",
+   "target": "middleware_async_asynchandler",
+   "relation": "imports",
+   "source_location": "L1",
+   "source_file": "express/controllers/products.controller.ts"
+  },
+  {
+   "source": "controllers_products_controller",
+   "target": "controllers_products_controller_productscontroller",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "express/controllers/products.controller.ts"
+  },
+  {
+   "source": "controllers_products_controller_productscontroller",
+   "target": "controllers_products_controller_productscontroller_create",
+   "relation": "method",
+   "source_location": "L12",
+   "source_file": "express/controllers/products.controller.ts"
+  },
+  {
+   "source": "lib_compiled",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "express/lib/compiled.js"
+  },
+  {
+   "source": "lib_compiled",
+   "target": "lib_compiled_express_1",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "express/lib/compiled.js"
+  },
+  {
+   "source": "lib_compiled",
+   "target": "lib_compiled_compiledroutes",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "express/lib/compiled.js"
+  },
+  {
+   "source": "lib_compiled_compiledroutes",
+   "target": "lib_compiled_compiledroutes_constructor",
+   "relation": "method",
+   "source_location": "L6",
+   "source_file": "express/lib/compiled.js"
+  },
+  {
+   "source": "lib_compiled_compiledroutes",
+   "target": "lib_compiled_compiledroutes_list",
+   "relation": "method",
+   "source_location": "L10",
+   "source_file": "express/lib/compiled.js"
+  },
+  {
+   "source": "middleware_async",
+   "target": "middleware_async_asynchandler",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/middleware/async.ts"
+  },
+  {
+   "source": "middleware_auth",
+   "target": "middleware_auth_requireauth",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/middleware/auth.js"
+  },
+  {
+   "source": "middleware_validate",
+   "target": "middleware_validate_validate",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/middleware/validate.js"
+  },
+  {
+   "source": "routes_badges",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/routes/badges.js"
+  },
+  {
+   "source": "routes_badges",
+   "target": "routes_badges_express",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/routes/badges.js"
+  },
+  {
+   "source": "routes_badges",
+   "target": "routes_badges_router",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "express/routes/badges.js"
+  },
+  {
+   "source": "routes_badges",
+   "target": "routes_badges_listbadges",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "express/routes/badges.js"
+  },
+  {
+   "source": "routes_forms",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/routes/forms.ts"
+  },
+  {
+   "source": "routes_forms",
+   "target": "controllers_articles",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/routes/forms.ts"
+  },
+  {
+   "source": "routes_forms",
+   "target": "controllers_articles_show",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "express/routes/forms.ts"
+  },
+  {
+   "source": "routes_forms",
+   "target": "controllers_articles",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "express/routes/forms.ts"
+  },
+  {
+   "source": "routes_forms",
+   "target": "routes_forms_router",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "express/routes/forms.ts"
+  },
+  {
+   "source": "routes_forms",
+   "target": "routes_forms_show",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "express/routes/forms.ts"
+  },
+  {
+   "source": "express_routes_index_js_routes_index",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/routes/index.js"
+  },
+  {
+   "source": "express_routes_index_js_routes_index",
+   "target": "routes_index_express",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/routes/index.js"
+  },
+  {
+   "source": "express_routes_index_js_routes_index",
+   "target": "routes_users",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/routes/index.js"
+  },
+  {
+   "source": "express_routes_index_js_routes_index",
+   "target": "routes_index_usersrouter",
+   "relation": "contains",
+   "source_location": "L2",
+   "source_file": "express/routes/index.js"
+  },
+  {
+   "source": "express_routes_index_js_routes_index",
+   "target": "routes_index_router",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "express/routes/index.js"
+  },
+  {
+   "source": "express_routes_index_js_routes_index",
+   "target": "routes_index_mounted",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "express/routes/index.js"
+  },
+  {
+   "source": "routes_legacy",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/routes/legacy.ts"
+  },
+  {
+   "source": "routes_legacy",
+   "target": "controllers_legacy_controller",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/routes/legacy.ts"
+  },
+  {
+   "source": "routes_legacy",
+   "target": "controllers_legacy_controller_legacycontroller",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "express/routes/legacy.ts"
+  },
+  {
+   "source": "routes_legacy",
+   "target": "routes_legacy_router",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "express/routes/legacy.ts"
+  },
+  {
+   "source": "routes_legacy",
+   "target": "routes_legacy_legacy",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "express/routes/legacy.ts"
+  },
+  {
+   "source": "routes_mvc",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/routes/mvc.ts"
+  },
+  {
+   "source": "routes_mvc",
+   "target": "controllers_articles",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/routes/mvc.ts"
+  },
+  {
+   "source": "routes_mvc",
+   "target": "controllers_people",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "express/routes/mvc.ts"
+  },
+  {
+   "source": "routes_mvc",
+   "target": "routes_mvc_router",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "express/routes/mvc.ts"
+  },
+  {
+   "source": "routes_products_route",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/routes/products.route.ts"
+  },
+  {
+   "source": "routes_products_route",
+   "target": "controllers_products_controller",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/routes/products.route.ts"
+  },
+  {
+   "source": "routes_products_route",
+   "target": "controllers_products_controller_productscontroller",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "express/routes/products.route.ts"
+  },
+  {
+   "source": "routes_products_route",
+   "target": "middleware_auth",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "express/routes/products.route.ts"
+  },
+  {
+   "source": "routes_products_route",
+   "target": "middleware_auth_requireauth",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "express/routes/products.route.ts"
+  },
+  {
+   "source": "routes_products_route",
+   "target": "routes_products_route_productsroute",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "express/routes/products.route.ts"
+  },
+  {
+   "source": "routes_products_route_productsroute",
+   "target": "routes_products_route_productsroute_constructor",
+   "relation": "method",
+   "source_location": "L12",
+   "source_file": "express/routes/products.route.ts"
+  },
+  {
+   "source": "routes_users",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_express",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "controllers_users",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_controller",
+   "relation": "contains",
+   "source_location": "L2",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "middleware_validate",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "middleware_validate_validate",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_validate",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "express_async_handler",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_asynchandler",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_router",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_notafunction",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_listusers",
+   "relation": "contains",
+   "source_location": "L9",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_createuser",
+   "relation": "contains",
+   "source_location": "L13",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_getuser",
+   "relation": "contains",
+   "source_location": "L24",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_updateuser",
+   "relation": "contains",
+   "source_location": "L28",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_buildhandler",
+   "relation": "contains",
+   "source_location": "L32",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "routes_users",
+   "target": "routes_users_proxy",
+   "relation": "contains",
+   "source_location": "L41",
+   "source_file": "express/routes/users.js"
+  },
+  {
+   "source": "express_server",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "express_server_express",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "routes_index",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "express_server_apirouter",
+   "relation": "contains",
+   "source_location": "L2",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "middleware_auth",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "middleware_auth_requireauth",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "express_server_requireauth",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "express_server_app",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "express_server",
+   "target": "express_server_health",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "express/server.js"
+  },
+  {
+   "source": "test_users_test",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "express/test/users.test.js"
+  },
+  {
+   "source": "test_users_test",
+   "target": "test_users_test_express",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "express/test/users.test.js"
+  },
+  {
+   "source": "test_users_test",
+   "target": "routes_users",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "express/test/users.test.js"
+  },
+  {
+   "source": "test_users_test",
+   "target": "test_users_test_usersrouter",
+   "relation": "contains",
+   "source_location": "L2",
+   "source_file": "express/test/users.test.js"
+  },
+  {
+   "source": "test_users_test",
+   "target": "test_users_test_app",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "express/test/users.test.js"
+  },
+  {
+   "source": "hooks_auth",
+   "target": "hooks_auth_authenticate",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "fastify/hooks/auth.ts"
+  },
+  {
+   "source": "routes_items",
+   "target": "fastify",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "fastify/routes/items.ts"
+  },
+  {
+   "source": "routes_items",
+   "target": "routes_items_listitems",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "fastify/routes/items.ts"
+  },
+  {
+   "source": "routes_items",
+   "target": "routes_items_getitem",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "fastify/routes/items.ts"
+  },
+  {
+   "source": "routes_items",
+   "target": "routes_items_itemroutes",
+   "relation": "contains",
+   "source_location": "L11",
+   "source_file": "fastify/routes/items.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "fastify",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "routes_items",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "hooks_auth",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "hooks_auth_authenticate",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "fastify_server_app",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "fastify_server_getstatus",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "fastify_server_ping",
+   "relation": "contains",
+   "source_location": "L11",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "fastify_server_handler",
+   "relation": "contains",
+   "source_location": "L15",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "collab_route",
+   "target": "collab_route_post",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "forge/apps/app/app/api/collab/route.ts"
+  },
+  {
+   "source": "app_next_config",
+   "target": "app_next_config_nextconfig",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "forge/apps/app/next.config.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "hono",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "hono_posts",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "hono_posts_listposts",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "routes_index",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "routes_index_authors",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "hono_index_api",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "hono_index_books",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "hono_index_getbook",
+   "relation": "contains",
+   "source_location": "L8",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "hono_index_updatepost",
+   "relation": "contains",
+   "source_location": "L12",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "hono_posts",
+   "target": "hono_posts_listposts",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "hono/posts.ts"
+  },
+  {
+   "source": "routes_authors",
+   "target": "hono",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "hono/routes/authors.ts"
+  },
+  {
+   "source": "routes_authors",
+   "target": "routes_authors_authors",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "hono/routes/authors.ts"
+  },
+  {
+   "source": "routes_authors",
+   "target": "routes_authors_listauthors",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "hono/routes/authors.ts"
+  },
+  {
+   "source": "hono_routes_index_ts_routes_index",
+   "target": "routes_authors",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "hono/routes/index.ts"
+  },
+  {
+   "source": "controller_general",
+   "target": "koa",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "koa2/src/controller/general.ts"
+  },
+  {
+   "source": "controller_general",
+   "target": "controller_general_generalcontroller",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "koa2/src/controller/general.ts"
+  },
+  {
+   "source": "controller_general_generalcontroller",
+   "target": "controller_general_generalcontroller_helloworld",
+   "relation": "method",
+   "source_location": "L4",
+   "source_file": "koa2/src/controller/general.ts"
+  },
+  {
+   "source": "controller_index",
+   "target": "controller_general",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "koa2/src/controller/index.ts"
+  },
+  {
+   "source": "controller_index",
+   "target": "controller_user",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "koa2/src/controller/index.ts"
+  },
+  {
+   "source": "controller_index",
+   "target": "controller_status",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "koa2/src/controller/index.ts"
+  },
+  {
+   "source": "controller_status",
+   "target": "koa",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "koa2/src/controller/status.ts"
+  },
+  {
+   "source": "controller_status",
+   "target": "controller_status_statuscontroller",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "koa2/src/controller/status.ts"
+  },
+  {
+   "source": "controller_status_statuscontroller",
+   "target": "controller_status_statuscontroller_show",
+   "relation": "method",
+   "source_location": "L4",
+   "source_file": "koa2/src/controller/status.ts"
+  },
+  {
+   "source": "controller_user",
+   "target": "koa",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "koa2/src/controller/user.ts"
+  },
+  {
+   "source": "controller_user",
+   "target": "controller_user_usercontroller",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "koa2/src/controller/user.ts"
+  },
+  {
+   "source": "controller_user_usercontroller",
+   "target": "controller_user_usercontroller_getusers",
+   "relation": "method",
+   "source_location": "L4",
+   "source_file": "koa2/src/controller/user.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "router",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "controller_index",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "controller_index_general",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "controller_index_user",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "controller_index_status",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "koa2_src_routes_ts_src_routes_router",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "koa_books",
+   "target": "koa",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "koa_books",
+   "target": "koa_books_koa",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "koa_books",
+   "target": "router",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "koa_books",
+   "target": "koa_books_router",
+   "relation": "contains",
+   "source_location": "L2",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "koa_books",
+   "target": "koa_books_app",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "koa_books",
+   "target": "koa_books_router",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "koa_books",
+   "target": "koa_books_listbooks",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "koa_books",
+   "target": "koa_books_removebook",
+   "relation": "contains",
+   "source_location": "L11",
+   "source_file": "koa/books.js"
+  },
+  {
+   "source": "misc_base_repo",
+   "target": "misc_base_repo_baserepo",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "misc/base.repo.ts"
+  },
+  {
+   "source": "misc_legacy_controller",
+   "target": "misc_legacy_controller_legacycontroller",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "misc/legacy.controller.ts"
+  },
+  {
+   "source": "misc_legacy_controller_legacycontroller",
+   "target": "misc_legacy_controller_legacycontroller_list",
+   "relation": "method",
+   "source_location": "L2",
+   "source_file": "misc/legacy.controller.ts"
+  },
+  {
+   "source": "misc_lookalikes",
+   "target": "axios",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "misc/lookalikes.ts"
+  },
+  {
+   "source": "misc_lookalikes",
+   "target": "misc_lookalikes_cache",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "misc/lookalikes.ts"
+  },
+  {
+   "source": "misc_lookalikes",
+   "target": "misc_lookalikes_client",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "misc/lookalikes.ts"
+  },
+  {
+   "source": "misc_lookalikes",
+   "target": "misc_lookalikes_onusers",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "misc/lookalikes.ts"
+  },
+  {
+   "source": "misc_lookalikes",
+   "target": "misc_lookalikes_load",
+   "relation": "contains",
+   "source_location": "L10",
+   "source_file": "misc/lookalikes.ts"
+  },
+  {
+   "source": "misc_model",
+   "target": "misc_model_model",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "misc/model.ts"
+  },
+  {
+   "source": "misc_organizer",
+   "target": "misc_organizer_organizer",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "misc/organizer.ts"
+  },
+  {
+   "source": "misc_post",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "misc/post.ts"
+  },
+  {
+   "source": "misc_post",
+   "target": "misc_post_post",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "misc/post.ts"
+  },
+  {
+   "source": "misc_users",
+   "target": "misc_users_listusers",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "misc/users.ts"
+  },
+  {
+   "source": "misc_widget",
+   "target": "react",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "misc/widget.tsx"
+  },
+  {
+   "source": "misc_widget",
+   "target": "misc_widget_widget",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "misc/widget.tsx"
+  },
+  {
+   "source": "src_jobs_controller",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest2/src/jobs.controller.ts"
+  },
+  {
+   "source": "src_jobs_controller",
+   "target": "src_jobs_controller_jobscontroller",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest2/src/jobs.controller.ts"
+  },
+  {
+   "source": "src_jobs_controller_jobscontroller",
+   "target": "src_jobs_controller_jobscontroller_enqueue",
+   "relation": "method",
+   "source_location": "L6",
+   "source_file": "nest2/src/jobs.controller.ts"
+  },
+  {
+   "source": "nest2_src_main_ts_src_main",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest2/src/main.ts"
+  },
+  {
+   "source": "nest2_src_main_ts_src_main",
+   "target": "tmp_dmts_capture_ciunp8xb_app_nest2_src_worker_module",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest2/src/main.ts"
+  },
+  {
+   "source": "nest2_src_main_ts_src_main",
+   "target": "src_worker_workermodule",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest2/src/main.ts"
+  },
+  {
+   "source": "nest2_src_main_ts_src_main",
+   "target": "nest2_src_main_ts_src_main_bootstrap",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest2/src/main.ts"
+  },
+  {
+   "source": "bootstrap_main",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest3/src/bootstrap/main.ts"
+  },
+  {
+   "source": "bootstrap_main",
+   "target": "tmp_dmts_capture_ciunp8xb_app_nest3_src_health_module",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest3/src/bootstrap/main.ts"
+  },
+  {
+   "source": "bootstrap_main",
+   "target": "src_health_healthmodule",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest3/src/bootstrap/main.ts"
+  },
+  {
+   "source": "bootstrap_main",
+   "target": "bootstrap_main_bootstrap",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest3/src/bootstrap/main.ts"
+  },
+  {
+   "source": "modules_health_controller",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest3/src/modules/health.controller.ts"
+  },
+  {
+   "source": "modules_health_controller",
+   "target": "modules_health_controller_healthcontroller",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest3/src/modules/health.controller.ts"
+  },
+  {
+   "source": "modules_health_controller_healthcontroller",
+   "target": "modules_health_controller_healthcontroller_check",
+   "relation": "method",
+   "source_location": "L6",
+   "source_file": "nest3/src/modules/health.controller.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "cats_cats_module",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "cats_cats_module_catsmodule",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "orders_orders_module",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "orders_orders_module_ordersmodule",
+   "relation": "imports",
+   "source_location": "L4",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "common_roles_guard",
+   "relation": "imports_from",
+   "source_location": "L5",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "common_roles_guard_rolesguard",
+   "relation": "imports",
+   "source_location": "L5",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "src_app_module",
+   "target": "src_app_module_appmodule",
+   "relation": "contains",
+   "source_location": "L11",
+   "source_file": "nest/src/app.module.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "owners_owner_entity",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "owners_owner_entity_owner",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "cats_toy_entity",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "cats_toy_entity_toy",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "cats_profile_entity",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "cats_profile_entity_profile",
+   "relation": "imports",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "cats_tag_entity",
+   "relation": "imports_from",
+   "source_location": "L5",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "cats_tag_entity_tag",
+   "relation": "imports",
+   "source_location": "L5",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "common_audited_entity",
+   "relation": "imports_from",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "common_audited_entity_auditedentity",
+   "relation": "imports",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity",
+   "target": "cats_cat_entity_cat",
+   "relation": "contains",
+   "source_location": "L9",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity_cat",
+   "target": "cats_cat_entity_cat_normalizename",
+   "relation": "method",
+   "source_location": "L31",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity_cat",
+   "target": "cats_cat_entity_cat_touch",
+   "relation": "method",
+   "source_location": "L36",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "passport",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "config",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "cats_cats_service",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "cats_cats_service_catsservice",
+   "relation": "imports",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "common_roles_guard",
+   "relation": "imports_from",
+   "source_location": "L5",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "common_roles_guard_rolesguard",
+   "relation": "imports",
+   "source_location": "L5",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "common_logging_interceptor",
+   "relation": "imports_from",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "common_logging_interceptor_logginginterceptor",
+   "relation": "imports",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller",
+   "target": "cats_cats_controller_catscontroller",
+   "relation": "contains",
+   "source_location": "L10",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller",
+   "target": "cats_cats_controller_catscontroller_constructor",
+   "relation": "method",
+   "source_location": "L11",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller",
+   "target": "cats_cats_controller_catscontroller_findall",
+   "relation": "method",
+   "source_location": "L18",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller",
+   "target": "cats_cats_controller_catscontroller_findone",
+   "relation": "method",
+   "source_location": "L24",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller",
+   "target": "cats_cats_controller_catscontroller_create",
+   "relation": "method",
+   "source_location": "L30",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller",
+   "target": "cats_cats_controller_catscontroller_update",
+   "relation": "method",
+   "source_location": "L36",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller",
+   "target": "cats_cats_controller_catscontroller_remove",
+   "relation": "method",
+   "source_location": "L42",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller",
+   "target": "cats_cats_controller_catscontroller_events",
+   "relation": "method",
+   "source_location": "L47",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller_events",
+   "target": "cats_cats_controller_catscontroller_findall",
+   "relation": "calls",
+   "source_location": "L48",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "cats_cats_controller",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "cats_cats_controller_catscontroller",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "cats_cats_service",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "cats_cats_service_catsservice",
+   "relation": "imports",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "cats_cat_entity",
+   "relation": "imports_from",
+   "source_location": "L5",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "cats_cat_entity_cat",
+   "relation": "imports",
+   "source_location": "L5",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "common_logger_middleware",
+   "relation": "imports_from",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "common_logger_middleware_loggermiddleware",
+   "relation": "imports",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module",
+   "target": "cats_cats_module_catsmodule",
+   "relation": "contains",
+   "source_location": "L14",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_module_catsmodule",
+   "target": "cats_cats_module_catsmodule_configure",
+   "relation": "method",
+   "source_location": "L15",
+   "source_file": "nest/src/cats/cats.module.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "schedule",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "event_emitter",
+   "relation": "imports_from",
+   "source_location": "L5",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "cats_cat_entity",
+   "relation": "imports_from",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "cats_cat_entity_cat",
+   "relation": "imports",
+   "source_location": "L6",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service",
+   "target": "cats_cats_service_catsservice",
+   "relation": "contains",
+   "source_location": "L9",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_constructor",
+   "relation": "method",
+   "source_location": "L10",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_findall",
+   "relation": "method",
+   "source_location": "L15",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_findone",
+   "relation": "method",
+   "source_location": "L16",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_create",
+   "relation": "method",
+   "source_location": "L17",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_update",
+   "relation": "method",
+   "source_location": "L18",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_remove",
+   "relation": "method",
+   "source_location": "L19",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_purgestale",
+   "relation": "method",
+   "source_location": "L22",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_heartbeat",
+   "relation": "method",
+   "source_location": "L25",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice",
+   "target": "cats_cats_service_catsservice_oncatcreated",
+   "relation": "method",
+   "source_location": "L28",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "cats_profile_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/cats/profile.entity.ts"
+  },
+  {
+   "source": "cats_profile_entity",
+   "target": "cats_profile_entity_profile",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/profile.entity.ts"
+  },
+  {
+   "source": "cats_tag_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/cats/tag.entity.ts"
+  },
+  {
+   "source": "cats_tag_entity",
+   "target": "cats_tag_entity_tag",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/tag.entity.ts"
+  },
+  {
+   "source": "cats_toy_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/cats/toy.entity.ts"
+  },
+  {
+   "source": "cats_toy_entity",
+   "target": "cats_toy_entity_toy",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/cats/toy.entity.ts"
+  },
+  {
+   "source": "common_audited_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/common/audited.entity.ts"
+  },
+  {
+   "source": "common_audited_entity",
+   "target": "common_audited_entity_auditedentity",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "nest/src/common/audited.entity.ts"
+  },
+  {
+   "source": "common_crud_controller",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/common/crud.controller.ts"
+  },
+  {
+   "source": "common_crud_controller",
+   "target": "common_crud_controller_crudcontroller",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "nest/src/common/crud.controller.ts"
+  },
+  {
+   "source": "common_crud_controller_crudcontroller",
+   "target": "common_crud_controller_crudcontroller_findone",
+   "relation": "method",
+   "source_location": "L5",
+   "source_file": "nest/src/common/crud.controller.ts"
+  },
+  {
+   "source": "common_logger_middleware",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/common/logger.middleware.ts"
+  },
+  {
+   "source": "common_logger_middleware",
+   "target": "common_logger_middleware_loggermiddleware",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/common/logger.middleware.ts"
+  },
+  {
+   "source": "common_logger_middleware_loggermiddleware",
+   "target": "common_logger_middleware_loggermiddleware_use",
+   "relation": "method",
+   "source_location": "L5",
+   "source_file": "nest/src/common/logger.middleware.ts"
+  },
+  {
+   "source": "common_logging_interceptor",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/common/logging.interceptor.ts"
+  },
+  {
+   "source": "common_logging_interceptor",
+   "target": "common_logging_interceptor_logginginterceptor",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/common/logging.interceptor.ts"
+  },
+  {
+   "source": "common_logging_interceptor_logginginterceptor",
+   "target": "common_logging_interceptor_logginginterceptor_intercept",
+   "relation": "method",
+   "source_location": "L5",
+   "source_file": "nest/src/common/logging.interceptor.ts"
+  },
+  {
+   "source": "common_roles_guard",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/common/roles.guard.ts"
+  },
+  {
+   "source": "common_roles_guard",
+   "target": "common_roles_guard_rolesguard",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/common/roles.guard.ts"
+  },
+  {
+   "source": "common_roles_guard_rolesguard",
+   "target": "common_roles_guard_rolesguard_canactivate",
+   "relation": "method",
+   "source_location": "L5",
+   "source_file": "nest/src/common/roles.guard.ts"
+  },
+  {
+   "source": "config_config_service",
+   "target": "config_config_service_configservice",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "nest/src/config/config.service.ts"
+  },
+  {
+   "source": "config_config_service_configservice",
+   "target": "config_config_service_configservice_get",
+   "relation": "method",
+   "source_location": "L2",
+   "source_file": "nest/src/config/config.service.ts"
+  },
+  {
+   "source": "dogs_dogs_controller",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/dogs/dogs.controller.ts"
+  },
+  {
+   "source": "dogs_dogs_controller",
+   "target": "common_crud_controller",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/dogs/dogs.controller.ts"
+  },
+  {
+   "source": "dogs_dogs_controller",
+   "target": "common_crud_controller_crudcontroller",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/src/dogs/dogs.controller.ts"
+  },
+  {
+   "source": "dogs_dogs_controller",
+   "target": "dogs_dogs_controller_dogscontroller",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "nest/src/dogs/dogs.controller.ts"
+  },
+  {
+   "source": "events_event_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/events/event.entity.ts"
+  },
+  {
+   "source": "events_event_entity",
+   "target": "events_event_entity_event",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/events/event.entity.ts"
+  },
+  {
+   "source": "events_organizer_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/events/organizer.entity.ts"
+  },
+  {
+   "source": "events_organizer_entity",
+   "target": "events_organizer_entity_organizerentity",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/events/organizer.entity.ts"
+  },
+  {
+   "source": "events_ticket_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "events_ticket_entity",
+   "target": "events_event_entity",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "events_ticket_entity",
+   "target": "events_event_entity_event",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "events_ticket_entity",
+   "target": "events_organizer_entity",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "events_ticket_entity",
+   "target": "events_ticket_entity_ticket",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "legacy_cats_service",
+   "target": "legacy_cats_service_catsservice",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "nest/src/legacy/cats.service.ts"
+  },
+  {
+   "source": "legacy_cats_service_catsservice",
+   "target": "legacy_cats_service_catsservice_findall",
+   "relation": "method",
+   "source_location": "L2",
+   "source_file": "nest/src/legacy/cats.service.ts"
+  },
+  {
+   "source": "legacy_owner",
+   "target": "legacy_owner_owner",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "nest/src/legacy/owner.ts"
+  },
+  {
+   "source": "log_log_controller",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/log/log.controller.ts"
+  },
+  {
+   "source": "log_log_controller",
+   "target": "common_roles_guard",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/log/log.controller.ts"
+  },
+  {
+   "source": "log_log_controller",
+   "target": "common_roles_guard_rolesguard",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/src/log/log.controller.ts"
+  },
+  {
+   "source": "log_log_controller",
+   "target": "log_log_controller_logcontroller",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "nest/src/log/log.controller.ts"
+  },
+  {
+   "source": "log_log_controller_logcontroller",
+   "target": "log_log_controller_logcontroller_tail",
+   "relation": "method",
+   "source_location": "L8",
+   "source_file": "nest/src/log/log.controller.ts"
+  },
+  {
+   "source": "nest_src_main_ts_src_main",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/main.ts"
+  },
+  {
+   "source": "nest_src_main_ts_src_main",
+   "target": "src_app_module",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/main.ts"
+  },
+  {
+   "source": "nest_src_main_ts_src_main",
+   "target": "src_app_module_appmodule",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/src/main.ts"
+  },
+  {
+   "source": "nest_src_main_ts_src_main",
+   "target": "nest_src_main_ts_src_main_bootstrap",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/main.ts"
+  },
+  {
+   "source": "orders_audio_consumer",
+   "target": "bull",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/orders/audio.consumer.ts"
+  },
+  {
+   "source": "orders_audio_consumer",
+   "target": "orders_audio_consumer_audioconsumer",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/orders/audio.consumer.ts"
+  },
+  {
+   "source": "orders_audio_consumer_audioconsumer",
+   "target": "orders_audio_consumer_audioconsumer_transcode",
+   "relation": "method",
+   "source_location": "L6",
+   "source_file": "nest/src/orders/audio.consumer.ts"
+  },
+  {
+   "source": "orders_events_gateway",
+   "target": "websockets",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/orders/events.gateway.ts"
+  },
+  {
+   "source": "orders_events_gateway",
+   "target": "orders_events_gateway_eventsgateway",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/orders/events.gateway.ts"
+  },
+  {
+   "source": "orders_events_gateway_eventsgateway",
+   "target": "orders_events_gateway_eventsgateway_handleevent",
+   "relation": "method",
+   "source_location": "L6",
+   "source_file": "nest/src/orders/events.gateway.ts"
+  },
+  {
+   "source": "orders_orders_events",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/orders/orders.events.ts"
+  },
+  {
+   "source": "orders_orders_events",
+   "target": "microservices",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/orders/orders.events.ts"
+  },
+  {
+   "source": "orders_orders_events",
+   "target": "orders_orders_events_ordersevents",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "nest/src/orders/orders.events.ts"
+  },
+  {
+   "source": "orders_orders_events_ordersevents",
+   "target": "orders_orders_events_ordersevents_handleordercreated",
+   "relation": "method",
+   "source_location": "L7",
+   "source_file": "nest/src/orders/orders.events.ts"
+  },
+  {
+   "source": "orders_orders_events_ordersevents",
+   "target": "orders_orders_events_ordersevents_accumulate",
+   "relation": "method",
+   "source_location": "L12",
+   "source_file": "nest/src/orders/orders.events.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "common",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "orders_orders_events",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "orders_orders_events_ordersevents",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "orders_audio_consumer",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "orders_audio_consumer_audioconsumer",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "orders_events_gateway",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "orders_events_gateway_eventsgateway",
+   "relation": "imports",
+   "source_location": "L4",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "orders_orders_module",
+   "target": "orders_orders_module_ordersmodule",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "nest/src/orders/orders.module.ts"
+  },
+  {
+   "source": "owners_address_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/owners/address.entity.ts"
+  },
+  {
+   "source": "owners_address_entity",
+   "target": "owners_address_entity_address",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/src/owners/address.entity.ts"
+  },
+  {
+   "source": "owners_index",
+   "target": "owners_address_entity",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/owners/index.ts"
+  },
+  {
+   "source": "owners_owner_entity",
+   "target": "typeorm",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity",
+   "target": "cats_cat_entity",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity",
+   "target": "cats_cat_entity_cat",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity",
+   "target": "owners_index",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity",
+   "target": "owners_index_address",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity",
+   "target": "owners_owner_entity_owner",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "test_app_e2e_spec",
+   "target": "testing",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "nest/test/app.e2e-spec.ts"
+  },
+  {
+   "source": "test_app_e2e_spec",
+   "target": "src_app_module",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "nest/test/app.e2e-spec.ts"
+  },
+  {
+   "source": "test_app_e2e_spec",
+   "target": "src_app_module_appmodule",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "nest/test/app.e2e-spec.ts"
+  },
+  {
+   "source": "nest_tsconfig",
+   "target": "nest_tsconfig_compileroptions",
+   "relation": "contains",
+   "source_location": "L2",
+   "source_file": "nest/tsconfig.json"
+  },
+  {
+   "source": "nest_tsconfig_compileroptions",
+   "target": "nest_tsconfig_compileroptions_baseurl",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "nest/tsconfig.json"
+  },
+  {
+   "source": "nest_tsconfig_compileroptions",
+   "target": "nest_tsconfig_compileroptions_paths",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/tsconfig.json"
+  },
+  {
+   "source": "nest_tsconfig_compileroptions_paths",
+   "target": "nest_tsconfig_paths_common",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "nest/tsconfig.json"
+  },
+  {
+   "source": "nest_tsconfig_paths_common",
+   "target": "ref_src_common",
+   "relation": "extends",
+   "source_location": "L4",
+   "source_file": "nest/tsconfig.json"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "router",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "heroes_heroes_component",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "heroes_heroes_component_heroescomponent",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "heroes_hero_detail_component",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "heroes_hero_detail_component_herodetailcomponent",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "users_list_component",
+   "relation": "imports_from",
+   "source_location": "L4",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "users_list_component_listcomponent",
+   "relation": "imports",
+   "source_location": "L4",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "orders_list_component",
+   "relation": "imports_from",
+   "source_location": "L5",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "orders_list_component_listcomponent",
+   "relation": "imports",
+   "source_location": "L5",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "app_auth_guard",
+   "relation": "imports_from",
+   "source_location": "L6",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "app_auth_guard_authguard",
+   "relation": "imports",
+   "source_location": "L6",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_app_routes",
+   "target": "app_app_routes_routes",
+   "relation": "contains",
+   "source_location": "L8",
+   "source_file": "ng/src/app/app.routes.ts"
+  },
+  {
+   "source": "app_auth_guard",
+   "target": "app_auth_guard_authguard",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "ng/src/app/auth.guard.ts"
+  },
+  {
+   "source": "app_hero_service",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "ng/src/app/hero.service.ts"
+  },
+  {
+   "source": "app_hero_service",
+   "target": "http",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "ng/src/app/hero.service.ts"
+  },
+  {
+   "source": "app_hero_service",
+   "target": "app_hero_service_heroservice",
+   "relation": "contains",
+   "source_location": "L5",
+   "source_file": "ng/src/app/hero.service.ts"
+  },
+  {
+   "source": "app_hero_service_heroservice",
+   "target": "app_hero_service_heroservice_constructor",
+   "relation": "method",
+   "source_location": "L6",
+   "source_file": "ng/src/app/hero.service.ts"
+  },
+  {
+   "source": "app_hero_service_heroservice",
+   "target": "app_hero_service_heroservice_all",
+   "relation": "method",
+   "source_location": "L8",
+   "source_file": "ng/src/app/hero.service.ts"
+  },
+  {
+   "source": "heroes_hero_detail_component",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "ng/src/app/heroes/hero-detail.component.ts"
+  },
+  {
+   "source": "heroes_hero_detail_component",
+   "target": "heroes_hero_detail_component_herodetailcomponent",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "ng/src/app/heroes/hero-detail.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component",
+   "target": "app_hero_service",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component",
+   "target": "app_hero_service_heroservice",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component",
+   "target": "app_message_service",
+   "relation": "imports_from",
+   "source_location": "L3",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component",
+   "target": "app_message_service_messageservice",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component",
+   "target": "heroes_heroes_component_heroescomponent",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component_heroescomponent",
+   "target": "heroes_heroes_component_heroescomponent_constructor",
+   "relation": "method",
+   "source_location": "L9",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "heroes_heroes_component_heroescomponent",
+   "target": "heroes_heroes_component_heroescomponent_load",
+   "relation": "method",
+   "source_location": "L11",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "app_message_service",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "ng/src/app/message.service.ts"
+  },
+  {
+   "source": "app_message_service",
+   "target": "app_message_service_messageservice",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "ng/src/app/message.service.ts"
+  },
+  {
+   "source": "app_message_service_messageservice",
+   "target": "app_message_service_messageservice_add",
+   "relation": "method",
+   "source_location": "L5",
+   "source_file": "ng/src/app/message.service.ts"
+  },
+  {
+   "source": "orders_list_component",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "ng/src/app/orders/list.component.ts"
+  },
+  {
+   "source": "orders_list_component",
+   "target": "orders_list_component_listcomponent",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "ng/src/app/orders/list.component.ts"
+  },
+  {
+   "source": "users_list_component",
+   "target": "core",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "ng/src/app/users/list.component.ts"
+  },
+  {
+   "source": "users_list_component",
+   "target": "users_list_component_listcomponent",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "ng/src/app/users/list.component.ts"
+  },
+  {
+   "source": "subpath_package",
+   "target": "subpath_package_name",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "subpath/package.json"
+  },
+  {
+   "source": "subpath_package",
+   "target": "subpath_package_type",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "subpath/package.json"
+  },
+  {
+   "source": "subpath_package",
+   "target": "subpath_package_imports",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "subpath/package.json"
+  },
+  {
+   "source": "subpath_package_imports",
+   "target": "subpath_package_imports_src",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "subpath/package.json"
+  },
+  {
+   "source": "subpath_src_controllers_users_ts_controllers_users",
+   "target": "controllers_users_listusers",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "subpath/src/controllers/users.ts"
+  },
+  {
+   "source": "repos_users_repo",
+   "target": "base_repo_js",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "subpath/src/repos/users.repo.ts"
+  },
+  {
+   "source": "repos_users_repo",
+   "target": "repos_users_repo_usersrepo",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "subpath/src/repos/users.repo.ts"
+  },
+  {
+   "source": "subpath_src_routes_ts_src_routes",
+   "target": "express",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "subpath/src/routes.ts"
+  },
+  {
+   "source": "subpath_src_routes_ts_src_routes",
+   "target": "users_js",
+   "relation": "imports_from",
+   "source_location": "L2",
+   "source_file": "subpath/src/routes.ts"
+  },
+  {
+   "source": "subpath_src_routes_ts_src_routes",
+   "target": "subpath_src_routes_ts_src_routes_router",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "subpath/src/routes.ts"
+  },
+  {
+   "source": "shared_base_repo",
+   "target": "shared_base_repo_baserepo",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "subpath/src/shared/base.repo.ts"
+  },
+  {
+   "source": "health_route",
+   "target": "health_route_get",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "web/app/(marketing)/api/health/route.ts"
+  },
+  {
+   "source": "internal_route",
+   "target": "internal_route_get",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "web/app/_lib/internal/route.ts"
+  },
+  {
+   "source": "id_route",
+   "target": "server",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "web/app/api/users/[id]/route.ts"
+  },
+  {
+   "source": "id_route",
+   "target": "id_route_get",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "web/app/api/users/[id]/route.ts"
+  },
+  {
+   "source": "id_route",
+   "target": "id_route_delete",
+   "relation": "contains",
+   "source_location": "L7",
+   "source_file": "web/app/api/users/[id]/route.ts"
+  },
+  {
+   "source": "id_route",
+   "target": "id_route_patch",
+   "relation": "contains",
+   "source_location": "L11",
+   "source_file": "web/app/api/users/[id]/route.ts"
+  },
+  {
+   "source": "slug_route",
+   "target": "slug_route_get",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "web/app/docs/[...slug]/route.ts"
+  },
+  {
+   "source": "items_itemid",
+   "target": "next",
+   "relation": "imports_from",
+   "source_location": "L1",
+   "source_file": "web/pages/api/items/[itemId].ts"
+  },
+  {
+   "source": "items_itemid",
+   "target": "items_itemid_handler",
+   "relation": "contains",
+   "source_location": "L3",
+   "source_file": "web/pages/api/items/[itemId].ts"
+  },
+  {
+   "source": "legacy_index",
+   "target": "legacy_index_legacyhandler",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "web/pages/api/legacy/index.js"
+  },
+  {
+   "source": "zod_schemas",
+   "target": "zod_schemas_zodtype",
+   "relation": "contains",
+   "source_location": "L1",
+   "source_file": "zod/schemas.ts"
+  },
+  {
+   "source": "zod_schemas",
+   "target": "zod_schemas_zodtype",
+   "relation": "contains",
+   "source_location": "L4",
+   "source_file": "zod/schemas.ts"
+  },
+  {
+   "source": "zod_schemas",
+   "target": "zod_schemas_zodstring",
+   "relation": "contains",
+   "source_location": "L6",
+   "source_file": "zod/schemas.ts"
+  },
+  {
+   "source": "zod_schemas",
+   "target": "zod_schemas_zodstring",
+   "relation": "contains",
+   "source_location": "L9",
+   "source_file": "zod/schemas.ts"
+  },
+  {
+   "source": "owners_index",
+   "target": "owners_address_entity",
+   "relation": "re_exports",
+   "source_location": "L1",
+   "source_file": "nest/src/owners/index.ts"
+  },
+  {
+   "source": "hono_routes_index_ts_routes_index",
+   "target": "routes_authors",
+   "relation": "re_exports",
+   "source_location": "L1",
+   "source_file": "hono/routes/index.ts"
+  },
+  {
+   "source": "controller_index",
+   "target": "controller_general",
+   "relation": "re_exports",
+   "source_location": "L1",
+   "source_file": "koa2/src/controller/index.ts"
+  },
+  {
+   "source": "controller_index",
+   "target": "controller_user",
+   "relation": "re_exports",
+   "source_location": "L2",
+   "source_file": "koa2/src/controller/index.ts"
+  },
+  {
+   "source": "controller_index",
+   "target": "controller_status",
+   "relation": "re_exports",
+   "source_location": "L3",
+   "source_file": "koa2/src/controller/index.ts"
+  },
+  {
+   "source": "fastify_server",
+   "target": "routes_items_itemroutes",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "fastify/server.ts"
+  },
+  {
+   "source": "hono_index",
+   "target": "routes_authors_authors",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "hono/index.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "controller_general_generalcontroller",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "koa2_src_routes_ts_src_routes",
+   "target": "controller_user_usercontroller",
+   "relation": "imports",
+   "source_location": "L2",
+   "source_file": "koa2/src/routes.ts"
+  },
+  {
+   "source": "events_ticket_entity",
+   "target": "events_organizer_entity_organizerentity",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity",
+   "target": "owners_address_entity_address",
+   "relation": "imports",
+   "source_location": "L3",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity_cat",
+   "target": "common_audited_entity_auditedentity",
+   "relation": "inherits",
+   "source_location": "L9",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity_cat",
+   "target": "owners_owner_entity_owner",
+   "relation": "references",
+   "source_location": "L16",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity_cat",
+   "target": "cats_toy_entity_toy",
+   "relation": "references",
+   "source_location": "L19",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity_cat",
+   "target": "cats_profile_entity_profile",
+   "relation": "references",
+   "source_location": "L22",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cat_entity_cat",
+   "target": "cats_tag_entity_tag",
+   "relation": "references",
+   "source_location": "L26",
+   "source_file": "nest/src/cats/cat.entity.ts"
+  },
+  {
+   "source": "cats_cats_controller_catscontroller_constructor",
+   "target": "cats_cats_service_catsservice",
+   "relation": "references",
+   "source_location": "L11",
+   "source_file": "nest/src/cats/cats.controller.ts"
+  },
+  {
+   "source": "cats_cats_service_catsservice_constructor",
+   "target": "cats_cat_entity_cat",
+   "relation": "references",
+   "source_location": "L10",
+   "source_file": "nest/src/cats/cats.service.ts"
+  },
+  {
+   "source": "dogs_dogs_controller_dogscontroller",
+   "target": "common_crud_controller_crudcontroller",
+   "relation": "inherits",
+   "source_location": "L5",
+   "source_file": "nest/src/dogs/dogs.controller.ts"
+  },
+  {
+   "source": "events_ticket_entity_ticket",
+   "target": "events_event_entity_event",
+   "relation": "references",
+   "source_location": "L7",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "events_ticket_entity_ticket",
+   "target": "events_organizer_entity_organizerentity",
+   "relation": "references",
+   "source_location": "L10",
+   "source_file": "nest/src/events/ticket.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity_owner",
+   "target": "cats_cat_entity_cat",
+   "relation": "references",
+   "source_location": "L10",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "owners_owner_entity_owner",
+   "target": "owners_address_entity_address",
+   "relation": "references",
+   "source_location": "L13",
+   "source_file": "nest/src/owners/owner.entity.ts"
+  },
+  {
+   "source": "heroes_heroes_component_heroescomponent_constructor",
+   "target": "app_hero_service_heroservice",
+   "relation": "references",
+   "source_location": "L9",
+   "source_file": "ng/src/app/heroes/heroes.component.ts"
+  },
+  {
+   "source": "zod_schemas_zodstring",
+   "target": "zod_schemas_zodtype",
+   "relation": "inherits",
+   "source_location": "L6",
+   "source_file": "zod/schemas.ts"
+  }
+ ]
+}

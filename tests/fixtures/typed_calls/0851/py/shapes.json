@@ -1,0 +1,1601 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_py_gates.TREES['shapes'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_py_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L3",
+    "target": "dataclasses",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L4",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L7",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L8",
+    "target": "app_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L12",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_ledger",
+    "source_file": "app/models.py",
+    "source_location": "L13",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L17",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L20",
+    "target": "app_models_order_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_models_order_init",
+    "source_file": "app/models.py",
+    "source_location": "L20",
+    "target": "app_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L24",
+    "target": "app_models_order_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L27",
+    "target": "app_models_order_clone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "app_models_order_clone",
+    "source_file": "app/models.py",
+    "source_location": "L27",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L31",
+    "target": "app_models_order_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "app_models_order_ledger",
+    "source_file": "app/models.py",
+    "source_location": "L31",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L35",
+    "target": "app_models_order_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "app_models_order_create",
+    "source_file": "app/models.py",
+    "source_location": "L35",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L39",
+    "target": "app_models_order_blank",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L42",
+    "target": "app_models_order_r3_ctor_field",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L45",
+    "target": "app_models_order_r3_injected_field",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L48",
+    "target": "app_models_order_r3_class_annotation",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L51",
+    "target": "app_models_order_r3_property",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L54",
+    "target": "app_models_order_s_self",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L57",
+    "target": "app_models_order_s_closure",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L63",
+    "target": "app_models_special",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_models_special",
+    "source_file": "app/models.py",
+    "source_location": "L63",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_special",
+    "source_file": "app/models.py",
+    "source_location": "L64",
+    "target": "app_models_special_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_special",
+    "source_file": "app/models.py",
+    "source_location": "L67",
+    "target": "app_models_special_s_inherited",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L71",
+    "target": "app_models_special2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_models_special2",
+    "source_file": "app/models.py",
+    "source_location": "L71",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_special2",
+    "source_file": "app/models.py",
+    "source_location": "L72",
+    "target": "app_models_special2_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L77",
+    "target": "app_models_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_cart",
+    "source_file": "app/models.py",
+    "source_location": "L80",
+    "target": "app_models_cart_r3_dataclass_field",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L84",
+    "target": "app_models_outer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L85",
+    "target": "app_models_inner",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_inner",
+    "source_file": "app/models.py",
+    "source_location": "L86",
+    "target": "app_models_inner_ping",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L90",
+    "target": "app_models_conv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_conv",
+    "source_file": "app/models.py",
+    "source_location": "L92",
+    "target": "app_models_conv_to",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L101",
+    "target": "app_models_r1_param",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_models_r1_param",
+    "source_file": "app/models.py",
+    "source_location": "L101",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L105",
+    "target": "app_models_r1_string_annotation",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L109",
+    "target": "app_models_r1_optional",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "app_models_r1_optional",
+    "source_file": "app/models.py",
+    "source_location": "L109",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L113",
+    "target": "app_models_r1_pipe_none",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_models_r1_pipe_none",
+    "source_file": "app/models.py",
+    "source_location": "L113",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L117",
+    "target": "app_models_r1_annotated",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "app_models_r1_annotated",
+    "source_file": "app/models.py",
+    "source_location": "L117",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L121",
+    "target": "app_models_r1_imported",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_models_r1_imported",
+    "source_file": "app/models.py",
+    "source_location": "L121",
+    "target": "app_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L125",
+    "target": "app_models_r1_classof",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "app_models_r1_classof",
+    "source_file": "app/models.py",
+    "source_location": "L125",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L129",
+    "target": "app_models_r2_local_ctor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L134",
+    "target": "app_models_r2_annotated_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L139",
+    "target": "app_models_r2_alias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L145",
+    "target": "app_models_r2_none_then_ctor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L152",
+    "target": "app_models_r2_cast",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L157",
+    "target": "app_models_r2_return_call",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L162",
+    "target": "app_models_r4_chain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L166",
+    "target": "app_models_r4_method_chain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_models_r4_method_chain",
+    "source_file": "app/models.py",
+    "source_location": "L166",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L170",
+    "target": "app_models_k_class_method",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L174",
+    "target": "app_models_k_unbound_call",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L178",
+    "target": "app_models_m_alias_module",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L182",
+    "target": "app_models_m_from_package_module",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L186",
+    "target": "app_models_m_dotted_package",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L190",
+    "target": "app_models_c_same_file",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L194",
+    "target": "app_models_c_imported",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L198",
+    "target": "app_models_c_module_ctor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L202",
+    "target": "app_models_c_nested_class",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L206",
+    "target": "app_models_r1_overloaded",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_models_r1_overloaded",
+    "source_file": "app/models.py",
+    "source_location": "L206",
+    "target": "app_models_conv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_order_init",
+    "source_file": "app/models.py",
+    "source_location": "L22",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_order_create",
+    "source_file": "app/models.py",
+    "source_location": "L36",
+    "target": "app_models_order_blank",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_order_r3_ctor_field",
+    "source_file": "app/models.py",
+    "source_location": "L43",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_order_r3_property",
+    "source_file": "app/models.py",
+    "source_location": "L52",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_order_s_self",
+    "source_file": "app/models.py",
+    "source_location": "L55",
+    "target": "app_models_special2_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_special_total",
+    "source_file": "app/models.py",
+    "source_location": "L65",
+    "target": "app_models_special2_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_special_s_inherited",
+    "source_file": "app/models.py",
+    "source_location": "L68",
+    "target": "app_models_order_clone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_cart_r3_dataclass_field",
+    "source_file": "app/models.py",
+    "source_location": "L81",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r1_param",
+    "source_file": "app/models.py",
+    "source_location": "L102",
+    "target": "app_models_special2_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r1_string_annotation",
+    "source_file": "app/models.py",
+    "source_location": "L106",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r1_optional",
+    "source_file": "app/models.py",
+    "source_location": "L110",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r1_pipe_none",
+    "source_file": "app/models.py",
+    "source_location": "L114",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r1_annotated",
+    "source_file": "app/models.py",
+    "source_location": "L118",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r1_classof",
+    "source_file": "app/models.py",
+    "source_location": "L126",
+    "target": "app_models_order_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_local_ctor",
+    "source_file": "app/models.py",
+    "source_location": "L130",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_local_ctor",
+    "source_file": "app/models.py",
+    "source_location": "L131",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_annotated_local",
+    "source_file": "app/models.py",
+    "source_location": "L136",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_alias",
+    "source_file": "app/models.py",
+    "source_location": "L140",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_alias",
+    "source_file": "app/models.py",
+    "source_location": "L142",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_none_then_ctor",
+    "source_file": "app/models.py",
+    "source_location": "L148",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_none_then_ctor",
+    "source_file": "app/models.py",
+    "source_location": "L149",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_cast",
+    "source_file": "app/models.py",
+    "source_location": "L154",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r4_method_chain",
+    "source_file": "app/models.py",
+    "source_location": "L167",
+    "target": "app_models_special2_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r4_method_chain",
+    "source_file": "app/models.py",
+    "source_location": "L167",
+    "target": "app_models_order_clone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_c_same_file",
+    "source_file": "app/models.py",
+    "source_location": "L191",
+    "target": "app_models_ledger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_c_imported",
+    "source_file": "app/models.py",
+    "source_location": "L195",
+    "target": "app_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r1_overloaded",
+    "source_file": "app/models.py",
+    "source_location": "L207",
+    "target": "app_models_conv_to",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_repo",
+    "source_file": "app/repo.py",
+    "source_location": "L1",
+    "target": "app_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_repo_repo",
+    "source_file": "app/repo.py",
+    "source_location": "L2",
+    "target": "app_repo_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_repo_repo",
+    "source_file": "app/repo.py",
+    "source_location": "L5",
+    "target": "app_repo_repo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_repo",
+    "source_file": "app/repo.py",
+    "source_location": "L9",
+    "target": "app_repo_make_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "app_repo_make_repo",
+    "source_file": "app/repo.py",
+    "source_location": "L9",
+    "target": "app_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_repo_make_repo",
+    "source_file": "app/repo.py",
+    "source_location": "L10",
+    "target": "app_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_make_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r2_return_call",
+    "source_file": "app/models.py",
+    "source_location": "L158",
+    "target": "app_repo_make_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_r4_chain",
+    "source_file": "app/models.py",
+    "source_location": "L163",
+    "target": "app_repo_make_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_ledger",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_special",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_special2",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_cart",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_outer",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_inner",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_models_conv",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_repo_repo",
+    "weight": 0.8
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_k_class_method",
+    "source_file": "app/models.py",
+    "source_location": "L171",
+    "target": "app_models_order_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "app_models_k_unbound_call",
+    "source_file": "app/models.py",
+    "source_location": "L175",
+    "target": "app_models_ledger_post",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models",
+    "label": "models.py",
+    "source_file": "app/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_ledger",
+    "label": "Ledger",
+    "source_file": "app/models.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_ledger_post",
+    "label": ".post()",
+    "source_file": "app/models.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order",
+    "label": "Order",
+    "source_file": "app/models.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_init",
+    "label": ".__init__()",
+    "source_file": "app/models.py",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_total",
+    "label": ".total()",
+    "source_file": "app/models.py",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_clone",
+    "label": ".clone()",
+    "source_file": "app/models.py",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_ledger",
+    "label": ".ledger()",
+    "source_file": "app/models.py",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_create",
+    "label": ".create()",
+    "source_file": "app/models.py",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_blank",
+    "label": ".blank()",
+    "source_file": "app/models.py",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_r3_ctor_field",
+    "label": ".r3_ctor_field()",
+    "source_file": "app/models.py",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_r3_injected_field",
+    "label": ".r3_injected_field()",
+    "source_file": "app/models.py",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_r3_class_annotation",
+    "label": ".r3_class_annotation()",
+    "source_file": "app/models.py",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_r3_property",
+    "label": ".r3_property()",
+    "source_file": "app/models.py",
+    "source_location": "L51"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_s_self",
+    "label": ".s_self()",
+    "source_file": "app/models.py",
+    "source_location": "L54"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_s_closure",
+    "label": ".s_closure()",
+    "source_file": "app/models.py",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_special",
+    "label": "Special",
+    "source_file": "app/models.py",
+    "source_location": "L63"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_special_total",
+    "label": ".total()",
+    "source_file": "app/models.py",
+    "source_location": "L64"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_special_s_inherited",
+    "label": ".s_inherited()",
+    "source_file": "app/models.py",
+    "source_location": "L67"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_special2",
+    "label": "Special2",
+    "source_file": "app/models.py",
+    "source_location": "L71"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_special2_total",
+    "label": ".total()",
+    "source_file": "app/models.py",
+    "source_location": "L72"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_cart",
+    "label": "Cart",
+    "source_file": "app/models.py",
+    "source_location": "L77"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_cart_r3_dataclass_field",
+    "label": ".r3_dataclass_field()",
+    "source_file": "app/models.py",
+    "source_location": "L80"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_outer",
+    "label": "Outer",
+    "source_file": "app/models.py",
+    "source_location": "L84"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_inner",
+    "label": "Inner",
+    "source_file": "app/models.py",
+    "source_location": "L85"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_inner_ping",
+    "label": ".ping()",
+    "source_file": "app/models.py",
+    "source_location": "L86"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_conv",
+    "label": "Conv",
+    "source_file": "app/models.py",
+    "source_location": "L90"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_conv_to",
+    "label": ".to()",
+    "source_file": "app/models.py",
+    "source_location": "L92"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_param",
+    "label": "r1_param()",
+    "source_file": "app/models.py",
+    "source_location": "L101"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_string_annotation",
+    "label": "r1_string_annotation()",
+    "source_file": "app/models.py",
+    "source_location": "L105"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_optional",
+    "label": "r1_optional()",
+    "source_file": "app/models.py",
+    "source_location": "L109"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_pipe_none",
+    "label": "r1_pipe_none()",
+    "source_file": "app/models.py",
+    "source_location": "L113"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_annotated",
+    "label": "r1_annotated()",
+    "source_file": "app/models.py",
+    "source_location": "L117"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_imported",
+    "label": "r1_imported()",
+    "source_file": "app/models.py",
+    "source_location": "L121"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_classof",
+    "label": "r1_classof()",
+    "source_file": "app/models.py",
+    "source_location": "L125"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r2_local_ctor",
+    "label": "r2_local_ctor()",
+    "source_file": "app/models.py",
+    "source_location": "L129"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r2_annotated_local",
+    "label": "r2_annotated_local()",
+    "source_file": "app/models.py",
+    "source_location": "L134"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r2_alias",
+    "label": "r2_alias()",
+    "source_file": "app/models.py",
+    "source_location": "L139"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r2_none_then_ctor",
+    "label": "r2_none_then_ctor()",
+    "source_file": "app/models.py",
+    "source_location": "L145"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r2_cast",
+    "label": "r2_cast()",
+    "source_file": "app/models.py",
+    "source_location": "L152"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r2_return_call",
+    "label": "r2_return_call()",
+    "source_file": "app/models.py",
+    "source_location": "L157"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r4_chain",
+    "label": "r4_chain()",
+    "source_file": "app/models.py",
+    "source_location": "L162"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r4_method_chain",
+    "label": "r4_method_chain()",
+    "source_file": "app/models.py",
+    "source_location": "L166"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_k_class_method",
+    "label": "k_class_method()",
+    "source_file": "app/models.py",
+    "source_location": "L170"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_k_unbound_call",
+    "label": "k_unbound_call()",
+    "source_file": "app/models.py",
+    "source_location": "L174"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_m_alias_module",
+    "label": "m_alias_module()",
+    "source_file": "app/models.py",
+    "source_location": "L178"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_m_from_package_module",
+    "label": "m_from_package_module()",
+    "source_file": "app/models.py",
+    "source_location": "L182"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_m_dotted_package",
+    "label": "m_dotted_package()",
+    "source_file": "app/models.py",
+    "source_location": "L186"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_c_same_file",
+    "label": "c_same_file()",
+    "source_file": "app/models.py",
+    "source_location": "L190"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_c_imported",
+    "label": "c_imported()",
+    "source_file": "app/models.py",
+    "source_location": "L194"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_c_module_ctor",
+    "label": "c_module_ctor()",
+    "source_file": "app/models.py",
+    "source_location": "L198"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_c_nested_class",
+    "label": "c_nested_class()",
+    "source_file": "app/models.py",
+    "source_location": "L202"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_r1_overloaded",
+    "label": "r1_overloaded()",
+    "source_file": "app/models.py",
+    "source_location": "L206"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_repo",
+    "label": "repo.py",
+    "source_file": "app/repo.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_repo_repo",
+    "label": "Repo",
+    "source_file": "app/repo.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_repo_repo_find",
+    "label": ".find()",
+    "source_file": "app/repo.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_repo_repo_save",
+    "label": ".save()",
+    "source_file": "app/repo.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_repo_make_repo",
+    "label": "make_repo()",
+    "source_file": "app/repo.py",
+    "source_location": "L9"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "8e8b1d9e211150a73a4565858b39bd6554dc475f6530cfeb06e85527e905c089"
+}

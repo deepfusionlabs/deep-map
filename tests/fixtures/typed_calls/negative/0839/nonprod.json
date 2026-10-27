@@ -1,0 +1,388 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_shapes_gates.TREES['nonprod'] (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_shapes_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_svc",
+    "source_file": "app/svc.py",
+    "source_location": "L1",
+    "target": "app_svc_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "docs_conf",
+    "source_file": "docs/conf.py",
+    "source_location": "L1",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "docs_conf",
+    "source_file": "docs/conf.py",
+    "source_location": "L4",
+    "target": "docs_conf_run_docs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "examples",
+    "source_file": "examples.py",
+    "source_location": "L1",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "examples",
+    "source_file": "examples.py",
+    "source_location": "L4",
+    "target": "examples_run_example",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "examples_demo",
+    "source_file": "examples/demo.py",
+    "source_location": "L1",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "examples_demo",
+    "source_file": "examples/demo.py",
+    "source_location": "L4",
+    "target": "examples_demo_run_demo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "examples_fixed",
+    "source_file": "examples/fixed.py",
+    "source_location": "L1",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "examples_fixed",
+    "source_file": "examples/fixed.py",
+    "source_location": "L4",
+    "target": "examples_fixed_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "examples_fixed",
+    "source_file": "examples/fixed.py",
+    "source_location": "L8",
+    "target": "examples_fixed_run_fixed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "examples_fixed_run_fixed",
+    "source_file": "examples/fixed.py",
+    "source_location": "L9",
+    "target": "examples_fixed_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "mydocs_guide",
+    "source_file": "mydocs/guide.py",
+    "source_location": "L1",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "mydocs_guide",
+    "source_file": "mydocs/guide.py",
+    "source_location": "L4",
+    "target": "mydocs_guide_run_guide",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_docs_parser",
+    "source_file": "src/docs_parser.py",
+    "source_location": "L1",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_docs_parser",
+    "source_file": "src/docs_parser.py",
+    "source_location": "L4",
+    "target": "src_docs_parser_parse_docs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "tests_test_svc",
+    "source_file": "tests/test_svc.py",
+    "source_location": "L1",
+    "target": "app",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tests_test_svc",
+    "source_file": "tests/test_svc.py",
+    "source_location": "L4",
+    "target": "tests_test_svc_test_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "docs_conf",
+    "source_file": "docs/conf.py",
+    "source_location": "L1",
+    "target": "app_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "examples",
+    "source_file": "examples.py",
+    "source_location": "L1",
+    "target": "app_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "examples_demo",
+    "source_file": "examples/demo.py",
+    "source_location": "L1",
+    "target": "app_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "examples_fixed",
+    "source_file": "examples/fixed.py",
+    "source_location": "L1",
+    "target": "app_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "mydocs_guide",
+    "source_file": "mydocs/guide.py",
+    "source_location": "L1",
+    "target": "app_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "src_docs_parser",
+    "source_file": "src/docs_parser.py",
+    "source_location": "L1",
+    "target": "app_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "tests_test_svc",
+    "source_file": "tests/test_svc.py",
+    "source_location": "L1",
+    "target": "app_svc",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_svc",
+    "label": "svc.py",
+    "source_file": "app/svc.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_svc_helper",
+    "label": "helper()",
+    "source_file": "app/svc.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "docs_conf",
+    "label": "conf.py",
+    "source_file": "docs/conf.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "docs_conf_run_docs",
+    "label": "run_docs()",
+    "source_file": "docs/conf.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "examples",
+    "label": "examples.py",
+    "source_file": "examples.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "examples_run_example",
+    "label": "run_example()",
+    "source_file": "examples.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "examples_demo",
+    "label": "demo.py",
+    "source_file": "examples/demo.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "examples_demo_run_demo",
+    "label": "run_demo()",
+    "source_file": "examples/demo.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "examples_fixed",
+    "label": "fixed.py",
+    "source_file": "examples/fixed.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "examples_fixed_helper",
+    "label": "helper()",
+    "source_file": "examples/fixed.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "examples_fixed_run_fixed",
+    "label": "run_fixed()",
+    "source_file": "examples/fixed.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "mydocs_guide",
+    "label": "guide.py",
+    "source_file": "mydocs/guide.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "mydocs_guide_run_guide",
+    "label": "run_guide()",
+    "source_file": "mydocs/guide.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_docs_parser",
+    "label": "docs_parser.py",
+    "source_file": "src/docs_parser.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_docs_parser_parse_docs",
+    "label": "parse_docs()",
+    "source_file": "src/docs_parser.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_test_svc",
+    "label": "test_svc.py",
+    "source_file": "tests/test_svc.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_test_svc_test_helper",
+    "label": "test_helper()",
+    "source_file": "tests/test_svc.py",
+    "source_location": "L4"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "8f3e75a7cf3330e14081928d68c8670483ace2afd10421c8575459e39be65915"
+}

@@ -1,0 +1,309 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_shapes_gates.TREES['ts_ws'] (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_shapes_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "packages_a_src_repo_ts_src_repo",
+    "source_file": "packages/a/src/repo.ts",
+    "source_location": "L1",
+    "target": "packages_a_src_repo_ts_src_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "packages_a_src_repo_ts_src_repo_repo",
+    "source_file": "packages/a/src/repo.ts",
+    "source_location": "L2",
+    "target": "packages_a_src_repo_ts_src_repo_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "packages_b_src_repo_ts_src_repo",
+    "source_file": "packages/b/src/repo.ts",
+    "source_location": "L1",
+    "target": "packages_b_src_repo_ts_src_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "packages_b_src_repo_ts_src_repo_repo",
+    "source_file": "packages/b/src/repo.ts",
+    "source_location": "L2",
+    "target": "packages_b_src_repo_ts_src_repo_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L1",
+    "target": "src_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L1",
+    "target": "src_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L2",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L4",
+    "target": "src_use_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_use_local",
+    "source_file": "src/use.ts",
+    "source_location": "L5",
+    "target": "src_use_local_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L8",
+    "target": "src_use_pickb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L12",
+    "target": "src_use_viaunmapped",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_use_pickb",
+    "source_file": "src/use.ts",
+    "source_location": "L9",
+    "target": "src_use_local_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_use_viaunmapped",
+    "source_file": "src/use.ts",
+    "source_location": "L13",
+    "target": "src_use_local_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig",
+    "source_file": "tsconfig.json",
+    "source_location": "L1",
+    "target": "tsconfig_compileroptions",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig_compileroptions",
+    "source_file": "tsconfig.json",
+    "source_location": "L1",
+    "target": "tsconfig_compileroptions_baseurl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig_compileroptions",
+    "source_file": "tsconfig.json",
+    "source_location": "L1",
+    "target": "tsconfig_compileroptions_paths",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig_compileroptions_paths",
+    "source_file": "tsconfig.json",
+    "source_location": "L1",
+    "target": "tsconfig_paths_lib",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "extends",
+    "source": "tsconfig_paths_lib",
+    "source_file": "tsconfig.json",
+    "source_location": "L1",
+    "target": "ref_packages_b_src",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "packages_a_src_repo_ts_src_repo",
+    "label": "repo.ts",
+    "source_file": "packages/a/src/repo.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "packages_a_src_repo_ts_src_repo_repo",
+    "label": "Repo",
+    "source_file": "packages/a/src/repo.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "packages_a_src_repo_ts_src_repo_repo_find",
+    "label": ".find()",
+    "source_file": "packages/a/src/repo.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "packages_b_src_repo_ts_src_repo",
+    "label": "repo.ts",
+    "source_file": "packages/b/src/repo.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "packages_b_src_repo_ts_src_repo_repo",
+    "label": "Repo",
+    "source_file": "packages/b/src/repo.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "packages_b_src_repo_ts_src_repo_repo_find",
+    "label": ".find()",
+    "source_file": "packages/b/src/repo.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use",
+    "label": "use.ts",
+    "source_file": "src/use.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_local",
+    "label": "Local",
+    "source_file": "src/use.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_local_find",
+    "label": ".find()",
+    "source_file": "src/use.ts",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_pickb",
+    "label": "pickB()",
+    "source_file": "src/use.ts",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_viaunmapped",
+    "label": "viaUnmapped()",
+    "source_file": "src/use.ts",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig",
+    "label": "tsconfig.json",
+    "source_file": "tsconfig.json",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_compileroptions",
+    "label": "compilerOptions",
+    "source_file": "tsconfig.json",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_compileroptions_baseurl",
+    "label": "baseUrl",
+    "source_file": "tsconfig.json",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_compileroptions_paths",
+    "label": "paths",
+    "source_file": "tsconfig.json",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_paths_lib",
+    "label": "@lib/*",
+    "source_file": "tsconfig.json",
+    "source_location": "L1"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "c1b585f8b192732e2fa63b43899143e15b68db78380d678bc0b1c96e4840d09d"
+}

@@ -1,0 +1,121 @@
+DeepMap
+Copyright (c) Deep Fusion Labs
+
+DeepMap's own source code is licensed under the MIT License (see LICENSE).
+
+This product depends on third-party software. Their copyrights and licenses are
+acknowledged below and summarised in THIRD-PARTY-LICENSES.md. DeepMap
+redistributes none of them: the Python packages are installed from PyPI and
+carry their own license texts in their package metadata, and the Neo4j
+distribution carries its own LICENSE.txt.
+
+-------------------------------------------------------------------------------
+Licensing statement
+-------------------------------------------------------------------------------
+DeepMap is MIT-licensed. It runs on a local Neo4j Community Edition instance
+(GPLv3), which DeepMap downloads from the official source but does not
+redistribute or modify, and accesses over the standard Bolt protocol. DeepMap's
+own MIT-licensed code is independent of Neo4j's license. If you use DeepMap
+commercially, review Neo4j's licensing terms (or consult counsel) for your use
+of Neo4j Community.
+
+-------------------------------------------------------------------------------
+Prerequisite (FETCHED at install time — NOT bundled or redistributed)
+-------------------------------------------------------------------------------
+* Neo4j Community Edition (5.x; the provisioner fetches 5.26.32 by default;
+    a store created with an earlier 5.26 release keeps it until setup moves it
+    to 5.26.32) — GPLv3
+    (its source headers grant version 3 "or, at your option, any later version")
+    Downloaded from the official source (dist.neo4j.org) by setup; accessed
+    arms-length over the Bolt network protocol. Not bundled and not
+    redistributed, and its code is not modified (setup writes only DeepMap's own
+    settings into neo4j.conf on the user's machine, including switching off
+    Neo4j's usage reporting). Listed here as a prerequisite, not as a bundled
+    component, so DeepMap's MIT code is not subject to the GPLv3 combined-work
+    obligation.
+
+-------------------------------------------------------------------------------
+Python dependencies (installed from PyPI, not redistributed)
+-------------------------------------------------------------------------------
+Three of these are PINNED to the version ranges they were validated on — the
+same ranges as requirements.txt, both installers and CI, each installed with
+`pip install --upgrade` so an older copy is lifted into the range:
+neo4j>=6.0.1,<7 · mcp>=1.24,<2 · graphifyy>=0.8.39,<0.8.52. The others stay
+unpinned (no known breaking release), except that anyio is declared with mcp's
+own floor (below).
+
+* Upstream multi-language extraction engine — "graphify" / "graphifyy"
+    (Graphify-Labs/graphify, formerly safishamsi/graphify) — MIT for every
+    release DeepMap's pin allows (<0.8.52). Upstream relicensed to Apache-2.0
+    from 0.9.25 (2026-07-22): re-check this attribution before widening the pin.
+    SHIPPED and used unchanged: the multi-language extractor (DEEPMAP_EXTRACTOR=
+    graphify|auto), installed BARE (no extras) by both installers +
+    requirements.txt with
+      pip install --upgrade "graphifyy>=0.8.39,<0.8.52"
+    Validated at 0.8.39 and 0.8.51 (the releases between were diffed
+    statically); 0.8.52+ and 0.9.x are outside the validated range. Its optional
+    LLM-provider extras (openai/anthropic/bedrock/…) are deliberately NOT
+    installed, so a default install ships NO LLM SDK; DeepMap invokes only
+    `graphify update --no-cluster` (NO LLM, NO clustering, NO network) —
+    zero-egress by construction. The PyPI package is `graphifyy`; its import
+    name, `graphify`, is used unchanged. This MIT attribution is retained.
+* sentence-transformers — Apache-2.0 (includes an express patent grant)
+* transformers — Apache-2.0
+* torch (CPU build) — BSD-3-Clause
+* neo4j (Python Bolt driver) — Apache-2.0 AND Python-2.0 (its PyPI license
+    expression) — pinned neo4j>=6.0.1,<7 (validated at
+    6.0.1, 6.2.0 and 6.3.1)
+* mcp (MCP Python SDK) — MIT — pinned mcp>=1.24,<2 (validated at 1.24.0, 1.28.1
+    and 1.30.0); both MCP servers `from mcp.server.fastmcp import FastMCP`
+* anyio (agronholm/anyio) — MIT — declared anyio>=4.5 in requirements.txt,
+    mcp's own floor, no ceiling (no known breaking release). It arrives with
+    mcp, and DeepMap also imports it directly: the MCP servers run each tool
+    body in a worker thread under a deadline (build/mcp_bounds.py) and bound
+    the search server's project-guard roots request
+    (build/deepmap_search_server.py). Both installers install it next to mcp
+    with the same floor; CI gets it through mcp.
+* huggingface_hub — Apache-2.0 (pre-downloads the embedding model via snapshot_download)
+* PyYAML — MIT (parses the benchmark's repos.yaml / questions.yaml; the harness also carries a stdlib
+    fallback, but both installers pip-install it, so it is attributed here)
+
+-------------------------------------------------------------------------------
+Model weights (FETCHED at install time — not bundled: about 0.6 GB, because
+/deep-map:setup and both installers skip the ONNX / OpenVINO exports)
+-------------------------------------------------------------------------------
+* nomic-ai/modernbert-embed-base — Apache-2.0
+    A GENERAL-TEXT embedding model (768-dim). DeepMap embeds structural intent
+    summaries with it (a symbol's docstring line, else a deterministic
+    name/params/callees synthesis — see build/summarize.py; no LLM call); it is
+    NOT a "code-trained" model.
+
+-------------------------------------------------------------------------------
+Not dependencies (listed for the record)
+-------------------------------------------------------------------------------
+* ranx — MIT — NOT A DEPENDENCY
+    Fusion is implemented directly in a pure-Python `_weighted_rrf`
+    (build/retrieval.py); nothing in DeepMap imports ranx, and neither
+    requirements.txt nor the installers (install.sh / install.ps1) install it.
+* mcp-neo4j-cypher (neo4j-contrib/mcp-neo4j) — MIT — NOT shipped and not a
+    dependency: DeepMap's read-only Cypher tool (deepmap_cypher) is its own
+    code. Neo4j's official MCP server (neo4j/mcp) is GPL-3.0 and is likewise
+    not shipped.
+* APOC (Core) — Apache-2.0 — NOT USED: DeepMap neither fetches, enables nor
+    calls APOC. The Neo4j distribution carries a disabled
+    labs/apoc-*-core.jar; DeepMap leaves it disabled.
+
+-------------------------------------------------------------------------------
+Notes
+-------------------------------------------------------------------------------
+- The only copyleft component DeepMap depends on directly is Neo4j Community
+  (GPLv3), fetched-not-bundled (above).
+- All other direct dependencies are permissive (MIT / Apache-2.0 / BSD-3).
+  No AGPL.
+- DeepMap is local-only, zero-telemetry: no SaaS/network-copyleft question arises.
+  (Neo4j Community sends a usage report by default; setup switches it off in
+  every instance it provisions. A Neo4j you point DeepMap at yourself, through
+  NEO4J_URI, keeps its own settings.)
+- A machine-readable SBOM is provided in sbom.cdx.json (CycloneDX). It is a
+  hand-maintained SEED: neo4j, mcp and graphifyy carry the validated ranges above
+  and anyio its declared floor (tests/compliance_gates.py keeps them equal to
+  requirements.txt), the other components are unpinned; regenerate it from the
+  installed environment for exact versions.

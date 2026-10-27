@@ -1,0 +1,70 @@
+name: validate
+
+# Runs the WHOLE no-Neo4j validation suite, `python tests/run_all.py`, on every
+# push / PR. tests/run_all.py lists what that covers (count-free on purpose; its
+# main() is the authoritative list):
+# py_compile of tests/ benchmark/ scripts/ build/, `bash -n install.sh`, the
+# install.ps1 PowerShell parse check (wherever pwsh / powershell is on PATH — the
+# ubuntu-latest image ships pwsh, so it runs here too), `claude plugin validate`
+# on both manifests (skipped where the claude CLI is absent, as here), EVERY
+# registered tests/*_gates.py suite (its drift lock fails on an unregistered
+# one), among them the in-session fusion gates (tests/stage0_insession_gates.py),
+# the copy-honesty scanner (selftest + the real public copy) and the benchmark
+# harness dry-run.
+# NOT run here: the live-Neo4j harness (stage0_capture_oracle /
+# stage0_regression_check), which needs a real instance (see
+# tests/oracles/README.md); the opt-in live per-project-isolation suite is
+# registered but skips without DEEPMAP_LIVE_TEST=1, which this job never sets
+# (only the manual macos.yml live job sets it, on a throwaway macOS runner).
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Read-only token: the job only checks out and tests. Actions are pinned to full commit SHAs (the trailing
+# comment names the release); Dependabot's github-actions updates move the SHA and the comment together.
+permissions:
+  contents: read
+
+jobs:
+  no-neo4j-validations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.x"
+
+      # The no-Neo4j gate imports the product modules to exercise them, so their
+      # IMPORT-time deps must be present: `neo4j` (build/retrieval.py's exception
+      # classifier + the servers' driver import) and `mcp` (the two MCP servers
+      # `from mcp.server.fastmcp import FastMCP` at module top). `mcp` also brings
+      # `anyio`, which requirements.txt declares with mcp's own floor because
+      # build/mcp_bounds.py and the MCP gates import it directly — so it needs no
+      # entry here. The heavy ML stack (torch / sentence-transformers) is
+      # intentionally OMITTED — it is lazy-loaded only at model time, never at
+      # import, so the no-Neo4j gate stays fast.
+      # The install.ps1 PowerShell parse check needs no install step: it runs
+      # wherever pwsh / powershell is on PATH, and the ubuntu-latest image ships
+      # pwsh. The two `claude plugin validate` checks skip here (no claude CLI;
+      # tests/plugin_manifest_gates.py is their offline mirror). `pyyaml`
+      # drives the benchmark harness dry-run + the stdlib-vs-PyYAML config-equivalence
+      # gate. `graphifyy` (the default extraction engine, installed BARE — no LLM
+      # extras) lets the real-engine extraction gates run here instead of skipping.
+      # PINNED to the SAME validated ranges as requirements.txt / install.sh /
+      # install.ps1 (tests/compliance_gates.py fails on any drift; the
+      # evidence for both ends of each range is in requirements.txt): an unpinned
+      # `mcp` resolved to mcp 2.x, which removed mcp.server.fastmcp, and turned the
+      # MCP-server gates RED; graphifyy is held to exactly the validated releases
+      # (the top of the range, 0.8.51, is what this step installs).
+      - name: Install test deps
+        run: python -m pip install --upgrade pip pyyaml "neo4j>=6.0.1,<7" "mcp>=1.24,<2" "graphifyy>=0.8.39,<0.8.52"
+
+      - name: Run the no-Neo4j validation gate
+        run: python tests/run_all.py

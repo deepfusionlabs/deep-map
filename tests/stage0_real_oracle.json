@@ -1,0 +1,209 @@
+{
+  "_meta": {
+    "contract": "TOP-K ORDERING of stable relpath::name:line keys; scores never compared (plan 0.3)",
+    "corpus": {
+      "builder": "stage0-ast",
+      "paths": [
+        "build",
+        "scripts",
+        "tests"
+      ],
+      "sha": "9c8d50bceab96288f83877c5306167b54b6d918a",
+      "tree": null
+    },
+    "key_format": "relpath::name:line",
+    "repo_id": "self",
+    "retriever": "build/retrieval.py",
+    "rrf_k": 60,
+    "target": "--project (registry)",
+    "top_k": 10,
+    "uri": "bolt://localhost:7691",
+    "weights": {
+      "bm25": 1.0,
+      "graph_weighted": 1.0,
+      "vector": 1.0
+    }
+  },
+  "queries": {
+    "compute reciprocal rank fusion across arms": {
+      "named": [
+        [
+          "Function",
+          "_weighted_rrf"
+        ],
+        [
+          "Method",
+          "DeepMapRetriever.search"
+        ],
+        [
+          "Function",
+          "_fuse"
+        ],
+        [
+          "Function",
+          "rerank"
+        ],
+        [
+          "Method",
+          "_FakeLearnedFusion.resolve_arm_weights_for_live"
+        ]
+      ],
+      "order": [
+        "build/retrieval.py::DeepMapRetriever.search:428",
+        "build/retrieval.py::_weighted_rrf:138",
+        "build/tune_weights.py::_fuse:100",
+        "build/access_prior.py::rerank:154",
+        "tests/stage0_capture_oracle.py::_arm_meta_from:125",
+        "build/retrieval.py::retrieval:1",
+        "tests/cli_gates.py::_FakeLearnedFusion.resolve_arm_weights_for_live:136",
+        "tests/cli_bounds_gates.py::_FakeNoop.resolve_arm_weights_for_live:124",
+        "build/tune_weights.py::tune_weights:1",
+        "tests/stage0_insession_gates.py::ref_plain_rrf:170"
+      ]
+    },
+    "fuse the ranked results from multiple search arms": {
+      "named": [
+        [
+          "Function",
+          "_fuse"
+        ],
+        [
+          "Method",
+          "DeepMapRetriever.search"
+        ],
+        [
+          "Function",
+          "write_instance_weights"
+        ],
+        [
+          "Method",
+          "DeepMapRetriever._hydrate"
+        ],
+        [
+          "Function",
+          "drive"
+        ]
+      ],
+      "order": [
+        "build/tune_weights.py::_fuse:100",
+        "tests/rm1_signals_gates.py::_search:52",
+        "build/retrieval_log.py::_returned_rank_ids:447",
+        "build/insights.py::arm_win_rates:90",
+        "build/retrieval.py::DeepMapRetriever.search:428",
+        "build/retrieval.py::DeepMapRetriever._hydrate:603",
+        "build/tune_weights.py::write_instance_weights:608",
+        "tests/stage0_insession_gates.py::drive:162",
+        "build/retrieval.py::retrieval:1",
+        "tests/cli_gates.py::_FakeLearnedFusion.resolve_arm_weights_for_live:136"
+      ]
+    },
+    "how are embeddings generated for the graph": {
+      "named": [
+        [
+          "Function",
+          "sync"
+        ],
+        [
+          "Module",
+          "embeddings"
+        ],
+        [
+          "Function",
+          "map_graph"
+        ],
+        [
+          "Class",
+          "Resolver"
+        ],
+        [
+          "Function",
+          "_count_embedded_nodes"
+        ]
+      ],
+      "order": [
+        "build/sync.py::sync:1003",
+        "build/embeddings.py::embeddings:1",
+        "build/graphify_extract.py::map_graph:165",
+        "build/edge_resolve.py::Resolver:64",
+        "build/sync.py::_count_embedded_nodes:782",
+        "tests/presearch_nudge_gates.py::_provision:65",
+        "build/embeddings.py::generate_embeddings:101",
+        "build/sync.py::_rebuild_code:203",
+        "tests/benchmark_arm_runner_gates.py::ScriptedTransport:69",
+        "tests/verdict_vendor_erb_gates.py::_nodes:68"
+      ]
+    },
+    "run the tests and report pass or fail": {
+      "named": [
+        [
+          "Function",
+          "gate_setup_verify_guard"
+        ],
+        [
+          "Function",
+          "run"
+        ],
+        [
+          "Method",
+          "_BlastSess.run"
+        ],
+        [
+          "Module",
+          "stage0_regression_check_redtest"
+        ],
+        [
+          "Function",
+          "run"
+        ]
+      ],
+      "order": [
+        "tests/per_project_neo4j_gates.py::_run_gate:587",
+        "tests/retrieval_robustness_gates.py::gate_query_callers:68",
+        "tests/audit_fix_gates.py::gate_setup_verify_guard:260",
+        "build/language_recognizers.py::run:254",
+        "tests/sync_prune_guard_gates.py::_BlastSess.run:122",
+        "tests/stage0_regression_check_redtest.py::stage0_regression_check_redtest:1",
+        "build/_mcp_transport.py::run:36",
+        "tests/sync_lock_gates.py::_FakeSess.run:66",
+        "tests/insights_gates.py::run:286",
+        "tests/impact_hash_notation_gates.py::_Sess.run:57"
+      ]
+    },
+    "validate the incoming request before processing": {
+      "named": [
+        [
+          "Function",
+          "_strip_comments"
+        ],
+        [
+          "Function",
+          "_strip_comments"
+        ],
+        [
+          "Function",
+          "_load_benchmark"
+        ],
+        [
+          "Function",
+          "_port_in_use"
+        ],
+        [
+          "Function",
+          "gate_selfcheck"
+        ]
+      ],
+      "order": [
+        "build/csharp_edges.py::_strip_comments:266",
+        "build/java_edges.py::_strip_comments:160",
+        "build/provision.py::preflight:1036",
+        "build/go_edges.py::_strip_comments:94",
+        "tests/benchmark_probe_gates.py::_load_benchmark:45",
+        "build/retrieval_log.py::read_records:314",
+        "build/provision.py::_port_in_use:1017",
+        "tests/sessionstart_notify_gates.py::_run_hook:62",
+        "tests/provision_checksum_gates.py::_FakeResp:123",
+        "build/port_registry.py::_port_in_use:176"
+      ]
+    }
+  }
+}

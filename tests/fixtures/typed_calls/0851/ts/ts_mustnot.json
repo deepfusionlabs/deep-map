@@ -1,0 +1,801 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_ts_gates.TREES['ts_mustnot'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_m",
+    "source_file": "src/m.ts",
+    "source_location": "L1",
+    "target": "src_m_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_m_repo",
+    "source_file": "src/m.ts",
+    "source_location": "L2",
+    "target": "src_m_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_m_repo",
+    "source_file": "src/m.ts",
+    "source_location": "L4",
+    "target": "src_m_repo_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_m",
+    "source_file": "src/m.ts",
+    "source_location": "L9",
+    "target": "src_m_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_m_cache",
+    "source_file": "src/m.ts",
+    "source_location": "L10",
+    "target": "src_m_cache_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_m",
+    "source_file": "src/m.ts",
+    "source_location": "L13",
+    "target": "src_m_irepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_m",
+    "source_file": "src/m.ts",
+    "source_location": "L17",
+    "target": "src_m_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_m_sqlrepo",
+    "source_file": "src/m.ts",
+    "source_location": "L18",
+    "target": "src_m_sqlrepo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_m",
+    "source_file": "src/m.ts",
+    "source_location": "L21",
+    "target": "src_m_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_m_order",
+    "source_file": "src/m.ts",
+    "source_location": "L22",
+    "target": "src_m_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_m",
+    "source_file": "src/m.ts",
+    "source_location": "L25",
+    "target": "src_m_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_m_box",
+    "source_file": "src/m.ts",
+    "source_location": "L26",
+    "target": "src_m_box_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_m_box",
+    "source_file": "src/m.ts",
+    "source_location": "L30",
+    "target": "src_m_box_peek",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_models",
+    "source_file": "src/models.py",
+    "source_location": "L1",
+    "target": "src_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_models_order",
+    "source_file": "src/models.py",
+    "source_location": "L2",
+    "target": "src_models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L1",
+    "target": "src_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L1",
+    "target": "src_m_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L1",
+    "target": "src_m_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L1",
+    "target": "src_m_irepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L1",
+    "target": "src_m_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L1",
+    "target": "src_m_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L4",
+    "target": "src_neg_viainterface",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L8",
+    "target": "src_neg_viaunion",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L12",
+    "target": "src_neg_viacast",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L16",
+    "target": "src_neg_viaany",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L20",
+    "target": "src_neg_viadestructure",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L24",
+    "target": "src_neg_viarebind",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L30",
+    "target": "src_neg_viatypeonly",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L34",
+    "target": "src_neg_typeonlyvalue",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L38",
+    "target": "src_neg_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_neg_holder",
+    "source_file": "src/neg.ts",
+    "source_location": "L39",
+    "target": "src_neg_holder_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L44",
+    "target": "src_neg_boxed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L48",
+    "target": "src_neg_thisinfunction",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L54",
+    "target": "src_neg_objlit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L61",
+    "target": "src_neg_sub",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_neg_sub",
+    "source_file": "src/neg.ts",
+    "source_location": "L62",
+    "target": "src_neg_sub_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_neg_sub",
+    "source_file": "src/neg.ts",
+    "source_location": "L67",
+    "target": "src_neg_sub_viafnexpr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L74",
+    "target": "src_neg_viainterfacemissing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L78",
+    "target": "src_neg_merged",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_neg_merged",
+    "source_file": "src/neg.ts",
+    "source_location": "L83",
+    "target": "src_neg_merged_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L88",
+    "target": "src_neg_forof",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_neg",
+    "source_file": "src/neg.ts",
+    "source_location": "L94",
+    "target": "src_neg_lone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_neg_lone",
+    "source_file": "src/neg.ts",
+    "source_location": "L95",
+    "target": "src_neg_lone_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_view",
+    "source_file": "src/view.tsx",
+    "source_location": "L1",
+    "target": "src_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_view",
+    "source_file": "src/view.tsx",
+    "source_location": "L1",
+    "target": "src_m_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_view",
+    "source_file": "src/view.tsx",
+    "source_location": "L3",
+    "target": "src_view_view",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "type",
+    "relation": "implements",
+    "source": "src_m_sqlrepo",
+    "source_file": "src/m.ts",
+    "source_location": "L17",
+    "target": "src_m_irepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "src_neg_holder_use",
+    "source_file": "src/neg.ts",
+    "source_location": "L39",
+    "target": "src_m_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "type",
+    "relation": "inherits",
+    "source": "src_neg_sub",
+    "source_file": "src/neg.ts",
+    "source_location": "L61",
+    "target": "src_m_repo",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m",
+    "label": "m.ts",
+    "source_file": "src/m.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_repo",
+    "label": "Repo",
+    "source_file": "src/m.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_repo_find",
+    "label": ".find()",
+    "source_file": "src/m.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_repo_make",
+    "label": ".make()",
+    "source_file": "src/m.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_cache",
+    "label": "Cache",
+    "source_file": "src/m.ts",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_cache_find",
+    "label": ".find()",
+    "source_file": "src/m.ts",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_irepo",
+    "label": "IRepo",
+    "source_file": "src/m.ts",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_sqlrepo",
+    "label": "SqlRepo",
+    "source_file": "src/m.ts",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_sqlrepo_find",
+    "label": ".find()",
+    "source_file": "src/m.ts",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_order",
+    "label": "Order",
+    "source_file": "src/m.ts",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_order_save",
+    "label": ".save()",
+    "source_file": "src/m.ts",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_box",
+    "label": "Box",
+    "source_file": "src/m.ts",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_box_get",
+    "label": ".get()",
+    "source_file": "src/m.ts",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_m_box_peek",
+    "label": ".peek()",
+    "source_file": "src/m.ts",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_models",
+    "label": "models.py",
+    "source_file": "src/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_models_order",
+    "label": "Order",
+    "source_file": "src/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_models_order_save",
+    "label": ".save()",
+    "source_file": "src/models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg",
+    "label": "neg.ts",
+    "source_file": "src/neg.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viainterface",
+    "label": "viaInterface()",
+    "source_file": "src/neg.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viaunion",
+    "label": "viaUnion()",
+    "source_file": "src/neg.ts",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viacast",
+    "label": "viaCast()",
+    "source_file": "src/neg.ts",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viaany",
+    "label": "viaAny()",
+    "source_file": "src/neg.ts",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viadestructure",
+    "label": "viaDestructure()",
+    "source_file": "src/neg.ts",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viarebind",
+    "label": "viaRebind()",
+    "source_file": "src/neg.ts",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viatypeonly",
+    "label": "viaTypeOnly()",
+    "source_file": "src/neg.ts",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_typeonlyvalue",
+    "label": "typeOnlyValue()",
+    "source_file": "src/neg.ts",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_holder",
+    "label": "Holder",
+    "source_file": "src/neg.ts",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_holder_use",
+    "label": ".use()",
+    "source_file": "src/neg.ts",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_boxed",
+    "label": "boxed()",
+    "source_file": "src/neg.ts",
+    "source_location": "L44"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_thisinfunction",
+    "label": "thisInFunction()",
+    "source_file": "src/neg.ts",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_objlit",
+    "label": "objLit",
+    "source_file": "src/neg.ts",
+    "source_location": "L54"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_sub",
+    "label": "Sub",
+    "source_file": "src/neg.ts",
+    "source_location": "L61"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_sub_run",
+    "label": ".run()",
+    "source_file": "src/neg.ts",
+    "source_location": "L62"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_sub_viafnexpr",
+    "label": ".viaFnExpr()",
+    "source_file": "src/neg.ts",
+    "source_location": "L67"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_viainterfacemissing",
+    "label": "viaInterfaceMissing()",
+    "source_file": "src/neg.ts",
+    "source_location": "L74"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_merged",
+    "label": "Merged",
+    "source_file": "src/neg.ts",
+    "source_location": "L78"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_merged_run",
+    "label": ".run()",
+    "source_file": "src/neg.ts",
+    "source_location": "L83"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_forof",
+    "label": "forOf()",
+    "source_file": "src/neg.ts",
+    "source_location": "L88"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_lone",
+    "label": "Lone",
+    "source_file": "src/neg.ts",
+    "source_location": "L94"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_neg_lone_run",
+    "label": ".run()",
+    "source_file": "src/neg.ts",
+    "source_location": "L95"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_view",
+    "label": "view.tsx",
+    "source_file": "src/view.tsx",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_view_view",
+    "label": "View()",
+    "source_file": "src/view.tsx",
+    "source_location": "L3"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "d8096ca13ee419c011257bbac29402c3ba76d121367de0159c88d97d6d25e9ca"
+}

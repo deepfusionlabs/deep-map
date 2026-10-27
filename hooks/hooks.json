@@ -1,0 +1,54 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_sessionstart_heal.py\" ; python3 -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_sessionstart_heal.py\" ; exit 0",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_sessionstart_notify.py\" ; python3 -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_sessionstart_notify.py\" ; exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_presearch_nudge.py\" ; python3 -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_presearch_nudge.py\" ; exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_postedit_syncflag.py\" ; python3 -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_postedit_syncflag.py\" ; exit 0",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*deepmap.*__deepmap_(search|impact|cypher)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_toolresult_freshness.py\" ; python3 -X utf8 \"${CLAUDE_PLUGIN_ROOT}/hooks/deepmap_toolresult_freshness.py\" ; exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

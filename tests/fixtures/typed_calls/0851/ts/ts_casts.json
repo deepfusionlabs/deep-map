@@ -1,0 +1,360 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_ts_gates.TREES['ts_casts'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L1",
+    "target": "src_casts_trepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_casts_trepo",
+    "source_file": "src/casts.ts",
+    "source_location": "L2",
+    "target": "src_casts_trepo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L7",
+    "target": "src_casts_tfake",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_casts_tfake",
+    "source_file": "src/casts.ts",
+    "source_location": "L8",
+    "target": "src_casts_tfake_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L13",
+    "target": "src_casts_tcur",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L15",
+    "target": "src_casts_tswap",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L19",
+    "target": "src_casts_tuse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L23",
+    "target": "src_casts_tcur2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L25",
+    "target": "src_casts_tswap2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L29",
+    "target": "src_casts_tuse2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L33",
+    "target": "src_casts_tok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L35",
+    "target": "src_casts_tokuse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L39",
+    "target": "src_casts_late",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_casts_late",
+    "source_file": "src/casts.ts",
+    "source_location": "L42",
+    "target": "src_casts_late_setup",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_casts_late",
+    "source_file": "src/casts.ts",
+    "source_location": "L46",
+    "target": "src_casts_late_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_casts",
+    "source_file": "src/casts.ts",
+    "source_location": "L51",
+    "target": "src_casts_early",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_casts_early",
+    "source_file": "src/casts.ts",
+    "source_location": "L54",
+    "target": "src_casts_early_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_casts_tuse",
+    "source_file": "src/casts.ts",
+    "source_location": "L20",
+    "target": "src_casts_tfake_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_casts_tuse2",
+    "source_file": "src/casts.ts",
+    "source_location": "L30",
+    "target": "src_casts_tfake_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_casts_tokuse",
+    "source_file": "src/casts.ts",
+    "source_location": "L36",
+    "target": "src_casts_tfake_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_casts_late_go",
+    "source_file": "src/casts.ts",
+    "source_location": "L47",
+    "target": "src_casts_tfake_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_casts_early_go",
+    "source_file": "src/casts.ts",
+    "source_location": "L55",
+    "target": "src_casts_tfake_find",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts",
+    "label": "casts.ts",
+    "source_file": "src/casts.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_trepo",
+    "label": "TRepo",
+    "source_file": "src/casts.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_trepo_find",
+    "label": ".find()",
+    "source_file": "src/casts.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tfake",
+    "label": "TFake",
+    "source_file": "src/casts.ts",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tfake_find",
+    "label": ".find()",
+    "source_file": "src/casts.ts",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tcur",
+    "label": "tcur",
+    "source_file": "src/casts.ts",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tswap",
+    "label": "tswap()",
+    "source_file": "src/casts.ts",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tuse",
+    "label": "tuse()",
+    "source_file": "src/casts.ts",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tcur2",
+    "label": "tcur2",
+    "source_file": "src/casts.ts",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tswap2",
+    "label": "tswap2()",
+    "source_file": "src/casts.ts",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tuse2",
+    "label": "tuse2()",
+    "source_file": "src/casts.ts",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tok",
+    "label": "tok",
+    "source_file": "src/casts.ts",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_tokuse",
+    "label": "tokUse()",
+    "source_file": "src/casts.ts",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_late",
+    "label": "Late",
+    "source_file": "src/casts.ts",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_late_setup",
+    "label": ".setup()",
+    "source_file": "src/casts.ts",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_late_go",
+    "label": ".go()",
+    "source_file": "src/casts.ts",
+    "source_location": "L46"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_early",
+    "label": "Early",
+    "source_file": "src/casts.ts",
+    "source_location": "L51"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_casts_early_go",
+    "label": ".go()",
+    "source_file": "src/casts.ts",
+    "source_location": "L54"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "b8a5d199bbd9a2d2c3efa32988e363af9a89516df9924e3954981e712c9db776"
+}

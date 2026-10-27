@@ -1,0 +1,1379 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_shapes_gates.TREES['py_class'] (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_shapes_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_audit",
+    "source_file": "app/audit.py",
+    "source_location": "L1",
+    "target": "app_audit_notifier",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_audit_notifier",
+    "source_file": "app/audit.py",
+    "source_location": "L2",
+    "target": "app_audit_notifier_notify",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_audit_notifier",
+    "source_file": "app/audit.py",
+    "source_location": "L5",
+    "target": "app_audit_notifier_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_audit_notifier",
+    "source_file": "app/audit.py",
+    "source_location": "L8",
+    "target": "app_audit_notifier_uses_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_audit",
+    "source_file": "app/audit.py",
+    "source_location": "L13",
+    "target": "app_audit_audit_untyped",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_audit",
+    "source_file": "app/audit.py",
+    "source_location": "L17",
+    "target": "app_audit_map",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_audit_map",
+    "source_file": "app/audit.py",
+    "source_location": "L18",
+    "target": "app_audit_map_bind",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_audit_map",
+    "source_file": "app/audit.py",
+    "source_location": "L21",
+    "target": "app_audit_map_add",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_audit_notifier_uses_helper",
+    "source_file": "app/audit.py",
+    "source_location": "L9",
+    "target": "app_audit_notifier_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_audit_audit_untyped",
+    "source_file": "app/audit.py",
+    "source_location": "L14",
+    "target": "app_audit_notifier_notify",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_audit_map_add",
+    "source_file": "app/audit.py",
+    "source_location": "L22",
+    "target": "app_audit_map_bind",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L4",
+    "target": "app_fields_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_holder",
+    "source_file": "app/fields.py",
+    "source_location": "L5",
+    "target": "app_fields_holder_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_holder",
+    "source_file": "app/fields.py",
+    "source_location": "L10",
+    "target": "app_fields_holder_mn_field_callable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_holder",
+    "source_file": "app/fields.py",
+    "source_location": "L13",
+    "target": "app_fields_holder_mn_untyped_injection",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_holder",
+    "source_file": "app/fields.py",
+    "source_location": "L16",
+    "target": "app_fields_holder_pos_owned",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L20",
+    "target": "app_fields_twoclasses",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_twoclasses",
+    "source_file": "app/fields.py",
+    "source_location": "L21",
+    "target": "app_fields_twoclasses_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_twoclasses",
+    "source_file": "app/fields.py",
+    "source_location": "L24",
+    "target": "app_fields_twoclasses_reset",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_twoclasses",
+    "source_file": "app/fields.py",
+    "source_location": "L27",
+    "target": "app_fields_twoclasses_mn_field_two_classes",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L31",
+    "target": "app_fields_withprop",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_withprop",
+    "source_file": "app/fields.py",
+    "source_location": "L33",
+    "target": "app_fields_withprop_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L37",
+    "target": "app_fields_mn_property_called",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_fields_mn_property_called",
+    "source_file": "app/fields.py",
+    "source_location": "L37",
+    "target": "app_fields_withprop",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L41",
+    "target": "app_fields_callbacks",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_fields_callbacks",
+    "source_file": "app/fields.py",
+    "source_location": "L42",
+    "target": "app_fields_callbacks_cb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_holder_mn_field_callable",
+    "source_file": "app/fields.py",
+    "source_location": "L11",
+    "target": "app_fields_callbacks_cb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_holder_mn_untyped_injection",
+    "source_file": "app/fields.py",
+    "source_location": "L14",
+    "target": "app_fields_withprop_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_holder_pos_owned",
+    "source_file": "app/fields.py",
+    "source_location": "L17",
+    "target": "app_fields_withprop_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_twoclasses_mn_field_two_classes",
+    "source_file": "app/fields.py",
+    "source_location": "L28",
+    "target": "app_fields_withprop_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_mn_property_called",
+    "source_file": "app/fields.py",
+    "source_location": "L38",
+    "target": "app_fields_withprop_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_mailer",
+    "source_file": "app/mailer.py",
+    "source_location": "L1",
+    "target": "app_mailer_mailer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_mailer_mailer",
+    "source_file": "app/mailer.py",
+    "source_location": "L2",
+    "target": "app_mailer_mailer_notify",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_mailer_mailer",
+    "source_file": "app/mailer.py",
+    "source_location": "L5",
+    "target": "app_mailer_mailer_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_mailer_mailer",
+    "source_file": "app/mailer.py",
+    "source_location": "L8",
+    "target": "app_mailer_mailer_bind",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L2",
+    "target": "app_models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_models_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_other",
+    "source_file": "app/models.py",
+    "source_location": "L7",
+    "target": "app_models_other_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L1",
+    "target": "app_open_dyn",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_dyn",
+    "source_file": "app/open.py",
+    "source_location": "L2",
+    "target": "app_open_dyn_getattr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_dyn",
+    "source_file": "app/open.py",
+    "source_location": "L5",
+    "target": "app_open_dyn_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L9",
+    "target": "app_open_mn_getattr_class",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_open_mn_getattr_class",
+    "source_file": "app/open.py",
+    "source_location": "L9",
+    "target": "app_open_dyn",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L13",
+    "target": "app_open_meta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_open_meta",
+    "source_file": "app/open.py",
+    "source_location": "L13",
+    "target": "type",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L17",
+    "target": "app_open_withmeta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_withmeta",
+    "source_file": "app/open.py",
+    "source_location": "L18",
+    "target": "app_open_withmeta_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L22",
+    "target": "app_open_mn_metaclass",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_open_mn_metaclass",
+    "source_file": "app/open.py",
+    "source_location": "L22",
+    "target": "app_open_withmeta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L26",
+    "target": "app_open_unknown_deco",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L31",
+    "target": "app_open_decorated",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_decorated",
+    "source_file": "app/open.py",
+    "source_location": "L32",
+    "target": "app_open_decorated_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L36",
+    "target": "app_open_mn_decorated_class",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_open_mn_decorated_class",
+    "source_file": "app/open.py",
+    "source_location": "L36",
+    "target": "app_open_decorated",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L40",
+    "target": "app_open_patched",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_patched",
+    "source_file": "app/open.py",
+    "source_location": "L41",
+    "target": "app_open_patched_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L48",
+    "target": "app_open_mn_patched",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_open_mn_patched",
+    "source_file": "app/open.py",
+    "source_location": "L48",
+    "target": "app_open_patched",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L52",
+    "target": "app_open_extbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_open_extbase",
+    "source_file": "app/open.py",
+    "source_location": "L52",
+    "target": "dict",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_extbase",
+    "source_file": "app/open.py",
+    "source_location": "L53",
+    "target": "app_open_extbase_mn_super_external",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L57",
+    "target": "app_open_ctx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_ctx",
+    "source_file": "app/open.py",
+    "source_location": "L58",
+    "target": "app_open_ctx_enter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_ctx",
+    "source_file": "app/open.py",
+    "source_location": "L61",
+    "target": "app_open_ctx_exit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L65",
+    "target": "app_open_mn_dunder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_open_mn_dunder",
+    "source_file": "app/open.py",
+    "source_location": "L65",
+    "target": "app_open_ctx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L69",
+    "target": "app_open_plain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_open_plain",
+    "source_file": "app/open.py",
+    "source_location": "L70",
+    "target": "app_open_plain_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_open",
+    "source_file": "app/open.py",
+    "source_location": "L74",
+    "target": "app_open_pos_plain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_open_pos_plain",
+    "source_file": "app/open.py",
+    "source_location": "L74",
+    "target": "app_open_plain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_open_mn_getattr_class",
+    "source_file": "app/open.py",
+    "source_location": "L10",
+    "target": "app_open_plain_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_open_mn_metaclass",
+    "source_file": "app/open.py",
+    "source_location": "L23",
+    "target": "app_open_plain_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_open_mn_decorated_class",
+    "source_file": "app/open.py",
+    "source_location": "L37",
+    "target": "app_open_plain_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_open_mn_patched",
+    "source_file": "app/open.py",
+    "source_location": "L49",
+    "target": "app_open_plain_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_open_extbase_mn_super_external",
+    "source_file": "app/open.py",
+    "source_location": "L54",
+    "target": "app_open_plain_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_open_mn_dunder",
+    "source_file": "app/open.py",
+    "source_location": "L66",
+    "target": "app_open_ctx_enter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_open_pos_plain",
+    "source_file": "app/open.py",
+    "source_location": "L75",
+    "target": "app_open_plain_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_fields",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_holder",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_twoclasses",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_withprop",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_callbacks",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_holder",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_other",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_twoclasses",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_other",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_withprop",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_other",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_fields_callbacks",
+    "source_file": "app/fields.py",
+    "source_location": "L1",
+    "target": "app_models_other",
+    "weight": 0.8
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_holder_init",
+    "source_file": "app/fields.py",
+    "source_location": "L8",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_twoclasses_init",
+    "source_file": "app/fields.py",
+    "source_location": "L22",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_twoclasses_reset",
+    "source_file": "app/fields.py",
+    "source_location": "L25",
+    "target": "app_models_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "app_fields_withprop_save",
+    "source_file": "app/fields.py",
+    "source_location": "L34",
+    "target": "app_models_order",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit",
+    "label": "audit.py",
+    "source_file": "app/audit.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_notifier",
+    "label": "Notifier",
+    "source_file": "app/audit.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_notifier_notify",
+    "label": ".notify()",
+    "source_file": "app/audit.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_notifier_helper",
+    "label": ".helper()",
+    "source_file": "app/audit.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_notifier_uses_helper",
+    "label": ".uses_helper()",
+    "source_file": "app/audit.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_audit_untyped",
+    "label": "audit_untyped()",
+    "source_file": "app/audit.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_map",
+    "label": "Map",
+    "source_file": "app/audit.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_map_bind",
+    "label": ".bind()",
+    "source_file": "app/audit.py",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_audit_map_add",
+    "label": ".add()",
+    "source_file": "app/audit.py",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields",
+    "label": "fields.py",
+    "source_file": "app/fields.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_holder",
+    "label": "Holder",
+    "source_file": "app/fields.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_holder_init",
+    "label": ".__init__()",
+    "source_file": "app/fields.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_holder_mn_field_callable",
+    "label": ".mn_field_callable()",
+    "source_file": "app/fields.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_holder_mn_untyped_injection",
+    "label": ".mn_untyped_injection()",
+    "source_file": "app/fields.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_holder_pos_owned",
+    "label": ".pos_owned()",
+    "source_file": "app/fields.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_twoclasses",
+    "label": "TwoClasses",
+    "source_file": "app/fields.py",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_twoclasses_init",
+    "label": ".__init__()",
+    "source_file": "app/fields.py",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_twoclasses_reset",
+    "label": ".reset()",
+    "source_file": "app/fields.py",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_twoclasses_mn_field_two_classes",
+    "label": ".mn_field_two_classes()",
+    "source_file": "app/fields.py",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_withprop",
+    "label": "WithProp",
+    "source_file": "app/fields.py",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_withprop_save",
+    "label": ".save()",
+    "source_file": "app/fields.py",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_mn_property_called",
+    "label": "mn_property_called()",
+    "source_file": "app/fields.py",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_callbacks",
+    "label": "Callbacks",
+    "source_file": "app/fields.py",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_fields_callbacks_cb",
+    "label": ".cb()",
+    "source_file": "app/fields.py",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mailer",
+    "label": "mailer.py",
+    "source_file": "app/mailer.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mailer_mailer",
+    "label": "Mailer",
+    "source_file": "app/mailer.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mailer_mailer_notify",
+    "label": ".notify()",
+    "source_file": "app/mailer.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mailer_mailer_helper",
+    "label": ".helper()",
+    "source_file": "app/mailer.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_mailer_mailer_bind",
+    "label": ".bind()",
+    "source_file": "app/mailer.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models",
+    "label": "models.py",
+    "source_file": "app/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order",
+    "label": "Order",
+    "source_file": "app/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_save",
+    "label": ".save()",
+    "source_file": "app/models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_other",
+    "label": "Other",
+    "source_file": "app/models.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_other_save",
+    "label": ".save()",
+    "source_file": "app/models.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open",
+    "label": "open.py",
+    "source_file": "app/open.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_dyn",
+    "label": "Dyn",
+    "source_file": "app/open.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_dyn_getattr",
+    "label": ".__getattr__()",
+    "source_file": "app/open.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_dyn_save",
+    "label": ".save()",
+    "source_file": "app/open.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_mn_getattr_class",
+    "label": "mn_getattr_class()",
+    "source_file": "app/open.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_meta",
+    "label": "Meta",
+    "source_file": "app/open.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "type",
+    "label": "type",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_withmeta",
+    "label": "WithMeta",
+    "source_file": "app/open.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_withmeta_save",
+    "label": ".save()",
+    "source_file": "app/open.py",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_mn_metaclass",
+    "label": "mn_metaclass()",
+    "source_file": "app/open.py",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_unknown_deco",
+    "label": "unknown_deco()",
+    "source_file": "app/open.py",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_decorated",
+    "label": "Decorated",
+    "source_file": "app/open.py",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_decorated_save",
+    "label": ".save()",
+    "source_file": "app/open.py",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_mn_decorated_class",
+    "label": "mn_decorated_class()",
+    "source_file": "app/open.py",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_patched",
+    "label": "Patched",
+    "source_file": "app/open.py",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_patched_save",
+    "label": ".save()",
+    "source_file": "app/open.py",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_mn_patched",
+    "label": "mn_patched()",
+    "source_file": "app/open.py",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_extbase",
+    "label": "ExtBase",
+    "source_file": "app/open.py",
+    "source_location": "L52"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "dict",
+    "label": "dict",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_extbase_mn_super_external",
+    "label": ".mn_super_external()",
+    "source_file": "app/open.py",
+    "source_location": "L53"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_ctx",
+    "label": "Ctx",
+    "source_file": "app/open.py",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_ctx_enter",
+    "label": ".__enter__()",
+    "source_file": "app/open.py",
+    "source_location": "L58"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_ctx_exit",
+    "label": ".__exit__()",
+    "source_file": "app/open.py",
+    "source_location": "L61"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_mn_dunder",
+    "label": "mn_dunder()",
+    "source_file": "app/open.py",
+    "source_location": "L65"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_plain",
+    "label": "Plain",
+    "source_file": "app/open.py",
+    "source_location": "L69"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_plain_save",
+    "label": ".save()",
+    "source_file": "app/open.py",
+    "source_location": "L70"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_open_pos_plain",
+    "label": "pos_plain()",
+    "source_file": "app/open.py",
+    "source_location": "L74"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "165ca47358beefcc7e95bfe2c205e88522aafcc7b94c905493eabb4a8959218a"
+}

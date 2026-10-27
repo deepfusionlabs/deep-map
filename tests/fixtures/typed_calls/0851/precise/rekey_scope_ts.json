@@ -1,0 +1,350 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/precise_family_gates.TREES['rekey_scope_ts'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/precise_family_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_noimp",
+    "source_file": "src/noimp.ts",
+    "source_location": "L1",
+    "target": "src_noimp_noimport",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ok",
+    "source_file": "src/ok.ts",
+    "source_location": "L1",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ok",
+    "source_file": "src/ok.ts",
+    "source_location": "L4",
+    "target": "src_ok_res",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_ok_res",
+    "source_file": "src/ok.ts",
+    "source_location": "L5",
+    "target": "src_ok_res_wrap",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ok",
+    "source_file": "src/ok.ts",
+    "source_location": "L10",
+    "target": "src_ok_shadow",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ok",
+    "source_file": "src/ok.ts",
+    "source_location": "L14",
+    "target": "src_ok_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ok",
+    "source_file": "src/ok.ts",
+    "source_location": "L19",
+    "target": "src_ok_nested",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ok",
+    "source_file": "src/ok.ts",
+    "source_location": "L24",
+    "target": "src_ok_arrowonly",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ok",
+    "source_file": "src/ok.ts",
+    "source_location": "L28",
+    "target": "src_ok_firstnew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_ok_res_wrap",
+    "source_file": "src/ok.ts",
+    "source_location": "L6",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_ok_shadow",
+    "source_file": "src/ok.ts",
+    "source_location": "L11",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_ok_local",
+    "source_file": "src/ok.ts",
+    "source_location": "L16",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_ok_nested",
+    "source_file": "src/ok.ts",
+    "source_location": "L21",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_ok_firstnew",
+    "source_file": "src/ok.ts",
+    "source_location": "L30",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L1",
+    "target": "src_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L2",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L4",
+    "target": "src_use_vians",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L8",
+    "target": "src_use_viabare",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L12",
+    "target": "src_use_viaobj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_use",
+    "source_file": "src/use.ts",
+    "source_location": "L16",
+    "target": "src_use_nsshadow",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "confidence_score": 0.8,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_noimp_noimport",
+    "source_file": "src/noimp.ts",
+    "source_location": "L2",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_use_viabare",
+    "source_file": "src/use.ts",
+    "source_location": "L9",
+    "target": "src_ok_ok",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_noimp",
+    "label": "noimp.ts",
+    "source_file": "src/noimp.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_noimp_noimport",
+    "label": "noImport()",
+    "source_file": "src/noimp.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok",
+    "label": "ok.ts",
+    "source_file": "src/ok.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_ok",
+    "label": "OK",
+    "source_file": "src/ok.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_res",
+    "label": "Res",
+    "source_file": "src/ok.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_res_wrap",
+    "label": ".wrap()",
+    "source_file": "src/ok.ts",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_shadow",
+    "label": "shadow()",
+    "source_file": "src/ok.ts",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_local",
+    "label": "local()",
+    "source_file": "src/ok.ts",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_nested",
+    "label": "nested()",
+    "source_file": "src/ok.ts",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_arrowonly",
+    "label": "arrowOnly()",
+    "source_file": "src/ok.ts",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ok_firstnew",
+    "label": "firstNew()",
+    "source_file": "src/ok.ts",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use",
+    "label": "use.ts",
+    "source_file": "src/use.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_vians",
+    "label": "viaNs()",
+    "source_file": "src/use.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_viabare",
+    "label": "viaBare()",
+    "source_file": "src/use.ts",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_viaobj",
+    "label": "viaObj()",
+    "source_file": "src/use.ts",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_use_nsshadow",
+    "label": "nsShadow()",
+    "source_file": "src/use.ts",
+    "source_location": "L16"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "023979a6d32791cc6e19bf53438795c2289d73f0af180167f7660b9ae64e8181"
+}

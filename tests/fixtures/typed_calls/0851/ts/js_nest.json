@@ -1,0 +1,171 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_ts_gates.TREES['js_nest'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_foo",
+    "source_file": "src/foo.js",
+    "source_location": "L1",
+    "target": "src_foo_foo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_foo_foo",
+    "source_file": "src/foo.js",
+    "source_location": "L2",
+    "target": "src_foo_foo_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_nest",
+    "source_file": "src/nest.js",
+    "source_location": "L1",
+    "target": "src_foo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_nest",
+    "source_file": "src/nest.js",
+    "source_location": "L1",
+    "target": "src_foo_foo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_nest",
+    "source_file": "src/nest.js",
+    "source_location": "L3",
+    "target": "src_nest_outer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_nest",
+    "source_file": "src/nest.js",
+    "source_location": "L8",
+    "target": "src_nest_outer2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_nest",
+    "source_file": "src/nest.js",
+    "source_location": "L15",
+    "target": "src_nest_k",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_nest_k",
+    "source_file": "src/nest.js",
+    "source_location": "L16",
+    "target": "src_nest_k_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_nest_outer",
+    "source_file": "src/nest.js",
+    "source_location": "L4",
+    "target": "src_foo_foo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_nest_outer2",
+    "source_file": "src/nest.js",
+    "source_location": "L10",
+    "target": "src_foo_foo",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_foo",
+    "label": "foo.js",
+    "source_file": "src/foo.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_foo_foo",
+    "label": "Foo",
+    "source_file": "src/foo.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_foo_foo_run",
+    "label": ".run()",
+    "source_file": "src/foo.js",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_nest",
+    "label": "nest.js",
+    "source_file": "src/nest.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_nest_outer",
+    "label": "outer()",
+    "source_file": "src/nest.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_nest_outer2",
+    "label": "outer2()",
+    "source_file": "src/nest.js",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_nest_k",
+    "label": "K",
+    "source_file": "src/nest.js",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_nest_k_m",
+    "label": ".m()",
+    "source_file": "src/nest.js",
+    "source_location": "L16"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "3d8b6e28ff72eb401eb6a612700e69a7592f7431133a482fbbde7cdbcd1edb17"
+}

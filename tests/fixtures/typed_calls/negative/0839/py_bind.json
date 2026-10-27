@@ -1,0 +1,1517 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_shapes_gates.TREES['py_bind'] (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_shapes_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_bind",
+    "source_file": "app/bind.py",
+    "source_location": "L1",
+    "target": "app_core",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_bind",
+    "source_file": "app/bind.py",
+    "source_location": "L4",
+    "target": "app_bind_pos_cross_param",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_bind_pos_cross_param",
+    "source_file": "app/bind.py",
+    "source_location": "L4",
+    "target": "app_bind_py_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_bind",
+    "source_file": "app/bind.py",
+    "source_location": "L8",
+    "target": "app_bind_cand_cross_if_else",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_bind",
+    "source_file": "app/bind.py",
+    "source_location": "L16",
+    "target": "app_bind_mn_cross_unannotated",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_bind_cand_cross_if_else",
+    "source_file": "app/bind.py",
+    "source_location": "L10",
+    "target": "app_bind_py_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L2",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L7",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_order",
+    "source_file": "app/core.py",
+    "source_location": "L8",
+    "target": "app_core_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_order",
+    "source_file": "app/core.py",
+    "source_location": "L11",
+    "target": "app_core_order_acquire",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_order",
+    "source_file": "app/core.py",
+    "source_location": "L14",
+    "target": "app_core_order_append",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_order",
+    "source_file": "app/core.py",
+    "source_location": "L17",
+    "target": "app_core_order_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L21",
+    "target": "app_core_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_other",
+    "source_file": "app/core.py",
+    "source_location": "L22",
+    "target": "app_core_other_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_other",
+    "source_file": "app/core.py",
+    "source_location": "L25",
+    "target": "app_core_other_acquire",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_other",
+    "source_file": "app/core.py",
+    "source_location": "L28",
+    "target": "app_core_other_append",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L32",
+    "target": "app_core_third",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_core_third",
+    "source_file": "app/core.py",
+    "source_location": "L33",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L37",
+    "target": "app_core_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L41",
+    "target": "app_core_pos_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L46",
+    "target": "app_core_pos_param",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_core_pos_param",
+    "source_file": "app/core.py",
+    "source_location": "L46",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L50",
+    "target": "app_core_pos_append",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_core_pos_append",
+    "source_file": "app/core.py",
+    "source_location": "L50",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L54",
+    "target": "app_core_pos_acquire",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_core_pos_acquire",
+    "source_file": "app/core.py",
+    "source_location": "L54",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L58",
+    "target": "app_core_mn_rebind",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L64",
+    "target": "app_core_mn_del",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L70",
+    "target": "app_core_mn_for",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L77",
+    "target": "app_core_mn_with",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L84",
+    "target": "app_core_mn_except",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L93",
+    "target": "app_core_mn_walrus",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L100",
+    "target": "app_core_mn_global",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L106",
+    "target": "app_core_mn_nonlocal",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L116",
+    "target": "app_core_mn_tuple",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L122",
+    "target": "app_core_mn_comprehension",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L127",
+    "target": "app_core_cand_if_else",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L135",
+    "target": "app_core_mn_any",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_core_mn_any",
+    "source_file": "app/core.py",
+    "source_location": "L135",
+    "target": "any",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L139",
+    "target": "app_core_mn_union_str",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "app_core_mn_union_str",
+    "source_file": "app/core.py",
+    "source_location": "L139",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L143",
+    "target": "app_core_mn_pipe_str",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_core_mn_pipe_str",
+    "source_file": "app/core.py",
+    "source_location": "L143",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L147",
+    "target": "app_core_mn_union_any",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "app_core_mn_union_any",
+    "source_file": "app/core.py",
+    "source_location": "L147",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "app_core_mn_union_any",
+    "source_file": "app/core.py",
+    "source_location": "L147",
+    "target": "any",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L151",
+    "target": "app_core_mn_list",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "app_core_mn_list",
+    "source_file": "app/core.py",
+    "source_location": "L151",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L155",
+    "target": "app_core_mn_typevar",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_core_mn_typevar",
+    "source_file": "app/core.py",
+    "source_location": "L155",
+    "target": "t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L159",
+    "target": "app_core_mn_unparseable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_core",
+    "source_file": "app/core.py",
+    "source_location": "L163",
+    "target": "app_core_mn_unannotated",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_make",
+    "source_file": "app/core.py",
+    "source_location": "L38",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_pos_local",
+    "source_file": "app/core.py",
+    "source_location": "L42",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_pos_local",
+    "source_file": "app/core.py",
+    "source_location": "L43",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_pos_param",
+    "source_file": "app/core.py",
+    "source_location": "L47",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_pos_append",
+    "source_file": "app/core.py",
+    "source_location": "L51",
+    "target": "app_core_other_append",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_pos_acquire",
+    "source_file": "app/core.py",
+    "source_location": "L55",
+    "target": "app_core_other_acquire",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_rebind",
+    "source_file": "app/core.py",
+    "source_location": "L59",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_rebind",
+    "source_file": "app/core.py",
+    "source_location": "L60",
+    "target": "app_core_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_rebind",
+    "source_file": "app/core.py",
+    "source_location": "L61",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_del",
+    "source_file": "app/core.py",
+    "source_location": "L65",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_del",
+    "source_file": "app/core.py",
+    "source_location": "L67",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_for",
+    "source_file": "app/core.py",
+    "source_location": "L71",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_for",
+    "source_file": "app/core.py",
+    "source_location": "L73",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_with",
+    "source_file": "app/core.py",
+    "source_location": "L78",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_with",
+    "source_file": "app/core.py",
+    "source_location": "L80",
+    "target": "app_core_other_acquire",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_except",
+    "source_file": "app/core.py",
+    "source_location": "L85",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_except",
+    "source_file": "app/core.py",
+    "source_location": "L89",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_walrus",
+    "source_file": "app/core.py",
+    "source_location": "L94",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_walrus",
+    "source_file": "app/core.py",
+    "source_location": "L96",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_global",
+    "source_file": "app/core.py",
+    "source_location": "L102",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_global",
+    "source_file": "app/core.py",
+    "source_location": "L103",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_nonlocal",
+    "source_file": "app/core.py",
+    "source_location": "L107",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_nonlocal",
+    "source_file": "app/core.py",
+    "source_location": "L113",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_tuple",
+    "source_file": "app/core.py",
+    "source_location": "L117",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_tuple",
+    "source_file": "app/core.py",
+    "source_location": "L119",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_comprehension",
+    "source_file": "app/core.py",
+    "source_location": "L123",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_comprehension",
+    "source_file": "app/core.py",
+    "source_location": "L124",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_cand_if_else",
+    "source_file": "app/core.py",
+    "source_location": "L129",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_cand_if_else",
+    "source_file": "app/core.py",
+    "source_location": "L131",
+    "target": "app_core_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_cand_if_else",
+    "source_file": "app/core.py",
+    "source_location": "L132",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_any",
+    "source_file": "app/core.py",
+    "source_location": "L136",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_union_str",
+    "source_file": "app/core.py",
+    "source_location": "L140",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_pipe_str",
+    "source_file": "app/core.py",
+    "source_location": "L144",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_union_any",
+    "source_file": "app/core.py",
+    "source_location": "L148",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_list",
+    "source_file": "app/core.py",
+    "source_location": "L152",
+    "target": "app_core_other_append",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_typevar",
+    "source_file": "app/core.py",
+    "source_location": "L156",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_unparseable",
+    "source_file": "app/core.py",
+    "source_location": "L160",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_core_mn_unannotated",
+    "source_file": "app/core.py",
+    "source_location": "L164",
+    "target": "app_core_third_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_pep695",
+    "source_file": "app/pep695.py",
+    "source_location": "L1",
+    "target": "app_core",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_pep695",
+    "source_file": "app/pep695.py",
+    "source_location": "L4",
+    "target": "app_pep695_keeper695",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_pep695_keeper695",
+    "source_file": "app/pep695.py",
+    "source_location": "L5",
+    "target": "app_pep695_keeper695_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_pep695",
+    "source_file": "app/pep695.py",
+    "source_location": "L9",
+    "target": "app_pep695_mn_pep695",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_pep695_mn_pep695",
+    "source_file": "app/pep695.py",
+    "source_location": "L9",
+    "target": "app_pep695_py_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_pep695_mn_pep695",
+    "source_file": "app/pep695.py",
+    "source_location": "L10",
+    "target": "app_pep695_keeper695_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_tvar",
+    "source_file": "app/tvar.py",
+    "source_location": "L1",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_tvar",
+    "source_file": "app/tvar.py",
+    "source_location": "L6",
+    "target": "app_tvar_keeper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_tvar_keeper",
+    "source_file": "app/tvar.py",
+    "source_location": "L7",
+    "target": "app_tvar_keeper_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_tvar",
+    "source_file": "app/tvar.py",
+    "source_location": "L11",
+    "target": "app_tvar_mn_typevar_named_like_class",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "app_tvar_mn_typevar_named_like_class",
+    "source_file": "app/tvar.py",
+    "source_location": "L11",
+    "target": "app_tvar_py_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_tvar_mn_typevar_named_like_class",
+    "source_file": "app/tvar.py",
+    "source_location": "L12",
+    "target": "app_tvar_keeper_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_bind",
+    "source_file": "app/bind.py",
+    "source_location": "L1",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_bind",
+    "source_file": "app/bind.py",
+    "source_location": "L1",
+    "target": "app_core_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_pep695",
+    "source_file": "app/pep695.py",
+    "source_location": "L1",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_bind_cand_cross_if_else",
+    "source_file": "app/bind.py",
+    "source_location": "L10",
+    "target": "app_core_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_bind_cand_cross_if_else",
+    "source_file": "app/bind.py",
+    "source_location": "L12",
+    "target": "app_core_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_bind_py_order",
+    "source_file": "app/bind.py",
+    "source_location": "L1",
+    "target": "app_core_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_bind_py_order",
+    "source_file": "app/bind.py",
+    "source_location": "L1",
+    "target": "app_core_other",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_pep695_keeper695",
+    "source_file": "app/pep695.py",
+    "source_location": "L1",
+    "target": "app_core_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_pep695_py_order",
+    "source_file": "app/pep695.py",
+    "source_location": "L1",
+    "target": "app_core_order",
+    "weight": 0.8
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_bind",
+    "label": "bind.py",
+    "source_file": "app/bind.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_bind_pos_cross_param",
+    "label": "pos_cross_param()",
+    "source_file": "app/bind.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_bind_py_order",
+    "label": "Order",
+    "source_file": "app/bind.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_bind_cand_cross_if_else",
+    "label": "cand_cross_if_else()",
+    "source_file": "app/bind.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_bind_mn_cross_unannotated",
+    "label": "mn_cross_unannotated()",
+    "source_file": "app/bind.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core",
+    "label": "core.py",
+    "source_file": "app/core.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_order",
+    "label": "Order",
+    "source_file": "app/core.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_order_save",
+    "label": ".save()",
+    "source_file": "app/core.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_order_acquire",
+    "label": ".acquire()",
+    "source_file": "app/core.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_order_append",
+    "label": ".append()",
+    "source_file": "app/core.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_order_store",
+    "label": ".store()",
+    "source_file": "app/core.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_other",
+    "label": "Other",
+    "source_file": "app/core.py",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_other_save",
+    "label": ".save()",
+    "source_file": "app/core.py",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_other_acquire",
+    "label": ".acquire()",
+    "source_file": "app/core.py",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_other_append",
+    "label": ".append()",
+    "source_file": "app/core.py",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_third",
+    "label": "Third",
+    "source_file": "app/core.py",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_third_save",
+    "label": ".save()",
+    "source_file": "app/core.py",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_make",
+    "label": "make()",
+    "source_file": "app/core.py",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_pos_local",
+    "label": "pos_local()",
+    "source_file": "app/core.py",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_pos_param",
+    "label": "pos_param()",
+    "source_file": "app/core.py",
+    "source_location": "L46"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_pos_append",
+    "label": "pos_append()",
+    "source_file": "app/core.py",
+    "source_location": "L50"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_pos_acquire",
+    "label": "pos_acquire()",
+    "source_file": "app/core.py",
+    "source_location": "L54"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_rebind",
+    "label": "mn_rebind()",
+    "source_file": "app/core.py",
+    "source_location": "L58"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_del",
+    "label": "mn_del()",
+    "source_file": "app/core.py",
+    "source_location": "L64"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_for",
+    "label": "mn_for()",
+    "source_file": "app/core.py",
+    "source_location": "L70"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_with",
+    "label": "mn_with()",
+    "source_file": "app/core.py",
+    "source_location": "L77"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_except",
+    "label": "mn_except()",
+    "source_file": "app/core.py",
+    "source_location": "L84"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_walrus",
+    "label": "mn_walrus()",
+    "source_file": "app/core.py",
+    "source_location": "L93"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_global",
+    "label": "mn_global()",
+    "source_file": "app/core.py",
+    "source_location": "L100"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_nonlocal",
+    "label": "mn_nonlocal()",
+    "source_file": "app/core.py",
+    "source_location": "L106"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_tuple",
+    "label": "mn_tuple()",
+    "source_file": "app/core.py",
+    "source_location": "L116"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_comprehension",
+    "label": "mn_comprehension()",
+    "source_file": "app/core.py",
+    "source_location": "L122"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_cand_if_else",
+    "label": "cand_if_else()",
+    "source_file": "app/core.py",
+    "source_location": "L127"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_any",
+    "label": "mn_any()",
+    "source_file": "app/core.py",
+    "source_location": "L135"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "any",
+    "label": "Any",
+    "source_file": "app/core.py",
+    "source_location": "L135"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_union_str",
+    "label": "mn_union_str()",
+    "source_file": "app/core.py",
+    "source_location": "L139"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_pipe_str",
+    "label": "mn_pipe_str()",
+    "source_file": "app/core.py",
+    "source_location": "L143"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_union_any",
+    "label": "mn_union_any()",
+    "source_file": "app/core.py",
+    "source_location": "L147"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_list",
+    "label": "mn_list()",
+    "source_file": "app/core.py",
+    "source_location": "L151"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_typevar",
+    "label": "mn_typevar()",
+    "source_file": "app/core.py",
+    "source_location": "L155"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "t",
+    "label": "T",
+    "source_file": "app/core.py",
+    "source_location": "L155"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_unparseable",
+    "label": "mn_unparseable()",
+    "source_file": "app/core.py",
+    "source_location": "L159"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_core_mn_unannotated",
+    "label": "mn_unannotated()",
+    "source_file": "app/core.py",
+    "source_location": "L163"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pep695",
+    "label": "pep695.py",
+    "source_file": "app/pep695.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pep695_keeper695",
+    "label": "Keeper695",
+    "source_file": "app/pep695.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pep695_keeper695_store",
+    "label": ".store()",
+    "source_file": "app/pep695.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pep695_mn_pep695",
+    "label": "mn_pep695()",
+    "source_file": "app/pep695.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_pep695_py_order",
+    "label": "Order",
+    "source_file": "app/pep695.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tvar",
+    "label": "tvar.py",
+    "source_file": "app/tvar.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tvar_keeper",
+    "label": "Keeper",
+    "source_file": "app/tvar.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tvar_keeper_save",
+    "label": ".save()",
+    "source_file": "app/tvar.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tvar_mn_typevar_named_like_class",
+    "label": "mn_typevar_named_like_class()",
+    "source_file": "app/tvar.py",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_tvar_py_order",
+    "label": "Order",
+    "source_file": "app/tvar.py",
+    "source_location": "L11"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "e8e10344a76f6df388cef230985c2f9b197c152b161f7bb4190465844b4d1a79"
+}

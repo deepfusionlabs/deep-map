@@ -1,0 +1,153 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "bom-ref": "deepmap",
+      "type": "application",
+      "name": "deepmap",
+      "description": "Per-project Neo4j code knowledge graph + intent-summary embeddings + 3-arm Weighted-RRF hybrid search for Claude Code",
+      "licenses": [{ "license": { "id": "MIT" } }]
+    },
+    "properties": [
+      { "name": "deepmap:sbom_status", "value": "SEED (hand-maintained) — neo4j, mcp and graphifyy carry their VALIDATED version RANGES, identical to requirements.txt, both installers and CI (tests/compliance_gates.py fails on any drift); anyio carries the floor requirements.txt declares for it (mcp's own; both installers install it next to mcp with that floor, CI gets it through mcp); the other pip components stay unpinned (no known breaking release). A range is not a resolved release: regenerate this SBOM from the installed environment in the build for an exact-version bill" },
+      { "name": "deepmap:apoc_not_used", "value": "APOC (Core, Apache-2.0) is NOT used: DeepMap neither fetches, enables nor calls it. The Neo4j distribution carries a disabled labs/apoc-*-core.jar; DeepMap leaves it disabled." },
+      { "name": "deepmap:ranx_not_a_dependency", "value": "ranx (MIT) is not a dependency and is not shipped: fusion is the pure-Python _weighted_rrf in build/retrieval.py, nothing imports ranx, and requirements.txt and the installers exclude it." },
+      { "name": "deepmap:mcp_neo4j_cypher_not_shipped", "value": "mcp-neo4j-cypher (neo4j-contrib/mcp-neo4j, MIT) is not a dependency and is not shipped: DeepMap's read-only Cypher tool (deepmap_cypher) is its own code. Neo4j's official MCP server (neo4j/mcp, GPL-3.0) is likewise not shipped." }
+    ]
+  },
+  "components": [
+    {
+      "bom-ref": "neo4j-community",
+      "type": "application",
+      "name": "Neo4j Community Edition",
+      "version": "5.26.32 (the provisioner's default NEO4J_VERSION for a new store, validated end to end; a store created with 5.26.0 keeps it until setup or `provision.py neo4j-upgrade` moves it; the NEO4J_VERSION env var overrides both)",
+      "licenses": [{ "license": { "id": "GPL-3.0-or-later" } }],
+      "scope": "required",
+      "properties": [
+        { "name": "deepmap:distribution", "value": "prerequisite — fetched from the official source (dist.neo4j.org) at setup; NOT bundled or redistributed; its code is not modified (setup writes only DeepMap's own settings into neo4j.conf on the user's machine, including dbms.usage_report.enabled=false); accessed arms-length over Bolt" },
+        { "name": "deepmap:compatibility", "value": "Only copyleft component; fetch-not-bundle + arms-length Bolt keeps DeepMap's MIT code free of the GPLv3 combined-work obligation" }
+      ]
+    },
+    {
+      "bom-ref": "graphifyy",
+      "type": "library",
+      "name": "graphifyy",
+      "version": ">=0.8.39,<0.8.52",
+      "purl": "pkg:pypi/graphifyy",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "scope": "required",
+      "properties": [
+        { "name": "deepmap:validated_versions", "value": "0.8.39, 0.8.51" },
+        { "name": "deepmap:install", "value": "pip install --upgrade \"graphifyy>=0.8.39,<0.8.52\"" },
+        { "name": "deepmap:distribution", "value": "SHIPPED — the multi-language extraction engine (DEEPMAP_EXTRACTOR=graphify|auto). Installed BARE (no extras) by both installers + requirements.txt with `pip install --upgrade \"graphifyy>=0.8.39,<0.8.52\"` — the --upgrade lifts an older in-range copy to the top of the range. NEVER graphifyy[all] — the optional LLM SDK extras (openai/anthropic/bedrock) are deliberately excluded so a default install ships NO LLM SDK. Validated at 0.8.39 and 0.8.51 (the releases between were diffed statically); 0.8.52+ and 0.9.x are outside the validated range (build/graphify_extract.py SUPPORTED_GRAPHIFY_SPEC)." },
+        { "name": "deepmap:note", "value": "Upstream AST engine (Graphify-Labs/graphify, formerly safishamsi/graphify), used unchanged. MIT for every release the pin allows; upstream relicensed to Apache-2.0 from 0.9.25 (2026-07-22), so re-check the licence before widening the pin. PyPI package is `graphifyy`; the import name `graphify` is used unchanged. MIT attribution retained. DeepMap invokes only `graphify update --no-cluster` (NO LLM, NO clustering, NO network) — multi-language extraction is zero-egress by construction. Base wheel pulls ~25 tree-sitter grammars." }
+      ]
+    },
+    {
+      "bom-ref": "sentence-transformers",
+      "type": "library",
+      "name": "sentence-transformers",
+      "version": "UNPINNED (>=3.0 basis)",
+      "purl": "pkg:pypi/sentence-transformers",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "scope": "required",
+      "properties": [{ "name": "deepmap:distribution", "value": "bundled (pip); includes an express patent grant" }]
+    },
+    {
+      "bom-ref": "transformers",
+      "type": "library",
+      "name": "transformers",
+      "version": "UNPINNED (>=4.48 basis)",
+      "purl": "pkg:pypi/transformers",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "scope": "required",
+      "properties": [{ "name": "deepmap:distribution", "value": "bundled (pip)" }]
+    },
+    {
+      "bom-ref": "torch-cpu",
+      "type": "library",
+      "name": "torch",
+      "version": "UNPINNED (CPU build)",
+      "purl": "pkg:pypi/torch",
+      "licenses": [{ "license": { "id": "BSD-3-Clause" } }],
+      "scope": "required",
+      "properties": [{ "name": "deepmap:distribution", "value": "bundled (pip); CPU build" }]
+    },
+    {
+      "bom-ref": "neo4j-bolt-driver",
+      "type": "library",
+      "name": "neo4j",
+      "version": ">=6.0.1,<7",
+      "purl": "pkg:pypi/neo4j",
+      "licenses": [{ "expression": "Apache-2.0 AND Python-2.0" }],
+      "scope": "required",
+      "properties": [
+        { "name": "deepmap:validated_versions", "value": "6.0.1, 6.2.0, 6.3.1" },
+        { "name": "deepmap:install", "value": "pip install --upgrade \"neo4j>=6.0.1,<7\"" },
+        { "name": "deepmap:distribution", "value": "bundled (pip); Python Bolt driver, installed with `pip install --upgrade \"neo4j>=6.0.1,<7\"`. Floor: 6.0.1 is the lowest release the full gate suite passed on — 5.x drivers failed it when measured (no neo4j.exceptions.ConnectionPoolError, which the CLI's error classifier needed until it was made defensive; 5.6 and older also reject notifications_min_severity) and are not re-validated, and 6.0.0 cannot import its bolt layer on Windows; ceiling: 7 is unreleased." }
+      ]
+    },
+    {
+      "bom-ref": "mcp",
+      "type": "library",
+      "name": "mcp",
+      "version": ">=1.24,<2",
+      "purl": "pkg:pypi/mcp",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "scope": "required",
+      "properties": [
+        { "name": "deepmap:validated_versions", "value": "1.24.0, 1.28.1, 1.30.0" },
+        { "name": "deepmap:install", "value": "pip install --upgrade \"mcp>=1.24,<2\"" },
+        { "name": "deepmap:distribution", "value": "bundled (pip); the MCP Python SDK — both MCP servers `from mcp.server.fastmcp import FastMCP` at module load. Installed with `pip install --upgrade \"mcp>=1.24,<2\"`. Floor: 1.13 and older die at import next to current pydantic, and 1.14-1.23 lack the streamable-HTTP client the MCP gates drive; ceiling: 2.x removed mcp.server.fastmcp." }
+      ]
+    },
+    {
+      "bom-ref": "anyio",
+      "type": "library",
+      "name": "anyio",
+      "version": ">=4.5",
+      "purl": "pkg:pypi/anyio",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "scope": "required",
+      "properties": [
+        { "name": "deepmap:declared", "value": "anyio>=4.5 in requirements.txt — mcp's own floor (mcp 1.28.1 metadata: anyio>=4.5), so declaring it never changes what pip resolves next to mcp; no ceiling (no known breaking release)" },
+        { "name": "deepmap:distribution", "value": "bundled (pip); both installers install it next to mcp, with requirements.txt's floor, in mcp's own pip command; CI gets it through mcp. Imported directly: the MCP servers run each tool body in a worker thread under a deadline (build/mcp_bounds.py) and bound the search server's project-guard roots request (build/deepmap_search_server.py), so requirements.txt declares it rather than leaving it to a transitive dependency." }
+      ]
+    },
+    {
+      "bom-ref": "huggingface_hub",
+      "type": "library",
+      "name": "huggingface_hub",
+      "version": "UNPINNED",
+      "purl": "pkg:pypi/huggingface_hub",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "scope": "required",
+      "properties": [{ "name": "deepmap:distribution", "value": "bundled (pip); pre-downloads the embedding model via snapshot_download" }]
+    },
+    {
+      "bom-ref": "pyyaml",
+      "type": "library",
+      "name": "PyYAML",
+      "version": "UNPINNED",
+      "purl": "pkg:pypi/pyyaml",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "scope": "required",
+      "properties": [{ "name": "deepmap:distribution", "value": "bundled (pip); parses the benchmark repos.yaml / questions.yaml. Both installers pip-install it; the harness also has a stdlib fallback, but the dep is shipped." }]
+    },
+    {
+      "bom-ref": "modernbert-embed-base",
+      "type": "data",
+      "name": "nomic-ai/modernbert-embed-base",
+      "version": "UNPINNED (model weights)",
+      "purl": "pkg:huggingface/nomic-ai/modernbert-embed-base",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "scope": "required",
+      "properties": [
+        { "name": "deepmap:distribution", "value": "fetched at install (about 0.6 GB: /deep-map:setup and both installers skip the ONNX / OpenVINO exports); not bundled" },
+        { "name": "deepmap:note", "value": "GENERAL-TEXT embedding model (768-dim), NOT code-trained." }
+      ]
+    }
+  ]
+}

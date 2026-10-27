@@ -1,0 +1,19 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (sindresorhus/yocto-queue, a modern ESM `export default class Queue` in a .js file), trimmed to the fields build/graphify_extract.map_graph reads. Proves modern ES-class JavaScript DOES yield graphify `method` edges -> correct :Method typing (contrast js_commonjs.json, where CommonJS yields none). Zero-egress capture.",
+  "nodes": [
+    {"id": "index", "label": "index.js", "file_type": "code", "source_file": "index.js", "source_location": "L1"},
+    {"id": "index_queue", "label": "Queue", "file_type": "code", "source_file": "index.js", "source_location": "L15"},
+    {"id": "index_queue_constructor", "label": ".constructor()", "file_type": "code", "source_file": "index.js", "source_location": "L20"},
+    {"id": "index_queue_enqueue", "label": ".enqueue()", "file_type": "code", "source_file": "index.js", "source_location": "L24"},
+    {"id": "index_queue_dequeue", "label": ".dequeue()", "file_type": "code", "source_file": "index.js", "source_location": "L38"},
+    {"id": "index_queue_clear", "label": ".clear()", "file_type": "code", "source_file": "index.js", "source_location": "L66"}
+  ],
+  "links": [
+    {"source": "index", "target": "index_queue", "relation": "contains"},
+    {"source": "index_queue", "target": "index_queue_constructor", "relation": "method"},
+    {"source": "index_queue", "target": "index_queue_enqueue", "relation": "method"},
+    {"source": "index_queue", "target": "index_queue_dequeue", "relation": "method"},
+    {"source": "index_queue", "target": "index_queue_clear", "relation": "method"},
+    {"source": "index_queue_constructor", "target": "index_queue_clear", "relation": "calls"}
+  ]
+}

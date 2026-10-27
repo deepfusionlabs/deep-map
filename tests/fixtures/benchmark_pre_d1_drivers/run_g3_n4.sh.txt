@@ -1,0 +1,163 @@
+#!/usr/bin/env bash
+# ---------------------------------------------------------------------------
+# run_g3_n4.sh — one-command, RESUMABLE driver for the G3 gold-standard run.
+#
+# Produces the *publishable-candidate* Scenario-A head-to-head number: Opus 4.8,
+# WITH vs WITHOUT DeepMap, across all 5 pinned repos, at the methodology default
+# n=4 (this driver OMITS --runs-per-arm — the indicative first pass used n=2).
+#
+# It only orchestrates the EXISTING entrypoints (build/deepmap_cli.py,
+# benchmark/run_benchmark.py) — no new scoring logic, and build/retrieval.py is
+# never touched. The blind Stage-2 judge and the honesty state machine are the
+# harness's; this script does not fabricate or publish anything.
+#
+# WHY a driver: RUN_SCENARIO_A.md is a correct but manual multi-step sequence,
+# and a full n=4 run is a long (~15h) job that competes with interactive plan
+# quota. This wraps it so the operator triggers ONCE and it survives restarts:
+# each repo is keyed by a deterministic run-id and SKIPPED if already done, so a
+# re-launch continues where it stopped (and never re-spends on a scored repo).
+#
+# SPENDS: yes — the Opus arm + the blind judge run on your Claude Code PLAN
+# (~$0 out-of-pocket) plus a cheap ~2-call --probe. It does NOT spend OpenRouter.
+# Only the OPERATOR should launch it (never auto-run in a session).
+#
+# Usage:
+#   export NEO4J_PASSWORD=deepmap
+#   # one-time prereqs (see RUN_SCENARIO_A.md §0): provision Neo4j, clone repos
+#   python build/provision.py setup
+#   bash benchmark/run_g3_n4.sh                 # foreground
+#   nohup bash benchmark/run_g3_n4.sh >/dev/null 2>&1 &   # detached (~15h)
+#   tail -f benchmark/results/g3n4-driver.log   # watch either way
+#
+# Resume: just re-run the same command — completed repos are skipped.
+#
+# Env (all optional):
+#   CLONES=/tmp/deepmap-bench-clones   root holding the pinned clones (OUTSIDE this repo)
+#   DO_CLONE=1                         clone/checkout any missing repo at its pinned SHA
+#   SKIP_PROBE=1                       skip the pre-flight --probe (only if it already passed this session)
+#   SKIP_MCP_START=1                   don't (re)start the detached MCP servers
+#   DRIVER_LOG=<path>                  driver logfile (default benchmark/results/g3n4-driver.log)
+#   TIMEOUT_S=<sec>                    per-run claude timeout (default 600; caps a hang — the 1800 default stalled flask ~10h)
+# ---------------------------------------------------------------------------
+set -euo pipefail
+
+# --- Run from the repo root (this script lives in benchmark/) ----------------
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$REPO_ROOT"
+
+CLONES="${CLONES:-/tmp/deepmap-bench-clones}"
+RESULTS="benchmark/results"
+LOG="${DRIVER_LOG:-$RESULTS/g3n4-driver.log}"
+COMBINED_ID="g3n4-combined"
+TIMEOUT_S="${TIMEOUT_S:-600}"   # per-run claude timeout; caps a hang at 10min (the 1800s default stalled flask ~10h)
+
+mkdir -p "$RESULTS"
+# Tee everything to the logfile so a detached run is watchable.
+exec > >(tee -a "$LOG") 2>&1
+
+log() { printf '[g3n4 %s] %s\n' "$(date -u +%H:%M:%S)" "$*"; }
+die() { printf '[g3n4 ERROR] %s\n' "$*" >&2; exit 1; }
+
+# --- Preconditions (fail-closed — never a silent bad run) --------------------
+export DEEPMAP_REAL_ENGINE=1
+export PYTHONUNBUFFERED=1   # flush subprocess [run] progress live (block-buffering made a slow flask look stalled)
+: "${NEO4J_PASSWORD:?set NEO4J_PASSWORD (dev default: deepmap)}"
+command -v python >/dev/null 2>&1 || die "python not on PATH"
+command -v claude >/dev/null 2>&1 || die "claude (Claude Code CLI) not on PATH — the arm + judge need it"
+[ -f benchmark/repos.yaml ] || die "benchmark/repos.yaml missing — run from a DeepMap checkout"
+
+# Authoritative repo list (name / url / pinned_sha) straight from repos.yaml.
+# tr -d '\r': Python's print() emits CRLF on Windows; a trailing \r would corrupt every path/compare.
+mapfile -t REPO_NAMES < <(python -c "import yaml;print('\n'.join(r['name'] for r in yaml.safe_load(open('benchmark/repos.yaml'))['repos']))" | tr -d '\r')
+[ "${#REPO_NAMES[@]}" -gt 0 ] || die "no repos parsed from repos.yaml"
+log "repos: ${REPO_NAMES[*]}"
+log "clone root: $CLONES   log: $LOG"
+
+sanitize() { printf '%s' "${1//\//__}"; }   # psf/requests -> psf__requests
+
+# classify_run <run_id> -> prints: scored | captured | none
+# scored   = results.json exists AND measured==true (fully done → skip repo)
+# captured = results.json exists but not measured (re-run ONLY the judge, no re-spend on capture)
+# none     = nothing yet (full sync→run→score)
+classify_run() {
+  python - "$1" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path("benchmark/results") / sys.argv[1] / "results.json"
+if not p.is_file():
+    print("none"); sys.exit(0)
+try:
+    print("scored" if json.loads(p.read_text(encoding="utf-8")).get("measured") else "captured")
+except Exception:
+    print("none")
+PY
+}
+
+clone_if_needed() {  # <name>
+  local name="$1" san url sha dir
+  san="$(sanitize "$name")"; dir="$CLONES/$san"
+  if [ -d "$dir/.git" ]; then return 0; fi
+  if [ "${DO_CLONE:-0}" != "1" ]; then
+    die "clone missing: $dir  (run RUN_SCENARIO_A.md §1, or re-run with DO_CLONE=1)"
+  fi
+  read -r url sha < <(python -c "import yaml,sys
+n=sys.argv[1]
+for r in yaml.safe_load(open('benchmark/repos.yaml'))['repos']:
+    if r['name']==n: print(r['url'], r['pinned_sha']); break" "$name" | tr -d '\r')
+  [ -n "$url" ] && [ -n "$sha" ] || die "no url/pinned_sha for $name in repos.yaml"
+  mkdir -p "$CLONES"
+  log "clone $name -> $dir @ ${sha:0:12}"
+  git clone "$url" "$dir"
+  git -C "$dir" checkout "$sha"
+}
+
+# --- Start MCP servers + pre-flight probe (the ON-arm wiring + honesty gate) --
+if [ "${SKIP_MCP_START:-0}" != "1" ]; then
+  log "starting detached MCP servers (idempotent)…"
+  python build/provision.py mcp-start
+fi
+if [ "${SKIP_PROBE:-0}" != "1" ]; then
+  log "pre-flight --probe (ON loads / OFF isolated / capture-path) — MUST pass…"
+  python benchmark/run_benchmark.py --probe || die "--probe failed (exit != 0): fix the MCP wiring before the matrix"
+  log "probe OK"
+fi
+
+# --- Per-repo: build ITS graph, capture n=4, blind-score → measured -----------
+RUN_IDS=()
+for name in "${REPO_NAMES[@]}"; do
+  san="$(sanitize "$name")"; rid="g3n4-$san"; dir="$CLONES/$san"
+  RUN_IDS+=("$rid")
+  state="$(classify_run "$rid" | tr -d '\r')"   # tr: strip CRLF from the classifier's stdout
+  case "$state" in
+    scored)
+      log "SKIP $name — already scored ($rid)"; continue ;;
+    captured)
+      log "RESUME $name — captured but unscored; running blind score only ($rid)"
+      python benchmark/run_benchmark.py --score "$rid"
+      log "scored $name"; continue ;;
+    *)
+      clone_if_needed "$name"
+      log "sync $name graph at its pinned SHA (--stale-cleanup)…"
+      python build/deepmap_cli.py sync "$dir" --stale-cleanup
+      log "capture $name (n=4; --runs-per-arm OMITTED = methodology default)…"
+      python benchmark/run_benchmark.py --repo "$name" --clone-root "$CLONES" --run-id "$rid" --timeout-s "$TIMEOUT_S"
+      log "blind Stage-2 score $name…"
+      python benchmark/run_benchmark.py --score "$rid"
+      log "measured $name ($rid)" ;;
+  esac
+done
+
+# --- Merge the per-repo runs into one head-to-head table ---------------------
+log "merge → $RESULTS/$COMBINED_ID/results.md"
+python benchmark/run_benchmark.py --merge "$(IFS=,; echo "${RUN_IDS[*]}")" --run-id "$COMBINED_ID"
+
+log "DONE. Combined table: $RESULTS/$COMBINED_ID/results.md"
+cat <<'BANNER'
+------------------------------------------------------------------------------
+ G3 gold-standard capture complete (n=4, all 5 repos, blind-scored).
+ This is a PUBLISHABLE CANDIDATE — NOT yet publishable:
+   • the ground truth is still a CURATOR DRAFT (needs independent sign-off), and
+   • no number goes to the README / landing / product page until G3 sign-off.
+ See benchmark/CURATION_PROVENANCE.md and docs/deepmap-tasks.md (gate G3).
+------------------------------------------------------------------------------
+BANNER

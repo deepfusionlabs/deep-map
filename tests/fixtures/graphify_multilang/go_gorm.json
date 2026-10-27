@@ -1,0 +1,182 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (Go GORM/Gin sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (--no-cluster, no LLM). Proves graphify node-ifies Go struct types as bare :Class nodes and same-file handler funcs as :Function, but emits NONE of the GORM/route/embedding relationships -> the field state go_edges fixes.",
+  "nodes": [
+    {
+      "id": "model_order",
+      "label": "order.go",
+      "file_type": "code",
+      "source_file": "model/order.go",
+      "source_location": "L1"
+    },
+    {
+      "id": "model_order",
+      "label": "Order",
+      "file_type": "code",
+      "source_file": "model/order.go",
+      "source_location": "L3"
+    },
+    {
+      "id": "customer",
+      "label": "Customer",
+      "file_type": "code",
+      "source_file": "model/order.go",
+      "source_location": "L6"
+    },
+    {
+      "id": "lineitem",
+      "label": "LineItem",
+      "file_type": "code",
+      "source_file": "model/order.go",
+      "source_location": "L7"
+    },
+    {
+      "id": "model_lineitem",
+      "label": "LineItem",
+      "file_type": "code",
+      "source_file": "model/order.go",
+      "source_location": "L10"
+    },
+    {
+      "id": "model_order_total",
+      "label": ".Total()",
+      "file_type": "code",
+      "source_file": "model/order.go",
+      "source_location": "L15"
+    },
+    {
+      "id": "web_routes",
+      "label": "routes.go",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L1"
+    },
+    {
+      "id": "web_routes_registerroutes",
+      "label": "RegisterRoutes()",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L3"
+    },
+    {
+      "id": "engine",
+      "label": "Engine",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L3"
+    },
+    {
+      "id": "web_routes_getorders",
+      "label": "GetOrders()",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L7"
+    },
+    {
+      "id": "context",
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L7"
+    },
+    {
+      "id": "web_routes_neworderservice",
+      "label": "NewOrderService()",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L10"
+    },
+    {
+      "id": "orderrepo",
+      "label": "OrderRepo",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L10"
+    },
+    {
+      "id": "orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L10"
+    },
+    {
+      "id": "web_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "web/routes.go",
+      "source_location": "L14"
+    }
+  ],
+  "links": [
+    {
+      "source": "model_order",
+      "target": "model_order",
+      "relation": "contains"
+    },
+    {
+      "source": "model_order",
+      "target": "customer",
+      "relation": "references"
+    },
+    {
+      "source": "model_order",
+      "target": "lineitem",
+      "relation": "references"
+    },
+    {
+      "source": "model_order",
+      "target": "model_lineitem",
+      "relation": "contains"
+    },
+    {
+      "source": "model_order",
+      "target": "model_order_total",
+      "relation": "method"
+    },
+    {
+      "source": "web_routes",
+      "target": "web_routes_registerroutes",
+      "relation": "contains"
+    },
+    {
+      "source": "web_routes_registerroutes",
+      "target": "engine",
+      "relation": "references"
+    },
+    {
+      "source": "web_routes",
+      "target": "web_routes_getorders",
+      "relation": "contains"
+    },
+    {
+      "source": "web_routes_getorders",
+      "target": "context",
+      "relation": "references"
+    },
+    {
+      "source": "web_routes",
+      "target": "web_routes_neworderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "web_routes_neworderservice",
+      "target": "orderrepo",
+      "relation": "references"
+    },
+    {
+      "source": "web_routes_neworderservice",
+      "target": "orderservice",
+      "relation": "references"
+    },
+    {
+      "source": "web_routes",
+      "target": "web_orderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "web_orderservice",
+      "target": "orderrepo",
+      "relation": "references"
+    }
+  ]
+}

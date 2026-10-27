@@ -1,0 +1,525 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_py_gates.TREES['proxy'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_py_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_ctx",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L1",
+    "target": "flask_ctx_appcontext",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_ctx_appcontext",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L2",
+    "target": "flask_ctx_appcontext_push",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_ctx_appcontext",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L5",
+    "target": "flask_ctx_appcontext_pop",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L3",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L4",
+    "target": "contextvars",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L6",
+    "target": "werkzeug_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L9",
+    "target": "flask_ctx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L13",
+    "target": "flask_globals_proxymixin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_globals_proxymixin",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L14",
+    "target": "flask_globals_proxymixin_get_current_object",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "flask_globals_proxymixin_get_current_object",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L14",
+    "target": "t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L16",
+    "target": "flask_globals_appcontextproxy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "flask_globals_appcontextproxy",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L16",
+    "target": "flask_ctx_appcontext",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L18",
+    "target": "flask_globals_sessionstub",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_globals_sessionstub",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L19",
+    "target": "flask_globals_sessionstub_get_value",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_helpers",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L1",
+    "target": "flask_globals",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_helpers",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L2",
+    "target": "flask_globals",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_helpers",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L5",
+    "target": "flask_helpers_flash",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_helpers",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L10",
+    "target": "flask_helpers_push_ctx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_helpers",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L14",
+    "target": "flask_helpers_read_session",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flask_typing_only",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L1",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_typing_only",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L4",
+    "target": "flask_typing_only_hidden",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_typing_only_hidden",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L5",
+    "target": "flask_typing_only_hidden_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_typing_only",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L9",
+    "target": "flask_typing_only_visible",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "flask_typing_only_visible",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L10",
+    "target": "flask_typing_only_visible_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_typing_only",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L14",
+    "target": "flask_typing_only_use_hidden",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "flask_typing_only_use_hidden",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L14",
+    "target": "flask_typing_only_hidden",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flask_typing_only",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L18",
+    "target": "flask_typing_only_use_visible",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "flask_typing_only_use_visible",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L18",
+    "target": "flask_typing_only_visible",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "flask_typing_only_use_hidden",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L15",
+    "target": "flask_typing_only_visible_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "flask_typing_only_use_visible",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L19",
+    "target": "flask_typing_only_visible_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flask_globals",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L9",
+    "target": "flask_ctx_appcontext",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "flask_globals_proxymixin",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L9",
+    "target": "flask_ctx_appcontext",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "t",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L9",
+    "target": "flask_ctx_appcontext",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "flask_globals_appcontextproxy",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L9",
+    "target": "flask_ctx_appcontext",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "flask_globals_sessionstub",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L9",
+    "target": "flask_ctx_appcontext",
+    "weight": 0.8
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_init",
+    "label": "__init__.py",
+    "source_file": "src/flask/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx",
+    "label": "ctx.py",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx_appcontext",
+    "label": "AppContext",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx_appcontext_push",
+    "label": ".push()",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_ctx_appcontext_pop",
+    "label": ".pop()",
+    "source_file": "src/flask/ctx.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_globals",
+    "label": "globals.py",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_globals_proxymixin",
+    "label": "ProxyMixin",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_globals_proxymixin_get_current_object",
+    "label": "._get_current_object()",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "t",
+    "label": "T",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_globals_appcontextproxy",
+    "label": "AppContextProxy",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_globals_sessionstub",
+    "label": "SessionStub",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_globals_sessionstub_get_value",
+    "label": ".get_value()",
+    "source_file": "src/flask/globals.py",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_helpers",
+    "label": "helpers.py",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_helpers_flash",
+    "label": "flash()",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_helpers_push_ctx",
+    "label": "push_ctx()",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_helpers_read_session",
+    "label": "read_session()",
+    "source_file": "src/flask/helpers.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_typing_only",
+    "label": "typing_only.py",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_typing_only_hidden",
+    "label": "Hidden",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_typing_only_hidden_run",
+    "label": ".run()",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_typing_only_visible",
+    "label": "Visible",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_typing_only_visible_run",
+    "label": ".run()",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_typing_only_use_hidden",
+    "label": "use_hidden()",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flask_typing_only_use_visible",
+    "label": "use_visible()",
+    "source_file": "src/flask/typing_only.py",
+    "source_location": "L18"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "0177d7e2e50433964af30454447521d252cdc8d31e770d19475ec59dc4819c5d"
+}

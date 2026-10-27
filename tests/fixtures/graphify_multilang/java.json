@@ -1,0 +1,91 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (java sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (socket tripwire armed).",
+  "nodes": [
+    {
+      "id": "src_db",
+      "label": "Db.java",
+      "file_type": "code",
+      "source_file": "src/Db.java",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_db_db",
+      "label": "Db",
+      "file_type": "code",
+      "source_file": "src/Db.java",
+      "source_location": "L2"
+    },
+    {
+      "id": "src_db_db_save",
+      "label": ".save()",
+      "file_type": "code",
+      "source_file": "src/Db.java",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_orderservice",
+      "label": "OrderService.java",
+      "file_type": "code",
+      "source_file": "src/OrderService.java",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_orderservice_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "src/OrderService.java",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_orderservice_orderservice_placeorder",
+      "label": ".placeOrder()",
+      "file_type": "code",
+      "source_file": "src/OrderService.java",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_orderservice_orderservice_compute",
+      "label": ".compute()",
+      "file_type": "code",
+      "source_file": "src/OrderService.java",
+      "source_location": "L8"
+    }
+  ],
+  "links": [
+    {
+      "source": "src_db",
+      "target": "src_db_db",
+      "relation": "contains"
+    },
+    {
+      "source": "src_db_db",
+      "target": "src_db_db_save",
+      "relation": "method"
+    },
+    {
+      "source": "src_orderservice",
+      "target": "src_orderservice_orderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "src_orderservice_orderservice",
+      "target": "src_orderservice_orderservice_placeorder",
+      "relation": "method"
+    },
+    {
+      "source": "src_orderservice_orderservice",
+      "target": "src_orderservice_orderservice_compute",
+      "relation": "method"
+    },
+    {
+      "source": "src_orderservice_orderservice_placeorder",
+      "target": "src_orderservice_orderservice_compute",
+      "relation": "calls"
+    },
+    {
+      "source": "src_orderservice_orderservice_placeorder",
+      "target": "src_db_db_save",
+      "relation": "calls"
+    }
+  ]
+}

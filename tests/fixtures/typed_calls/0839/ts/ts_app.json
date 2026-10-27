@@ -1,0 +1,1603 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_ts_gates.TREES['ts_app'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_svc",
+    "source_file": "packages/a/svc.ts",
+    "source_location": "L1",
+    "target": "a_svc_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_svc_svc",
+    "source_file": "packages/a/svc.ts",
+    "source_location": "L2",
+    "target": "a_svc_svc_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "b_svc",
+    "source_file": "packages/b/svc.ts",
+    "source_location": "L1",
+    "target": "b_svc_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "b_svc_svc",
+    "source_file": "packages/b/svc.ts",
+    "source_location": "L2",
+    "target": "b_svc_svc_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "lib_util",
+    "source_file": "src/lib/util.ts",
+    "source_location": "L1",
+    "target": "lib_util_fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "lib_util",
+    "source_file": "src/lib/util.ts",
+    "source_location": "L5",
+    "target": "lib_util_twice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_base",
+    "source_file": "src/models/base.ts",
+    "source_location": "L1",
+    "target": "models_base_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_base_base",
+    "source_file": "src/models/base.ts",
+    "source_location": "L2",
+    "target": "models_base_base_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "imports_from",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L1",
+    "target": "models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "imports_from",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L2",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "re_exports",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L2",
+    "target": "models_repo_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "re_exports",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L2",
+    "target": "models_repo_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "imports_from",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L3",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "re_exports",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L3",
+    "target": "models_repo_irepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "models_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L1",
+    "target": "models_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "models_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L1",
+    "target": "models_base_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L3",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L6",
+    "target": "models_order_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L10",
+    "target": "models_order_order_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L14",
+    "target": "models_order_order_archive",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L18",
+    "target": "models_order_order_clone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "models_order_order_clone",
+    "source_file": "src/models/order.ts",
+    "source_location": "L19",
+    "target": "models_order_order_create",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "models_repo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L1",
+    "target": "models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "models_repo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L1",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_repo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L3",
+    "target": "models_repo_irepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_repo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L7",
+    "target": "models_repo_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_repo_sqlrepo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L8",
+    "target": "models_repo_sqlrepo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_repo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L13",
+    "target": "models_repo_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_repo_cache",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L14",
+    "target": "models_repo_cache_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "nest_article_controller",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L1",
+    "target": "common",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "nest_article_controller",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L2",
+    "target": "nest_article_service",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "nest_article_controller",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L2",
+    "target": "nest_article_service_articleservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "nest_article_controller",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L5",
+    "target": "nest_article_controller_articlecontroller",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "nest_article_controller_articlecontroller",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L6",
+    "target": "nest_article_controller_articlecontroller_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "nest_article_controller_articlecontroller",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L9",
+    "target": "nest_article_controller_articlecontroller_findall",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "nest_article_controller_articlecontroller",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L14",
+    "target": "nest_article_controller_articlecontroller_findone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "nest_article_service",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L1",
+    "target": "common",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "nest_article_service",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L2",
+    "target": "typeorm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "nest_article_service",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L3",
+    "target": "models_index",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "nest_article_service",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L3",
+    "target": "models_index_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "nest_article_service",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L6",
+    "target": "nest_article_service_articleservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "nest_article_service_articleservice",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L7",
+    "target": "nest_article_service_articleservice_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "nest_article_service_articleservice",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L9",
+    "target": "nest_article_service_articleservice_findall",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "nest_article_service_articleservice",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L13",
+    "target": "nest_article_service_articleservice_findone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "nest_article_service_articleservice_findone",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L14",
+    "target": "nest_article_service_articleservice_findall",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "ng_widget",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L1",
+    "target": "core",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "ng_widget",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L2",
+    "target": "src_service",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ng_widget",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L2",
+    "target": "src_service_orderservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ng_widget",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L4",
+    "target": "ng_widget_widget",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ng_widget_widget",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L7",
+    "target": "ng_widget_widget_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_schemas",
+    "source_file": "src/schemas.ts",
+    "source_location": "L1",
+    "target": "src_schemas_zodnumber",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_schemas_zodnumber",
+    "source_file": "src/schemas.ts",
+    "source_location": "L2",
+    "target": "src_schemas_zodnumber_addcheck",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_schemas_zodnumber",
+    "source_file": "src/schemas.ts",
+    "source_location": "L6",
+    "target": "src_schemas_zodnumber_multipleof",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_schemas",
+    "source_file": "src/schemas.ts",
+    "source_location": "L11",
+    "target": "src_schemas_zoddate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_schemas_zoddate",
+    "source_file": "src/schemas.ts",
+    "source_location": "L12",
+    "target": "src_schemas_zoddate_addcheck",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_schemas_zoddate",
+    "source_file": "src/schemas.ts",
+    "source_location": "L16",
+    "target": "src_schemas_zoddate_min",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_schemas_zoddate",
+    "source_file": "src/schemas.ts",
+    "source_location": "L20",
+    "target": "src_schemas_zoddate_stray",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_schemas_zodnumber_multipleof",
+    "source_file": "src/schemas.ts",
+    "source_location": "L7",
+    "target": "src_schemas_zoddate_addcheck",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_schemas_zoddate_min",
+    "source_file": "src/schemas.ts",
+    "source_location": "L17",
+    "target": "src_schemas_zoddate_addcheck",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_schemas_zoddate_stray",
+    "source_file": "src/schemas.ts",
+    "source_location": "L21",
+    "target": "src_schemas_zodnumber_multipleof",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_service_spec",
+    "source_file": "src/service.spec.ts",
+    "source_location": "L1",
+    "target": "models_index",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service_spec",
+    "source_file": "src/service.spec.ts",
+    "source_location": "L1",
+    "target": "models_index_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_service_spec",
+    "source_file": "src/service.spec.ts",
+    "source_location": "L3",
+    "target": "src_service_spec_check",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L1",
+    "target": "models_index",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L1",
+    "target": "models_index_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L1",
+    "target": "models_index_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L1",
+    "target": "models_index_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L2",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L2",
+    "target": "models_repo_irepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L3",
+    "target": "lib_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L4",
+    "target": "path",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L6",
+    "target": "src_service_orderservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_service_orderservice",
+    "source_file": "src/service.ts",
+    "source_location": "L10",
+    "target": "src_service_orderservice_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_service_orderservice",
+    "source_file": "src/service.ts",
+    "source_location": "L14",
+    "target": "src_service_orderservice_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_service_orderservice",
+    "source_file": "src/service.ts",
+    "source_location": "L29",
+    "target": "src_service_orderservice_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_service_orderservice",
+    "source_file": "src/service.ts",
+    "source_location": "L31",
+    "target": "src_service_orderservice_viaiface",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L40",
+    "target": "src_service_free",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L44",
+    "target": "src_service_makerepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L48",
+    "target": "src_service_viareturn",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_service_orderservice_handle",
+    "source_file": "src/service.ts",
+    "source_location": "L24",
+    "target": "src_service_orderservice_local",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_service_free",
+    "source_file": "src/service.ts",
+    "source_location": "L41",
+    "target": "src_service_orderservice_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_service_viareturn",
+    "source_file": "src/service.ts",
+    "source_location": "L49",
+    "target": "src_service_makerepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_ws",
+    "source_file": "src/ws.ts",
+    "source_location": "L1",
+    "target": "a_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_ws",
+    "source_file": "src/ws.ts",
+    "source_location": "L1",
+    "target": "a_svc_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ws",
+    "source_file": "src/ws.ts",
+    "source_location": "L3",
+    "target": "src_ws_usesvc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig",
+    "source_file": "tsconfig.json",
+    "source_location": "L2",
+    "target": "tsconfig_compileroptions",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig_compileroptions",
+    "source_file": "tsconfig.json",
+    "source_location": "L3",
+    "target": "tsconfig_compileroptions_baseurl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig_compileroptions",
+    "source_file": "tsconfig.json",
+    "source_location": "L4",
+    "target": "tsconfig_compileroptions_paths",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig_compileroptions_paths",
+    "source_file": "tsconfig.json",
+    "source_location": "L5",
+    "target": "tsconfig_paths_lib",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "extends",
+    "source": "tsconfig_paths_lib",
+    "source_file": "tsconfig.json",
+    "source_location": "L5",
+    "target": "ref_src_lib",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tsconfig_compileroptions_paths",
+    "source_file": "tsconfig.json",
+    "source_location": "L6",
+    "target": "tsconfig_paths_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "extends",
+    "source": "tsconfig_paths_a",
+    "source_file": "tsconfig.json",
+    "source_location": "L6",
+    "target": "ref_packages_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "export",
+    "relation": "re_exports",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L1",
+    "target": "models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "export",
+    "relation": "re_exports",
+    "source": "models_index",
+    "source_file": "src/models/index.ts",
+    "source_location": "L2",
+    "target": "models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "nest_article_service",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L3",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service_spec",
+    "source_file": "src/service.spec.ts",
+    "source_location": "L1",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L1",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L1",
+    "target": "models_repo_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_service",
+    "source_file": "src/service.ts",
+    "source_location": "L1",
+    "target": "models_repo_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "type",
+    "relation": "inherits",
+    "source": "models_order_order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L3",
+    "target": "models_base_base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "models_repo_irepo_find",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L4",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "type",
+    "relation": "implements",
+    "source": "models_repo_sqlrepo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L7",
+    "target": "models_repo_irepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "models_repo_sqlrepo_find",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L8",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "models_repo_cache_find",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L14",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "nest_article_controller_articlecontroller_constructor",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L6",
+    "target": "nest_article_service_articleservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "nest_article_service_articleservice_constructor",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L7",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "nest_article_service_articleservice_findall",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L9",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "nest_article_service_articleservice_findone",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L13",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "src_service_orderservice",
+    "source_file": "src/service.ts",
+    "source_location": "L8",
+    "target": "models_repo_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "src_service_orderservice_constructor",
+    "source_file": "src/service.ts",
+    "source_location": "L10",
+    "target": "models_repo_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "src_service_orderservice_handle",
+    "source_file": "src/service.ts",
+    "source_location": "L14",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "src_service_orderservice_viaiface",
+    "source_file": "src/service.ts",
+    "source_location": "L31",
+    "target": "models_repo_irepo",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_svc",
+    "label": "svc.ts",
+    "source_file": "packages/a/svc.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_svc_svc",
+    "label": "Svc",
+    "source_file": "packages/a/svc.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_svc_svc_run",
+    "label": ".run()",
+    "source_file": "packages/a/svc.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_svc",
+    "label": "svc.ts",
+    "source_file": "packages/b/svc.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_svc_svc",
+    "label": "Svc",
+    "source_file": "packages/b/svc.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_svc_svc_run",
+    "label": ".run()",
+    "source_file": "packages/b/svc.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_util",
+    "label": "util.ts",
+    "source_file": "src/lib/util.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_util_fmt",
+    "label": "fmt()",
+    "source_file": "src/lib/util.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_util_twice",
+    "label": "twice()",
+    "source_file": "src/lib/util.ts",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_base",
+    "label": "base.ts",
+    "source_file": "src/models/base.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_base_base",
+    "label": "Base",
+    "source_file": "src/models/base.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_base_base_helper",
+    "label": ".helper()",
+    "source_file": "src/models/base.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_index",
+    "label": "index.ts",
+    "source_file": "src/models/index.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order",
+    "label": "order.ts",
+    "source_file": "src/models/order.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order",
+    "label": "Order",
+    "source_file": "src/models/order.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_save",
+    "label": ".save()",
+    "source_file": "src/models/order.ts",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_create",
+    "label": ".create()",
+    "source_file": "src/models/order.ts",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_archive",
+    "label": ".archive()",
+    "source_file": "src/models/order.ts",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_clone",
+    "label": ".clone()",
+    "source_file": "src/models/order.ts",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo",
+    "label": "repo.ts",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_irepo",
+    "label": "IRepo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_sqlrepo",
+    "label": "SqlRepo",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_sqlrepo_find",
+    "label": ".find()",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_cache",
+    "label": "Cache",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_repo_cache_find",
+    "label": ".find()",
+    "source_file": "src/models/repo.ts",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_controller",
+    "label": "article.controller.ts",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_controller_articlecontroller",
+    "label": "ArticleController",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_controller_articlecontroller_constructor",
+    "label": ".constructor()",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_controller_articlecontroller_findall",
+    "label": ".findAll()",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_controller_articlecontroller_findone",
+    "label": ".findOne()",
+    "source_file": "src/nest/article.controller.ts",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_service",
+    "label": "article.service.ts",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_service_articleservice",
+    "label": "ArticleService",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_service_articleservice_constructor",
+    "label": ".constructor()",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_service_articleservice_findall",
+    "label": ".findAll()",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nest_article_service_articleservice_findone",
+    "label": ".findOne()",
+    "source_file": "src/nest/article.service.ts",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ng_widget",
+    "label": "widget.ts",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ng_widget_widget",
+    "label": "Widget",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ng_widget_widget_run",
+    "label": ".run()",
+    "source_file": "src/ng/widget.ts",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas",
+    "label": "schemas.ts",
+    "source_file": "src/schemas.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas_zodnumber",
+    "label": "ZodNumber",
+    "source_file": "src/schemas.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas_zodnumber_addcheck",
+    "label": "._addCheck()",
+    "source_file": "src/schemas.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas_zodnumber_multipleof",
+    "label": ".multipleOf()",
+    "source_file": "src/schemas.ts",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas_zoddate",
+    "label": "ZodDate",
+    "source_file": "src/schemas.ts",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas_zoddate_addcheck",
+    "label": "._addCheck()",
+    "source_file": "src/schemas.ts",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas_zoddate_min",
+    "label": ".min()",
+    "source_file": "src/schemas.ts",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_schemas_zoddate_stray",
+    "label": ".stray()",
+    "source_file": "src/schemas.ts",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_spec",
+    "label": "service.spec.ts",
+    "source_file": "src/service.spec.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_spec_check",
+    "label": "check()",
+    "source_file": "src/service.spec.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service",
+    "label": "service.ts",
+    "source_file": "src/service.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_orderservice",
+    "label": "OrderService",
+    "source_file": "src/service.ts",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_orderservice_constructor",
+    "label": ".constructor()",
+    "source_file": "src/service.ts",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_orderservice_handle",
+    "label": ".handle()",
+    "source_file": "src/service.ts",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_orderservice_local",
+    "label": ".local()",
+    "source_file": "src/service.ts",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_orderservice_viaiface",
+    "label": ".viaIface()",
+    "source_file": "src/service.ts",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_free",
+    "label": "free()",
+    "source_file": "src/service.ts",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_makerepo",
+    "label": "makeRepo()",
+    "source_file": "src/service.ts",
+    "source_location": "L44"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_service_viareturn",
+    "label": "viaReturn()",
+    "source_file": "src/service.ts",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ws",
+    "label": "ws.ts",
+    "source_file": "src/ws.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ws_usesvc",
+    "label": "useSvc()",
+    "source_file": "src/ws.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig",
+    "label": "tsconfig.json",
+    "source_file": "tsconfig.json",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_compileroptions",
+    "label": "compilerOptions",
+    "source_file": "tsconfig.json",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_compileroptions_baseurl",
+    "label": "baseUrl",
+    "source_file": "tsconfig.json",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_compileroptions_paths",
+    "label": "paths",
+    "source_file": "tsconfig.json",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_paths_lib",
+    "label": "@lib/*",
+    "source_file": "tsconfig.json",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tsconfig_paths_a",
+    "label": "@a/*",
+    "source_file": "tsconfig.json",
+    "source_location": "L6"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "e8d888f40873cc58897b969011c5ff3e6dafae6f0d4c627835d8cf811aacf2c1"
+}

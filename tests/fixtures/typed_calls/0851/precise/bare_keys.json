@@ -1,0 +1,1165 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/precise_fixes_gates.BARE_TREE, written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/precise_fixes_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_alias",
+    "source_file": "go/alias.go",
+    "source_location": "L3",
+    "target": "go_c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "go_c",
+    "source_file": "go/alias.go",
+    "source_location": "L5",
+    "target": "go_c_ping",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_alias",
+    "source_file": "go/alias.go",
+    "source_location": "L11",
+    "target": "go_alias_useping",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "go_alias_useping",
+    "source_file": "go/alias.go",
+    "source_location": "L12",
+    "target": "go_c_ping",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_main",
+    "source_file": "go/main.go",
+    "source_location": "L3",
+    "target": "go_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_main",
+    "source_file": "go/main.go",
+    "source_location": "L5",
+    "target": "go_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "go_a",
+    "source_file": "go/main.go",
+    "source_location": "L7",
+    "target": "go_a_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "go_b",
+    "source_file": "go/main.go",
+    "source_location": "L11",
+    "target": "go_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_main",
+    "source_file": "go/main.go",
+    "source_location": "L15",
+    "target": "go_main_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "go_a_run",
+    "source_file": "go/main.go",
+    "source_location": "L8",
+    "target": "go_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "go_main_main",
+    "source_file": "go/main.go",
+    "source_location": "L16",
+    "target": "go_a_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_util",
+    "source_file": "go/util.go",
+    "source_location": "L3",
+    "target": "go_util_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_completion",
+    "source_file": "pkg/completion.py",
+    "source_location": "L1",
+    "target": "pkg_completion_shell_complete",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_core",
+    "source_file": "pkg/core.py",
+    "source_location": "L1",
+    "target": "pkg_core_command",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_core_command",
+    "source_file": "pkg/core.py",
+    "source_location": "L2",
+    "target": "pkg_core_command_main_complete",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_core",
+    "source_file": "pkg/core.py",
+    "source_location": "L8",
+    "target": "pkg_core_parameter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_core_parameter",
+    "source_file": "pkg/core.py",
+    "source_location": "L9",
+    "target": "pkg_core_parameter_shell_complete",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_core_command_main_complete",
+    "source_file": "pkg/core.py",
+    "source_location": "L5",
+    "target": "pkg_core_parameter_shell_complete",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "pkg_routing",
+    "source_file": "pkg/routing.py",
+    "source_location": "L1",
+    "target": "pkg_wsgi",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_routing",
+    "source_file": "pkg/routing.py",
+    "source_location": "L4",
+    "target": "pkg_routing_map",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_routing_map",
+    "source_file": "pkg/routing.py",
+    "source_location": "L5",
+    "target": "pkg_routing_map_bind_to_environ",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_routing_map",
+    "source_file": "pkg/routing.py",
+    "source_location": "L8",
+    "target": "pkg_routing_map_bind_both",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_routing_map",
+    "source_file": "pkg/routing.py",
+    "source_location": "L12",
+    "target": "pkg_routing_map_get_own",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_routing_map",
+    "source_file": "pkg/routing.py",
+    "source_location": "L15",
+    "target": "pkg_routing_map_use_own",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_routing",
+    "source_file": "pkg/routing.py",
+    "source_location": "L19",
+    "target": "pkg_routing_mapadapter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_routing_mapadapter",
+    "source_file": "pkg/routing.py",
+    "source_location": "L20",
+    "target": "pkg_routing_mapadapter_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_routing_mapadapter",
+    "source_file": "pkg/routing.py",
+    "source_location": "L23",
+    "target": "pkg_routing_mapadapter_check",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pkg_routing_mapadapter",
+    "source_file": "pkg/routing.py",
+    "source_location": "L26",
+    "target": "pkg_routing_mapadapter_match",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_routing",
+    "source_file": "pkg/routing.py",
+    "source_location": "L34",
+    "target": "pkg_routing_use_alias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_routing",
+    "source_file": "pkg/routing.py",
+    "source_location": "L38",
+    "target": "pkg_routing_use_param",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_routing",
+    "source_file": "pkg/routing.py",
+    "source_location": "L42",
+    "target": "pkg_routing_module_level",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_map_bind_to_environ",
+    "source_file": "pkg/routing.py",
+    "source_location": "L6",
+    "target": "pkg_routing_mapadapter_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_map_bind_both",
+    "source_file": "pkg/routing.py",
+    "source_location": "L9",
+    "target": "pkg_routing_mapadapter_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_map_use_own",
+    "source_file": "pkg/routing.py",
+    "source_location": "L16",
+    "target": "pkg_routing_map_get_own",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_mapadapter_match",
+    "source_file": "pkg/routing.py",
+    "source_location": "L27",
+    "target": "pkg_routing_mapadapter_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_use_alias",
+    "source_file": "pkg/routing.py",
+    "source_location": "L35",
+    "target": "pkg_routing_mapadapter_check",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_use_param",
+    "source_file": "pkg/routing.py",
+    "source_location": "L39",
+    "target": "pkg_routing_mapadapter_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_module_level",
+    "source_file": "pkg/routing.py",
+    "source_location": "L43",
+    "target": "pkg_routing_mapadapter_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pkg_wsgi",
+    "source_file": "pkg/wsgi.py",
+    "source_location": "L1",
+    "target": "pkg_wsgi_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "rs_lib",
+    "source_file": "rs/lib.rs",
+    "source_location": "L2",
+    "target": "tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "rs_lib",
+    "source_file": "rs/lib.rs",
+    "source_location": "L4",
+    "target": "rs_lib_s",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "rs_lib_s",
+    "source_file": "rs/lib.rs",
+    "source_location": "L7",
+    "target": "rs_lib_s_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "rs_lib",
+    "source_file": "rs/lib.rs",
+    "source_location": "L12",
+    "target": "rs_lib_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "rs_lib_t",
+    "source_file": "rs/lib.rs",
+    "source_location": "L15",
+    "target": "rs_lib_t_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "rs_lib_t",
+    "source_file": "rs/lib.rs",
+    "source_location": "L19",
+    "target": "rs_lib_t_both",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "rs_lib_t_both",
+    "source_file": "rs/lib.rs",
+    "source_location": "L19",
+    "target": "rs_lib_s",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "rs_lib_t_run",
+    "source_file": "rs/lib.rs",
+    "source_location": "L16",
+    "target": "rs_lib_s_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "rs_lib_t_both",
+    "source_file": "rs/lib.rs",
+    "source_location": "L20",
+    "target": "rs_lib_s_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "rs_util",
+    "source_file": "rs/util.rs",
+    "source_location": "L1",
+    "target": "rs_util_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_fmt",
+    "source_file": "web/fmt.ts",
+    "source_location": "L1",
+    "target": "web_fmt_format",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_globals",
+    "source_file": "web/globals.js",
+    "source_location": "L1",
+    "target": "web_globals_format",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_legacy",
+    "source_file": "web/legacy.js",
+    "source_location": "L1",
+    "target": "web_legacy_show",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_legacy",
+    "source_file": "web/legacy.js",
+    "source_location": "L5",
+    "target": "web_legacy_formatter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_legacy_formatter",
+    "source_file": "web/legacy.js",
+    "source_location": "L6",
+    "target": "web_legacy_formatter_format",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_legacy_show",
+    "source_file": "web/legacy.js",
+    "source_location": "L2",
+    "target": "web_legacy_formatter_format",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "web_printer",
+    "source_file": "web/printer.ts",
+    "source_location": "L1",
+    "target": "web_fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_printer",
+    "source_file": "web/printer.ts",
+    "source_location": "L1",
+    "target": "web_fmt_format",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_printer",
+    "source_file": "web/printer.ts",
+    "source_location": "L3",
+    "target": "web_printer_printer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_printer_printer",
+    "source_file": "web/printer.ts",
+    "source_location": "L4",
+    "target": "web_printer_printer_print",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_printer",
+    "source_file": "web/printer.ts",
+    "source_location": "L9",
+    "target": "web_printer_formatter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_printer_formatter",
+    "source_file": "web/printer.ts",
+    "source_location": "L10",
+    "target": "web_printer_formatter_format",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_printer_printer_print",
+    "source_file": "web/printer.ts",
+    "source_location": "L5",
+    "target": "web_printer_formatter_format",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_view",
+    "source_file": "web/view.ts",
+    "source_location": "L1",
+    "target": "web_view_view",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_view_view",
+    "source_file": "web/view.ts",
+    "source_location": "L2",
+    "target": "web_view_view_draw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_view",
+    "source_file": "web/view.ts",
+    "source_location": "L7",
+    "target": "web_view_canvas",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_view_canvas",
+    "source_file": "web/view.ts",
+    "source_location": "L8",
+    "target": "web_view_canvas_paint",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_view_view_draw",
+    "source_file": "web/view.ts",
+    "source_location": "L3",
+    "target": "web_view_canvas_paint",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pkg_core",
+    "source_file": "pkg/core.py",
+    "source_location": "L3",
+    "target": "pkg_completion_shell_complete",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pkg_routing",
+    "source_file": "pkg/routing.py",
+    "source_location": "L1",
+    "target": "pkg_wsgi_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_use_param",
+    "source_file": "pkg/routing.py",
+    "source_location": "L39",
+    "target": "pkg_wsgi_get_host",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pkg_routing_module_level",
+    "source_file": "pkg/routing.py",
+    "source_location": "L43",
+    "target": "pkg_wsgi_get_host",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_alias",
+    "label": "alias.go",
+    "source_file": "go/alias.go",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_c",
+    "label": "C",
+    "source_file": "go/alias.go",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_c_ping",
+    "label": ".Ping()",
+    "source_file": "go/alias.go",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_alias_useping",
+    "label": "usePing()",
+    "source_file": "go/alias.go",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_main",
+    "label": "main.go",
+    "source_file": "go/main.go",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_a",
+    "label": "A",
+    "source_file": "go/main.go",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_b",
+    "label": "B",
+    "source_file": "go/main.go",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_a_run",
+    "label": ".Run()",
+    "source_file": "go/main.go",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_b_helper",
+    "label": ".Helper()",
+    "source_file": "go/main.go",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_main_main",
+    "label": "main()",
+    "source_file": "go/main.go",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_util",
+    "label": "util.go",
+    "source_file": "go/util.go",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_util_helper",
+    "label": "Helper()",
+    "source_file": "go/util.go",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_init",
+    "label": "__init__.py",
+    "source_file": "pkg/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_completion",
+    "label": "completion.py",
+    "source_file": "pkg/completion.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_completion_shell_complete",
+    "label": "shell_complete()",
+    "source_file": "pkg/completion.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_core",
+    "label": "core.py",
+    "source_file": "pkg/core.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_core_command",
+    "label": "Command",
+    "source_file": "pkg/core.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_core_command_main_complete",
+    "label": ".main_complete()",
+    "source_file": "pkg/core.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_core_parameter",
+    "label": "Parameter",
+    "source_file": "pkg/core.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_core_parameter_shell_complete",
+    "label": ".shell_complete()",
+    "source_file": "pkg/core.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing",
+    "label": "routing.py",
+    "source_file": "pkg/routing.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_map",
+    "label": "Map",
+    "source_file": "pkg/routing.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_map_bind_to_environ",
+    "label": ".bind_to_environ()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_map_bind_both",
+    "label": ".bind_both()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_map_get_own",
+    "label": ".get_own()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_map_use_own",
+    "label": ".use_own()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_mapadapter",
+    "label": "MapAdapter",
+    "source_file": "pkg/routing.py",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_mapadapter_get_host",
+    "label": ".get_host()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_mapadapter_check",
+    "label": ".check()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_mapadapter_match",
+    "label": ".match()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_use_alias",
+    "label": "use_alias()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_use_param",
+    "label": "use_param()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_routing_module_level",
+    "label": "module_level()",
+    "source_file": "pkg/routing.py",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_wsgi",
+    "label": "wsgi.py",
+    "source_file": "pkg/wsgi.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pkg_wsgi_get_host",
+    "label": "get_host()",
+    "source_file": "pkg/wsgi.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_lib",
+    "label": "lib.rs",
+    "source_file": "rs/lib.rs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_lib_s",
+    "label": "S",
+    "source_file": "rs/lib.rs",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_lib_s_tick",
+    "label": ".tick()",
+    "source_file": "rs/lib.rs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_lib_t",
+    "label": "T",
+    "source_file": "rs/lib.rs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_lib_t_run",
+    "label": ".run()",
+    "source_file": "rs/lib.rs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_lib_t_both",
+    "label": ".both()",
+    "source_file": "rs/lib.rs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_util",
+    "label": "util.rs",
+    "source_file": "rs/util.rs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rs_util_tick",
+    "label": "tick()",
+    "source_file": "rs/util.rs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_fmt",
+    "label": "fmt.ts",
+    "source_file": "web/fmt.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_fmt_format",
+    "label": "format()",
+    "source_file": "web/fmt.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_globals",
+    "label": "globals.js",
+    "source_file": "web/globals.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_globals_format",
+    "label": "format()",
+    "source_file": "web/globals.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_legacy",
+    "label": "legacy.js",
+    "source_file": "web/legacy.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_legacy_show",
+    "label": "show()",
+    "source_file": "web/legacy.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_legacy_formatter",
+    "label": "Formatter",
+    "source_file": "web/legacy.js",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_legacy_formatter_format",
+    "label": ".format()",
+    "source_file": "web/legacy.js",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_printer",
+    "label": "printer.ts",
+    "source_file": "web/printer.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_printer_printer",
+    "label": "Printer",
+    "source_file": "web/printer.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_printer_printer_print",
+    "label": ".print()",
+    "source_file": "web/printer.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_printer_formatter",
+    "label": "Formatter",
+    "source_file": "web/printer.ts",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_printer_formatter_format",
+    "label": ".format()",
+    "source_file": "web/printer.ts",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_view",
+    "label": "view.ts",
+    "source_file": "web/view.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_view_view",
+    "label": "View",
+    "source_file": "web/view.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_view_view_draw",
+    "label": ".draw()",
+    "source_file": "web/view.ts",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_view_canvas",
+    "label": "Canvas",
+    "source_file": "web/view.ts",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_view_canvas_paint",
+    "label": ".paint()",
+    "source_file": "web/view.ts",
+    "source_location": "L8"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "6b012ba190ee7bdadd791be5d17ed616bd4fd9dd69d044ddc9702f2930f542a7"
+}

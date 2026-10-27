@@ -1,0 +1,498 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_shapes_gates.TREES['precise'] (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_shapes_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "legacy_models",
+    "source_file": "legacy/models.py",
+    "source_location": "L1",
+    "target": "legacy_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "legacy_models_order",
+    "source_file": "legacy/models.py",
+    "source_location": "L2",
+    "target": "legacy_models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_models",
+    "source_file": "shop/models.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_models_order",
+    "source_file": "shop/models.py",
+    "source_location": "L2",
+    "target": "shop_models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_models",
+    "source_file": "shop/models.py",
+    "source_location": "L6",
+    "target": "shop_models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_models_repo",
+    "source_file": "shop/models.py",
+    "source_location": "L7",
+    "target": "shop_models_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L4",
+    "target": "shop_svc_typed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "shop_svc_typed",
+    "source_file": "shop/svc.py",
+    "source_location": "L4",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "shop_svc_typed",
+    "source_file": "shop/svc.py",
+    "source_location": "L4",
+    "target": "repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L8",
+    "target": "shop_svc_once",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L12",
+    "target": "shop_svc_twice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_once",
+    "source_file": "shop/svc.py",
+    "source_location": "L9",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_twice",
+    "source_file": "shop/svc.py",
+    "source_location": "L13",
+    "target": "order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_remote",
+    "source_file": "src/remote.ts",
+    "source_location": "L1",
+    "target": "src_remote_remote",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_result",
+    "source_file": "src/result.ts",
+    "source_location": "L1",
+    "target": "src_result_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_result",
+    "source_file": "src/result.ts",
+    "source_location": "L2",
+    "target": "src_result_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_result",
+    "source_file": "src/result.ts",
+    "source_location": "L4",
+    "target": "src_result_okone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_result_okone",
+    "source_file": "src/result.ts",
+    "source_location": "L5",
+    "target": "src_result_ok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_useremote",
+    "source_file": "src/useremote.ts",
+    "source_location": "L1",
+    "target": "src_remote",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_useremote",
+    "source_file": "src/useremote.ts",
+    "source_location": "L1",
+    "target": "src_remote_remote",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_useremote",
+    "source_file": "src/useremote.ts",
+    "source_location": "L3",
+    "target": "src_useremote_remote",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_useremote",
+    "source_file": "src/useremote.ts",
+    "source_location": "L5",
+    "target": "src_useremote_viaremote",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_useremote_viaremote",
+    "source_file": "src/useremote.ts",
+    "source_location": "L6",
+    "target": "src_useremote_remote",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "export",
+    "relation": "re_exports",
+    "source": "src_useremote",
+    "source_file": "src/useremote.ts",
+    "source_location": "L3",
+    "target": "src_remote",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "shop_svc",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "shop_models_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_once",
+    "source_file": "shop/svc.py",
+    "source_location": "L9",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_svc_twice",
+    "source_file": "shop/svc.py",
+    "source_location": "L13",
+    "target": "shop_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "order",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "legacy_models_order",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "repo",
+    "source_file": "shop/svc.py",
+    "source_location": "L1",
+    "target": "legacy_models_order",
+    "weight": 0.8
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_init",
+    "label": "__init__.py",
+    "source_file": "legacy/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_models",
+    "label": "models.py",
+    "source_file": "legacy/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_models_order",
+    "label": "Order",
+    "source_file": "legacy/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_models_order_save",
+    "label": ".save()",
+    "source_file": "legacy/models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_init",
+    "label": "__init__.py",
+    "source_file": "shop/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models",
+    "label": "models.py",
+    "source_file": "shop/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_order",
+    "label": "Order",
+    "source_file": "shop/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_order_save",
+    "label": ".save()",
+    "source_file": "shop/models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_repo",
+    "label": "Repo",
+    "source_file": "shop/models.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_repo_find",
+    "label": ".find()",
+    "source_file": "shop/models.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc",
+    "label": "svc.py",
+    "source_file": "shop/svc.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_typed",
+    "label": "typed()",
+    "source_file": "shop/svc.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "order",
+    "label": "Order",
+    "source_file": "shop/svc.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repo",
+    "label": "Repo",
+    "source_file": "shop/svc.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_once",
+    "label": "once()",
+    "source_file": "shop/svc.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_svc_twice",
+    "label": "twice()",
+    "source_file": "shop/svc.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_remote",
+    "label": "remote.ts",
+    "source_file": "src/remote.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_remote_remote",
+    "label": "Remote()",
+    "source_file": "src/remote.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_result",
+    "label": "result.ts",
+    "source_file": "src/result.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_result_ok",
+    "label": "OK",
+    "source_file": "src/result.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_result_okone",
+    "label": "okOne()",
+    "source_file": "src/result.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_useremote",
+    "label": "useremote.ts",
+    "source_file": "src/useremote.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_useremote_remote",
+    "label": "Remote",
+    "source_file": "src/useremote.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_useremote_viaremote",
+    "label": "viaRemote()",
+    "source_file": "src/useremote.ts",
+    "source_location": "L5"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "e9c490b5d5882318574545fd907084b247e363074250c57c4cb4730686f5ee1d"
+}

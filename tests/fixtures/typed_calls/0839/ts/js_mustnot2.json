@@ -1,0 +1,1181 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_ts_gates.TREES['js_mustnot2'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_arity",
+    "source_file": "src/arity.js",
+    "source_location": "L1",
+    "target": "src_arity_repo2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_arity_repo2",
+    "source_file": "src/arity.js",
+    "source_location": "L2",
+    "target": "src_arity_repo2_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_arity_repo2",
+    "source_file": "src/arity.js",
+    "source_location": "L6",
+    "target": "src_arity_repo2_list",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_arity",
+    "source_file": "src/arity.js",
+    "source_location": "L11",
+    "target": "src_arity_one",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_arity",
+    "source_file": "src/arity.js",
+    "source_location": "L16",
+    "target": "src_arity_many",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_arity_one",
+    "source_file": "src/arity.js",
+    "source_location": "L13",
+    "target": "src_arity_repo2_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "helpers_fmt",
+    "source_file": "src/helpers/fmt.js",
+    "source_location": "L1",
+    "target": "helpers_fmt_fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "imports_from",
+    "source": "lib_index",
+    "source_file": "src/lib/index.js",
+    "source_location": "L1",
+    "target": "lib_money",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "re_exports",
+    "source": "lib_index",
+    "source_file": "src/lib/index.js",
+    "source_location": "L1",
+    "target": "lib_money_tocents",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "lib_money",
+    "source_file": "src/lib/money.js",
+    "source_location": "L1",
+    "target": "lib_money_tocents",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_mix",
+    "source_file": "src/mix.js",
+    "source_location": "L1",
+    "target": "src_mixk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_mix",
+    "source_file": "src/mix.js",
+    "source_location": "L1",
+    "target": "src_mixk_klass",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_mix",
+    "source_file": "src/mix.js",
+    "source_location": "L1",
+    "target": "src_mixk_other2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_mix",
+    "source_file": "src/mix.js",
+    "source_location": "L3",
+    "target": "src_mix_mixin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_mix",
+    "source_file": "src/mix.js",
+    "source_location": "L11",
+    "target": "src_mix_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_mixk",
+    "source_file": "src/mixk.js",
+    "source_location": "L1",
+    "target": "src_mixk_klass",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_mixk_klass",
+    "source_file": "src/mixk.js",
+    "source_location": "L2",
+    "target": "src_mixk_klass_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_mixk_klass",
+    "source_file": "src/mixk.js",
+    "source_location": "L6",
+    "target": "src_mixk_klass_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_mixk",
+    "source_file": "src/mixk.js",
+    "source_location": "L11",
+    "target": "src_mixk_other2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_mixk_other2",
+    "source_file": "src/mixk.js",
+    "source_location": "L12",
+    "target": "src_mixk_other2_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_mixk_klass_run",
+    "source_file": "src/mixk.js",
+    "source_location": "L7",
+    "target": "src_mixk_klass_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_pay",
+    "source_file": "src/pay.js",
+    "source_location": "L1",
+    "target": "lib",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_pay",
+    "source_file": "src/pay.js",
+    "source_location": "L2",
+    "target": "fmt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_pay",
+    "source_file": "src/pay.js",
+    "source_location": "L3",
+    "target": "path",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_pay",
+    "source_file": "src/pay.js",
+    "source_location": "L5",
+    "target": "src_pay_charge",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_pay",
+    "source_file": "src/pay.js",
+    "source_location": "L9",
+    "target": "src_pay_show",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_pay",
+    "source_file": "src/pay.js",
+    "source_location": "L13",
+    "target": "src_pay_viapath",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly",
+    "source_file": "src/poly.js",
+    "source_location": "L5",
+    "target": "src_poly_titlecase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_poly",
+    "source_file": "src/poly.js",
+    "source_location": "L9",
+    "target": "src_poly_num",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "re-export",
+    "relation": "imports_from",
+    "source": "star_a",
+    "source_file": "src/star/a.js",
+    "source_location": "L1",
+    "target": "star_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "star_a",
+    "source_file": "src/star/a.js",
+    "source_location": "L3",
+    "target": "star_a_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "star_a",
+    "source_file": "src/star/a.js",
+    "source_location": "L7",
+    "target": "star_a_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "star_a_run",
+    "source_file": "src/star/a.js",
+    "source_location": "L8",
+    "target": "star_a_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "star_b",
+    "source_file": "src/star/b.js",
+    "source_location": "L1",
+    "target": "star_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "star_b",
+    "source_file": "src/star/b.js",
+    "source_location": "L3",
+    "target": "star_b_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "star_other",
+    "source_file": "src/star/other.js",
+    "source_location": "L1",
+    "target": "star_other_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_store",
+    "source_file": "src/store.js",
+    "source_location": "L1",
+    "target": "src_store_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_store_repo",
+    "source_file": "src/store.js",
+    "source_location": "L2",
+    "target": "src_store_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_store",
+    "source_file": "src/store.js",
+    "source_location": "L7",
+    "target": "src_store_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_store_cache",
+    "source_file": "src/store.js",
+    "source_location": "L8",
+    "target": "src_store_cache_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_svc_alias",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L1",
+    "target": "src_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_svc_alias",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L1",
+    "target": "src_store_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_svc_alias",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L1",
+    "target": "src_store_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_svc_alias",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L3",
+    "target": "src_svc_alias_svc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_alias_svc",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L4",
+    "target": "src_svc_alias_svc_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_alias_svc",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L8",
+    "target": "src_svc_alias_svc_usecache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_alias_svc",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L13",
+    "target": "src_svc_alias_svc_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_svc_bind",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L1",
+    "target": "src_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_svc_bind",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L1",
+    "target": "src_store_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_svc_bind",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L1",
+    "target": "src_store_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_svc_bind",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L3",
+    "target": "src_svc_bind_svc2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_bind_svc2",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L4",
+    "target": "src_svc_bind_svc2_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_bind_svc2",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L8",
+    "target": "src_svc_bind_svc2_later",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_bind_svc2",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L14",
+    "target": "src_svc_bind_svc2_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_svc_write",
+    "source_file": "src/svc_write.js",
+    "source_location": "L1",
+    "target": "src_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_svc_write",
+    "source_file": "src/svc_write.js",
+    "source_location": "L1",
+    "target": "src_store_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_svc_write",
+    "source_file": "src/svc_write.js",
+    "source_location": "L1",
+    "target": "src_store_cache",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_svc_write",
+    "source_file": "src/svc_write.js",
+    "source_location": "L3",
+    "target": "src_svc_write_svc3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_write_svc3",
+    "source_file": "src/svc_write.js",
+    "source_location": "L4",
+    "target": "src_svc_write_svc3_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_write_svc3",
+    "source_file": "src/svc_write.js",
+    "source_location": "L8",
+    "target": "src_svc_write_svc3_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_svc_write",
+    "source_file": "src/svc_write.js",
+    "source_location": "L13",
+    "target": "src_svc_write_swap",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_svc_write",
+    "source_file": "src/svc_write.js",
+    "source_location": "L17",
+    "target": "src_svc_write_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_write_keep",
+    "source_file": "src/svc_write.js",
+    "source_location": "L18",
+    "target": "src_svc_write_keep_constructor",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_svc_write_keep",
+    "source_file": "src/svc_write.js",
+    "source_location": "L22",
+    "target": "src_svc_write_keep_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "src_usek",
+    "source_file": "src/usek.js",
+    "source_location": "L1",
+    "target": "src_mixk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_usek",
+    "source_file": "src/usek.js",
+    "source_location": "L1",
+    "target": "src_mixk_klass",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_usek",
+    "source_file": "src/usek.js",
+    "source_location": "L1",
+    "target": "src_mixk_other2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_usek",
+    "source_file": "src/usek.js",
+    "source_location": "L3",
+    "target": "src_usek_u",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_usek",
+    "source_file": "src/usek.js",
+    "source_location": "L8",
+    "target": "src_usek_v",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "export",
+    "relation": "re_exports",
+    "source": "star_a",
+    "source_file": "src/star/a.js",
+    "source_location": "L1",
+    "target": "star_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "export",
+    "relation": "re_exports",
+    "source": "lib_index",
+    "source_file": "src/lib/index.js",
+    "source_location": "L1",
+    "target": "lib_money",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "confidence_score": 0.8,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_pay_charge",
+    "source_file": "src/pay.js",
+    "source_location": "L6",
+    "target": "lib_money_tocents",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "confidence_score": 0.8,
+    "context": "call",
+    "relation": "calls",
+    "source": "src_pay_show",
+    "source_file": "src/pay.js",
+    "source_location": "L10",
+    "target": "helpers_fmt_fmt",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_arity",
+    "label": "arity.js",
+    "source_file": "src/arity.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_arity_repo2",
+    "label": "Repo2",
+    "source_file": "src/arity.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_arity_repo2_find",
+    "label": ".find()",
+    "source_file": "src/arity.js",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_arity_repo2_list",
+    "label": ".list()",
+    "source_file": "src/arity.js",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_arity_one",
+    "label": "one()",
+    "source_file": "src/arity.js",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_arity_many",
+    "label": "many()",
+    "source_file": "src/arity.js",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "helpers_fmt",
+    "label": "fmt.js",
+    "source_file": "src/helpers/fmt.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "helpers_fmt_fmt",
+    "label": "fmt()",
+    "source_file": "src/helpers/fmt.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_index",
+    "label": "index.js",
+    "source_file": "src/lib/index.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_money",
+    "label": "money.js",
+    "source_file": "src/lib/money.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_money_tocents",
+    "label": "toCents()",
+    "source_file": "src/lib/money.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mix",
+    "label": "mix.js",
+    "source_file": "src/mix.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mix_mixin",
+    "label": "mixin",
+    "source_file": "src/mix.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mix_go",
+    "label": "go()",
+    "source_file": "src/mix.js",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mixk",
+    "label": "mixk.js",
+    "source_file": "src/mixk.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mixk_klass",
+    "label": "Klass",
+    "source_file": "src/mixk.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mixk_klass_find",
+    "label": ".find()",
+    "source_file": "src/mixk.js",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mixk_klass_run",
+    "label": ".run()",
+    "source_file": "src/mixk.js",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mixk_other2",
+    "label": "Other2",
+    "source_file": "src/mixk.js",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_mixk_other2_go",
+    "label": ".go()",
+    "source_file": "src/mixk.js",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_pay",
+    "label": "pay.js",
+    "source_file": "src/pay.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_pay_charge",
+    "label": "charge()",
+    "source_file": "src/pay.js",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_pay_show",
+    "label": "show()",
+    "source_file": "src/pay.js",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_pay_viapath",
+    "label": "viaPath()",
+    "source_file": "src/pay.js",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly",
+    "label": "poly.js",
+    "source_file": "src/poly.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly_titlecase",
+    "label": "titleCase()",
+    "source_file": "src/poly.js",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_poly_num",
+    "label": "num()",
+    "source_file": "src/poly.js",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "star_a",
+    "label": "a.js",
+    "source_file": "src/star/a.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "star_a_helper",
+    "label": "helper()",
+    "source_file": "src/star/a.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "star_a_run",
+    "label": "run()",
+    "source_file": "src/star/a.js",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "star_b",
+    "label": "b.js",
+    "source_file": "src/star/b.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "star_b_main",
+    "label": "main()",
+    "source_file": "src/star/b.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "star_other",
+    "label": "other.js",
+    "source_file": "src/star/other.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "star_other_helper",
+    "label": "helper()",
+    "source_file": "src/star/other.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_store",
+    "label": "store.js",
+    "source_file": "src/store.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_store_repo",
+    "label": "Repo",
+    "source_file": "src/store.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_store_repo_find",
+    "label": ".find()",
+    "source_file": "src/store.js",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_store_cache",
+    "label": "Cache",
+    "source_file": "src/store.js",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_store_cache_find",
+    "label": ".find()",
+    "source_file": "src/store.js",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_alias",
+    "label": "svc_alias.js",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_alias_svc",
+    "label": "Svc",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_alias_svc_constructor",
+    "label": ".constructor()",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_alias_svc_usecache",
+    "label": ".useCache()",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_alias_svc_run",
+    "label": ".run()",
+    "source_file": "src/svc_alias.js",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_bind",
+    "label": "svc_bind.js",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_bind_svc2",
+    "label": "Svc2",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_bind_svc2_constructor",
+    "label": ".constructor()",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_bind_svc2_later",
+    "label": ".later()",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_bind_svc2_run",
+    "label": ".run()",
+    "source_file": "src/svc_bind.js",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write",
+    "label": "svc_write.js",
+    "source_file": "src/svc_write.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write_svc3",
+    "label": "Svc3",
+    "source_file": "src/svc_write.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write_svc3_constructor",
+    "label": ".constructor()",
+    "source_file": "src/svc_write.js",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write_svc3_run",
+    "label": ".run()",
+    "source_file": "src/svc_write.js",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write_swap",
+    "label": "swap()",
+    "source_file": "src/svc_write.js",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write_keep",
+    "label": "Keep",
+    "source_file": "src/svc_write.js",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write_keep_constructor",
+    "label": ".constructor()",
+    "source_file": "src/svc_write.js",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_svc_write_keep_run",
+    "label": ".run()",
+    "source_file": "src/svc_write.js",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_usek",
+    "label": "usek.js",
+    "source_file": "src/usek.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_usek_u",
+    "label": "u()",
+    "source_file": "src/usek.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_usek_v",
+    "label": "v()",
+    "source_file": "src/usek.js",
+    "source_location": "L8"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "2ddb9dc42fb00a36a74c5188b25dffe5ca8984c309f3aa2f7d8541de4d7ab4dd"
+}

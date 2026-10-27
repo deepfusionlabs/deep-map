@@ -1,0 +1,152 @@
+{
+  "_note": "REAL captured `graphify update --no-cluster` output (typescript sample), trimmed to the fields build/graphify_extract.map_graph reads. Zero-egress capture (socket tripwire armed).",
+  "nodes": [
+    {
+      "id": "src_api",
+      "label": "api.js",
+      "file_type": "code",
+      "source_file": "src/api.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_api_checkout",
+      "label": "{ checkout }",
+      "file_type": "code",
+      "source_file": "src/api.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_api_handlerequest",
+      "label": "handleRequest()",
+      "file_type": "code",
+      "source_file": "src/api.js",
+      "source_location": "L2"
+    },
+    {
+      "id": "src_db",
+      "label": "db.ts",
+      "file_type": "code",
+      "source_file": "src/db.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_db_save",
+      "label": "save()",
+      "file_type": "code",
+      "source_file": "src/db.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_orders",
+      "label": "orders.ts",
+      "file_type": "code",
+      "source_file": "src/orders.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_orders_orderservice",
+      "label": "OrderService",
+      "file_type": "code",
+      "source_file": "src/orders.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_orders_orderservice_placeorder",
+      "label": ".placeOrder()",
+      "file_type": "code",
+      "source_file": "src/orders.ts",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_orders_orderservice_compute",
+      "label": ".compute()",
+      "file_type": "code",
+      "source_file": "src/orders.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_orders_checkout",
+      "label": "checkout()",
+      "file_type": "code",
+      "source_file": "src/orders.ts",
+      "source_location": "L13"
+    }
+  ],
+  "links": [
+    {
+      "source": "src_api",
+      "target": "src_orders",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_api",
+      "target": "src_orders_checkout",
+      "relation": "imports"
+    },
+    {
+      "source": "src_api",
+      "target": "src_api_checkout",
+      "relation": "contains"
+    },
+    {
+      "source": "src_api",
+      "target": "src_api_handlerequest",
+      "relation": "contains"
+    },
+    {
+      "source": "src_db",
+      "target": "src_db_save",
+      "relation": "contains"
+    },
+    {
+      "source": "src_orders",
+      "target": "src_db",
+      "relation": "imports_from"
+    },
+    {
+      "source": "src_orders",
+      "target": "src_db_save",
+      "relation": "imports"
+    },
+    {
+      "source": "src_orders",
+      "target": "src_orders_orderservice",
+      "relation": "contains"
+    },
+    {
+      "source": "src_orders_orderservice",
+      "target": "src_orders_orderservice_placeorder",
+      "relation": "method"
+    },
+    {
+      "source": "src_orders_orderservice",
+      "target": "src_orders_orderservice_compute",
+      "relation": "method"
+    },
+    {
+      "source": "src_orders",
+      "target": "src_orders_checkout",
+      "relation": "contains"
+    },
+    {
+      "source": "src_orders_orderservice_placeorder",
+      "target": "src_orders_orderservice_compute",
+      "relation": "calls"
+    },
+    {
+      "source": "src_orders_checkout",
+      "target": "src_orders_orderservice_placeorder",
+      "relation": "calls"
+    },
+    {
+      "source": "src_api_handlerequest",
+      "target": "src_orders_checkout",
+      "relation": "calls"
+    },
+    {
+      "source": "src_orders_orderservice_placeorder",
+      "target": "src_db_save",
+      "relation": "calls"
+    }
+  ]
+}

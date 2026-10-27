@@ -1,0 +1,770 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/calls_plus_scope_r11c_gates.S1B_TREE, written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/calls_plus_scope_r11c_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "scripts_helper",
+    "source_file": "Scripts/Helper.py",
+    "source_location": "L1",
+    "target": "scripts_helper_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "scripts_run",
+    "source_file": "Scripts/run.py",
+    "source_location": "L1",
+    "target": "helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "scripts_run",
+    "source_file": "Scripts/run.py",
+    "source_location": "L4",
+    "target": "scripts_run_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "lib_engine",
+    "source_file": "lib/engine.py",
+    "source_location": "L1",
+    "target": "lib_engine_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "main",
+    "source_file": "main.py",
+    "source_location": "L1",
+    "target": "util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "main",
+    "source_file": "main.py",
+    "source_location": "L4",
+    "target": "main_start",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "nowhere",
+    "source_file": "nowhere.py",
+    "source_location": "L1",
+    "target": "nowhere_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flk_init",
+    "source_file": "src/flk/__init__.py",
+    "source_location": "L1",
+    "target": "flk_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flk_init",
+    "source_file": "src/flk/__init__.py",
+    "source_location": "L4",
+    "target": "flk_init_version",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flk_app",
+    "source_file": "src/flk/app.py",
+    "source_location": "L1",
+    "target": "flk_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flk_app",
+    "source_file": "src/flk/app.py",
+    "source_location": "L2",
+    "target": "flk_json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flk_app",
+    "source_file": "src/flk/app.py",
+    "source_location": "L3",
+    "target": "flk_json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flk_app",
+    "source_file": "src/flk/app.py",
+    "source_location": "L6",
+    "target": "flk_app_render",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flk_app",
+    "source_file": "src/flk/app.py",
+    "source_location": "L10",
+    "target": "flk_app_parse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flk_app",
+    "source_file": "src/flk/app.py",
+    "source_location": "L14",
+    "target": "flk_app_full",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flk_boot",
+    "source_file": "src/flk/boot.py",
+    "source_location": "L1",
+    "target": "flk_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flk_cli",
+    "source_file": "src/flk/cli.py",
+    "source_location": "L1",
+    "target": "config",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flk_cli",
+    "source_file": "src/flk/cli.py",
+    "source_location": "L4",
+    "target": "flk_cli_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flk_config",
+    "source_file": "src/flk/config.py",
+    "source_location": "L1",
+    "target": "json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flk_config",
+    "source_file": "src/flk/config.py",
+    "source_location": "L4",
+    "target": "flk_config_from_env",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "flk_deep",
+    "source_file": "src/flk/deep.py",
+    "source_location": "L1",
+    "target": "tmp_dm_r11c_c23_febzbbxf_init_py",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "flk_deep",
+    "source_file": "src/flk/deep.py",
+    "source_location": "L4",
+    "target": "flk_deep_climb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_init",
+    "source_file": "src/flk/json/__init__.py",
+    "source_location": "L1",
+    "target": "json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_init",
+    "source_file": "src/flk/json/__init__.py",
+    "source_location": "L4",
+    "target": "json_init_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_init",
+    "source_file": "src/flk/json/__init__.py",
+    "source_location": "L8",
+    "target": "json_init_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_provider",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L1",
+    "target": "json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_provider",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L4",
+    "target": "json_provider_defaultjsonprovider",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_provider_defaultjsonprovider",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L5",
+    "target": "json_provider_defaultjsonprovider_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "json_provider_defaultjsonprovider",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L8",
+    "target": "json_provider_defaultjsonprovider_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_provider",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L12",
+    "target": "json_provider_pretty",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "json_provider_pretty",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L13",
+    "target": "json_provider_defaultjsonprovider_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "json_tag",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L1",
+    "target": "tmp_dm_r11c_c23_febzbbxf_s1b_real_src_flk_json_py",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_tag",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L5",
+    "target": "json_tag_tag_dump",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "json_tag",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L9",
+    "target": "json_tag_tag_load",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_util",
+    "source_file": "src/util.py",
+    "source_location": "L1",
+    "target": "src_util_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "tools_use_lib",
+    "source_file": "tools/use_lib.py",
+    "source_location": "L1",
+    "target": "sys",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "tools_use_lib",
+    "source_file": "tools/use_lib.py",
+    "source_location": "L4",
+    "target": "engine",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_use_lib",
+    "source_file": "tools/use_lib.py",
+    "source_location": "L7",
+    "target": "tools_use_lib_drive",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "util",
+    "source_file": "util.py",
+    "source_location": "L1",
+    "target": "util_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "flk_boot",
+    "source_file": "src/flk/boot.py",
+    "source_location": "L1",
+    "target": "flk_init_version",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_tag",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L1",
+    "target": "json_init_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "json_tag",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L2",
+    "target": "json_init_loads",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "flk_init",
+    "source_file": "src/flk/__init__.py",
+    "source_location": "L1",
+    "target": "json_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "submodule_import",
+    "relation": "imports_from",
+    "source": "flk_app",
+    "source_file": "src/flk/app.py",
+    "source_location": "L1",
+    "target": "json_init",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "json_tag_tag_dump",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L6",
+    "target": "json_init_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "json_tag_tag_load",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L10",
+    "target": "json_init_loads",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_helper",
+    "label": "Helper.py",
+    "source_file": "Scripts/Helper.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_helper_go",
+    "label": "go()",
+    "source_file": "Scripts/Helper.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_run",
+    "label": "run.py",
+    "source_file": "Scripts/run.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "scripts_run_main",
+    "label": "main()",
+    "source_file": "Scripts/run.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_engine",
+    "label": "engine.py",
+    "source_file": "lib/engine.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_engine_run",
+    "label": "run()",
+    "source_file": "lib/engine.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "main",
+    "label": "main.py",
+    "source_file": "main.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "main_start",
+    "label": "start()",
+    "source_file": "main.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nowhere",
+    "label": "nowhere.py",
+    "source_file": "nowhere.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "nowhere_thing",
+    "label": "thing()",
+    "source_file": "nowhere.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_init",
+    "label": "__init__.py",
+    "source_file": "src/flk/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_init_version",
+    "label": "version()",
+    "source_file": "src/flk/__init__.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_app",
+    "label": "app.py",
+    "source_file": "src/flk/app.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_app_render",
+    "label": "render()",
+    "source_file": "src/flk/app.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_app_parse",
+    "label": "parse()",
+    "source_file": "src/flk/app.py",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_app_full",
+    "label": "full()",
+    "source_file": "src/flk/app.py",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_boot",
+    "label": "boot.py",
+    "source_file": "src/flk/boot.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_cli",
+    "label": "cli.py",
+    "source_file": "src/flk/cli.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_cli_run",
+    "label": "run()",
+    "source_file": "src/flk/cli.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_config",
+    "label": "config.py",
+    "source_file": "src/flk/config.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_config_from_env",
+    "label": "from_env()",
+    "source_file": "src/flk/config.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_deep",
+    "label": "deep.py",
+    "source_file": "src/flk/deep.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "flk_deep_climb",
+    "label": "climb()",
+    "source_file": "src/flk/deep.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init",
+    "label": "__init__.py",
+    "source_file": "src/flk/json/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init_dumps",
+    "label": "dumps()",
+    "source_file": "src/flk/json/__init__.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_init_loads",
+    "label": "loads()",
+    "source_file": "src/flk/json/__init__.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider",
+    "label": "provider.py",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider",
+    "label": "DefaultJSONProvider",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider_dumps",
+    "label": ".dumps()",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_defaultjsonprovider_loads",
+    "label": ".loads()",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_provider_pretty",
+    "label": "pretty()",
+    "source_file": "src/flk/json/provider.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag",
+    "label": "tag.py",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_tag_dump",
+    "label": "tag_dump()",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "json_tag_tag_load",
+    "label": "tag_load()",
+    "source_file": "src/flk/json/tag.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_util",
+    "label": "util.py",
+    "source_file": "src/util.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_util_go",
+    "label": "go()",
+    "source_file": "src/util.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_use_lib",
+    "label": "use_lib.py",
+    "source_file": "tools/use_lib.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_use_lib_drive",
+    "label": "drive()",
+    "source_file": "tools/use_lib.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util",
+    "label": "util.py",
+    "source_file": "util.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util_go",
+    "label": "go()",
+    "source_file": "util.py",
+    "source_location": "L1"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "c828702c217310c2c04a7e1e9d2a4c58f02aaabb8d2cba2c0b2be9ae4c7bf2fe"
+}

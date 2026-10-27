@@ -1,0 +1,1185 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_py_gates.TREES['review2'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_py_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_exc",
+    "source_file": "app/exc.py",
+    "source_location": "L1",
+    "target": "app_exc_abort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_exc_abort",
+    "source_file": "app/exc.py",
+    "source_location": "L1",
+    "target": "exception",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_exc",
+    "source_file": "app/exc.py",
+    "source_location": "L5",
+    "target": "app_exc_asyncabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_exc_asyncabort",
+    "source_file": "app/exc.py",
+    "source_location": "L5",
+    "target": "exception",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_exc",
+    "source_file": "app/exc.py",
+    "source_location": "L9",
+    "target": "app_exc_defaultabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_exc_defaultabort",
+    "source_file": "app/exc.py",
+    "source_location": "L9",
+    "target": "exception",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_exc",
+    "source_file": "app/exc.py",
+    "source_location": "L13",
+    "target": "app_exc_localabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_exc_localabort",
+    "source_file": "app/exc.py",
+    "source_location": "L13",
+    "target": "exception",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_exc",
+    "source_file": "app/exc.py",
+    "source_location": "L17",
+    "target": "app_exc_lamabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_exc_lamabort",
+    "source_file": "app/exc.py",
+    "source_location": "L17",
+    "target": "exception",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_exc",
+    "source_file": "app/exc.py",
+    "source_location": "L21",
+    "target": "app_exc_decoabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_exc_decoabort",
+    "source_file": "app/exc.py",
+    "source_location": "L21",
+    "target": "exception",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_exc",
+    "source_file": "app/exc.py",
+    "source_location": "L25",
+    "target": "app_exc_methabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_exc_methabort",
+    "source_file": "app/exc.py",
+    "source_location": "L25",
+    "target": "exception",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L1",
+    "target": "copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L2",
+    "target": "operator",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L5",
+    "target": "app_jar_jar",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_jar_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L6",
+    "target": "app_jar_jar_copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_jar_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L9",
+    "target": "app_jar_jar_clear",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L13",
+    "target": "app_jar_copy_jar",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L22",
+    "target": "app_jar_copy_by_caller",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L28",
+    "target": "app_jar_copy_by_getter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L33",
+    "target": "app_jar_plain_copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_jar_jar_copy",
+    "source_file": "app/jar.py",
+    "source_location": "L7",
+    "target": "app_jar_jar",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_jar_copy_jar",
+    "source_file": "app/jar.py",
+    "source_location": "L18",
+    "target": "app_jar_jar_copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_jar_copy_by_caller",
+    "source_file": "app/jar.py",
+    "source_location": "L23",
+    "target": "app_jar_jar_copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_jar_copy_by_getter",
+    "source_file": "app/jar.py",
+    "source_location": "L29",
+    "target": "app_jar_jar_copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_jar_plain_copy",
+    "source_file": "app/jar.py",
+    "source_location": "L34",
+    "target": "app_jar_jar_copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_order",
+    "source_file": "app/models.py",
+    "source_location": "L2",
+    "target": "app_models_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_models",
+    "source_file": "app/models.py",
+    "source_location": "L6",
+    "target": "app_models_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_models_item",
+    "source_file": "app/models.py",
+    "source_location": "L7",
+    "target": "app_models_item_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L4",
+    "target": "app_nest_deco",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L8",
+    "target": "app_nest_outer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L18",
+    "target": "app_nest_outer_async",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L25",
+    "target": "app_nest_outer_default",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L32",
+    "target": "app_nest_outer_local_cls",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L40",
+    "target": "app_nest_outer_lam",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L48",
+    "target": "app_nest_outer_deco",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L55",
+    "target": "app_nest_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L56",
+    "target": "app_nest_holder_meth",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L63",
+    "target": "app_nest_own",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_other",
+    "source_file": "app/other.py",
+    "source_location": "L1",
+    "target": "app_other_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_other_order",
+    "source_file": "app/other.py",
+    "source_location": "L2",
+    "target": "app_other_order_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L1",
+    "target": "importlib",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L2",
+    "target": "typing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L5",
+    "target": "app_proto_json",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "app_proto_json",
+    "source_file": "app/proto.py",
+    "source_location": "L5",
+    "target": "protocol",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_proto_json",
+    "source_file": "app/proto.py",
+    "source_location": "L6",
+    "target": "app_proto_json_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L12",
+    "target": "app_proto_render",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_proto",
+    "source_file": "app/proto.py",
+    "source_location": "L16",
+    "target": "app_proto_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "app_proto_other",
+    "source_file": "app/proto.py",
+    "source_location": "L17",
+    "target": "app_proto_other_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_proto_render",
+    "source_file": "app/proto.py",
+    "source_location": "L13",
+    "target": "app_proto_other_dumps",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_star",
+    "source_file": "app/star.py",
+    "source_location": "L1",
+    "target": "app_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_star",
+    "source_file": "app/star.py",
+    "source_location": "L2",
+    "target": "app_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_star",
+    "source_file": "app/star.py",
+    "source_location": "L5",
+    "target": "app_star_use_star",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_star_first",
+    "source_file": "app/star_first.py",
+    "source_location": "L1",
+    "target": "app_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "app_star_first",
+    "source_file": "app/star_first.py",
+    "source_location": "L2",
+    "target": "app_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "app_star_first",
+    "source_file": "app/star_first.py",
+    "source_location": "L5",
+    "target": "app_star_first_use_named_last",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_abort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_asyncabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_defaultabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_localabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_lamabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_decoabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_nest",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_methabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_star",
+    "source_file": "app/star.py",
+    "source_location": "L1",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "app_star_first",
+    "source_file": "app/star_first.py",
+    "source_location": "L2",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_nest_outer",
+    "source_file": "app/nest.py",
+    "source_location": "L13",
+    "target": "app_exc_abort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_nest_outer_async",
+    "source_file": "app/nest.py",
+    "source_location": "L20",
+    "target": "app_exc_asyncabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_nest_outer_default",
+    "source_file": "app/nest.py",
+    "source_location": "L26",
+    "target": "app_exc_defaultabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_nest_outer_local_cls",
+    "source_file": "app/nest.py",
+    "source_location": "L35",
+    "target": "app_exc_localabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_nest_outer_lam",
+    "source_file": "app/nest.py",
+    "source_location": "L42",
+    "target": "app_exc_lamabort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_nest_own",
+    "source_file": "app/nest.py",
+    "source_location": "L64",
+    "target": "app_exc_abort",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_star_use_star",
+    "source_file": "app/star.py",
+    "source_location": "L6",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "app_star_first_use_named_last",
+    "source_file": "app/star_first.py",
+    "source_location": "L6",
+    "target": "app_models_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_abort",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_asyncabort",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_defaultabort",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_localabort",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_lamabort",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_decoabort",
+    "weight": 0.8
+   },
+   {
+    "confidence": "INFERRED",
+    "relation": "uses",
+    "source": "app_nest_holder",
+    "source_file": "app/nest.py",
+    "source_location": "L1",
+    "target": "app_exc_methabort",
+    "weight": 0.8
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_init",
+    "label": "__init__.py",
+    "source_file": "app/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc",
+    "label": "exc.py",
+    "source_file": "app/exc.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc_abort",
+    "label": "Abort",
+    "source_file": "app/exc.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "exception",
+    "label": "Exception",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc_asyncabort",
+    "label": "AsyncAbort",
+    "source_file": "app/exc.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc_defaultabort",
+    "label": "DefaultAbort",
+    "source_file": "app/exc.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc_localabort",
+    "label": "LocalAbort",
+    "source_file": "app/exc.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc_lamabort",
+    "label": "LamAbort",
+    "source_file": "app/exc.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc_decoabort",
+    "label": "DecoAbort",
+    "source_file": "app/exc.py",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_exc_methabort",
+    "label": "MethAbort",
+    "source_file": "app/exc.py",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar",
+    "label": "jar.py",
+    "source_file": "app/jar.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar_jar",
+    "label": "Jar",
+    "source_file": "app/jar.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar_jar_copy",
+    "label": ".copy()",
+    "source_file": "app/jar.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar_jar_clear",
+    "label": ".clear()",
+    "source_file": "app/jar.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar_copy_jar",
+    "label": "copy_jar()",
+    "source_file": "app/jar.py",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar_copy_by_caller",
+    "label": "copy_by_caller()",
+    "source_file": "app/jar.py",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar_copy_by_getter",
+    "label": "copy_by_getter()",
+    "source_file": "app/jar.py",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_jar_plain_copy",
+    "label": "plain_copy()",
+    "source_file": "app/jar.py",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models",
+    "label": "models.py",
+    "source_file": "app/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order",
+    "label": "Order",
+    "source_file": "app/models.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_order_save",
+    "label": ".save()",
+    "source_file": "app/models.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_item",
+    "label": "Item",
+    "source_file": "app/models.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_models_item_save",
+    "label": ".save()",
+    "source_file": "app/models.py",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest",
+    "label": "nest.py",
+    "source_file": "app/nest.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_deco",
+    "label": "deco()",
+    "source_file": "app/nest.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_outer",
+    "label": "outer()",
+    "source_file": "app/nest.py",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_outer_async",
+    "label": "outer_async()",
+    "source_file": "app/nest.py",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_outer_default",
+    "label": "outer_default()",
+    "source_file": "app/nest.py",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_outer_local_cls",
+    "label": "outer_local_cls()",
+    "source_file": "app/nest.py",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_outer_lam",
+    "label": "outer_lam()",
+    "source_file": "app/nest.py",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_outer_deco",
+    "label": "outer_deco()",
+    "source_file": "app/nest.py",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_holder",
+    "label": "Holder",
+    "source_file": "app/nest.py",
+    "source_location": "L55"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_holder_meth",
+    "label": ".meth()",
+    "source_file": "app/nest.py",
+    "source_location": "L56"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_nest_own",
+    "label": "own()",
+    "source_file": "app/nest.py",
+    "source_location": "L63"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_other",
+    "label": "other.py",
+    "source_file": "app/other.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_other_order",
+    "label": "Order",
+    "source_file": "app/other.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_other_order_save",
+    "label": ".save()",
+    "source_file": "app/other.py",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto",
+    "label": "proto.py",
+    "source_file": "app/proto.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_json",
+    "label": "_Json",
+    "source_file": "app/proto.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "protocol",
+    "label": "Protocol",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_json_dumps",
+    "label": ".dumps()",
+    "source_file": "app/proto.py",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_render",
+    "label": "render()",
+    "source_file": "app/proto.py",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_other",
+    "label": "Other",
+    "source_file": "app/proto.py",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_proto_other_dumps",
+    "label": ".dumps()",
+    "source_file": "app/proto.py",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_star",
+    "label": "star.py",
+    "source_file": "app/star.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_star_use_star",
+    "label": "use_star()",
+    "source_file": "app/star.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_star_first",
+    "label": "star_first.py",
+    "source_file": "app/star_first.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "app_star_first_use_named_last",
+    "label": "use_named_last()",
+    "source_file": "app/star_first.py",
+    "source_location": "L5"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "718ba6e5bb8ac535743d79a2462db1ffe6dddcc586851551fec11ef3b84cb66c"
+}

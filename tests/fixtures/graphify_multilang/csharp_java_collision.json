@@ -1,0 +1,964 @@
+{
+  "nodes": [
+    {
+      "id": "controllers_invoicescontroller",
+      "label": "InvoicesController.cs",
+      "file_type": "code",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "controllers_invoicescontroller_invoicescontroller",
+      "label": "InvoicesController",
+      "file_type": "code",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L7",
+      "_origin": "ast"
+    },
+    {
+      "id": "controllerbase",
+      "label": "ControllerBase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "iinvoiceservice",
+      "label": "IInvoiceService",
+      "file_type": "code",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "controllers_invoicescontroller_invoicescontroller_getinvoice",
+      "label": ".GetInvoice()",
+      "file_type": "code",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "actionresult",
+      "label": "ActionResult",
+      "file_type": "code",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "cs_controllers_invoicescontroller_cs_invoice",
+      "label": "Invoice",
+      "file_type": "code",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "httpget",
+      "label": "HttpGet",
+      "file_type": "code",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "data_billingcontext",
+      "label": "BillingContext.cs",
+      "file_type": "code",
+      "source_file": "cs/Data/BillingContext.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "data_billingcontext_billingcontext",
+      "label": "BillingContext",
+      "file_type": "code",
+      "source_file": "cs/Data/BillingContext.cs",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "dbcontext",
+      "label": "DbContext",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_invoice",
+      "label": "Invoice.cs",
+      "file_type": "code",
+      "source_file": "cs/Models/Invoice.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "models_invoice_invoice",
+      "label": "Invoice",
+      "file_type": "code",
+      "source_file": "cs/Models/Invoice.cs",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_invoiceservice",
+      "label": "InvoiceService.cs",
+      "file_type": "code",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_invoiceservice_iinvoiceservice",
+      "label": "IInvoiceService",
+      "file_type": "code",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_invoiceservice_iinvoiceservice_find",
+      "label": ".Find()",
+      "file_type": "code",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "cs_services_invoiceservice_cs_invoice",
+      "label": "Invoice",
+      "file_type": "code",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_invoiceservice_invoiceservice",
+      "label": "InvoiceService",
+      "file_type": "code",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "billingcontext",
+      "label": "BillingContext",
+      "file_type": "code",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "services_invoiceservice_invoiceservice_find",
+      "label": ".Find()",
+      "file_type": "code",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L20",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_book",
+      "label": "Book.java",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_book_book",
+      "label": "Book",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_book_book_gettitle",
+      "label": ".getTitle()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_book_java_string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookcontroller",
+      "label": "BookController.java",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookcontroller_bookcontroller",
+      "label": "BookController",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookcontroller_bookcontroller_bookcontroller",
+      "label": ".BookController()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "bookservice",
+      "label": "BookService",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookcontroller_bookcontroller_getbook",
+      "label": ".getBook()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_bookcontroller_java_long",
+      "label": "Long",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_bookcontroller_java_book",
+      "label": "Book",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "getmapping",
+      "label": "GetMapping",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookrepository",
+      "label": "BookRepository.java",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookRepository.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookrepository_bookrepository",
+      "label": "BookRepository",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookRepository.java",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookservice",
+      "label": "BookService.java",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookservice_bookservice",
+      "label": "BookService",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookservice_bookservice_bookservice",
+      "label": ".BookService()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "bookrepository",
+      "label": "BookRepository",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_bookservice_bookservice_find",
+      "label": ".find()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_bookservice_java_long",
+      "label": "Long",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_bookservice_java_book",
+      "label": "Book",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_catalogitem",
+      "label": "CatalogItem.java",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/CatalogItem.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_catalogitem_catalogitem",
+      "label": "CatalogItem",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/CatalogItem.java",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_catalogitem_catalogitem_getsku",
+      "label": ".getSku()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/CatalogItem.java",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_catalogitem_java_string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/CatalogItem.java",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_flatpricingpolicy",
+      "label": "FlatPricingPolicy.java",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_flatpricingpolicy_flatpricingpolicy",
+      "label": "FlatPricingPolicy",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_flatpricingpolicy_flatpricingpolicy_pricecents",
+      "label": ".priceCents()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_flatpricingpolicy_java_book",
+      "label": "Book",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_pricingpolicy",
+      "label": "PricingPolicy.java",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/PricingPolicy.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_pricingpolicy_pricingpolicy",
+      "label": "PricingPolicy",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/PricingPolicy.java",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "lib_pricingpolicy_pricingpolicy_pricecents",
+      "label": ".priceCents()",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/PricingPolicy.java",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "java_src_main_java_com_lib_pricingpolicy_java_book",
+      "label": "Book",
+      "file_type": "code",
+      "source_file": "java/src/main/java/com/lib/PricingPolicy.java",
+      "source_location": "L4",
+      "_origin": "ast"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "links": [
+    {
+      "source": "controllers_invoicescontroller",
+      "target": "models",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_invoicescontroller",
+      "target": "services",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_invoicescontroller",
+      "target": "mvc",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_invoicescontroller",
+      "target": "controllers_invoicescontroller_invoicescontroller",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_invoicescontroller_invoicescontroller",
+      "target": "controllerbase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_invoicescontroller_invoicescontroller",
+      "target": "iinvoiceservice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "controllers_invoicescontroller_invoicescontroller",
+      "target": "controllers_invoicescontroller_invoicescontroller_getinvoice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "controllers_invoicescontroller_invoicescontroller_getinvoice",
+      "target": "actionresult",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "controllers_invoicescontroller_invoicescontroller_getinvoice",
+      "target": "cs_controllers_invoicescontroller_cs_invoice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "controllers_invoicescontroller_invoicescontroller_getinvoice",
+      "target": "httpget",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Controllers/InvoicesController.cs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "data_billingcontext",
+      "target": "models",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Data/BillingContext.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "data_billingcontext",
+      "target": "entityframeworkcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Data/BillingContext.cs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "data_billingcontext",
+      "target": "data_billingcontext_billingcontext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Data/BillingContext.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "data_billingcontext_billingcontext",
+      "target": "dbcontext",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Data/BillingContext.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "models_invoice",
+      "target": "models_invoice_invoice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Models/Invoice.cs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice",
+      "target": "data",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice",
+      "target": "models",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice",
+      "target": "services_invoiceservice_iinvoiceservice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice_iinvoiceservice",
+      "target": "services_invoiceservice_iinvoiceservice_find",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice_iinvoiceservice_find",
+      "target": "cs_services_invoiceservice_cs_invoice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "services_invoiceservice",
+      "target": "services_invoiceservice_invoiceservice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice_invoiceservice",
+      "target": "services_invoiceservice_iinvoiceservice",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice_invoiceservice",
+      "target": "billingcontext",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "services_invoiceservice_invoiceservice",
+      "target": "services_invoiceservice_invoiceservice_find",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "services_invoiceservice_invoiceservice_find",
+      "target": "cs_services_invoiceservice_cs_invoice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "cs/Services/InvoiceService.cs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "lib_book",
+      "target": "lib_book_book",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_book_book",
+      "target": "lib_catalogitem_catalogitem",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_book_book",
+      "target": "lib_book_book_gettitle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_book_book_gettitle",
+      "target": "java_src_main_java_com_lib_book_java_string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/Book.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "lib_bookcontroller",
+      "target": "annotation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookcontroller",
+      "target": "lib_bookcontroller_bookcontroller",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookcontroller_bookcontroller",
+      "target": "lib_bookcontroller_bookcontroller_bookcontroller",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookcontroller_bookcontroller_bookcontroller",
+      "target": "bookservice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "lib_bookcontroller_bookcontroller",
+      "target": "lib_bookcontroller_bookcontroller_getbook",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookcontroller_bookcontroller_getbook",
+      "target": "java_src_main_java_com_lib_bookcontroller_java_long",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "lib_bookcontroller_bookcontroller_getbook",
+      "target": "java_src_main_java_com_lib_bookcontroller_java_book",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "lib_bookcontroller_bookcontroller_getbook",
+      "target": "getmapping",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookController.java",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "lib_bookrepository",
+      "target": "jparepository",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookRepository.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookrepository",
+      "target": "lib_bookrepository_bookrepository",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookRepository.java",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookservice",
+      "target": "service",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookservice",
+      "target": "lib_bookservice_bookservice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookservice_bookservice",
+      "target": "lib_bookservice_bookservice_bookservice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookservice_bookservice_bookservice",
+      "target": "bookrepository",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "lib_bookservice_bookservice",
+      "target": "lib_bookservice_bookservice_find",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_bookservice_bookservice_find",
+      "target": "java_src_main_java_com_lib_bookservice_java_long",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "lib_bookservice_bookservice_find",
+      "target": "java_src_main_java_com_lib_bookservice_java_book",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/BookService.java",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "lib_catalogitem",
+      "target": "lib_catalogitem_catalogitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/CatalogItem.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_catalogitem_catalogitem",
+      "target": "lib_catalogitem_catalogitem_getsku",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/CatalogItem.java",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_catalogitem_catalogitem_getsku",
+      "target": "java_src_main_java_com_lib_catalogitem_java_string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/CatalogItem.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "lib_flatpricingpolicy",
+      "target": "lib_flatpricingpolicy_flatpricingpolicy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_flatpricingpolicy_flatpricingpolicy",
+      "target": "lib_pricingpolicy_pricingpolicy",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_flatpricingpolicy_flatpricingpolicy",
+      "target": "lib_flatpricingpolicy_flatpricingpolicy_pricecents",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_flatpricingpolicy_flatpricingpolicy_pricecents",
+      "target": "java_src_main_java_com_lib_flatpricingpolicy_java_book",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/FlatPricingPolicy.java",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "lib_pricingpolicy",
+      "target": "lib_pricingpolicy_pricingpolicy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/PricingPolicy.java",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_pricingpolicy_pricingpolicy",
+      "target": "lib_pricingpolicy_pricingpolicy_pricecents",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/PricingPolicy.java",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "lib_pricingpolicy_pricingpolicy_pricecents",
+      "target": "java_src_main_java_com_lib_pricingpolicy_java_book",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "java/src/main/java/com/lib/PricingPolicy.java",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "parameter_type"
+    }
+  ]
+}

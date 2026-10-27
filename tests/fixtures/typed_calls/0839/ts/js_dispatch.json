@@ -1,0 +1,143 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_ts_gates.TREES['js_dispatch'] (absolute paths made root-relative); re-capture with `python tests/typed_calls_ts_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_jsd",
+    "source_file": "src/jsd.js",
+    "source_location": "L1",
+    "target": "src_jsd_jbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_jsd_jbase",
+    "source_file": "src/jsd.js",
+    "source_location": "L2",
+    "target": "src_jsd_jbase_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_jsd_jbase",
+    "source_file": "src/jsd.js",
+    "source_location": "L6",
+    "target": "src_jsd_jbase_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_jsd",
+    "source_file": "src/jsd.js",
+    "source_location": "L11",
+    "target": "src_jsd_jmade",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_jsd",
+    "source_file": "src/jsd.js",
+    "source_location": "L16",
+    "target": "src_jsd_jsub",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_jsd_jsub",
+    "source_file": "src/jsd.js",
+    "source_location": "L17",
+    "target": "src_jsd_jsub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_jsd_jbase_run",
+    "source_file": "src/jsd.js",
+    "source_location": "L7",
+    "target": "src_jsd_jsub_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "src_jsd_jmade",
+    "source_file": "src/jsd.js",
+    "source_location": "L13",
+    "target": "src_jsd_jsub_m",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_jsd",
+    "label": "jsd.js",
+    "source_file": "src/jsd.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_jsd_jbase",
+    "label": "JBase",
+    "source_file": "src/jsd.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_jsd_jbase_m",
+    "label": ".m()",
+    "source_file": "src/jsd.js",
+    "source_location": "L2"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_jsd_jbase_run",
+    "label": ".run()",
+    "source_file": "src/jsd.js",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_jsd_jmade",
+    "label": "jmade()",
+    "source_file": "src/jsd.js",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_jsd_jsub",
+    "label": "JSub",
+    "source_file": "src/jsd.js",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_jsd_jsub_m",
+    "label": ".m()",
+    "source_file": "src/jsd.js",
+    "source_location": "L17"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "282b1ad920928483abe85ff4ab47d4dfcba5579bc7b50344e7518684f39ac379"
+}

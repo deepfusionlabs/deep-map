@@ -1,0 +1,99 @@
+# Call-linking measurement kit
+
+The tools that measure typed-receiver call linking (`DEEPMAP_TYPED_CALLS`), the untyped-receiver audit
+(`DEEPMAP_CALLS_AUDIT`), family-scoped precise calls (`DEEPMAP_PRECISE_CALLS=<families>`) and the cross-family
+filter (`DEEPMAP_CALLS_FAMILY_FILTER`) against the pre-registered decisions in [PREREG.md](PREREG.md).
+Measurement code only: nothing under `build/` imports it, and the reference resolvers it drives (jedi,
+TypeScript) are in no shipped list (`tests/call_linking_harness_gates.py` checks both).
+
+**Read PREREG.md first.** Its §8 is the protocol, copied verbatim and hash-locked: thresholds are never edited
+after data, and RESULTS.md / DECISION.md (slice S6, in this folder) are written once, against it. (S0 to S6
+name the internal work slices; PREREG.md and PRE_RC_DECISIONS.md stay verbatim as registered.) Changes made
+before the first RC run are dated amendments with their reasons ("Amendments before RC", just above §8). A decision that near-RC pilot data force without changing a criterion takes the
+DECISION.md route instead: it is recorded before the first RC run in [PRE_RC_DECISIONS.md](PRE_RC_DECISIONS.md)
+(PD-1: two engine-specific zod typed tuples accepted as true edges, a list, not a rule) and copied verbatim into
+DECISION.md.
+
+## Layers and tools
+
+| Layer (PREREG §8.4) | Tool | What it does |
+|---|---|---|
+| G, graph | `offline_calls.py build <corpus> <out.json>` | The exact `:CALLS` set `deepmap sync` would push, with no Neo4j. Mirrors `build/sync.py` `_sync_pass` step for step (the typed-call step only when sync has it); deterministic output (run twice, `cmp`): the dump holds graph content and run identity only, never a wall-clock value (`WALL_CLOCK_FIELDS`: the typed pass's `call_linking.seconds` is left out), and every timing goes to `<out.json>.timing.json` (`t_extract_s`, `t_typed_s`, `t_total_s`, and `call_linking_seconds`, the typed pass's own seconds as `build/typed_calls.py` measures them). Records the flags, the *effective* switches the code turned on (read through the product: precise / keyed / CALLS_PLUS, the cross-family filter, the typed and audit languages, the typed-calls shapes / replace / tests / non-production / max files), the engine, a sha256 of `build/*.py` and `counts.extracted_cross_file`. Exit 3 = VOID (an engine fallback, or an inert variant: `variant_void`), exit 4 = INVARIANT (an EXTRACTED edge across files: data, and the variant fails). `stage0-corpus <dest>` materializes the registered STAGE-0 corpus. |
+| G | `variants.py` | The §8.3 variant table as data (`list`, `env`, `run <id> -- cmd`, `slug`). Every variant runs in a clean environment: every `DEEPMAP_*` removed except `DEEPMAP_HOME` / `DEEPMAP_PYTHON` / `DEEPMAP_GRAPHIFY_TIMEOUT`, `NEO4J_URI` removed. |
+| G, truth | `truth_jedi.py` (jedi 0.20.1, isolated venv, `-I`), `truth_ts.js` (TypeScript 5.6.3; `--js` for JavaScript) | One row per call site with the in-corpus definitions the reference resolver binds. `truth_jedi` reads a file as the interpreter does (BOM, PEP 263 cookie), hands jedi CHARACTER columns, and names every file that does not parse (`parse_errors`). |
+| G | `compare_calls.py` | Recall, confirmed / refuted / unverified, per grade and per call form; `--src-prefix` for library code (a pair belongs to the prefix by its CALLER's file); `pool` for the pooled receiver-form recall of D3-G1 (one dump's score per file, one variant on one engine: a several-dump `--json`, a non-score or mixed variants / engines are refused, exit 2; a VOID score exits 3); the cross-file EXTRACTED count; exit 3 on a VOID dump. |
+| G | `delta.py` | added / removed / demoted / promoted / EXTRACTED (every EXTRACTED edge of the variant, kept ones included) between a base and a variant, by caller class (prod / test / nonprod) and verdict. VOID (exit 3): a differing node set, a VOID dump on either side, or a variant whose flags differ from the base's while its effective switches are identical. |
+| G | `indegree_drift.py` | The arm-3 multiplier drift (count, distribution, max, top-20, the 2x candidates) and, with two live captures, the drift void rule. |
+| E, parity | `engdiff.py` | 0.8.39 vs 0.8.51 on version-stable identities (`label:name@file:line`). The E criterion against V0's parity is decided on the edges whose BOTH endpoints exist on both engines (PREREG amendment A1: graphify 0.8.39 makes no node for some TS static arrow-field members); the raw symmetric difference, the nodes on one engine only and the raw engine-specific count are reported beside it. Engine-specific changes; the label-set projection (diagnostic only); VOID (exit 3) on a VOID dump or a variant whose node set differs from its base's. `typed_tuple_verdict` judges §8.4 E's first bullet for one corpus from the differing typed tuples (which the engine-parity gate computes): as registered, and with the tuples PRE_RC_DECISIONS.md accepted (exactly those, on that engine and grade). |
+| G | `impact_offline.py` | Oracle-seeded 3-hop reverse reachability for the four multi_hop questions, STRICT / SPEC atoms (`--case-truth` gives the resolver ceiling). |
+| G | `impact_spot.py` | Hop-1 recall / precision on the registered spot symbols (5 Python, 5 TS/JS, each on a pinned corpus; `read_records` on the STAGE-0 corpus replaced the saturated `_mk_project`, PREREG amendment A2); `--base` counts improvements and flags a spot SATURATED at the base (recall already 1, or no reference caller: it can never improve; exit 1). |
+| A, audit | `audit_sample.py sample` / `score` | Seeded blind sample per bucket (+ every resolver-confirmed removal), the reviewer sheets, Wilson 95% bounds, the resolver error rate (>= 10% voids that corpus's G deltas). `score` reports the top-level LOSSES (every removed row of either stratum audited TRUE, by id) and the correct-removal share over both removal strata (population-weighted, `removed_all`). |
+| R, retrieval | `run_variant.py capture` / `roundtrip` / `matched` | Live in-process capture on a throwaway instance (search top-15 + impact(30) on graph-family top-3), two passes; the exact round-trip and matched-state VOID checks. The owner stamp is read with sync's own `_read_owning_root` and judged by `owner_problem` (sync's predicate). |
+| R | `score_m.py score` / `r1` | The STRICT / SPEC atom scorer (Python spans from `ast`, TS/JS spans from tree-sitter, `$` symbols such as `$ZodError`); R1 (no atom lost, macro >= V0) and R3 (multi_hop impact STRICT >= V0). |
+| R | `measure_self.py` + `gt_self65.json` | The self 65-query set (recovered with provenance): capture, hit@1/5/15 + MRR, R2 compare, and `check` (which expected symbols still exist). |
+| S, STAGE-0 | `tests/stage0_refreeze.py --check --env KEY=VAL` | The committed oracles against a variant's graph (DEEPMAP_* keys only; `--freeze` refuses `--env`). |
+| all G/E | `run_matrix.sh` | corpus x engine x variant orchestration (`CL_DRY=1` prints the plan). Measures a snapshot of `build/*.py` (`CL_WORK/build_snapshot`) unless `CL_BUILD` names one; VOID runs go to `VOID.txt`, invariant failures to `INVARIANT.txt`. |
+
+## Environment (PREREG §8.2)
+
+```bash
+W=<scratch>                                    # never inside this repository
+uv venv $W/venv-jedi && uv pip install --python $W/venv-jedi/Scripts/python.exe "jedi==0.20.1" "parso==0.8.7"
+uv venv $W/venv51   && uv pip install --python $W/venv51/Scripts/python.exe "graphifyy==0.8.51"
+npm install --prefix $W/tsenv --save-exact typescript@5.6.3
+CL_WORK=$W CL_DMHOME=<a short dir> CL_PY51=$W/venv51/Scripts/python.exe CL_JEDI_PY=$W/venv-jedi/Scripts/python.exe \
+  CL_TSENV=$W/tsenv CL_CORPORA="psf__requests pallets__flask colinhacks__zod" CL_VARIANTS="V0" \
+  bash benchmark/call_linking/run_matrix.sh
+```
+
+Rules the tools enforce: `DEEPMAP_HOME` must be a scratch home (never `~/.deepmap`); the read-only benchmark
+clones (`CALL_LINKING_READONLY_ROOTS`, default `C:/tmp/deepmap-bench-clones`) are copied with
+`git clone --no-hardlinks` before anything runs on them; a live capture refuses `NEO4J_URI`, the base bolt 7687
+and the dev pairs, and checks the graph's owner stamp.
+
+## Traps
+
+- **Determinism is about graph content; a timing is P-layer data** (decided 2026-10-24).
+  `typed_calls.link`'s stats carry the pass's own wall time `seconds` ("the only non-deterministic value"). Until
+  2026-10-24 `make_dump` copied the stats verbatim into the dump's `call_linking` block, so the two runs of almost
+  every typed variant differed in that one value and `run_matrix.sh`'s `cmp` called the pair VOID. The dump now
+  leaves it out (`offline_calls.WALL_CLOCK_FIELDS`), and the timing sidecar `<dump>.timing.json` carries it as
+  `call_linking_seconds`. P-layer readers take the pass's seconds from the sidecar (or from the sync log), never from
+  a dump. A dump written before the fix is re-judged with `offline_calls.strip_wall_clock`, which removes exactly
+  those fields; `_common.dump_json` of the result is the byte string the fixed kit writes. Every other difference
+  between two runs is still VOID. `tests/call_linking_harness_gates.py` section C locks this: no wall-clock key in
+  a typed dump, two in-process typed runs under two different fake clocks give identical bytes, and the CLI's two
+  typed runs are byte-identical with the seconds in the sidecar.
+- **A silent engine fallback is not data.** The default extractor `auto` falls back to the Python-only ast engine
+  when graphify fails, and on Windows it fails when a path under `<DEEPMAP_HOME>/gout/` passes MAX_PATH (measured:
+  the engine's cache paths ran 106 characters past a 142-character home; a 146-character home failed on requests).
+  `offline_calls.py --expect-engine graphify` (which `run_matrix.sh` always passes) makes such a dump VOID (exit 3);
+  every dump records `extraction` (requested / resolved / fallback_reason). Keep `CL_DMHOME` short.
+- **An inert variant equals V0.** A flag the code under test does not understand is silently off (before slice
+  S1, `DEEPMAP_PRECISE_CALLS=python,js` is OFF; before slice S2, sync has no typed-calls step). This is enforced in
+  code, not left to the reader: `offline_calls.py` VOIDs a dump (exit 3) whose flag no `build/*.py` file names,
+  whose `DEEPMAP_TYPED_CALLS` / `DEEPMAP_CALLS_AUDIT` met no `_typed_calls_link` step, a step without stats or a
+  step that erred (`typed_calls.link` then returns its input unchanged), whose requested languages the product did
+  not turn on, whose `DEEPMAP_PRECISE_CALLS` family list turned on no family, or whose requested switch the product
+  left off (the cross-family filter, TESTS / NONPROD, CALLS_PLUS, REPLACE=0, a SHAPES arm); `delta.py` VOIDs a pair
+  whose flags differ while the `effective` blocks are identical. The `effective` block reports every switch a
+  §8.3 variant sets, so VF against V0 and an ablation against VT are measurements, not inert pairs (before
+  2026-10-24 it did not report the filter or the typed-calls configuration, and every VF delta was VOID).
+  `run_matrix.sh` records each in `VOID.txt`.
+- **The working tree moves.** Other work edits `build/` while a matrix runs; two runs of one dump on different
+  code are "not byte-identical" and VOID. `run_matrix.sh` therefore measures a snapshot (`CL_WORK/build_snapshot`,
+  or `CL_BUILD`), and every dump stamps the code hash it measured.
+- **EXTRACTED never crosses files.** Design §4 allows EXTRACTED only with the whole evidence chain in the caller's
+  file; `counts.extracted_cross_file` checks it exactly on every dump (exit 4, `INVARIANT.txt`).
+- **The STAGE-0 corpus is build/'s CONTENTS.** `stage0_build` is the registered `self-graphify-build` corpus,
+  materialized by `offline_calls.py stage0-corpus` exactly as `tests/stage0_refreeze.py` does (`git archive
+  <sha>:build`): graphify skips a directory named `build/`, and a non-git tree gets no skipped-dir rescue.
+- **Node sets must match.** Every §8.3 variant is edge-only; `delta.py` / `audit_sample.py` refuse a pair whose
+  node sets differ. Compare engines only through `engdiff.py` (node keys differ by engine).
+- **Git Bash and Windows Python.** Pass paths as separate arguments or as `--opt=C:/...`; a comma-joined path
+  list is rewritten by MSYS before Python sees it (`impact_offline.py --case REPO ROOT DUMP`).
+- **The `self` corpus is the working tree** (there is no RC commit): `run_matrix.sh` clones the repository into the
+  scratch dir, copies the working tree over it and runs `git add -A` in that throwaway clone only (the engine's
+  skipped-dir rescue reads `git ls-files --cached`).
+- **Pilot numbers are pilot data.** PREREG §7 holds the S0 V0 baseline that proved the kit; decisions use only
+  the RC runs of S6.

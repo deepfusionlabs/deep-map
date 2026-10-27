@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "key_format": "relpath::name:line",
+    "note": "STAGE-0 oracle registry \u2014 maps a repo_id to its frozen no-regression oracle so the gate can validate any cloned repo. Paths are relative to the repo root. External entries are added by `stage0_freeze_oracle.py --repo-id <id> --repo-dir <clone> --register` (operator-run on a live Neo4j); external clones are pinned per repo in benchmark/repos.yaml."
+  },
+  "oracles": {
+    "self": {
+      "corpus": {
+        "builder": "stage0-ast",
+        "paths": [
+          "build",
+          "scripts",
+          "tests"
+        ],
+        "sha": "9c8d50bceab96288f83877c5306167b54b6d918a",
+        "tree": null
+      },
+      "note": "build/ + scripts/ + tests/ at the pinned commit, graphed by the harness's own stdlib-ast builder (tests/stage0_real_graph.py) on a throwaway instance \u2014 tests/stage0_refreeze.py.",
+      "oracle_path": "tests/stage0_real_oracle.json",
+      "pinned_sha": "9c8d50bceab96288f83877c5306167b54b6d918a",
+      "queries_file": null,
+      "repo_dir": "."
+    },
+    "self-graphify-build": {
+      "corpus": {
+        "builder": "graphify-default-sync",
+        "paths": null,
+        "sha": "9c8d50bceab96288f83877c5306167b54b6d918a",
+        "tree": "build"
+      },
+      "note": "build/ at the pinned commit, graphed by the product's own DEFAULT sync (graphify engine, every DEEPMAP_* knob unset) on a throwaway instance \u2014 tests/stage0_refreeze.py.",
+      "oracle_path": "tests/oracles/self-graphify-build.json",
+      "pinned_sha": "9c8d50bceab96288f83877c5306167b54b6d918a",
+      "queries_file": "tests/oracles/queries_graphify_build.json",
+      "repo_dir": "build"
+    }
+  }
+}

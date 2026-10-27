@@ -1,0 +1,369 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/precise_family_gates.TREES['mix'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/precise_family_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_main",
+    "source_file": "go/main.go",
+    "source_location": "L3",
+    "target": "go_main_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "go_main",
+    "source_file": "go/main.go",
+    "source_location": "L7",
+    "target": "go_main_main",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "go_main_main",
+    "source_file": "go/main.go",
+    "source_location": "L8",
+    "target": "go_main_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "py_a",
+    "source_file": "py/a.py",
+    "source_location": "L1",
+    "target": "py_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "py_a",
+    "source_file": "py/a.py",
+    "source_location": "L4",
+    "target": "py_a_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "py_b",
+    "source_file": "py/b.py",
+    "source_location": "L1",
+    "target": "py_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "py_b",
+    "source_file": "py/b.py",
+    "source_location": "L5",
+    "target": "py_b_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "web_a",
+    "source_file": "web/a.ts",
+    "source_location": "L1",
+    "target": "web_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_a",
+    "source_file": "web/a.ts",
+    "source_location": "L1",
+    "target": "web_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_a",
+    "source_file": "web/a.ts",
+    "source_location": "L3",
+    "target": "web_a_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_b",
+    "source_file": "web/b.ts",
+    "source_location": "L1",
+    "target": "web_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports_from",
+    "source": "web_c",
+    "source_file": "web/c.js",
+    "source_location": "L1",
+    "target": "web_d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_c",
+    "source_file": "web/c.js",
+    "source_location": "L1",
+    "target": "web_d_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_c",
+    "source_file": "web/c.js",
+    "source_location": "L1",
+    "target": "web_c_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_c",
+    "source_file": "web/c.js",
+    "source_location": "L3",
+    "target": "web_c_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_d",
+    "source_file": "web/d.js",
+    "source_location": "L1",
+    "target": "web_d_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "py_a",
+    "source_file": "py/a.py",
+    "source_location": "L1",
+    "target": "py_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "py_a",
+    "source_file": "py/a.py",
+    "source_location": "L1",
+    "target": "py_b_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "py_a_run",
+    "source_file": "py/a.py",
+    "source_location": "L5",
+    "target": "py_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "py_a_run",
+    "source_file": "py/a.py",
+    "source_location": "L6",
+    "target": "py_b_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "web_a_run",
+    "source_file": "web/a.ts",
+    "source_location": "L4",
+    "target": "web_b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "confidence_score": 1.0,
+    "context": "call",
+    "relation": "calls",
+    "source": "web_c_go",
+    "source_file": "web/c.js",
+    "source_location": "L4",
+    "target": "web_d_util",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_main",
+    "label": "main.go",
+    "source_file": "go/main.go",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_main_helper",
+    "label": "helper()",
+    "source_file": "go/main.go",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "go_main_main",
+    "label": "main()",
+    "source_file": "go/main.go",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "py_init",
+    "label": "__init__.py",
+    "source_file": "py/__init__.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "py_a",
+    "label": "a.py",
+    "source_file": "py/a.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "py_a_run",
+    "label": "run()",
+    "source_file": "py/a.py",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "py_b",
+    "label": "b.py",
+    "source_file": "py/b.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "py_b_helper",
+    "label": "helper()",
+    "source_file": "py/b.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "py_b_thing",
+    "label": "Thing",
+    "source_file": "py/b.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_a",
+    "label": "a.ts",
+    "source_file": "web/a.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_a_run",
+    "label": "run()",
+    "source_file": "web/a.ts",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_b",
+    "label": "b.ts",
+    "source_file": "web/b.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_b_helper",
+    "label": "helper()",
+    "source_file": "web/b.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_c",
+    "label": "c.js",
+    "source_file": "web/c.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_c_util",
+    "label": "{ util }",
+    "source_file": "web/c.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_c_go",
+    "label": "go()",
+    "source_file": "web/c.js",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_d",
+    "label": "d.js",
+    "source_file": "web/d.js",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_d_util",
+    "label": "util()",
+    "source_file": "web/d.js",
+    "source_location": "L1"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "b71e2c4de95af640618f114f7135d88a8548bb0e5c13cc0a1b603eacf615fa42"
+}
