@@ -228,19 +228,23 @@ Three steps, all inside Claude Code. No terminal, no API key, no Docker.
 Needs Claude Code, Python 3.10+ (as `python` or `python3`) and Java 17 or 21 (for Neo4j). Tested on Windows 11 and
 Linux. Macs with Apple silicon aren't verified yet, and Intel Macs aren't supported.
 
-1. **Add the plugin** from its public GitHub repository, `deepfusionlabs/deep-map`. In Claude Code:
+1. **Add the plugin** from its public GitHub repository, `deepfusionlabs/deep-map`. In the Claude Code CLI:
 
    ```
    /plugin marketplace add deepfusionlabs/deep-map
    /plugin install deep-map@deepfusionlabs-deep-map
    ```
 
+   In the VS Code extension, `/plugin` isn't available: type `/` in the chat box, choose **Manage plugins**, add the
+   marketplace `deepfusionlabs/deep-map`, then install **deep-map**.
+
 2. **Run `/deep-map:setup` in your project.** The first run installs DeepMap's own Python environment (never into
    your Python), downloads the embedding model and Neo4j, builds the graph and starts the local MCP servers. It
    checks Java and free disk before it downloads anything.
 
-3. **Start a new Claude Code session** (approve the two deepmap servers if Claude Code asks) so
-   `deepmap_search`, `deepmap_impact`, `deepmap_cypher` and `deepmap_embed` connect. Then ask in plain English:
+3. **Start a new Claude Code session** (in VS Code, a new chat; approve the two deepmap servers if Claude Code
+   asks) so `deepmap_search`, `deepmap_impact`, `deepmap_cypher` and `deepmap_embed` connect. Then ask in plain
+   English:
    "What breaks if I change `charge_card()`?", "Find the code that retries failed uploads.", "Which classes get
    `UserRepository` injected?"
 

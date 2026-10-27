@@ -5,10 +5,18 @@ updates:
   # artifacts (NOTICE, THIRD-PARTY-LICENSES.md, sbom.cdx.json) repeat those specs, CI the three ranges, and
   # tests/compliance_gates.py fails when requirements.txt drifts from them — so a Dependabot PR that moves one stays
   # RED until every source moves with it. Widen a range only after the gate suite passes on the new release (see
-  # requirements.txt). Dependabot surfaces upstream security + version updates as PRs. Keep the batch small and
+  # requirements.txt). So a pip PR opens only when a new release falls OUTSIDE a range or floor (increase-if-necessary),
+  # and never for graphifyy 0.8.52+ or mcp 2.x, the two releases not validated yet: remove that ignore entry when you
+  # widen the range. Dependabot alerts still report a vulnerable version of every package. Keep the batch small and
   # reviewable.
   - package-ecosystem: pip
     directory: "/"
+    versioning-strategy: increase-if-necessary
+    ignore:
+      - dependency-name: graphifyy
+        versions: [">=0.8.52"]
+      - dependency-name: mcp
+        versions: [">=2"]
     schedule:
       interval: weekly
     open-pull-requests-limit: 5

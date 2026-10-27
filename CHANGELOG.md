@@ -12,7 +12,9 @@ DeepMap is a Claude Code plugin: code RAG that reasons, not just retrieves. Grap
 ranked list, in a local Neo4j database. MIT, 100% local.
 
 Install it inside Claude Code with `/plugin marketplace add deepfusionlabs/deep-map` and
-`/plugin install deep-map@deepfusionlabs-deep-map`, then run `/deep-map:setup` in your project.
+`/plugin install deep-map@deepfusionlabs-deep-map` (in the VS Code extension, where `/plugin` isn't available: type
+`/`, choose **Manage plugins**, add the marketplace `deepfusionlabs/deep-map` and install **deep-map**), then run
+`/deep-map:setup` in your project.
 
 ### What DeepMap does
 
