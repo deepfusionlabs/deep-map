@@ -38,12 +38,12 @@ mcp>=1.24,<2          # MIT — MCP Python SDK; the two MCP servers import mcp.s
 # anyio arrives with mcp, but DeepMap also imports it DIRECTLY (build/mcp_bounds.py runs each MCP tool body in a
 # worker thread under a deadline; the search server bounds its project-guard roots request), so it is declared here
 # instead of being left to a transitive dependency (tests/compliance_gates.py fails on an undeclared third-party
-# import). Floor = mcp's own requirement (mcp 1.28.1 metadata: anyio>=4.5; the abandon_on_cancel= DeepMap passes to
+# import). Floor = mcp's own requirement (mcp 1.28.1 metadata: anyio>=4.15.1; the abandon_on_cancel= DeepMap passes to
 # to_thread.run_sync is new in anyio 4.1), so declaring it never changes what pip resolves next to mcp. No ceiling:
 # no known breaking release. Both installers install it next to mcp, with this floor, in mcp's own pip command
 # (tests/f6_installer_declared_specs_r283_gates.py); CI gets it through mcp. The round-4 venvs above ran the full
 # suite on anyio 4.15.1; the Windows dev box runs anyio 4.9.0 next to mcp 1.28.1.
-anyio>=4.5            # MIT — imported directly (see above); installed next to mcp
+anyio>=4.15.1            # MIT — imported directly (see above); installed next to mcp
 
 # --- embeddings (CPU ML stack) ---
 torch                 # BSD-3-Clause — install the CPU build via the install scripts
