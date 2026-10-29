@@ -1,0 +1,2735 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_cs_gates.TREES['recheck'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_cs_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "fresh_repos",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L3",
+    "target": "fresh_repos_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "fresh_repos_repo",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L5",
+    "target": "fresh_repos_repo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "fresh_repos",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L10",
+    "target": "fresh_repos_cachedrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "fresh_repos_cachedrepo",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L10",
+    "target": "fresh_repos_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "fresh_repos_cachedrepo",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L12",
+    "target": "fresh_repos_cachedrepo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "fresh_repos",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L17",
+    "target": "fresh_repos_repouser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "fresh_repos_repouser",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L19",
+    "target": "fresh_repos_repouser_typednew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "fresh_repos_repouser",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L25",
+    "target": "fresh_repos_repouser_targetnew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "fresh_repos_repouser",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L31",
+    "target": "fresh_repos_repouser_declared",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "fresh_repos_repouser_declared",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L31",
+    "target": "fresh_repos_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "fresh_repos_repouser",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L36",
+    "target": "fresh_repos_repouser_basenew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "fresh_repos_repouser",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L42",
+    "target": "fresh_repos_repouser_rebound",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "fresh_repos_repouser_rebound",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L42",
+    "target": "fresh_repos_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "fresh_repos_repouser_typednew",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L22",
+    "target": "fresh_repos_cachedrepo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "fresh_repos_repouser_targetnew",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L28",
+    "target": "fresh_repos_cachedrepo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "fresh_repos_repouser_declared",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L33",
+    "target": "fresh_repos_cachedrepo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "fresh_repos_repouser_basenew",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L39",
+    "target": "fresh_repos_cachedrepo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "fresh_repos_repouser_rebound",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L46",
+    "target": "fresh_repos_cachedrepo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "gen_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "gen_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L2",
+    "target": "tasks",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L6",
+    "target": "gen_api_api",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "gen_api_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L8",
+    "target": "orderhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "gen_api_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L9",
+    "target": "lowhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_api_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L11",
+    "target": "gen_api_api_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_api_api_make",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L11",
+    "target": "createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_api_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L16",
+    "target": "gen_api_api_post",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_api_api_post",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L16",
+    "target": "createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_api_api_post",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L16",
+    "target": "src_rc_gen_api_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_api_api_post",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L16",
+    "target": "src_rc_gen_api_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_api_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L21",
+    "target": "gen_api_api_postnone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_api_api_postnone",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L21",
+    "target": "src_rc_gen_api_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_api_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L26",
+    "target": "gen_api_api_auditunknown",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_api_api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L31",
+    "target": "gen_api_api_postlow",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_api_api_postlow",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L31",
+    "target": "createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_api_api_postlow",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L31",
+    "target": "src_rc_gen_api_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_api_api_postlow",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L31",
+    "target": "src_rc_gen_api_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "gen_api_api_postnone",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L23",
+    "target": "gen_api_api_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "gen_api_api_auditunknown",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L28",
+    "target": "gen_api_api_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "gen_handlers",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "gen_handlers",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L2",
+    "target": "tasks",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_handlers",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L6",
+    "target": "gen_handlers_createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_handlers",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L10",
+    "target": "gen_handlers_basehandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_handlers_basehandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12",
+    "target": "gen_handlers_basehandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_basehandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12",
+    "target": "treq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_basehandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12",
+    "target": "src_rc_gen_handlers_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_handlers_basehandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12",
+    "target": "src_rc_gen_handlers_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "gen_handlers_basehandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12",
+    "target": "tres",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_handlers_basehandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L14",
+    "target": "gen_handlers_basehandler_audit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_basehandler_audit",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L14",
+    "target": "treq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_handlers",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L19",
+    "target": "gen_handlers_orderhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "gen_handlers_orderhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L19",
+    "target": "gen_handlers_basehandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "gen_handlers_orderhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L19",
+    "target": "gen_handlers_createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_handlers_orderhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L21",
+    "target": "gen_handlers_orderhandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_orderhandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L21",
+    "target": "gen_handlers_createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_orderhandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L21",
+    "target": "src_rc_gen_handlers_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_handlers_orderhandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L21",
+    "target": "src_rc_gen_handlers_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_handlers_orderhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L26",
+    "target": "gen_handlers_orderhandler_audit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_orderhandler_audit",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L26",
+    "target": "gen_handlers_createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_handlers",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L31",
+    "target": "gen_handlers_midhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "gen_handlers_midhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L31",
+    "target": "gen_handlers_basehandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "gen_handlers_midhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L31",
+    "target": "src_rc_gen_handlers_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_handlers",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L35",
+    "target": "gen_handlers_lowhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "gen_handlers_lowhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L35",
+    "target": "gen_handlers_midhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "gen_handlers_lowhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L35",
+    "target": "gen_handlers_createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_handlers_lowhandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L37",
+    "target": "gen_handlers_lowhandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_lowhandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L37",
+    "target": "gen_handlers_createorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_handlers_lowhandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L37",
+    "target": "src_rc_gen_handlers_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_handlers_lowhandler_handle",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L37",
+    "target": "src_rc_gen_handlers_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_stores",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L3",
+    "target": "gen_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_stores",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L7",
+    "target": "gen_stores_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_stores",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L11",
+    "target": "gen_stores_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_stores_store",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L13",
+    "target": "gen_stores_store_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_stores_store_save",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L13",
+    "target": "src_rc_gen_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_stores",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L18",
+    "target": "gen_stores_cartstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "gen_stores_cartstore",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L18",
+    "target": "gen_stores_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "gen_stores_cartstore",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L18",
+    "target": "gen_stores_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_stores_cartstore",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L20",
+    "target": "gen_stores_cartstore_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_stores_cartstore_save",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L20",
+    "target": "gen_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "gen_stores",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L25",
+    "target": "gen_stores_storeuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "gen_stores_storeuser",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L27",
+    "target": "gen_stores_cartstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_stores_storeuser",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L29",
+    "target": "gen_stores_storeuser_next",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "gen_stores_storeuser_next",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L29",
+    "target": "gen_stores_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_stores_storeuser",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L34",
+    "target": "gen_stores_storeuser_saveorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_stores_storeuser_saveorder",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L34",
+    "target": "gen_stores_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_stores_storeuser",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L39",
+    "target": "gen_stores_storeuser_savecart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "gen_stores_storeuser_savecart",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L39",
+    "target": "gen_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "gen_stores_storeuser",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L44",
+    "target": "gen_stores_storeuser_savenext",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "gen_stores_storeuser_saveorder",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L36",
+    "target": "gen_stores_cartstore_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "gen_stores_storeuser_savecart",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L41",
+    "target": "gen_stores_cartstore_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "gen_stores_storeuser_savenext",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L46",
+    "target": "gen_stores_cartstore_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "gen_stores_storeuser_savenext",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L46",
+    "target": "gen_stores_storeuser_next",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "iface_factory",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L3",
+    "target": "iface_factory_ifactory",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "iface_factory_ifactory",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L5",
+    "target": "iface_factory_ifactory_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "iface_factory_ifactory_make",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L5",
+    "target": "iface_factory_ifactory",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "iface_factory",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L11",
+    "target": "iface_factory_factory",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "iface_factory_factory",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L11",
+    "target": "iface_factory_ifactory",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "iface_factory_factory",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L13",
+    "target": "iface_factory_factory_make",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "iface_factory_factory_make",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L13",
+    "target": "iface_factory_ifactory",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "iface_factoryuser",
+    "source_file": "src/Rc/Iface/FactoryUser.cs",
+    "source_location": "L3",
+    "target": "iface_factoryuser_factoryuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "iface_factoryuser_factoryuser",
+    "source_file": "src/Rc/Iface/FactoryUser.cs",
+    "source_location": "L5",
+    "target": "iface_factoryuser_factoryuser_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "plug_plugins",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L3",
+    "target": "plug_plugins_iplugin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "plug_plugins_iplugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L5",
+    "target": "plug_plugins_iplugin_load",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "plug_plugins",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L8",
+    "target": "plug_plugins_coreplugin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "plug_plugins_coreplugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L8",
+    "target": "plug_plugins_iplugin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "plug_plugins_coreplugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L10",
+    "target": "plug_plugins_coreplugin_load",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "plug_plugins",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L15",
+    "target": "plug_plugins_oddplugin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "plug_plugins_oddplugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L15",
+    "target": "plug_plugins_iplugin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "plug_plugins_oddplugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L17",
+    "target": "plug_plugins_oddplugin_load",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "plug_plugins",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L22",
+    "target": "plug_plugins_pluginhost",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "plug_plugins_pluginhost",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L24",
+    "target": "plug_plugins_iplugin",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "plug_plugins_pluginhost",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L26",
+    "target": "plug_plugins_pluginhost_start",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "plug_plugins_pluginhost_start",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L28",
+    "target": "plug_plugins_oddplugin_load",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qual_stores",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qual_stores",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L2",
+    "target": "tasks",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qual_stores",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L3",
+    "target": "ct",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qual_stores",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L7",
+    "target": "qual_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qual_stores",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L11",
+    "target": "qual_stores_storebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_storebase",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L13",
+    "target": "qual_stores_storebase_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qual_stores_storebase_save",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L13",
+    "target": "qual_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_storebase",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L17",
+    "target": "qual_stores_storebase_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qual_stores_storebase_send",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L17",
+    "target": "src_rc_qual_stores_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "qual_stores_storebase_send",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L17",
+    "target": "src_rc_qual_stores_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_storebase",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L22",
+    "target": "qual_stores_storebase_count",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_storebase",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L26",
+    "target": "qual_stores_storebase_stop",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qual_stores_storebase_stop",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L26",
+    "target": "src_rc_qual_stores_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "qual_stores_storebase_stop",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L26",
+    "target": "src_rc_qual_stores_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_storebase",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L31",
+    "target": "qual_stores_storebase_note",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qual_stores",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L36",
+    "target": "qual_stores_qualstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qual_stores_qualstore",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L36",
+    "target": "qual_stores_storebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualstore",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L38",
+    "target": "qual_stores_qualstore_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qual_stores_qualstore_save",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L38",
+    "target": "qual_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualstore",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L42",
+    "target": "qual_stores_qualstore_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qual_stores_qualstore_send",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L42",
+    "target": "src_rc_qual_stores_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "qual_stores_qualstore_send",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L42",
+    "target": "src_rc_qual_stores_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualstore",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L47",
+    "target": "qual_stores_qualstore_count",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qual_stores_qualstore_count",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L47",
+    "target": "int32",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualstore",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L51",
+    "target": "qual_stores_qualstore_stop",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qual_stores_qualstore_stop",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L51",
+    "target": "ct",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "qual_stores_qualstore_stop",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L51",
+    "target": "src_rc_qual_stores_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualstore",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L56",
+    "target": "qual_stores_qualstore_note",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qual_stores",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L61",
+    "target": "qual_stores_qualuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L63",
+    "target": "qual_stores_qualstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L65",
+    "target": "qual_stores_qualuser_getcart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "qual_stores_qualuser_getcart",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L65",
+    "target": "qual_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L70",
+    "target": "qual_stores_qualuser_size",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L75",
+    "target": "qual_stores_qualuser_text",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L80",
+    "target": "qual_stores_qualuser_saveunknown",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L85",
+    "target": "qual_stores_qualuser_senddefault",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L90",
+    "target": "qual_stores_qualuser_countunknown",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L95",
+    "target": "qual_stores_qualuser_stopdefault",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qual_stores_qualuser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L100",
+    "target": "qual_stores_qualuser_noteunknown",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_saveunknown",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L82",
+    "target": "qual_stores_qualstore_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_saveunknown",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L82",
+    "target": "qual_stores_qualuser_getcart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_senddefault",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L87",
+    "target": "qual_stores_qualstore_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_countunknown",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L92",
+    "target": "qual_stores_qualstore_count",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_countunknown",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L92",
+    "target": "qual_stores_qualuser_size",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_stopdefault",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L97",
+    "target": "qual_stores_qualstore_stop",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_noteunknown",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L102",
+    "target": "qual_stores_qualstore_note",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qual_stores_qualuser_noteunknown",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L102",
+    "target": "qual_stores_qualuser_text",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "rc_rc",
+    "source_file": "src/Rc/Rc.csproj",
+    "target": "sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_jobs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L3",
+    "target": "slots_jobs_ijob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_ijob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L5",
+    "target": "slots_jobs_ijob_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_jobs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L8",
+    "target": "slots_jobs_jobbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "slots_jobs_jobbase",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L8",
+    "target": "slots_jobs_ijob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_jobbase",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L10",
+    "target": "slots_jobs_jobbase_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_jobs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L15",
+    "target": "slots_jobs_fastjob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_jobs_fastjob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L15",
+    "target": "slots_jobs_jobbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_fastjob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L17",
+    "target": "slots_jobs_fastjob_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_jobs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L22",
+    "target": "slots_jobs_hidejob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_jobs_hidejob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L22",
+    "target": "slots_jobs_fastjob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_hidejob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L24",
+    "target": "slots_jobs_hidejob_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_jobs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L29",
+    "target": "slots_jobs_newvirt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_jobs_newvirt",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L29",
+    "target": "slots_jobs_fastjob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_newvirt",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L31",
+    "target": "slots_jobs_newvirt_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_jobs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L36",
+    "target": "slots_jobs_undernew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_jobs_undernew",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L36",
+    "target": "slots_jobs_newvirt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_undernew",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L38",
+    "target": "slots_jobs_undernew_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_jobs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L43",
+    "target": "slots_jobs_jobuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L45",
+    "target": "slots_jobs_ijob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L46",
+    "target": "slots_jobs_jobbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L47",
+    "target": "slots_jobs_fastjob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L48",
+    "target": "slots_jobs_newvirt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L50",
+    "target": "slots_jobs_jobuser_usei",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L55",
+    "target": "slots_jobs_jobuser_usebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L60",
+    "target": "slots_jobs_jobuser_usefast",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_jobs_jobuser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L65",
+    "target": "slots_jobs_jobuser_usenv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_jobs_jobuser_usei",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L52",
+    "target": "slots_jobs_undernew_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_jobs_jobuser_usebase",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L57",
+    "target": "slots_jobs_undernew_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_jobs_jobuser_usefast",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L62",
+    "target": "slots_jobs_undernew_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_jobs_jobuser_usenv",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L67",
+    "target": "slots_jobs_undernew_run",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos",
+    "label": "Repos.cs",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repo",
+    "label": "Repo",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repo_save",
+    "label": ".Save()",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_cachedrepo",
+    "label": "CachedRepo",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_cachedrepo_save",
+    "label": ".Save()",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repouser",
+    "label": "RepoUser",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repouser_typednew",
+    "label": ".TypedNew()",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repouser_targetnew",
+    "label": ".TargetNew()",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repouser_declared",
+    "label": ".Declared()",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repouser_basenew",
+    "label": ".BaseNew()",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "fresh_repos_repouser_rebound",
+    "label": ".Rebound()",
+    "source_file": "src/Rc/Fresh/Repos.cs",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_api",
+    "label": "Api.cs",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_api_api",
+    "label": "Api",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orderhandler",
+    "label": "OrderHandler",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lowhandler",
+    "label": "LowHandler",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_api_api_make",
+    "label": ".Make()",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "createorder",
+    "label": "CreateOrder",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_api_api_post",
+    "label": ".Post()",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_gen_api_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_gen_api_cs_task",
+    "label": "Task",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_api_api_postnone",
+    "label": ".PostNone()",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_api_api_auditunknown",
+    "label": ".AuditUnknown()",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_api_api_postlow",
+    "label": ".PostLow()",
+    "source_file": "src/Rc/Gen/Api.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers",
+    "label": "Handlers.cs",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_createorder",
+    "label": "CreateOrder",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_basehandler",
+    "label": "BaseHandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_basehandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "treq",
+    "label": "TReq",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_gen_handlers_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_gen_handlers_cs_task",
+    "label": "Task",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tres",
+    "label": "TRes",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_basehandler_audit",
+    "label": ".Audit()",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_orderhandler",
+    "label": "OrderHandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_orderhandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_orderhandler_audit",
+    "label": ".Audit()",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_midhandler",
+    "label": "MidHandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_gen_handlers_cs_t",
+    "label": "T",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_lowhandler",
+    "label": "LowHandler",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_handlers_lowhandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Rc/Gen/Handlers.cs",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores",
+    "label": "Stores.cs",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_cart",
+    "label": "Cart",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_order",
+    "label": "Order",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_store",
+    "label": "Store",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_store_save",
+    "label": ".Save()",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_gen_stores_cs_t",
+    "label": "T",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_cartstore",
+    "label": "CartStore",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_cartstore_save",
+    "label": ".Save()",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_storeuser",
+    "label": "StoreUser",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_storeuser_next",
+    "label": ".Next()",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_storeuser_saveorder",
+    "label": ".SaveOrder()",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_storeuser_savecart",
+    "label": ".SaveCart()",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "gen_stores_storeuser_savenext",
+    "label": ".SaveNext()",
+    "source_file": "src/Rc/Gen/Stores.cs",
+    "source_location": "L44"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factory",
+    "label": "Factory.cs",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factory_ifactory",
+    "label": "IFactory",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factory_ifactory_make",
+    "label": ".Make()",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factory_factory",
+    "label": "Factory",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factory_factory_make",
+    "label": ".Make()",
+    "source_file": "src/Rc/Iface/Factory.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factoryuser",
+    "label": "FactoryUser.cs",
+    "source_file": "src/Rc/Iface/FactoryUser.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factoryuser_factoryuser",
+    "label": "FactoryUser",
+    "source_file": "src/Rc/Iface/FactoryUser.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iface_factoryuser_factoryuser_use",
+    "label": ".Use()",
+    "source_file": "src/Rc/Iface/FactoryUser.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins",
+    "label": "Plugins.cs",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_iplugin",
+    "label": "IPlugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_iplugin_load",
+    "label": ".Load()",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_coreplugin",
+    "label": "CorePlugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_coreplugin_load",
+    "label": ".Load()",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_oddplugin",
+    "label": "OddPlugin",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_oddplugin_load",
+    "label": ".Load()",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_pluginhost",
+    "label": "PluginHost",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "plug_plugins_pluginhost_start",
+    "label": ".Start()",
+    "source_file": "src/Rc/Plug/Plugins.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores",
+    "label": "Stores.cs",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_cart",
+    "label": "Cart",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_storebase",
+    "label": "StoreBase",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_storebase_save",
+    "label": ".Save()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_storebase_send",
+    "label": ".Send()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_qual_stores_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_rc_qual_stores_cs_task",
+    "label": "Task",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_storebase_count",
+    "label": ".Count()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_storebase_stop",
+    "label": ".Stop()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_storebase_note",
+    "label": ".Note()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualstore",
+    "label": "QualStore",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualstore_save",
+    "label": ".Save()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualstore_send",
+    "label": ".Send()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualstore_count",
+    "label": ".Count()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L47"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "int32",
+    "label": "Int32",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L47"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualstore_stop",
+    "label": ".Stop()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L51"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ct",
+    "label": "CT",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L51"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualstore_note",
+    "label": ".Note()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L56"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser",
+    "label": "QualUser",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L61"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_getcart",
+    "label": ".GetCart()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L65"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_size",
+    "label": ".Size()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L70"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_text",
+    "label": ".Text()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L75"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_saveunknown",
+    "label": ".SaveUnknown()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L80"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_senddefault",
+    "label": ".SendDefault()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L85"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_countunknown",
+    "label": ".CountUnknown()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L90"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_stopdefault",
+    "label": ".StopDefault()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L95"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qual_stores_qualuser_noteunknown",
+    "label": ".NoteUnknown()",
+    "source_file": "src/Rc/Qual/Stores.cs",
+    "source_location": "L100"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "rc_rc",
+    "label": "Rc.csproj",
+    "source_file": "src/Rc/Rc.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Rc/Rc.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs",
+    "label": "Jobs.cs",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_ijob",
+    "label": "IJob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_ijob_run",
+    "label": ".Run()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_jobbase",
+    "label": "JobBase",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_jobbase_run",
+    "label": ".Run()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_fastjob",
+    "label": "FastJob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_fastjob_run",
+    "label": ".Run()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_hidejob",
+    "label": "HideJob",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_hidejob_run",
+    "label": ".Run()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_newvirt",
+    "label": "NewVirt",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_newvirt_run",
+    "label": ".Run()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_undernew",
+    "label": "UnderNew",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_undernew_run",
+    "label": ".Run()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_jobuser",
+    "label": "JobUser",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_jobuser_usei",
+    "label": ".UseI()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L50"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_jobuser_usebase",
+    "label": ".UseBase()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L55"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_jobuser_usefast",
+    "label": ".UseFast()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L60"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_jobs_jobuser_usenv",
+    "label": ".UseNv()",
+    "source_file": "src/Rc/Slots/Jobs.cs",
+    "source_location": "L65"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "84d9e83bd76022379ca1b255bcc4cd4c0701cd10f7575264ccbfeccc6eb7ebfa"
+}

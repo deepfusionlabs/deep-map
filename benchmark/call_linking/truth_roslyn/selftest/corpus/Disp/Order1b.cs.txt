@@ -1,0 +1,6 @@
+namespace Disp;
+
+public static class Order1b
+{
+    public static int Narrow<T>(T t) where T : Wd => t.Go();
+}

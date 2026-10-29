@@ -1,0 +1,1426 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/csharp_members_gates.TREE, written by extract_with_report (absolute paths made root-relative); re-capture with `python tests/csharp_members_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "dtos_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L1",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "dtos_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L2",
+    "target": "generic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "dtos_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L3",
+    "target": "linq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "dtos_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L4",
+    "target": "serialization",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "dtos_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L8",
+    "target": "dtos_shoppingcartdto_shoppingcartdto",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "dtos_shoppingcartdto_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L11",
+    "target": "shop_dtos_shoppingcartdto_cs_string",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "dtos_shoppingcartdto_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L42",
+    "target": "dtos_shoppingcartdto_shoppingcartdto_countitems",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "dtos_shoppingcartdto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L45",
+    "target": "dtos_shoppingcartdto_cartitemdto",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "geo_points",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L1",
+    "target": "geo_points_shop_geo_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "geo_points",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L3",
+    "target": "geo_points_p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "geo_points_p",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L6",
+    "target": "geo_points_p_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "geo_points",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L11",
+    "target": "geo_points_shop_geo_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_boxes",
+    "source_file": "Shop/Models/Boxes.cs",
+    "source_location": "L1",
+    "target": "models_boxes_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_boxes_box",
+    "source_file": "Shop/Models/Boxes.cs",
+    "source_location": "L5",
+    "target": "models_boxes_box_m",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_links",
+    "source_file": "Shop/Models/Links.cs",
+    "source_location": "L3",
+    "target": "models_links_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_links_item",
+    "source_file": "Shop/Models/Links.cs",
+    "source_location": "L3",
+    "target": "models_links_item_copy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "models_links_item_copy",
+    "source_file": "Shop/Models/Links.cs",
+    "source_location": "L3",
+    "target": "models_links_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_nested",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L3",
+    "target": "models_nested_basket",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_nested_basket",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L5",
+    "target": "models_nested_line",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_nested",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L7",
+    "target": "models_nested_status",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_nested",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L9",
+    "target": "models_nested_line",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_nested_line",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L11",
+    "target": "shop_models_nested_cs_int",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_nested_line",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L12",
+    "target": "models_nested_line_double",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_nested",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L18",
+    "target": "models_nested_invoice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_nested_line",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L24",
+    "target": "shop_models_nested_cs_decimal",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "models_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L1",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L3",
+    "target": "models_order_shop_models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L5",
+    "target": "models_order_ipriced",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L11",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "models_order_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L11",
+    "target": "models_order_ipriced",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_order_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L13",
+    "target": "shop_models_order_cs_decimal",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_order_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L14",
+    "target": "shop_models_order_cs_string",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L43",
+    "target": "models_order_dump",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L50",
+    "target": "models_order_line",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L57",
+    "target": "models_order_order_total",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L60",
+    "target": "models_order_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_repo",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L68",
+    "target": "models_order_repo_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "models_order_repo_find",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L68",
+    "target": "t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_pairs",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L3",
+    "target": "models_pairs_pair",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_pairs_pair",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L5",
+    "target": "shop_models_pairs_cs_int",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_pairs",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L8",
+    "target": "models_pairs_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_pairs_pair",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L12",
+    "target": "models_pairs_pair_sum",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_units",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L3",
+    "target": "models_units_meter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_units_meter",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L5",
+    "target": "double",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_units_meter",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L6",
+    "target": "models_units_meter_scale",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_units",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L9",
+    "target": "models_units_scale",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_values",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L3",
+    "target": "models_values_orderrec",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_values_orderrec",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L5",
+    "target": "models_values_orderrec_twice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_values",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L9",
+    "target": "models_values_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_values_point",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L11",
+    "target": "models_values_point_twice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_values",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L14",
+    "target": "models_values_money",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "models_values_money",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L16",
+    "target": "shop_models_values_cs_decimal",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_values_money",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L23",
+    "target": "models_values_money_half",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_values_money",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L24",
+    "target": "models_values_money_quarter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_values",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L28",
+    "target": "models_values_color",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "models_values_money_quarter",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L24",
+    "target": "models_values_money_half",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_cartservice_pricing",
+    "source_file": "Shop/Services/CartService.Pricing.cs",
+    "source_location": "L3",
+    "target": "services_cartservice_pricing_cartservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "services_cartservice_pricing_cartservice",
+    "source_file": "Shop/Services/CartService.Pricing.cs",
+    "source_location": "L11",
+    "target": "services_cartservice_pricing_cartservice_apply",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_cartservice",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L3",
+    "target": "services_cartservice_cartservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "services_cartservice_cartservice",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L5",
+    "target": "services_cartservice_icarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_cartservice",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L15",
+    "target": "services_cartservice_icarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "services_cartservice_icarthelper",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L17",
+    "target": "services_cartservice_icarthelper_build",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_ctors",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L3",
+    "target": "services_ctors_staticfirst",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "services_ctors_staticfirst",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L5",
+    "target": "shop_services_ctors_cs_int",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "services_ctors_staticfirst",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L6",
+    "target": "services_ctors_ipricer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_ctors",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L23",
+    "target": "services_ctors_staticonly",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "services_ctors_staticonly",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L25",
+    "target": "shop_services_ctors_cs_int",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_ctors",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L33",
+    "target": "services_ctors_instanceonly",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "services_ctors_instanceonly",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L35",
+    "target": "services_ctors_ipricer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_ctors",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L43",
+    "target": "services_ctors_instancethenstatic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "services_ctors",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L54",
+    "target": "services_ctors_ipricer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "services_ctors_ipricer",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L56",
+    "target": "services_ctors_ipricer_price",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_report",
+    "source_file": "tools/report.py",
+    "source_location": "L1",
+    "target": "tools_report_name",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_report",
+    "source_file": "tools/report.py",
+    "source_location": "L5",
+    "target": "tools_report_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_report",
+    "source_file": "tools/report.py",
+    "source_location": "L9",
+    "target": "tools_report_build",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "tools_report_build",
+    "source_file": "tools/report.py",
+    "source_location": "L10",
+    "target": "tools_report_name",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "tools_report_build",
+    "source_file": "tools/report.py",
+    "source_location": "L10",
+    "target": "tools_report_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "cart_cart_component",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L1",
+    "target": "cart_cart_component_cartcomponent",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "cart_cart_component_cartcomponent",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L4",
+    "target": "cart_cart_component_cartcomponent_totalprice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "cart_cart_component_cartcomponent",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L8",
+    "target": "cart_cart_component_cartcomponent_formattotalprice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "cart_cart_component_cartcomponent",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L12",
+    "target": "cart_cart_component_cartcomponent_refresh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "cart_cart_component_cartcomponent_refresh",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L13",
+    "target": "cart_cart_component_cartcomponent_formattotalprice",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "dtos_shoppingcartdto",
+    "label": "ShoppingCartDto.cs",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "dtos_shoppingcartdto_shoppingcartdto",
+    "label": "ShoppingCartDto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_dtos_shoppingcartdto_cs_string",
+    "label": "string",
+    "origin_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "dtos_shoppingcartdto_shoppingcartdto_countitems",
+    "label": ".CountItems()",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "dtos_shoppingcartdto_cartitemdto",
+    "label": "CartItemDto",
+    "source_file": "Shop/Dtos/ShoppingCartDto.cs",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "geo_points",
+    "label": "Points.cs",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "geo_points_shop_geo_a",
+    "label": "Shop.Geo.A",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "geo_points_p",
+    "label": "P",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "geo_points_p_m",
+    "label": ".M()",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "geo_points_shop_geo_b",
+    "label": "Shop.Geo.B",
+    "source_file": "Shop/Geo/Points.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_boxes",
+    "label": "Boxes.cs",
+    "source_file": "Shop/Models/Boxes.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_boxes_box",
+    "label": "Box",
+    "source_file": "Shop/Models/Boxes.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_boxes_box_m",
+    "label": ".M()",
+    "source_file": "Shop/Models/Boxes.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_links",
+    "label": "Links.cs",
+    "source_file": "Shop/Models/Links.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_links_item",
+    "label": "Item",
+    "source_file": "Shop/Models/Links.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_links_item_copy",
+    "label": ".Copy()",
+    "source_file": "Shop/Models/Links.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_nested",
+    "label": "Nested.cs",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_nested_basket",
+    "label": "Basket",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_nested_status",
+    "label": "Status",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_nested_line",
+    "label": "Line",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_nested_cs_int",
+    "label": "int",
+    "origin_file": "Shop/Models/Nested.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_nested_line_double",
+    "label": ".Double()",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_nested_invoice",
+    "label": "Invoice",
+    "source_file": "Shop/Models/Nested.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_nested_cs_decimal",
+    "label": "decimal",
+    "origin_file": "Shop/Models/Nested.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order",
+    "label": "Order.cs",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_shop_models",
+    "label": "Shop.Models",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_ipriced",
+    "label": "IPriced",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order",
+    "label": "Order",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_order_cs_decimal",
+    "label": "decimal",
+    "origin_file": "Shop/Models/Order.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_order_cs_string",
+    "label": "string",
+    "origin_file": "Shop/Models/Order.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_dump",
+    "label": "Dump()",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_line",
+    "label": "Line",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L50"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_total",
+    "label": ".Total()",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_repo",
+    "label": "Repo",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L60"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_repo_find",
+    "label": ".Find()",
+    "source_file": "Shop/Models/Order.cs",
+    "source_location": "L68"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "t",
+    "label": "T",
+    "origin_file": "Shop/Models/Order.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_pairs",
+    "label": "Pairs.cs",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_pairs_pair",
+    "label": "Pair",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_pairs_cs_int",
+    "label": "int",
+    "origin_file": "Shop/Models/Pairs.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_pairs_holder",
+    "label": "Holder",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_pairs_pair_sum",
+    "label": ".Sum()",
+    "source_file": "Shop/Models/Pairs.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_units",
+    "label": "Units.cs",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_units_meter",
+    "label": "Meter",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "double",
+    "label": "double",
+    "origin_file": "Shop/Models/Units.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_units_meter_scale",
+    "label": ".Scale()",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_units_scale",
+    "label": "Scale",
+    "source_file": "Shop/Models/Units.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values",
+    "label": "Values.cs",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_orderrec",
+    "label": "OrderRec",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_orderrec_twice",
+    "label": ".Twice()",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_point",
+    "label": "Point",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_point_twice",
+    "label": ".Twice()",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_money",
+    "label": "Money",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_models_values_cs_decimal",
+    "label": "decimal",
+    "origin_file": "Shop/Models/Values.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_money_half",
+    "label": ".Half()",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_money_quarter",
+    "label": ".Quarter()",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_values_color",
+    "label": "Color",
+    "source_file": "Shop/Models/Values.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_cartservice_pricing",
+    "label": "CartService.Pricing.cs",
+    "source_file": "Shop/Services/CartService.Pricing.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_cartservice_pricing_cartservice",
+    "label": "CartService",
+    "source_file": "Shop/Services/CartService.Pricing.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_cartservice_pricing_cartservice_apply",
+    "label": ".Apply()",
+    "source_file": "Shop/Services/CartService.Pricing.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_cartservice",
+    "label": "CartService.cs",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_cartservice_cartservice",
+    "label": "CartService",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_cartservice_icarthelper",
+    "label": "ICartHelper",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_cartservice_icarthelper_build",
+    "label": ".Build()",
+    "source_file": "Shop/Services/CartService.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_ctors",
+    "label": "Ctors.cs",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_ctors_staticfirst",
+    "label": "StaticFirst",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_services_ctors_cs_int",
+    "label": "int",
+    "origin_file": "Shop/Services/Ctors.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_ctors_staticonly",
+    "label": "StaticOnly",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_ctors_instanceonly",
+    "label": "InstanceOnly",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_ctors_instancethenstatic",
+    "label": "InstanceThenStatic",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_ctors_ipricer",
+    "label": "IPricer",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L54"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "services_ctors_ipricer_price",
+    "label": ".Price()",
+    "source_file": "Shop/Services/Ctors.cs",
+    "source_location": "L56"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_report",
+    "label": "report.py",
+    "source_file": "tools/report.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_report_name",
+    "label": "Name()",
+    "source_file": "tools/report.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_report_order",
+    "label": "Order()",
+    "source_file": "tools/report.py",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_report_build",
+    "label": "build()",
+    "source_file": "tools/report.py",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cart_cart_component",
+    "label": "cart.component.ts",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cart_cart_component_cartcomponent",
+    "label": "CartComponent",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cart_cart_component_cartcomponent_totalprice",
+    "label": ".totalPrice()",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L4"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cart_cart_component_cartcomponent_formattotalprice",
+    "label": ".formatTotalPrice()",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cart_cart_component_cartcomponent_refresh",
+    "label": ".refresh()",
+    "source_file": "web/src/app/cart/cart.component.ts",
+    "source_location": "L12"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "4f54613ae5d8e27c8b21076e733e71b4cde793acd8e60590932eeb199b626f7e"
+}

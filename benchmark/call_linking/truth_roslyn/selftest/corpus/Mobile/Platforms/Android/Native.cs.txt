@@ -1,0 +1,6 @@
+namespace Mobile;
+
+public static class Native
+{
+    public static string Name() => "android";
+}

@@ -1,0 +1,90 @@
+using Core.Domain;
+using Infra;
+
+namespace App;
+
+public class BaseHandler
+{
+    protected virtual void Log(string message)
+    {
+    }
+}
+
+public class OrderHandler : BaseHandler
+{
+    private readonly IOrderRepository _repo;
+    private readonly IRepository<Customer> _customers = new CustomerRepository();
+    private readonly Func<int, int> _twice = x => x * 2;
+    private readonly Func<int, int>[] _funcs = { x => x };
+    private OrderHandler? _next;
+    private OrderHandler[] _all = new OrderHandler[0];
+
+    public OrderHandler(IOrderRepository repo)
+    {
+        _repo = repo;
+    }
+
+    public decimal Handle(int id)
+    {
+        var order = _repo.Find(id);
+        this.Log("x");
+        base.Log("y");
+        Log("z");
+        this._repo.Save(order);
+        _next?.Handle(id);
+        _next?.Peek().Handle(id);
+        _all[0].Handle(id);
+        ((OrderHandler)this).Peek();
+        new OrderHandler(_repo).Peek();
+        (_next).Peek();
+        _next!.Peek();
+        Pricing.TaxOf(1m);
+        global::Core.Domain.Pricing.TaxOf(2m);
+        Core.Domain.Pricing.TaxOf(3m);
+        string.Join(",", "a");
+        Convert<int>(id);
+        order.Label();
+        OrderExtensions.Label(order);
+        _twice(id);
+        _funcs[0](id);
+        GetFunc()(id);
+        var n = nameof(Handle);
+        Pick(null);
+        Total(
+            order);
+        _customers.Get(1);
+        Helper.Id();
+        "a".Warm();
+        new List<int>().CountX();
+        InfraShared.Value();
+        return order.Total();
+    }
+
+    public OrderHandler Peek() => this;
+
+    private static T Convert<T>(T value) => value;
+
+    private static Func<int, int> GetFunc() => x => x;
+
+    private static void Pick(string? s)
+    {
+    }
+
+    private static void Pick(Uri? u)
+    {
+    }
+
+    private static decimal Total(Order order) => order.Total();
+}
+
+public class SpecialHandler : OrderHandler
+{
+    public SpecialHandler(IOrderRepository repo) : base(repo)
+    {
+    }
+
+    protected override void Log(string message)
+    {
+        base.Log(message);
+    }
+}

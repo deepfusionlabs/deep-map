@@ -1,0 +1,8 @@
+namespace Core.Obj;
+
+public static class Ignored
+{
+    public static int X() => Y();
+
+    private static int Y() => 1;
+}

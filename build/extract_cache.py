@@ -39,8 +39,9 @@ from pathlib import Path
 
 # Bump when the PER-FILE cached shape (nodes/calls/imports encoding) changes — an older cache then
 # fails the version check in load_cache and is discarded (⇒ a one-time full extraction). Cheap
-# insurance against ever reusing a differently-shaped entry.
-CACHE_VERSION = 1
+# insurance against ever reusing a differently-shaped entry. 2: an ast node carries `call_lines`
+# (each callee's first call line), which a version-1 entry lacks.
+CACHE_VERSION = 2
 CACHE_FILENAME = "extract_cache.json"
 
 # A sentinel "hash" for a file we could not read at hashing time. It can never equal a real 16-hex

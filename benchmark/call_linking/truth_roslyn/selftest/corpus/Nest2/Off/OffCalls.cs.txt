@@ -1,0 +1,6 @@
+namespace Nest2.Off;
+
+public static class OffCalls
+{
+    public static int Run() => new List<int>().Count;
+}

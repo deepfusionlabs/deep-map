@@ -1,0 +1,8 @@
+namespace Core.Shapes;
+
+public class Ring : Circle
+{
+    public override double Area() => base.Area() - 1.0;
+
+    public sealed override string Describe() => "ring";
+}

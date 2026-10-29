@@ -1,0 +1,6 @@
+namespace Ui;
+
+public class View
+{
+    public int Render() => "u".Warm() + new List<int>().CountX();
+}

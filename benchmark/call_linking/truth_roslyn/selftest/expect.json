@@ -1,0 +1,2588 @@
+{
+ "about": "truth_roslyn self-test oracle (PREREG_CS 8.2): derived by hand from selftest/corpus and the contract; truth_roslyn.expect_problems reads it",
+ "sites": [
+  {
+   "what": "bare in a field initializer (no defstack entry)",
+   "file": "App/Members.cs",
+   "line": 5,
+   "name": "Compute",
+   "form": "bare",
+   "defstack": [],
+   "defs": [
+    [
+     "App/Members.cs",
+     80
+    ]
+   ]
+  },
+  {
+   "what": "this.M(): virtual, override rule from the containing type",
+   "file": "App/OrderHandler.cs",
+   "line": 30,
+   "name": "Log",
+   "form": "this",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     8
+    ]
+   ],
+   "dispatch": [
+    [
+     "App/OrderHandler.cs",
+     86
+    ]
+   ],
+   "dispatch_rule": "override",
+   "receiver_type": "App.OrderHandler"
+  },
+  {
+   "what": "base.M(): no dispatch",
+   "file": "App/OrderHandler.cs",
+   "line": 31,
+   "name": "Log",
+   "form": "super",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     8
+    ]
+   ],
+   "dispatch": [],
+   "dispatch_none": "base_call"
+  },
+  {
+   "what": "implicit receiver M(): the containing type",
+   "file": "App/OrderHandler.cs",
+   "line": 32,
+   "name": "Log",
+   "form": "bare",
+   "dispatch": [
+    [
+     "App/OrderHandler.cs",
+     86
+    ]
+   ]
+  },
+  {
+   "what": "x.M() through an interface field: the interface member is the def; the test-file implementer is dropped for a non-test caller",
+   "file": "App/OrderHandler.cs",
+   "line": 29,
+   "name": "Find",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Core/Domain/IOrderRepository.cs",
+     5
+    ]
+   ],
+   "def_interface": [
+    true
+   ],
+   "def_body": [
+    false
+   ],
+   "dispatch": [
+    [
+     "Infra/OrderRepository.cs",
+     7
+    ]
+   ],
+   "dispatch_rule": "interface",
+   "dispatch_dropped": {
+    "test_file": 1
+   },
+   "defstack": [
+    [
+     "OrderHandler.Handle",
+     27,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "this._f.M() is recv",
+   "file": "App/OrderHandler.cs",
+   "line": 33,
+   "name": "Save",
+   "form": "recv",
+   "defs": [
+    [
+     "Core/Domain/IOrderRepository.cs",
+     7
+    ]
+   ],
+   "dispatch": [
+    [
+     "Infra/OrderRepository.cs",
+     9
+    ]
+   ],
+   "dispatch_dropped": {
+    "test_file": 1
+   }
+  },
+  {
+   "what": "x?.M() takes x.M()'s form",
+   "file": "App/OrderHandler.cs",
+   "line": 34,
+   "name": "Handle",
+   "form": "name_attr",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     27
+    ]
+   ],
+   "col": 14
+  },
+  {
+   "what": "x?.M().N(): N is recv (a longer conditional chain)",
+   "file": "App/OrderHandler.cs",
+   "line": 35,
+   "name": "Handle",
+   "form": "recv",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     27
+    ]
+   ]
+  },
+  {
+   "what": "x?.M().N(): M is name_attr",
+   "file": "App/OrderHandler.cs",
+   "line": 35,
+   "name": "Peek",
+   "form": "name_attr",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     63
+    ]
+   ]
+  },
+  {
+   "what": "x[i].M() is recv",
+   "file": "App/OrderHandler.cs",
+   "line": 36,
+   "name": "Handle",
+   "form": "recv"
+  },
+  {
+   "what": "a cast receiver is recv",
+   "file": "App/OrderHandler.cs",
+   "line": 37,
+   "name": "Peek",
+   "form": "recv",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     63
+    ]
+   ]
+  },
+  {
+   "what": "new T().M() is recv",
+   "file": "App/OrderHandler.cs",
+   "line": 38,
+   "name": "Peek",
+   "form": "recv"
+  },
+  {
+   "what": "an object creation is ctor and binds the TYPE",
+   "file": "App/OrderHandler.cs",
+   "line": 38,
+   "name": "OrderHandler",
+   "site_kind": "object_creation",
+   "form": "ctor",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     13
+    ]
+   ],
+   "def_types": [
+    "class"
+   ],
+   "dispatch_none": "object_creation"
+  },
+  {
+   "what": "(x).M() is recv (nothing unwrapped)",
+   "file": "App/OrderHandler.cs",
+   "line": 39,
+   "name": "Peek",
+   "form": "recv"
+  },
+  {
+   "what": "x!.M() is recv (nothing unwrapped)",
+   "file": "App/OrderHandler.cs",
+   "line": 40,
+   "name": "Peek",
+   "form": "recv"
+  },
+  {
+   "what": "a type name receiver: name_attr, static: no dispatch",
+   "file": "App/OrderHandler.cs",
+   "line": 41,
+   "name": "TaxOf",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Core/Domain/Pricing.cs",
+     5
+    ]
+   ],
+   "dispatch_none": "static"
+  },
+  {
+   "what": "global::... is recv",
+   "file": "App/OrderHandler.cs",
+   "line": 42,
+   "name": "TaxOf",
+   "form": "recv",
+   "defs": [
+    [
+     "Core/Domain/Pricing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "a qualified type Ns.T.M() is recv",
+   "file": "App/OrderHandler.cs",
+   "line": 43,
+   "name": "TaxOf",
+   "form": "recv",
+   "defs": [
+    [
+     "Core/Domain/Pricing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "a predefined type keyword is name_attr; external target: no def",
+   "file": "App/OrderHandler.cs",
+   "line": 44,
+   "name": "Join",
+   "form": "name_attr",
+   "defs": []
+  },
+  {
+   "what": "M<T>() is bare",
+   "file": "App/OrderHandler.cs",
+   "line": 45,
+   "name": "Convert",
+   "form": "bare",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     65
+    ]
+   ]
+  },
+  {
+   "what": "an extension call binds ReducedFrom; no dispatch",
+   "file": "App/OrderHandler.cs",
+   "line": 46,
+   "name": "Label",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Core/Domain/Pricing.cs",
+     10
+    ]
+   ],
+   "dispatch_none": "extension"
+  },
+  {
+   "what": "the static form of an extension call",
+   "file": "App/OrderHandler.cs",
+   "line": 47,
+   "name": "Label",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Core/Domain/Pricing.cs",
+     10
+    ]
+   ]
+  },
+  {
+   "what": "a delegate field invoked: no def",
+   "file": "App/OrderHandler.cs",
+   "line": 48,
+   "name": "_twice",
+   "form": "bare",
+   "defs": [],
+   "dispatch_none": "delegate_invoke"
+  },
+  {
+   "what": "a[i]() is other",
+   "file": "App/OrderHandler.cs",
+   "line": 49,
+   "form": "other",
+   "defs": []
+  },
+  {
+   "what": "f()() keeps the inner call",
+   "file": "App/OrderHandler.cs",
+   "line": 50,
+   "name": "GetFunc",
+   "form": "bare",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     67
+    ]
+   ]
+  },
+  {
+   "what": "candidates only (an ambiguous call) is unresolved",
+   "file": "App/OrderHandler.cs",
+   "line": 52,
+   "name": "Pick",
+   "resolution": "candidates",
+   "n_candidates": 2,
+   "defs": [],
+   "dispatch": []
+  },
+  {
+   "what": "a multi-line call: line = the invocation's start",
+   "file": "App/OrderHandler.cs",
+   "line": 53,
+   "name": "Total",
+   "form": "bare",
+   "defs": [
+    [
+     "App/OrderHandler.cs",
+     77
+    ]
+   ],
+   "name_line": 53
+  },
+  {
+   "what": "a generic interface: only the implementer of the receiver's construction; the abstract one is bodiless",
+   "file": "App/OrderHandler.cs",
+   "line": 55,
+   "name": "Get",
+   "defs": [
+    [
+     "Core/Domain/Repositories.cs",
+     5
+    ]
+   ],
+   "dispatch": [
+    [
+     "Core/Domain/Repositories.cs",
+     14
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1
+   }
+  },
+  {
+   "what": "two projects' public global-namespace Helper: ambiguous, unresolved",
+   "file": "App/OrderHandler.cs",
+   "line": 56,
+   "name": "Id",
+   "resolution": "none",
+   "defs": []
+  },
+  {
+   "what": "Web SDK implicit usings reach a corpus extension in Microsoft.Extensions.Hosting",
+   "file": "App/OrderHandler.cs",
+   "line": 57,
+   "name": "Warm",
+   "form": "recv",
+   "defs": [
+    [
+     "Core/HostingExtensions.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "System.Linq kept by the Web SDK",
+   "file": "App/OrderHandler.cs",
+   "line": 58,
+   "name": "CountX",
+   "defs": [
+    [
+     "Core/HostingExtensions.cs",
+     21
+    ]
+   ]
+  },
+  {
+   "what": "a linked file: the project's own copy binds",
+   "file": "App/OrderHandler.cs",
+   "line": 59,
+   "name": "Value",
+   "defs": [
+    [
+     "Infra/InfraShared.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "base.M() inside an override",
+   "file": "App/OrderHandler.cs",
+   "line": 88,
+   "name": "Log",
+   "form": "super",
+   "defstack": [
+    [
+     "SpecialHandler.Log",
+     86,
+     []
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "interface: only the implementer's view the receiver reaches",
+   "file": "App/Dispatch.cs",
+   "line": 9,
+   "name": "Handle",
+   "dispatch": [
+    [
+     "Core/Domain/Handlers.cs",
+     10
+    ]
+   ],
+   "receiver_type": "Core.Domain.IHandler<Core.Domain.Customer>"
+  },
+  {
+   "what": "interface -> abstract base / virtual member: per implementing type T, the method an object of exact type T runs (AC1): SpecialRepo.Get (through the abstract RepoBase.Get), VirtualRepo.Get, DerivedVirtualRepo.Get (through VirtualRepo.Get); RepoBase<T> itself runs its bodiless slot",
+   "file": "App/Dispatch.cs",
+   "line": 10,
+   "name": "Get",
+   "dispatch": [
+    [
+     "Core/Domain/Repositories.cs",
+     29
+    ],
+    [
+     "Core/Domain/Repositories.cs",
+     34
+    ],
+    [
+     "Core/Domain/Repositories.cs",
+     39
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1
+   }
+  },
+  {
+   "what": "a default interface method: S itself is never a target",
+   "file": "App/Dispatch.cs",
+   "line": 11,
+   "name": "Greet",
+   "defs": [
+    [
+     "Core/Domain/Handlers.cs",
+     21
+    ]
+   ],
+   "def_body": [
+    true
+   ],
+   "dispatch": [],
+   "dispatch_rule": "interface"
+  },
+  {
+   "what": "interface: the implementer",
+   "file": "App/Dispatch.cs",
+   "line": 12,
+   "name": "Name",
+   "dispatch": [
+    [
+     "Core/Domain/Handlers.cs",
+     28
+    ]
+   ]
+  },
+  {
+   "what": "a virtual class member: its override on a derived type",
+   "file": "App/Dispatch.cs",
+   "line": 13,
+   "name": "Get",
+   "defs": [
+    [
+     "Core/Domain/Repositories.cs",
+     34
+    ]
+   ],
+   "dispatch": [
+    [
+     "Core/Domain/Repositories.cs",
+     39
+    ]
+   ],
+   "dispatch_rule": "override"
+  },
+  {
+   "what": "a type-parameter receiver: every implementer of S's interface, every view",
+   "file": "App/Dispatch.cs",
+   "line": 18,
+   "name": "Handle",
+   "dispatch": [
+    [
+     "Core/Domain/Handlers.cs",
+     10
+    ],
+    [
+     "Core/Domain/Handlers.cs",
+     14
+    ]
+   ],
+   "receiver_type": "TH"
+  },
+  {
+   "what": "a type-parameter receiver: every implementer of IRepository<>, each as the method an object of exact type T runs (AC1)",
+   "file": "App/Dispatch.cs",
+   "line": 19,
+   "name": "Get",
+   "dispatch": [
+    [
+     "Core/Domain/Repositories.cs",
+     14
+    ],
+    [
+     "Core/Domain/Repositories.cs",
+     19
+    ],
+    [
+     "Core/Domain/Repositories.cs",
+     29
+    ],
+    [
+     "Core/Domain/Repositories.cs",
+     34
+    ],
+    [
+     "Core/Domain/Repositories.cs",
+     39
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1
+   }
+  },
+  {
+   "what": "a static abstract interface member: static, no dispatch",
+   "file": "App/Dispatch.cs",
+   "line": 22,
+   "name": "Create",
+   "defs": [
+    [
+     "Core/Domain/Handlers.cs",
+     33
+    ]
+   ],
+   "dispatch_none": "static"
+  },
+  {
+   "what": "new T(...) of a partial type: every declaration",
+   "file": "App/Dispatch.cs",
+   "line": 26,
+   "name": "Order",
+   "form": "ctor",
+   "defs": [
+    [
+     "Core/Domain/Order.Lines.cs",
+     3
+    ],
+    [
+     "Core/Domain/Order.cs",
+     5
+    ]
+   ],
+   "def_types": [
+    "class",
+    "class"
+   ],
+   "def_alt_lines": [
+    [],
+    [
+     6
+    ]
+   ]
+  },
+  {
+   "what": "target-typed new(): the type's simple name",
+   "file": "App/Dispatch.cs",
+   "line": 27,
+   "name": "Order",
+   "form": "ctor",
+   "defs": [
+    [
+     "Core/Domain/Order.Lines.cs",
+     3
+    ],
+    [
+     "Core/Domain/Order.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "new T { }",
+   "file": "App/Dispatch.cs",
+   "line": 28,
+   "name": "Order",
+   "form": "ctor",
+   "defs": [
+    [
+     "Core/Domain/Order.Lines.cs",
+     3
+    ],
+    [
+     "Core/Domain/Order.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "a struct without a constructor binds the type",
+   "file": "App/Dispatch.cs",
+   "line": 29,
+   "name": "Point",
+   "defs": [
+    [
+     "Core/Domain/Pricing.cs",
+     13
+    ]
+   ]
+  },
+  {
+   "what": "an external type: no def",
+   "file": "App/Dispatch.cs",
+   "line": 30,
+   "name": "List",
+   "defs": []
+  },
+  {
+   "what": "abstract: every override",
+   "file": "App/Geometry.cs",
+   "line": 9,
+   "name": "Area",
+   "defs": [
+    [
+     "Core/Shapes/Shape.cs",
+     5
+    ]
+   ],
+   "def_body": [
+    false
+   ],
+   "dispatch": [
+    [
+     "Core/Shapes/Circle.cs",
+     5
+    ],
+    [
+     "Core/Shapes/Ring.cs",
+     5
+    ],
+    [
+     "Core/Shapes/Square.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "Roslyn binds the receiver type's own override; derived overrides only",
+   "file": "App/Geometry.cs",
+   "line": 10,
+   "name": "Area",
+   "defs": [
+    [
+     "Core/Shapes/Circle.cs",
+     5
+    ]
+   ],
+   "dispatch": [
+    [
+     "Core/Shapes/Ring.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "a sealed override: none",
+   "file": "App/Geometry.cs",
+   "line": 11,
+   "name": "Describe",
+   "defs": [
+    [
+     "Core/Shapes/Ring.cs",
+     7
+    ]
+   ],
+   "dispatch": [],
+   "dispatch_none": "sealed"
+  },
+  {
+   "what": "new virtual starts its own chain",
+   "file": "App/Geometry.cs",
+   "line": 12,
+   "name": "Describe",
+   "defs": [
+    [
+     "Core/Shapes/Square.cs",
+     7
+    ]
+   ],
+   "dispatch": [
+    [
+     "Core/Shapes/Square.cs",
+     12
+    ]
+   ]
+  },
+  {
+   "what": "the chain of Shape.Describe (not Square's new slot)",
+   "file": "App/Geometry.cs",
+   "line": 13,
+   "name": "Describe",
+   "defs": [
+    [
+     "Core/Shapes/Shape.cs",
+     7
+    ]
+   ],
+   "dispatch": [
+    [
+     "Core/Shapes/Circle.cs",
+     7
+    ],
+    [
+     "Core/Shapes/Ring.cs",
+     7
+    ]
+   ]
+  },
+  {
+   "what": "object.ToString through object: every corpus override (records' synthesized ones are not declared)",
+   "file": "App/Geometry.cs",
+   "line": 15,
+   "name": "ToString",
+   "defs": [],
+   "dispatch": [
+    [
+     "Core/Domain/Order.cs",
+     22
+    ],
+    [
+     "Core/Domain/Pricing.cs",
+     15
+    ]
+   ]
+  },
+  {
+   "what": "object.ToString through Circle: no override below it",
+   "file": "App/Geometry.cs",
+   "line": 16,
+   "name": "ToString",
+   "dispatch": [],
+   "dispatch_rule": "override"
+  },
+  {
+   "what": "an implicit call in a default interface method: the interface's implementers",
+   "file": "Core/Domain/Handlers.cs",
+   "line": 21,
+   "name": "Name",
+   "form": "bare",
+   "defstack": [
+    [
+     "IGreeter.Greet",
+     21,
+     []
+    ]
+   ],
+   "dispatch": [
+    [
+     "Core/Domain/Handlers.cs",
+     28
+    ]
+   ],
+   "receiver_type": "Core.Domain.IGreeter"
+  },
+  {
+   "what": "a test caller keeps its test-file implementer",
+   "file": "tests/App.Tests/HandlerTests.cs",
+   "line": 11,
+   "name": "Find",
+   "dispatch": [
+    [
+     "Infra/OrderRepository.cs",
+     7
+    ],
+    [
+     "tests/App.Tests/FakeOrderRepository.cs",
+     7
+    ]
+   ],
+   "dispatch_dropped": {}
+  },
+  {
+   "what": "a property initializer belongs to the property",
+   "file": "App/Members.cs",
+   "line": 7,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Auto",
+     7,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "an expression-bodied property",
+   "file": "App/Members.cs",
+   "line": 9,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Expr",
+     9,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "a property getter",
+   "file": "App/Members.cs",
+   "line": 15,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Block",
+     11,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "a property setter",
+   "file": "App/Members.cs",
+   "line": 19,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Block",
+     11,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "an indexer",
+   "file": "App/Members.cs",
+   "line": 23,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.this",
+     23,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "an event accessor",
+   "file": "App/Members.cs",
+   "line": 27,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Changed",
+     25,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "the first constructor (static)",
+   "file": "App/Members.cs",
+   "line": 33,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Members",
+     31,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "a constructor overload: alt = the first constructor's line",
+   "file": "App/Members.cs",
+   "line": 38,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Members",
+     36,
+     [
+      31
+     ]
+    ]
+   ]
+  },
+  {
+   "what": "another constructor overload",
+   "file": "App/Members.cs",
+   "line": 43,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Members",
+     41,
+     [
+      31
+     ]
+    ]
+   ]
+  },
+  {
+   "what": "a destructor",
+   "file": "App/Members.cs",
+   "line": 48,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.~Members",
+     46,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "an operator",
+   "file": "App/Members.cs",
+   "line": 51,
+   "name": "Make",
+   "defstack": [
+    [
+     "Members.operator +",
+     51,
+     []
+    ]
+   ],
+   "defs": [
+    [
+     "App/Members.cs",
+     82
+    ]
+   ]
+  },
+  {
+   "what": "a conversion operator",
+   "file": "App/Members.cs",
+   "line": 53,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.operator int",
+     53,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "attribute lists: line = the first attribute; alt = the first line after them and the name line",
+   "file": "App/Members.cs",
+   "line": 61,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Spread",
+     55,
+     [
+      57,
+      59
+     ]
+    ]
+   ]
+  },
+  {
+   "what": "a local function is an entry, a lambda is not",
+   "file": "App/Members.cs",
+   "line": 73,
+   "name": "Compute",
+   "defstack": [
+    [
+     "Members.Over",
+     69,
+     [
+      64
+     ]
+    ],
+    [
+     "Members.Over.Local",
+     71,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "a delegate local invoked inside a local function",
+   "file": "App/Members.cs",
+   "line": 74,
+   "name": "f",
+   "defs": [],
+   "defstack": [
+    [
+     "Members.Over",
+     69,
+     [
+      64
+     ]
+    ],
+    [
+     "Members.Over.Local",
+     71,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "a call to a local function binds its declaration",
+   "file": "App/Members.cs",
+   "line": 77,
+   "name": "Local",
+   "defs": [
+    [
+     "App/Members.cs",
+     71
+    ]
+   ],
+   "dispatch_none": "local_function",
+   "defstack": [
+    [
+     "Members.Over",
+     69,
+     [
+      64
+     ]
+    ]
+   ]
+  },
+  {
+   "what": "a call to the first overload",
+   "file": "App/Members.cs",
+   "line": 77,
+   "name": "Over",
+   "col": 26,
+   "defs": [
+    [
+     "App/Members.cs",
+     64
+    ]
+   ],
+   "def_alt_lines": [
+    []
+   ]
+  },
+  {
+   "what": "a call to the second overload: alt = the first overload's line",
+   "file": "App/Members.cs",
+   "line": 77,
+   "name": "Over",
+   "col": 47,
+   "defs": [
+    [
+     "App/Members.cs",
+     69
+    ]
+   ],
+   "def_alt_lines": [
+    [
+     64
+    ]
+   ]
+  },
+  {
+   "what": "a def with attribute lists",
+   "file": "App/Members.cs",
+   "line": 77,
+   "name": "Spread",
+   "defs": [
+    [
+     "App/Members.cs",
+     55
+    ]
+   ],
+   "def_alt_lines": [
+    [
+     57,
+     59
+    ]
+   ]
+  },
+  {
+   "what": "target-typed new() in an expression body",
+   "file": "App/Members.cs",
+   "line": 82,
+   "name": "Members",
+   "site_kind": "object_creation",
+   "defs": [
+    [
+     "App/Members.cs",
+     3
+    ]
+   ]
+  },
+  {
+   "what": "top-level statements: no defstack",
+   "file": "App/Program.cs",
+   "line": 3,
+   "name": "OrderRepository",
+   "defstack": [],
+   "defs": [
+    [
+     "Infra/OrderRepository.cs",
+     3
+    ]
+   ]
+  },
+  {
+   "what": "a top-level local function",
+   "file": "App/Program.cs",
+   "line": 6,
+   "name": "Local",
+   "defs": [
+    [
+     "App/Program.cs",
+     9
+    ]
+   ]
+  },
+  {
+   "what": "ReferenceOutputAssembly=false: the project is not referenced",
+   "file": "App/Program.cs",
+   "line": 7,
+   "name": "Run",
+   "resolution": "none",
+   "defs": []
+  },
+  {
+   "what": "a call inside a top-level local function",
+   "file": "App/Program.cs",
+   "line": 9,
+   "name": "Helper",
+   "defstack": [
+    [
+     "Local",
+     9,
+     []
+    ]
+   ],
+   "defs": [
+    [
+     "App/Program.cs",
+     11
+    ]
+   ]
+  },
+  {
+   "what": "a partial method binds its implementation part",
+   "file": "Core/Domain/Order.cs",
+   "line": 28,
+   "name": "OnSaved",
+   "defs": [
+    [
+     "Core/Domain/Order.Lines.cs",
+     11
+    ]
+   ],
+   "def_body": [
+    true
+   ]
+  },
+  {
+   "what": "a partial method without implementation binds its definition",
+   "file": "Core/Domain/Order.cs",
+   "line": 29,
+   "name": "OnLoaded",
+   "defs": [
+    [
+     "Core/Domain/Order.cs",
+     32
+    ]
+   ],
+   "def_body": [
+    false
+   ]
+  },
+  {
+   "what": "in the first constructor: no overload alt",
+   "file": "Core/Domain/Order.cs",
+   "line": 11,
+   "name": "Validate",
+   "defs": [
+    [
+     "Core/Domain/Order.Lines.cs",
+     7
+    ]
+   ],
+   "defstack": [
+    [
+     "Order.Order",
+     8,
+     []
+    ]
+   ]
+  },
+  {
+   "what": "Core's copy of the linked Shared/Version.cs",
+   "file": "Core/Uses.cs",
+   "line": 9,
+   "name": "Get",
+   "defs": [
+    [
+     "Shared/Version.cs",
+     3
+    ]
+   ],
+   "project": "Core/Core.csproj"
+  },
+  {
+   "what": "Core's own internal Mapper",
+   "file": "Core/Uses.cs",
+   "line": 10,
+   "name": "Map",
+   "defs": [
+    [
+     "Core/Extensions.cs",
+     8
+    ]
+   ]
+  },
+  {
+   "what": "Core's own Mapper type",
+   "file": "Core/Uses.cs",
+   "line": 10,
+   "name": "Mapper",
+   "defs": [
+    [
+     "Core/Extensions.cs",
+     6
+    ]
+   ]
+  },
+  {
+   "what": "Core's own global-namespace Extensions",
+   "file": "Core/Uses.cs",
+   "line": 11,
+   "name": "Twice",
+   "defs": [
+    [
+     "Core/Extensions.cs",
+     3
+    ]
+   ]
+  },
+  {
+   "what": "a Using Alias item: the type's simple name",
+   "file": "Infra/Uses.cs",
+   "line": 7,
+   "name": "Order",
+   "defs": [
+    [
+     "Core/Domain/Order.Lines.cs",
+     3
+    ],
+    [
+     "Core/Domain/Order.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "a Using Static item",
+   "file": "Infra/Uses.cs",
+   "line": 8,
+   "name": "TaxOf",
+   "form": "bare",
+   "defs": [
+    [
+     "Core/Domain/Pricing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "Infra's copy of the linked file",
+   "file": "Infra/Uses.cs",
+   "line": 9,
+   "name": "Get",
+   "defs": [
+    [
+     "Shared/Version.cs",
+     3
+    ]
+   ],
+   "project": "Infra/Infra.csproj"
+  },
+  {
+   "what": "Microsoft.NET.Sdk has no Microsoft.Extensions.Hosting using",
+   "file": "Infra/Uses.cs",
+   "line": 10,
+   "name": "Warm",
+   "resolution": "none"
+  },
+  {
+   "what": "a Using Remove item (System.Linq)",
+   "file": "Infra/Uses.cs",
+   "line": 11,
+   "name": "CountX",
+   "resolution": "none"
+  },
+  {
+   "what": "Infra's own internal Mapper",
+   "file": "Infra/Uses.cs",
+   "line": 12,
+   "name": "Map",
+   "defs": [
+    [
+     "Infra/Extensions.cs",
+     8
+    ]
+   ]
+  },
+  {
+   "what": "Infra's own Mapper type",
+   "file": "Infra/Uses.cs",
+   "line": 12,
+   "name": "Mapper",
+   "defs": [
+    [
+     "Infra/Extensions.cs",
+     6
+    ]
+   ]
+  },
+  {
+   "what": "Infra's own global-namespace Extensions",
+   "file": "Infra/Uses.cs",
+   "line": 13,
+   "name": "Twice",
+   "defs": [
+    [
+     "Infra/Extensions.cs",
+     3
+    ]
+   ]
+  },
+  {
+   "what": "Razor SDK: the base list only",
+   "file": "Ui/View.cs",
+   "line": 5,
+   "name": "Warm",
+   "resolution": "none"
+  },
+  {
+   "what": "Razor SDK: System.Linq",
+   "file": "Ui/View.cs",
+   "line": 5,
+   "name": "CountX",
+   "defs": [
+    [
+     "Core/HostingExtensions.cs",
+     21
+    ]
+   ]
+  },
+  {
+   "what": "BlazorWebAssembly SDK: Microsoft.Extensions.Logging",
+   "file": "Wasm/WasmClient.cs",
+   "line": 5,
+   "name": "Log2",
+   "defs": [
+    [
+     "Core/HostingExtensions.cs",
+     13
+    ]
+   ]
+  },
+  {
+   "what": "BlazorWebAssembly SDK: no Hosting",
+   "file": "Wasm/WasmClient.cs",
+   "line": 5,
+   "name": "Warm",
+   "resolution": "none"
+  },
+  {
+   "what": "Worker SDK: Hosting",
+   "file": "Worker/Job.cs",
+   "line": 5,
+   "name": "Warm",
+   "defs": [
+    [
+     "Core/HostingExtensions.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "Worker SDK: Logging",
+   "file": "Worker/Job.cs",
+   "line": 5,
+   "name": "Log2",
+   "defs": [
+    [
+     "Core/HostingExtensions.cs",
+     13
+    ]
+   ]
+  },
+  {
+   "what": "the platform symbol of the first target framework",
+   "file": "Client/Device.cs",
+   "line": 8,
+   "name": "Droid",
+   "defs": [
+    [
+     "Client/Device.cs",
+     18
+    ]
+   ]
+  },
+  {
+   "what": "netstandard2.0 symbols",
+   "file": "Analyzers/Analyzer.cs",
+   "line": 8,
+   "name": "B",
+   "defs": [
+    [
+     "Analyzers/Analyzer.cs",
+     14
+    ]
+   ]
+  },
+  {
+   "what": "net10.0 symbols",
+   "file": "Core/Platform.cs",
+   "line": 8,
+   "name": "Ten"
+  },
+  {
+   "what": "DefineConstants, RELEASE, TRACE",
+   "file": "Core/Platform.cs",
+   "line": 11,
+   "name": "Feature"
+  },
+  {
+   "what": "a file with syntax errors stays in",
+   "file": "Core/Broken.cs",
+   "line": 8,
+   "name": "Helper2",
+   "defs": [
+    [
+     "Core/Broken.cs",
+     11
+    ]
+   ]
+  },
+  {
+   "what": "a generated-name file is compiled",
+   "file": "Core/Gen/Model.g.cs",
+   "line": 6,
+   "name": "Seed",
+   "defs": [
+    [
+     "Core/Gen/Model.g.cs",
+     8
+    ]
+   ]
+  },
+  {
+   "what": "the leftover compilation references every project",
+   "file": "Loose/Orphan.cs",
+   "line": 7,
+   "name": "Order",
+   "defs": [
+    [
+     "Core/Domain/Order.Lines.cs",
+     3
+    ],
+    [
+     "Core/Domain/Order.cs",
+     5
+    ]
+   ],
+   "project": "<leftover>"
+  },
+  {
+   "what": "AC1: interface -> a virtual base member: StoreBase.Put for StoreBase / SqlStore / CacheStore, the overrides AuditStore.Put and FullStore.Put, Plain.Put for Plain and Hider; HalfStore's abstract override is bodiless; the test project's FakeStore.Put is dropped for a non-test caller",
+   "file": "Disp/Ac1.cs",
+   "line": 70,
+   "name": "Put",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Disp/Ac1.cs",
+     7
+    ]
+   ],
+   "def_interface": [
+    true
+   ],
+   "def_body": [
+    false
+   ],
+   "dispatch_rule": "interface",
+   "dispatch": [
+    [
+     "Disp/Ac1.cs",
+     14
+    ],
+    [
+     "Disp/Ac1.cs",
+     28
+    ],
+    [
+     "Disp/Ac1.cs",
+     47
+    ],
+    [
+     "Disp/Ac1.cs",
+     56
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1,
+    "test_file": 1
+   }
+  },
+  {
+   "what": "AC1: interface -> an abstract base member: the override each concrete type runs; a `new` slot (Hider.Load) is not an override, so Hider runs Plain.Load",
+   "file": "Disp/Ac1.cs",
+   "line": 71,
+   "name": "Load",
+   "defs": [
+    [
+     "Disp/Ac1.cs",
+     5
+    ]
+   ],
+   "dispatch_rule": "interface",
+   "dispatch": [
+    [
+     "Disp/Ac1.cs",
+     21
+    ],
+    [
+     "Disp/Ac1.cs",
+     26
+    ],
+    [
+     "Disp/Ac1.cs",
+     35
+    ],
+    [
+     "Disp/Ac1.cs",
+     45
+    ],
+    [
+     "Disp/Ac1.cs",
+     54
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1,
+    "test_file": 1
+   }
+  },
+  {
+   "what": "the override rule through an abstract member: every override below the receiver's type",
+   "file": "Disp/Ac1.cs",
+   "line": 72,
+   "name": "Load",
+   "col": 19,
+   "defs": [
+    [
+     "Disp/Ac1.cs",
+     12
+    ]
+   ],
+   "def_body": [
+    false
+   ],
+   "dispatch_rule": "override",
+   "dispatch": [
+    [
+     "Disp/Ac1.cs",
+     21
+    ],
+    [
+     "Disp/Ac1.cs",
+     26
+    ],
+    [
+     "Disp/Ac1.cs",
+     35
+    ],
+    [
+     "Disp/Ac1.cs",
+     45
+    ]
+   ]
+  },
+  {
+   "what": "the override rule: Roslyn binds SqlStore.Load; its derived override only",
+   "file": "Disp/Ac1.cs",
+   "line": 72,
+   "name": "Load",
+   "col": 31,
+   "defs": [
+    [
+     "Disp/Ac1.cs",
+     21
+    ]
+   ],
+   "dispatch_rule": "override",
+   "dispatch": [
+    [
+     "Disp/Ac1.cs",
+     26
+    ]
+   ]
+  },
+  {
+   "what": "AC1 with a type-parameter receiver: every implementer of IStore, each as what runs",
+   "file": "Disp/Ac1.cs",
+   "line": 75,
+   "name": "Load",
+   "receiver_type": "T",
+   "dispatch_rule": "interface",
+   "dispatch": [
+    [
+     "Disp/Ac1.cs",
+     21
+    ],
+    [
+     "Disp/Ac1.cs",
+     26
+    ],
+    [
+     "Disp/Ac1.cs",
+     35
+    ],
+    [
+     "Disp/Ac1.cs",
+     45
+    ],
+    [
+     "Disp/Ac1.cs",
+     54
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1,
+    "test_file": 1
+   }
+  },
+  {
+   "what": "a test caller (a .NET test project outside tests/: the product's directory-suffix rule) keeps the test project's implementer",
+   "file": "Shop.Tests/StoreTests.cs",
+   "line": 7,
+   "name": "Load",
+   "dispatch": [
+    [
+     "Disp/Ac1.cs",
+     21
+    ],
+    [
+     "Disp/Ac1.cs",
+     26
+    ],
+    [
+     "Disp/Ac1.cs",
+     35
+    ],
+    [
+     "Disp/Ac1.cs",
+     45
+    ],
+    [
+     "Disp/Ac1.cs",
+     54
+    ],
+    [
+     "Shop.Tests/FakeStore.cs",
+     7
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1
+   }
+  },
+  {
+   "what": "AC2: an interface receiver calling an object member has no override targets",
+   "file": "Disp/Ac2.cs",
+   "line": 25,
+   "name": "ToString",
+   "defs": [],
+   "dispatch": [],
+   "dispatch_rule": "override",
+   "dispatch_none": "interface_receiver"
+  },
+  {
+   "what": "AC2: an unconstrained type parameter is System.Object: every corpus override of ToString",
+   "file": "Disp/Ac2.cs",
+   "line": 27,
+   "name": "ToString",
+   "receiver_type": "T",
+   "dispatch_rule": "override",
+   "dispatch": [
+    [
+     "Core/Domain/Order.cs",
+     22
+    ],
+    [
+     "Core/Domain/Pricing.cs",
+     15
+    ]
+   ]
+  },
+  {
+   "what": "AC2: a struct-constrained type parameter is System.ValueType: the struct's override only",
+   "file": "Disp/Ac2.cs",
+   "line": 29,
+   "name": "ToString",
+   "dispatch": [
+    [
+     "Core/Domain/Pricing.cs",
+     15
+    ]
+   ]
+  },
+  {
+   "what": "AC2: an interface constraint is no class constraint: System.Object",
+   "file": "Disp/Ac2.cs",
+   "line": 31,
+   "name": "ToString",
+   "dispatch": [
+    [
+     "Core/Domain/Order.cs",
+     22
+    ],
+    [
+     "Core/Domain/Pricing.cs",
+     15
+    ]
+   ]
+  },
+  {
+   "what": "AC2: a class constraint: the overrides below it",
+   "file": "Disp/Ac2.cs",
+   "line": 33,
+   "name": "Go",
+   "defs": [
+    [
+     "Disp/Ac2.cs",
+     15
+    ]
+   ],
+   "dispatch": [
+    [
+     "Disp/Ac2.cs",
+     20
+    ]
+   ]
+  },
+  {
+   "what": "AC2: a class constraint reached through a type-parameter constraint (T : U, U : Vd): T's class constraint is U's",
+   "file": "Disp/Ac2.cs",
+   "line": 35,
+   "name": "Go",
+   "defs": [
+    [
+     "Disp/Ac2.cs",
+     15
+    ]
+   ],
+   "dispatch": [
+    [
+     "Disp/Ac2.cs",
+     20
+    ]
+   ]
+  },
+  {
+   "what": "AC2: a class constraint at the root of the chain: every override",
+   "file": "Disp/Ac2.cs",
+   "line": 37,
+   "name": "Go",
+   "defs": [
+    [
+     "Disp/Ac2.cs",
+     5
+    ]
+   ],
+   "dispatch": [
+    [
+     "Disp/Ac2.cs",
+     10
+    ],
+    [
+     "Disp/Ac2.cs",
+     15
+    ],
+    [
+     "Disp/Ac2.cs",
+     20
+    ]
+   ]
+  },
+  {
+   "what": "one S through two constraints, the wide one's file first: T : Wa",
+   "file": "Disp/Order1a.cs",
+   "line": 24,
+   "name": "Go",
+   "defs": [
+    [
+     "Disp/Order1a.cs",
+     5
+    ]
+   ],
+   "dispatch": [
+    [
+     "Disp/Order1a.cs",
+     14
+    ],
+    [
+     "Disp/Order1a.cs",
+     19
+    ]
+   ]
+  },
+  {
+   "what": "... then T : Wd (Wd declares no Go: the same S): We.Go only, never Wf.Go",
+   "file": "Disp/Order1b.cs",
+   "line": 5,
+   "name": "Go",
+   "defs": [
+    [
+     "Disp/Order1a.cs",
+     5
+    ]
+   ],
+   "dispatch": [
+    [
+     "Disp/Order1a.cs",
+     14
+    ]
+   ]
+  },
+  {
+   "what": "one S through two constraints, the narrow one's file first: T : Xd",
+   "file": "Disp/Order2a.cs",
+   "line": 24,
+   "name": "Go",
+   "defs": [
+    [
+     "Disp/Order2a.cs",
+     5
+    ]
+   ],
+   "dispatch": [
+    [
+     "Disp/Order2a.cs",
+     14
+    ]
+   ]
+  },
+  {
+   "what": "... then T : Xa: Xe.Go and Xf.Go",
+   "file": "Disp/Order2b.cs",
+   "line": 5,
+   "name": "Go",
+   "defs": [
+    [
+     "Disp/Order2a.cs",
+     5
+    ]
+   ],
+   "dispatch": [
+    [
+     "Disp/Order2a.cs",
+     14
+    ],
+    [
+     "Disp/Order2a.cs",
+     19
+    ]
+   ]
+  },
+  {
+   "what": "AC4: a partial method implemented in another declaration of the type in the same file: its alt lines hold the defining declaration's line",
+   "file": "Disp/Part.cs",
+   "line": 9,
+   "name": "Hook",
+   "defs": [
+    [
+     "Disp/Part.cs",
+     15
+    ]
+   ],
+   "def_alt_lines": [
+    [
+     5
+    ]
+   ],
+   "def_body": [
+    true
+   ],
+   "dispatch_none": "non_virtual"
+  },
+  {
+   "what": "AC4 in defstack: a caller inside that implementation part",
+   "file": "Disp/Part.cs",
+   "line": 17,
+   "name": "Tail",
+   "defstack": [
+    [
+     "Part.Hook",
+     15,
+     [
+      5
+     ]
+    ]
+   ],
+   "defs": [
+    [
+     "Disp/Part.cs",
+     20
+    ]
+   ]
+  },
+  {
+   "what": "a direct project reference",
+   "file": "Ord/A/AThing.cs",
+   "line": 5,
+   "name": "Z",
+   "defs": [
+    [
+     "Ord/Z/ZThing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "AC3: the transitive closure (P -> A -> Z)",
+   "file": "Ord/P/PThing.cs",
+   "line": 5,
+   "name": "Z",
+   "defs": [
+    [
+     "Ord/Z/ZThing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "P's direct reference",
+   "file": "Ord/P/PThing.cs",
+   "line": 5,
+   "name": "A",
+   "defs": [
+    [
+     "Ord/A/AThing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "AC3: DisableTransitiveProjectReferences keeps the direct references only",
+   "file": "Ord/Q/QThing.cs",
+   "line": 5,
+   "name": "Z",
+   "defs": [],
+   "resolution": "none"
+  },
+  {
+   "what": "Q's direct reference",
+   "file": "Ord/Q/QThing.cs",
+   "line": 5,
+   "name": "A",
+   "defs": [
+    [
+     "Ord/A/AThing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "AC3: an Aspire project reference with IsAspireProjectResource=false is an assembly reference",
+   "file": "Host/HostCalls.cs",
+   "line": 5,
+   "name": "Z",
+   "defs": [
+    [
+     "Ord/Z/ZThing.cs",
+     5
+    ]
+   ]
+  },
+  {
+   "what": "AC3: an Aspire resource reference is not",
+   "file": "Host/HostCalls.cs",
+   "line": 5,
+   "name": "B",
+   "defs": [],
+   "resolution": "none"
+  },
+  {
+   "what": "AC3: an unlisted SDK (Aspire.AppHost.Sdk) takes Microsoft.NET.Sdk's list",
+   "file": "Host/HostCalls.cs",
+   "line": 5,
+   "name": "List",
+   "site_kind": "object_creation",
+   "resolution": "symbol",
+   "defs": []
+  },
+  {
+   "what": "AC3: the nearest Directory.Build.props (tests/) imports nothing: no implicit usings",
+   "file": "tests/App.Tests/NoUsings.cs",
+   "line": 5,
+   "name": "List",
+   "site_kind": "object_creation",
+   "resolution": "none"
+  },
+  {
+   "what": "AC3: the nearest props imports its parent (GetPathOfFileAbove): the root's ImplicitUsings applies",
+   "file": "Nest/Inner/InnerCalls.cs",
+   "line": 5,
+   "name": "List",
+   "site_kind": "object_creation",
+   "resolution": "symbol",
+   "defs": []
+  },
+  {
+   "what": "AC3: the last assignment wins: Nest2's props imports the root (GetDirectoryNameOfFileAbove), then disables",
+   "file": "Nest2/Off/OffCalls.cs",
+   "line": 5,
+   "name": "List",
+   "site_kind": "object_creation",
+   "resolution": "none"
+  },
+  {
+   "what": "AC3: the project's own ImplicitUsings=true is the last assignment",
+   "file": "Nest2/On/OnCalls.cs",
+   "line": 5,
+   "name": "List",
+   "site_kind": "object_creation",
+   "resolution": "symbol",
+   "defs": []
+  },
+  {
+   "what": "AC3: an <InternalsVisibleTo Include> item: an internal member of an internal type",
+   "file": "Lib.Friends/FriendCalls.cs",
+   "line": 7,
+   "name": "Code",
+   "defs": [
+    [
+     "Lib/Secret.cs",
+     7
+    ]
+   ],
+   "internals_visible_to": "generated"
+  },
+  {
+   "what": "AC3: an internal member of a public type",
+   "file": "Lib.Friends/FriendCalls.cs",
+   "line": 8,
+   "name": "Hidden",
+   "defs": [
+    [
+     "Lib/Secret.cs",
+     12
+    ]
+   ],
+   "internals_visible_to": "generated"
+  },
+  {
+   "what": "a public member needs no InternalsVisibleTo",
+   "file": "Lib.Friends/FriendCalls.cs",
+   "line": 9,
+   "name": "Shown",
+   "defs": [
+    [
+     "Lib/Secret.cs",
+     14
+    ]
+   ],
+   "internals_visible_to": null
+  },
+  {
+   "what": "GenerateInternalsVisibleToAttributes=false: the <InternalsVisibleTo> item writes nothing (inaccessible: candidates only)",
+   "file": "Lib.Friends/FriendCalls.cs",
+   "line": 10,
+   "name": "Q",
+   "defs": [],
+   "dispatch": [],
+   "resolution": "candidates",
+   "candidate_reason": "Inaccessible",
+   "internals_visible_to": null
+  },
+  {
+   "what": "AC3: an <AssemblyAttribute Include=\"...InternalsVisibleToAttribute\"> item",
+   "file": "Lib.Other/OtherCalls.cs",
+   "line": 7,
+   "name": "Code",
+   "defs": [
+    [
+     "Lib/Secret.cs",
+     7
+    ]
+   ],
+   "internals_visible_to": "generated"
+  },
+  {
+   "what": "AC3: an <AssemblyAttribute Include=\"...InternalsVisibleTo\"> item (written whatever GenerateInternalsVisibleToAttributes says)",
+   "file": "Lib.Other/OtherCalls.cs",
+   "line": 8,
+   "name": "Q",
+   "defs": [
+    [
+     "Quiet/QuietSecret.cs",
+     5
+    ]
+   ],
+   "internals_visible_to": "generated"
+  },
+  {
+   "what": "AC3: GenerateAssemblyInfo=false: no generated attribute",
+   "file": "Lib.Other/OtherCalls.cs",
+   "line": 9,
+   "name": "L",
+   "defs": [],
+   "resolution": "candidates",
+   "candidate_reason": "Inaccessible",
+   "internals_visible_to": null
+  },
+  {
+   "what": "a source [assembly: InternalsVisibleTo] attribute",
+   "file": "Lib.Stranger/StrangerCalls.cs",
+   "line": 7,
+   "name": "Code",
+   "defs": [
+    [
+     "Lib/Secret.cs",
+     7
+    ]
+   ],
+   "internals_visible_to": "source"
+  },
+  {
+   "what": "a source attribute, an internal member",
+   "file": "Lib.Stranger/StrangerCalls.cs",
+   "line": 8,
+   "name": "Hidden",
+   "defs": [
+    [
+     "Lib/Secret.cs",
+     12
+    ]
+   ],
+   "internals_visible_to": "source"
+  },
+  {
+   "what": "AC3: MAUI single project: only the first target framework's platform folder is compiled (iOS)",
+   "file": "Mobile/MobileApp.cs",
+   "line": 5,
+   "name": "Name",
+   "defs": [
+    [
+     "Mobile/Platforms/iOS/Native.cs",
+     5
+    ]
+   ]
+  }
+ ],
+ "absent_sites": [
+  [
+   "App/OrderHandler.cs",
+   51
+  ],
+  [
+   "Client/Device.cs",
+   10
+  ],
+  [
+   "Client/Device.cs",
+   15
+  ],
+  [
+   "Core/Platform.cs",
+   14
+  ],
+  [
+   "Analyzers/Analyzer.cs",
+   10
+  ]
+ ],
+ "absent": [
+  "Core/Excluded/Skipped.cs",
+  "Core/obj/Ignored.cs",
+  "Tools/Tool.cs",
+  "Mobile/Platforms/Android/Native.cs",
+  "Mobile/Platforms/Other/Stray.cs",
+  "Mobile/Platforms/Shared.cs",
+  "Mobile/Platforms/Windows/Native.cs"
+ ],
+ "file_project": {
+  "Shared/Version.cs": "Core/Core.csproj",
+  "Infra/InfraShared.cs": "Infra/Infra.csproj",
+  "Core/Nested/NestedThing.cs": "Core/Nested/Nested.csproj",
+  "tests/App.Tests/HandlerTests.cs": "tests/App.Tests/App.Tests.csproj",
+  "Loose/Orphan.cs": "<leftover>",
+  "Mobile/MobileApp.cs": "Mobile/Mobile.csproj",
+  "Shop.Tests/StoreTests.cs": "Shop.Tests/Shop.Tests.csproj"
+ },
+ "doc": {
+  "uncompiled_files": [
+   [
+    "Core/Excluded/Skipped.cs",
+    "compile_remove"
+   ],
+   [
+    "Core/obj/Ignored.cs",
+    "bin_obj"
+   ],
+   [
+    "Mobile/Platforms/Android/Native.cs",
+    "maui_platform"
+   ],
+   [
+    "Mobile/Platforms/Other/Stray.cs",
+    "maui_platform"
+   ],
+   [
+    "Mobile/Platforms/Shared.cs",
+    "maui_platform"
+   ],
+   [
+    "Mobile/Platforms/Windows/Native.cs",
+    "maui_platform"
+   ]
+  ],
+  "parse_errors": [
+   "Core/Broken.cs: 1 syntax errors"
+  ],
+  "n_nameof_skipped": 1,
+  "n_resolver_errors": 0,
+  "shared_files": [
+   [
+    "Infra/InfraShared.cs",
+    "Infra/Infra.csproj",
+    [
+     "App/App.csproj",
+     "Infra/Infra.csproj"
+    ]
+   ],
+   [
+    "Shared/Version.cs",
+    "Core/Core.csproj",
+    [
+     "Core/Core.csproj",
+     "Infra/Infra.csproj"
+    ]
+   ]
+  ],
+  "resolver|language_version": "CSharp12",
+  "resolver|retargeted_references": 2,
+  "resolver|options": {},
+  "resolver|leftover|files": [
+   "Loose/Orphan.cs"
+  ],
+  "resolver|leftover|defines": [],
+  "resolver|projects|App/App.csproj|assembly_name": "Shop.App",
+  "resolver|projects|App/App.csproj|output_kind": "ConsoleApplication",
+  "resolver|projects|App/App.csproj|project_references": [
+   "Infra/Infra.csproj"
+  ],
+  "resolver|projects|App/App.csproj|references": [
+   "pack:Microsoft.NETCore.App.Ref/8.0.3",
+   "pack:Microsoft.AspNetCore.App.Ref/8.0.3",
+   "project:Core/Core.csproj",
+   "project:Infra/Infra.csproj"
+  ],
+  "resolver|projects|App/App.csproj|skipped_references": [
+   [
+    "Analyzers/Analyzers.csproj",
+    "output_item_type_analyzer",
+    "App/App.csproj"
+   ],
+   [
+    "Tools/Tools.csproj",
+    "reference_output_assembly_false",
+    "App/App.csproj"
+   ]
+  ],
+  "resolver|projects|App/App.csproj|linked_files": [
+   "Infra/InfraShared.cs"
+  ],
+  "resolver|projects|App/App.csproj|defines": [
+   "NET",
+   "NET10_0",
+   "NET10_0_OR_GREATER",
+   "NET5_0_OR_GREATER",
+   "NET6_0_OR_GREATER",
+   "NET7_0_OR_GREATER",
+   "NET8_0_OR_GREATER",
+   "NET9_0_OR_GREATER",
+   "NETCOREAPP",
+   "NETCOREAPP1_0_OR_GREATER",
+   "NETCOREAPP1_1_OR_GREATER",
+   "NETCOREAPP2_0_OR_GREATER",
+   "NETCOREAPP2_1_OR_GREATER",
+   "NETCOREAPP2_2_OR_GREATER",
+   "NETCOREAPP3_0_OR_GREATER",
+   "NETCOREAPP3_1_OR_GREATER",
+   "RELEASE",
+   "TRACE"
+  ],
+  "resolver|projects|App/App.csproj|global_usings": [
+   "global using global::Microsoft.AspNetCore.Builder;",
+   "global using global::Microsoft.AspNetCore.Hosting;",
+   "global using global::Microsoft.AspNetCore.Http;",
+   "global using global::Microsoft.AspNetCore.Routing;",
+   "global using global::Microsoft.Extensions.Configuration;",
+   "global using global::Microsoft.Extensions.DependencyInjection;",
+   "global using global::Microsoft.Extensions.Hosting;",
+   "global using global::Microsoft.Extensions.Logging;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http.Json;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Core/Core.csproj|implicit_usings": false,
+  "resolver|projects|Core/Core.csproj|global_usings": [],
+  "resolver|projects|Core/Core.csproj|defines": [
+   "CORE_FEATURE",
+   "NET",
+   "NET10_0",
+   "NET10_0_OR_GREATER",
+   "NET5_0_OR_GREATER",
+   "NET6_0_OR_GREATER",
+   "NET7_0_OR_GREATER",
+   "NET8_0_OR_GREATER",
+   "NET9_0_OR_GREATER",
+   "NETCOREAPP",
+   "NETCOREAPP1_0_OR_GREATER",
+   "NETCOREAPP1_1_OR_GREATER",
+   "NETCOREAPP2_0_OR_GREATER",
+   "NETCOREAPP2_1_OR_GREATER",
+   "NETCOREAPP2_2_OR_GREATER",
+   "NETCOREAPP3_0_OR_GREATER",
+   "NETCOREAPP3_1_OR_GREATER",
+   "RELEASE",
+   "TRACE"
+  ],
+  "resolver|projects|Core/Core.csproj|removed_files": [
+   "Core/Excluded/Skipped.cs"
+  ],
+  "resolver|projects|Core/Core.csproj|linked_files": [
+   "Shared/Version.cs"
+  ],
+  "resolver|projects|Infra/Infra.csproj|global_usings": [
+   "global using OrderAlias = global::Core.Domain.Order;",
+   "global using global::Core.Domain;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;",
+   "global using static global::Core.Domain.Pricing;"
+  ],
+  "resolver|projects|Ui/Ui.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Wasm/Wasm.csproj|global_usings": [
+   "global using global::Microsoft.Extensions.Configuration;",
+   "global using global::Microsoft.Extensions.DependencyInjection;",
+   "global using global::Microsoft.Extensions.Logging;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Worker/Worker.csproj|global_usings": [
+   "global using global::Microsoft.Extensions.Configuration;",
+   "global using global::Microsoft.Extensions.DependencyInjection;",
+   "global using global::Microsoft.Extensions.Hosting;",
+   "global using global::Microsoft.Extensions.Logging;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Worker/Worker.csproj|output_kind": "ConsoleApplication",
+  "resolver|projects|Client/Client.csproj|target_framework": "net10.0-android",
+  "resolver|projects|Client/Client.csproj|defines": [
+   "ANDROID",
+   "CLIENT_X",
+   "NET",
+   "NET10_0",
+   "NET10_0_OR_GREATER",
+   "NET5_0_OR_GREATER",
+   "NET6_0_OR_GREATER",
+   "NET7_0_OR_GREATER",
+   "NET8_0_OR_GREATER",
+   "NET9_0_OR_GREATER",
+   "NETCOREAPP",
+   "NETCOREAPP1_0_OR_GREATER",
+   "NETCOREAPP1_1_OR_GREATER",
+   "NETCOREAPP2_0_OR_GREATER",
+   "NETCOREAPP2_1_OR_GREATER",
+   "NETCOREAPP2_2_OR_GREATER",
+   "NETCOREAPP3_0_OR_GREATER",
+   "NETCOREAPP3_1_OR_GREATER",
+   "RELEASE",
+   "TRACE"
+  ],
+  "resolver|projects|Client/Client.csproj|notes": [
+   "Client/Client.csproj: condition not evaluated (taken as false): $([MSBuild]::IsOSPlatform('windows'))"
+  ],
+  "resolver|projects|Analyzers/Analyzers.csproj|defines": [
+   "NETSTANDARD",
+   "NETSTANDARD1_0_OR_GREATER",
+   "NETSTANDARD1_1_OR_GREATER",
+   "NETSTANDARD1_2_OR_GREATER",
+   "NETSTANDARD1_3_OR_GREATER",
+   "NETSTANDARD1_4_OR_GREATER",
+   "NETSTANDARD1_5_OR_GREATER",
+   "NETSTANDARD1_6_OR_GREATER",
+   "NETSTANDARD2_0",
+   "NETSTANDARD2_0_OR_GREATER",
+   "RELEASE",
+   "TRACE"
+  ],
+  "resolver|projects|tests/App.Tests/App.Tests.csproj|implicit_usings": false,
+  "resolver|projects|tests/App.Tests/App.Tests.csproj|read": [
+   "tests/Directory.Build.props",
+   "tests/App.Tests/App.Tests.csproj"
+  ],
+  "resolver|projects|tests/App.Tests/App.Tests.csproj|references": [
+   "pack:Microsoft.NETCore.App.Ref/8.0.3",
+   "pack:Microsoft.AspNetCore.App.Ref/8.0.3",
+   "project:Core/Core.csproj",
+   "project:Infra/Infra.csproj",
+   "project:App/App.csproj"
+  ],
+  "resolver|projects|Core/Nested/Nested.csproj|files": 1,
+  "resolver|projects|tests/App.Tests/App.Tests.csproj|global_usings": [],
+  "resolver|projects|Ord/P/P.csproj|references": [
+   "pack:Microsoft.NETCore.App.Ref/8.0.3",
+   "pack:Microsoft.AspNetCore.App.Ref/8.0.3",
+   "project:Ord/B/B.csproj",
+   "project:Ord/Z/Z.csproj",
+   "project:Ord/A/A.csproj"
+  ],
+  "resolver|projects|Ord/Q/Q.csproj|references": [
+   "pack:Microsoft.NETCore.App.Ref/8.0.3",
+   "pack:Microsoft.AspNetCore.App.Ref/8.0.3",
+   "project:Ord/A/A.csproj"
+  ],
+  "resolver|projects|Ord/Q/Q.csproj|transitive_references": false,
+  "resolver|projects|Host/Host.csproj|skipped_references": [
+   [
+    "Ord/B/B.csproj",
+    "aspire_project_resource",
+    "Host/Host.csproj"
+   ]
+  ],
+  "resolver|projects|Host/Host.csproj|references": [
+   "pack:Microsoft.NETCore.App.Ref/8.0.3",
+   "pack:Microsoft.AspNetCore.App.Ref/8.0.3",
+   "project:Ord/Z/Z.csproj"
+  ],
+  "resolver|projects|Host/Host.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Shop.Tests/Shop.Tests.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Nest/Inner/Inner.csproj|implicit_usings": true,
+  "resolver|projects|Nest/Inner/Inner.csproj|read": [
+   "Nest/Directory.Build.props",
+   "Directory.Build.props",
+   "Nest/Inner/Inner.csproj"
+  ],
+  "resolver|projects|Nest2/Off/Off.csproj|implicit_usings": false,
+  "resolver|projects|Nest2/Off/Off.csproj|read": [
+   "Nest2/Directory.Build.props",
+   "Directory.Build.props",
+   "Nest2/Off/Off.csproj"
+  ],
+  "resolver|projects|Nest2/On/On.csproj|implicit_usings": true,
+  "resolver|projects|Lib/Lib.csproj|internals_visible_to": [
+   "Lib.Friends",
+   "Lib.Other"
+  ],
+  "resolver|projects|Lib/Lib.csproj|generate_assembly_info": true,
+  "resolver|projects|Quiet/Quiet.csproj|internals_visible_to": [
+   "Lib.Other"
+  ],
+  "resolver|projects|Locked/Locked.csproj|internals_visible_to": [],
+  "resolver|projects|Locked/Locked.csproj|generate_assembly_info": false,
+  "resolver|projects|Mobile/Mobile.csproj|target_framework": "net10.0-ios",
+  "resolver|projects|Mobile/Mobile.csproj|maui_removed_files": [
+   "Mobile/Platforms/Android/Native.cs",
+   "Mobile/Platforms/Other/Stray.cs",
+   "Mobile/Platforms/Shared.cs",
+   "Mobile/Platforms/Windows/Native.cs"
+  ],
+  "tool_counts|ivt_sites:generated": 4,
+  "tool_counts|ivt_sites:source": 2,
+  "tool_counts|maui_platform_files_excluded": 4,
+  "tool_counts|ac1_rows:interface": 6,
+  "tool_counts|ac1_targets:interface": 19,
+  "tool_counts|override_type_parameter_receiver:class_constraint": 6,
+  "tool_counts|override_type_parameter_receiver:inherited_class_constraint": 1,
+  "tool_counts|override_type_parameter_receiver:object": 2,
+  "tool_counts|override_type_parameter_receiver:value_type": 1
+ }
+}

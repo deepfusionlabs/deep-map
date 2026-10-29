@@ -1,0 +1,442 @@
+{
+ "_about": "map_graph of the PRE-CHANGE build/graphify_extract.py (sha256 below) on both captures, in PRE_MODES (with the tree's sources, and pure as `<mode>_pure`); calls are [caller, callee, is_call_key]. Made once, before the C# member supplement: `python tests/csharp_members_gates.py --freeze <dir holding the pre-change module>`.",
+ "entries": {
+  "0839": {
+   "base": {
+    "calls": [
+     [
+      "models_values_quarter",
+      "Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "f005ad3c97778236fd0ea7a1b5fc76b9cd4deeba741dfd797987db2f901be4b3"
+   },
+   "base_pure": {
+    "calls": [
+     [
+      "models_values_quarter",
+      "Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "f005ad3c97778236fd0ea7a1b5fc76b9cd4deeba741dfd797987db2f901be4b3"
+   },
+   "graph_sha256": "894d338b3203d59e393290c67ee24c2ec1282ba3bf461b23a899dd0dcb4aea84",
+   "p1": {
+    "calls": [
+     [
+      "models_values_quarter",
+      "models_values_half",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_name",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_order",
+      true
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "cart_cart_component_cartcomponent_formattotalprice",
+      true
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "f005ad3c97778236fd0ea7a1b5fc76b9cd4deeba741dfd797987db2f901be4b3"
+   },
+   "p1_pure": {
+    "calls": [
+     [
+      "models_values_quarter",
+      "models_values_half",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_name",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_order",
+      true
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "cart_cart_component_cartcomponent_formattotalprice",
+      true
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "f005ad3c97778236fd0ea7a1b5fc76b9cd4deeba741dfd797987db2f901be4b3"
+   },
+   "plus": {
+    "calls": [
+     [
+      "models_values_quarter",
+      "Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "f005ad3c97778236fd0ea7a1b5fc76b9cd4deeba741dfd797987db2f901be4b3"
+   },
+   "plus_pure": {
+    "calls": [
+     [
+      "models_values_quarter",
+      "Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "f005ad3c97778236fd0ea7a1b5fc76b9cd4deeba741dfd797987db2f901be4b3"
+   }
+  },
+  "0851": {
+   "base": {
+    "calls": [
+     [
+      "models_values_money_quarter",
+      "Money.Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "c8f2dfb89033426b183fea3af1cb16798283c5641c2b1133cfcacdb8eca95a3f"
+   },
+   "base_pure": {
+    "calls": [
+     [
+      "models_values_money_quarter",
+      "Money.Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "c8f2dfb89033426b183fea3af1cb16798283c5641c2b1133cfcacdb8eca95a3f"
+   },
+   "graph_sha256": "cb97fc315ece870e6a73c05453628b6e93cb18fff94cf7832af145df47c54b15",
+   "p1": {
+    "calls": [
+     [
+      "models_values_money_quarter",
+      "models_values_money_half",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_name",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_order",
+      true
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "cart_cart_component_cartcomponent_formattotalprice",
+      true
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "c8f2dfb89033426b183fea3af1cb16798283c5641c2b1133cfcacdb8eca95a3f"
+   },
+   "p1_pure": {
+    "calls": [
+     [
+      "models_values_money_quarter",
+      "models_values_money_half",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_name",
+      true
+     ],
+     [
+      "tools_report_build",
+      "tools_report_order",
+      true
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "cart_cart_component_cartcomponent_formattotalprice",
+      true
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "c8f2dfb89033426b183fea3af1cb16798283c5641c2b1133cfcacdb8eca95a3f"
+   },
+   "plus": {
+    "calls": [
+     [
+      "models_values_money_quarter",
+      "Money.Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "c8f2dfb89033426b183fea3af1cb16798283c5641c2b1133cfcacdb8eca95a3f"
+   },
+   "plus_pure": {
+    "calls": [
+     [
+      "models_values_money_quarter",
+      "Money.Half",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Name",
+      false
+     ],
+     [
+      "tools_report_build",
+      "Order",
+      false
+     ],
+     [
+      "cart_cart_component_cartcomponent_refresh",
+      "CartComponent.formatTotalPrice",
+      false
+     ]
+    ],
+    "imports": [],
+    "node_keys": [
+     "body_summary",
+     "documented",
+     "key",
+     "label",
+     "name",
+     "source_file",
+     "start_line"
+    ],
+    "nodes_sha": "c8f2dfb89033426b183fea3af1cb16798283c5641c2b1133cfcacdb8eca95a3f"
+   }
+  }
+ },
+ "modes": {
+  "base": {},
+  "p1": {
+   "DEEPMAP_PRECISE_CALLS": "1"
+  },
+  "plus": {
+   "DEEPMAP_GRAPHIFY_CALLS_PLUS": "1",
+   "DEEPMAP_SUPPLEMENTAL_TS_RUST": "1"
+  }
+ },
+ "module_sha256": "3d030576cdafe1c118bbe491984a855e5263ebc941b9cf263b09f8607707e735"
+}

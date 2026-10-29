@@ -1,0 +1,6 @@
+namespace Ord.Q;
+
+public static class QThing
+{
+    public static int Q() => Ord.A.AThing.A() + Ord.Z.ZThing.Z();
+}

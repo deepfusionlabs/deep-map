@@ -1,0 +1,8 @@
+namespace Infra;
+
+public static class InfraShared
+{
+    public static int Value() => Compute();
+
+    private static int Compute() => 3;
+}

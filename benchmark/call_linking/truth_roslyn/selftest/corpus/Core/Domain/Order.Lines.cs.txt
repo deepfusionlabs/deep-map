@@ -1,0 +1,15 @@
+namespace Core.Domain;
+
+public partial class Order
+{
+    private decimal Sum() => 2m;
+
+    private void Validate()
+    {
+    }
+
+    partial void OnSaved()
+    {
+        Validate();
+    }
+}

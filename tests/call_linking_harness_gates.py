@@ -7,7 +7,10 @@ the cross-family filter ship (PREREG §8.5). A kit that measures something other
 scores inexactly, or lets the protocol drift after data would decide wrongly, so this gate locks:
 
   A  the kit's files exist, parse, and import only the stdlib / their siblings at module level; nothing the
-     product ships (build/, hooks/) imports the kit or a reference resolver (jedi, TypeScript)
+     product ships (build/, hooks/) imports the kit or a reference resolver (jedi, TypeScript); D3-cs: the C#
+     reference (truth_roslyn.py + truth_roslyn/: the .NET tool's sources, its captured self-test) exists, loads
+     without .NET, imports only the stdlib at module level, holds the kit's only .cs file (Program.cs), and no text
+     file under build/ or hooks/ names truth_roslyn or Microsoft.CodeAnalysis
   B  the offline pass order equals sync's, read from build/sync.py's AST: the pipeline function (`_sync_pass`,
      reached from `sync()`) runs exactly the CURRENT order or the FUTURE one with `_typed_calls_link` between
      `_unkey_receiver_calls` and `_attach_bare_calls` (and defines that helper iff it calls it); any other change
@@ -42,7 +45,9 @@ scores inexactly, or lets the protocol drift after data would decide wrongly, so
      files): every variant differs from V0 and from every other variant, variant_void VOIDs a requested switch the
      product left off; engdiff.typed_tuple_verdict applies PRE_RC_DECISIONS.md's PD-1 (exactly its two zod tuples)
   F  tests/stage0_refreeze.py --env forwards only the DEEPMAP_* keys it is given; child_env is otherwise unchanged
-  G  compliance: jedi and TypeScript appear in no shipped list
+  G  compliance: jedi and TypeScript appear in no shipped list; nor do Roslyn / Microsoft.CodeAnalysis / truth_roslyn
+     (requirements, the SBOM's text and components, NOTICE, THIRD-PARTY-LICENSES, both installers, every
+     .claude-plugin manifest: PREREG_CS §8.2)
   H  PREREG.md: §8 verbatim (sha256-locked — thresholds never move after data), the dated "Amendments before RC"
      (A1 engine parity on common endpoints, A2 the `_mk_project` spot replaced by `read_records`), the RC identity,
      engine builds, corpus SHAs (== run_matrix.sh), the 5 TS + 5 Python spot symbols (== impact_spot.py), none
@@ -54,9 +59,64 @@ scores inexactly, or lets the protocol drift after data would decide wrongly, so
      end to end on a non-ASCII / BOM + CRLF / latin-1 / syntax-error fixture when a jedi 0.20.1 python is given
      (CALL_LINKING_JEDI_PY); truth_ts.js when Node and a TypeScript 5.6.3 env are given (CALL_LINKING_TSENV);
      else SKIPPED
+  J  PREREG_CS.md (D3-cs): its protocol block (strictly between the one BEGIN and one END marker line, LF-joined
+     plus a final LF — H's rule) sha256-locked before the first RC run; the "Amendments before RC" section above it,
+     sha256-locked too (the lines strictly between its heading line and the BEGIN line, the same joining: AC1-AC18),
+     and its kit-facing rules equal to the kit's — AC13's engine-parity command == run_matrix.sh's cs_engine_parity
+     (its only caller), AC12's final spot list in every C# spot command of run_matrix.sh, G5a's gate list ==
+     run_matrix.sh's CS_G5A_GATES (each gate present), AC14's N3 gate (typed_calls_push_gates' section I), AC16's
+     VRC-cs flag == variants.vrc_cs_flag; the §1 identity slots; the two C# corpora's SHAs, read-only sources and library prefixes (§8.2) == run_matrix.sh
+     cs_corpus_row == §3 == the re-create commands == the engine-parity gate's CS_CORPORA, apart from the corpus_row
+     table H reads; the audit seed and n; the 10 spots and 8 reserves in order (§8.3) == impact_spot.CS_SPOTS /
+     CS_RESERVES / CS_IDS == §4, apart from SPOTS; the §8.4 variants == variants.CS_VARIANTS (ids, order, flags),
+     its shapes == the product's typed_calls.SHAPES, apart from VARIANTS; RECEIVER_FORMS['cs'] (§8.5); the C# sheet
+     sentence (§8.6 A) == audit_sample.CS_SHEET_SENTENCE
+  K  the G5b flip guard (PREREG_CS §8.7): inactive while `csharp` is not in build/typed_calls._TYPED_DEFAULT_LANGS;
+     active, benchmark/call_linking/cs/MANIFEST.sha256 must exist (`<sha256>  <path>` lines, paths inside cs/, in
+     byte order, never a sheet.md), every listed file must match, and DECISION_CS.md must record the manifest's own
+     sha256 (exactly one 64-hex value on the lines naming MANIFEST.sha256); an unreadable defaults set fails closed.
+     Both branches are proven on temp copies of typed_calls.py
+  L  the C# reference on its committed self-test (truth_roslyn/selftest/): selftest --check (the captured raw sites
+     convert to truth.json byte for byte; expect.json holds); the replicated test rule == build/sync.py
+     _is_test_path (on every path it touches, PROBE_PATHS and the gate's probes; its constants == the product's;
+     PROBE_PATHS exercises each test-directory name, each .NET test-project suffix, a case variant and production
+     look-alikes); the captured header's resolver.tool_sources_sha256 == truth_roslyn.sources_sha256() (an
+     un-recaptured tool edit fails without .NET); every row carries `dispatch` with entries of exactly the defs entries' shape; the gate's own
+     reading of the contract — forms, defstack, overloads, extension calls, interface and override dispatch,
+     test-file exclusion — and the adapter's derivations on synthetic raw rows; the kit scoring it (T_s / T_d, the
+     §8.5 classification, G4c's interface fact, delta's dispatch-confirmed verdict and G2d). Live, only when .NET
+     SDK 8.0.202, the 8.0.3 reference packs, the captured packages (Microsoft.CodeAnalysis 4.8.0 and its closure) in
+     the local packages folder and the captured runtime are present: the tool re-run on the self-test corpus (from
+     a temp copy) must reproduce the committed output byte for byte; else SKIPPED with the reason
+  M  the kit's other D3-cs rules (PREREG_CS §8.6 "Kit changes"): compare_calls on a dispatch truth (the §8.5
+     classification, recall over T_s, dispatch recall over T_d, the static-only reading beside it) and pool
+     --family=cs (receiver forms, pooled dispatch recall, its refusals); impact_spot's T_s ∪ T_d reference and its
+     substitution checks (exactly one node, a reference caller, not SATURATED); audit_sample's C# call-site shapes,
+     the C# sheet sentence and removed_all_exact beside removed_all; offline_calls' interface-mode VOID rule and the
+     modes its effective block reports through the product
+  N  the D3-cs rules on a synthetic C# corpus written from PREREG_CS §8.2 / §8.5 and AC5-AC16 (never from the kit's
+     output): AC5's row fields (_static_iface reads `dispatch_rule`, else the defs' `interface`; truth_roslyn's
+     contract_problems and the refusing convert); T_s, T_d = dispatch MINUS T_s (a pair in both), the refuted test
+     over static AND dispatch targets (a site bound only by dispatch); G4c's EXTRACTED dispatch-only edges through an
+     interface vs a virtual static target; G2d from production and non-production callers; AC9's dispatch stratum
+     fallback (static_dispatchable, impl_fallback, its not-computable case); AC10 (a dispatch-confirmed removal is
+     audited exhaustively) and the reference's judged rows; exact_bounds' census and pool_scores' lower bound; AC11's
+     reference error rate (the union of an engine's two samples counted once, the exact 10% threshold, either engine,
+     conflicts, refusals, the CLI's exit codes); §8.3's substitution on both engines and AC12's final list (the
+     refusals); N2 on added / regraded / removed non-.cs edges and the case-insensitive `.cs` test; §8.4's C# VOID
+     rule; AC15's manifest writer (dry run, --write, refusals) accepted by K's guard; AC16's VRC-cs flags on temp
+     trees; §1 / AC7's kit hash (independent recomputation, the exclusions) and the reference tool identity
+  O  run_matrix.sh's C# orchestration on a FAKE repository (the kit, a build/ copy and the engine-parity gate,
+     committed in a temp dir, then a staged and an unstaged deletion, an edit, an untracked and an ignored file):
+     AC7's self-snapshot (its index == the working tree's files, the deleted ones gone; made once, never touched) and
+     guard (a C# phase from the working tree's script, with another build/, or without CL_SELF_RC is refused); the
+     dry-run plans: AC13's engine-parity command once as the rest phase's last command (skipped when the C# corpora are
+     narrowed), AC12's --final spot commands, AC11's refrate per corpus, AC15's manifest phase, G5a's gates under both
+     engines' Pythons plus the no-Neo4j suite, every phase checking the snapshot's RC identity first. Only when a bash
+     that reads this checkout's paths (Git Bash on Windows) and git are present, else SKIPPED
 
-Hermetic except D/I (opt-in by presence): temp dirs + a temp DEEPMAP_HOME, no Neo4j, no network; never touches
-~/.deepmap. Options (for the RED-first runs and mutation tests): --kit <dir> (load the kit from another dir),
+Hermetic except D/I and L's live re-run (opt-in by presence): temp dirs + a temp DEEPMAP_HOME, no Neo4j, no network;
+never touches ~/.deepmap. Options (for the RED-first runs and mutation tests): --kit <dir> (load the kit from another dir),
 --sync <file> (read another sync.py for B), --refreeze <file> (load another stage0_refreeze.py for F),
 --no-real (skip C's graphify modes and D).
 Usage: python tests/call_linking_harness_gates.py [--kit DIR] [--sync FILE] [--refreeze FILE] [--no-real]
@@ -72,6 +132,7 @@ import io
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -111,6 +172,28 @@ READ_ONLY_OK = {"_plan_prune", "_plan_prune_evidence", "_fts_changed_docs", "pri
 READ_ONLY_METHODS = {"get", "items", "keys", "values", "count", "index", "copy"}
 PREREG_S8_SHA256 = "7fcd02d98b48f7b3fe375d2b09be5843bf0b15890804546484683b3173e13d0c"
 FLASK_SHA = "36e4a824f340fdee7ed50937ba8e7f6bc7d17f81"
+
+# D3-cs (benchmark/call_linking/PREREG_CS.md): the C# reference truth_roslyn and the registration, apart from the D3
+# lists above (an old kit read with --kit keeps its own A/H meaning).
+KIT_FILES_CS = ("PREREG_CS.md", "truth_roslyn.py", "truth_roslyn/Program.cs", "truth_roslyn/TruthRoslyn.csproj",
+                "truth_roslyn/global.json", "truth_roslyn/nuget.config", "truth_roslyn/.gitattributes",
+                "truth_roslyn/.gitignore", "truth_roslyn/selftest/expect.json", "truth_roslyn/selftest/sites.jsonl",
+                "truth_roslyn/selftest/truth.json")
+KIT_MODULES_CS = ("truth_roslyn",)
+# The protocol block of PREREG_CS.md (the lines strictly between its BEGIN and END marker lines, joined with LF, plus
+# one final LF), locked before the first RC run (PREREG_CS "Rules"; section J).
+PREREG_CS_PROTOCOL_SHA256 = "5cde7ab3812a372a67bef8ffa97a152eb357b1a7e97582837096d8d3bdb9cac7"
+# Its 'Amendments before RC' (the lines strictly between the `## Amendments before RC` heading line and the BEGIN
+# marker line, joined with LF, plus one final LF): AC1-AC18, dated 2026-10-28, locked beside the block (section J).
+PREREG_CS_AMENDMENTS_SHA256 = "3f1dee5bef588150ae5e983c8e6bf889ff95891cb7605de10f6c2bdc1fe74f00"
+CS_CORPUS_IDS = {"jellyfin": "jellyfin__jellyfin", "eShop": "dotnet__eShop"}
+CS_LANG = "csharp"
+# What the A scan of build/ and hooks/ reads (every text file the product could load or ship), and skips.
+PRODUCT_TEXT_SUFFIXES = (".py", ".json", ".md", ".txt", ".toml", ".cfg", ".ini", ".yaml", ".yml", ".sh", ".ps1",
+                         ".bat", ".cmd", ".xml", ".csv", "")
+PRODUCT_SKIP_DIRS = {"__pycache__", "graphify-out", ".deepmap", "node_modules", ".git"}
+CS_REFERENCE_NAMES = re.compile(r"truth_roslyn|microsoft\.codeanalysis", re.I)
+CS_SHIPPED_NAMES = re.compile(r"roslyn|microsoft\.codeanalysis", re.I)
 
 
 def check(name: str, ok: bool, detail="") -> None:
@@ -205,7 +288,77 @@ def gate_a(kit: Path) -> dict:
             if re.search(r"^\s*(import|from)\s+(jedi|parso)\b", t, re.M) or re.search(r"benchmark[./\\]+call_linking", t):
                 leaks.append(p.relative_to(REPO).as_posix())
     check("nothing under build/ or hooks/ imports jedi / parso or names the measurement kit", not leaks, leaks)
+    gate_a_cs(kit, mods, std)
     return mods
+
+
+def _module_imports(path: Path) -> "list | None":
+    """The top-level names a module imports at module level (a relative import is '.<module>'); None on a syntax
+    error."""
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except (OSError, SyntaxError, UnicodeDecodeError):
+        return None
+    out = []
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            out += [a.name.split(".")[0] for a in node.names]
+        elif isinstance(node, ast.ImportFrom):
+            out.append(("." * node.level) + (node.module or "").split(".")[0] if node.level else
+                       (node.module or "").split(".")[0])
+    return out
+
+
+def product_text_files(roots=None) -> list:
+    """Every text file under build/ and hooks/ (recursively; caches, graphify output and VCS dirs skipped)."""
+    out = []
+    for d in roots or (BUILD, REPO / "hooks"):
+        if not d.is_dir():
+            continue
+        for p in sorted(d.rglob("*")):
+            rel = p.relative_to(d).parts
+            if any(part in PRODUCT_SKIP_DIRS for part in rel[:-1]) or not p.is_file():
+                continue
+            if p.suffix.lower() in PRODUCT_TEXT_SUFFIXES and p.stat().st_size < 8_000_000:
+                out.append(p)
+    return out
+
+
+def gate_a_cs(kit: Path, mods: dict, std: set) -> None:
+    """A for D3-cs (PREREG_CS §8.2 "The reference is measurement only"): truth_roslyn.py and truth_roslyn/ exist,
+    load without .NET, import only the stdlib at module level, and nothing under build/ or hooks/ names them."""
+    print("   (D3-cs: the C# reference truth_roslyn.py + truth_roslyn/, PREREG_CS §8.2)")
+    missing = [f for f in KIT_FILES_CS if not (kit / f).is_file()]
+    check(f"every D3-cs kit file exists under {kit.name}/ ({len(KIT_FILES_CS)} files: PREREG_CS.md, truth_roslyn.py, "
+          f"the .NET tool's sources and its captured self-test)", not missing, missing)
+    imps = _module_imports(kit / "truth_roslyn.py")
+    bad = None if imps is None else sorted({n for n in imps if n != "__future__" and n not in std})
+    check("truth_roslyn.py imports only the stdlib at module level (not even a sibling: the kit's _common and the "
+          "product's test rule load lazily, inside functions)", imps is not None and not bad,
+          "syntax error / unreadable" if imps is None else bad)
+    for m in KIT_MODULES_CS:
+        try:
+            so, se = _quiet()
+            with so, se:
+                mods[m] = __import__(m)
+        except Exception as exc:  # noqa: BLE001
+            check(f"kit module {m} imports", False, repr(exc))
+    check("truth_roslyn imports in the product's Python (no .NET needed to load it)",
+          all(m in mods for m in KIT_MODULES_CS), sorted(set(KIT_MODULES_CS) - set(mods)))
+    cs = sorted(p.relative_to(kit).as_posix() for p in kit.rglob("*") if p.is_file() and p.suffix.lower() == ".cs"
+                and "__pycache__" not in p.parts
+                and not (p.relative_to(kit).parts[:1] == ("truth_roslyn",)
+                         and p.relative_to(kit).parts[1:2] in (("bin",), ("obj",))))
+    check("the kit's only .cs file is truth_roslyn/Program.cs (the self-test corpus is stored as .txt; PREREG_CS §7: "
+          "the `self` N corpus holds exactly that one; the tool's bin/ and obj/ build outputs are not sources)",
+          cs == ["truth_roslyn/Program.cs"], cs)
+    leaks = {}
+    for p in product_text_files():
+        hits = sorted({m.group(0) for m in CS_REFERENCE_NAMES.finditer(p.read_text(encoding="utf-8", errors="replace"))})
+        if hits:
+            leaks[p.relative_to(REPO).as_posix() if p.is_relative_to(REPO) else p.as_posix()] = hits
+    check("nothing under build/ or hooks/ (every text file, hooks.json and docs included) names truth_roslyn or "
+          "Microsoft.CodeAnalysis (PREREG_CS §8.2: the reference is measurement only)", not leaks, leaks)
 
 
 # =====================================================================================================
@@ -2059,7 +2212,7 @@ def gate_f(refreeze_path: Path, base: Path) -> None:
 # G — compliance
 # =====================================================================================================
 def gate_g() -> None:
-    print("\n-- G: compliance — jedi and TypeScript appear in no shipped list --")
+    print("\n-- G: compliance — jedi, TypeScript and the C# reference (Roslyn) appear in no shipped list --")
     hits = {}
     for rel in ("requirements.txt", "sbom.cdx.json", "NOTICE", "THIRD-PARTY-LICENSES.md", "install.sh", "install.ps1",
                 ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"):
@@ -2080,6 +2233,41 @@ def gate_g() -> None:
     bad_c = [c for c in comps if c in ("jedi", "parso", "typescript")]
     check("requirements / SBOM / NOTICE / THIRD-PARTY-LICENSES / installers / manifests name neither jedi (parso) nor "
           "the TypeScript package", not hits and not bad_c, (hits, bad_c))
+    gate_g_cs()
+
+
+SHIPPED_LISTS = ("requirements.txt", "sbom.cdx.json", "NOTICE", "THIRD-PARTY-LICENSES.md", "install.sh", "install.ps1")
+
+
+def shipped_list_hits(repo: Path) -> dict:
+    """{relative path: [matches]} of the C# reference's names in every shipped list (PREREG_CS §8.2): requirements,
+    the SBOM (its text and its components), NOTICE, THIRD-PARTY-LICENSES, both installers, every plugin manifest."""
+    rels = list(SHIPPED_LISTS) + sorted(p.relative_to(repo).as_posix()
+                                        for p in (repo / ".claude-plugin").glob("*.json"))
+    hits = {}
+    for rel in rels:
+        p = repo / rel
+        if not p.is_file():
+            continue
+        found = sorted({m.group(0) for m in CS_SHIPPED_NAMES.finditer(p.read_text(encoding="utf-8", errors="replace"))})
+        if found:
+            hits[rel] = found
+    try:
+        comps = json.loads((repo / "sbom.cdx.json").read_text(encoding="utf-8")).get("components", [])
+    except Exception:  # noqa: BLE001 — a missing SBOM has nothing to list
+        comps = []
+    bad = [c.get("name") for c in comps if isinstance(c, dict) and any(
+        CS_SHIPPED_NAMES.search(str(c.get(k) or "")) for k in ("name", "group", "purl", "bom-ref"))]
+    if bad:
+        hits["sbom.cdx.json components"] = bad
+    return hits
+
+
+def gate_g_cs() -> None:
+    hits = shipped_list_hits(REPO)
+    check("requirements / SBOM (text and components) / NOTICE / THIRD-PARTY-LICENSES / install.sh / install.ps1 / "
+          "every .claude-plugin manifest name neither Roslyn, Microsoft.CodeAnalysis nor truth_roslyn (PREREG_CS "
+          "§8.2: the C# reference is measurement only, never shipped)", not hits, hits)
 
 
 # =====================================================================================================
@@ -2364,6 +2552,1844 @@ def gate_i(mods: dict, kit: Path, base: Path) -> None:
                          ("src/service.ts", "ctor", "Repo", (("src/repo.ts", 1, "class"),))]), got)
 
 
+# =====================================================================================================
+# J — PREREG_CS.md (D3-cs): the protocol block hash-locked, its tables equal to the kit's
+# =====================================================================================================
+def prereg_cs_block(text: str) -> "tuple[str | None, str | None, str]":
+    """(block, None, head) — the lines strictly between the ONE line starting `<!-- PREREG-CS-PROTOCOL BEGIN` and the
+    ONE line starting `<!-- PREREG-CS-PROTOCOL END`, joined with LF plus one final LF (section H's rule for PREREG
+    §8), and the text above the BEGIN line — or (None, why, head). A marker counts only as a whole line's start: the
+    Rules paragraph quotes both markers inside a sentence."""
+    lines = text.split("\n")
+    b = [i for i, ln in enumerate(lines) if ln.startswith("<!-- PREREG-CS-PROTOCOL BEGIN")]
+    e = [i for i, ln in enumerate(lines) if ln.startswith("<!-- PREREG-CS-PROTOCOL END")]
+    head = "\n".join(lines[:b[0]]) + "\n" if b else text
+    if len(b) != 1 or len(e) != 1 or b[0] >= e[0]:
+        return (None, f"want exactly one BEGIN marker line before exactly one END marker line (BEGIN at {b}, END at "
+                      f"{e})", head)
+    return "\n".join(lines[b[0] + 1:e[0]]) + "\n", None, head
+
+
+def prereg_cs_amendments(text: str) -> "tuple[str | None, str | None]":
+    """(section, None) — PREREG_CS's 'Amendments before RC': the lines strictly between the ONE heading line
+    `## Amendments before RC` and the ONE line starting `<!-- PREREG-CS-PROTOCOL BEGIN`, joined with LF plus one final
+    LF (the block's rule) — or (None, why)."""
+    lines = text.split("\n")
+    h = [i for i, ln in enumerate(lines) if ln == "## Amendments before RC"]
+    b = [i for i, ln in enumerate(lines) if ln.startswith("<!-- PREREG-CS-PROTOCOL BEGIN")]
+    if len(h) != 1 or len(b) != 1 or h[0] >= b[0]:
+        return None, f"want exactly one `## Amendments before RC` heading line before exactly one BEGIN marker line " \
+                     f"(heading at {h}, BEGIN at {b})"
+    return "\n".join(lines[h[0] + 1:b[0]]) + "\n", None
+
+
+def _sh_joined(rm: str) -> str:
+    """run_matrix.sh with its `\\`-continued lines joined."""
+    return re.sub(r"\\\n\s*", "", rm)
+
+
+def _sh_function(rm: str, name: str) -> str:
+    """The body of a bash function `name() {` ... `\\n}` of run_matrix.sh, its `\\`-continued lines joined."""
+    rm = _sh_joined(rm)
+    if f"\n{name}() {{" not in rm:
+        return ""
+    return rm.split(f"\n{name}() {{", 1)[1].split("\n}", 1)[0]
+
+
+def gate_j_amendments(mods: dict, kit: Path, block: str, amend: str) -> None:
+    """The amendments' kit-facing rules, read from their text and equal to the kit's: AC13's engine-parity command
+    (== run_matrix.sh's cs_engine_parity, the only caller), AC12's final spot list (every C# spot command of
+    run_matrix.sh), G5a's gate list (== run_matrix.sh's CS_G5A_GATES; each gate exists), AC14's N3 gate (the push
+    gate's csharp identity section), AC16's VRC-cs flags (== variants.vrc_cs_flag on this tree)."""
+    flat = " ".join(amend.split())
+    rm = (kit / "run_matrix.sh").read_text(encoding="utf-8") if (kit / "run_matrix.sh").is_file() else ""
+    m = re.search(r"The gate command is `python tests/typed_calls_engine_parity_gates\.py --corpora --only (\S+) "
+                  r"--py39 <dev python> --py51 (\S+)`", flat)
+    only, py51 = (m.group(1), m.group(2)) if m else (None, None)
+    ce = re.search(r"\| Engine, CI end \| graphifyy 0\.8\.51 in the uv venv `([^`]+)` \(`Scripts/python\.exe`", block)
+    check("AC13 names the engine-parity gate command: --corpora --only the two C# corpora (jellyfin__jellyfin,"
+          "dotnet__eShop, §8.2's ids) --py39 <dev python> --py51 the §8.2 CI end's python",
+          only == ",".join(CS_CORPUS_IDS.values()) and ce is not None and py51 == f"{ce.group(1)}/Scripts/python.exe",
+          (only, py51, ce.group(1) if ce else None))
+    body = _sh_function(rm, "cs_engine_parity")
+    calls = [ln.strip() for ln in body.splitlines() if "typed_calls_engine_parity_gates.py" in ln]
+    want = ('env CALL_LINKING_CS_SOURCES="$CS_SOURCES" "$PY39" "$REPO/tests/typed_calls_engine_parity_gates.py" '
+            f'--corpora --only {only} --py39 "$PY39" --py51 "$PY51"')
+    elsewhere = [ln for ln in _sh_joined(rm).replace(body, "").splitlines()
+                 if "typed_calls_engine_parity_gates.py" in ln and not ln.lstrip().startswith("#")]
+    check("run_matrix.sh runs the engine-parity gate's C# corpora EXACTLY as AC13 names it (cs_engine_parity: the "
+          "dry-run plan and the run, CALL_LINKING_CS_SOURCES = §8.2's read-only root, the snapshot's tests/), called "
+          "once from the rest phase, and from nowhere else",
+          len(calls) == 2 and all(c.endswith(want) or (want + " >") in c for c in calls) and not elsewhere
+          and len(re.findall(r"^\s*cs_engine_parity ;;", rm, re.M)) == 1, (calls, want, elsewhere))
+    sc = _sh_function(rm, "cs_score")
+    spots = [ln.strip() for ln in sc.splitlines() if "impact_spot.py" in ln]
+    check("AC12: every spot command run_matrix.sh runs on a C# corpus (cs_score) measures its FINAL list — "
+          "--corpus=<id> --final=<id>/spots_final.json — and the spots phase writes that file with `impact_spot.py "
+          "substitute` over both engines' V0 dumps",
+          bool(spots) and all('"--corpus=$c" "--final=$fin"' in ln for ln in spots)
+          and 'fin="$OUT/$1/spots_final.json"' in sc
+          and bool(re.search(r'impact_spot\.py" substitute "--truth=\S+" "--corpus=\$c"\s+"--base39=\S+_V0_g39\.json" '
+                             r'"--base51=\S+_V0_g51\.json" "--json=\$OUT/\$c/spots_final\.json"',
+                             _sh_joined(rm))), spots)
+    sec = block.split("- **G5a:**", 1)[-1].split("The full no-Neo4j suite", 1)[0] if "- **G5a:**" in block else ""
+    g5a = re.findall(r"\b([a-z0-9_]+_gates)\b", sec)
+    rmg = re.search(r'^CS_G5A_GATES="([^"]*)"', rm, re.M)
+    missing = [g for g in g5a if not (TESTS / f"{g}.py").is_file()]
+    check(f"G5a's gate list (§8.7, {len(g5a)} gates plus the N3 gate) == run_matrix.sh's CS_G5A_GATES, in order; every "
+          f"listed gate exists under tests/ (a listed gate that does not exist at RC does not pass)",
+          len(g5a) == 14 and "the N3 gate" in sec and rmg is not None and rmg.group(1).split() == g5a and not missing,
+          {"prereg": g5a, "run_matrix": rmg.group(1).split() if rmg else None, "missing": missing})
+    push = (TESTS / "typed_calls_push_gates.py").read_text(encoding="utf-8") if (
+        TESTS / "typed_calls_push_gates.py").is_file() else ""
+    runs_i = re.search(r"for sec in \(([^)]*)\):", push)
+    check("AC14: the N3 gate is typed_calls_push_gates.py's csharp identity section (it runs: section I, "
+          "DEEPMAP_TYPED_CALLS=csharp == flags off on its corpus) plus typed_calls_cs_gates.py section G, both G5a gates",
+          "typed_calls_push_gates.py`'s csharp identity section" in flat and "typed_calls_cs_gates.py` section G" in flat
+          and runs_i is not None and "sec_i" in runs_i.group(1) and "def sec_i" in push and "AC14" in push
+          and {"typed_calls_push_gates", "typed_calls_cs_gates"} <= set(g5a),
+          (runs_i.group(1) if runs_i else None))
+    V = mods.get("variants")
+    langs, why = typed_default_langs(BUILD)
+    m16 = re.search(r"The flags are `--set DEEPMAP_TYPED_CALLS=<every language in the RC tree's _TYPED_DEFAULT_LANGS>,"
+                    r"csharp`", flat)
+    try:
+        flag = V.vrc_cs_flag(BUILD) if V is not None else None
+    except Exception as exc:  # noqa: BLE001
+        flag = f"{type(exc).__name__}: {exc}"
+    want16 = ",".join([x for x in (langs or []) if x != CS_LANG] + [CS_LANG]) if langs is not None else None
+    check("AC16: VRC-cs is `--set DEEPMAP_TYPED_CALLS=<the RC tree's defaults>,csharp` (§8.4's table sets it with "
+          "--set) — variants.CS_VARIANTS['VRC-cs'] is set at decision time, and variants.vrc_cs_flag on this tree is "
+          f"that value ({want16})", m16 is not None and V is not None and V.CS_VARIANTS.get("VRC-cs", 0) is None
+          and flag == want16 and why is None, (m16 is not None, flag, want16, why))
+
+
+def _cells(line: str) -> list:
+    return [c.strip() for c in line.strip().strip("|").split("|")]
+
+
+def _table_rows(text: str, first: str) -> list:
+    """The cells of every markdown table row whose first cell matches the regex `first` (in order)."""
+    return [_cells(ln) for ln in text.splitlines() if ln.startswith("|") and re.fullmatch(first, _cells(ln)[0])]
+
+
+def _ticks(cell: str) -> list:
+    return re.findall(r"`([^`]+)`", cell)
+
+
+def cs_corpora_of_prereg(block: str) -> dict:
+    """§8.2's C# corpora table: {corpus id: {sha, source, prefixes}} (the prefixes are the backticked directories
+    before the parenthetical, in order)."""
+    out = {}
+    for c in _table_rows(block, r"jellyfin__jellyfin|dotnet__eShop"):
+        if len(c) < 6:
+            continue
+        sha = re.search(r"\b[0-9a-f]{40}\b", c[2])
+        out[c[0]] = {"sha": sha.group(0) if sha else None, "source": (_ticks(c[3]) or [None])[0],
+                     "prefixes": _ticks(c[4].split("(")[0])}
+    return out
+
+
+def cs_corpora_of_run_matrix(rm: str) -> "tuple[dict, str | None]":
+    """run_matrix.sh's cs_corpus_row (sha | prefixes | truth kind | source dir | origin) and CL_CS_SOURCES' default."""
+    body = rm.split("cs_corpus_row() {", 1)[1].split("\n}", 1)[0] if "cs_corpus_row() {" in rm else ""
+    rows = {m.group(1): m.group(2).split("|")
+            for m in re.finditer(r'^\s*([\w.\-]+__[\w.\-]+)\)\s+printf\s+\S+\s+"([^"]*)"', body, re.M)}
+    src = re.search(r"CL_CS_SOURCES:-([^}\"]+)\}", rm)
+    return rows, (src.group(1) if src else None)
+
+
+def literal_assignments(path: Path, names) -> dict:
+    """{name: value} of the module-level `name = <literal>` assignments of a Python file, read from its AST (the file
+    is never imported)."""
+    out = {}
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except (OSError, SyntaxError, UnicodeDecodeError):
+        return out
+    for n in tree.body:
+        tg = n.targets if isinstance(n, ast.Assign) else [n.target] if isinstance(n, ast.AnnAssign) else []
+        for t in tg:
+            if isinstance(t, ast.Name) and t.id in names and n.value is not None:
+                try:
+                    out[t.id] = ast.literal_eval(n.value)
+                except ValueError:
+                    out[t.id] = "<not a literal>"
+    return out
+
+
+def cs_spots_of_prereg(block: str) -> "tuple[dict, dict]":
+    """§8.3's spot table and reserve table: ({corpus id: [(id, "Name@file")]}, the same for the reserves), in order;
+    the file is the Definition cell's first backticked `path:line`."""
+    sec = block.split("### 8.3")[-1].split("### 8.4")[0] if "### 8.3" in block else ""
+
+    def rows(pat):
+        out = {}
+        for c in _table_rows(sec, pat):
+            if len(c) < 4:
+                continue
+            m = re.search(r"`([^`]+?):\d+`", c[3])
+            out.setdefault(CS_CORPUS_IDS.get(c[2], c[2]), []).append(
+                (c[0], f"{c[1].strip('`')}@{m.group(1) if m else '?'}"))
+        return out
+    return rows(r"[JE][1-9]"), rows(r"[JE]-r[1-9]")
+
+
+def cs_variants_of_prereg(block: str) -> "tuple[dict | None, list, str | None]":
+    """§8.4's table as {id: flags} (VT-cs[shape] expanded over the shapes it lists, `VT-cs+t / VT-cs+np` split; V0 {},
+    VRC-cs None — its flags are set at decision time with --set), the shapes, and a parse problem."""
+    sec = block.split("### 8.4 Variants")[-1].split("### 8.5")[0] if "### 8.4 Variants" in block else ""
+    out, shapes = {}, []
+    for ids, cell, _role in re.findall(r"^\| (V[^|]*?) \| (.*?) \| (.*?) \|$", sec, re.M):
+        names = [x.strip() for x in ids.split(" / ")]
+        kvs = re.findall(r"`(DEEPMAP_[A-Z0-9_]+)=([^`]*)`", cell)
+        base = dict(out.get("VT-cs") or {}) if cell.startswith("VT-cs +") else {}
+        if names == ["V0"]:
+            if kvs or "default" not in cell:
+                return None, shapes, f"V0's row names flags: {cell}"
+            out["V0"] = {}
+        elif names == ["VRC-cs"]:
+            if "--set" not in cell:
+                return None, shapes, f"VRC-cs's row does not say it is set with --set: {cell}"
+            out["VRC-cs"] = None
+        elif names[0].endswith("[shape]"):
+            m = re.search(r"\(([A-Z0-9 ]+)\)", cell)
+            shapes = m.group(1).split() if m else []
+            for s in shapes:
+                out[names[0].replace("[shape]", f"[{s}]")] = dict(base, **{k: (s if v == "<shape>" else v) for k, v in kvs})
+        elif len(names) > 1:
+            if len(names) != len(kvs):
+                return None, shapes, f"{ids}: {len(names)} ids, {len(kvs)} flags"
+            for nm, (k, v) in zip(names, kvs):
+                out[nm] = dict(base, **{k: v})
+        else:
+            out[names[0]] = dict(base, **dict(kvs))
+    return out, shapes, None
+
+
+def gate_j(mods: dict, kit: Path) -> None:
+    print("\n-- J: PREREG_CS.md (D3-cs): the protocol block verbatim (sha256-locked), its tables == the kit's --")
+    try:
+        pre = (kit / "PREREG_CS.md").read_text(encoding="utf-8")
+    except OSError as exc:
+        check("PREREG_CS.md exists", False, repr(exc))
+        return
+    block, why, head = prereg_cs_block(pre)
+    got = hashlib.sha256(block.encode("utf-8")).hexdigest() if block is not None else None
+    check("PREREG_CS's protocol block (the lines strictly between its one BEGIN and one END marker line, LF-joined "
+          "plus a final LF) is the registered one verbatim (sha256 locked before the first RC run: thresholds and "
+          "rules never move after data)",
+          block is not None and got == PREREG_CS_PROTOCOL_SHA256
+          and block.startswith("## 8. Measurement protocol (D3-cs)\n"), why or got)
+    block = block or ""
+    amend_ok = ("## Amendments before RC" in head and "## 7." in head
+                and head.rindex("## Amendments before RC") > head.rindex("## 7."))
+    check("PREREG_CS has its 'Amendments before RC' section just above the protocol block, and its rules name this "
+          "gate as the lock", amend_ok and "tests/call_linking_harness_gates.py" in head)
+    amend, why_a = prereg_cs_amendments(pre)
+    got_a = hashlib.sha256(amend.encode("utf-8")).hexdigest() if amend is not None else None
+    check("PREREG_CS's 'Amendments before RC' (the lines strictly between its one `## Amendments before RC` heading "
+          "line and the BEGIN marker line, LF-joined plus a final LF) is the dated AC1-AC18 text verbatim (sha256 "
+          "locked beside the block's before step 1: an amendment governs the items it names, so it never moves after "
+          "data either)", amend is not None and got_a == PREREG_CS_AMENDMENTS_SHA256
+          and [int(n) for n in re.findall(r"^- \*\*AC(\d+)\.", amend, re.M)] == list(range(1, 19)), why_a or got_a)
+    amend = amend or ""
+    gate_j_amendments(mods, kit, block, amend)
+    sec1 = head.split("## 1.")[-1].split("## 2.")[0] if "## 1." in head else ""
+    check("PREREG_CS §1 holds the RC identity slots (the build/*.py content hash by `offline_calls.py codehash`, the "
+          "kit hash, the reference tool identity) and the frozen-snapshot rule",
+          all(w in sec1 for w in ("Content hash of build/\\*.py", "offline_calls.py codehash", "Kit hash",
+                                  "Reference tool identity", "frozen snapshot")), sec1[:300])
+    rm = (kit / "run_matrix.sh").read_text(encoding="utf-8") if (kit / "run_matrix.sh").is_file() else ""
+    want = cs_corpora_of_prereg(block)
+    rows, src_default = cs_corpora_of_run_matrix(rm)
+    check("§8.2 pins exactly the two C# corpora, each with a SHA, a read-only source and library prefixes",
+          sorted(want) == sorted(CS_CORPUS_IDS.values())
+          and all(w["sha"] and w["source"] and w["prefixes"] for w in want.values()), want)
+    got_rm = {c: {"sha": r[0], "prefixes": [x for x in r[1].split(",") if x],
+                  "source": f"{src_default}/{r[3]}" if src_default else None, "kind": r[2], "origin": r[4]}
+              for c, r in rows.items() if len(r) == 5}
+    want_rm = {c: dict(w, kind="roslyn", origin="readonly") for c, w in want.items()}
+    check("run_matrix.sh's cs_corpus_row == PREREG_CS §8.2 for both C# corpora: the pinned SHA, the library prefixes "
+          "(in order), the read-only source (CL_CS_SOURCES' default + its directory), a Roslyn truth, read-only origin",
+          {c: got_rm.get(c) for c in want} == want_rm, {c: (got_rm.get(c), want_rm[c]) for c in want
+                                                        if got_rm.get(c) != want_rm[c]})
+    sec3 = head.split("## 3.")[-1].split("## 4.")[0] if "## 3." in head else ""
+    s3 = {c[0]: (re.findall(r"\b[0-9a-f]{40}\b", c[1]) or [None])[0]
+          for c in _table_rows(sec3, r"jellyfin/jellyfin|dotnet/eShop")}
+    recreate = set(re.findall(r"\b[0-9a-f]{40}\b", block.split("To re-create a read-only source")[-1].split("**The N")[0]))
+    shas = {w["sha"] for w in want.values()}
+    check("§3's corpus table and §8.2's re-create commands pin the same two SHAs as §8.2's table",
+          {s3.get("jellyfin/jellyfin"), s3.get("dotnet/eShop")} == shas and recreate == shas, (s3, sorted(recreate)))
+    h_rows = dict(re.findall(r"^\s*([\w\-]+__[\w.\-]+|stage0_build)\)\s+echo \"([0-9a-f]{40})\|", rm, re.M))
+    check("the C# corpora are apart from corpus_row, the table section H reads for PREREG (neither id nor SHA in it)",
+          not (set(h_rows) & set(want)) and not (set(h_rows.values()) & shas), sorted(set(h_rows) & set(want)))
+    pg = literal_assignments(TESTS / "typed_calls_engine_parity_gates.py", {"CS_CORPORA", "CS_SOURCES_DEFAULT"})
+    got_pg = {c: {"sha": v[0], "source": f"{pg.get('CS_SOURCES_DEFAULT')}/{v[1]}"}
+              for c, v in (pg.get("CS_CORPORA") or {}).items()} if isinstance(pg.get("CS_CORPORA"), dict) else None
+    check("the engine-parity gate's --corpora C# table (tests/typed_calls_engine_parity_gates.py CS_CORPORA, "
+          "CS_SOURCES_DEFAULT) == PREREG_CS §8.2 (SHA and read-only source; §8.6 E)",
+          got_pg == {c: {"sha": w["sha"], "source": w["source"]} for c, w in want.items()}, (got_pg, pg))
+    check("run_matrix.sh's audit draw is §8.6 A's (seed 20261022, n 40)",
+          bool(re.search(r"^CS_SEED=20261022$", rm, re.M)) and bool(re.search(r"^CS_AUDIT_N=40$", rm, re.M))
+          and "--seed 20261022 --n 40" in block)
+    IS = mods.get("impact_spot")
+    spots, reserves = cs_spots_of_prereg(block)
+    if IS is None or not hasattr(IS, "CS_SPOTS"):
+        check("impact_spot.py has the C# spot tables (CS_SPOTS, CS_RESERVES, CS_IDS)", False)
+    else:
+        check("§8.3 registers 10 spots (J1-J5, E1-E5) and 8 reserves (J-r1..J-r5, E-r1..E-r3)",
+              [len(spots.get(c, [])) for c in CS_CORPUS_IDS.values()] == [5, 5]
+              and [len(reserves.get(c, [])) for c in CS_CORPUS_IDS.values()] == [5, 3],
+              (spots, reserves))
+        for label, table, mine in (("spots", spots, IS.CS_SPOTS), ("reserves (in substitution order)", reserves,
+                                                                   IS.CS_RESERVES)):
+            want_t = {c: [s for _i, s in v] for c, v in table.items()}
+            check(f"impact_spot.py's C# {label} == PREREG_CS §8.3's, `Name@file` with the Definition's file, in order",
+                  {c: list(v) for c, v in mine.items()} == want_t,
+                  {c: (mine.get(c), want_t.get(c)) for c in set(mine) | set(want_t) if list(mine.get(c) or []) !=
+                   want_t.get(c)})
+        ids = {s: i for v in list(spots.values()) + list(reserves.values()) for i, s in v}
+        check("impact_spot.CS_IDS gives each C# spot and reserve its PREREG_CS id (J1.., E-r1..)",
+              dict(IS.CS_IDS) == ids, {s: (IS.CS_IDS.get(s), i) for s, i in ids.items() if IS.CS_IDS.get(s) != i})
+        sec4 = head.split("## 4.")[-1].split("## 5.")[0] if "## 4." in head else ""
+        s4 = {CS_CORPUS_IDS[m.group(1)]: _ticks(m.group(2))
+              for m in re.finditer(r"^- \*\*(jellyfin|eShop):\*\* (.*(?:\n  .*)*)", sec4, re.M)}
+        check("PREREG_CS §4 names the same five spot symbols per corpus as §8.3, in order",
+              s4 == {c: [s.split("@")[0] for _i, s in v] for c, v in spots.items()}, s4)
+        flat = {s for v in getattr(IS, "SPOTS", {}).values() for s in v}
+        check("the C# spots are apart from impact_spot.SPOTS (the table section H locks to PREREG.md)",
+              not (flat & set(ids)) and not (set(getattr(IS, "SPOTS", {})) & set(CS_CORPUS_IDS.values())))
+    V = mods.get("variants")
+    table, shapes, why = cs_variants_of_prereg(block)
+    if V is None or not hasattr(V, "CS_VARIANTS"):
+        check("variants.py has the D3-cs table (CS_VARIANTS)", False)
+    else:
+        check("variants.py's CS_VARIANTS == PREREG_CS §8.4's table: the same ids in the same order with the same flags "
+              "(VT-cs = DEEPMAP_TYPED_CALLS=csharp, no audit flag; one SHAPES arm per shape; +t / +np; -ifs = IFACE "
+              "static; -if0 = IFACE 0; VRC-cs set with --set)",
+              table is not None and list(table) == list(V.CS_VARIANTS) and table == V.CS_VARIANTS,
+              why or {k: (V.CS_VARIANTS.get(k), (table or {}).get(k)) for k in set(V.CS_VARIANTS) | set(table or {})
+                      if V.CS_VARIANTS.get(k) != (table or {}).get(k)} or (list(table or {}), list(V.CS_VARIANTS)))
+        prod = literal_assignments(BUILD / "typed_calls.py", {"SHAPES"}).get("SHAPES")
+        check("the shapes PREREG_CS §8.4 lists == variants.CS_SHAPES == the product's typed_calls.SHAPES",
+              list(shapes) == list(V.CS_SHAPES) == list(prod or ()), (shapes, V.CS_SHAPES, prod))
+        check("the D3-cs variants are apart from §8.3's VARIANTS (only V0 is in both; section H locks VARIANTS to "
+              "PREREG.md)", set(V.CS_VARIANTS) & set(V.VARIANTS) == {"V0"}, sorted(set(V.CS_VARIANTS) & set(V.VARIANTS)))
+    C = mods.get("_common")
+    m = re.search(r"\*\*Receiver forms for G1 \(cs\):\*\* ((?:`\w+`(?: \+ )?)+)", block)
+    forms = tuple(_ticks(m.group(1))) if m else ()
+    check("_common.RECEIVER_FORMS['cs'] == PREREG_CS §8.5's receiver forms for G1 (name_attr + recv + this)",
+          C is not None and forms == ("name_attr", "recv", "this") and tuple(C.RECEIVER_FORMS.get("cs") or ()) == forms,
+          (forms, C.RECEIVER_FORMS.get("cs") if C is not None else None))
+    AS = mods.get("audit_sample")
+    m = re.search(r'\*\*The C# sheet adds one instruction, fixed now:\*\* "(.*?)"', block, re.S)
+    sentence = " ".join(m.group(1).split()) if m else None
+    check("audit_sample.CS_SHEET_SENTENCE is PREREG_CS §8.6 A's C# sheet instruction, word for word",
+          AS is not None and sentence is not None
+          and " ".join(str(getattr(AS, "CS_SHEET_SENTENCE", "")).split()) == sentence,
+          (sentence, getattr(AS, "CS_SHEET_SENTENCE", None)))
+
+
+# =====================================================================================================
+# K — the G5b flip guard (PREREG_CS §8.7): csharp never becomes a default without the committed effect diff
+# =====================================================================================================
+def _load_registered(path: Path, name: str):
+    """A module loaded by path under `name` (registered in sys.modules while it executes: dataclasses read it), its
+    directory first on sys.path; both restored after."""
+    saved = list(sys.path)
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    try:
+        sys.path.insert(0, str(path.parent))
+        so, se = _quiet()
+        with so, se:
+            spec.loader.exec_module(mod)
+        return mod
+    finally:
+        sys.path[:] = saved
+        sys.modules.pop(name, None)
+
+
+def typed_default_langs(build_dir: Path) -> "tuple[list | None, str | None]":
+    """(the product's typed_calls._TYPED_DEFAULT_LANGS, lower-cased and sorted, or None, why not) — imported from
+    `build_dir`, so whatever expression defines it is what counts."""
+    p = build_dir / "typed_calls.py"
+    try:
+        mod = _load_registered(p, f"_cl_cs_typed_calls_{time.time_ns()}")
+        return sorted({str(x).strip().lower() for x in mod._TYPED_DEFAULT_LANGS}), None
+    except BaseException as exc:  # noqa: BLE001 — unreadable means the guard cannot clear the tree (fail closed)
+        return None, f"cannot read {p.name}'s _TYPED_DEFAULT_LANGS: {type(exc).__name__}: {exc}"[:400]
+
+
+def flip_guard(build_dir: Path, kit_dir: Path) -> dict:
+    """PREREG_CS §8.7 G5b's guard. Inactive (no problem) while `csharp` is not in build_dir's
+    typed_calls._TYPED_DEFAULT_LANGS. Active, it requires kit_dir/cs/MANIFEST.sha256 — one `<sha256>  <relative
+    path>` line per file (sha256sum's text form; the path relative to cs/, forward slashes, inside cs/, in byte order,
+    each once, never the manifest itself nor a sheet.md, which is never committed) with every listed file present and
+    matching byte for byte — and kit_dir/DECISION_CS.md recording the manifest's own sha256: on the lines that name
+    `MANIFEST.sha256`, exactly one distinct 64-hex value, equal to it. An unreadable defaults set fails closed.
+    Returns {active, defaults, manifest_sha256, entries, problems}."""
+    res = {"active": None, "defaults": None, "manifest_sha256": None, "entries": 0, "problems": []}
+    langs, why = typed_default_langs(build_dir)
+    if langs is None:
+        res["problems"].append(why)
+        return res
+    res["defaults"], res["active"] = langs, CS_LANG in langs
+    if not res["active"]:
+        return res
+    probs = res["problems"]
+    cs = kit_dir / "cs"
+    man = cs / "MANIFEST.sha256"
+    if not man.is_file():
+        probs.append(f"{man.relative_to(kit_dir).as_posix()} is missing (G5b: the committed effect diff)")
+    else:
+        raw = man.read_bytes()
+        res["manifest_sha256"] = hashlib.sha256(raw).hexdigest()
+        if b"\r" in raw:
+            probs.append("MANIFEST.sha256 holds CR characters (a CRLF checkout changes every byte-exact hash: "
+                         "cs/ must be checked out byte for byte)")
+        try:
+            text = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            text = ""
+            probs.append("MANIFEST.sha256 is not UTF-8")
+        lines = text.split("\n")
+        if lines and lines[-1] == "":
+            lines = lines[:-1]
+        paths = []
+        for i, ln in enumerate(lines, 1):
+            m = re.fullmatch(r"([0-9a-f]{64})  (.+)", ln.rstrip("\r"))
+            if not m:
+                probs.append(f"MANIFEST.sha256 line {i} is not `<sha256>  <relative path>`: {ln[:120]!r}")
+                continue
+            h, rel = m.group(1), m.group(2)
+            parts = rel.split("/")
+            if rel.startswith("/") or "\\" in rel or re.match(r"^[A-Za-z]:", rel) or any(
+                    x in ("", ".", "..") for x in parts):
+                probs.append(f"MANIFEST.sha256 line {i}: {rel!r} is not a forward-slash path inside cs/")
+                continue
+            paths.append(rel)
+            if rel == "MANIFEST.sha256":
+                probs.append("MANIFEST.sha256 lists itself")
+            elif parts[-1].lower() == "sheet.md":
+                probs.append(f"MANIFEST.sha256 lists {rel} (sheet.md is never committed: it quotes corpus source)")
+            elif not (cs / rel).is_file():
+                probs.append(f"cs/{rel} is listed but missing")
+            elif hashlib.sha256((cs / rel).read_bytes()).hexdigest() != h:
+                probs.append(f"cs/{rel} differs from its manifest sha256")
+        res["entries"] = len(paths)
+        if not paths:
+            probs.append("MANIFEST.sha256 lists no file")
+        if paths != sorted(paths, key=lambda s: s.encode("utf-8")) or len(set(paths)) != len(paths):
+            probs.append("MANIFEST.sha256's paths are not each listed once in byte order")
+    dec = kit_dir / "DECISION_CS.md"
+    if not dec.is_file():
+        probs.append("DECISION_CS.md is missing (it records the manifest's sha256)")
+    else:
+        rec = sorted({h.lower() for ln in dec.read_text(encoding="utf-8", errors="replace").splitlines()
+                      if "MANIFEST.sha256" in ln for h in re.findall(r"\b[0-9a-fA-F]{64}\b", ln)})
+        if len(rec) != 1:
+            probs.append(f"DECISION_CS.md must record exactly one sha256 on the lines naming MANIFEST.sha256 "
+                         f"(found {len(rec)})")
+        elif res["manifest_sha256"] and rec[0] != res["manifest_sha256"]:
+            probs.append(f"DECISION_CS.md records {rec[0][:16]}... but cs/MANIFEST.sha256 hashes to "
+                         f"{res['manifest_sha256'][:16]}...")
+    return res
+
+
+def _flip_copy(src: Path, dest: Path, value: str) -> bool:
+    """dest/typed_calls.py = src/typed_calls.py with its _TYPED_DEFAULT_LANGS line set to `value`."""
+    text = (src / "typed_calls.py").read_text(encoding="utf-8")
+    new, n = re.subn(r"^_TYPED_DEFAULT_LANGS\b.*$", f"_TYPED_DEFAULT_LANGS: frozenset = {value}", text, count=1,
+                     flags=re.M)
+    dest.mkdir(parents=True, exist_ok=True)
+    with open(dest / "typed_calls.py", "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(new)
+    return n == 1
+
+
+def _write(p: Path, data) -> None:
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_bytes(data if isinstance(data, bytes) else data.encode("utf-8"))
+
+
+def _manifest_kit(root: Path, files: dict, *, record=True, order=None, extra_lines=(), crlf=False) -> str:
+    """A kit dir holding cs/<files>, cs/MANIFEST.sha256 over them and (record) DECISION_CS.md naming its sha256."""
+    for rel, data in files.items():
+        _write(root / "cs" / rel, data)
+    rels = order or sorted(files, key=lambda s: s.encode("utf-8"))
+    lines = [f"{hashlib.sha256(files[r].encode('utf-8') if isinstance(files[r], str) else files[r]).hexdigest()}  {r}"
+             for r in rels] + list(extra_lines)
+    body = "\n".join(lines) + "\n"
+    if crlf:
+        body = body.replace("\n", "\r\n")
+    _write(root / "cs" / "MANIFEST.sha256", body)
+    sha = hashlib.sha256(body.encode("utf-8")).hexdigest()
+    if record:
+        _write(root / "DECISION_CS.md", f"# DECISION_CS\n\n- G5b: `cs/MANIFEST.sha256` sha256 `{sha}`\n")
+    return sha
+
+
+def gate_k(kit: Path, base: Path, build: Path = None) -> None:
+    print("\n-- K: the G5b flip guard (PREREG_CS §8.7): csharp joins _TYPED_DEFAULT_LANGS only with the committed "
+          "effect diff --")
+    build = build or BUILD
+    g = flip_guard(build, kit)
+    if g["active"] is False:
+        check(f"G5b guard on this tree: inactive — csharp is not in typed_calls._TYPED_DEFAULT_LANGS "
+              f"({g['defaults']}), so no manifest is required yet", not g["problems"], g["problems"])
+    else:
+        check(f"G5b guard on this tree: csharp IS a default ({g['defaults']}): benchmark/call_linking/cs/"
+              f"MANIFEST.sha256 exists, every listed file matches ({g['entries']}), and DECISION_CS.md records the "
+              f"manifest's sha256", g["active"] is True and not g["problems"], g["problems"][:8])
+    k = base / "k_guard"
+    on, on2, off, bad = k / "b_on", k / "b_on2", k / "b_off", k / "b_bad"
+    built = (_flip_copy(build, off, "frozenset()") and _flip_copy(build, on, 'frozenset({"csharp"})')
+             and _flip_copy(build, on2, 'frozenset({"python", "csharp"})'))
+    _write(bad / "typed_calls.py", "_TYPED_DEFAULT_LANGS: frozenset = frozenset(\n")
+    check("K self-test: the product's _TYPED_DEFAULT_LANGS line can be set in a temp copy of typed_calls.py", built)
+    if not built:
+        return
+    files = {"delta_VT-cs_g39.json": '{"a":1}\n', "audit/jellyfin_g39/key.json": '{"k":2}\n',
+             "audit/jellyfin_g39/sheet_r1.csv": "id,verdict,note\r\nx,TRUE,\r\n"}
+    ok_kit = k / "kit_ok"
+    _manifest_kit(ok_kit, files)
+    cases = []
+
+    def case(label, build_dir, setup, want_active, want_ok, must=None):
+        kd = k / f"kit_{len(cases)}"
+        if setup is not None:
+            setup(kd)
+        r = flip_guard(build_dir, kd)
+        hit = must is None or any(must in p for p in r["problems"])
+        cases.append(label)
+        check(f"K self-test: {label}", r["active"] is want_active and (not r["problems"]) == want_ok and hit,
+              {"active": r["active"], "problems": r["problems"][:6]})
+
+    def mk(**kw):
+        return lambda kd: _manifest_kit(kd, files, **kw)
+
+    def changed(kd):
+        _manifest_kit(kd, files)
+        _write(kd / "cs" / "delta_VT-cs_g39.json", '{"a":2}\n')
+
+    def deleted(kd):
+        _manifest_kit(kd, files)
+        (kd / "cs" / "audit" / "jellyfin_g39" / "key.json").unlink()
+
+    def other_sha(kd):
+        _manifest_kit(kd, files, record=False)
+        _write(kd / "DECISION_CS.md", "- G5b: `cs/MANIFEST.sha256` sha256 `" + "ab" * 32 + "`\n")
+
+    def two_shas(kd):
+        sha = _manifest_kit(kd, files, record=False)
+        _write(kd / "DECISION_CS.md", f"- `cs/MANIFEST.sha256`: `{sha}`\n- earlier `cs/MANIFEST.sha256`: `{'cd' * 32}`\n")
+
+    def sheet_md(kd):
+        _manifest_kit(kd, dict(files, **{"audit/jellyfin_g39/sheet.md": "# sheet\n"}))
+
+    def traversal(kd):
+        _write(kd / "x.json", "{}\n")
+        _manifest_kit(kd, files, extra_lines=(f"{hashlib.sha256(b'{}' + bytes([10])).hexdigest()}  ../x.json",))
+
+    case("inactive (csharp not a default) with nothing under cs/: holds, nothing required", off, None, False, True)
+    case("inactive with a broken manifest: holds (the guard applies only once csharp is a default)", off,
+         lambda kd: (_manifest_kit(kd, files), _write(kd / "cs" / "delta_VT-cs_g39.json", "changed\n")), False, True)
+    case("ACTIVE with no cs/ and no DECISION_CS.md: FAILS (the manifest is required)", on, None, True, False,
+         "MANIFEST.sha256 is missing")
+    case("ACTIVE with the manifest, every file matching and DECISION_CS.md recording its sha256: holds", on, mk(),
+         True, True)
+    case("ACTIVE through a defaults set that also holds python: holds the same way", on2, mk(), True, True)
+    case("ACTIVE, a listed file changed after the manifest: FAILS", on, changed, True, False, "differs")
+    case("ACTIVE, a listed file missing: FAILS", on, deleted, True, False, "missing")
+    case("ACTIVE, DECISION_CS.md records another sha256: FAILS", on, other_sha, True, False, "records")
+    case("ACTIVE, DECISION_CS.md records two different sha256s for the manifest: FAILS", on, two_shas, True, False,
+         "exactly one")
+    case("ACTIVE, no DECISION_CS.md: FAILS", on, mk(record=False), True, False, "DECISION_CS.md is missing")
+    case("ACTIVE, the manifest's paths out of byte order: FAILS", on,
+         mk(order=sorted(files, key=lambda s: s.encode("utf-8"), reverse=True)), True, False, "byte order")
+    case("ACTIVE, the manifest lists a path outside cs/ (`../x.json`): FAILS", on, traversal, True, False,
+         "inside cs/")
+    case("ACTIVE, the manifest lists a sheet.md: FAILS (never committed: it quotes corpus source)", on, sheet_md,
+         True, False, "sheet.md")
+    case("ACTIVE, a CRLF manifest: FAILS (its bytes are not the recorded ones)", on, mk(crlf=True), True, False, "CR")
+    case("an unreadable typed_calls.py: FAILS closed (the guard cannot clear the tree)", bad, mk(), None, False,
+         "cannot read")
+
+
+# =====================================================================================================
+# L — the C# reference truth_roslyn on its committed self-test (no .NET), and live when .NET is present
+# =====================================================================================================
+# The gate's own reading of PREREG_CS §8.2's contract on the self-test corpus (truth_roslyn/selftest/corpus/<path>.txt),
+# written from the sources: (file, line, name or None, site kind or None, col or None) -> what the row must say.
+CS_OH = "App/OrderHandler.cs"
+CS_FORMS = [(CS_OH, 29, "Find", "name_attr", "x.M(): a field"), (CS_OH, 30, "Log", "this", "this.M()"),
+            (CS_OH, 31, "Log", "super", "base.M()"), (CS_OH, 32, "Log", "bare", "M(): an implicit receiver"),
+            (CS_OH, 33, "Save", "recv", "this._f.M()"), (CS_OH, 34, "Handle", "name_attr", "x?.M() takes x.M()'s form"),
+            (CS_OH, 36, "Handle", "recv", "x[i].M()"), (CS_OH, 37, "Peek", "recv", "a cast receiver"),
+            (CS_OH, 41, "TaxOf", "name_attr", "a type name receiver"), (CS_OH, 42, "TaxOf", "recv", "global::..."),
+            (CS_OH, 43, "TaxOf", "recv", "a qualified type Ns.T.M()"),
+            (CS_OH, 44, "Join", "name_attr", "a predefined type keyword"), (CS_OH, 45, "Convert", "bare", "M<T>()"),
+            (CS_OH, 49, None, "other", "a[i]()"), (CS_OH, 38, "OrderHandler", "ctor", "new T(...)"),
+            ("App/Dispatch.cs", 27, "Order", "ctor", "target-typed new()")]
+CS_DEFSTACK = [("App/Members.cs", 5, "Compute", [], "a field initializer: no entry"),
+               ("App/Members.cs", 7, "Compute", [["Members.Auto", 7, []]], "a property initializer: the property"),
+               ("App/Members.cs", 33, "Compute", [["Members.Members", 31, []]], "the first (static) constructor"),
+               ("App/Members.cs", 38, "Compute", [["Members.Members", 36, [31]]],
+                "a constructor overload: alt = the first same-named member's line"),
+               ("App/Members.cs", 61, "Compute", [["Members.Spread", 55, [57, 59]]],
+                "attribute lists: line = the first attribute, alt = the line after them and the name line"),
+               ("App/Members.cs", 73, "Compute", [["Members.Over", 69, [64]], ["Members.Over.Local", 71, []]],
+                "a lambda is no entry, a local function is; an overload's alt"),
+               (CS_OH, 29, "Find", [["OrderHandler.Handle", 27, []]], "containing type, then the member"),
+               ("App/Program.cs", 3, "OrderRepository", [], "top-level statements: no entry")]
+
+
+def _cs_rows(doc, f, line, name=None, kind=None, col=None) -> list:
+    return [r for r in doc.get("rows") or [] if r.get("file") == f and r.get("line") == line
+            and (name is None or r.get("name") == name) and (kind is None or r.get("site_kind") == kind)
+            and (col is None or r.get("col") == col)]
+
+
+def _cs_locs(entries) -> list:
+    return sorted([e.get("file"), e.get("line")] for e in entries or [])
+
+
+def _cs_expect(doc, cases) -> list:
+    """The cases (file, line, name, {field: want} [, col]) that do not hold on `doc` (exactly one row each)."""
+    bad = []
+    for c in cases:
+        f, line, name, want = c[:4]
+        rows = _cs_rows(doc, f, line, name, col=c[4] if len(c) > 4 else None)
+        if len(rows) != 1:
+            bad.append(f"{f}:{line} {name}: {len(rows)} rows")
+            continue
+        r = rows[0]
+        for k, v in want.items():
+            got = (_cs_locs(r.get(k)) if k in ("defs", "dispatch") else
+                   [d.get("alt_lines") for d in r.get("defs") or []] if k == "def_alt" else
+                   [d.get("type") for d in r.get("defs") or []] if k == "def_types" else r.get(k))
+            if got != v:
+                bad.append(f"{f}:{line} {name}: {k} {got!r} != {v!r}")
+    return bad
+
+
+IOR, IMPL, FAKE, REPOS = ("Core/Domain/IOrderRepository.cs", "Infra/OrderRepository.cs",
+                          "tests/App.Tests/FakeOrderRepository.cs", "Core/Domain/Repositories.cs")
+SHP = "Core/Shapes/"
+CS_CATEGORIES = {
+    "overloads (graphify's one node for all overloads: the first same-named member's line is an alt line; an object "
+    "creation binds every declaration of a partial TYPE)": [
+        ("App/Members.cs", 77, "Over", {"defs": [["App/Members.cs", 64]], "def_alt": [[]]}, 26),
+        ("App/Members.cs", 77, "Over", {"defs": [["App/Members.cs", 69]], "def_alt": [[64]]}, 47),
+        ("App/Members.cs", 77, "Spread", {"defs": [["App/Members.cs", 55]], "def_alt": [[57, 59]]}),
+        ("Infra/OrderRepository.cs", 14, "Order", {"defs": [["Core/Domain/Order.Lines.cs", 3], ["Core/Domain/Order.cs", 5]],
+                                                   "def_types": ["class", "class"], "def_alt": [[], [6]]})],
+    "extension calls (the ReducedFrom method, in both call forms; no dispatch)": [
+        (CS_OH, 46, "Label", {"defs": [["Core/Domain/Pricing.cs", 10]], "dispatch": [], "form": "name_attr"}),
+        (CS_OH, 47, "Label", {"defs": [["Core/Domain/Pricing.cs", 10]], "dispatch": []})],
+    "interface dispatch (the interface member is the static def; the implementers of the receiver's construction "
+    "are the dispatch targets, a bodiless one dropped)": [
+        (CS_OH, 29, "Find", {"defs": [[IOR, 5]], "dispatch": [[IMPL, 7]], "dispatch_rule": "interface"}),
+        (CS_OH, 33, "Save", {"defs": [[IOR, 7]], "dispatch": [[IMPL, 9]], "dispatch_rule": "interface"}),
+        (CS_OH, 55, "Get", {"defs": [[REPOS, 5]], "dispatch": [[REPOS, 14]], "dispatch_dropped": {"bodiless": 1}})],
+    "override dispatch (every override below the receiver's static type, or the containing type for this. / an "
+    "implicit receiver; none for base., a sealed member or a `new` slot's other chain)": [
+        (CS_OH, 30, "Log", {"defs": [[CS_OH, 8]], "dispatch": [[CS_OH, 86]], "dispatch_rule": "override"}),
+        (CS_OH, 32, "Log", {"defs": [[CS_OH, 8]], "dispatch": [[CS_OH, 86]]}),
+        (CS_OH, 31, "Log", {"defs": [[CS_OH, 8]], "dispatch": []}),
+        ("App/Geometry.cs", 9, "Area", {"defs": [[SHP + "Shape.cs", 5]],
+                                        "dispatch": [[SHP + "Circle.cs", 5], [SHP + "Ring.cs", 5], [SHP + "Square.cs", 5]]}),
+        ("App/Geometry.cs", 10, "Area", {"defs": [[SHP + "Circle.cs", 5]], "dispatch": [[SHP + "Ring.cs", 5]]}),
+        ("App/Geometry.cs", 11, "Describe", {"defs": [[SHP + "Ring.cs", 7]], "dispatch": []}),
+        ("App/Geometry.cs", 12, "Describe", {"defs": [[SHP + "Square.cs", 7]], "dispatch": [[SHP + "Square.cs", 12]]}),
+        ("App/Geometry.cs", 13, "Describe", {"defs": [[SHP + "Shape.cs", 7]],
+                                             "dispatch": [[SHP + "Circle.cs", 7], [SHP + "Ring.cs", 7]]})],
+    "test-file exclusion (a non-test caller drops a test-file target; a test caller keeps it)": [
+        (CS_OH, 29, "Find", {"dispatch": [[IMPL, 7]], "dispatch_dropped": {"test_file": 1}}),
+        (CS_OH, 33, "Save", {"dispatch": [[IMPL, 9]], "dispatch_dropped": {"test_file": 1}}),
+        ("tests/App.Tests/HandlerTests.cs", 11, "Find", {"dispatch": [[IMPL, 7], [FAKE, 7]], "dispatch_dropped": {}})],
+}
+# Extra probes of the replicated test rule (both corpora's shapes), beside truth_roslyn.PROBE_PATHS.
+CS_TEST_PROBES = ("tests/Ordering.UnitTests/Builders.cs", "src/Ordering.API/Application/Commands/X.cs",
+                  "Jellyfin.Server/Migrations/JellyfinMigrationService.cs", "src/MyApp.Tests/A.cs", "Foo.Test.cs",
+                  "a/TEST/b.cs", "x/Spec/y.cs", "x_spec.rb", "a.spec.tsx", "Foo_test.go", "FooTest.java", "e2e.cs",
+                  "src/__mocks__/m.ts", "Testing/T.cs", "fuzz/Jellyfin.Api.Fuzz/Program.cs",
+                  # the .NET test-project directory rule (build/sync.py _DOTNET_TEST_DIR_SUFFIXES), shapes beside
+                  # truth_roslyn's own probes
+                  "src/Ordering.FunctionalTests/A.cs", "SRC/SHOP.INTEGRATIONTESTS/X.CS", "src/Shop.Tests.Helpers/X.cs",
+                  "src/Shop.Testing/X.cs", "src/Shop.Tests", "src/Shop.Tests/", "Shop.Specs\\Steps\\X.cs",
+                  "src/Shop.UnitTest/Sub/Deeper/X.cs", "src/.tests/X.cs", "src/Tests.Shop/X.cs")
+
+
+def _cs_synthetic_dump(edges=()) -> dict:
+    """Graph nodes for the self-test corpus's callers and targets the L scoring checks read (keys are short names)."""
+    def n(key, label, name, f, line):
+        return {"key": key, "label": label, "name": name, "source_file": f, "start_line": line, "end_line": None}
+    nodes = [n("m_oh", "Module", "OrderHandler", CS_OH, 1), n("m_ht", "Module", "HandlerTests",
+                                                               "tests/App.Tests/HandlerTests.cs", 1),
+             n("h", "Method", "OrderHandler.Handle", CS_OH, 27), n("t", "Method", "HandlerTests.Finds",
+                                                                 "tests/App.Tests/HandlerTests.cs", 9),
+             n("iF", "Method", "IOrderRepository.Find", IOR, 5), n("iS", "Method", "IOrderRepository.Save", IOR, 7),
+             n("oF", "Method", "OrderRepository.Find", IMPL, 7), n("oS", "Method", "OrderRepository.Save", IMPL, 9),
+             n("fF", "Method", "FakeOrderRepository.Find", FAKE, 7), n("lg", "Method", "BaseHandler.Log", CS_OH, 8),
+             n("sl", "Method", "SpecialHandler.Log", CS_OH, 86), n("cp", "Method", "Members.Compute", "App/Members.cs", 80)]
+    return {"schema": "call-linking/offline-calls/1", "nodes": nodes, "edges": [list(e) for e in edges], "flags": {}}
+
+
+def gate_l(mods: dict, kit: Path, base: Path) -> None:
+    print("\n-- L: the C# reference truth_roslyn — its committed self-test through the adapter (no .NET), the gate's own "
+          "reading of the contract, the kit scoring it; live when .NET SDK 8.0.202 is present --")
+    TR, C, D = mods.get("truth_roslyn"), mods.get("_common"), mods.get("delta")
+    if TR is None:
+        check("truth_roslyn imports (section A)", False)
+        return
+    try:
+        probs = TR.check_selftest()
+    except Exception as exc:  # noqa: BLE001 — RED, never a crash of the section
+        probs = [f"check_selftest crashed: {exc!r}"]
+    check("truth_roslyn selftest --check: the captured selftest/sites.jsonl converts through the adapter to "
+          "selftest/truth.json byte for byte, and every selftest/expect.json assertion holds (no .NET)", not probs,
+          probs[:8])
+    S = _fresh_sync()
+    product = S._is_test_path
+    try:
+        header, rows = TR.read_sites(kit / "truth_roslyn" / "selftest" / "sites.jsonl")
+        # the contract's derivation with the PRODUCT's own test rule (PREREG_CS §8.2), so a drifted replica (the
+        # next check) never hides the rest of this section
+        doc = TR.to_truth(header, rows, product)
+    except Exception as exc:  # noqa: BLE001
+        check("the adapter's derivation (truth_roslyn.to_truth) reads the captured raw sites", False, repr(exc))
+        return
+    bad = TR.test_rule_disagreements(TR.touched_paths(rows) + list(CS_TEST_PROBES), product)
+    n_paths = len(set(TR.touched_paths(rows)) | set(TR.PROBE_PATHS) | set(CS_TEST_PROBES))
+    check(f"truth_roslyn.is_test_path == build/sync.py _is_test_path on every path the self-test touches, "
+          f"truth_roslyn.PROBE_PATHS and the gate's own C# probes ({n_paths} paths; a product change to the rule must "
+          f"be replicated, or truth_roslyn refuses every run)", not bad, bad[:10])
+    consts = {k: (getattr(TR, k, None), getattr(S, k, None)) for k in ("_TEST_DIR_PARTS", "_DOTNET_TEST_DIR_SUFFIXES")}
+    check("the replica's constants == the product's (truth_roslyn._TEST_DIR_PARTS == build/sync.py's, and "
+          "_DOTNET_TEST_DIR_SUFFIXES the same tuple): the .NET test-project directory rule is copied, not "
+          "re-derived", all(a is not None and b is not None and (set(a) == set(b) if "PARTS" in k else tuple(a) ==
+                                                                tuple(b)) for k, (a, b) in consts.items()), consts)
+    probes = list(TR.PROBE_PATHS)
+    comps = [c for p in probes for c in p.replace("\\", "/").split("/")[:-1]]
+    uncovered = ([f"suffix {s}" for s in getattr(S, "_DOTNET_TEST_DIR_SUFFIXES", ()) if not any(
+        c.lower().endswith(s) for c in comps)] + [f"dir {d}" for d in getattr(S, "_TEST_DIR_PARTS", ()) if not any(
+            c.lower() == d for c in comps)])
+    lookalike = [p for p in probes if not product(p) and any("test" in c.lower() or "spec" in c.lower() for c in
+                                                            p.replace("\\", "/").split("/")[:-1])]
+    cased = [p for p in probes if product(p) and any(c != c.lower() and c.lower().endswith(
+        tuple(getattr(S, "_DOTNET_TEST_DIR_SUFFIXES", ()) or ("\0",))) for c in p.replace("\\", "/").split("/")[:-1])]
+    check("truth_roslyn.PROBE_PATHS exercises every branch of the product's directory rule: each test-directory name "
+          "and each .NET test-project suffix as a directory component, a suffix in another letter case, and production "
+          "look-alikes the rule must NOT match (a 'test' / 'spec' inside a production directory name)",
+          not uncovered and lookalike and cased, {"uncovered": uncovered, "look-alikes": lookalike[:4],
+                                                  "case variants": cased[:4]})
+    try:
+        recorded = (header.get("resolver") or {}).get("tool_sources_sha256")
+        current = TR.sources_sha256()
+    except Exception as exc:  # noqa: BLE001
+        recorded, current = None, repr(exc)
+    check("the captured self-test was made by the tool built from the CURRENT sources: selftest/sites.jsonl's "
+          "resolver.tool_sources_sha256 == truth_roslyn.sources_sha256() (an edit of Program.cs, the csproj, "
+          "global.json or nuget.config that was not re-captured fails here, without .NET too)",
+          isinstance(recorded, str) and len(recorded) == 64 and recorded == current, {"recorded": recorded,
+                                                                                     "current sources": current})
+    shape_bad = []
+    for r in doc["rows"]:
+        if not isinstance(r.get("dispatch"), list) or not isinstance(r.get("defs"), list):
+            shape_bad.append(f"{r.get('file')}:{r.get('line')}: defs / dispatch not lists")
+            continue
+        for e in r["defs"] + r["dispatch"]:
+            if set(e) != set(TR.ENTRY_KEYS):
+                shape_bad.append(f"{r['file']}:{r['line']}: entry keys {sorted(e)}")
+    check("every truth row carries `dispatch` (a list, empty when none) and every defs and dispatch entry has exactly "
+          "the same shape (truth_roslyn.ENTRY_KEYS: the call-linking/truth/1 def fields file, line, alt_lines, type, "
+          "name plus full_name, interface, body)",
+          not shape_bad and {"file", "line", "alt_lines", "type", "name"} <= set(TR.ENTRY_KEYS), shape_bad[:6])
+    if C is not None:
+        try:
+            C.check_truth_shape(doc)
+            refusal = None
+        except ValueError as exc:
+            refusal = str(exc)
+        check("the kit reads the reference as a dispatch truth (_common.has_dispatch; check_truth_shape accepts it)",
+              C.has_dispatch(doc) and refusal is None, refusal)
+    forms_bad = [f"{f}:{ln} {nm}: {len(rs)} rows" if len(rs) != 1 else f"{f}:{ln} {nm} ({why_}): {rs[0].get('form')}"
+                 for f, ln, nm, form, why_ in CS_FORMS
+                 for rs in [_cs_rows(doc, f, ln, nm, "object_creation" if form == "ctor" else "invocation")]
+                 if len(rs) != 1 or rs[0].get("form") != form]
+    nameof = _cs_rows(doc, CS_OH, 51)
+    check(f"forms, read from the syntax (bare / this / super / name_attr / recv / ctor / other; {len(CS_FORMS)} sites), "
+          f"and nameof(...) is no site", not forms_bad and not nameof, (forms_bad, len(nameof)))
+    ds_bad = [f"{f}:{ln} {nm} ({w}): {[r.get('defstack') for r in rs]}"
+              for f, ln, nm, want, w in CS_DEFSTACK for rs in [_cs_rows(doc, f, ln, nm)]
+              if len(rs) != 1 or rs[0].get("defstack") != want]
+    check(f"defstack: the enclosing members, outermost first, [qualified name, first line counting attribute lists, "
+          f"alt lines] ({len(CS_DEFSTACK)} sites)", not ds_bad, ds_bad)
+    for label, cases in CS_CATEGORIES.items():
+        bad = _cs_expect(doc, cases)
+        check(f"{label} ({len(cases)} sites)", not bad, bad)
+    # the adapter's derivations on synthetic raw rows (pure functions; the captured file is not involved)
+    t = {"name": "Find", "full_name": "I.Find", "interface": True, "decls": [{"file": "src/I.cs", "line": 2,
+                                                                             "alt_lines": [], "body": False}]}
+    raw = {"file": "src/A.cs", "line": 3, "col": 4, "form": "name_attr", "name": "Find", "resolution": "symbol",
+           "site_kind": "invocation", "target": t, "dispatch_raw": [
+               {"file": "src/Impl.cs", "line": 5, "alt_lines": [4], "name": "Find", "full_name": "Impl.Find",
+                "interface": False, "body": True},
+               {"file": "src/Abs.cs", "line": 7, "name": "Find", "full_name": "Abs.Find", "body": False},
+               {"file": "tests/Fake.cs", "line": 3, "name": "Find", "full_name": "Fake.Find", "body": True},
+               {"file": "src/Impl.cs", "line": 5, "name": "Find", "full_name": "Impl.Find", "body": True}]}
+    over = {"file": "src/B.cs", "line": 9, "col": 4, "form": "this", "name": "Run", "resolution": "symbol",
+            "site_kind": "invocation", "target": {"name": "Run", "full_name": "B.Run", "interface": False,
+                                                  "decls": [{"file": "src/B.cs", "line": 4, "body": True}]},
+            "dispatch_raw": [{"file": "src/B.cs", "line": 4, "name": "Run", "body": True},
+                             {"file": "src/D.cs", "line": 2, "name": "Run", "body": True}]}
+    try:
+        r1, r1t = TR.truth_row(raw, product), TR.truth_row(dict(raw, file="tests/T.cs"), product)
+        r2 = TR.truth_row(over, product)
+        r3 = TR.truth_row(dict(raw, resolution="candidates"), product)
+        r4 = TR.truth_row(dict(raw, site_kind="object_creation", dispatch_raw=[]), product)
+        got = {"defs": (_cs_locs(r1["defs"]), [d["interface"] for d in r1["defs"]], [d["type"] for d in r1["defs"]]),
+               "dispatch": _cs_locs(r1["dispatch"]), "dropped": r1["dispatch_dropped"],
+               "test_caller": (_cs_locs(r1t["dispatch"]), r1t["dispatch_dropped"]),
+               "static_target": (_cs_locs(r2["dispatch"]), r2["dispatch_dropped"]),
+               "candidates": (r3["defs"], r3["dispatch"]), "creation": [d["type"] for d in r4["defs"]],
+               "alt": [d["alt_lines"] for d in r1["dispatch"]]}
+    except Exception as exc:  # noqa: BLE001
+        got = repr(exc)
+    check("the adapter on synthetic raw rows: defs = the symbol's declarations (an object creation: type class; "
+          "candidates only: none); dispatch drops bodiless targets, S's own location and, for a non-test caller only, "
+          "test-file targets, each once",
+          got == {"defs": ([["src/I.cs", 2]], [True], ["function"]), "dispatch": [["src/Impl.cs", 5]],
+                  "dropped": {"bodiless": 1, "test_file": 1},
+                  "test_caller": ([["src/Impl.cs", 5], ["tests/Fake.cs", 3]], {"bodiless": 1}),
+                  "static_target": ([["src/D.cs", 2]], {"static_target": 1}), "candidates": ([], []),
+                  "creation": ["class"], "alt": [[4]]}, got)
+    if C is not None:
+        gate_l_scoring(C, D, doc)
+    gate_l_live(TR, kit, base)
+
+
+def gate_l_scoring(C, D, doc) -> None:
+    """The kit's C# scoring (PREREG_CS §8.5) on the reference's own output: T_s / T_d, the classification, the G4c
+    interface fact, delta's verdict and G2d."""
+    dump = _cs_synthetic_dump()
+    try:
+        P = C.truth_pairs_cs(doc, dump["nodes"])
+        Ts, Td = set(P["Ts"]), set(P["Td"])
+    except Exception as exc:  # noqa: BLE001
+        check("_common.truth_pairs_cs reads the reference truth", False, repr(exc))
+        return
+    want_s = {("h", "iF"), ("h", "iS"), ("h", "lg"), ("t", "iF")}
+    want_d = {("h", "oF"), ("h", "oS"), ("h", "sl"), ("t", "oF"), ("t", "fF")}
+    check("T_s holds the static pairs (Handle -> IOrderRepository.Find / .Save, BaseHandler.Log; the test's Finds -> "
+          "IOrderRepository.Find); T_d the dispatch pairs minus T_s (the implementers, the override, the test's fake); "
+          "the non-test caller's fake is in neither",
+          want_s <= Ts and want_d <= Td and not (Ts & Td) and ("h", "fF") not in Ts | Td,
+          {"Ts": sorted(Ts), "Td": sorted(Td)})
+    name_of = {n["key"]: n["name"] for n in dump["nodes"]}
+    verdict = {p: C.classify_pair_cs(p, P["Ts"], P["Td"], P["by_cn"], name_of)
+               for p in (("h", "iF"), ("h", "oF"), ("h", "fF"), ("h", "cp"))}
+    check("§8.5's classification: Handle -> IOrderRepository.Find confirmed, -> OrderRepository.Find "
+          "dispatch-confirmed, -> FakeOrderRepository.Find (a test fake) refuted, -> Members.Compute (no such site) "
+          "unverified", verdict == {("h", "iF"): "confirmed", ("h", "oF"): C.DISPATCH_CONFIRMED,
+                                    ("h", "fF"): "refuted", ("h", "cp"): "unverified"}, verdict)
+    def ref_iface(r):   # the reference's own answer: the row's dispatch rule, else its static defs' `interface`
+        return r.get("dispatch_rule") == "interface" if r.get("dispatch") else any(
+            d.get("interface") is True for d in r.get("defs") or [])
+    unknown = [f"{r['file']}:{r['line']} {r.get('name')} ({r.get('dispatch_rule')}): _static_iface -> "
+               f"{C._static_iface(r)!r}, the reference says {ref_iface(r)}" for r in doc["rows"]
+               if (r.get("dispatch") or r.get("defs")) and C._static_iface(r) is not ref_iface(r)]
+    check("G4c's input (and §8.5's fallback stratum's) is computable from the reference: for every resolved row and "
+          "every row with dispatch targets, the kit's _common._static_iface (\"does the site bind statically to an "
+          "interface member\") is the reference's own answer (the dispatch rule `interface`; the static defs' "
+          "`interface`), never None", not unknown and any(r.get("dispatch") for r in doc["rows"]),
+          f"{len(unknown)} rows, e.g. {unknown[:6]}")
+    if D is not None:
+        base = _cs_synthetic_dump()
+        var = _cs_synthetic_dump([("h", "iF", "INFERRED"), ("h", "oF", "INFERRED"), ("h", "fF", "INFERRED"),
+                                  ("h", "cp", "INFERRED")])
+        try:
+            dl = D.delta(base, var, doc)
+            items = {(i["caller"], i["callee"]): (i.get("verdict"), i.get("verdict_static"))
+                     for i in dl["items"]["added"]}
+            g2d = (dl.get("cs") or {}).get("g2d_added_nontest_to_test")
+        except Exception as exc:  # noqa: BLE001
+            items, g2d = repr(exc), None
+        check("delta.py on the reference: the verdict covers dispatch-confirmed (the static-only verdict beside it reads "
+              "the implementer edge as refuted), and G2d counts the non-test caller's edge to the test fake (1)",
+              items == {("h", "iF"): ("confirmed", "confirmed"), ("h", "oF"): (C.DISPATCH_CONFIRMED, "refuted"),
+                        ("h", "fF"): ("refuted", "refuted"), ("h", "cp"): ("unverified", "unverified")} and g2d == 1,
+              (items, g2d))
+
+
+def _dotnet_problem(TR, header) -> "tuple[str | None, str | None]":
+    """(dotnet, None) when the live re-run can reproduce the capture — .NET SDK 8.0.202, the 8.0.3 reference packs, the
+    captured packages (Microsoft.CodeAnalysis 4.8.0 and its closure) in the local packages folder, and the runtime the
+    capture recorded as the one `dotnet` rolls forward to — else (None, why not)."""
+    dotnet = TR.dotnet_exe()
+    if not dotnet:
+        return None, "no `dotnet` on PATH (or DOTNET)"
+
+    def run(*args):
+        try:
+            p = subprocess.run([dotnet, *args], capture_output=True, text=True, timeout=120,
+                               env=dict(os.environ, DOTNET_CLI_TELEMETRY_OPTOUT="1", DOTNET_NOLOGO="1"))
+            return p.stdout if p.returncode == 0 else ""
+        except (OSError, subprocess.SubprocessError):
+            return None
+    sdks = run("--list-sdks")
+    if sdks is None:
+        return None, f"`{dotnet}` does not run"
+    if not re.search(rf"^{re.escape(TR.WANT_SDK)} \[", sdks, re.M):
+        return None, f".NET SDK {TR.WANT_SDK} is not installed"
+    rts = re.findall(r"^Microsoft\.NETCore\.App (\d+)\.(\d+)\.(\d+) \[(.+)\]$", run("--list-runtimes") or "", re.M)
+    eight = sorted(((int(c), v) for a, b, c, v in rts if (a, b) == ("8", "0")), key=lambda x: x[0])
+    if not eight:
+        return None, "no .NET 8.0 runtime"
+    roots = {Path(v).parent.parent for _c, v in eight}
+    for pack in ("Microsoft.NETCore.App.Ref", "Microsoft.AspNetCore.App.Ref"):
+        if not any((r / "packs" / pack / "8.0.3" / "ref" / "net8.0").is_dir() for r in roots):
+            return None, f"the reference pack {pack} 8.0.3 is not installed"
+    res = header.get("resolver") or {}
+    pkgs = Path(os.environ.get("NUGET_PACKAGES") or (Path.home() / ".nuget" / "packages"))
+    missing = [f"{n} {v}" for n, v in sorted((res.get("packages") or {}).items())
+               if not (pkgs / n.lower() / v).is_dir()]
+    if missing or not res.get("packages"):
+        return None, f"not in the local packages folder {pkgs}: {missing or 'the capture names no package'}"
+    runtime = f"8.0.{eight[-1][0]}"
+    if res.get("runtime") != runtime:
+        return None, (f"the capture records runtime {res.get('runtime')}, `dotnet` here rolls forward to {runtime}: "
+                      f"re-capture with `truth_roslyn.py selftest --update` to compare on this machine")
+    return dotnet, None
+
+
+def gate_l_live(TR, kit: Path, base: Path) -> None:
+    """The live re-run: the tool on the self-test corpus must reproduce the committed sites.jsonl and truth.json byte
+    for byte. Run from a temporary copy of the tool (its bin/ copied when built from the current sources, else built
+    there), so the gate writes nothing into this repository."""
+    try:
+        header, _rows = TR.read_sites(kit / "truth_roslyn" / "selftest" / "sites.jsonl")
+    except Exception as exc:  # noqa: BLE001
+        check("L live: the captured header reads", False, repr(exc))
+        return
+    dotnet, why = _dotnet_problem(TR, header)
+    if dotnet is None:
+        skip("L live: truth_roslyn selftest re-run (.NET)", why)
+        return
+    tk = base / "tr_live"
+    tool = tk / "truth_roslyn"
+    try:
+        tool.mkdir(parents=True)
+        for f in ("truth_roslyn.py", "_common.py"):
+            shutil.copy2(kit / f, tk / f)
+        for f in TR.SOURCES:
+            shutil.copy2(kit / "truth_roslyn" / f, tool / f)
+        shutil.copytree(kit / "truth_roslyn" / "selftest", tool / "selftest")
+        if not TR.needs_build():
+            shutil.copytree(kit / "truth_roslyn" / "bin", tool / "bin")
+        env = dict(os.environ, CALL_LINKING_BUILD=str(BUILD), CALL_LINKING_REPO=str(REPO), PYTHONUTF8="1",
+                   PYTHONHASHSEED="0")
+        t0 = time.time()
+        p = subprocess.run([sys.executable, "-X", "utf8", str(tk / "truth_roslyn.py"), "selftest"], cwd=str(tk),
+                           capture_output=True, text=True, encoding="utf-8", errors="replace", env=env, timeout=1800)
+        tail = (p.stdout + p.stderr)[-1500:]
+        check(f"L live: the reference tool (.NET SDK {TR.WANT_SDK}, runtime {header['resolver'].get('runtime')}, "
+              f"Roslyn {TR.WANT_ROSLYN}) re-run on the self-test corpus reproduces the committed sites.jsonl and "
+              f"truth.json byte for byte, and expect.json holds ({time.time() - t0:.0f} s"
+              f"{'' if TR.needs_build() is False else ', built in a temp copy'})",
+              p.returncode == 0 and "selftest: PASS" in p.stderr, tail)
+    except Exception as exc:  # noqa: BLE001 — RED, never a crash of the section
+        check("L live: truth_roslyn selftest re-run", False, f"{exc!r}\n{traceback.format_exc()[-600:]}")
+
+
+# =====================================================================================================
+# M — the kit's other D3-cs rules (PREREG_CS §8.6 "Kit changes"), on the reference's self-test and synthetic inputs
+# =====================================================================================================
+def gate_m(mods: dict, kit: Path) -> None:
+    print("\n-- M: the kit's D3-cs rules — compare_calls' C# fields and pool --family=cs, impact_spot's T_s ∪ T_d "
+          "reference and exactly-one-node check, audit_sample's C# call shapes / sheet / removed_all_exact, "
+          "offline_calls' interface-mode rule --")
+    TR, C, CC, IS, AS, OC = (mods.get(m) for m in ("truth_roslyn", "_common", "compare_calls", "impact_spot",
+                                                    "audit_sample", "offline_calls"))
+    if None in (TR, C, CC, IS, AS, OC):
+        check("the kit modules M reads import (section A)", False)
+        return
+    try:
+        header, rows = TR.read_sites(kit / "truth_roslyn" / "selftest" / "sites.jsonl")
+        doc = TR.to_truth(header, rows, _fresh_sync()._is_test_path)
+    except Exception as exc:  # noqa: BLE001
+        check("the self-test truth reads (section L)", False, repr(exc))
+        return
+    edges = [("h", "iF", "INFERRED"), ("h", "oF", "INFERRED"), ("h", "fF", "AMBIGUOUS"), ("h", "cp", "INFERRED")]
+    dump = _cs_synthetic_dump(edges)
+    P = C.truth_pairs_cs(doc, dump["nodes"])
+    try:
+        s = CC.score(doc, dump)
+        got = {k: s.get(k) for k in ("truth_kind", "G", "confirmed", "dispatch_confirmed", "refuted", "unverified",
+                                     "recall", "dispatch_recall", "refuted_share", "ambiguous_share")}
+        got["static_only"] = {k: (s.get("static_only") or {}).get(k) for k in ("confirmed", "refuted", "unverified")}
+        got["T"] = (s.get("T_s"), s.get("T_d"))
+    except Exception as exc:  # noqa: BLE001
+        s, got = None, repr(exc)
+    want = {"truth_kind": "dispatch", "G": 4, "confirmed": 1, "dispatch_confirmed": 1, "refuted": 1, "unverified": 1,
+            "recall": round(1 / len(P["Ts"]), 4), "dispatch_recall": round(1 / len(P["Td"]), 4),
+            "refuted_share": 0.25, "ambiguous_share": 0.25,
+            "static_only": {"confirmed": 1, "refuted": 2, "unverified": 1}, "T": (len(P["Ts"]), len(P["Td"]))}
+    check("compare_calls on a dispatch truth (§8.6 G): confirmed / dispatch-confirmed / refuted / unverified, recall over "
+          "T_s, dispatch recall over T_d, the refuted and AMBIGUOUS shares, the static-only classification beside it "
+          "(the implementer edge reads refuted there)", got == want, {"got": got, "want": want})
+    try:
+        sp = CC.score(doc, dump, ["App/"])
+        pl = CC.pool([s, s], "cs")
+        forms = C.RECEIVER_FORMS["cs"]
+        rn = 2 * sum((s["by_form"].get(f) or {}).get("n", 0) for f in forms)
+        rh = 2 * sum((s["by_form"].get(f) or {}).get("hit", 0) for f in forms)
+        got = (pl.get("receiver_forms"), pl.get("receiver_n"), pl.get("receiver_hit"), pl.get("dispatch_n"),
+               pl.get("dispatch_hit"))
+        jedi = {"by_form": {"recv": {"n": 1, "hit": 0}}, "flags": {}}
+        refusals = (CC.pool_problem([("a", s), ("b", jedi)], "cs"), CC.pool_problem([("a", s)], "py"),
+                    CC.pool_problem([("a", s), ("b", sp)], "cs"), CC.pool_problem([("a", s), ("b", s)], "cs"))
+        ok_ref = [r[0] if r else None for r in refusals] == [2, 2, 2, None]
+    except Exception as exc:  # noqa: BLE001
+        got, rn, rh, ok_ref, refusals = repr(exc), None, None, False, None
+    check("compare_calls pool --family=cs: the receiver forms name_attr + recv + this pooled over T_s and the dispatch "
+          "recall over T_d; it refuses a jedi / tsc score, a dispatch score under another family, and a mix of "
+          "whole-graph and --src-prefix scores (exit 2)",
+          got == (list(forms), rn, rh, 2 * len(P["Td"]), 2) and ok_ref, (got, (rn, rh), refusals))
+    ref = C.truth_as_dump(doc, dump)
+    grades = {(a, b): g for a, b, g in ref["edges"]}
+    r = IS.spot(ref, dump, "OrderRepository.Find@" + IMPL)
+    check("impact_spot's reference for a dispatch truth is T_s ∪ T_d (truth_as_dump: TRUTH / TRUTH_DISPATCH): "
+          "OrderRepository.Find's hop-1 callers are Handle and the test's Finds, both through dispatch",
+          grades.get(("h", "iF")) == "TRUTH" and grades.get(("h", "oF")) == "TRUTH_DISPATCH"
+          and set(IS.callers(ref, {"oF"})) == {"h", "t"} and r["ref"] == 2 and r["hit"] == 1,
+          (sorted(grades.items())[:8], r))
+    two = _cs_synthetic_dump(edges)
+    two["nodes"].append(dict(next(n for n in two["nodes"] if n["key"] == "oF"), key="oF2", start_line=99))
+    base_sat = _cs_synthetic_dump([("h", "oF", "INFERRED"), ("t", "oF", "INFERRED")])
+    probs = {k: IS.spot_problems(doc, d, sym)[1] for k, d, sym in (
+        ("ok", dump, "OrderRepository.Find@" + IMPL), ("two nodes", two, "OrderRepository.Find@" + IMPL),
+        ("no caller", dump, "Members.Compute@App/Members.cs"), ("saturated", base_sat, "OrderRepository.Find@" + IMPL))}
+    check("impact_spot.spot_problems (§8.3's substitution checks): a spot passes; one mapping to two nodes, one the "
+          "reference gives no hop-1 caller, and one whose V0 recall is already 1 (SATURATED) are each named",
+          probs["ok"] == [] and any("exactly one" in p for p in probs["two nodes"])
+          and any("no hop-1 caller" in p for p in probs["no caller"])
+          and any("SATURATED" in p for p in probs["saturated"]), probs)
+    shapes = {"x.Get(1)": True, "x?.Get(1)": True, "Get(1)": True, "x.Get<Order>(1)": True, "x?.Get<int>(2)": True,
+              "Map<Dictionary<string, List<int>>>(y)": True, "Pick<(int, string)>(t)": True, "FooGet(1)": False,
+              "x.GetAll(1)": False, "if (a < Get && b > (c))": False, "var g = Get;": False}
+    names = {k: ("Map" if k.startswith("Map") else "Pick" if k.startswith("Pick") else "Get") for k in shapes}
+    got = {k: AS._cs_call_in(k, names[k]) for k in shapes}
+    check("audit_sample's C# call-site lines (§8.6 A): `M(`, `?.M(` and `M<...>(` with nested type arguments and tuples "
+          "match; a longer name, a comparison and a method group do not", got == shapes,
+          {k: v for k, v in got.items() if v != shapes[k]})
+    sheet_cs, sheet_py = AS.render_sheet("x", [], cs=True), AS.render_sheet("x", [], cs=False)
+    check("the C# audit sheet carries the §8.6 A sentence verbatim, a non-C# sheet does not",
+          AS.CS_SHEET_SENTENCE in sheet_cs and AS.CS_SHEET_SENTENCE not in sheet_py)
+    b = {"removed": {"n": 10, "false": 10, "wilson_lb": 0.7225}, "removed_confirmed": {"n": 5, "false": 5}}
+    census = {"removed": {"population": 10, "sampled": 10}, "removed_confirmed": {"population": 5, "sampled": 5}}
+    sampled = {"removed": {"population": 40, "sampled": 10}, "removed_confirmed": {"population": 5, "sampled": 5}}
+    try:
+        got = (AS.removed_all(b, census)["lower_bound"], AS.removed_all_exact(b, census)["lower_bound"],
+               AS.removed_all_exact(b, sampled)["lower_bound"])
+    except Exception as exc:  # noqa: BLE001
+        got = repr(exc)
+    check("removed_all_exact (§8.6 A, reading 2): a stratum audited in full counts at its exact share (10/10 + 5/5 -> "
+          "1.0) where removed_all keeps the Wilson bound (0.8150); a stratum sampled below its population keeps its "
+          "Wilson bound in both", got == (round((10 * 0.7225 + 5) / 15, 4), 1.0, round((40 * 0.7225 + 5) / 45, 4)), got)
+    left = {k: OC._switches_left_off({"DEEPMAP_TYPED_CALLS_IFACE": f}, {"typed_iface": e}) for k, (f, e) in {
+        "static asked, static on": ("static", ["static"]), "static asked, both on": ("static", ["impl", "static"]),
+        "0 asked, none on": ("0", []), "0 asked, static on": ("0", ["static"]),
+        "static asked, not reported": ("static", None)}.items()}
+    check("offline_calls' interface-mode rule (§8.4): DEEPMAP_TYPED_CALLS_IFACE must be turned on exactly as asked "
+          "(static -> [static]; 0 -> []) or the arm is inert, VOID",
+          {k: bool(v) for k, v in left.items()} == {"static asked, static on": False, "static asked, both on": True,
+                                                     "0 asked, none on": False, "0 asked, static on": True,
+                                                     "static asked, not reported": True}, left)
+    S = _fresh_sync()
+    eff = {}
+    for label, env in (("VT-cs", {}), ("VT-cs-ifs", {"DEEPMAP_TYPED_CALLS_IFACE": "static"}),
+                       ("VT-cs-if0", {"DEEPMAP_TYPED_CALLS_IFACE": "0"})):
+        with _env(**_graph_flags_cleared()), _env(DEEPMAP_TYPED_CALLS="csharp", **env):
+            e = OC.effective_switches(S)
+            eff[label] = (e.get("typed_languages"), e.get("typed_iface"))
+    blocks = {k: tuple(map(repr, v)) for k, v in eff.items()}
+    check("offline_calls' effective block reports the interface-dispatch modes through the product: VT-cs, VT-cs-ifs "
+          "and VT-cs-if0 differ (never an inert pair); csharp on in each", len(set(blocks.values())) == 3
+          and all(v[0] and "csharp" in v[0] for v in eff.values()) and eff["VT-cs-ifs"][1] == ["static"]
+          and eff["VT-cs-if0"][1] == [], eff)
+
+
+# =====================================================================================================
+# N — the D3-cs rules on synthetic rows (PREREG_CS AC5-AC16): the teeth the kit check's mutants found missing
+# =====================================================================================================
+# One synthetic C# corpus in the kit's truth / dump shapes, written from PREREG_CS §8.2 / §8.5 and the amendments
+# (never from the kit's output): a caller Service.Run that calls an interface member (two implementers, one a test
+# fake), an abstract member with an override, the override itself through a concrete receiver (so one pair is in
+# T_s AND among the dispatch targets), a virtual member with an override; Service.Other whose only `Get` site binds
+# statically OUTSIDE the corpus (no def) with an in-corpus implementer; a test caller; a non-production caller; a
+# `.CS` (upper-case) caller; a Python caller.
+NF = {"svc": "src/Shop/Service.cs", "irepo": "src/Shop/IRepo.cs", "sql": "src/Shop/SqlRepo.cs",
+      "mem": "src/Shop/MemRepo.cs", "shape": "src/Shop/Shape.cs", "circle": "src/Shop/Circle.cs",
+      "order": "src/Shop/Order.cs", "big": "src/Shop/BigOrder.cs", "fake": "tests/Shop.Fakes/FakeRepo.cs",
+      "rtest": "tests/Shop.Tests/RepoTests.cs", "demo": "samples/Demo.cs", "legacy": "src/Shop/Legacy.CS",
+      "tool": "tools/gen.py"}
+N_NODES = [("m_svc", "Module", "Service", NF["svc"], 1), ("run", "Method", "Service.Run", NF["svc"], 10),
+           ("oth", "Method", "Service.Other", NF["svc"], 20), ("iG", "Method", "IRepo.Get", NF["irepo"], 3),
+           ("iS", "Method", "IRepo.Save", NF["irepo"], 4), ("sG", "Method", "SqlRepo.Get", NF["sql"], 5),
+           ("sS", "Method", "SqlRepo.Save", NF["sql"], 9), ("mG", "Method", "MemRepo.Get", NF["mem"], 5),
+           ("shA", "Method", "Shape.Area", NF["shape"], 3), ("cA", "Method", "Circle.Area", NF["circle"], 4),
+           ("oT", "Method", "Order.Total", NF["order"], 3), ("bT", "Method", "BigOrder.Total", NF["big"], 3),
+           ("fG", "Method", "FakeRepo.Get", NF["fake"], 5), ("tst", "Method", "RepoTests.Finds", NF["rtest"], 7),
+           ("demo", "Method", "Demo.Show", NF["demo"], 3), ("leg", "Method", "Legacy.Call", NF["legacy"], 2),
+           ("gen", "Function", "main", NF["tool"], 1)]
+
+
+def _ne(f, line, name, iface=False, body=True, typ="function"):
+    """A defs / dispatch entry of the reference's contract (truth_roslyn.ENTRY_KEYS)."""
+    return {"file": f, "line": line, "alt_lines": [], "type": typ, "name": name, "full_name": name,
+            "interface": iface, "body": body}
+
+
+def _nrow(f, line, caller, cline, name, defs, dispatch, rule, form="name_attr", col=8):
+    return {"file": f, "line": line, "col": col, "form": form, "name": name, "defstack": [[caller, cline, []]],
+            "defs": defs, "dispatch": dispatch, "dispatch_rule": rule}
+
+
+def n_truth() -> dict:
+    run, oth = ("Service.Run", 10), ("Service.Other", 20)
+    rows = [
+        _nrow(NF["svc"], 12, *run, "Get", [_ne(NF["irepo"], 3, "Get", True, False)], [_ne(NF["sql"], 5, "Get")],
+              "interface"),
+        _nrow(NF["svc"], 13, *run, "Save", [_ne(NF["irepo"], 4, "Save", True, False)], [_ne(NF["sql"], 9, "Save")],
+              "interface"),
+        _nrow(NF["svc"], 14, *run, "Area", [_ne(NF["shape"], 3, "Area", body=False)], [_ne(NF["circle"], 4, "Area")],
+              "override"),
+        _nrow(NF["svc"], 15, *run, "Area", [_ne(NF["circle"], 4, "Area")], [], None),
+        _nrow(NF["svc"], 16, *run, "Total", [_ne(NF["order"], 3, "Total")], [_ne(NF["big"], 3, "Total")], "override"),
+        _nrow(NF["svc"], 22, *oth, "Get", [], [_ne(NF["mem"], 5, "Get")], "interface"),
+        _nrow(NF["rtest"], 9, "RepoTests.Finds", 7, "Get", [_ne(NF["irepo"], 3, "Get", True, False)],
+              [_ne(NF["fake"], 5, "Get"), _ne(NF["sql"], 5, "Get")], "interface"),
+    ]
+    return {"schema": "call-linking/truth/1", "resolver": {}, "rows": rows}
+
+
+def n_dump(edges=(), nodes=None) -> dict:
+    return {"schema": "call-linking/offline-calls/1", "nodes": [_n(*x) for x in (nodes or N_NODES)],
+            "edges": sorted([list(e) for e in edges]), "flags": {}}
+
+
+def _ncheck(name, fn, want=None):
+    """check(name, fn() == want) — or fn() truthy when want is None; a crash is RED with its reason."""
+    try:
+        got = fn()
+        ok = bool(got) if want is None else got == want
+    except Exception as exc:  # noqa: BLE001 — RED, never a crash of the section
+        got, ok = f"{type(exc).__name__}: {exc}", False
+    check(name, ok, got if want is None else {"got": got, "want": want})
+
+
+def _sheet_csv(path: Path, verdicts: dict) -> None:
+    _write(path, "id,verdict,note\n" + "".join(f"{k},{v},\n" for k, v in sorted(verdicts.items())))
+
+
+def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
+    print("\n-- N: the D3-cs rules on synthetic rows (PREREG_CS AC5-AC16): T_s / T_d, the refuted test, G4c, G2d, N2, "
+          "the C# VOID rule, the audit strata and bounds, the reference error rate, the spot list, the G5b manifest "
+          "writer, VRC-cs's flags, the kit hash --")
+    build = build or BUILD
+    TR, C, CC, D, IS, AS, OC, V = (mods.get(m) for m in ("truth_roslyn", "_common", "compare_calls", "delta",
+                                                         "impact_spot", "audit_sample", "offline_calls", "variants"))
+    if None in (TR, C, CC, D, IS, AS, OC, V):
+        check("the kit modules N reads import (section A)", False)
+        return
+    nb = base / "n_rules"
+    T = n_truth()
+    dump0 = n_dump()
+    name_of = {n["key"]: n["name"] for n in dump0["nodes"]}
+
+    # ---- AC5: the row fields the scoring reads --------------------------------------------------------------------
+    rows = {(r["line"], r["name"]): r for r in T["rows"]}
+    _ncheck("AC5: _common._static_iface reads `dispatch_rule` for a row with dispatch targets (interface -> True, "
+            "override -> False; a static target declared OUTSIDE the corpus, no def, still says interface) and the "
+            "defs' `interface` for a row without; an unknown rule or a non-boolean `interface` is None, never guessed",
+            lambda: [C._static_iface(rows[k]) for k in ((12, "Get"), (14, "Area"), (15, "Area"), (16, "Total"),
+                                                         (22, "Get"))]
+            + [C._static_iface(dict(rows[(12, "Get")], dispatch_rule="weird")),
+               C._static_iface(dict(rows[(15, "Area")], defs=[dict(_ne(NF["circle"], 4, "Area"), interface="yes")]))],
+            [True, False, False, False, True, None, None])
+    raw = {"file": "src/A.cs", "line": 3, "col": 4, "form": "name_attr", "name": "Find", "resolution": "symbol",
+           "site_kind": "invocation", "target": {"name": "Find", "full_name": "I.Find", "interface": True,
+                                                 "decls": [{"file": "src/I.cs", "line": 2, "body": False}]},
+           "dispatch_raw": [{"file": "src/Impl.cs", "line": 5, "name": "Find", "full_name": "Impl.Find",
+                             "interface": False, "body": True}]}
+    hdr = {"resolver": {"microsoft_codeanalysis": TR.WANT_ROSLYN, "microsoft_codeanalysis_csharp": TR.WANT_ROSLYN}}
+
+    def contract():
+        good = TR.to_truth(hdr, [dict(raw, dispatch_rule="interface")], TR.is_test_path)
+        bad_rule = TR.to_truth(hdr, [dict(raw)], TR.is_test_path)
+        no_list = {"rows": [dict(good["rows"][0], dispatch=None)]}
+        extra_key = {"rows": [dict(good["rows"][0], defs=[dict(good["rows"][0]["defs"][0], extra=1)])]}
+        str_flag = {"rows": [dict(good["rows"][0], dispatch=[dict(good["rows"][0]["dispatch"][0], interface="no")])]}
+        conv = (TR.convert(hdr, [dict(raw, dispatch_rule="interface")], TR.is_test_path)[1],
+                TR.convert(hdr, [dict(raw)], TR.is_test_path)[0])
+        return ([len(TR.contract_problems(d)) for d in (good, bad_rule, no_list, extra_key, str_flag)],
+                conv[0] is None, conv[1] is None)
+    _ncheck("AC5: truth_roslyn.contract_problems — every row carries `dispatch` and `defs` lists, a row with dispatch "
+            "targets carries dispatch_rule interface|override, every entry has exactly ENTRY_KEYS with boolean "
+            "interface / body; convert() refuses a truth that breaks it (a row with targets and no rule)", contract,
+            ([0, 1, 1, 1, 1], True, True))
+
+    # ---- §8.5: T_s, T_d, the refuted test (K4's M09, M10) -----------------------------------------------------------
+    def pairs():
+        P = C.truth_pairs_cs(T, dump0["nodes"])
+        return (sorted(P["Ts"]), sorted(P["Td"]), {f"{a}|{n}": sorted(v) for (a, n), v in sorted(P["by_cn"].items())})
+    want_ts = sorted([("run", "iG"), ("run", "iS"), ("run", "shA"), ("run", "cA"), ("run", "oT"), ("tst", "iG")])
+    want_td = sorted([("run", "sG"), ("run", "sS"), ("run", "bT"), ("oth", "mG"), ("tst", "sG"), ("tst", "fG")])
+    _ncheck("§8.5: T_s = the static pairs; T_d = the dispatch pairs MINUS T_s — Run -> Circle.Area is a dispatch "
+            "target of `shape.Area()` and the static target of `circle.Area()`, so it is in T_s only; the refuted "
+            "test's sites hold the static AND the dispatch targets (Other's `Get` binds only by dispatch)", pairs,
+            (want_ts, want_td, {"oth|Get": ["mG"], "run|Area": ["cA", "shA"], "run|Get": ["iG", "sG"],
+                                "run|Save": ["iS", "sS"], "run|Total": ["bT", "oT"],
+                                "tst|Get": ["fG", "iG", "sG"]}))
+
+    def verdicts():
+        P = C.truth_pairs_cs(T, dump0["nodes"])
+        return {f"{a}->{b}": C.classify_pair_cs((a, b), P["Ts"], P["Td"], P["by_cn"], name_of)
+                for a, b in (("oth", "sG"), ("oth", "mG"), ("run", "cA"), ("run", "fG"), ("leg", "sG"), ("tst", "fG"))}
+    _ncheck("§8.5 / AC6: Other -> SqlRepo.Get is REFUTED (Other's only Get site resolves by dispatch, to MemRepo.Get); "
+            "Other -> MemRepo.Get dispatch-confirmed; Run -> Circle.Area confirmed (T_s wins); a non-test caller -> the "
+            "test fake refuted; a caller with no such site unverified; the test caller -> its fake dispatch-confirmed",
+            verdicts, {"oth->sG": "refuted", "oth->mG": C.DISPATCH_CONFIRMED, "run->cA": "confirmed",
+                       "run->fG": "refuted", "leg->sG": "unverified", "tst->fG": C.DISPATCH_CONFIRMED})
+
+    # ---- compare_calls on the synthetic truth: T_d's size and G4c (K4's M10, M21) --------------------------------
+    ext = [("run", "sG", "EXTRACTED"), ("run", "sS", "EXTRACTED"), ("run", "bT", "EXTRACTED"), ("run", "cA", "EXTRACTED"),
+           ("oth", "mG", "INFERRED"), ("oth", "sG", "AMBIGUOUS")]
+
+    def g4c():
+        s = CC.score(T, n_dump(ext))
+        return (s["T_s"], s["T_d"], s["confirmed"], s["dispatch_confirmed"], s["refuted"],
+                {k: s["g4c"][k] for k in ("extracted_dispatch", "extracted_dispatch_iface", "exact")},
+                sorted(map(tuple, s["g4c"]["pairs"])))
+    _ncheck("G4c: of the EXTRACTED edges, Run -> SqlRepo.Get / .Save / BigOrder.Total are dispatch-only (T_d; Run -> "
+            "Circle.Area is in T_s, so not one), and two of them come from a site bound statically to an INTERFACE "
+            "member (BigOrder.Total's is the override rule): extracted_dispatch 3, through an interface 2, exact",
+            g4c, (6, 6, 1, 4, 1, {"extracted_dispatch": 3, "extracted_dispatch_iface": 2, "exact": True},
+                  [("run", "sG"), ("run", "sS")]))
+
+    # ---- delta: G2d (K4's M16) ----------------------------------------------------------------------------------
+    def g2d():
+        var = n_dump([("run", "fG", "AMBIGUOUS"), ("demo", "fG", "AMBIGUOUS"), ("tst", "fG", "INFERRED"),
+                      ("leg", "sG", "AMBIGUOUS")])
+        cs = D.delta(dump0, var, T)["cs"]
+        return (C.caller_class(NF["demo"]), cs["g2d_added_nontest_to_test"], sorted(map(tuple, cs["g2d_pairs"])))
+    _ncheck("G2d: an added edge from a NON-TEST caller — production (Run) and non-production (samples/Demo.cs) — to a "
+            "node declared in a test file counts; a test caller's does not, nor an edge between production nodes",
+            g2d, ("nonprod", 2, [("demo", "fG"), ("run", "fG")]))
+
+    # ---- AC9: the dispatch stratum's fallback (static_dispatchable / impl_fallback) ------------------------------
+    def fallback(truth):
+        var = n_dump([("run", "sG", "INFERRED"), ("run", "bT", "INFERRED"), ("run", "cA", "INFERRED"),
+                      ("run", "iG", "INFERRED"), ("oth", "sG", "INFERRED"), ("leg", "sG", "INFERRED")])
+        added = D.delta(dump0, var, truth)["items"]["added"]
+        items, why = AS.impl_fallback(added, truth, var["nodes"])
+        return sorted((i["caller"], i["callee"]) for i in items), why is None
+    _ncheck("AC9: static_dispatchable — either dispatch rule (interface, override) is dispatchable, a row without "
+            "dispatch targets answers by its defs' `interface`, an unknown rule is None",
+            lambda: [C.static_dispatchable(rows[k]) for k in ((12, "Get"), (14, "Area"), (15, "Area"), (16, "Total"),
+                                                               (22, "Get"))]
+            + [C.static_dispatchable(dict(rows[(16, "Total")], dispatch_rule=None))],
+            [True, True, False, True, True, None])
+    _ncheck("AC9: the fallback stratum (--impl-fallback) over delta(V0, VT-cs) is the added edges (a, b) whose caller "
+            "has a site of b's name with an interface, virtual, abstract or override static target OTHER than b: "
+            "Run -> SqlRepo.Get, BigOrder.Total (an override), Circle.Area (abstract Shape.Area's site), Other -> "
+            "SqlRepo.Get (an external interface member); never Run -> IRepo.Get (b is the static target) or a caller "
+            "without such a site", lambda: fallback(T),
+            (sorted([("run", "sG"), ("run", "bT"), ("run", "cA"), ("oth", "sG")]), True))
+
+    def fallback_unknown():
+        t2 = copy.deepcopy(T)
+        for r in t2["rows"]:
+            if r["name"] == "Total":
+                r["dispatch_rule"] = None
+        return fallback(t2)[1]
+    _ncheck("AC9: a site whose row does not say its rule through AC5's fields makes the fallback NOT computable "
+            "exactly (a problem, never a silent guess)", fallback_unknown, False)
+
+    # ---- AC10 / §8.6 A: the removal strata, the reference's judged rows (K4's M11) --------------------------------
+    def strata():
+        full = n_dump([("oth", "mG", "INFERRED"), ("run", "iG", "INFERRED"), ("run", "fG", "AMBIGUOUS")])
+        items = D.delta(full, dump0, T)["items"]
+        picked = AS.draw(items, 20261022, "n_g39", 40)
+        return (sorted((i["caller"], i["callee"]) for i in picked["removed_confirmed"]),
+                sorted((i["caller"], i["callee"]) for i in picked["removed"]), AS.strata(items, picked))
+    _ncheck("AC10: every removed edge the reference confirms, DISPATCH-confirmed included (Other -> MemRepo.Get), is "
+            "audited exhaustively beside the confirmed one; only the refuted removal is in the sampled stratum",
+            strata, ([("oth", "mG"), ("run", "iG")], [("run", "fG")],
+                     {"removed": {"population": 1, "sampled": 1},
+                      "removed_confirmed": {"population": 2, "sampled": 2}}))
+    key3 = {"label": "n_g39", "rows": {
+        "r1": {"caller": "oth", "callee": "mG", "verdict": C.DISPATCH_CONFIRMED, "buckets": ["added"]},
+        "r2": {"caller": "run", "callee": "iG", "verdict": "confirmed", "buckets": ["added"]},
+        "r3": {"caller": "run", "callee": "fG", "verdict": "refuted", "buckets": ["added"]}}}
+    sh3 = {"r1": "TRUE", "r2": "FALSE", "r3": "FALSE"}
+    _ncheck("§8.6 A: the reference's judged rows include dispatch-confirmed (it predicts TRUE): 3 judged, 1 wrong",
+            lambda: {k: AS.score(key3, [sh3, dict(sh3)])["resolver"][k] for k in ("judged", "wrong")},
+            {"judged": 3, "wrong": 1})
+
+    # ---- §8.6 A bounds: a census at its exact share; the pooled bound (K4's M12, M13) -----------------------------
+    def bounds():
+        census = AS.exact_bounds({"added": {"n": 5, "true": 5, "false": 0, "wilson_lb": 0.5655}},
+                                 {"bucket_sizes": {"added": 5}, "sampled": {"added": 5}})["added"]
+        sampled = AS.exact_bounds({"added": {"n": 5, "true": 5, "false": 0, "wilson_lb": 0.5655}},
+                                  {"bucket_sizes": {"added": 50}, "sampled": {"added": 5}})["added"]
+        return (census["census"], census["lower_bound"], sampled["census"], sampled["lower_bound"])
+    _ncheck("§8.6 A (exact_bounds): a bucket audited in full (sampled == population) counts at its exact share, "
+            "lower bound 1.0; sampled below its population it keeps its Wilson bound", bounds,
+            (True, 1.0, False, 0.5655))
+    lb_b = round(C.wilson(38, 40)[1], 4)
+
+    def pooled():
+        a = {"label": "jf_g39", "exact": {"added": {"population": 10, "audited": 10, "good": 10, "share": 1.0,
+                                                    "lower_bound": 1.0, "census": True}}}
+        b = {"label": "es_g39", "exact": {"added": {"population": 90, "audited": 40, "good": 38, "share": 0.95,
+                                                    "lower_bound": lb_b, "census": False}}}
+        r = AS.pool_scores([("a", a), ("b", b)], "added")
+        return (r["population"], r["share"], r["lower_bound"], r["summed_rows"]["decisive"])
+    _ncheck("G3a / G3b pooled (pool_scores): each corpus's population times its share and times its LOWER BOUND (a "
+            "census at its exact share, else Wilson), over the total population; summed-row Wilson beside it, never "
+            "decisive", pooled, (100, round((10 + 90 * 0.95) / 100, 4), round((10 + 90 * lb_b) / 100, 4), False))
+
+    # ---- AC11: the reference error rate per corpus x engine (union of the main and dispatch samples) -------------
+    def sample(label, pairs_, wrong=(), verdict="confirmed", flip=None):
+        rows_ = {f"{label}-{i}": {"caller": a, "callee": b, "verdict": verdict, "buckets": ["added"]}
+                 for i, (a, b) in enumerate(pairs_)}
+        sheet = {f"{label}-{i}": ("FALSE" if (a, b) in wrong else "TRUE") for i, (a, b) in enumerate(pairs_)}
+        if flip:
+            sheet.update({f"{label}-{i}": flip[1] for i, p in enumerate(pairs_) if p == flip[0]})
+        return ({"label": label, "rows": rows_}, [sheet, dict(sheet)], label)
+    P10 = [(f"a{i}", f"b{i}") for i in range(10)]
+    Q3 = [("q1", "r1"), ("q2", "r2"), ("q3", "r3")]
+
+    def union():
+        r = AS.reference_error_rate([sample("c_g39", P10, {P10[0]}), sample("c_g39_impl", [P10[0]] + Q3, {P10[0]}),
+                                     sample("c_g51", P10), sample("c_g51_impl", Q3)])
+        g = r["engines"]["g39"]
+        return (g["judged"], g["wrong"], g["pairs_in_both"], g["unreliable"], r["unreliable"])
+    _ncheck("AC11: a pair audited in BOTH of an engine's samples counts once — g39 1 wrong of 13 united pairs (the main "
+            "sample alone would read 1/10 = 10%, unreliable): reliable when g51 is too", union, (13, 1, 1, False, False))
+
+    def threshold():
+        at = AS.reference_error_rate([sample("c_g39", P10, {P10[0]}), sample("c_g39_impl", P10, {P10[0]}),
+                                      sample("c_g51", P10), sample("c_g51_impl", P10)])
+        p11 = P10 + [("a10", "b10")]
+        below = AS.reference_error_rate([sample("c_g39", p11, {P10[0]}), sample("c_g39_impl", p11, {P10[0]}),
+                                         sample("c_g51", p11), sample("c_g51_impl", p11)])
+        g51 = AS.reference_error_rate([sample("c_g39", p11), sample("c_g39_impl", p11),
+                                       sample("c_g51", P10, {P10[0]}), sample("c_g51_impl", P10, {P10[0]})])
+        return (at["engines"]["g39"]["unreliable"], at["unreliable"], below["unreliable"], g51["unreliable"])
+    _ncheck("AC11: exactly 10% (1 of 10) is unreliable and 1 of 11 is not (the threshold compared exactly); EITHER "
+            "engine at 10% or more makes the corpus unreliable", threshold, (True, True, False, True))
+
+    def conflict():
+        r = AS.reference_error_rate([sample("c_g39", P10), sample("c_g39_impl", [P10[0]] + Q3, flip=(P10[0], "FALSE")),
+                                     sample("c_g51", P10), sample("c_g51_impl", Q3)])
+        g = r["engines"]["g39"]
+        return (g["judged"], g["wrong"], len(g["conflicts"]))
+    _ncheck("AC11: a pair agreed TRUE in one sample and FALSE in the other counts ONCE, as wrong (the strict reading), "
+            "and is listed", conflict, (13, 1, 1))
+
+    def refusals():
+        out = []
+        for samples in ([sample("c_g39", P10), sample("c_g39", Q3)], [sample("c_g39", P10), sample("d_g51", P10)],
+                        [sample("c_g39", P10), sample("c_g39_impl", P10, verdict="refuted")],
+                        [sample("c_gXX", P10)]):
+            try:
+                AS.reference_error_rate(samples)
+                out.append("accepted")
+            except ValueError:
+                out.append("refused")
+        missing = AS.reference_error_rate([sample("c_g39", P10), sample("c_g39_impl", Q3), sample("c_g51", P10)])
+        return out + [missing["unreliable"]]
+    _ncheck("AC11: a sample given twice, samples of two corpora, one pair with two reference verdicts and an unknown "
+            "label are refused; with one engine's dispatch sample missing the rate is NOT computable (None)",
+            refusals, ["refused", "refused", "refused", "refused", None])
+
+    def refrate_cli():
+        out = {}
+        for tag, skip in (("all", ()), ("missing", ("c_g51_impl",))):
+            dirs = []
+            for label, pairs_, wrong in (("c_g39", P10, {P10[0]}), ("c_g39_impl", [P10[0]] + Q3, {P10[0]}),
+                                         ("c_g51", P10, ()), ("c_g51_impl", Q3, ())):
+                if label in skip:
+                    continue
+                key, sheets, _l = sample(label, pairs_, wrong)
+                d = nb / "refrate" / tag / label
+                _write(d / "key.json", json.dumps(key))
+                for i, s in enumerate(sheets, 1):
+                    _sheet_csv(d / f"sheet_r{i}.csv", s)
+                dirs.append(f"--dir={d}")
+            js = nb / "refrate" / f"{tag}.json"
+            rc = _cli(AS.main, ["refrate"] + dirs + [f"--json={js}"])[0]
+            out[tag] = (rc, json.loads(js.read_text(encoding="utf-8"))["unreliable"] if js.is_file() else "no json")
+        return out
+    _ncheck("AC11 (CLI `audit_sample.py refrate --dir=...`): computed (exit 0, reliable); one sample missing -> exit 3, "
+            "not computable", refrate_cli, {"all": (0, False), "missing": (3, None)})
+
+    # ---- AC12 + §8.3: the spot substitution on both engines, and the FINAL list (K4's M24) ------------------------
+    es = "dotnet__eShop"
+
+    def spot_fixture():
+        syms = list(IS.CS_SPOTS[es]) + [IS.CS_RESERVES[es][0]]
+        nodes, rows_, edges = [], [], []
+        for i, sym in enumerate(syms):
+            name, _, f = sym.partition("@")
+            cf = f"src/Caller{i}/C{i}.cs"
+            nodes += [(f"t{i}", "Method", name, f, 10), (f"c{i}", "Method", f"C{i}.Call", cf, 3)]
+            rows_.append(_nrow(cf, 5, f"C{i}.Call", 3, name.split(".")[-1], [_ne(f, 10, name.split(".")[-1])], [],
+                               None))
+            edges.append((f"c{i}", f"t{i}", "INFERRED"))
+        return syms, {"schema": "call-linking/truth/1", "resolver": {}, "rows": rows_}, nodes, edges
+
+    def substitution():
+        syms, t, nodes, edges = spot_fixture()
+        g39 = n_dump([], nodes)
+        g51 = n_dump([edges[0]], nodes)          # the first registered spot is SATURATED on 0.8.51 only
+        r = IS.substitute(t, {"g39": g39, "g51": g51}, es)
+        return (r["final"] == [syms[5]] + syms[1:5], [s["spot"] for s in r["substitutions"]],
+                sorted(r["substitutions"][0]["problems"]) if r["substitutions"] else None)
+    _ncheck("§8.3's substitution rule on BOTH engines: a spot SATURATED on 0.8.51 only is replaced by the first reserve "
+            "(E-r1) in its place; the others stay", substitution,
+            (True, [IS.CS_SPOTS[es][0]], ["g51"]))
+
+    def final_list():
+        syms, t, nodes, edges = spot_fixture()
+        d = nb / "spots"
+        tp, dp, bp = d / "truth.json", d / "dump.json", d / "base.json"
+        _write(tp, json.dumps(t))
+        _write(dp, json.dumps(n_dump(edges, nodes)))
+        _write(bp, json.dumps(n_dump([], nodes)))
+        final = {"corpus": es, "registered": list(IS.CS_SPOTS[es]), "reserves": list(IS.CS_RESERVES[es]),
+                 "final": [syms[5], syms[2], syms[1]], "final_ids": ["E-r1", "E3", "E2"], "engines": ["g39", "g51"]}
+        fps = {}
+        for tag, f in (("ok", final), ("other corpus", dict(final, corpus="jellyfin__jellyfin")),
+                       ("a stray symbol", dict(final, final=final["final"] + ["Nope.X@src/x.cs"])),
+                       ("one engine", dict(final, engines=["g39"])),
+                       ("a repeat", dict(final, final=final["final"] + [syms[1]]))):
+            fps[tag] = d / f"final_{len(fps)}.json"
+            _write(fps[tag], json.dumps(f))
+        js = d / "out.json"
+        base_args = [f"--truth={tp}", str(dp), f"--base={bp}"]
+        rcs = {"no --final": _cli(IS.main, base_args + [f"--corpus={es}"])[0],
+               "--final": _cli(IS.main, base_args + [f"--corpus={es}", f"--final={fps['ok']}", f"--json={js}"])[0],
+               "--corpus of another corpus": _cli(IS.main, base_args + ["--corpus=jellyfin__jellyfin",
+                                                                        f"--final={fps['ok']}"])[0],
+               "--symbols with --final": _cli(IS.main, base_args + [f"--final={fps['ok']}", "--symbols=A.b"])[0]}
+        for tag in ("other corpus", "a stray symbol", "one engine", "a repeat"):
+            rcs[tag] = _cli(IS.main, base_args + [f"--final={fps[tag]}"])[0]
+        measured = [r["symbol"] for r in json.loads(js.read_text(encoding="utf-8"))[0]["spots"]] if js.is_file() else None
+        return rcs, measured == final["final"]
+    _ncheck("AC12: impact_spot on a C# --corpus measures its FINAL list (--final=<id>/spots_final.json): without "
+            "--final it refuses (exit 2); with it, exactly that list in its order (a reserve included); a final list "
+            "of another corpus, holding a symbol `substitute` cannot write, settled on one engine, repeating a symbol, "
+            "or given with --symbols is refused (exit 2)", final_list,
+            ({"no --final": 2, "--final": 0, "--corpus of another corpus": 2, "--symbols with --final": 2,
+              "other corpus": 2, "a stray symbol": 2, "one engine": 2, "a repeat": 2}, True))
+
+    # ---- N2 and the `.cs` test, case-insensitive (K4's M18, M23) -------------------------------------------------
+    base_e = [("gen", "sG", "INFERRED"), ("leg", "sG", "AMBIGUOUS"), ("run", "iG", "INFERRED")]
+
+    def n2():
+        b = n_dump(base_e)
+        cases = {"a non-.cs caller's edge added": n_dump(base_e + [("gen", "iG", "INFERRED")]),
+                 "a non-.cs caller's edge regraded": n_dump([("gen", "sG", "EXTRACTED")] + base_e[1:]),
+                 "a non-.cs caller's edge removed": n_dump(base_e[1:]),
+                 "only .cs / .CS callers' edges changed": n_dump([base_e[0], ("leg", "sG", "INFERRED"),
+                                                                  ("leg", "iG", "INFERRED"), ("run", "sG", "INFERRED")])}
+        return {k: OC.identity(b, v, rule="N2")["holds"] for k, v in cases.items()}
+    _ncheck("N2 (offline_calls.identity): every edge whose caller's file is not `.cs` must be identical in pair AND "
+            "grade — an added, a regraded or a removed one fails; changes from `.cs` callers (an upper-case `.CS` "
+            "included) do not", n2, {"a non-.cs caller's edge added": False, "a non-.cs caller's edge regraded": False,
+                                     "a non-.cs caller's edge removed": False,
+                                     "only .cs / .CS callers' edges changed": True})
+
+    def cs_case():
+        upper = {"schema": "call-linking/truth/1", "rows": [{"file": "src/X.CS", "line": 1, "col": 0, "form": "bare",
+                                                             "name": "m", "defstack": [], "defs": []}]}
+        try:
+            C.check_truth_shape(upper)
+            refused = False
+        except ValueError:
+            refused = True
+        return ([C.is_cs_path(p) for p in ("a/B.CS", "a/b.Cs", "a/b.cs", "a/b.csx", "a/b.cs.txt")], refused,
+                OC.is_csharp_corpus(n_dump([], [("x", "Method", "X.m", "src/X.CS", 1)])))
+    _ncheck("the `.cs` test is case-insensitive (PREREG_CS §8.6 N): `.CS` / `.Cs` are C#, `.csx` / `.cs.txt` are "
+            "not; a `.CS` truth without dispatch lists is refused; a dump with a `.CS` node is a C# corpus", cs_case,
+            ([True, True, True, False, False], True, True))
+
+    # ---- §8.4: the C# VOID rule (offline_calls.csharp_void) ----------------------------------------------------
+    def void():
+        dn = n_dump([], [("x", "Method", "X.m", "src/X.cs", 1)])
+
+        def d(flag, cl, nodes_dump=dn):
+            return dict(nodes_dump, flags={"DEEPMAP_TYPED_CALLS": flag} if flag else {}, call_linking=cl)
+        ok = {"langs_disabled": {}, "by_lang": {"csharp": {"files": 3}}}
+        py = n_dump([], [("x", "Function", "m", "src/x.py", 1)])
+        return [bool(OC.csharp_void(x)) for x in (
+            d("csharp", ok), d("csharp", {"langs_disabled": {"csharp": "grammar canary failed"},
+                                          "by_lang": {"csharp": {"files": 3}}}),
+            d("csharp", {"langs_disabled": {}, "by_lang": {}}), d("python,csharp", {"langs_disabled": {},
+                                                                                    "by_lang": {"csharp": {"files": 0}}}),
+            d("python", {"langs_disabled": {"csharp": "x"}}), d("csharp", {"langs_disabled": {"csharp": "x"}}, py))]
+    _ncheck("§8.4's C# VOID rule (csharp_void): a VT-cs-family dump of a C# corpus whose typed pass disabled csharp, "
+            "or read no C# file, is VOID; a clean one is not; nor is a dump whose flags name no csharp or a corpus "
+            "without C# source", void, [False, True, True, True, False, False])
+
+    # ---- AC15: the G5b manifest writer, accepted by K's guard -----------------------------------------------------
+    def manifest():
+        files = {"delta_VT-cs_g39.json": '{"a":1}\n', "audit/jellyfin_g39/key.json": '{"k":2}\n',
+                 "audit/jellyfin_g39/sheet_r1.csv": "id,verdict,note\r\nx,TRUE,\r\n", "gates/core.log": "ok\n"}
+        kd = nb / "g5b_ok" / "call_linking"
+        for rel, data in files.items():
+            _write(kd / "cs" / rel, data)
+        dry = _cli(OC.main, ["manifest", str(kd / "cs")])
+        nothing = not (kd / "cs" / "MANIFEST.sha256").exists() and not (kd / "cs" / ".gitattributes").exists()
+        rc, out, _err, exc = _cli(OC.main, ["manifest", str(kd / "cs"), "--write"])
+        body = (kd / "cs" / "MANIFEST.sha256").read_bytes() if (kd / "cs" / "MANIFEST.sha256").is_file() else b""
+        rels = [ln.split("  ", 1)[1] for ln in body.decode("utf-8").splitlines() if "  " in ln]
+        m = re.search(r"- G5b: `cs/MANIFEST\.sha256` sha256 `([0-9a-f]{64})`", out)
+        _write(kd / "DECISION_CS.md", "# DECISION_CS\n\n" + (m.group(0) if m else "") + "\n")
+        on = nb / "g5b_build_on"
+        g = flip_guard(on, kd) if _flip_copy(build, on, 'frozenset({"csharp"})') else {"problems": ["no flip copy"]}
+        again = _cli(OC.main, ["manifest", str(kd / "cs"), "--write"])[0]
+        return {"dry": (dry[0], nothing), "write": rc, "exc": exc,
+                "lines": rels == sorted(list(files) + [".gitattributes"], key=lambda s: s.encode("utf-8")),
+                "gitattributes": (kd / "cs" / ".gitattributes").read_bytes() if (kd / "cs" / ".gitattributes").is_file()
+                else None, "lf": b"\r" not in body,
+                "recorded": bool(m) and m.group(1) == hashlib.sha256(body).hexdigest(),
+                "guard": (g.get("active"), g.get("problems"), g.get("entries")), "re-run": again}
+    _ncheck("AC15: `offline_calls.py manifest <cs>` writes nothing without --write; with it, cs/.gitattributes (`* "
+            "-text`, listed) and cs/MANIFEST.sha256 (`<sha256>  <path relative to cs/>`, byte order, LF; a CRLF "
+            "sheet.csv keeps its bytes) and prints the DECISION_CS.md line; section K's G5b guard, with csharp a "
+            "default, accepts the result; a re-run on the unchanged folder matches (exit 0)", manifest,
+            {"dry": (0, True), "write": 0, "exc": None, "lines": True, "gitattributes": b"* -text\n", "lf": True,
+             "recorded": True, "guard": (True, [], 5), "re-run": 0})
+
+    def manifest_refusals():
+        out = {}
+        for tag, extra in (("a sheet.md", {"audit/x/sheet.md": "# sheet\n"}),
+                           ("a dump", {"d.json": json.dumps({"schema": "call-linking/offline-calls/1"})}),
+                           ("a truth", {"t.json": json.dumps({"schema": "call-linking/truth/1", "rows": []})}),
+                           ("a wrong .gitattributes", {".gitattributes": "* text=auto\n"})):
+            cs = nb / f"g5b_{len(out)}" / "cs"
+            for rel, data in dict({"delta.json": '{"a":1}\n'}, **extra).items():
+                _write(cs / rel, data)
+            out[tag] = (_cli(OC.main, ["manifest", str(cs), "--write"])[0], (cs / "MANIFEST.sha256").exists())
+        cs = nb / "g5b_changed" / "cs"
+        _write(cs / "delta.json", '{"a":1}\n')
+        _cli(OC.main, ["manifest", str(cs), "--write"])
+        before = (cs / "MANIFEST.sha256").read_bytes()
+        _write(cs / "delta.json", '{"a":2}\n')
+        out["changed after the manifest"] = (_cli(OC.main, ["manifest", str(cs), "--write"])[0],
+                                             (cs / "MANIFEST.sha256").read_bytes() == before)
+        _write(nb / "g5b_notcs" / "x.json", "{}\n")
+        out["a folder not named cs"] = (_cli(OC.main, ["manifest", str(nb / "g5b_notcs"), "--write"])[0], False)
+        return out
+    _ncheck("AC15: the writer refuses (exit 2, nothing written) a sheet.md, a dump, a truth file, a wrong "
+            "cs/.gitattributes, a folder not named cs/; a manifest that no longer matches is never overwritten "
+            "(exit 1)", manifest_refusals,
+            {"a sheet.md": (2, False), "a dump": (2, False), "a truth": (2, False), "a wrong .gitattributes": (2, False),
+             "changed after the manifest": (1, True), "a folder not named cs": (2, False)})
+
+    # ---- AC16: VRC-cs = every default language plus csharp -------------------------------------------------------
+    def vrc():
+        empty, py = nb / "b_empty", nb / "b_py"
+        if not (_flip_copy(build, empty, "frozenset()") and _flip_copy(build, py, 'frozenset({"python"})')):
+            return "no flip copy"
+        now = typed_default_langs(build)[0]
+        return {"flag (defaults empty)": V.vrc_cs_flag(empty), "flag (defaults python)": V.vrc_cs_flag(py),
+                "csharp alone on python defaults": V.vrc_cs_problem({"DEEPMAP_TYPED_CALLS": "csharp"}, py) is None,
+                "python,csharp": V.vrc_cs_problem({"DEEPMAP_TYPED_CALLS": "python,csharp"}, py) is None,
+                "an extra language (a union release)":
+                    V.vrc_cs_problem({"DEEPMAP_TYPED_CALLS": "python,csharp,typescript"}, py) is None,
+                "no DEEPMAP_TYPED_CALLS": V.vrc_cs_problem({}, empty) is None,
+                "an ON-word (wave 1: no csharp)": V.vrc_cs_problem({"DEEPMAP_TYPED_CALLS": "1"}, empty) is None,
+                "this tree": V.vrc_cs_flag(build) == ",".join([x for x in (now or []) if x != "csharp"] + ["csharp"])
+                and now is not None}
+    _ncheck("AC16: VRC-cs's DEEPMAP_TYPED_CALLS is every language of the RC tree's _TYPED_DEFAULT_LANGS plus csharp "
+            "(`csharp` while the defaults are empty, `python,csharp` on a tree whose defaults are {python}); "
+            "variants.py refuses a value that leaves out a default language or csharp, or none at all, and allows "
+            "extra languages; this tree's flag follows its own defaults", vrc,
+            {"flag (defaults empty)": "csharp", "flag (defaults python)": "python,csharp",
+             "csharp alone on python defaults": False, "python,csharp": True,
+             "an extra language (a union release)": True, "no DEEPMAP_TYPED_CALLS": False,
+             "an ON-word (wave 1: no csharp)": False, "this tree": True})
+    def vrc_cli():
+        if build != BUILD:          # variants.py reads _common.BUILD: another build/ cannot be shown through the CLI
+            return True
+        line = f"DEEPMAP_TYPED_CALLS={V.vrc_cs_flag(build)}"
+        env = _cli(V.main, ["env", "VRC-cs", "--set", line])[:2]
+        printed = _cli(V.main, ["vrc-cs"])[1]
+        return {"env": env, "vrc-cs": printed} == {"env": (0, line + "\n"), "vrc-cs": line + "\n"} or {
+            "env": env, "vrc-cs": printed, "want": line}
+    _ncheck("AC16 (CLI): `variants.py env VRC-cs --set DEEPMAP_TYPED_CALLS=<vrc-cs>` is accepted on this tree, and "
+            "`variants.py vrc-cs` prints that flag", vrc_cli, True)
+
+    # ---- §1 / AC7: the kit hash and the reference tool identity ---------------------------------------------------
+    def kit_copy(dst: Path) -> Path:
+        tool = (kit / "truth_roslyn").resolve()
+
+        def ignore(d, names):
+            here = Path(d).resolve()
+            return [n for n in names if n == "__pycache__" or (here == tool and n in ("bin", "obj"))]
+        shutil.copytree(kit, dst, ignore=ignore)
+        return dst
+
+    def indep_hash(root: Path):
+        rels = []
+        for p in root.rglob("*"):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(root).as_posix()
+            if ("__pycache__" in rel.split("/")[:-1] or rel.startswith(("truth_roslyn/bin/", "truth_roslyn/obj/", "cs/"))
+                    or rel in ("RESULTS_CS.md", "DECISION_CS.md")):
+                continue
+            rels.append(rel)
+        h = hashlib.sha256()
+        for rel in sorted(rels, key=lambda r: r.encode("utf-8")):
+            h.update(rel.encode("utf-8") + b"\0" + (root / rel).read_bytes() + b"\0")
+        return h.hexdigest(), len(rels)
+
+    def kithash():
+        k = kit_copy(nb / "kit" / "call_linking")
+        want, n = indep_hash(k)
+        first = C.kit_hash(k)
+        for rel in ("__pycache__/x.pyc", "truth_roslyn/bin/Release/x.dll", "truth_roslyn/obj/x.g.cs", "RESULTS_CS.md",
+                    "DECISION_CS.md", "cs/delta.json", "truth_roslyn/selftest/__pycache__/y.pyc"):
+            _write(k / rel, b"junk\n")
+        excluded = C.kit_hash(k)["sha256"]
+        nested = sorted(p.relative_to(k).as_posix() for p in (k / "truth_roslyn" / "selftest").rglob("*")
+                        if p.is_file() and ("obj" in p.relative_to(k).parts or "bin" in p.relative_to(k).parts))
+        _write(k / "frozen" / "flask_V0.json", (k / "frozen" / "flask_V0.json").read_bytes() + b" ")
+        edited = C.kit_hash(k)["sha256"]
+        return {"scheme": first["sha256"] == want and first["files"] == n, "exclusions": excluded == want,
+                "a nested obj/ of the self-test corpus is hashed": bool(nested) and all(not C.kit_hash_excluded(r)
+                                                                                         for r in nested),
+                "an edit changes it": edited != want}
+    _ncheck("§1 / AC7 kit hash (_common.kit_hash): sha256 over every file of the kit in byte order of its relative "
+            "path (path, NUL, bytes, NUL — recomputed independently here); __pycache__/ at any depth, "
+            "truth_roslyn/bin/, truth_roslyn/obj/, RESULTS_CS.md, DECISION_CS.md and cs/ leave it unchanged; any other "
+            "file changes it (a self-test corpus's own obj/ folder is a kit file)", kithash,
+            {"scheme": True, "exclusions": True, "a nested obj/ of the self-test corpus is hashed": True,
+             "an edit changes it": True})
+
+    def identity_():
+        files = ("truth_roslyn.py", "truth_roslyn/Program.cs", "truth_roslyn/TruthRoslyn.csproj",
+                 "truth_roslyn/global.json", "truth_roslyn/nuget.config")
+        h = hashlib.sha256()
+        for rel in sorted(files, key=lambda r: r.encode("utf-8")):
+            h.update(rel.encode("utf-8") + b"\0" + (kit / rel).read_bytes() + b"\0")
+        res, probs = OC.kithash(kit)
+        sites = kit / "truth_roslyn" / "selftest" / "truth.json"
+        t = json.loads(sites.read_text(encoding="utf-8"))
+        good, bad = nb / "id_good.json", nb / "id_bad.json"
+        _write(good, json.dumps(dict(t, resolver=dict(t.get("resolver") or {},
+                                                      tool_sources_sha256=TR.sources_sha256()))))
+        _write(bad, json.dumps(dict(t, resolver=dict(t.get("resolver") or {}, tool_sources_sha256="0" * 64))))
+        return {"AC7's files": sorted(TR.IDENTITY_FILES) == sorted(files),
+                "== the independent hash": C.reference_identity(kit)["sha256"] == h.hexdigest()
+                == TR.tool_identity()["sha256"],
+                "kithash agrees": res["reference_identity"]["truth_roslyn_identity"] == h.hexdigest() and not probs,
+                "a truth from these sources": not OC.kithash(kit, good)[1],
+                "a truth from other sources": bool(OC.kithash(kit, bad)[1])}
+    _ncheck("AC7 reference tool identity: the §1 scheme over truth_roslyn.py + truth_roslyn/{Program.cs, "
+            "TruthRoslyn.csproj, global.json, nuget.config} (independent recomputation) == `truth_roslyn.py identity` "
+            "== offline_calls kithash's; a truth whose resolver.tool_sources_sha256 is not these sources' is a "
+            "mismatch", identity_, {"AC7's files": True, "== the independent hash": True, "kithash agrees": True,
+                                    "a truth from these sources": True, "a truth from other sources": True})
+
+
+# =====================================================================================================
+# O — run_matrix.sh's C# orchestration on a FAKE repository (AC7's snapshot and guard; AC11 / AC12 / AC13 / AC15 /
+#     G5a in the dry-run plans), when bash and git are present
+# =====================================================================================================
+def _posix(p) -> str:
+    return str(p).replace("\\", "/")
+
+
+def _o_bash(script: Path, env: dict, timeout=900) -> tuple:
+    """(rc, stdout, stderr) of `bash script` with every CL_* / DEEPMAP_* variable of this process removed, then env."""
+    e = {k: v for k, v in os.environ.items() if not k.startswith(("CL_", "DEEPMAP_"))}
+    e.update(PYTHONUTF8="1", PYTHONDONTWRITEBYTECODE="1", **env)
+    try:
+        p = subprocess.run(["bash", _posix(script)], capture_output=True, text=True, encoding="utf-8", errors="replace",
+                           env=e, timeout=timeout)
+        return p.returncode, p.stdout, p.stderr
+    except (OSError, subprocess.SubprocessError) as exc:
+        return None, "", repr(exc)
+
+
+def _o_git(root: Path, *args) -> "subprocess.CompletedProcess":
+    return subprocess.run(["git", "-C", str(root), "-c", "core.longpaths=true", "-c", "core.autocrlf=false",
+                           "-c", "user.email=gate@scratch", "-c", "user.name=gate", "-c", "commit.gpgsign=false", *args],
+                          capture_output=True, text=True, encoding="utf-8", errors="replace",
+                          env=dict(os.environ, GIT_OPTIONAL_LOCKS="0"))
+
+
+def _o_plan(text: str) -> list:
+    """A dry run's printed commands, one per line, each re-joined from its words (bash printf %q escapes a space as
+    `\\ ` and a comma as `\\,`: shlex reads them back)."""
+    out = []
+    for ln in text.splitlines():
+        if not ln.strip():
+            continue
+        try:
+            out.append(" ".join(shlex.split(ln)))
+        except ValueError:
+            out.append(ln.strip())
+    return out
+
+
+def gate_o(kit: Path, base: Path) -> None:
+    print("\n-- O: run_matrix.sh's C# orchestration on a FAKE repository — AC7's self-snapshot (deleted tracked files "
+          "removed, its index == the working tree's files) and guard (every other phase from the snapshot only), and "
+          "the dry-run plans of AC11 / AC12 / AC13 / AC15 / G5a --")
+    script = kit / "run_matrix.sh"
+    probe = subprocess.run(["bash", "-c", 'test -f "$1" && echo ok', "_", _posix(script)], capture_output=True,
+                           text=True) if shutil.which("bash") else None
+    gitv = shutil.which("git")
+    if probe is None or probe.stdout.strip() != "ok" or not gitv:
+        skip("O: run_matrix.sh on a fake repository", "needs a bash that reads this checkout's paths (Git Bash on "
+             "Windows) and git")
+        return
+    o = base / "o_rm"
+    w = o / "w"
+    tool = (kit / "truth_roslyn").resolve()
+
+    def ign_kit(d, names):
+        here = Path(d).resolve()
+        return [n for n in names if n == "__pycache__" or (here == tool and n in ("bin", "obj"))]
+    shutil.copytree(kit, w / "benchmark" / "call_linking", ignore=ign_kit)
+    shutil.copytree(BUILD, w / "build", ignore=shutil.ignore_patterns("__pycache__", "graphify-out", ".deepmap"))
+    _write(w / "tests" / "typed_calls_engine_parity_gates.py", (TESTS / "typed_calls_engine_parity_gates.py").read_bytes())
+    for n in ("a.txt", "b.txt", "c.txt"):
+        _write(w / "docs" / n, f"{n}\n")
+    _write(w / ".gitignore", "*.log\n__pycache__/\n")
+    made = (_o_git(w, "init", "-q").returncode == 0 and _o_git(w, "add", "-A").returncode == 0
+            and _o_git(w, "commit", "-q", "-m", "fake").returncode == 0)
+    check("O: the fake repository (the kit, a build/ copy, the engine-parity gate) is committed in the gate's temp dir",
+          made)
+    if not made:
+        return
+    (w / "docs" / "a.txt").unlink()                                     # a tracked file deleted, not staged
+    _o_git(w, "rm", "-q", "docs/b.txt")                                 # a tracked file deleted, staged
+    _write(w / "docs" / "c.txt", "c changed\n")                         # modified, not staged
+    _write(w / "docs" / "new.txt", "new\n")                             # untracked, not ignored
+    _write(w / "docs" / "ign.log", "ignored\n")                         # ignored
+    snap = o / "s"
+    env = {"CL_WORK": _posix(o / "k"), "CL_DMHOME": _posix(o / "h"), "CL_MATRIX": "cs", "CL_PY39": _posix(sys.executable),
+           "CL_PY51": "py51-placeholder", "CL_SELF_RC": _posix(snap), "CL_CS_SOURCES": _posix(o / "no_sources")}
+    rm_wt = w / "benchmark" / "call_linking" / "run_matrix.sh"
+    rc, out, err = _o_bash(rm_wt, dict(env, CL_PHASE="self-snapshot"))
+    have = set(_o_git(snap, "ls-files").stdout.split()) if snap.is_dir() else set()
+    want = (set(_o_git(w, "ls-files", "--cached", "--others", "--exclude-standard").stdout.split())
+            - set(_o_git(w, "ls-files", "--deleted").stdout.split()))
+    check("O: AC7 self-snapshot — the snapshot's index lists exactly the working tree's files: tracked minus the "
+          "deleted ones (an unstaged and a staged deletion are gone from its index and its disk), plus untracked-not-"
+          "ignored ones, with the working tree's bytes; no ignored file",
+          rc == 0 and have and have == want and not {"docs/a.txt", "docs/b.txt"} & have
+          and not (snap / "docs" / "a.txt").exists() and not (snap / "docs" / "b.txt").exists()
+          and (snap / "docs" / "c.txt").read_bytes() == b"c changed\n" and (snap / "docs" / "new.txt").is_file()
+          and not (snap / "docs" / "ign.log").exists(),
+          {"rc": rc, "differ": sorted(have ^ want)[:8], "tail": (out + err)[-500:]})
+    rc2, out2, err2 = _o_bash(rm_wt, dict(env, CL_PHASE="self-snapshot"))
+    check("O: AC7 — an existing snapshot is never touched (a second self-snapshot is refused)",
+          rc2 not in (0, None) and "REFUSED" in out2 + err2, (rc2, (out2 + err2)[-300:]))
+    rm_snap = snap / "benchmark" / "call_linking" / "run_matrix.sh"
+    dry = dict(env, CL_DRY="1")
+    refused = {"the working tree's run_matrix.sh": _o_bash(rm_wt, dict(dry, CL_PHASE="truth")),
+               "CL_BUILD naming another build/": _o_bash(rm_snap, dict(dry, CL_PHASE="truth",
+                                                                       CL_BUILD=_posix(w / "build"))),
+               "no CL_SELF_RC": _o_bash(rm_snap, {k: v for k, v in dict(dry, CL_PHASE="truth").items()
+                                                  if k != "CL_SELF_RC"})}
+    ok_run = _o_bash(rm_snap, dict(dry, CL_PHASE="truth"))
+    check("O: AC7 guard — every C# phase but self-snapshot is refused (exit 2) when run from the working tree's "
+          "run_matrix.sh, with CL_BUILD naming another build/, or without CL_SELF_RC; the snapshot's own copy runs it "
+          "on the snapshot's build/",
+          all(r[0] == 2 and "REFUSED" in r[1] + r[2] for r in refused.values()) and ok_run[0] == 0
+          and f"build={_posix(snap)}/build" in (ok_run[1] + ok_run[2]).replace("\\", "/"),
+          {k: (r[0], (r[1] + r[2])[-160:]) for k, r in dict(refused, ok=ok_run).items()})
+    # the rest phase's plan with no N corpus and one C# arm (each arm and corpus costs a Python start per line on
+    # Windows); AC13's and AC12's rules do not depend on how many
+    narrow = {"CL_N_CORPORA": " ", "CL_CS_VARIANTS": "VT-cs"}
+    plans, secs = {"truth": ok_run}, {}
+    for ph in ("spots", "rest", "audit", "manifest", "gates"):
+        t0 = time.time()
+        plans[ph] = _o_bash(rm_snap, dict(dry, CL_PHASE=ph, **(narrow if ph == "rest" else {}),
+                                          **({"CL_CS_DIR": _posix(o / "kitx" / "cs")} if ph == "manifest" else {})))
+        secs[ph] = round(time.time() - t0)
+    print(f"     (dry-run plans, seconds per phase: {secs})")
+    rest = _o_plan(plans["rest"][2])
+    hits = [i for i, ln in enumerate(rest) if "typed_calls_engine_parity_gates.py" in ln]
+    want13 = (f"env CALL_LINKING_CS_SOURCES={_posix(o / 'no_sources')} {_posix(sys.executable)} {_posix(snap)}/tests/"
+              f"typed_calls_engine_parity_gates.py --corpora --only jellyfin__jellyfin,dotnet__eShop --py39 "
+              f"{_posix(sys.executable)} --py51 py51-placeholder")
+    others = {ph: [ln for ln in _o_plan(plans[ph][2]) if "typed_calls_engine_parity_gates.py --corpora" in ln]
+              for ph in plans if ph != "rest"}
+    narrowed = _o_bash(rm_snap, dict(dry, CL_PHASE="rest", CL_CS_CORPORA="dotnet__eShop", **narrow))
+    check("O: AC13 — the rest phase runs the snapshot's engine-parity gate's C# corpora mode exactly as AC13 names it, "
+          "once, as its last command; no other phase runs that mode (the gates phase runs the gate itself, G5a); "
+          "narrowing the C# corpora (CL_CS_CORPORA) skips it",
+          plans["rest"][0] == 0 and len(hits) == 1 and rest[hits[0]] == want13 and hits[0] == len(rest) - 1
+          and not any(others.values()) and narrowed[0] == 0
+          and "typed_calls_engine_parity_gates" not in narrowed[2],
+          {"rc": plans["rest"][0], "got": [rest[i] for i in hits], "want": want13, "last": rest[-1:],
+           "others": {k: v for k, v in others.items() if v}, "narrowed": (narrowed[0], narrowed[1][-200:])})
+    spot = [ln for ln in rest if "impact_spot.py" in ln]
+    check("O: AC12 — every spot command of the rest phase measures the corpus's FINAL list (--corpus=<id> "
+          "--final=<out>/<id>/spots_final.json); the spots phase writes it with `substitute` over both engines' V0 "
+          "dumps",
+          bool(spot) and all(re.search(r"--corpus=(jellyfin__jellyfin|dotnet__eShop) --final=\S+/\1/spots_final\.json",
+                                       ln) for ln in spot)
+          and all(f"--corpus={c}" in "\n".join(_o_plan(plans["spots"][2])) and "substitute" in plans["spots"][2]
+                  for c in CS_CORPUS_IDS.values()), spot[:2])
+    aud = "\n".join(_o_plan(plans["audit"][2]))
+    check("O: AC11 — the audit phase scores every sample and runs refrate once per corpus over both engines' main "
+          "and dispatch-stratum samples",
+          aud.count("audit_sample.py refrate") == 2 and all(
+              f"--dir={_posix(o / 'k')}/out/{c}/audit_{e}{k}" in aud for c in CS_CORPUS_IDS.values()
+              for e in ("g39", "g51") for k in ("", "_impl")), aud[-400:])
+    check("O: AC15 — the manifest phase writes only into CL_CS_DIR (`offline_calls.py manifest <dir> --write`) and is "
+          "refused without it", any(ln.endswith(f"offline_calls.py manifest {_posix(o / 'kitx' / 'cs')} --write")
+                                    for ln in _o_plan(plans["manifest"][2]))
+          and _o_bash(rm_snap, dict(dry, CL_PHASE="manifest"))[0] == 2, plans["manifest"][2][-300:])
+    gl = _o_plan(plans["gates"][2])
+    v0 = f"{_posix(sys.executable)} {_posix(snap)}/benchmark/call_linking/variants.py run V0 -- "
+    runs = sorted(ln for ln in gl if ln.endswith("_gates.py"))
+    listed = re.search(r'^CS_G5A_GATES="([^"]*)"', script.read_text(encoding="utf-8"), re.M)
+    n_missing = len(listed.group(1).split()) - 1 if listed else -1
+    check("O: G5a — the gates phase runs the snapshot's gates in variants.py's clean V0 environment under BOTH "
+          "engines' Pythons (the fake snapshot holds one listed gate: 2 runs), the no-Neo4j suite once on the dev end, "
+          "and names every missing listed gate as not passing (on both engines)",
+          plans["gates"][0] == 0 and runs == sorted([v0 + f"{_posix(sys.executable)} {_posix(snap)}/tests/"
+                                                     "typed_calls_engine_parity_gates.py",
+                                                     v0 + f"py51-placeholder {_posix(snap)}/tests/"
+                                                     "typed_calls_engine_parity_gates.py"])
+          and gl.count(v0 + f"{_posix(sys.executable)} {_posix(snap)}/tests/run_all.py") == 1
+          and plans["gates"][1].count("does not exist in the snapshot") == 2 * n_missing,
+          {"runs": runs, "missing named": plans["gates"][1].count("does not exist in the snapshot"),
+           "want missing": 2 * n_missing})
+    check("O: AC7 — every phase's plan starts by checking the snapshot's identity (kithash --kit=<snapshot kit> "
+          "--build=<snapshot build> --record=<out>/rc_identity.json)",
+          all(re.search(r"offline_calls\.py kithash --kit=\S+ --build=\S+ --record=\S+/out/rc_identity\.json",
+                        "\n".join(_o_plan(plans[ph][2]))) for ph in plans), {ph: plans[ph][0] for ph in plans})
+
+
 def main(argv=None) -> int:
     for s in (sys.stdout, sys.stderr):
         with contextlib.suppress(Exception):
@@ -2388,10 +4414,13 @@ def main(argv=None) -> int:
             mods = {}
             for name, fn, args in (("A", gate_a, (kit,)), ("B", gate_b, None), ("C", gate_c, None), ("D", gate_d, None),
                                    ("E", gate_e, None), ("F", gate_f, (refreeze, base)), ("G", gate_g, ()),
-                                   ("H", gate_h, None), ("I", gate_i, None)):
+                                   ("H", gate_h, None), ("I", gate_i, None), ("J", gate_j, None),
+                                   ("K", gate_k, (kit, base)), ("L", gate_l, None), ("M", gate_m, None),
+                                   ("N", gate_n, None), ("O", gate_o, (kit, base))):
                 if args is None:
                     args = {"B": (mods, sync_path, kit), "C": (mods, base, real), "D": (mods, kit, base, real),
-                            "E": (mods, base), "H": (mods, kit), "I": (mods, kit, base)}[name]
+                            "E": (mods, base), "H": (mods, kit), "I": (mods, kit, base), "J": (mods, kit),
+                            "L": (mods, kit, base), "M": (mods, kit), "N": (mods, kit, base)}[name]
                 try:
                     out = fn(*args)
                     if name == "A":

@@ -1,0 +1,33 @@
+using Core.Domain;
+
+namespace App;
+
+public class Dispatch
+{
+    public void Run(IHandler<Customer> h, Customer c, IRepository<Order> orders, IGreeter g, VirtualRepo vr)
+    {
+        h.Handle(c);
+        orders.Get(1);
+        g.Greet();
+        g.Name();
+        vr.Get(2);
+    }
+
+    public void Generic<TH, TR>(TH h, TR r, Customer c) where TH : IHandler<Customer> where TR : IRepository<Customer>
+    {
+        h.Handle(c);
+        r.Get(1);
+    }
+
+    public static T Build<T>() where T : IFactory<T> => T.Create();
+
+    public Order Make()
+    {
+        var a = new Order(5);
+        Order b = new(3);
+        var d = new Order { };
+        var p = new Point();
+        var l = new List<Order>();
+        return a;
+    }
+}

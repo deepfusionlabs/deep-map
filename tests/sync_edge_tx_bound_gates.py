@@ -32,6 +32,12 @@ memory-pool error where the old per-edge autocommit succeeded.
       identical to the single-transaction push, the existing degree is read once and matched by key alone
       (like the prune), a hub whose OLD edges alone exceed the budget is pre-pruned in batches, and the
       degree read falls back on an older server / propagates a real error before any write.
+  E9  (2026-10 review, F1-relabel-twin) a node the graph holds under a label this extraction no longer gives its
+      key is removed by the push before it upserts: the interpreter models the census (one read per label, by
+      label and key) and the delete (relationships out, in, then the nodes, each matched by label + key + none
+      of the key's live labels, batched like the stale prune, with both fallback spellings); the twin goes with
+      every relationship, the live node, a stale key and an out-of-scope node stay, the full-text pending stamp
+      is set before the first delete, `.relabeled` counts the twins, and every budget leaves the same graph.
 
 Hermetic: a recording fake driver that models explicit transactions; the real sync.push_to_neo4j and
 the real edge_resolve. No Neo4j.
@@ -321,6 +327,24 @@ _FWD = re.compile(r"\(a\)-\[\w*:([\w|]+)\]->\(\)")
 _REV = re.compile(r"\(\)-\[\w*:([\w|]+)\]->\(a\)|\(a\)<-\[\w*:([\w|]+)\]-\(\)")
 _END = re.compile(r"\((a|b)(?::(\w+))? \{key:row\.(a|b)\}\)")
 _MERGE = re.compile(r"MERGE \((a|b)\)-\[r:(\w+)\]->\((a|b)\)")
+# the relabel-twin census (sync._relabel_twins: per label one key-only scan, then a confirming key seek over the
+# candidates only, returning labels and the class shell rule's file, name and line) and its deletes
+# (sync._delete_relabel_twins through _run_batched: relationships out, then in, then the nodes; each spelling
+# _run_batched may send: the scope clause, the importing WITH, the plain statement): the relabel twins matched by
+# label + key + none of the key's live labels, the class shells by :Class + key + the same file, name and line
+_TWIN_SCAN = re.compile(r"^MATCH \(n:(\w+)\) WHERE n\.key IS NOT NULL RETURN n\.key AS k$")
+_TWIN_CENSUS = re.compile(r"^UNWIND \$keys AS twin_key MATCH \(n:(\w+) \{key: twin_key\}\) "
+                          r"RETURN n\.key AS k, labels\(n\) AS ls, n\.source_file AS sf, n\.name AS name, "
+                          r"n\.start_line AS line$")
+_TWIN_DELETE = re.compile(r"^UNWIND \$cand AS twin MATCH \(n:(\w+) \{key: twin\.k\}\) "
+                          r"WHERE (NONE\(l IN labels\(n\) WHERE l IN twin\.ls\)|n\.source_file = twin\.sf AND "
+                          r"n\.name = twin\.name AND n\.start_line = twin\.line)"
+                          r"(?: MATCH (\(n\)-\[r\]->\(\)|\(\)-\[r\]->\(n\)))? (.*)$")
+_TWIN_ACTION = re.compile(r"^(?:CALL \((r|n)\) \{ (DELETE r|DETACH DELETE n) \} IN TRANSACTIONS OF (\d+) ROWS"
+                          r"|CALL \{ WITH (r|n) (DELETE r|DETACH DELETE n) \} IN TRANSACTIONS OF (\d+) ROWS"
+                          r"|(DELETE r|DETACH DELETE n))$")
+# the full-text rebuild's pending stamp (sync._mark_fts_rebuild(driver, True)), set before a twin delete
+_META_STAMP = re.compile(r"^MERGE \(m:_DeepMapMeta \{id:'singleton'\}\) SET m\.(\w+) = true$")
 
 
 class _SyntaxErr(Exception):
@@ -338,6 +362,12 @@ class _Graph:
         self.ops = 0
         self.batched = []                # (rows per inner transaction, edges deleted) per batched delete
         self.degree_reads = []           # params of every existing-degree read
+        self.twin_scans = []             # the label of each relabel-twin census scan (key-only, sends no key)
+        self.twin_census = []            # (label, keys asked) per confirming census seek
+        self.twin_batched = []           # (out|in|node, rows per inner transaction or None, removed) per twin delete
+        self.props = {}                  # (label, key) -> {"sf", "name", "line"}: what the upsert wrote (or a fixture)
+        self.meta = {}                   # properties set on the :_DeepMapMeta singleton
+        self.trace = []                  # the statement kinds in the order they took effect
 
     def run(self, cypher, p):
         c = " ".join(cypher.split())
@@ -346,6 +376,71 @@ class _Graph:
         m = _NODE_UPSERT.match(c)
         if m:
             self.nodes |= {(m.group(1), r["key"]) for r in p["rows"]}
+            for r in p["rows"]:
+                self.props[(m.group(1), r["key"])] = {"sf": r.get("sf"), "name": r.get("name"), "line": r.get("line")}
+            self.trace.append("upsert")
+            return []
+        m = _TWIN_SCAN.match(c)
+        if m:
+            self.twin_scans.append(m.group(1))
+            self.trace.append("census")
+            return [{"k": k} for (lb, k) in sorted(self.nodes) if lb == m.group(1)]
+        m = _TWIN_CENSUS.match(c)
+        if m:
+            # a node here carries exactly one label, so its labels(n) is [that label]
+            keys = set(p["keys"])
+            self.twin_census.append((m.group(1), len(p["keys"])))
+            self.trace.append("census")
+            out = []
+            for (lb, k) in sorted(self.nodes):
+                if lb == m.group(1) and k in keys:
+                    pr = self.props.get((lb, k)) or {}
+                    out.append({"k": k, "ls": [lb], "sf": pr.get("sf"), "name": pr.get("name"), "line": pr.get("line")})
+            return out
+        m = _TWIN_DELETE.match(c)
+        if m:
+            lb, guard, side, tail = m.groups()
+            a = _TWIN_ACTION.match(tail)
+            if a and a.group(1):
+                var, action, rows = a.group(1), a.group(2), int(a.group(3))
+            elif a and a.group(4):
+                var, action, rows = a.group(4), a.group(5), int(a.group(6))
+            elif a:
+                var, action, rows = ("r" if a.group(7) == "DELETE r" else "n"), a.group(7), None
+            else:
+                var = action = rows = None
+            if (var, action) != (("r", "DELETE r") if side else ("n", "DETACH DELETE n")):
+                self.unknown.append(c)
+                return []
+            if guard.startswith("NONE"):
+                # NONE(l IN labels(n) WHERE l IN twin.ls): the node's one label is none of its key's live labels
+                hit = {(lb, t["k"]) for t in p["cand"] if (lb, t["k"]) in self.nodes and lb not in t["ls"]}
+            else:
+                # a class shell: the same file, name and line as the candidate says (a node without them never)
+                hit = {(lb, t["k"]) for t in p["cand"] if (lb, t["k"]) in self.nodes
+                       and (self.props.get((lb, t["k"])) or {}) == {"sf": t["sf"], "name": t["name"],
+                                                                     "line": t["line"]}}
+            if side:
+                end = 1 if side.startswith("(n)") else 2
+                gone = [rk for rk in self.rels if rk[end] in hit]
+                kind = "out" if end == 1 else "in"
+            else:
+                gone = [rk for rk in self.rels if rk[1] in hit or rk[2] in hit]     # DETACH
+                self.nodes -= hit
+                for h in hit:
+                    self.props.pop(h, None)
+                kind = "node"
+            for rk in gone:
+                del self.rels[rk]
+            if rows is None:
+                self.ops += len(gone)            # the plain spelling: one unbatched statement
+            self.twin_batched.append((kind, rows, len(hit) if kind == "node" else len(gone)))
+            self.trace.append(f"twin_{kind}")
+            return []
+        m = _META_STAMP.match(c)
+        if m:
+            self.meta[m.group(1)] = True
+            self.trace.append("stamp")
             return []
         m = _DEGREE.match(c)
         if m:
@@ -353,6 +448,7 @@ class _Graph:
             rev = {t for pair in _REV.findall(c) for g in pair if g for t in g.split("|")}
             keys = set(p["keys"])
             self.degree_reads.append(p)
+            self.trace.append("degree")
             out = []
             for n in sorted(x for x in self.nodes if x[1] in keys):
                 d = sum(1 for (et, na, nb) in self.rels if (et in fwd and na == n) or (et in rev and nb == n))
@@ -375,6 +471,7 @@ class _Graph:
                 self.batched.append((int(b.group(1)), len(gone)))
             else:
                 self.ops += len(gone)
+            self.trace.append("prune")
             return []
         mm, ends = _MERGE.search(c), _END.findall(c)
         if c.startswith("UNWIND $rows AS row MATCH") and mm and len(ends) == 2:
@@ -389,6 +486,7 @@ class _Graph:
                         if "r += row.attrs" in c:
                             props.update(row.get("attrs") or {})
                         self.ops += 1
+            self.trace.append("merge")
             return []
         self.unknown.append(c)
         return []
@@ -576,8 +674,9 @@ def gate_prune_budget() -> None:
           got == {"m0.py::C0:1": 14}, got)
 
     # a hub whose OLD edges alone exceed the budget: its old edges are pruned in bounded batches first,
-    # then its new rows are written; a stale node with the SAME KEY under another label is counted too,
-    # exactly as the prune (matched by key alone) deletes its edges
+    # then its new rows are written. The node with the SAME KEY under another label is counted too (the degree
+    # read matches by key alone, as the prune does), and since F1 (2026-10) it is a relabel twin: the push
+    # deletes it with its edges, in the twin delete's own bounded batches, before the upsert
     nodes = [_node("hub.py::hub:1", "hub", "Function", "hub.py"), _node("t.py::t0:1", "t0", "Function", "t.py"),
              _node("z.py::z:1", "z", "Function", "z.py")]
     fx2 = (nodes, [("hub.py::hub:1", "t0"), ("z.py::z:1", "t0")], [], [])
@@ -602,9 +701,19 @@ def gate_prune_budget() -> None:
     tx2 = list(getattr(g2, "tx_ops", []))
     check("hub with 600 old edges (two labels, one key), budget 100: completes", err2 is None, repr(err2))
     check("...no write transaction exceeds the budget", tx2 and max(tx2) <= 100, sorted(tx2, reverse=True)[:4])
-    check("...its old edges went in BATCHED deletes of <= 100 rows per inner transaction",
-          g2.batched and all(n <= 100 for n, _d in g2.batched) and sum(d for _n, d in g2.batched) >= 600,
-          g2.batched)
+    S2 = _load()
+    twin_edges = sum(d for kind, _n, d in g2.twin_batched if kind in ("out", "in"))
+    check("...its old edges went in BATCHED deletes: the live node's in the pre-prune's inner transactions of "
+          "<= 100 rows, the same-key :Method node's (a relabel twin) in the twin delete's of <= "
+          "_DELETE_REL_BATCH rows; 600 in all",
+          g2.batched and all(n <= 100 for n, _d in g2.batched)
+          and g2.twin_batched and all(n is not None and n <= max(S2._DELETE_REL_BATCH, S2._DELETE_NODE_BATCH)
+                                      for _k, n, _d in g2.twin_batched)
+          and sum(d for _n, d in g2.batched) + twin_edges >= 600,
+          f"prune={g2.batched} twin={g2.twin_batched}")
+    check("...the same-key node under the old label is gone (removed as a relabel twin), the live one stays",
+          ("Method", "hub.py::hub:1") not in g2.nodes and ("Function", "hub.py::hub:1") in g2.nodes
+          and ("Method", "hub.py::hub:1") not in ref2.nodes, sorted(n for n in g2.nodes if "hub" in n[1]))
     check("...no unbatched edge write ran outside a transaction", not getattr(g2, "auto_ops", []),
           getattr(g2, "auto_ops", []))
     check("...and the graph is IDENTICAL to the single-transaction push (hub -> t0 only; every stale edge of "
@@ -736,6 +845,115 @@ def gate_batched_deletes() -> None:
     check("a NON-syntax database error propagates (fail loud, never retried as another form)", raised)
 
 
+# ---- E9: a node under a label its key no longer has (a relabel twin) is removed by the push ------------
+_TWIN_FN = ("Function", "m0.py::C0.run:2")     # this sync pushes the key as a :Method
+_TWIN_MOD = ("Class", "m1.py::module")         # this sync pushes the key as a :Module
+_STALE = ("Function", "gone.py::f:1")          # a key this sync does not push at all: the prune's business
+# a class shell: a stale :Class with the file, name and line of the :Class this sync pushes as m5.py::C5:1
+_SHELL = ("Class", "m5.py#C5@L1")
+# stale classes that duplicate nothing this sync pushes (another line; another file): the prune's business
+_NOT_SHELLS = {("Class", "m6.py::C6:9"): {"sf": "m6.py", "name": "C6", "line": 9},
+               ("Class", "x6.py::C6:1"): {"sf": "x6.py", "name": "C6", "line": 1}}
+
+
+def _twin_prior(fx):
+    g = _prior(fx)
+    g.nodes |= {_TWIN_FN, _TWIN_MOD, _STALE, _SHELL} | set(_NOT_SHELLS)
+    g.props[_SHELL] = {"sf": "m5.py", "name": "C5", "line": 1}
+    g.props.update(_NOT_SHELLS)
+    helper, live = ("Function", "base.py::helper:5"), ("Method", "m0.py::C0.run:2")
+    g.rels[("CALLS", _TWIN_FN, helper)] = {"confidence": "AMBIGUOUS"}                       # out of the twin
+    g.rels[("CALLS", ("Method", "m2.py::C2.run:2"), _TWIN_FN)] = {"confidence": "INFERRED"}  # into it
+    g.rels[("IMPORTS", ("Module", "m3.py::module"), _TWIN_MOD)] = {"confidence": "INFERRED"}
+    g.rels[("CALLS", _STALE, helper)] = {"confidence": "INFERRED"}
+    g.rels[("CALLS", live, helper)] = {"confidence": "INFERRED"}                             # the live node's
+    g.rels[("INHERITS", _SHELL, ("Class", "base.py::Base:1"))] = {"confidence": "INFERRED"}  # out of the shell
+    g.rels[("CALLS", ("Method", "m4.py::C4.run:2"), _SHELL)] = {"confidence": "AMBIGUOUS"}   # into it
+    return g
+
+
+def gate_relabel_twins() -> None:
+    print("\n-- E9: a relabel twin is removed by the push (census + delete through the interpreter) --")
+    fx = _fixture()
+    views, errs = {}, {}
+    for budget in (10**9, 25, 3, 1):
+        g = _twin_prior(fx)
+        _drv, errs[budget] = _interp(fx, g, budget)
+        views[budget] = g
+    g = views[10**9]
+    check("the push completes at every budget", all(e is None for e in errs.values()),
+          {b: repr(e) for b, e in errs.items() if e is not None})
+    check("the interpreter understood every statement (census, twin delete, pending stamp included)",
+          all(not v.unknown for v in views.values()), [v.unknown[:1] for v in views.values() if v.unknown])
+    check("the census scanned every node-key label exactly once, each scan naming its label",
+          sorted(g.twin_scans) == sorted(set(g.twin_scans))
+          and set(g.twin_scans) >= {"Function", "Method", "Class", "Module", "Route"}, g.twin_scans)
+    check("...and sent keys only for the candidates: the :Function key pushed as :Method, and under :Class the "
+          "key pushed as :Module plus the 4 stale class keys (1 + 5 keys, two seeks)",
+          sorted(g.twin_census) == [("Class", 5), ("Function", 1)], g.twin_census)
+    check("both twins are gone, each with every relationship it had (out and in)",
+          _TWIN_FN not in g.nodes and _TWIN_MOD not in g.nodes
+          and not any(_TWIN_FN in (a, b) or _TWIN_MOD in (a, b) for (_t, a, b) in g.rels),
+          sorted(rk for rk in g.rels if _TWIN_FN in rk[1:] or _TWIN_MOD in rk[1:])[:3])
+    check("the class shell is gone with both its relationships; the stale classes that duplicate nothing (another "
+          "line, another file) and the out-of-scope class stay",
+          _SHELL not in g.nodes and not any(_SHELL in (a, b) for (_t, a, b) in g.rels)
+          and set(_NOT_SHELLS) <= g.nodes and ("Class", "other.py::X:1") in g.nodes,
+          sorted(n for n in g.nodes if n[0] == "Class" and not n[1].startswith(("m", "base")))[:6])
+    check("the live nodes under their pushed labels stay, with their rebuilt edges",
+          ("Method", "m0.py::C0.run:2") in g.nodes and ("Module", "m1.py::module") in g.nodes
+          and ("CALLS", ("Method", "m0.py::C0.run:2"), ("Function", "base.py::helper:5")) in g.rels, "")
+    check("a stale key (not in this extraction) and a node outside this sync are left to the prune",
+          _STALE in g.nodes and ("CALLS", _STALE, ("Function", "base.py::helper:5")) in g.rels
+          and ("Class", "other.py::X:1") in g.nodes, "")
+    kinds = [k for k, _n, _d in g.twin_batched]
+    check("the delete: relationships out, then in, then the nodes, per label and then for the shells, each batched "
+          "IN TRANSACTIONS", len(kinds) == 9
+          and all(kinds[i:i + 3] == ["out", "in", "node"] for i in range(0, len(kinds), 3))
+          and all(n is not None for _k, n, _d in g.twin_batched), g.twin_batched)
+    t = g.trace
+
+    def first(k):
+        return t.index(k) if k in t else -1
+
+    check("order: the census before any write, the pending stamp before the first delete, the deletes "
+          "before the upsert",
+          0 <= first("census") < first("stamp") < first("twin_out") < first("upsert")
+          and g.meta.get("fts_rebuild_pending") is True, t[:12])
+    S = _load()
+    S._EDGE_TX_MAX_ROWS = 10**9
+    res = S.push_to_neo4j(_GDrv(_twin_prior(fx)), *fx)
+    check("the push result is still the plain pair; `.relabeled` counts the twins and the shell (3), `.shells` the "
+          "shell (1)", len(tuple(res)) == 2 and res[0] == len(fx[0]) and getattr(res, "relabeled", None) == 3
+          and getattr(res, "shells", None) == 1,
+          (tuple(res), getattr(res, "relabeled", None), getattr(res, "shells", None)))
+    for budget in (25, 3, 1):
+        v = views[budget]
+        check(f"budget {budget}: the same nodes and edges as the single-transaction push",
+              v.nodes == g.nodes and v.rels == g.rels,
+              f"nodes={sorted(v.nodes ^ g.nodes)[:3]} rels={sorted(set(v.rels) ^ set(g.rels))[:3]}")
+    again = _twin_prior(fx)
+    _interp(fx, again, 10**9)
+    n_before = len(again.twin_batched)
+    _interp(fx, again, 10**9)
+    check("a second push finds no twin and deletes nothing", len(again.twin_batched) == n_before,
+          again.twin_batched[n_before:])
+    clean = _prior(fx)
+    _interp(fx, clean, 10**9)
+    check("no twin: no pending stamp and no twin delete", not clean.twin_batched and not clean.meta,
+          (clean.twin_batched, clean.meta))
+    for reject, label in ((("CALL (",), "no scope clause -> the importing-WITH batched form"),
+                          (("CALL (", "CALL { WITH"), "no CALL IN TRANSACTIONS -> the plain delete")):
+        v = _twin_prior(fx)
+        v.reject = reject
+        _drv, err = _interp(fx, v, 10**9)
+        batched = [n is not None for _k, n, _d in v.twin_batched]
+        check(f"{label}: understood, the twins still removed, the same graph",
+              err is None and not v.unknown and v.nodes == g.nodes and v.rels == g.rels
+              and len(batched) == 9 and (all(batched) if len(reject) == 1 else not any(batched)),
+              f"err={err!r} unknown={v.unknown[:1]} twin={v.twin_batched}")
+
+
 def main() -> int:
     for s in (sys.stdout, sys.stderr):
         try:
@@ -747,7 +965,7 @@ def main() -> int:
     print("=" * 68)
     for gate in (gate_semantic_equivalence, gate_equivalence_and_bounds, gate_atomic_per_anchor,
                  gate_label_qualified, gate_failure_rolls_back_group, gate_oversized_anchor,
-                 gate_prune_budget, gate_batched_deletes):
+                 gate_prune_budget, gate_batched_deletes, gate_relabel_twins):
         try:
             gate()
         except Exception as e:  # noqa: BLE001 — a crashing gate is a RED gate

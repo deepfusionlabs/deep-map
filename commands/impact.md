@@ -25,14 +25,22 @@ The symbol may be a bare name (`save`), a method suffix (`.save`, `#save`), or o
 (`User.save`, `User#save`, `Owner::save`; generic owners like `Repo<T>::save` are tolerated).
 
 Prints one line per dependent, `[confidence] <hop>h via <EDGE> caller -> callee file:line`, ordered
-trust-first. `--limit` counts result rows (one per DISTINCT dependent–callee pair, so a caller that
-reaches several same-named callees takes one row per callee) and defaults to 30 (clamped 1..100).
+trust-first. That `file:line` is where the caller starts (its definition), not the call. When the graph
+recorded the call site, the line ends `file:<call line> (call site; caller starts at line <line>)`
+instead: the caller's first call to the symbol (only the first call per caller/callee pair is recorded,
+so there may be more calls further down). A row at hop 2 or more prints
+`(first call on the path; caller starts at line <line>)`: its call line is the caller's first call to
+the next symbol on its path, not a call to the queried symbol itself. A graph synced before call lines were
+recorded, and a row whose edge is not `CALLS`, print the caller's start line only: look for the call
+inside that caller. `--limit` counts result rows (one per DISTINCT dependent–callee pair, so a caller
+that reaches several same-named callees takes one row per callee) and defaults to 30 (clamped 1..100).
 The confidence label is the audit wedge: `EXTRACTED` = read directly from the source (a literal
 same-file relationship, e.g. a route handler or base class you can see);
 `INFERRED` = the callee name matched exactly one symbol in the graph: likelier, but still resolved by
 name (a same-named library call or a dynamic call can land on it); `AMBIGUOUS` = the name maps to >1
-symbol, so the edge MAY be wrong: open the printed `file:line` and confirm the real binding before
-relying on it. A trailing note counts the AMBIGUOUS edges.
+symbol, so the edge MAY be wrong: open the call site (the printed call line, or the call inside the
+caller that starts at the printed `file:line`) and confirm the real binding before relying on it. A
+trailing note counts the AMBIGUOUS edges.
 
 **Relay the notes it prints: they change what the answer means.** The CLI says when the result was
 cut at `--limit` (more dependents exist), when the walk fell back to one hop or ran at a reduced depth
@@ -40,8 +48,11 @@ cut at `--limit` (more dependents exist), when the walk fell back to one hop or 
 is NOT in the graph (run `/deep-map:refresh` if you expected it) or it IS in the graph with no resolved
 dependents. Even the second does not prove that nothing depends on it: the extractor does not resolve
 every call (method/receiver calls through variables, dynamic dispatch), so grep for the name before
-calling it a leaf. If it reports the walk as too expensive (a hub name such as `__init__` or `get`),
-even a one-hop walk ran out of Neo4j's transaction memory, so a shallower walk will not help: re-query
+calling it a leaf. For C# this is the rule, not the exception: by default a call from another file
+through an object (a field, parameter or local), a type name, an interface or a mediator (MediatR
+`Send`) is not linked, so a C# answer is a lower bound and its note says so: grep the name. If it
+reports the walk as too expensive (a hub name such as `__init__` or `get`), even a one-hop walk ran
+out of Neo4j's transaction memory, so a shallower walk will not help: re-query
 with an owner-qualified `Class.method` name instead (the message suggests one). A larger heap also
 raises that limit for this project's Neo4j (its own instance, or the base store on bolt 7687):
 `DEEPMAP_NEO4J_HEAP_MAX` (default `512m`, e.g. `1g`),

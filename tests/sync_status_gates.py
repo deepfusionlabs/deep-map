@@ -903,8 +903,34 @@ def gate_g_drift(ST, build: Path) -> None:
                  # typed-receiver call linking (slice S2) and the D0 cross-family filter
                  "DEEPMAP_TYPED_CALLS", "DEEPMAP_CALLS_AUDIT", "DEEPMAP_TYPED_CALLS_SHAPES",
                  "DEEPMAP_TYPED_CALLS_REPLACE", "DEEPMAP_TYPED_CALLS_TESTS", "DEEPMAP_TYPED_CALLS_NONPROD",
-                 "DEEPMAP_TYPED_CALLS_MAX_FILES", "DEEPMAP_CALLS_FAMILY_FILTER"):
+                 "DEEPMAP_TYPED_CALLS_MAX_FILES", "DEEPMAP_CALLS_FAMILY_FILTER",
+                 # the C# reader's interface-dispatch modes (read only for a language with iface_dispatch)
+                 "DEEPMAP_TYPED_CALLS_IFACE",
+                 # the C# property / constructor supplement (graphify_extract.csharp_members_enabled, default ON)
+                 "DEEPMAP_CSHARP_MEMBERS"):
         check(f"G: {knob} shapes the graph", knob in sets["GRAPH_SHAPING_ENV"])
+    check("G: DEEPMAP_CSHARP_MEMBERS is a default-ON knob (canonical 'on'; only an OFF word turns it off)",
+          "DEEPMAP_CSHARP_MEMBERS" in ST._DEFAULT_ON_KNOBS and ST.GRAPH_SHAPING_ENV.get("DEEPMAP_CSHARP_MEMBERS") == "on")
+    # DEEPMAP_TYPED_CALLS_IFACE through typed_calls._iface_modes (review CR-3): an ON word selects every mode like
+    # unset (recorded explicit), an unknown token is ignored, a value naming no mode selects every mode, an OFF word
+    # selects none — so `=1` or a typo never records (or builds) "off"
+    iface = "DEEPMAP_TYPED_CALLS_IFACE"
+    rows = ((None, ""), ("  ", ""), ("1", "impl,static"), (" ON ", "impl,static"), ("yes", "impl,static"),
+            ("true", "impl,static"), ("statc", "impl,static"), ("static,statc", "static"), ("impl", "impl"),
+            ("impl,static", "impl,static"), ("0", "off"), ("off", "off"), ("No", "off"))
+    bad = [(raw, ST.canonical_env_value(iface, raw), want) for raw, want in rows
+           if ST.canonical_env_value(iface, raw) != want]
+    check("G: DEEPMAP_TYPED_CALLS_IFACE canonical values: ON word / unknown-only value = every mode, a known mode "
+          "beside a typo = that mode, OFF word = off", not bad, bad)
+    rt = [(raw, ST.canonical_env_value(iface, ST.canonical_env_value(iface, raw))) for raw, _w in rows
+          if raw is not None and raw.strip()
+          and ST.canonical_env_value(iface, ST.canonical_env_value(iface, raw)) != ST.canonical_env_value(iface, raw)]
+    check("G: ... every recorded DEEPMAP_TYPED_CALLS_IFACE value reads back to itself", not rt, rt)
+    check("G: ... DEEPMAP_TYPED_CALLS_IFACE=1 does not conflict with a graph built with it unset (both select every "
+          "mode); =0 does",
+          not ST.recipe_conflicts({}, {iface: "1"}) and not ST.recipe_conflicts({}, {iface: "statc"})
+          and bool(ST.recipe_conflicts({}, {iface: "0"})),
+          (ST.recipe_conflicts({}, {iface: "1"}), ST.recipe_conflicts({}, {iface: "0"})))
     check("G: DEEPMAP_HOME is a route knob (recorded as deepmap_home), not 'non-shaping'",
           "DEEPMAP_HOME" in sets["ROUTE_ENV"])
 

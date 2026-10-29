@@ -12,6 +12,8 @@ These gates prove, with no Neo4j / network / graphify run:
   * `_is_test_path` is COMPONENT-anchored (never a substring): `test/`, `tests/`, `__tests__/`,
     `spec/` dirs + `test_*.py` / `*_test.{py,go,rb,rs}` / `*.test.{ts,tsx,js,...}` / `*.spec.*` /
     `*_spec.rb` / `*Test(s).java` match; `contest.py` / `latest.js` / `attest.rb` / `src/foo.py` do NOT;
+    a .NET test-project directory (`src/Shop.Tests/`, `Shop.UnitTests/`, ... a component ENDING with a dotted
+    test suffix) matches; `src/Contest/`, `Shop.Latest/`, `Shop.Testing.Abstractions/` do NOT;
   * OFF (env unset) -> `_maybe_exclude_tests` returns the identical objects (byte-identity invariant);
   * ON -> test nodes drop, calls FROM a test node drop, and a callee defined ONLY in a dropped test
     node fails to resolve via edge_resolve.build_name_index(kept) -> the CALLS graph auto-prunes with
@@ -65,6 +67,16 @@ def gate_is_test_path() -> None:
         "a/test_thing.py", "svc_test.go", "router_test.rs", "queue.test.ts", "queue.test.tsx",
         "schema.spec.js", "model_spec.rb", "com/app/RouterTest.java", "com/app/RouterTests.java",
         "e2e/flow.ts", "pkg/testing/util.go", "__mocks__/fs.js",
+        # The .NET test-project convention (2026-10, review cs-test-fake-dotnet-layout): a test project sits
+        # BESIDE the code it tests, so a typed C# call through an interface saw its fakes as production
+        # implementers. A directory component ENDING with .Tests / .Test / .UnitTests / .UnitTest /
+        # .IntegrationTests / .IntegrationTest / .FunctionalTests / .AcceptanceTests / .Specs is test code, at any
+        # depth, in any letter case, with either separator.
+        "src/Shop.Tests/X.cs", "src/Shop.Tests/RepoTests.cs", "src/Shop.UnitTests/Fakes/FakeRepo.cs",
+        "Shop.Tests/FakeRepo.cs", "src/Shop.Test/X.cs", "src/Shop.UnitTest/X.cs",
+        "src/Shop.IntegrationTests/X.cs", "src/Shop.IntegrationTest/X.cs", "src/Shop.FunctionalTests/Fake.cs",
+        "src/Shop.AcceptanceTests/X.cs", "src/Shop.Specs/Steps/X.cs", "SRC/SHOP.TESTS/X.CS",
+        "src\\Shop.Api.Tests\\Controllers\\X.cs", "tools/Shop.Tests/nested/deep/X.ts",
     ]
     shouldnt = [
         "src/contest.py", "lib/latest.js", "pkg/attest.rb", "src/requests/sessions.py",
@@ -77,6 +89,15 @@ def gate_is_test_path() -> None:
         # case-insensitivity fix here was verified to match all five and was reverted.)
         "com/app/Latest.java", "com/app/Contest.java", "com/app/Protest.java",
         "com/app/Attest.java", "com/app/Greatest.java",
+        # The .NET suffix rule is dot-anchored and directory-only: a name that merely ends with the letters, a
+        # suffix in the middle of a name, and a FILE named like a test project are production. Decided:
+        # Shop.Testing.Abstractions is production too. Its last segment names a library, and a repository that
+        # authors a *.Testing / *.Testing.* project ships it as a package (test-support API other projects
+        # consume), so DEEPMAP_EXCLUDE_TESTS must not drop it and a production caller may dispatch into it.
+        "src/Contest/X.cs", "src/Latest.cs", "src/Shop.Testing.Abstractions/X.cs", "src/Shop.Contests/X.cs",
+        "src/Shop.Latest/X.cs", "src/Shop.Attest/X.cs", "src/My.Protests/X.cs", "src/Shop.TestsHelpers/X.cs",
+        "src/Shop.Tests.cs", "Shop.Tests", "src/Shop.Testing/X.cs", "src/Shop.Spec/X.cs",
+        "src/Shop.Tests.Common.Abstractions/X.cs",
     ]
     for sf in should:
         check(f"test  {sf!r}", S._is_test_path(sf) is True)

@@ -168,14 +168,24 @@ def _dirname(path: str) -> str:
     return p.rsplit("/", 1)[0] if "/" in p else ""
 
 
+def _by_name(n) -> bool:
+    """False for a node a NAME may never bind: one carrying the private `call_by_name: False` (graphify_extract's C#
+    computed properties and constructors — a bare `Name()` / `Order()` in any language must not fan out to
+    `ShoppingCartDto.Name` / `Order.Order`). A marked CallKey still binds it: the push resolves keys by key."""
+    return n.get("call_by_name") is not False
+
+
 def build_name_index(nodes) -> dict:
     """The EXACT index push_to_neo4j once built inline (sync._resolve_calls uses it for :CALLS): full name AND
     last dotted segment -> list of node keys — plus the last `::` segment (Ruby: `Admin::Order` is findable as
     `Order`; a no-op alias for Python/graphify names without `::`, so the CALLS-path dict stays
     byte-identical for them). Factored out so both the CALLS push and the typed-edge push share one
-    resolver without changing CALLS behavior."""
+    resolver without changing CALLS behavior. A node with `call_by_name: False` is left out (_by_name); every
+    other node is indexed exactly as before."""
     idx: dict = {}
     for n in nodes:
+        if not _by_name(n):
+            continue
         for nm in {n["name"], n["name"].split(".")[-1], n["name"].split("::")[-1]}:
             idx.setdefault(nm, []).append(n["key"])
     return idx
@@ -203,8 +213,9 @@ class Resolver:
                 labels.append(n.get("label"))
             self._name_by_key[n["key"]] = n["name"]
             self._file_by_key[n["key"]] = str(sf or "").replace("\\", "/")
-            for nm in {n["name"], n["name"].split(".")[-1], n["name"].split("::")[-1]}:
-                self._by_file.setdefault((sf, nm), []).append(n["key"])
+            if _by_name(n):                     # a C# property / constructor is never a (file, name) endpoint
+                for nm in {n["name"], n["name"].split(".")[-1], n["name"].split("::")[-1]}:
+                    self._by_file.setdefault((sf, nm), []).append(n["key"])
             if n.get("label") == "Module":
                 self._module_by_file.setdefault(sf, n["key"])
         self._dirs = {_dirname(f) for f in self._file_by_key.values()}

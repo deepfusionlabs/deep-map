@@ -1,0 +1,6 @@
+namespace Nest2.On;
+
+public static class OnCalls
+{
+    public static int Run() => new List<int>().Count;
+}

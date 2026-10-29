@@ -1,0 +1,16 @@
+namespace Core.Domain;
+
+public static class Pricing
+{
+    public static decimal TaxOf(decimal amount) => amount * 0.2m;
+}
+
+public static class OrderExtensions
+{
+    public static string Label(this Order order) => "L" + order.Id;
+}
+
+public struct Point
+{
+    public override string ToString() => "p";
+}

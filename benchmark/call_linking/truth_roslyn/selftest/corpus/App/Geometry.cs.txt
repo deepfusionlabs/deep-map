@@ -1,0 +1,19 @@
+using Core.Shapes;
+
+namespace App;
+
+public class Geometry
+{
+    public double Sum(Shape shape, Circle circle, Ring ring, Square square)
+    {
+        double a = shape.Area();
+        a += circle.Area();
+        string d = ring.Describe();
+        d += square.Describe();
+        d += shape.Describe();
+        object obj = circle;
+        d += obj.ToString();
+        d += circle.ToString();
+        return a + d.Length;
+    }
+}

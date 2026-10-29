@@ -1,0 +1,15 @@
+using Core.Domain;
+
+namespace Core;
+
+public class CoreUses
+{
+    public int Go()
+    {
+        var v = VersionInfo.Get();
+        var m = new Mapper().Map();
+        var k = 5.Twice();
+        var p = Platform.Probe();
+        return m + k + p + v.Length;
+    }
+}

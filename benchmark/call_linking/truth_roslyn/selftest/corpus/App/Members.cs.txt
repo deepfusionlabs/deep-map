@@ -1,0 +1,83 @@
+namespace App;
+
+public class Members
+{
+    private int _field = Compute();
+
+    public int Auto { get; } = Compute();
+
+    public int Expr => Compute();
+
+    public int Block
+    {
+        get
+        {
+            return Compute();
+        }
+        set
+        {
+            Compute();
+        }
+    }
+
+    public int this[int i] => Compute();
+
+    public event EventHandler? Changed
+    {
+        add { Compute(); }
+        remove { Compute(); }
+    }
+
+    static Members()
+    {
+        Compute();
+    }
+
+    public Members()
+    {
+        Compute();
+    }
+
+    public Members(int seed) : this()
+    {
+        Compute();
+    }
+
+    ~Members()
+    {
+        Compute();
+    }
+
+    public static Members operator +(Members a, Members b) => Make();
+
+    public static implicit operator int(Members m) => Compute();
+
+    [Obsolete("x")]
+    [System.ComponentModel.Description("d")]
+    public
+        int
+        Spread()
+    {
+        return Compute();
+    }
+
+    public int Over(int x)
+    {
+        return Compute();
+    }
+
+    public int Over(string s)
+    {
+        int Local(int y)
+        {
+            Func<int> f = () => Compute();
+            return f() + y;
+        }
+
+        return Local(1) + Over(2) + Spread() + Over("s");
+    }
+
+    public static int Compute() => 1;
+
+    public static Members Make() => new();
+}

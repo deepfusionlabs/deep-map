@@ -1,0 +1,23 @@
+namespace Disp;
+
+public partial class Part
+{
+    partial void Hook();
+
+    public void Run()
+    {
+        Hook();
+    }
+}
+
+public partial class Part
+{
+    partial void Hook()
+    {
+        Tail();
+    }
+
+    private void Tail()
+    {
+    }
+}

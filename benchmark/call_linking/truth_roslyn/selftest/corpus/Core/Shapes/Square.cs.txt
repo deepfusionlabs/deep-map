@@ -1,0 +1,13 @@
+namespace Core.Shapes;
+
+public class Square : Shape
+{
+    public override double Area() => 4.0;
+
+    public new virtual string Describe() => "square";
+}
+
+public class Cube : Square
+{
+    public override string Describe() => "cube";
+}

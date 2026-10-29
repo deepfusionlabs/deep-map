@@ -1,0 +1,6 @@
+internal static class VersionInfo
+{
+    public static string Get() => Build();
+
+    private static string Build() => "1.0";
+}

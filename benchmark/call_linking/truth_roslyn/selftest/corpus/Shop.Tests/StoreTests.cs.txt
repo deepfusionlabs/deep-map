@@ -1,0 +1,8 @@
+using Disp;
+
+namespace Shop.Tests;
+
+public class StoreTests
+{
+    public int Loads(IStore s) => s.Load(1);
+}

@@ -72,7 +72,17 @@ _LONG_GATE_TIMEOUT_S = {"tests/code_restart_agreement_r10_gates.py": 900,
                         "tests/typed_calls_push_gates.py": 600,
                         "tests/calls_family_filter_gates.py": 600,
                         "tests/typed_calls_shapes_gates.py": 600,
-                        "tests/call_linking_harness_gates.py": 600}
+                        # 269-513 s under 100% CPU, 734-838 s with both engines' runs in parallel (2026-10-28)
+                        "tests/call_linking_harness_gates.py": 1500,
+                        # both engines' real children: 97-240 s on a loaded Windows box
+                        "tests/typed_calls_engine_parity_gates.py": 600,
+                        # ~55 s idle, 114-165 s at 100% CPU (sync() runs, a real-engine section, 26 mutants)
+                        "tests/sync_relabel_twin_gates.py": 600,
+                        # C# typed reader: real-engine sections on both captures, ~30 s alone
+                        "tests/typed_calls_cs_gates.py": 900,
+                        # 38-40 s alone, 136-148 s beside 3 lanes
+                        "tests/typed_calls_cs_fuzz_gates.py": 600,
+                        "tests/map_graph_call_lines_gates.py": 600}
 
 
 def run(label, argv, expect_zero=True):
@@ -547,7 +557,8 @@ def main():
         ("extraction_policy_gates", "extraction policy: never-rescue dirs, minified/vendor filtered, extraction == verdict"),
         ("typed_edge_batch_gates", "typed/IMPORTS edges written in bounded UNWIND batches, transaction-agnostic"),
         ("sync_neo4j_route_gates", "sync/indexes honour the shared route; legacy owner verified; no silent 7687"),
-        ("sync_edge_tx_bound_gates", "edge rebuild in bounded transactions (prune + create budget)"),
+        ("sync_edge_tx_bound_gates", "edge rebuild in bounded transactions (prune + create budget; the "
+                                     "relabel-twin census + delete in the push interpreter)"),
         ("sync_manifest_freshness_gates", "manifest: built_at_sha at START, dirty flag ignores DeepMap artifacts"),
         ("provision_route_identity_gates", "provisioner: shared route + legacy owner check, pid+creation identity, server env, gout purge"),
         ("cli_route_impact_gates", "CLI: shared route + owner verify, impact notes, ImpactTooExpensive, query cap, driver timeouts"),
@@ -875,6 +886,40 @@ def main():
                                     "predicate and its mirrors, the ast walk / graph / incremental cache, the verdict "
                                     "census, framework_edges, the recognizer walk, graphify_extract's lists; clean "
                                     "trees unchanged"),
+        # C# field report (2026-10-28): properties, constructors, call sites, honest impact answers
+        ("impact_csharp_honesty_gates", "impact: C#-aware notes (extensions in the one count query, the "
+                                        "typed_call_langs + typed_call_narrowed meta read, one note on a "
+                                        "zero-row answer, the property clause in every C# note, MCP + CLI "
+                                        "relay)"),
+        ("impact_call_line_gates", "impact: call_line from :CALLS r.line (min() per caller grouping in the walk and "
+                                   "query_callers, rows, the MCP description budget, CLI format with the "
+                                   "hop-aware label: 'call site' at hop 1, 'first call on the path' beyond, "
+                                   "mutants)"),
+        ("csharp_members_gates", "C# member nodes: computed properties and the first instance constructor per "
+                                 "owner as :Method, 0.8.39 record/struct/enum owners, the call_by_name name "
+                                 "guard, DEEPMAP_CSHARP_MEMBERS=0 byte identity, real engine vs fixture"),
+        ("map_graph_call_lines_gates", "map_graph(call_lines=True): per-caller first call lines, metadata only "
+                                       "(the tuples equal the frozen call_lines=False output), both engines"),
+        ("sync_call_lines_gates", "sync: _call_lines key-then-name lookup, r.line written beside r.confidence "
+                                  "(never in MERGE; a line-less push sends the old params), ast lineno, cache v2"),
+        ("sync_typed_meta_gates", "sync: :_DeepMapMeta.typed_call_langs after a push that wrote nodes (sorted, [] "
+                                  "when none ran, removed on a failed write)"),
+        ("sync_relabel_twin_gates", "sync: a push removes every node whose key this extraction gives another "
+                                    "label (the 0.8.39 C# record / struct method :Function -> :Method twin) "
+                                    "and every stale :Class shell of a pushed class, on every push whatever "
+                                    "the prune decides; one key-only scan per label plus a confirming seek "
+                                    "for the candidates only, before any write, relationships first, "
+                                    "reported (stderr, sync_last.json relabeled), full-text index re-created, "
+                                    "real engine both orders, census cost, mutants"),
+        ("typed_calls_cs_gates", "typed-receiver call linking, the C# reader (receiver_facts_csharp): every CQRS "
+                                 "shape and must-not to an exact key and grade on both engines' captures, interface "
+                                 "dispatch 0/1/2-4/>4 implementers, test implementers for test callers only, "
+                                 "DEEPMAP_TYPED_CALLS_IFACE, non-C# callers unchanged, mutation teeth"),
+        ("typed_calls_cs_fuzz_gates", "typed-receiver call linking, C# reader hardening (seeded programs + byte "
+                                      "mutations: never raises, no edge without a real call)"),
+        ("test_rule_mirror_gates", "test-rule mirrors: every fallback copy of sync._is_test_path (enrich, "
+                                   "graphify_extract, typescript_edges, verdict) equals the rule, and the verdict "
+                                   "under DEEPMAP_EXCLUDE_TESTS drops what THE rule drops (.NET test projects)"),
     ):
         # No exists() guard: a registered gate that has gone missing must turn the run RED, not vanish.
         results.append((_name, run(_desc, [f"tests/{_name}.py"])))

@@ -1,0 +1,47 @@
+<Project>
+  <!-- C# call-site reference resolver (D3-cs). MEASUREMENT ONLY: nothing under build/ or hooks/ uses it, and Roslyn is
+       in no shipped list. The parent directories' Directory.Build.* / Directory.Packages.props are NOT imported, so
+       the build is the same wherever the kit sits; nuget.config next to this file clears every package source, so a
+       restore reads only the local global packages folder (offline: a missing package fails, nothing is downloaded). -->
+  <PropertyGroup>
+    <ImportDirectoryBuildProps>false</ImportDirectoryBuildProps>
+    <ImportDirectoryBuildTargets>false</ImportDirectoryBuildTargets>
+    <ImportDirectoryPackagesProps>false</ImportDirectoryPackagesProps>
+  </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>TruthRoslyn</AssemblyName>
+    <RootNamespace>TruthRoslyn</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <RollForward>Major</RollForward>
+    <Deterministic>true</Deterministic>
+    <NuGetAudit>false</NuGetAudit>
+    <RestoreUseStaticGraphEvaluation>false</RestoreUseStaticGraphEvaluation>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <!-- The tool compiles exactly Program.cs: nothing else under this directory (the selftest/ corpus) is an item. -->
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The registered reference: Roslyn 4.8.0 (C# 12). Its transitive closure for net8.0 (Microsoft.CodeAnalysis.Common
+         4.8.0, Microsoft.CodeAnalysis.Analyzers 3.3.4, System.Collections.Immutable 7.0.0, System.Reflection.Metadata
+         7.0.0, System.Runtime.CompilerServices.Unsafe 6.0.0) must already be in the global packages folder. -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="[4.8.0]" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

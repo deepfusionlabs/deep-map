@@ -1,0 +1,12 @@
+namespace Core;
+
+public static class Broken
+{
+    public static int Run()
+    {
+        int x = Helper2() +;
+        return Helper2();
+    }
+
+    private static int Helper2() => 1;
+}

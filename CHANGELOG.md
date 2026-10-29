@@ -4,6 +4,34 @@ All notable changes to DeepMap are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and versions are 0.x: DeepMap is an early release, and features
 may change between versions.
 
+## [0.6.0] - 2026-10-28
+
+Better C# and .NET support, and impact rows that point at the call.
+
+### Added
+- **C# computed properties and constructors are in the graph.** A property whose value is computed (`=> ...`, or a
+  getter with a body) and each type's first instance constructor are now symbols you can search, so logic that lives
+  in a getter is found. Auto-properties, indexers and events are not symbols. Turn it off with
+  `DEEPMAP_CSHARP_MEMBERS=0`.
+- **Impact rows show the call site.** A call row gives the line of the call (`call_line`) beside the line where the
+  calling function starts, and the CLI prints `file:line (call site; caller starts at line N)` (from hop 2 on,
+  `first call on the path`). A graph synced before this release gets call lines at its next sync.
+- **Honest C# impact answers.** By default, a C# call into another file through a field, a parameter, a local or a
+  type name is not linked. `deepmap_impact` now says so for a C# symbol, names what else it cannot see (constructor
+  and getter bodies, MediatR dispatch, property reads), and tells Claude to grep before calling code unused.
+- **An opt-in C# call linker** (`DEEPMAP_TYPED_CALLS=csharp`). It links calls by the declared type of the object,
+  including calls through injected interfaces to their implementations and calls to overridden methods.
+  `DEEPMAP_TYPED_CALLS_IFACE` controls the interface and override part. It is off by default until it passes its own
+  checks, set in advance.
+
+### Changed
+- **.NET test projects count as test code**: a folder named like `Shop.Tests` or `Shop.UnitTests`.
+
+### Fixed
+- **No duplicate nodes after a node changes kind.** With the oldest supported engine release, the first sync after
+  this release turns C# record and struct methods into methods of their type; the old copies are removed.
+- **No false "missing source" with `DEEPMAP_EXCLUDE_TESTS=1`** for a build folder inside a .NET test project.
+
 ## [0.5.0] - 2026-10-26
 
 First public release.

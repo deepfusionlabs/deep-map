@@ -1,0 +1,6 @@
+namespace Mobile;
+
+public static class MobileApp
+{
+    public static string Run() => Native.Name();
+}

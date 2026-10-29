@@ -1,0 +1,33 @@
+using System;
+
+namespace Core.Domain;
+
+[Serializable]
+public partial class Order
+{
+    public Order(int id)
+    {
+        Id = id;
+        Validate();
+    }
+
+    public Order() : this(0)
+    {
+    }
+
+    public int Id { get; }
+
+    public decimal Total() => Sum() * 1m;
+
+    public override string ToString() => "order " + Id;
+
+    partial void OnSaved();
+
+    public void Save()
+    {
+        OnSaved();
+        OnLoaded();
+    }
+
+    partial void OnLoaded();
+}

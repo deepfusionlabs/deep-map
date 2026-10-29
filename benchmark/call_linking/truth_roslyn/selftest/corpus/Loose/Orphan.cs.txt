@@ -1,0 +1,8 @@
+using Core.Domain;
+
+namespace Loose;
+
+public static class Orphan
+{
+    public static decimal Run() => new Order(1).Total();
+}

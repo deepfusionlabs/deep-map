@@ -162,7 +162,8 @@ _DEEPMAP_IMPACT = _fn(
     "What REACHES a symbol — multi-hop reverse-reachability (refactor impact / blast radius) across CALLS plus "
     "framework/runtime edges (routes, dependency injection, events, scheduled jobs, hooks, inheritance, cascades, "
     "template renders): the entry points a grep or a plain call graph can't see. Returns dependents {caller, "
-    "caller_type, file, line, confidence, callee, hop, via, via_path}; confidence is the WEAKEST edge on the path "
+    "caller_type, file, line, call_line, confidence, callee, hop, via, via_path}; line = where the dependent starts, "
+    "call_line = its first call on the path (when recorded); confidence is the WEAKEST edge on the path "
     "(EXTRACTED / INFERRED / AMBIGUOUS — verify AMBIGUOUS by reading). Trailing {note} entries flag a symbol not in "
     "the graph, no resolved dependents, or a truncated walk.",
     {"type": "object", "properties": {

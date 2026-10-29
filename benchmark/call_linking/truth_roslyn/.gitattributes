@@ -1,0 +1,2 @@
+# The captured self-test (selftest/: corpus sources, raw sites, expected truth) is compared byte for byte: LF always.
+* text eol=lf

@@ -1,0 +1,6 @@
+namespace Mobile;
+
+public static class Stray
+{
+    public static int S() => Native.Name().Length;
+}

@@ -435,7 +435,12 @@ _NEXT_FILE_EXTS = (".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs")
 _NEXT_CONFIGS = {"next.config.js", "next.config.mjs", "next.config.cjs", "next.config.ts", "next.config.mts"}
 # TypeScript's NodeNext resolution: an import names the COMPILED file (`./users.js`) of a source (users.ts).
 _TS_TWINS = {".js": (".ts", ".tsx"), ".jsx": (".tsx",), ".mjs": (".mts",), ".cjs": (".cts",)}
+# _test_path_predicate's fallback mirror of sync's rule: == sync._TEST_DIR_PARTS, and == sync._DOTNET_TEST_DIR_SUFFIXES
+# (a directory whose name ends with one of these, a .NET test project beside the code it tests, src/Web.Tests/, is
+# test code too); locked by tests/test_rule_mirror_gates.py
 _TEST_DIR_PARTS = {"test", "tests", "__tests__", "spec", "specs", "testing", "e2e", "__mocks__"}
+_DOTNET_TEST_DIR_SUFFIXES = (".tests", ".test", ".unittests", ".unittest", ".integrationtests", ".integrationtest",
+                             ".functionaltests", ".acceptancetests", ".specs")
 # Module specifiers of the HTTP frameworks whose router calls this module reads.
 _FRAMEWORK_SPECS = {"express": "express", "fastify": "fastify", "koa": "koa", "@koa/router": "koa",
                     "koa-router": "koa", "hono": "hono", "polka": "express", "router": "express"}
@@ -4676,8 +4681,9 @@ def _read(path: Path):
 
 def _test_path_predicate():
     """sync._is_test_path, THE test-code rule (a test directory component or a *.test / *.spec file name),
-    imported lazily (sync imports the registry, which imports this module); a mirror of its TypeScript /
-    JavaScript half when sync cannot be imported. Never raises."""
+    imported lazily (sync imports the registry, which imports this module); a mirror of the whole rule when
+    sync cannot be imported (its own extension list, not _MODULE_EXTS, which may grow for module resolution),
+    locked against sync by tests/test_rule_mirror_gates.py. Never raises."""
     try:
         import sync  # noqa: E402 — the owner of the rule; already loaded on the sync path
         fn = getattr(sync, "_is_test_path", None)
@@ -4689,8 +4695,13 @@ def _test_path_predicate():
     def mirror(rel) -> bool:
         parts = str(rel or "").replace("\\", "/").split("/")
         low = parts[-1].lower()
-        return (any(p.lower() in _TEST_DIR_PARTS for p in parts[:-1])
-                or any(low.endswith(m + e) for m in (".test", ".spec") for e in _MODULE_EXTS))
+        return (any(p.lower() in _TEST_DIR_PARTS or p.lower().endswith(_DOTNET_TEST_DIR_SUFFIXES)
+                    for p in parts[:-1])
+                or (low.startswith("test_") and low.endswith(".py"))
+                or low.endswith(("_test.py", "_test.go", "_test.rs", "_spec.rb"))
+                or any(low.endswith(m + e) for m in (".test", ".spec")
+                       for e in (".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"))
+                or parts[-1].endswith(("Test.java", "Tests.java")))
     return mirror
 
 

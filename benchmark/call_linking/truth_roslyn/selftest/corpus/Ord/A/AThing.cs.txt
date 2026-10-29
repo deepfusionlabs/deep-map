@@ -1,0 +1,6 @@
+namespace Ord.A;
+
+public static class AThing
+{
+    public static int A() => Ord.Z.ZThing.Z();
+}

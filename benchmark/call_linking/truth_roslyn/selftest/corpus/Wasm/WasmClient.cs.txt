@@ -1,0 +1,6 @@
+namespace Wasm;
+
+public class WasmClient
+{
+    public int Go() => "b".Log2() + "b".Warm();
+}

@@ -1535,6 +1535,14 @@ def cmd_impact(args):
         callee = str(r.get("callee") or "")
         loc = f"{r.get('file') or '?'}:{r.get('line') if r.get('line') is not None else '?'}"
         hop = r.get("hop")
+        call_line = r.get("call_line")
+        if isinstance(call_line, int) and not isinstance(call_line, bool) and call_line > 0:
+            # `line` is where the dependent starts; `call_line` is its first call on the representative path: on a
+            # direct row (hop 1, or a 1-hop fallback row, which carries no hop) a call to the queried symbol, from
+            # hop 2 on its call into the NEXT symbol of the path, so only a direct row may call it the call site
+            what = "call site" if hop is None or (type(hop) is int and hop == 1) else "first call on the path"
+            loc = (f"{r.get('file') or '?'}:{call_line} ({what}; caller starts at line "
+                   f"{r.get('line') if r.get('line') is not None else '?'})")
         hoptag = f"{hop}h" if hop is not None else "1h"
         via = str(r.get("via") or "CALLS")
         print(f"  [{conf:9s}] {hoptag:>3s} via {via:12s} {caller:32s} -> {callee:22s} {loc}")

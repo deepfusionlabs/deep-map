@@ -36,6 +36,13 @@ requested switch the product's own predicate left off — the cross-family filte
 4 INVARIANT — the dump is data but breaks a grading invariant (`invariant`: an EXTRACTED edge whose caller and
 callee sit in different files, design §4) — the variant FAILS whatever else it measures.
 
+D3-cs (benchmark/call_linking/PREREG_CS.md §8.4): the `effective` block also reports `typed_iface`, C#'s
+interface-dispatch modes as typed_calls._config read DEEPMAP_TYPED_CALLS_IFACE (static / impl; [] for none), so VT-cs,
+VT-cs-ifs and VT-cs-if0 are never an inert pair, and a DEEPMAP_TYPED_CALLS_IFACE the product did not turn on exactly
+is VOID; and a dump whose DEEPMAP_TYPED_CALLS names csharp, of a C# corpus (a node in a `.cs` file), is VOID when its
+call_linking stats show csharp disabled for any reason (langs_disabled: no reader, canary, binder, max_files) or no C#
+file read (csharp_void).
+
 usage:
   python offline_calls.py build <corpus> <out.json> [--build <build dir>] [--expect-engine graphify]
       (with --expect-engine, a dump whose extraction resolved to another engine or fell back is VOID: exit 3)
@@ -44,11 +51,36 @@ usage:
   python offline_calls.py stage0-corpus <dest> [--repo-id self-graphify-build]
       # the registered STAGE-0 corpus (tests/oracles/registry.json) exactly as tests/stage0_refreeze.py
       # materializes it: `git archive <sha>:build` — build/'s CONTENTS at the root, a non-git tree
+  python offline_calls.py identity <V0.json> <VT-cs.json> [--corpus <root>] [--rule auto|N1|N2] [--json out.json]
+      # PREREG_CS N1 / N2 (the byte comparison of the N layer): N1 = nodes, edges, counts and invariant byte-identical
+      # and neither dump VOID (a corpus without a .cs file); N2 = every edge whose caller's file is not .cs identical,
+      # pair and grade (a C# corpus, or an N corpus holding a .cs file: `self`). --corpus lists the corpus's .cs
+      # files (git ls-files, else a walk) to pick the rule. Exit 0 holds, 1 fails, 3 a dump is VOID
+  python offline_calls.py kithash [--kit <benchmark/call_linking dir>] [--truth <truth.json>] [--json out.json]
+                                  [--build <build dir> [--record <rc_identity.json>]]
+      # PREREG_CS §1 / AC7: the kit hash (every file of the kit dir, truth_roslyn/ included; __pycache__/,
+      # truth_roslyn/bin/, truth_roslyn/obj/, RESULTS_CS.md, DECISION_CS.md and cs/ excluded; byte order of the
+      # forward-slash relative paths, each its path, a NUL, its bytes and a NUL) and the reference tool identity (the
+      # same scheme over truth_roslyn.py + truth_roslyn/{Program.cs, TruthRoslyn.csproj, global.json, nuget.config},
+      # checked equal to that kit's own `truth_roslyn.py identity`); --truth adds the versions the truth's resolver
+      # block records, checked against the tool sources it was built from. Run it on the RC snapshot's kit. --build
+      # adds build/*.py's code hash; --record writes the RC identity (code + kit hash + reference identity, no path)
+      # into a new file, or checks it against an existing one (run_matrix.sh's out/rc_identity.json). Exit 0, 1 a
+      # mismatch (identity, truth or record), 2 refused
+  python offline_calls.py manifest <.../benchmark/call_linking/cs> [--write]
+      # PREREG_CS §8.7 G5b / AC15: cs/MANIFEST.sha256 (`<sha256>  <path relative to cs/>`, forward slashes, byte order
+      # of the paths, LF; never the manifest itself or a sheet.md) over every file placed under cs/, with
+      # cs/.gitattributes (`* -text`) placed first and listed. Without --write nothing is written: it prints the
+      # manifest (or checks an existing one). --write (the RC run's G5b step only) writes .gitattributes when absent
+      # and the manifest when absent; an existing different manifest is refused (delete it by hand to redo). Refused
+      # (exit 2): a sheet.md, a dump or truth file, a symbolic link, a wrong .gitattributes, an empty folder. Prints
+      # the line DECISION_CS.md records. Exit 0 written / matches, 1 an existing manifest differs
 """
 from __future__ import annotations
 
 import argparse
 import contextlib
+import hashlib
 import os
 import re
 import subprocess
@@ -118,9 +150,13 @@ def run_pipeline(S, root, *, extraction=None):
 
 
 # The typed-calls configuration fields effective_switches reports (typed_calls._config, the one reader of
-# DEEPMAP_TYPED_CALLS_SHAPES / _REPLACE / _TESTS / _NONPROD / _MAX_FILES): effective key -> _Config field.
+# DEEPMAP_TYPED_CALLS_SHAPES / _REPLACE / _TESTS / _NONPROD / _MAX_FILES / _IFACE): effective key -> _Config field.
+# typed_iface is C#'s dispatch modes (typed_calls.IFACE_MODES: static = the statically bound member, interface or
+# virtual; impl = its project implementers / the overrides — AC9: DEEPMAP_TYPED_CALLS_IFACE governs interface AND virtual
+# dispatch; [] = none), which the product reads only while a language with that rule is on (PREREG_CS §8.4: so VT-cs,
+# VT-cs-ifs and VT-cs-if0 are never an inert pair); None on a tree without the field.
 TYPED_CONFIG_FIELDS = (("typed_shapes", "shapes"), ("typed_replace", "replace"), ("typed_tests", "tests"),
-                       ("typed_nonprod", "nonprod"), ("typed_max_files", "max_files"))
+                       ("typed_nonprod", "nonprod"), ("typed_max_files", "max_files"), ("typed_iface", "iface"))
 
 
 def _plain(v):
@@ -429,7 +465,39 @@ def variant_void(dump, code=None) -> "str | None":
         why.append(f"DEEPMAP_PRECISE_CALLS={precise} names families but the product's effective family set is "
                    f"{eff.get('precise_families')!r}")
     why += _switches_left_off(flags, eff)
+    why += csharp_void(dump)
     return "; ".join(why) or None
+
+
+CSHARP = "csharp"
+
+
+def is_csharp_corpus(dump) -> bool:
+    """A C# corpus for the VOID rule below: the dump holds a node in a `.cs` file (case-insensitive). The D3-cs
+    corpora (PREREG_CS §8.2) hold thousands; a corpus without C# source never meets the rule."""
+    return any(C.is_cs_path(n.get("source_file")) for n in (dump.get("nodes") or []))
+
+
+def csharp_void(dump) -> list:
+    """PREREG_CS §8.4's C# VOID rule: a dump whose DEEPMAP_TYPED_CALLS names csharp (VT-cs and its family: shapes,
+    +t, +np, -ifs, -if0, VRC-cs), of a C# corpus (is_csharp_corpus), whose call_linking stats show csharp disabled for
+    any reason — typed_calls' langs_disabled (no reader, a failed grammar canary, a failed binder, max_files) — or
+    show no C# file read at all (by_lang.csharp absent, or 0 files: the pass did not run on the corpus's C#), is
+    VOID. A typed step that erred or returned no stats is VOID by variant_void's own rules."""
+    flags = dump.get("flags") or {}
+    if CSHARP not in _csv(flags.get("DEEPMAP_TYPED_CALLS")) or not is_csharp_corpus(dump):
+        return []
+    cl = dump.get("call_linking")
+    if not isinstance(cl, dict) or cl.get("error"):
+        return []
+    off = (cl.get("langs_disabled") or {}).get(CSHARP)
+    if off:
+        return [f"DEEPMAP_TYPED_CALLS names csharp but the typed-calls pass disabled csharp on this C# corpus ({off})"]
+    files = ((cl.get("by_lang") or {}).get(CSHARP) or {}).get("files")
+    if not files:
+        return [f"DEEPMAP_TYPED_CALLS names csharp but the typed-calls pass read no C# file of this C# corpus "
+                f"(by_lang.csharp.files={files!r})"]
+    return []
 
 
 # A switch the variant sets -> (the `effective` key reporting it, the value the product must report). Checked only
@@ -463,7 +531,251 @@ def _switches_left_off(flags, eff) -> list:
         if missing:
             why.append(f"DEEPMAP_TYPED_CALLS_SHAPES={shapes} but the product turned on typed_shapes={got!r} "
                        f"(missing: {', '.join(missing)})")
+    iface = flags.get("DEEPMAP_TYPED_CALLS_IFACE")
+    if iface is not None and str(iface).strip() and "typed_iface" in eff:
+        # PREREG_CS §8.4: VT-cs-ifs (static) and VT-cs-if0 (0) — the modes the product reports must be exactly those
+        # requested (an OFF-word asks for none); a mode it did not turn on, or one it ignored, makes the arm inert
+        got = eff.get("typed_iface")
+        raw = str(iface).strip().lower()
+        want = set() if raw in _OFF_WORDS else {x.strip() for x in raw.split(",") if x.strip()}
+        if not isinstance(got, list) or {str(x).lower() for x in got} != want:
+            why.append(f"DEEPMAP_TYPED_CALLS_IFACE={iface} but the product turned on typed_iface={got!r} "
+                       f"(requested: {sorted(want)})")
     return why
+
+
+IDENTITY_SECTIONS = ("nodes", "edges", "counts", "invariant")
+
+
+def tracked_cs_files(root) -> dict:
+    """The `.cs` files (case-insensitive) a corpus holds, for PREREG_CS N1's rule ("an N corpus that holds a
+    git-tracked .cs file is judged by N2"): `git ls-files` in a git tree, else every file under the root (a non-git
+    tree such as the STAGE-0 corpus). Returns {"files": [...], "source": "git ls-files" | "walk"}."""
+    root = Path(root)
+    out = _git(root, "ls-files", "-z")
+    if out is not None and (root / ".git").exists():
+        files = sorted(f for f in out.split("\0") if f and C.is_cs_path(f))
+        return {"files": files, "source": "git ls-files"}
+    files = sorted(p.relative_to(root).as_posix() for p in root.rglob("*")
+                   if p.is_file() and ".git" not in p.relative_to(root).parts and C.is_cs_path(p.name))
+    return {"files": files, "source": "walk"}
+
+
+def identity(base, variant, cs_files=None, rule="auto") -> dict:
+    """PREREG_CS N1 / N2 between the V0 dump and the VT-cs dump of one corpus × engine (pure).
+      N1: the dumps' nodes, edges, counts and invariant are byte-identical in the kit's serialisation (C.dump_json),
+          and neither dump is VOID — the rule for an N corpus holding no `.cs` file;
+      N2: every edge whose CALLER's file does not end in `.cs` (case-insensitive) is identical, pair and grade — the
+          rule for a C# corpus and for an N corpus that holds a `.cs` file (`self` at the RC).
+    `cs_files` (tracked_cs_files) picks the rule under rule="auto": N2 when the corpus holds a `.cs` file, else N1;
+    without it, the dumps' node files decide (rule_source "nodes"). Both are computed; `holds` is the chosen one's."""
+    sec = {s: C.dump_json(base.get(s)) == C.dump_json(variant.get(s)) for s in IDENTITY_SECTIONS}
+    void = [f"the {side} dump is VOID ({d['void']})" for side, d in (("base", base), ("variant", variant))
+            if d.get("void")]
+    file_of = {}
+    for d in (base, variant):
+        for n in d.get("nodes") or []:
+            file_of.setdefault(n.get("key"), n.get("source_file"))
+
+    def non_cs(edges):
+        return {p: g for p, g in edges.items() if not C.is_cs_path(file_of.get(p[0]))}
+    e0, e1 = non_cs(C.edges_of(base)), non_cs(C.edges_of(variant))
+    diff = sorted([a, b, e0.get((a, b)), e1.get((a, b))] for (a, b) in set(e0) | set(e1)
+                  if e0.get((a, b)) != e1.get((a, b)))
+    if cs_files is None:
+        listed = sorted({C.norm_path(f) for f in file_of.values() if C.is_cs_path(f)})
+        source = "nodes"
+    else:
+        listed, source = list(cs_files.get("files") or []), cs_files.get("source")
+    chosen = rule if rule in ("N1", "N2") else ("N2" if listed else "N1")
+    n1 = all(sec.values()) and not void
+    n2 = not diff and not void
+    return {"rule": chosen, "rule_source": source if rule not in ("N1", "N2") else "forced", "cs_files": listed,
+            "n_cs_files": len(listed), "holds": n1 if chosen == "N1" else n2, "void": void,
+            "n1": {"holds": n1, "identical": sec},
+            "n2": {"holds": n2, "non_cs_edges_base": len(e0), "non_cs_edges_variant": len(e1),
+                   "n_differ": len(diff), "differ": diff[:50]},
+            "base": base.get("_path"), "variant": variant.get("_path"),
+            "base_flags": base.get("flags"), "variant_flags": variant.get("flags")}
+
+
+def cmd_identity(args) -> int:
+    base, var = C.load_json(args.base), C.load_json(args.variant)
+    base["_path"], var["_path"] = os.path.basename(args.base), os.path.basename(args.variant)
+    cs = tracked_cs_files(args.corpus) if args.corpus else None
+    res = identity(base, var, cs, args.rule)
+    print(f"[offline_calls] identity {res['base']} -> {res['variant']}: rule {res['rule']} ({res['rule_source']}; "
+          f"{res['n_cs_files']} .cs file(s)) {'HOLDS' if res['holds'] else 'FAILS'} — N1 sections identical "
+          f"{res['n1']['identical']}; N2 non-.cs-caller edges differing {res['n2']['n_differ']}")
+    for why in res["void"]:
+        print(f"  VOID: {why}")
+    if res["n_cs_files"] and res["rule"] == "N2" and res["n_cs_files"] <= 20:
+        print(f"  .cs files: {res['cs_files']}")
+    if args.json:
+        C.write_json(args.json, res)
+    if res["void"]:
+        return 3
+    return 0 if res["holds"] else 1
+
+
+def _load_kit_module(kit_dir, name: str):
+    """A kit module loaded by PATH from `kit_dir` (the RC snapshot's kit) under a private name, never the one this
+    process imported; the kit's modules import only the stdlib at module level (harness gate A), so loading one runs
+    nothing else."""
+    import importlib.util
+    path = Path(kit_dir) / f"{name}.py"
+    mname = f"_cl_kit_{name}_{os.getpid()}_{abs(hash(str(path)))}"
+    spec = importlib.util.spec_from_file_location(mname, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[mname] = mod
+    try:
+        spec.loader.exec_module(mod)
+        return mod
+    finally:
+        sys.modules.pop(mname, None)
+
+
+def kithash(kit_dir=None, truth_path=None) -> "tuple[dict, list]":
+    """(PREREG_CS §1 / AC7's identity of a kit directory, problems): the kit hash, the reference tool identity (the
+    §1 scheme over REFERENCE_IDENTITY_FILES, checked equal to that kit's own truth_roslyn.tool_identity()), and, with a
+    truth, the versions its resolver block records — checked to come from these tool sources (its
+    tool_sources_sha256 equals that kit's truth_roslyn.sources_sha256()). Raises ValueError / FileNotFoundError when
+    the kit cannot be hashed at all."""
+    kit = Path(kit_dir or C.KIT).resolve()
+    problems = []
+    res = {"kit": C.norm_path(kit), "kit_hash": C.kit_hash(kit), "reference_identity": C.reference_identity(kit)}
+    try:
+        TR = _load_kit_module(kit, "truth_roslyn")
+        own = TR.tool_identity()
+        src = TR.sources_sha256()
+    except Exception as exc:  # noqa: BLE001 — a kit whose truth_roslyn.py does not load cannot confirm the identity
+        own, src = None, None
+        problems.append(f"{kit / 'truth_roslyn.py'} does not load ({type(exc).__name__}: {exc}): its own `identity` "
+                        f"cannot confirm the reference tool identity")
+    ri = res["reference_identity"]
+    ri["truth_roslyn_identity"] = (own or {}).get("sha256")
+    ri["tool_sources_sha256"] = src
+    if own is not None and own.get("sha256") != ri["sha256"]:
+        problems.append(f"the reference tool identity {ri['sha256']} differs from `truth_roslyn.py identity` "
+                        f"({own.get('sha256')}): the two hash different files")
+    if truth_path:
+        truth = C.load_json(truth_path)
+        v = C.reference_versions(truth)
+        res["truth"] = {"path": C.norm_path(truth_path), "versions": v,
+                        "built_from_these_sources": src is not None and v.get("tool_sources_sha256") == src}
+        if src is not None and v.get("tool_sources_sha256") != src:
+            problems.append(f"{truth_path} was made by tool sources {v.get('tool_sources_sha256')}, not this kit's "
+                            f"{src}: it is not this reference's output")
+    return res, problems
+
+
+RC_IDENTITY_SCHEMA = "call-linking/rc-identity/1"
+
+
+def rc_identity(res) -> dict:
+    """The content identity of an RC snapshot run (run_matrix.sh's out/rc_identity.json): build/*.py's code hash, the
+    kit hash and the reference tool identity — no path and no exclusion count (a phase that builds the .NET tool or
+    writes __pycache__ leaves the identity unchanged)."""
+    return {"schema": RC_IDENTITY_SCHEMA, "code": res.get("code"),
+            "kit_hash": {k: res["kit_hash"][k] for k in ("sha256", "files")},
+            "reference_identity": {k: res["reference_identity"].get(k)
+                                   for k in ("sha256", "truth_roslyn_identity", "tool_sources_sha256")}}
+
+
+def cmd_kithash(args) -> int:
+    if args.record and not args.build:
+        print("[offline_calls] kithash REFUSED: --record needs --build (the RC identity holds build/*.py's code hash)",
+              file=sys.stderr)
+        return 2
+    try:
+        res, problems = kithash(args.kit, args.truth)
+        if args.build:
+            res["code"] = C.build_code_hash(args.build)
+    except (ValueError, OSError) as exc:
+        print(f"[offline_calls] kithash REFUSED: {exc}", file=sys.stderr)
+        return 2
+    if args.record:
+        ident, rec = rc_identity(res), Path(args.record)
+        if rec.is_file():
+            have = C.load_json(rec)
+            if C.dump_json(have) != C.dump_json(ident):
+                problems.append(f"RC identity differs from the one {rec} records: recorded {C.dump_json(have).strip()}, "
+                                f"now {C.dump_json(ident).strip()}")
+            else:
+                print(f"[offline_calls] RC identity matches {rec}", file=sys.stderr)
+        elif not problems:
+            C.write_json(rec, ident)
+            print(f"[offline_calls] RC identity recorded in {rec}", file=sys.stderr)
+    kh, ri = res["kit_hash"], res["reference_identity"]
+    if res.get("code"):
+        print(f"[offline_calls] code {C.norm_path(args.build)}: build/*.py sha256 {res['code']['sha256']} "
+              f"({res['code']['files']} files)", file=sys.stderr)
+    print(f"[offline_calls] kit {res['kit']}: kit hash {kh['sha256']} ({kh['files']} files; excluded {kh['excluded']})",
+          file=sys.stderr)
+    print(f"[offline_calls] reference tool identity {ri['sha256']} over {', '.join(ri['files'])}"
+          f" (truth_roslyn.py identity: {ri.get('truth_roslyn_identity')}; tool sources {ri.get('tool_sources_sha256')})",
+          file=sys.stderr)
+    if res.get("truth"):
+        print(f"[offline_calls] reference versions ({res['truth']['path']}): {C.dump_json(res['truth']['versions'])}",
+              end="", file=sys.stderr)
+    for p in problems:
+        print(f"[offline_calls] MISMATCH: {p}", file=sys.stderr)
+    if args.json:
+        C.write_json(args.json, dict(res, problems=problems))
+    print(C.dump_json(dict(res, problems=problems)), end="")
+    return 1 if problems else 0
+
+
+def cmd_manifest(args) -> int:
+    """PREREG_CS §8.7 G5b / AC15 (see the module doc): print, check or (--write) write cs/MANIFEST.sha256."""
+    cs = Path(args.cs_dir)
+    if cs.name != "cs":
+        print(f"[offline_calls] manifest REFUSED: {cs} is not a folder named cs/ (AC15: benchmark/call_linking/cs/)",
+              file=sys.stderr)
+        return 2
+    ga, man = cs / ".gitattributes", cs / "MANIFEST.sha256"
+    want_ga = C.G5B_GITATTRIBUTES.encode("ascii")
+    virtual = {} if ga.is_file() else {".gitattributes": want_ga}
+    text, problems = C.g5b_manifest(cs, virtual)
+    if problems:
+        for p in problems:
+            print(f"[offline_calls] manifest REFUSED: {p}", file=sys.stderr)
+        return 2
+    body = text.encode("utf-8")
+    sha = hashlib.sha256(body).hexdigest()
+    record = f"- G5b: `cs/MANIFEST.sha256` sha256 `{sha}`"
+    n = text.count("\n")
+    if man.is_file():
+        have = man.read_bytes()
+        if have == body:
+            print(f"[offline_calls] {man} matches the {n} file(s) under cs/ (sha256 {sha}); DECISION_CS.md records: "
+                  f"{record}")
+            return 0
+        print(f"[offline_calls] {man} DIFFERS from the files under cs/ (on disk sha256 "
+              f"{hashlib.sha256(have).hexdigest()}, the files give {sha}); nothing written — delete it by hand to "
+              f"redo the manifest", file=sys.stderr)
+        return 1
+    if not args.write:
+        print(text, end="")
+        print(f"[offline_calls] (dry run: nothing written) cs/MANIFEST.sha256 would list {n} file(s), sha256 {sha}"
+              + ("; cs/.gitattributes (`* -text`) would be placed first" if virtual else ""))
+        return 0
+    if virtual:
+        with open(ga, "wb") as fh:
+            fh.write(want_ga)
+    text2, problems2 = C.g5b_manifest(cs)
+    if problems2 or text2 != text:
+        print(f"[offline_calls] manifest REFUSED: cs/ changed while the manifest was made ({problems2})",
+              file=sys.stderr)
+        return 2
+    with open(man, "wb") as fh:
+        fh.write(body)
+    print(f"[offline_calls] wrote {man}: {n} file(s), sha256 {sha}"
+          + (" (and cs/.gitattributes `* -text`, listed)" if virtual else ""))
+    print(f"[offline_calls] DECISION_CS.md records: {record}")
+    return 0
 
 
 def stage0_corpus(dest, repo_id="self-graphify-build") -> dict:
@@ -501,9 +813,30 @@ def main(argv=None) -> int:
     m = sub.add_parser("stage0-corpus", help="materialize the registered STAGE-0 corpus into <dest>")
     m.add_argument("dest")
     m.add_argument("--repo-id", default="self-graphify-build")
+    i = sub.add_parser("identity", help="PREREG_CS N1 / N2 between a V0 and a VT-cs dump of one corpus x engine")
+    i.add_argument("base")
+    i.add_argument("variant")
+    i.add_argument("--corpus", default=None, help="the corpus root: its .cs files pick the rule (N2 if any)")
+    i.add_argument("--rule", default="auto", choices=("auto", "N1", "N2"))
+    i.add_argument("--json", default=None)
+    k = sub.add_parser("kithash", help="PREREG_CS §1 / AC7: the kit hash and the reference tool identity")
+    k.add_argument("--kit", default=None, help="the benchmark/call_linking dir to hash (default: this kit)")
+    k.add_argument("--truth", default=None, help="a truth_roslyn output: also print its resolver block's versions")
+    k.add_argument("--build", default=None, help="also hash this build/ (build/*.py, as codehash)")
+    k.add_argument("--record", default=None, help="record the RC identity in this file, or check it against it")
+    k.add_argument("--json", default=None)
+    g = sub.add_parser("manifest", help="PREREG_CS §8.7 G5b / AC15: cs/MANIFEST.sha256 (dry run unless --write)")
+    g.add_argument("cs_dir")
+    g.add_argument("--write", action="store_true", help="write .gitattributes + the manifest (the RC run's G5b step)")
     args = ap.parse_args(argv)
     if args.cmd == "build":
         return cmd_build(args)
+    if args.cmd == "identity":
+        return cmd_identity(args)
+    if args.cmd == "kithash":
+        return cmd_kithash(args)
+    if args.cmd == "manifest":
+        return cmd_manifest(args)
     if args.cmd == "codehash":
         print(C.dump_json(C.build_code_hash(args.build)), end="")
         return 0

@@ -1,0 +1,17 @@
+namespace Analyzers;
+
+public static class Analyzer
+{
+    public static int A()
+    {
+#if NETSTANDARD2_0 && NETSTANDARD1_6_OR_GREATER && !NET
+        return B();
+#else
+        return C();
+#endif
+    }
+
+    private static int B() => 1;
+
+    private static int C() => 2;
+}

@@ -1,0 +1,6 @@
+namespace Host;
+
+public static class HostCalls
+{
+    public static int Run() => Ord.Z.ZThing.Z() + Ord.B.BThing.B() + new List<int>().Count;
+}

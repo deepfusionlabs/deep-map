@@ -84,7 +84,9 @@ DeepMap answers in one call:
 ```
 
 Each row: confidence label, hops away (`1h` is a direct caller), kind of link, dependent → what you asked about,
-`file:line`. `retries` is the file that registers the Celery task, and `orders` the file that declares
+`file:line` (where the dependent starts). When the graph records where a call is made, a call row also gives that
+line (`call_line`), and the CLI prints it first: `file:line (call site; caller starts at line N)`. From hop 2 on it
+reads `first call on the path` instead of `call site`: the dependent's call into the next symbol of its path. `retries` is the file that registers the Celery task, and `orders` the file that declares
 `POST /orders`. A row shows the weakest label on its path. An `AMBIGUOUS` row is a lead to confirm: Claude is told
 to open the `file:line` and verify. Computed by DeepMap, not drawn: its own extraction and link grading produced
 these rows on the example app.
@@ -219,7 +221,10 @@ test suites, built from real extractor output.
 | Pascal/Delphi | ✓ | ✓ | — | — |
 
 Call coverage varies. Calls on objects (`order.save()`) are mostly missing in every language tested, and so are
-Python `module.func()` calls (see [Known limits](#known-limits)).
+Python `module.func()` calls (see [Known limits](#known-limits)). In C#, a call into another file through a field,
+a parameter, a local or a type name (`_helper.Save()`, `Helper.Build()`) is not linked by default, and
+`deepmap_impact` says so. C# computed properties and each type's first instance constructor are symbols too, so
+search can find logic that lives in a property getter; auto-properties, indexers and events are not.
 
 ## Install
 
@@ -448,11 +453,15 @@ and two independent AI reviewers re-checked the findings of the main test runs; 
   call links are `AMBIGUOUS` (83 to 98% in three measured codebases), and Claude is told to open the `file:line` and
   verify. A stricter mode, `DEEPMAP_PRECISE_CALLS=1`, keeps the parser's exact target instead; it is opt-in.
 - Calls on an object, such as `order.save()`, are mostly missing from the graph, even when the code declares
-  the object's type; calls on `self` or `this` are kept. We saw this in Python, TypeScript, Go, Rust and
-  C#. In Python, `module.func()` calls and calls at module level are missing too. An opt-in, type-based call linker
-  for Python, TypeScript and JavaScript (`DEEPMAP_TYPED_CALLS=python,typescript,javascript`) links many of these
-  calls by the object's declared type. It is off by default: in our measurement it added no wrong links, but it has
-  not yet passed every check we set for it in advance.
+  the object's type; calls on `self` or `this` are kept when the method is in the same file. We saw this in
+  Python, TypeScript, Go, Rust and C#. In Python, `module.func()` calls and calls at module level are missing too.
+  In C#, by default no call into another file through a field, a parameter, a local or a type name is linked, so a
+  handler that reaches its services through injected fields shows no outgoing calls; `deepmap_impact` says so when
+  it answers for a C# symbol. An opt-in, type-based call linker (`DEEPMAP_TYPED_CALLS=python,typescript,javascript`,
+  and `csharp` for C#) links many of these calls by the object's declared type, including C# calls through injected
+  interfaces. It is off by default. For Python, TypeScript and JavaScript it added no wrong links in our measurement
+  but has not yet passed every check we set for it in advance; the C# linker is new and gets its own checks, set in
+  advance, before it can become the default.
 - It reports what it can trace. It is not a proof that nothing else depends on your code.
 - The graph is a snapshot of your last sync, not of your working tree.
 - One graph per project. No cross-repository queries.

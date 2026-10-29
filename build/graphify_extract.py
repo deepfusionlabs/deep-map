@@ -63,6 +63,13 @@ DEEPMAP_SUMMARY_NORMALIZE, DEEPMAP_GRAPHIFY_CALLS_PLUS and DEEPMAP_SUPPLEMENTAL_
 nodes' body calls). The engine child runs so it can never outlive the sync (_run_engine: a Windows
 kill-on-close job object / a POSIX process-group watchdog).
 
+C# declarations (default ON, DEEPMAP_CSHARP_MEMBERS=0 = the engine's graph exactly): neither engine makes a node of a
+C# property or constructor, so computed properties (`Owner.Prop`) and each owner's first instance constructor
+(`Owner.Owner`; a static one only when it is the only one) are read with the engine's own grammar from the .cs files it
+kept and added as :Method nodes that a NAME never binds (`call_by_name: False`, honoured by edge_resolve's name index);
+on graphify 0.8.39 a record / struct / enum also gets the :Class owner 0.8.51 gives it, one per engine id of a name in
+a file (_cs_type_owners, _cs_members). No call inside them is read.
+
 Multi-language: this mapper is validated end-to-end on real captured `graphify update --no-cluster`
 graphs for Python, TypeScript, JavaScript, Go, Rust, Java, Ruby, and C#
 (tests/graphify_multilang_gates.py). The one cross-language junk source graphify emits is the
@@ -702,13 +709,18 @@ def calls_plus_test_callers_enabled() -> bool:
     return _flag_on("DEEPMAP_GRAPHIFY_CALLS_PLUS_TESTS")
 
 
+# The fallback mirror of sync's rule, used only when sync cannot be imported. == sync._TEST_DIR_PARTS and
+# sync._DOTNET_TEST_DIR_SUFFIXES (a .NET test project's DIRECTORY, src/Shop.Tests/, is test code); both are locked,
+# with the predicate below, by tests/test_rule_mirror_gates.py.
 _TEST_DIRS_FALLBACK = frozenset({"test", "tests", "__tests__", "spec", "specs", "testing", "e2e", "__mocks__"})
+_DOTNET_TEST_DIR_SUFFIXES_FALLBACK = (".tests", ".test", ".unittests", ".unittest", ".integrationtests",
+                                      ".integrationtest", ".functionaltests", ".acceptancetests", ".specs")
 
 
 def _test_path_predicate():
     """THE test-code rule, sync._is_test_path (directory component or filename convention, never a
     substring — src/contest.py and Latest.java are production); sync is already imported on the sync path.
-    A minimal mirror when sync cannot be imported. Never raises."""
+    A mirror of the whole rule when sync cannot be imported. Never raises."""
     try:
         import sync  # noqa: E402 — the owner of the rule (DEEPMAP_EXCLUDE_TESTS / F8b use it too)
         fn = getattr(sync, "_is_test_path", None)
@@ -720,13 +732,25 @@ def _test_path_predicate():
     def fallback(source_file) -> bool:
         parts = str(source_file or "").replace("\\", "/").split("/")
         low = parts[-1].lower()
-        return (any(p.lower() in _TEST_DIRS_FALLBACK for p in parts[:-1])
+        return (any(p.lower() in _TEST_DIRS_FALLBACK or p.lower().endswith(_DOTNET_TEST_DIR_SUFFIXES_FALLBACK)
+                    for p in parts[:-1])
                 or (low.startswith("test_") and low.endswith(".py"))
                 or low.endswith(("_test.py", "_test.go", "_test.rs", "_spec.rb"))
                 or any(low.endswith(f"{m}{e}") for m in (".test", ".spec")
                        for e in (".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"))
                 or parts[-1].endswith(("Test.java", "Tests.java")))
     return fallback
+
+
+def csharp_members_enabled() -> bool:
+    """Default ON. `DEEPMAP_CSHARP_MEMBERS=0` maps a C# file exactly as the engine left it: no computed-property or
+    constructor nodes, and (graphify 0.8.39) no record / struct / enum owners (see _cs_members)."""
+    return _env_on("DEEPMAP_CSHARP_MEMBERS")
+
+
+def cs_ctor_name(owner: str) -> str:
+    """The node name of a C# constructor of `owner`: `Owner.Owner`, the way Java constructors come out of the engine."""
+    return f"{owner}.{owner}"
 
 
 def supplemental_ts_rust_calls_enabled() -> bool:
@@ -773,6 +797,8 @@ class _Source:
         self._lines: dict = {}
         self._ast: dict = {}
         self._ts: dict = {}
+        self._cs: dict = {}            # .cs file -> its declarations (_cs_decls), never the tree itself
+        self._cs_lang = None
 
     def _path(self, sf: str) -> Path:
         return self.root / str(sf or "").replace("\\", "/")
@@ -844,6 +870,25 @@ class _Source:
             except Exception:  # noqa: BLE001 — no grammar / unreadable: the supplement is skipped
                 self._ts[sf] = None
         return self._ts[sf]
+
+    def cs_tree(self, sf: str):
+        """(tree, source_bytes) from tree-sitter-c-sharp for a .cs file — the same bytes and grammar the engine
+        parses, so lines match its own — or None when the grammar is not importable (graphify's own dependency) or
+        the file is unreadable. NOT cached (unlike ts_tree): _cs_decls walks it once and keeps only the
+        declarations, so a large C# tree is never held in memory."""
+        try:
+            if not str(sf).lower().endswith(".cs"):
+                return None
+            import tree_sitter as ts
+            if self._cs_lang is None:
+                import tree_sitter_c_sharp as grammar
+                self._cs_lang = ts.Language(grammar.language())
+            data = self.raw(sf)
+            if data is None:
+                return None
+            return ts.Parser(self._cs_lang).parse(data), data
+        except Exception:  # noqa: BLE001 — no grammar / unreadable: the C# supplement is skipped
+            return None
 
 
 def _link_line(link) -> int | None:
@@ -2655,6 +2700,234 @@ def _rust_trait_methods(src: _Source, files, key_to_name, kinds, by_id, existing
     return out
 
 
+# ---- C# declarations the engine drops (default ON; DEEPMAP_CSHARP_MEMBERS=0 maps the engine's graph exactly) -------
+# graphify's C# config makes nodes of class / interface declarations (0.8.51: also record / struct / enum) and of
+# methods only (`function_types = {method_declaration}` on both engines). A property and a constructor never became a
+# node (the field case: the order total `ShoppingCartDto.ItemsCalculatedPrice => Items.Sum(...)` was in no indexed
+# text), and on 0.8.39 a record / struct / enum had no owner: its methods were owner-less functions, two of one name
+# in a file collapsed into one node, and an enum vanished.
+_CS_TYPES = frozenset({"class_declaration", "interface_declaration", "record_declaration", "struct_declaration",
+                       "enum_declaration"})                  # `record struct` parses as a record_declaration
+_CS_OWNERLESS_039 = frozenset({"record_declaration", "struct_declaration", "enum_declaration"})   # no 0.8.39 node
+_CS_PASS_THROUGH = frozenset({"compilation_unit", "declaration_list", "preproc_if", "preproc_elif", "preproc_else",
+                              "ERROR"})
+
+
+def _cs_text(node, data: bytes) -> str:
+    return data[node.start_byte:node.end_byte].decode("utf-8", "replace")
+
+
+def _cs_computed(prop) -> bool:
+    """A property with code of its own: an `=>` body, or an accessor with a body (`get { ... }`, `get => ...`). An
+    auto / init property (`{ get; set; }`, with or without an `= value` initializer) is not."""
+    for c in prop.children:
+        if c.type == "arrow_expression_clause":
+            return True
+        if c.type == "accessor_list" and any(a.type == "accessor_declaration" and a.child_by_field_name("body")
+                                             is not None for a in c.children):
+            return True
+    return False
+
+
+def _cs_decls(src: _Source, sf: str):
+    """The declarations of one .cs file in ONE tree-sitter parse that walks declarations only — namespaces,
+    preprocessor blocks and type bodies, never a method, constructor or accessor body — and keeps no tree:
+    {"types": [(node type, name, line, parent)], "methods": [(name, line, owner, direct)],
+     "props": [(name, line, owner, computed)], "ctors": [(line, owner, static)]}, in source order (`static`: the
+    constructor carries the `static` modifier); `owner` / `parent` index
+    "types" (None at file level); a line is the declaration node's first line, its attribute lines included, as the
+    engine numbers its own nodes. A method is `direct` when it sits right in its type's body: the engine owns only
+    those (one inside an `#if` block reaches its walk through a preprocessor node and comes out owner-less on both
+    engines), while a property or constructor belongs to its enclosing type either way. Memoized on the reader (one
+    parse per file per map_graph); None when the grammar is missing or the file is unreadable."""
+    memo = src._cs
+    if sf in memo:
+        return memo[sf]
+    memo[sf] = None
+    got = src.cs_tree(sf)
+    if not got:
+        return None
+    tree, data = got
+    out: dict = {"types": [], "methods": [], "props": [], "ctors": []}
+    stack = [(tree.root_node, None, False)]
+    while stack:
+        n, owner, direct = stack.pop()
+        t = n.type
+        if t in _CS_TYPES:
+            nm = n.child_by_field_name("name")
+            if nm is None:
+                continue
+            out["types"].append((t, _cs_text(nm, data), n.start_point[0] + 1, owner))
+            body = n.child_by_field_name("body")
+            if body is not None and t != "enum_declaration":
+                me = len(out["types"]) - 1
+                stack.extend((c, me, True) for c in reversed(body.children))
+        elif t == "namespace_declaration":
+            body = n.child_by_field_name("body")
+            if body is not None:
+                stack.extend((c, owner, False) for c in reversed(body.children))
+        elif t in _CS_PASS_THROUGH:
+            stack.extend((c, owner, False) for c in reversed(n.children))
+        elif owner is None:
+            continue
+        elif t == "method_declaration":
+            nm = n.child_by_field_name("name")
+            if nm is not None:
+                out["methods"].append((_cs_text(nm, data), n.start_point[0] + 1, owner, direct))
+        elif t == "property_declaration":
+            nm = n.child_by_field_name("name")
+            if nm is not None:
+                out["props"].append((_cs_text(nm, data), n.start_point[0] + 1, owner, _cs_computed(n)))
+        elif t == "constructor_declaration":
+            static = any(c.type == "modifier" and _cs_text(c, data).strip() == "static" for c in n.named_children)
+            out["ctors"].append((n.start_point[0] + 1, owner, static))
+    memo[sf] = out
+    return out
+
+
+def _cs_engine_files(raw) -> dict:
+    """{.cs source file: the engine's FILE node id} — the only files the C# supplement reads (a file the engine kept
+    nothing of is never read, so it can never look covered)."""
+    out: dict = {}
+    for n in raw:
+        sf = str(n.get("source_file") or "").replace("\\", "/")
+        if n.get("id") and sf.lower().endswith(".cs") and _is_code_node(n) and _looks_like_file(n.get("label", "")):
+            out.setdefault(sf, n["id"])
+    return out
+
+
+def _cs_type_label(label: str) -> bool:
+    """An engine label that names a type-like declaration (a class, interface, record, struct, enum or namespace):
+    not a method or function (`M()`, `.M()`) and not a file."""
+    lb = str(label or "").strip()
+    return bool(lb) and not lb.endswith("()") and not lb.startswith(".") and not _looks_like_file(lb)
+
+
+def _cs_type_owners(src: _Source, cs_files: dict, raw, method_owner: dict, defined: set) -> tuple:
+    """The :Class owner of each record, record struct, struct or enum, so its methods map to `Owner.M` on both
+    engines. The engine gives a type of a file the id `<file id>_<engine id of its name>` and keeps ONE node per id:
+    same-named declarations of a file (two nested `enum Status`, two `struct P` in two namespaces, a struct named
+    like a class or like its block namespace) collapse into the first. An engine TYPE node is one the engine
+    defines in the file (`defined`: a `contains` / `method` target, never a `references` node such as 0.8.39's
+    node for the field type of `Line _first`) whose label names a type (_cs_type_label: never the 0.8.39 function
+    `Scale()` beside an enum Scale). A declaration with an engine type node at its name and line is the engine's
+    own; any other one is owned, per file and engine id of its name, by
+      * the engine's type node of that id when there is one (the engine folded the declaration into it), else
+      * ONE synthetic raw :Class keyed `_supp_key(<file id>, Name, line)` at the first such declaration (graphify
+        0.8.39 only: 0.8.51 has a node for every record / struct / enum, so there this step adds nothing),
+    and each owner-less engine method declared right in its body (the engine node at that name and line, labelled
+    `M()`) is owned by that owner. Residual: on 0.8.39 a record / struct / enum declared BEFORE a same-named class
+    or interface of its file is folded into that class's node at the class's line (0.8.51 keeps the first
+    declaration's line). Returns (synthetic raw nodes, re-owned method ids); `method_owner` is filled in place (it is
+    map_graph's own dict, never the caller's graph)."""
+    extra: list = []
+    reowned: list = []
+    by_file: dict = {}                                      # .cs file -> {(bare label, line): engine node}
+    typed_at: dict = {}                                     # .cs file -> {(bare label, line) of an engine type node}
+    seeds: dict = {}                                        # .cs file -> {engine id of a type name: engine node id}
+    for n in raw:
+        sf = str(n.get("source_file") or "").replace("\\", "/")
+        if n.get("id") and sf in cs_files:
+            label = str(n.get("label") or "")
+            by_file.setdefault(sf, {}).setdefault((_bare(label), _line_of(n)), n)
+            if n["id"] in defined and _cs_type_label(label):
+                typed_at.setdefault(sf, set()).add((_bare(label), _line_of(n)))
+                seeds.setdefault(sf, {}).setdefault(_engine_id(_bare(label)), n["id"])
+    for sf, file_key in cs_files.items():
+        decls = _cs_decls(src, sf)
+        if not decls:
+            continue
+        at = by_file.get(sf, {})
+        own = typed_at.get(sf, set())
+        owner_of: dict = {}                                 # type index -> its owner id (the engine's or synthetic)
+        by_eid: dict = dict(seeds.get(sf, {}))              # engine id of a name -> its owner id in this file
+        for i, (kind, name, line, _parent) in enumerate(decls["types"]):
+            if kind not in _CS_OWNERLESS_039 or (name, line) in own:
+                continue
+            eid = _engine_id(name)
+            if eid not in by_eid:
+                by_eid[eid] = _supp_key(file_key, name, line)
+                extra.append({"id": by_eid[eid], "label": name, "file_type": "code", "source_file": sf,
+                              "source_location": f"L{line}"})
+            owner_of[i] = by_eid[eid]
+        for name, line, owner, direct in decls["methods"]:
+            node = at.get((name, line)) if direct and owner in owner_of else None
+            label = str((node or {}).get("label") or "")
+            if node is not None and node["id"] not in method_owner and label.endswith("()") \
+                    and not label.startswith("."):
+                method_owner[node["id"]] = owner_of[owner]
+                reowned.append(node["id"])
+    return extra, reowned
+
+
+def _cs_members(src: _Source, cs_files: dict, nodes: list, existing: set) -> list:
+    """The C# declarations the engine never makes a node of, read from each .cs file the engine kept:
+      * a computed property (an `=>` body, or an accessor with a body) -> :Method `Owner.Prop`, "...: property";
+      * ONE constructor per owner name in a file -> :Method `Owner.Owner` (cs_ctor_name; Java constructors come out
+        of the engine that way), "...: method": the FIRST INSTANCE constructor in source order (the one a `new` and
+        an injected dependency run), a static constructor only when the owner has no instance one; constructors of
+        same-named types of a file count as one owner's (the engine's one node);
+      * graphify 0.8.39: a method right in a record / struct / enum body that a same-named method of another such
+        type swallowed (one id there) -> :Method `Owner.method`.
+    The owner is the :Class at the declaring type's (file, line), else the file's only :Class of that name (the
+    engine collapses same-named types of a file into one node); a member without one is skipped, never guessed.
+    Keys are `_supp_key(<file id>, name, line)`, the same on both engines. A (name, file) that already exists is
+    skipped (`existing`, updated), so an engine that starts emitting these is never doubled. No callees: the bodies
+    are not read. Properties and constructors carry the private `call_by_name: False` (never pushed): edge_resolve's
+    name index skips them, so a bare `Name()` / `Order()` in any language never fans out to one, while a marked
+    CallKey still binds them. Returns [(node_dict, file id, None)] like the other supplements."""
+    out: list = []
+    clean = clean_owner_names_enabled()
+    classes: dict = {}                                      # .cs file -> ({(name, line)}, {name: how many})
+    for nd in nodes:
+        if nd["label"] == "Class" and nd["source_file"] in cs_files:
+            at_f, n_f = classes.setdefault(nd["source_file"], (set(), {}))
+            at_f.add((nd["name"], nd["start_line"]))
+            n_f[nd["name"]] = n_f.get(nd["name"], 0) + 1
+    for sf in sorted(cs_files):
+        decls = _cs_decls(src, sf)
+        if not decls:
+            continue
+        file_key = cs_files[sf]
+        at, n_named = classes.get(sf, (set(), {}))       # this file's :Class (name, line)s and name counts
+        types = decls["types"]
+
+        def owner_name(i):
+            if i is None:
+                return None
+            _kind, name, line, _p = types[i]
+            if (name, line) not in at and n_named.get(name) != 1:
+                return None
+            return _clean_owner(name) if clean else name
+
+        def add(name: str, line: int, kind: str, guard: bool) -> None:
+            if (name, sf) in existing:
+                return
+            existing.add((name, sf))
+            nd = dict(key=_supp_key(file_key, name, line), label="Method", name=name, source_file=sf,
+                      start_line=line, documented=False, body_summary=f"{summarize.humanize(name)}: {kind}"[:300])
+            if guard:
+                nd["call_by_name"] = False
+            out.append((nd, file_key, None))
+
+        for pname, line, owner, computed in decls["props"]:
+            onm = owner_name(owner) if computed else None
+            if onm:
+                add(f"{onm}.{pname}", line, "property", True)
+        first: dict = {}                                    # owner name -> (line, static) of its constructor node
+        for line, owner, static in decls["ctors"]:
+            onm = owner_name(owner)
+            if onm and (onm not in first or (first[onm][1] and not static)):
+                first[onm] = (line, static)
+        for onm, (line, _static) in sorted(first.items(), key=lambda kv: kv[1][0]):
+            add(cs_ctor_name(onm), line, "method", True)
+        for mname, line, owner, direct in decls["methods"]:
+            onm = owner_name(owner) if (direct and owner is not None and types[owner][0] in _CS_OWNERLESS_039) else None
+            if onm:
+                add(f"{onm}.{mname}", line, "method", False)
+    return out
+
+
 # ---- default-OFF: DEEPMAP_GRAPHIFY_CALLS_PLUS -----------------------------------------------------
 def _import_rel(p) -> str:
     """A root-relative path as py_import_resolver keys it: '/' separators, no leading './' or '/', case KEPT
@@ -2876,7 +3149,7 @@ def _calls_plus(src: _Source, nodes: list, mod_idx: dict | None = None) -> list:
 
 
 def map_graph(graph: dict, *, root=None, stats: dict | None = None,
-              source: _Source | None = None) -> tuple[list[dict], list[tuple], list[tuple]]:
+              source: _Source | None = None, call_lines: bool = False) -> tuple[list[dict], list[tuple], list[tuple]]:
     """Map a parsed graphify graph.json into (nodes, calls, imports) — sync.py's push shape.
 
     Pure unless `root` is given: then source files are read to correct what the engine gets wrong —
@@ -2907,7 +3180,7 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
     breakdown `self_calls_moved` / `self_calls_ambiguous` / `self_calls_dropped`, `resolved_imports`
     (the switch), `imports_resolved` / `imports_by_name` (how many import tuples carry a node key / a
     name), `imports_bare_resolved` (bare module imports bound), `calls_filtered` (distinct engine calls
-    dropped as impossible), `overloads_moved`, `supplemental_nodes` (recovered TS/JS + Rust nodes),
+    dropped as impossible), `overloads_moved`, `supplemental_nodes` (recovered TS/JS + Rust + C# nodes),
     `file_ids_split`, `file_nodes_restored` (file nodes the engine's writer dropped and DeepMap rebuilt
     before the split; also counted in file_ids_split), `calls_plus` (calls the CALLS_PLUS flag
     added), `calls_plus_test_skipped` (additions left out because the caller is test code — R10/P6),
@@ -2928,12 +3201,29 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
     `source` (S1b, the shared-reader seam): a `_Source` of the SAME `root` to read the files through instead of
     a fresh one — extract_with_report passes its caller's (sync's typed-call pass then reuses every read and
     parse, design 2.1). It changes no output: the reads are the same either way. Ignored without `root` (the
-    mapping stays pure) or when it is not a _Source of that root (a fresh one is used)."""
+    mapping stays pure) or when it is not a _Source of that root (a fresh one is used).
+
+    C# (with `root`; default ON, DEEPMAP_CSHARP_MEMBERS=0 or a missing tree-sitter-c-sharp = the old output): the
+    declarations the engine never makes a node of — computed properties (`Owner.Prop`) and each owner's first
+    instance constructor (`Owner.Owner`; a static one only when it is the only one), as :Method nodes with the private
+    `call_by_name: False` the name index honours (edge_resolve) — and, on graphify 0.8.39, a :Class owner per engine
+    id of a record / struct / enum name in a file with its methods re-owned (_cs_type_owners, _cs_members; counted in
+    `supplemental_nodes`).
+
+    `call_lines` (C1; extract_with_report passes True): each caller with at least one engine call whose line is known
+    gets the private `call_lines` {"key": {target key: first line}, "name": {callee name: first line}} — the lowest
+    `source_location` line of the engine links behind its final tuples (a key tuple also under its target's name),
+    following the G5 re-bind, the false-call filter and the TS re-key. Never pushed; sync._call_lines reads it. False
+    (the default) = no such attribute, the output exactly as before."""
     raw = graph.get("nodes", []) or []
     links = graph.get("links", []) or []
     raw, n_restored = _restore_swallowed_file_nodes(raw, links)  # R8/J2 — the 0.8.4x+ writer drops the file
     raw, links, n_split = _split_reused_file_ids(raw, links)     # T8#10 — same objects when no id is reused
     by_id = {n.get("id"): n for n in raw if n.get("id")}
+    if root is None:
+        source = None
+    elif not (isinstance(source, _Source) and source.root == Path(root)):
+        source = _Source(root)                 # lazy: nothing is read before a correction asks for a file
 
     # ---- edge-derived role sets (first pass) --------------------------------
     method_owner: dict = {}        # method_id -> owning class_id
@@ -2955,6 +3245,20 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
                 defined_ids.add(tgt)
         elif rel == "rationale_for":
             rationale_text[tgt] = (by_id.get(src) or {}).get("label", "")
+
+    # C# (default ON): the .cs files the engine kept, and on graphify 0.8.39 a :Class owner per record / struct /
+    # enum with its methods re-owned (0.8.51 makes those itself) — before typing, so they type and name like 0.8.51's
+    cs_files = _cs_engine_files(raw) if (source is not None and csharp_members_enabled()) else {}
+    n_cs_owners = 0
+    if cs_files:
+        owners, reowned = _cs_type_owners(source, cs_files, raw, method_owner, defined_ids)
+        if owners:
+            raw = raw + owners                 # a new list: the caller's graph is never changed
+            for o in owners:
+                by_id[o["id"]] = o
+                defined_ids.add(o["id"])
+            n_cs_owners = len(owners)
+        class_with_methods.update(method_owner[m] for m in reowned)
 
     method_targets = set(method_owner)
 
@@ -3014,10 +3318,6 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
         key_to_name[nid] = node_name(n, nid, kind)
         kinds[nid] = kind
 
-    if root is None:
-        source = None
-    elif not (isinstance(source, _Source) and source.root == Path(root)):
-        source = _Source(root)
     reader = _caller_body_reader(source, by_id, kinds) if source is not None else None
     # T5#4 / T4d-F3: calls the language itself rules out, decided once per link (the name-derived summary
     # below must not name a callee the edge list drops).
@@ -3130,6 +3430,9 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
     imports: list[tuple] = []
     seen: set = set()
     mod_idx = None
+    # C1: caller -> {"key": {target key: line}, "name": {callee name: line}}, the FIRST (lowest) call-site line of the
+    # engine links behind each final tuple; None = not asked for (the node dicts stay exactly as before)
+    lines_of: dict | None = {} if call_lines else None
 
     def file_of(k) -> str:
         return str((by_id.get(k) or {}).get("source_file") or "").replace("\\", "/")
@@ -3185,6 +3488,8 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
                 elif how_p1 == "both":
                     plain_pairs.add((src, tgt_name))
                     other_names.add((src, tgt_name))
+                    if lines_of is not None:
+                        _note_call_line(lines_of, src, "name", tgt_name, _link_line(l))
                     if _seen_call((src, tgt_name)) not in seen:
                         fanned.add((src, tgt))      # the member call's targets, BEFORE the key (whose grade
                         seen.add(_seen_call((src, tgt_name)))    # then wins for the def itself at the push)
@@ -3200,6 +3505,13 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
                     (ph_names if (tgt is not None and tgt not in key_to_name) else other_names).add(item)
             if tgt in key_to_name:
                 engine_called.add((src, tgt))
+            if lines_of is not None:              # before the de-duplication: a repeated tuple keeps the lowest line
+                ln = _link_line(l)
+                if is_call_key(item[1]):
+                    _note_call_line(lines_of, src, "key", str(item[1]), ln)
+                    _note_call_line(lines_of, src, "name", key_to_name.get(str(item[1]), ""), ln)
+                else:
+                    _note_call_line(lines_of, src, "name", item[1], ln)
             if _seen_call(item) not in seen:
                 seen.add(_seen_call(item))
                 calls.append(item)
@@ -3236,6 +3548,9 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
         if rs_files:
             named = {(nd["name"], nd["source_file"]) for nd in nodes}
             supp += _rust_trait_methods(source, rs_files, key_to_name, kinds, by_id, named)
+        if cs_files:                           # C# properties / constructors (+ 0.8.39 record / struct methods)
+            named = {(nd["name"], nd["source_file"]) for nd in nodes if nd["source_file"] in cs_files}
+            supp += _cs_members(source, cs_files, nodes, named)
         supp_calls = supplemental_ts_rust_calls_enabled()
         by_name_file: dict = {}
         if supp_calls:
@@ -3271,10 +3586,13 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
             out: list = []
             kept_calls: set = set()
             renamed: set = set()
+            name_of = {nd["key"]: nd["name"] for nd in nodes} if lines_of is not None else {}
             for c in calls:
                 new = moves.get((c[0], str(c[1]))) if is_call_key(c[1]) else None
                 if new is not None:
                     seen.discard(_seen_call(c))
+                    if lines_of is not None:     # C1: the call's line follows it to the value (or the name)
+                        _move_call_line(lines_of, c[0], str(c[1]), new, name_of)
                     c = (c[0], new)
                     if is_call_key(new):
                         n_rekeyed += 1
@@ -3327,6 +3645,10 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
             if nd["key"] in per_caller:
                 nd["call_member"] = sorted(per_caller[nd["key"]])
 
+    # C1 (call_lines=True only): each caller's first call-site lines, for what its FINAL tuples hold
+    if lines_of:
+        _attach_call_lines(nodes, calls, lines_of)
+
     if isinstance(stats, dict):
         hows = list(changed.values())
         stats.update(self_call_rebind=rebind is not None, self_calls_rebound=len(hows),
@@ -3334,7 +3656,7 @@ def map_graph(graph: dict, *, root=None, stats: dict | None = None,
                      self_calls_dropped=hows.count("drop"), resolved_imports=keyed_imports,
                      imports_resolved=n_imp_keys, imports_by_name=len(imports) - n_imp_keys,
                      imports_bare_resolved=n_bare, calls_filtered=len(bad_pairs),
-                     overloads_moved=len(lines_fix), supplemental_nodes=n_supp, file_ids_split=n_split,
+                     overloads_moved=len(lines_fix), supplemental_nodes=n_supp + n_cs_owners, file_ids_split=n_split,
                      file_nodes_restored=n_restored, calls_plus=n_plus,
                      precise_unkeyed=len(unkeyed), precise_receiver_names=len(fanned),
                      calls_plus_test_skipped=len(plus_test_skipped), precise_type_rekeyed=n_rekeyed,
@@ -3348,6 +3670,57 @@ def _seen_call(item) -> tuple:
     same string are DIFFERENT calls (R11/R1) — one binds that node, the other fans out by name. Without a
     marked key (both flags off) this de-duplicates exactly as `("c", item)` did."""
     return ("c", item, is_call_key(item[1]))
+
+
+def _note_call_line(lines_of: dict, src, sub: str, target, ln) -> None:
+    """C1: keep the LOWEST call-site line of `src`'s calls of `target` (a plain str, never a CallKey) under
+    lines_of[src][sub] ("key" or "name"). A line that is not a positive int (an unknown one) is not recorded."""
+    if not isinstance(ln, int) or isinstance(ln, bool) or ln <= 0 or not target:
+        return
+    d = lines_of.setdefault(src, {}).setdefault(sub, {})
+    t = str(target)
+    d[t] = ln if t not in d else min(d[t], ln)
+
+
+def _move_call_line(lines_of: dict, src, old_key: str, new, name_of: dict) -> None:
+    """C1, the TS value-over-type re-key: the line recorded for the key the engine gave (the type) moves to the tuple
+    that replaced it — the value declaration's key (and its name), or the name."""
+    ln = ((lines_of.get(src) or {}).get("key") or {}).pop(old_key, None)
+    if ln is None:
+        return
+    if is_call_key(new):
+        _note_call_line(lines_of, src, "key", str(new), ln)
+        _note_call_line(lines_of, src, "name", name_of.get(str(new), ""), ln)
+    else:
+        _note_call_line(lines_of, src, "name", new, ln)
+
+
+def _attach_call_lines(nodes: list, calls: list, lines_of: dict) -> None:
+    """C1: each caller's private `call_lines` {"key": {...}, "name": {...}} — restricted to what its FINAL tuples hold
+    (a key one of its key tuples names; a name one of its name tuples names, or a key tuple's target carries), so a
+    tuple a later step dropped leaves no line behind. A caller with no line gets nothing; an empty half is left out."""
+    name_of = {nd["key"]: nd["name"] for nd in nodes}
+    keys: dict = {}
+    names: dict = {}
+    for s, c in calls:
+        if is_call_key(c):
+            keys.setdefault(s, set()).add(str(c))
+            names.setdefault(s, set()).add(name_of.get(str(c), ""))
+        else:
+            names.setdefault(s, set()).add(str(c))
+    for nd in nodes:
+        rec = lines_of.get(nd["key"])
+        if not rec:
+            continue
+        got: dict = {}
+        k = {t: v for t, v in (rec.get("key") or {}).items() if t in keys.get(nd["key"], ())}
+        n = {t: v for t, v in (rec.get("name") or {}).items() if t in names.get(nd["key"], ())}
+        if k:
+            got["key"] = k
+        if n:
+            got["name"] = n
+        if got:
+            nd["call_lines"] = got
 
 
 def _names_before_keys(calls: list, names: set) -> list:
@@ -4446,7 +4819,9 @@ def _log_round7_counters(report: dict) -> None:
                                "the caller's own F) — DEEPMAP_FALSE_CALL_FILTER=0 to keep them"),
             "imports_bare_resolved": "bound {} bare module import(s) the engine left unresolved",
             "supplemental_nodes": ("recovered {} declaration(s) the engine dropped (TS/JS id collisions, "
-                                   "Rust trait methods)"),
+                                   "Rust trait methods, C# computed properties and constructors, graphify 0.8.39's "
+                                   "C# record / struct / enum types; DEEPMAP_CSHARP_MEMBERS=0 leaves the C# ones "
+                                   "out)"),
             "overloads_moved": "pointed {} @overload group(s) at the implementation instead of the first stub",
             "file_ids_split": ("kept {} file :Module node(s) whose id the engine reused for a same-named "
                                "entity (a Go type, a TS `const $`)"),
@@ -5211,8 +5586,10 @@ def extract_with_report(workspace_root, *, timeout: int | None = None, source: _
                  f"{report['output_tail'] or '(no output)'}")
             return None, report
         stats: dict = {}
-        # S1b: the caller's reader, when it handed one in (map_graph uses it only for this root)
-        result = map_graph(json.loads(gpath.read_text(encoding="utf-8")), root=root, stats=stats, source=source)
+        # S1b: the caller's reader, when it handed one in (map_graph uses it only for this root). C1: each caller's
+        # first call-site lines ride along (private; sync's push writes them as r.line on its :CALLS edges)
+        result = map_graph(json.loads(gpath.read_text(encoding="utf-8")), root=root, stats=stats, source=source,
+                           call_lines=True)
         report["self_call_rebind"] = bool(stats.get("self_call_rebind"))
         report["self_calls_rebound"] = int(stats.get("self_calls_rebound") or 0)
         for k in _ROUND7_COUNTERS:

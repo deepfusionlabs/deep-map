@@ -370,6 +370,7 @@ class _Extractor(ast.NodeVisitor):
         self.nodes.append(entry)
         local = _locally_bound(node)
         recv: dict = {}
+        lines: dict = {}              # callee name -> its first call line (the call-site line, see _call_lines)
         for child in ast.walk(node):
             if isinstance(child, ast.Call):
                 f = child.func
@@ -377,8 +378,13 @@ class _Extractor(ast.NodeVisitor):
                 if callee:
                     self.calls.append((key, callee))
                     recv.setdefault(callee, set()).add(_receiver_kind(f, self._aliases, local))
+                    ln = getattr(child, "lineno", None)
+                    if isinstance(ln, int) and ln > 0 and (callee not in lines or ln < lines[callee]):
+                        lines[callee] = ln
         if recv:                      # private resolution metadata (never pushed): see _receiver_kind
             entry["call_recv"] = {c: sorted(k) for c, k in recv.items()}
+        if lines:                     # private, never pushed as a node property: _call_lines reads it
+            entry["call_lines"] = {"name": lines}
         self.generic_visit(node)
 
     visit_FunctionDef = _func
@@ -651,10 +657,11 @@ def _rebuild_code_ast(workspace_root: Path):
 
 # The version of the per-file ast extraction (_extract_ast_file's output), stored as a reserved entry of
 # the incremental cache: bump it whenever that output changes, so an entry an older build wrote from the
-# SAME file bytes is not reused (the round-7 extraction skips @overload stubs and records receiver kinds).
+# SAME file bytes is not reused (the round-7 extraction skips @overload stubs and records receiver kinds;
+# 2026-10 records each callee's first call line, `call_lines` — with extract_cache.CACHE_VERSION 2).
 # The entry's key holds a NUL, which no file's relative path can, and its string `hash` passes
 # extract_cache.load_cache's sanity filter; the cache keeps the plain extractor="ast" tag.
-_AST_EXTRACT_SEMANTICS = "2026-09-r7"
+_AST_EXTRACT_SEMANTICS = "2026-10-call-lines"
 _AST_SEMANTICS_KEY = "\x00deepmap:ast-extract-semantics"
 
 
@@ -703,6 +710,13 @@ def _rebuild_code_ast_incremental(workspace_root: Path):
 # the SAME objects — so a default build (incl. the Python STAGE-0 oracle) is byte-identical and the
 # frozen retriever is untouched. This is an extraction-SCOPE knob only; ranking is unchanged.
 _TEST_DIR_PARTS = {"test", "tests", "__tests__", "spec", "specs", "testing", "e2e", "__mocks__"}
+# The .NET test-project convention: a test project sits BESIDE the code it tests and is named after it plus a
+# suffix (src/Shop + src/Shop.Tests, Shop.UnitTests/Fakes/FakeRepo.cs), so no directory component is a bare
+# `tests`. A DIRECTORY component whose lower-cased name ENDS with one of these (the dot is the anchor) is test code;
+# never a substring anywhere else: src/Contest/, Shop.Latest/, Shop.Contests/ and Shop.Testing.Abstractions/ (a
+# test-support LIBRARY a repository ships) are production.
+_DOTNET_TEST_DIR_SUFFIXES = (".tests", ".test", ".unittests", ".unittest", ".integrationtests", ".integrationtest",
+                             ".functionaltests", ".acceptancetests", ".specs")
 
 
 def _exclude_tests_enabled() -> bool:
@@ -713,13 +727,16 @@ def _is_test_path(source_file: str) -> bool:
     """True iff `source_file` is test code — matched by DIRECTORY COMPONENT (never a substring, so
     `src/contest.py` / `lib/latest.js` / `pkg/attest.rb` are NOT tests) or by filename convention:
     test_*.py, *_test.{py,go,rs}, *.test.{ts,tsx,js,jsx,mjs,cjs}, *.spec.{...}, *_spec.rb,
-    *Test.java / *Tests.java."""
+    *Test.java / *Tests.java. A directory component is a test dir when it IS one of _TEST_DIR_PARTS or, the .NET
+    test-project convention, ENDS with one of _DOTNET_TEST_DIR_SUFFIXES (`src/Shop.Tests/FakeRepo.cs`)."""
     raw = str(source_file or "").replace("\\", "/")
     if not raw:
         return False
     parts = raw.split("/")
-    if any(p.lower() in _TEST_DIR_PARTS for p in parts[:-1]):   # a DIRECTORY component is a test dir
-        return True
+    for p in parts[:-1]:                                          # a DIRECTORY component is a test dir
+        low = p.lower()
+        if low in _TEST_DIR_PARTS or low.endswith(_DOTNET_TEST_DIR_SUFFIXES):
+            return True
     name = parts[-1]
     lname = name.lower()
     if lname.startswith("test_") and lname.endswith(".py"):
@@ -1611,6 +1628,43 @@ def _member_names(nodes) -> dict:
         names = n.get("call_member")
         if names and isinstance(names, (list, tuple, set, frozenset)):
             out.setdefault(n["key"], set()).update(str(x) for x in names)
+    return out
+
+
+# ---- the call-site line of a :CALLS edge (`r.line`, display only) ------------------------------------
+# A caller's private `call_lines` {"key": {target key: line}, "name": {callee name: line}} says where it first
+# calls each target: map_graph (graphify, from the engine link's source_location), _Extractor (ast) and the opt-in
+# typed pass write it. The push sets it as `r.line` AFTER the MERGE, so the edges, their grades and the CALLS
+# in-degree are exactly what they were. The name entries carry the line through every pass that changes the tuple
+# but not the target's name (_unkey_receiver_calls, a typed key, the LOCAL_DEF re-bind, the name fan-out), so
+# _resolve_calls stays as it is. First call site per (caller, target) pair: a name fall-back gives the caller's
+# first call of that name, always a real call in its body.
+def _call_lines(nodes, edges) -> dict:
+    """PURE: {(caller key, callee key): call-site line} for the :CALLS `edges` (_resolve_calls' output) whose caller
+    recorded the line. Lookup per edge: the caller's `call_lines["key"][target key]`, then `["name"]` by the target's
+    full name, its last "." segment, its last "::" segment (the segments edge_resolve.build_name_index indexes).
+    Only an int > 0 (never a bool) counts; a bad value moves on to the next lookup. {} when no node carries the
+    metadata. Keys are plain str (never a CallKey). Never raises on malformed metadata."""
+    meta: dict = {}
+    for n in nodes or ():
+        cl = n.get("call_lines") if isinstance(n, dict) else None
+        if isinstance(cl, dict) and cl:
+            meta[n["key"]] = cl
+    if not meta:
+        return {}
+    name_of = {n["key"]: str(n.get("name") or "") for n in nodes if isinstance(n, dict)}
+    out: dict = {}
+    for a, b in edges:
+        cl = meta.get(a)
+        if cl is None:
+            continue
+        nm = name_of.get(b, "")
+        for sub, k in (("key", str(b)), ("name", nm), ("name", nm.split(".")[-1]), ("name", nm.split("::")[-1])):
+            d = cl.get(sub)
+            v = d.get(k) if isinstance(d, dict) and k else None
+            if type(v) is int and v > 0:
+                out[(str(a), str(b))] = v
+                break
     return out
 
 
@@ -3480,19 +3534,28 @@ def _write_calls(tx, anchors, edges_by_anchor, labels_of, *, prune: bool = True)
     edges that corrupted deepmap_impact / the graph-weighted arm — bug-hunt HIGH); on a fresh build it
     deletes nothing. It is scoped to this sync's nodes, never the whole graph, and matches them by key
     alone (one scan per transaction) so a same-key node under another label is pruned too.
-    `prune=False` only writes (an oversized anchor, already pruned in batches — see push_to_neo4j)."""
+    `prune=False` only writes (an oversized anchor, already pruned in batches — see push_to_neo4j).
+
+    An item is (callee key, confidence[, call-site line]): a known line (_call_lines) rides as the row's "l" and
+    is SET as `r.line` after the MERGE, never part of its pattern (that would split one edge per line and move
+    the CALLS in-degree); a row without one is exactly {a, b, c}, and `row.l` reads as null."""
     if prune:
         tx.run("MATCH (a)-[r:CALLS]->() WHERE a.key IN $keys DELETE r", keys=anchors)
     by_labels: dict = {}
     for a in anchors:
-        for b, conf in edges_by_anchor.get(a, ()):
+        for item in edges_by_anchor.get(a, ()):
+            b, conf = item[0], item[1]
+            line = item[2] if len(item) > 2 else None
             for la in labels_of[a]:
                 for lb in labels_of[b]:
-                    by_labels.setdefault((la, lb), []).append({"a": a, "b": b, "c": conf})
+                    row = {"a": a, "b": b, "c": conf}
+                    if line is not None:
+                        row["l"] = line
+                    by_labels.setdefault((la, lb), []).append(row)
     for (la, lb), rows in by_labels.items():
         for chunk in _batches(rows):
             tx.run(f"UNWIND $rows AS row MATCH (a:{la} {{key:row.a}}) MATCH (b:{lb} {{key:row.b}}) "
-                   "MERGE (a)-[r:CALLS]->(b) SET r.confidence=row.c", rows=chunk)
+                   "MERGE (a)-[r:CALLS]->(b) SET r.confidence=row.c, r.line=row.l", rows=chunk)
 
 
 def _edge_groups(keys, rows_of, budget) -> list:
@@ -3601,10 +3664,233 @@ def _rewrite_oversized_anchor(driver, session, key, calls_rows, typed_rows, labe
             tx.commit()
 
 
+# ---- a live key under ANOTHER label (2026-10 review, F1-relabel-twin) -------------------------------------------
+# _upsert_nodes MERGEs by (:Label {key}) and the stale prune deletes by key alone, so when an extraction gives a live
+# key a label other than the one the graph holds it under, the old node stayed beside the new one for good: a TWIN
+# with the old name, summary and embedding, in the vector and full-text indexes, in impact's name matches and the
+# node counts, which no prune ever removed (its key is live). Found with graphify 0.8.39 and the default-on C# owner
+# step: a record / struct / enum method keeps its key and moves :Function -> :Method (DEEPMAP_CSHARP_MEMBERS=0 moves
+# it back). Every push now removes such nodes before it upserts: on every sync, whatever the stale prune decides
+# (its >50% guard, the background refresh's evidence-only prune), because a twin duplicates a node this push writes;
+# it is not stale code.
+# The same pass removes a CLASS SHELL TWIN (2026-10 live verification): a :Class whose key this extraction does not
+# give at all, but whose (source_file, name, start_line) equals a :Class this push writes under another key. Found on
+# graphify 0.8.39: before the C# owner step the csharp_edges recognizer added a shell per record / record struct
+# (`<file>::OrderLine:27`, "OrderLine: C# record"); with the step the owner is `<file id>@OrderLine:L27` (same name,
+# file and line) and the recognizer adds no shell, so a sync that does not prune (the git hook, a plain sync) kept both
+# (DEEPMAP_CSHARP_MEMBERS=0 turns it the other way). It matches ONLY that exact triple, so it never removes a class
+# this push does not duplicate: another part of a partial class (another line), a same-named class of another file,
+# a node with no file, name or line (line >= 1 required), or a stale node under any label but :Class.
+# The read (_relabel_twins), before any write: per label (indexes.KEY_INDEX_LABELS, plus any other label this
+# extraction writes; never a label-less MATCH), ONE scan that returns only the keys the graph holds under it (N rows
+# over the whole graph; a label with no node returns nothing), diffed here against the extraction; then a confirming
+# key seek (labels; file, name and line) for the candidates only, batched: the keys under the label that this
+# extraction gives other labels, and under :Class (when this push writes a class) the keys it does not give at all,
+# which a pruning sync leaves none of. Nothing is sent when there is no candidate. The old census sent every key it did
+# not push under each label (about 4N index seeks on every push, twin or not). The delete is bounded like the stale
+# prune (relationships first) and re-checks each node (its live labels, or for a shell its file, name and line). The
+# push stamps the full-text rebuild BEFORE it deletes, so a sync killed after the delete still re-creates
+# deepmap_code_fts next time, and reports the counts on its result (`.relabeled` = all twins, `.shells` = the class
+# shells among them, `.moves` = the label moves seen): sync() re-creates the index, logs both kinds and records the
+# total (sync_last.json `relabeled`). The node the push MERGEs is the one that stays (created when only the twin
+# existed) and is embedded on the normal path.
+_TWIN_READ_BATCH = 10_000          # keys per confirming read (one index seek each)
+_TWIN_LABELS_FALLBACK = ("Function", "Method", "Class", "Module", "Route")   # == indexes.KEY_INDEX_LABELS
+_SHELL_LABEL = "Class"             # the one label a shell twin (same file, name and line, another key) is read under
+
+
+class _PushResult(tuple):
+    """push_to_neo4j's (nodes pushed, DISTINCT :CALLS edges); `relabeled` = the twins it removed before the upsert,
+    `shells` = how many of them were class shells, `moves` = ((old label, (new labels), n), ...) for the others (see
+    above). Compares, unpacks and indexes as the plain pair it always was."""
+    relabeled = 0
+    shells = 0
+    moves = ()
+
+
+class _Twins(dict):
+    """_relabel_twins' answer: {label: [key]} of the relabel twins, plus `shells` ([{"k", "sf", "name", "line"}], the
+    class shell twins) and `moves` ({(old label, (new labels)): n})."""
+
+    def __init__(self, *a, **k):
+        super().__init__(*a, **k)
+        self.shells: list = []
+        self.moves: dict = {}
+
+
+def _twin_labels(labels_of) -> list:
+    """The labels a twin can carry: the node-key index labels, then any other label this extraction writes."""
+    known = list(getattr(indexes, "KEY_INDEX_LABELS", None) or _TWIN_LABELS_FALLBACK)
+    written = sorted({lb for ls in labels_of.values() for lb in ls if isinstance(lb, str)})
+    return [lb for lb in dict.fromkeys(known + written) if isinstance(lb, str) and _SAFE_LABEL.match(lb)]
+
+
+def _class_triple(sf, name, line):
+    """(source_file, name, start_line) of a :Class, or None when a part is missing (then it never matches): a
+    non-empty file and name, and a real line number (an int >= 1, never a bool)."""
+    if isinstance(sf, str) and sf and isinstance(name, str) and name and type(line) is int and line >= 1:
+        return sf, name, line
+    return None
+
+
+def _class_triples(nodes) -> dict:
+    """{(source_file, name, start_line): key} of the :Class nodes this push writes (see _class_triple)."""
+    out: dict = {}
+    for n in nodes or ():
+        if isinstance(n, dict) and n.get("label") == _SHELL_LABEL:
+            t = _class_triple(n.get("source_file"), n.get("name"), n.get("start_line"))
+            if t is not None:
+                out.setdefault(t, n.get("key"))
+    return out
+
+
+def _result_rows(res):
+    """The rows of a driver result, read as they stream (a result that is None or not iterable: none)."""
+    if res is None:
+        return
+    try:
+        it = iter(res)
+    except TypeError:
+        return
+    yield from it
+
+
+def _row_field(row, name):
+    try:
+        return row[name]
+    except (KeyError, IndexError, TypeError):
+        return None
+
+
+def _relabel_twins(driver, labels_of, classes=None) -> "_Twins":
+    """The twins this push removes, as a _Twins: {label: [key]} of the EXISTING nodes under `label` whose key this
+    extraction gives only OTHER labels (labels_of: key -> the labels it is pushed under), and `.shells`: the existing
+    :Class nodes whose key this extraction does not give at all but whose (source_file, name, start_line) is in
+    `classes` (_class_triples of this push: a :Class it writes under another key). A node that also carries one of
+    its key's live labels is not a twin; any other key this extraction does not give is the stale prune's business.
+    Read only: per label one scan returning keys (diffed here), then a confirming seek for the candidates only,
+    batched; a database error propagates, before any write."""
+    out = _Twins()
+    classes = classes if isinstance(classes, dict) else {}
+    with driver.session() as s:
+        for lb in _twin_labels(labels_of):
+            shells_here = bool(classes) and lb == _SHELL_LABEL
+            cand = []
+            for row in _result_rows(s.run(f"MATCH (n:{lb}) WHERE n.key IS NOT NULL RETURN n.key AS k")):
+                k = _row_field(row, "k")
+                if not isinstance(k, str):
+                    continue
+                live = labels_of.get(k)
+                if (live is not None and lb not in live) or (live is None and shells_here):
+                    cand.append(k)
+            cand = list(dict.fromkeys(cand))
+            for i in range(0, len(cand), _TWIN_READ_BATCH):
+                res = s.run(f"UNWIND $keys AS twin_key MATCH (n:{lb} {{key: twin_key}}) RETURN n.key AS k, "
+                            "labels(n) AS ls, n.source_file AS sf, n.name AS name, n.start_line AS line",
+                            keys=cand[i:i + _TWIN_READ_BATCH])
+                for row in _result_rows(res):
+                    k, ls = _row_field(row, "k"), _row_field(row, "ls")
+                    if not isinstance(k, str):
+                        continue
+                    live = labels_of.get(k)
+                    if live is not None:
+                        have = {str(x) for x in (ls if isinstance(ls, (list, tuple)) else ())}
+                        if not have & set(live):
+                            out.setdefault(lb, []).append(k)
+                    elif shells_here:
+                        t = _class_triple(_row_field(row, "sf"), _row_field(row, "name"), _row_field(row, "line"))
+                        if t is not None and t in classes:
+                            out.shells.append({"k": k, "sf": t[0], "name": t[1], "line": t[2]})
+    for lb in list(out):
+        out[lb] = list(dict.fromkeys(out[lb]))
+        for k in out[lb]:
+            move = (lb, tuple(labels_of.get(k) or ()))
+            out.moves[move] = out.moves.get(move, 0) + 1
+    out.shells = list({t["k"]: t for t in out.shells}.values())
+    return out
+
+
+def _delete_relabel_twins(driver, twins, labels_of) -> int:
+    """DETACH-DELETE the twins _relabel_twins found ({label: [key]}), each matched by its label and key AND still
+    carrying none of its key's live labels, then its class shells (`.shells`), each matched by :Class, key AND the
+    same file, name and start line: relationships first, then the nodes, in bounded batches (_run_batched, as the
+    stale prune does). Returns how many twins it was handed. A database error propagates."""
+    n = 0
+    for lb, keys in twins.items():
+        if not keys or not _SAFE_LABEL.match(str(lb)):
+            continue
+        cand = [{"k": k, "ls": list(labels_of.get(k) or ())} for k in keys]
+        m = f"UNWIND $cand AS twin MATCH (n:{lb} {{key: twin.k}}) WHERE NONE(l IN labels(n) WHERE l IN twin.ls)"
+        _run_batched(driver, f"{m} MATCH (n)-[r]->()", "r", "DELETE r", _DELETE_REL_BATCH, cand=cand)
+        _run_batched(driver, f"{m} MATCH ()-[r]->(n)", "r", "DELETE r", _DELETE_REL_BATCH, cand=cand)
+        _run_batched(driver, m, "n", "DETACH DELETE n", _DELETE_NODE_BATCH, cand=cand)
+        n += len(cand)
+    shells = [{"k": t["k"], "sf": t["sf"], "name": t["name"], "line": t["line"]}
+              for t in (getattr(twins, "shells", None) or ())
+              if isinstance(t, dict) and isinstance(t.get("k"), str)
+              and _class_triple(t.get("sf"), t.get("name"), t.get("line")) is not None]
+    if shells:
+        m = (f"UNWIND $cand AS twin MATCH (n:{_SHELL_LABEL} {{key: twin.k}}) "
+             "WHERE n.source_file = twin.sf AND n.name = twin.name AND n.start_line = twin.line")
+        _run_batched(driver, f"{m} MATCH (n)-[r]->()", "r", "DELETE r", _DELETE_REL_BATCH, cand=shells)
+        _run_batched(driver, f"{m} MATCH ()-[r]->(n)", "r", "DELETE r", _DELETE_REL_BATCH, cand=shells)
+        _run_batched(driver, m, "n", "DETACH DELETE n", _DELETE_NODE_BATCH, cand=shells)
+        n += len(shells)
+    return n
+
+
+def _push_twins(pushed) -> tuple:
+    """(twins removed, class shells among them, label moves) from a push result: only real ints count (a plain
+    tuple from a stub, or a test double's auto-attribute, reads as no twin), shells never exceed the total, and a
+    move is (old label, (new labels), n) with identifier-safe labels."""
+    n = getattr(pushed, "relabeled", 0)
+    n = n if type(n) is int and n > 0 else 0
+    shells = getattr(pushed, "shells", 0)
+    shells = shells if type(shells) is int and 0 < shells <= n else 0
+    moves = []
+    raw = getattr(pushed, "moves", None)
+    for mv in (raw if isinstance(raw, (list, tuple)) else ()):
+        try:
+            old, new, k = mv
+        except (TypeError, ValueError):
+            continue
+        new = tuple(new) if isinstance(new, (list, tuple)) else ()
+        if (isinstance(old, str) and _SAFE_LABEL.match(old) and new
+                and all(isinstance(x, str) and _SAFE_LABEL.match(x) for x in new) and type(k) is int and k > 0):
+            moves.append((old, new, k))
+    return n, shells, moves
+
+
+def _moves_text(moves, total) -> str:
+    """' (3 from :Function to :Method, 1 from :Class to :Module)': the label moves the push saw, when they account for
+    exactly `total` nodes; else '' (the line then names no labels rather than guess)."""
+    if not moves or sum(k for _o, _n, k in moves) != total:
+        return ""
+    return " (" + ", ".join(f"{k} from :{old} to " + " and ".join(f":{x}" for x in new)
+                            for old, new, k in moves) + ")"
+
+
+def _discount_plan(plan, n) -> None:
+    """Take `n` stale nodes the push already removed (class shells) out of a prune plan's counts, in place. The plan
+    was read before the push and counted them (their keys are not live, and their files were re-extracted)."""
+    if not isinstance(plan, dict) or not n:
+        return
+    for field in ("would_delete", "existing_total"):
+        v = plan.get(field)
+        if type(v) is int:
+            plan[field] = max(0, v - n)
+    ex = plan.get("exempt")
+    if isinstance(ex, dict) and type(ex.get("re-extracted")) is int:
+        ex["re-extracted"] = max(0, ex["re-extracted"] - n)
+
+
 def push_to_neo4j(driver, nodes, calls, imports, typed_edges=None):
     """Upsert `nodes`, then atomically rebuild their outgoing :CALLS, typed/runtime edges and :IMPORTS.
     Returns (nodes pushed, DISTINCT :CALLS edges) — CALLS-only, a SUBSET of `deepmap status`'s
-    all-relationship count. With no nodes there is nothing to upsert and nothing to prune.
+    all-relationship count — as a _PushResult whose `relabeled` counts the twins removed first (a node the graph
+    held under a label this extraction no longer gives its key, or a stale :Class with the file, name and line of a
+    class this push writes under another key: `shells`; see _relabel_twins). With no nodes there is nothing to
+    upsert and nothing to prune.
 
     Track C's framework/runtime edges and :IMPORTS are resolved up front by edge_resolve (name
     resolution over the live nodes, extractor-independent) into rows anchored at their emitted src
@@ -3619,6 +3905,7 @@ def push_to_neo4j(driver, nodes, calls, imports, typed_edges=None):
     if not nodes:
         return 0, 0
     edges = _resolve_calls(nodes, calls)
+    lines = _call_lines(nodes, edges)        # the call-site line per edge, where known (r.line: display only)
     labels_of: dict = {}                     # key -> its label(s); normally exactly one
     for n in nodes:
         labels = labels_of.setdefault(n["key"], [])
@@ -3626,11 +3913,12 @@ def push_to_neo4j(driver, nodes, calls, imports, typed_edges=None):
             labels.append(n["label"])
     edges_by_anchor: dict = {}
     for (a, b), conf in edges.items():
-        edges_by_anchor.setdefault(a, []).append((b, conf))
+        edges_by_anchor.setdefault(a, []).append((b, conf, lines.get((a, b))))
     live_keys = list(labels_of)
     resolver = edge_resolve.Resolver(nodes)
     typed_by_anchor = edge_resolve.rows_by_anchor(edge_resolve.edge_rows(
         typed_edges or [], imports or [], resolver, live_keys, set(live_keys)))
+    twins = _relabel_twins(driver, labels_of, _class_triples(nodes))   # before ANY write, like the read below
     existing = _existing_edge_counts(driver, live_keys)   # before ANY write: a failed read changes nothing
     budget = max(1, int(_EDGE_TX_MAX_ROWS))
 
@@ -3638,6 +3926,12 @@ def push_to_neo4j(driver, nodes, calls, imports, typed_edges=None):
         return existing.get(k, 0) + len(edges_by_anchor.get(k, ())) + len(typed_by_anchor.get(k, ()))
 
     groups = _edge_groups(live_keys, rows_of, budget)
+    n_shells = len(getattr(twins, "shells", None) or ())
+    n_twins = sum(len(ks) for ks in twins.values()) + n_shells
+    if n_twins:
+        # (the counts above still hold the twins' edges: a group can only come out smaller, never over its budget)
+        _mark_fts_rebuild(driver, True)                   # stamped BEFORE the delete (see the block comment)
+        _delete_relabel_twins(driver, twins, labels_of)
     with driver.session() as s:
         _upsert_nodes(s, nodes)
         for anchors in groups:
@@ -3651,7 +3945,11 @@ def push_to_neo4j(driver, nodes, calls, imports, typed_edges=None):
                 edge_resolve.rewrite_anchored_edges(
                     tx, anchors, [r for k in anchors for r in typed_by_anchor.get(k, ())], resolver)
                 tx.commit()
-    return len(nodes), len(edges)
+    result = _PushResult((len(nodes), len(edges)))
+    result.relabeled = n_twins
+    result.shells = n_shells
+    result.moves = tuple(sorted((old, new, n) for (old, new), n in (getattr(twins, "moves", None) or {}).items()))
+    return result
 
 
 # ---- embedding reuse across a re-key (round 7, T7d-7) ------------------------------------------------
@@ -4201,6 +4499,71 @@ def _write_owning_root(driver, identity: str) -> None:
         s.run("MERGE (m:_DeepMapMeta {id:'singleton'}) SET m.owning_root=$root, m.built_at=$ts",
               root=str(identity),
               ts=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
+
+
+# Which typed-call languages linked THIS graph's calls (typed_calls.link, DEEPMAP_TYPED_CALLS): stamped on the meta
+# singleton after every push that wrote nodes, so deepmap_impact can say whether a C# call through a receiver was
+# linked or can never be. [] when the pass did not run or failed; a graph without the property was built before
+# the stamp existed and reads as unknown (not linked).
+def _typed_call_langs(stats) -> list:
+    """PURE: the sorted typed-call languages that ran in a typed_calls.link run (`stats`): its typed_langs minus
+    langs_disabled. [] for no stats, a failed run (`error`: nothing was changed) or malformed stats. The audit's
+    languages never count: the audit only demotes, it links nothing."""
+    try:
+        if not isinstance(stats, dict) or stats.get("error"):
+            return []
+        off = stats.get("langs_disabled") or {}
+        langs = stats.get("typed_langs") or []
+        if not isinstance(langs, (list, tuple, set, frozenset)):
+            return []
+        return sorted({x for x in langs if isinstance(x, str) and x not in off})
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def _typed_call_narrowed(langs) -> "bool | None":
+    """Did the typed pass that linked this graph's `langs` (_typed_call_langs) run NARROWED, i.e. with fewer than
+    all of its receiver shapes (DEEPMAP_TYPED_CALLS_SHAPES selecting fewer than every typed_calls.SHAPES) or, for a
+    language whose LanguageSpec.lookup_rules holds iface_dispatch (C#), fewer than all interface-dispatch modes
+    (DEEPMAP_TYPED_CALLS_IFACE selecting fewer than every typed_calls.IFACE_MODES)? Both are read only through
+    typed_calls' own readers (_config(...).shapes, _iface_modes(...)), from the environment link() read. False when
+    no language linked (nothing ran, so nothing was narrowed); None when it cannot be told (typed_calls missing or a
+    reader failing): the property is then left absent, which reads as unknown (not narrowed). Never raises."""
+    if not langs:
+        return False
+    try:
+        tc = _typed_calls_module()
+        reg = getattr(tc, "LANGUAGES", None)
+        if tc is None or not isinstance(reg, dict):
+            return None
+        if set(tc.SHAPES) - set(tc._config(None, reg).shapes):
+            return True
+        ran = sorted(n for n in langs if n in reg)
+        if any("iface_dispatch" in (getattr(reg[n], "lookup_rules", None) or ()) for n in ran):
+            if set(tc.IFACE_MODES) - set(tc._iface_modes(None, set(ran), reg)):
+                return True
+        return False
+    except Exception:  # noqa: BLE001 — advisory: an unreadable setting is unknown, never a guess
+        return None
+
+
+def _write_typed_call_langs(driver, langs) -> None:
+    """Set typed_call_langs on the meta singleton (the owner stamp, written just before, made it exist), and beside it
+    typed_call_narrowed (_typed_call_narrowed; SET to null, i.e. absent = unknown, when it cannot be told). Matched by
+    id, never `MERGE (m:_DeepMapMeta`: that statement is the owner stamp's. Best-effort: a failed write never fails
+    the sync, but it removes both properties, so an older value (["csharp"], a narrowed run) never outlives the sync
+    that stopped linking — they then read as unknown."""
+    try:
+        narrowed = _typed_call_narrowed(langs)
+        with driver.session() as s:
+            s.run("MATCH (m:_DeepMapMeta {id:'singleton'}) SET m.typed_call_langs=$langs, "
+                  "m.typed_call_narrowed=$narrowed", langs=list(langs), narrowed=narrowed)
+    except Exception:  # noqa: BLE001 — typed_call_langs is advisory; the push and the owner stamp stand
+        try:
+            with driver.session() as s:
+                s.run("MATCH (m:_DeepMapMeta {id:'singleton'}) REMOVE m.typed_call_langs, m.typed_call_narrowed")
+        except Exception:  # noqa: BLE001
+            pass
 
 
 def _graph_has_nodes(driver) -> bool:
@@ -5553,6 +5916,7 @@ def _pass_record(run: dict, passes: int, info: dict, ok, exc) -> dict:
             reason = reason or ((info.get("reasons") or [None])[0])
         else:
             outcome = "synced"
+    extra.update(_relabeled_field(info))
     return sync_status.last_record(
         id=run["id"], origin=run["origin"], trigger=run["trigger"], pid=os.getpid(),
         started_utc=run["started_utc"], finished_utc=_utc_now(now), finished_epoch=now,
@@ -5567,6 +5931,13 @@ def _pass_record(run: dict, passes: int, info: dict, ok, exc) -> dict:
         pruned=int(info.get("pruned") or 0), prune_policy=info.get("prune_policy") or run.get("policy"),
         stale_cleanup_skipped=info.get("stale_cleanup_skipped"), stale_kept=int(info.get("stale_kept") or 0),
         embeddings_deferred=bool(info.get("embeddings_deferred")), deepmap_version=_CODE_VERSION, **extra)
+
+
+def _relabeled_field(info: dict) -> dict:
+    """{"relabeled": n} when the pass's push removed n > 0 twins (push_to_neo4j `.relabeled`), else {}: a record of a
+    pass without any is exactly what it was."""
+    n = info.get("relabeled") if isinstance(info, dict) else None
+    return {"relabeled": n} if type(n) is int and n > 0 else {}
 
 
 def _holder_end(root: Path, run: dict, passes: int, info: dict, ok, exc, unattended, wrote: bool) -> None:
@@ -6135,7 +6506,28 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
         fts_dirty = bool(fts_pending or fts_changed or fts_deleted or n_short)
         if fts_dirty and not fts_pending:
             _mark_fts_rebuild(driver, True)
-        n_pushed, n_edges = push_to_neo4j(driver, nodes, calls, imports, typed_edges)  # 3. MERGE
+        pushed = push_to_neo4j(driver, nodes, calls, imports, typed_edges)  # 3. MERGE
+        n_pushed, n_edges = pushed
+        # F1: the twins the push removed (a node under a label this extraction no longer gives its key, or a stale
+        # :Class with the file, name and line of a class it wrote under another key). Deleted nodes: the full-text
+        # index is re-created below (the push stamped it pending first) and the pass records them.
+        n_twins, n_shells, moves = _push_twins(pushed)
+        n_moved = n_twins - n_shells
+        if n_twins:
+            fts_dirty = True
+            pinfo["relabeled"] = n_twins
+            if n_moved:
+                print(f"[deepmap sync] removed {n_moved} node(s) the graph held under a label this extraction no "
+                      f"longer gives their key{_moves_text(moves, n_moved)}; each duplicated a node this push wrote, "
+                      f"so it is replaced, not pruned", file=sys.stderr)
+            if n_shells:
+                print(f"[deepmap sync] removed {n_shells} :Class node(s) under an old key: each had the file, name "
+                      f"and start line of a class this push wrote under another key, so it is replaced, not pruned",
+                      file=sys.stderr)
+                # the plan (read before the push) counted these stale keys; they are gone now, so the prune's
+                # counts (pruned, stale_kept, the blast-radius line, the full-text reason) no longer include them
+                _discount_plan(plan, n_shells)
+                fts_deleted = max(0, fts_deleted - n_shells) if fts_deleted else 0
         if n_pushed:
             # Stamp ownership right after a real push (before index/embed) so a later failure still
             # leaves ownership correct. Always THIS project's current identity: it re-stamps an old
@@ -6143,6 +6535,7 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
             # authorised switch it names the NEW project — the old "keep a broader owner" rule kept a
             # FOREIGN parent's stamp over the replaced graph (F1: a broader owner is never this project).
             _write_owning_root(driver, cur_id)
+            _write_typed_call_langs(driver, _typed_call_langs(call_stats))
             if own_driver:
                 _record_base_store_owner(root, neo4j_uri)
             # Round 7 (T7d-7): a node re-keyed by a line shift takes its old node's embedding — BEFORE the
@@ -6175,7 +6568,7 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
                 prune_skipped = "engine-downgrade"
                 print(_downgrade_message(extraction, cleanup_stale=full, force_prune=force_prune,
                                          root_ok=root_ok), file=sys.stderr)
-            else:  # blast-radius
+            elif int(plan.get("would_delete") or 0) > 0:  # blast-radius (0: the push's shell removal took them all)
                 prune_skipped = "blast-radius"
                 sus = plan.get("suspicious")
                 detail = (f"; {sus} of them are in files that still exist but were not extracted this run"
@@ -6207,6 +6600,8 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
                 why = ", ".join(w for w in (
                     f"{fts_changed} node(s) with rewritten indexed text" if fts_changed else "",
                     f"{fts_deleted} pruned node(s)" if fts_deleted else "",
+                    f"{n_moved} node(s) removed under an old label" if n_moved else "",
+                    f"{n_shells} class node(s) removed under an old key" if n_shells else "",
                     f"{n_short} stale short_name(s) removed" if n_short else "",
                     "an interrupted earlier rebuild" if fts_pending else "") if w)
                 print(f"[deepmap sync] full-text index re-created ({why}) in {time.monotonic() - t_fts:.1f}s so its "

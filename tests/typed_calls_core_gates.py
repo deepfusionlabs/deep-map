@@ -338,9 +338,24 @@ def sec_ir(T, rec: Rec) -> None:
     rec.check("A registry: wave-1 readers are receiver_facts_py / receiver_facts_ts",
               T.LANGUAGES["python"].reader == "receiver_facts_py" and T.LANGUAGES["typescript"].reader ==
               "receiver_facts_ts" and T.LANGUAGES["javascript"].reader == "receiver_facts_ts")
-    rec.check("A registry: absent only in compiler-checked languages (.ts/.tsx, Java, C#)",
-              {n for n, s in T.LANGUAGES.items() if s.absent_ok} == {"typescript", "java", "csharp"},
+    rec.check("A registry: absent only in compiler-checked languages (.ts/.tsx, Java) — never C# (extension methods, "
+              "partial parts in a file that fails to parse, source generators and `dynamic` make a closed-chain miss "
+              "unsafe there)",
+              {n for n, s in T.LANGUAGES.items() if s.absent_ok} == {"typescript", "java"},
               {n for n, s in T.LANGUAGES.items() if s.absent_ok})
+    rules = {n: frozenset(getattr(s, "lookup_rules", frozenset()) or ()) for n, s in T.LANGUAGES.items()}
+    rec.check("A registry: LanguageSpec.lookup_rules is C#-only — {iface_dispatch, partials, member_scope, "
+              "using_static, extensions, nested_types, overloads, virtual_dispatch} — so every other language's "
+              "results stay byte-identical",
+              {n: r for n, r in rules.items() if r} == {"csharp": frozenset({
+                  "iface_dispatch", "partials", "member_scope", "using_static", "extensions", "nested_types",
+                  "overloads", "virtual_dispatch"})}, rules)
+    cs = T.LANGUAGES["csharp"]
+    rec.check("A registry: the csharp spec — reader receiver_facts_csharp, family dotnet, linear MRO, implicit this, "
+              "no unions, no static split, `object` / `dynamic` opaque",
+              cs.reader == "receiver_facts_csharp" and cs.family == "dotnet" and cs.mro == "linear"
+              and cs.implicit_this and not cs.unions and not cs.static_split
+              and {"object", "Object", "dynamic"} <= set(cs.opaque), cs)
     rec.check("A registry: Python uses C3, Go the depth rule, Java/C# an implicit this",
               T.LANGUAGES["python"].mro == "c3" and T.LANGUAGES["go"].mro == "depth"
               and T.LANGUAGES["java"].implicit_this and T.LANGUAGES["csharp"].implicit_this
@@ -357,19 +372,29 @@ def sec_ir(T, rec: Rec) -> None:
               T._TYPED_DEFAULT_LANGS == frozenset() and T._AUDIT_DEFAULT_LANGS == frozenset())
     kinds = getattr(T, "SCOPE_KINDS", None)
     rec.check("A Scope.kind vocabulary: Python function / method / lambda / comprehension; JS / TS function_decl / "
-              "generator_decl / function_expr / arrow / method_def", kinds == {
+              "generator_decl / function_expr / arrow / method_def; C# ctor / accessor / local_function / "
+              "anonymous_method (with method and lambda)", kinds == {
                   "function", "method", "lambda", "comprehension", "function_decl", "generator_decl",
-                  "function_expr", "arrow", "method_def"}, kinds)
+                  "function_expr", "arrow", "method_def", "ctor", "accessor", "local_function",
+                  "anonymous_method"}, kinds)
+    rec.check("A the IR stays version 1 (the C# kinds are new Scope.kind values; no FileFacts field changed)",
+              T.IR_VERSION == 1, T.IR_VERSION)
     att = {n: (getattr(s, "nested_attributed", None), getattr(s, "nested_detached", None),
                getattr(s, "header_detached", None)) for n, s in T.LANGUAGES.items()}
     rec.check("A attribution tables (graphify's walk): Python attributes lambda / comprehension, detaches function / "
               "method, a default argument is detached; JS / TS attribute function_expr / generator_decl, detach "
-              "function_decl / arrow / method_def; wave 2 has none yet (every nested scope uncertain)",
+              "function_decl / arrow / method_def; C# attributes lambda / anonymous_method / local_function, detaches "
+              "method / ctor / accessor (graphify's C# boundary is method_declaration only); the other wave-2 "
+              "languages have none yet (every nested scope uncertain)",
               att.get("python") == ({"lambda", "comprehension"}, {"function", "method"}, True)
               and att.get("typescript") == att.get("javascript")
               == ({"function_expr", "generator_decl"}, {"function_decl", "arrow", "method_def"}, False)
-              and all(att[n] == (frozenset(), frozenset(), False) for n in ("go", "java", "csharp", "rust", "ruby")),
+              and att.get("csharp") == ({"lambda", "anonymous_method", "local_function"},
+                                        {"method", "ctor", "accessor"}, False)
+              and all(att[n] == (frozenset(), frozenset(), False) for n in ("go", "java", "rust", "ruby")),
               att)
+    rec.check("A C# has no symbol-resolution walk (graphify's symbol pass is Python / JS / TS only)",
+              not T.LANGUAGES["csharp"].symbol_walk, T.LANGUAGES["csharp"].symbol_walk)
     rec.check("A the legacy JS / TS kinds 'function' / 'method' are in NO table (they read as uncertain)",
               not ({"function", "method"} & (set(T.LANGUAGES["typescript"].nested_attributed)
                                              | set(T.LANGUAGES["typescript"].nested_detached))))
@@ -2542,9 +2567,31 @@ export { jouter, jarrow, JK };
 # the core reads every root function_decl / arrow as walked (an exported one too: conservative)
 R_JS_GLUE_WALKED = {"jouter": {"gArrow", "gDecl"}, "jarrow": {"gArrow"}, "jexp": set(), "JK.m": set()}
 R_JS_GLUE_KIND = {"jouter": "function_decl", "jarrow": "arrow", "jexp": "function_decl", "JK.m": "method_def"}
+# C#: graphify's C# call walk stops only at method_declaration, so a lambda's, an anonymous method's and a local
+# function's calls belong to the enclosing method (LanguageSpec csharp nested_attributed)
+R_CS_FN = """namespace Rp;
+
+public class CsOuter
+{
+    private static int CsLam() => 1;
+    private static int CsAnon() => 1;
+    private static int CsLocalFn() => 1;
+    private static int CsOwn() => 1;
+
+    public int Outer()
+    {
+        System.Func<int> f = () => CsLam();
+        System.Func<int> g = delegate () { return CsAnon(); };
+        int Inner() => CsLocalFn();
+        CsOwn();
+        return f() + g() + Inner();
+    }
+}
+"""
+R_CS_WHERE = {"CsLam": "lambda", "CsAnon": "anonymous_method", "CsLocalFn": "local_function", "CsOwn": "own"}
 R_FILES = {"rp/m.py": R_PY_FN, "rp/w.ts": R_TS_FN, "rp/j.js": R_TS_FN.replace(": number[]", "").replace(": number", ""),
            "rp/c.py": R_PY_CLS, "rp/c.ts": R_TS_CLS, "rp/glib.py": R_PY_GLIB, "rp/glue.py": R_PY_GLUE,
-           "rp/jglib.js": R_JS_GLIB, "rp/jglue.js": R_JS_GLUE}
+           "rp/jglib.js": R_JS_GLIB, "rp/jglue.js": R_JS_GLUE, "rp/w.cs": R_CS_FN}
 _ENGINE_CACHE: dict = {}
 
 
@@ -2652,6 +2699,42 @@ def _r_ts_facts(T, rel: str):
                        scopes=scopes, decls=decls_of(text))
 
 
+def _r_cs_facts(T, rel: str):
+    """Fake-reader facts for R_CS_FN exactly as the reader contract describes them (a C# file: static helpers called
+    bare — implicit this — from a lambda, an anonymous method, a local function and the method itself)."""
+    text = R_CS_FN
+    S, SC, CF, MF, B = T.Site, T.Scope, T.ClassFacts, T.MethodFacts, T.Binding
+    L = lambda needle: _line_of(text, needle)    # noqa: E731
+
+    def bare(needle, line_needle=None):
+        ln = L(line_needle or (needle + "()"))
+        return S(ln, bcol(text, ln, needle + "()"), needle, None, "bare", 0)
+
+    helpers = ["CsLam", "CsAnon", "CsLocalFn", "CsOwn"]
+    st = frozenset({"static"})
+    methods = {h: [MF(L(f"int {h}() =>"), st)] for h in helpers}
+    methods["Outer"] = [MF(L("public int Outer"))]
+    lo, hi = L("public int Outer"), L("return f() + g()") + 1
+    scopes = [SC(h, L(f"int {h}() =>"), L(f"int {h}() =>"), cls=0, self_kind="class", kind="method")
+              for h in helpers]
+    outer = len(scopes)
+    scopes.append(SC("Outer", lo, hi, cls=0, self_kind="inst", kind="method", poisoned=frozenset({"Inner"}),
+                     locals={"f": [B("unknown")], "g": [B("unknown")]},
+                     sites=[bare("CsOwn", "        CsOwn();"), bare("f", "return f()"), bare("g", "return f()"),
+                            bare("Inner", "return f()")],
+                     all_names={"CsLam": 1, "CsAnon": 1, "CsLocalFn": 1, "CsOwn": 1, "f": 1, "g": 1, "Inner": 1}))
+    scopes.append(SC("<lambda>", L("() => CsLam"), L("() => CsLam"), parent=outer, cls=0, self_kind="inst",
+                     sites=[bare("CsLam")], kind="lambda"))
+    scopes.append(SC("<anonymous>", L("delegate ()"), L("delegate ()"), parent=outer, cls=0, self_kind="inst",
+                     sites=[bare("CsAnon")], kind="anonymous_method"))
+    scopes.append(SC("Inner", L("int Inner()"), L("int Inner()"), parent=outer, cls=0, self_kind="inst",
+                     sites=[bare("CsLocalFn")], kind="local_function"))
+    decls = {(L(f"int {h}() =>"), bcol(text, L(f"int {h}() =>"), h + "()")) for h in helpers}
+    decls |= {(lo, bcol(text, lo, "Outer")), (L("int Inner()"), bcol(text, L("int Inner()"), "Inner"))}
+    return T.FileFacts(rel, "csharp", classes=[CF("CsOuter", L("public class CsOuter"), hi + 1, methods=methods)],
+                       scopes=scopes, decls=frozenset(decls))
+
+
 def _r_glue_facts(T):
     """Fake-reader facts for R_PY_GLUE / R_PY_GLIB exactly as the reader contract describes them, and their binder."""
     text, rel, lrel = R_PY_GLUE, "rp/glue.py", "rp/glib.py"
@@ -2729,6 +2812,32 @@ def sec_real_engine(T, rec: Rec) -> None:
     nested_nodes = sorted(n["name"] for n in nodes if n["name"] in ("inner", "run", "Local", "Local.run", "gen", "a"))
     rec.check(f"R graphify {ver}: no nested def / local class / arrow gets a node (their calls belong to nobody)",
               not nested_nodes, nested_nodes)
+    # C#: graphify's call walk enters a lambda, an anonymous method and a local function (the csharp tables)
+    cspec = T.LANGUAGES["csharp"]
+    cs_outer = [n["key"] for n in nodes if n["name"] == "CsOuter.Outer" and n["source_file"] == "rp/w.cs"]
+    cs_attr = {T.name_seg(name_of.get(str(c[1]), str(c[1]))) for c in calls if cs_outer and c[0] == cs_outer[0]}
+    cs_known = all(w == "own" or w in cspec.nested_attributed or w in cspec.nested_detached
+                   for w in R_CS_WHERE.values())
+    cs_want = {h for h, w in R_CS_WHERE.items() if w == "own" or w in cspec.nested_attributed}
+    rec.check(f"R graphify {ver} rp/w.cs: the engine attributes to CsOuter.Outer exactly the helpers the csharp tables "
+              f"predict ({sorted(cs_want)}): a lambda's, an anonymous method's and a local function's calls",
+              len(cs_outer) == 1 and cs_known and cs_attr == cs_want,
+              {"engine": sorted(cs_attr), "tables": sorted(cs_want), "kinds covered": cs_known})
+    rec.check(f"R graphify {ver} rp/w.cs: a local function gets no node",
+              not [n["name"] for n in nodes if n["source_file"] == "rp/w.cs" and T.name_seg(n["name"]) == "Inner"])
+    ns = copy.deepcopy([n for n in nodes if n["source_file"] == "rp/w.cs"])
+    cs = [c for c in calls if any(c[0] == n["key"] for n in ns)]
+    out, st = T.link(".", ns, list(cs), languages={"csharp": cspec},
+                     readers={"csharp": FReader(T, {"rp/w.cs": _r_cs_facts(T, "rp/w.cs")})},
+                     source=Src({"rp/w.cs": R_FILES["rp/w.cs"]}), is_test=lambda p: False,
+                     env={"DEEPMAP_TYPED_CALLS": "csharp"})
+    co = next((n for n in ns if n["name"] == "CsOuter.Outer"), None)
+    emitted = {T.name_seg(name_of.get(t, t)) for t in (co or {}).get("call_typed") or {}}
+    rec.check(f"R graphify {ver} rp/w.cs: the core over the real nodes keys exactly the attributed sites "
+              f"{sorted(cs_want)} — the engine's own tuples of CsOuter.Outer",
+              st["error"] is None and emitted == cs_want == cs_attr,
+              {"emitted": sorted(emitted), "engine": sorted(cs_attr), "error": st["error"], "files": st["files"],
+               "disabled": st["langs_disabled"]})
     # the core over the REAL nodes and calls
     for rel, lang, facts_of in (("rp/c.py", "python", _r_py_facts), ("rp/c.ts", "typescript", _r_ts_facts)):
         ns = copy.deepcopy([n for n in nodes if n["source_file"] == rel])
@@ -4255,6 +4364,313 @@ def sec_verify2(T, rec: Rec) -> None:
 
 
 # ================================================================================================
+# Y: the C# lookup rules (LanguageSpec.lookup_rules) over a fake C# reader: interface dispatch (0 / 1 / 2 / 4 / 5
+#    implementers, an abstract class, a test fake, an external-base implementer, interface-to-interface), partial
+#    types, member scope (an inherited field, an external class base hiding a name, an interface-named one not), a
+#    bare `T()`, using static, extension methods, call_lines; the same facts with the rules off give nothing new
+# ================================================================================================
+
+class CsFBinder(FBinder):
+    """A fake C# binder: FBinder plus the lookup_rules hooks (partials / static_imports / extensions)."""
+
+    def __init__(self, T, *, partials=(), statics=None, exts=None, **kw):
+        super().__init__(T, **kw)
+        self._partials, self._statics, self._exts = list(partials), dict(statics or {}), dict(exts or {})
+
+    def partials(self):
+        return [list(g) for g in self._partials]
+
+    def static_imports(self, rel):
+        return list(self._statics.get(rel, ()))
+
+    def extensions(self, rel, m):
+        return list(self._exts.get(m, ()))
+
+
+def cs_files(T, spec: dict):
+    """(files, facts, nodes) of fake C# files. spec = {rel: [class, ...]}; class = dict(name, kind ("class" |
+    "interface" | "abstract"), bases (names), fields {name: type}, methods [(name, calls, flags)], open);
+    a method's calls = [(recv, member)] with recv "this" | "bare" | ("field", f) | ("ident", x) | ("param", x, T) |
+    ("new", T) — None calls = no body. Node keys `<stem>::<Class>[.<m>]@<line>`."""
+    S, SC, CF, MF, B = T.Site, T.Scope, T.ClassFacts, T.MethodFacts, T.Binding
+    files, facts, nodes = {}, {}, []
+    for rel, classes in spec.items():
+        stem = rel.rsplit("/", 1)[-1].split(".")[0]
+        lines, cfs, scopes, decls = [], [], [], set()
+        for c in classes:
+            kind = c.get("kind", "class")
+            kw = {"interface": "interface ", "abstract": "abstract class "}.get(kind, "class ")
+            bases = list(c.get("bases", ()))
+            lines.append(f"public {'partial ' if c.get('open') else ''}{kw}{c['name']}"
+                         + (f" : {', '.join(bases)}" if bases else ""))
+            cline = len(lines)
+            lines.append("{")
+            fields = {}
+            for f, ft in c.get("fields", {}).items():
+                lines.append(f"    private readonly {ft} {f};")
+                fields[f] = [B("ann", T.t_name(ft), line=len(lines))]
+            ci = len(cfs)
+            methods = {}
+            for name, calls, flags in c.get("methods", ()):
+                params = {x[1]: B("param", T.t_name(x[2])) for x, _m in (calls or ()) if isinstance(x, tuple)
+                          and x[0] == "param"}
+                sig = ", ".join(f"{t.name} {p}" for p, t in ((p, b.type) for p, b in params.items()))
+                static = "static" in flags
+                if calls is None:
+                    lines.append(f"    {'abstract ' if kind == 'abstract' else ''}void {name}({sig});")
+                    ln = len(lines)
+                    decls.add((ln, bcol("\n".join(lines), ln, f"{name}(")))
+                    methods.setdefault(name, []).append(MF(ln, frozenset(flags) | {"abstract"}))
+                    continue
+                lines.append(f"    public {'static ' if static else ''}void {name}({sig})")
+                ln = len(lines)
+                decls.add((ln, bcol("\n".join(lines), ln, f"{name}(")))
+                lines.append("    {")
+                sites = []
+                for recv, member in calls:
+                    if recv == "this":
+                        r, txt, kind_ = T.R_SELF, f"this.{member}()", "member"
+                    elif recv == "bare":
+                        r, txt, kind_ = None, f"{member}()", "bare"
+                    elif recv[0] == "field":
+                        r, txt, kind_ = T.r_field(T.R_SELF, recv[1]), f"{recv[1]}.{member}()", "member"
+                    elif recv[0] in ("ident", "param"):
+                        r, txt, kind_ = T.r_ident(recv[1]), f"{recv[1]}.{member}()", "member"
+                    else:
+                        r, txt, kind_ = T.r_classref(T.t_name(recv[1])), f"new {recv[1]}()", "ctor"
+                    lines.append(f"        {txt};")
+                    sl = len(lines)
+                    sites.append(S(sl, 8, member, r, kind_, 0))
+                lines.append("    }")
+                methods.setdefault(name, []).append(MF(ln, frozenset(flags)))
+                an: dict = {}
+                for s in sites:
+                    an[s.member] = an.get(s.member, 0) + 1
+                scopes.append(SC(name, ln, len(lines), cls=ci, self_kind="class" if static else "inst",
+                                 params=params, sites=sites, all_names=an, kind="method"))
+            lines.append("}")
+            cfs.append(CF(c["name"], cline, len(lines), kind=kind, bases=tuple(T.t_name(b) for b in bases),
+                          fields=fields, methods=methods, open=bool(c.get("open"))))
+            nodes.append(nd(f"{stem}::{c['name']}@{cline}", "Class", c["name"], rel, cline))
+            for name, mfs in methods.items():
+                nodes.append(nd(f"{stem}::{c['name']}.{name}@{mfs[0].line}", "Method", f"{c['name']}.{name}", rel,
+                                mfs[0].line))
+        files[rel] = "\n".join(lines) + "\n"
+        facts[rel] = T.FileFacts(rel, "csharp", classes=cfs, scopes=scopes, decls=frozenset(decls))
+    return files, facts, nodes
+
+
+def cs_link(T, files, facts, nodes, calls, *, binder=None, env=None, spec=None, is_test=None):
+    sp = spec or T.LANGUAGES["csharp"]
+    return T.link(".", nodes, calls, languages={"csharp": sp}, readers={"csharp": FReader(T, facts, binder)},
+                  source=Src(files), is_test=is_test or (lambda p: p.startswith("tests/")),
+                  env=env or {"DEEPMAP_TYPED_CALLS": "csharp"})
+
+
+def cs_typed(T, nodes, caller):
+    """{target name: grade} of caller (a node name) by node names."""
+    nm = {n["key"]: n["name"] for n in nodes}
+    c = next((n for n in nodes if n["name"] == caller), None)
+    return {nm.get(t, t): g for t, g in ((c or {}).get("call_typed") or {}).items()}
+
+
+def _impls(n, *, rel="cs/d.cs", base="IS"):
+    return [dict(name=f"A{i}", bases=[base], methods=[("Go", [], set())]) for i in range(n)]
+
+
+def cs_dispatch(T, impls, *, field_type="IS", extra=None, fake=False, caller_calls=None):
+    """The interface world: interface IS { void Go(); } + implementers + Caller { IS _s; Use() { _s.Go(); } }
+    (cs/d.cs); with `fake`, tests/f.cs holds a test fake implementer and a test caller (with the engine's tuple)."""
+    d = [dict(name="IS", kind="interface", methods=[("Go", None, set())])] + list(impls) + list(extra or ()) + [
+        dict(name="Caller", fields={"_s": field_type}, methods=[("Use", caller_calls or [(("field", "_s"), "Go")],
+                                                                set())])]
+    spec = {"cs/d.cs": d}
+    if fake:
+        spec["tests/f.cs"] = [dict(name="Fake", bases=["IS"], methods=[("Go", [], set())]),
+                              dict(name="FakeUse", fields={"_s": "IS"}, methods=[("Use", [(("field", "_s"), "Go")],
+                                                                                set())])]
+    files, facts, nodes = cs_files(T, spec)
+    binder = FBinder(T, free={("tests/f.cs", "IS"): T.Resolution("symbol", rel="cs/d.cs", name="IS")})
+    return files, facts, nodes, binder
+
+
+def sec_csharp(T, rec: Rec) -> None:
+    import dataclasses
+    I, A, E = "INFERRED", "AMBIGUOUS", "EXTRACTED"
+    # Y1 interface dispatch by implementer count
+    for n, want in ((0, {"IS.Go": I}), (1, {"IS.Go": I, "A0.Go": I}), (2, {"IS.Go": I, "A0.Go": A, "A1.Go": A}),
+                    (4, dict({"IS.Go": I}, **{f"A{i}.Go": A for i in range(4)})), (5, {"IS.Go": I})):
+        files, facts, nodes, b = cs_dispatch(T, _impls(n))
+        out, st = cs_link(T, files, facts, nodes, [], binder=b)
+        got = cs_typed(T, nodes, "Caller.Use")
+        rec.check(f"Y1 an interface field call with {n} implementer(s) -> the interface member INFERRED"
+                  + (" + the sole implementer INFERRED" if n == 1 else " + each implementer AMBIGUOUS" if 2 <= n <= 4
+                     else " only (more than MAX_TARGETS: no implementer)" if n > 4 else " only"),
+                  got == want and st["error"] is None, (got, st["error"]))
+        if n == 5:
+            ds = st["by_lang"].get("csharp", {}).get("dispatch", {})
+            rec.check("Y1 ... five implementers are counted as too_many in by_lang.csharp.dispatch",
+                      ds.get("too_many") == 1, ds)
+        keys = [c for c in out if T._is_call_key(c[1])]
+        rec.check(f"Y1 ({n}) every emitted callee is a CallKey appended to the list", len(keys) == len(want), keys)
+    # Y2 an abstract class defers to its subclasses; an abstract class's concrete method is reached once
+    files, facts, nodes, b = cs_dispatch(T, [
+        dict(name="Mid", kind="abstract", bases=["IS"], methods=[("Go", None, {"abstract"})]),
+        dict(name="Leaf", bases=["Mid"], methods=[("Go", [], set())]),
+        dict(name="Mid2", kind="abstract", bases=["IS"], methods=[("Go", [], set())]),
+        dict(name="Leaf2", bases=["Mid2"])])
+    cs_link(T, files, facts, nodes, [], binder=b)
+    got = cs_typed(T, nodes, "Caller.Use")
+    rec.check("Y2 an abstract implementer without a body defers to its subclass (Leaf.Go); an abstract class's own "
+              "body is the one implementation its bodiless subclass runs (Mid2.Go, once)",
+              got == {"IS.Go": I, "Leaf.Go": A, "Mid2.Go": A}, got)
+    # Y3 a test-file implementer only for a test caller
+    files, facts, nodes, b = cs_dispatch(T, _impls(1), fake=True)
+    fk = next(n["key"] for n in nodes if n["name"] == "FakeUse.Use")
+    cs_link(T, files, facts, nodes, [(fk, "Go")], binder=b)
+    rec.check("Y3 a production caller never reaches the test fake (A0.Go INFERRED, the sole production implementer)",
+              cs_typed(T, nodes, "Caller.Use") == {"IS.Go": I, "A0.Go": I}, cs_typed(T, nodes, "Caller.Use"))
+    rec.check("Y3 a test caller (with the engine's tuple: a correction) reaches the fake too: two implementers, "
+              "AMBIGUOUS each", cs_typed(T, nodes, "FakeUse.Use") == {"IS.Go": I, "A0.Go": A, "Fake.Go": A},
+              cs_typed(T, nodes, "FakeUse.Use"))
+    # Y4 an implementer whose external / unresolved base comes first may inherit m from it: the reach is unknown
+    files, facts, nodes, b = cs_dispatch(T, [dict(name="X", bases=["ExtBase", "IS"]),
+                                            dict(name="Y", bases=["ExtBase", "IS"], methods=[("Go", [], set())])])
+    cs_link(T, files, facts, nodes, [], binder=b)
+    rec.check("Y4 an implementer with an unresolved base ahead and no Go of its own: the reach is unknown -> the "
+              "interface member only", cs_typed(T, nodes, "Caller.Use") == {"IS.Go": I},
+              cs_typed(T, nodes, "Caller.Use"))
+    files, facts, nodes, b = cs_dispatch(T, [dict(name="Y", bases=["ExtBase", "IS"], methods=[("Go", [], set())])])
+    cs_link(T, files, facts, nodes, [], binder=b)
+    rec.check("Y4 ... one that defines Go itself is reached (its own definition comes before the base)",
+              cs_typed(T, nodes, "Caller.Use") == {"IS.Go": I, "Y.Go": I}, cs_typed(T, nodes, "Caller.Use"))
+    # Y5 interface-to-interface
+    extra = [dict(name="IT", kind="interface", bases=["IS"]), dict(name="Impl", bases=["IT"],
+                                                                     methods=[("Go", [], set())])]
+    for ft in ("IS", "IT"):
+        files, facts, nodes, b = cs_dispatch(T, [], field_type=ft, extra=extra)
+        cs_link(T, files, facts, nodes, [], binder=b)
+        rec.check(f"Y5 a receiver typed {ft} (IT : IS; Impl : IT): IS.Go + Impl.Go, the derived interface never an "
+                  f"implementer", cs_typed(T, nodes, "Caller.Use") == {"IS.Go": I, "Impl.Go": I},
+                  cs_typed(T, nodes, "Caller.Use"))
+    # Y6 a concrete receiver reaching an interface member stays as before (no dispatch)
+    files, facts, nodes, b = cs_dispatch(T, [dict(name="AbsC", kind="abstract", bases=["IS"])], field_type="AbsC")
+    cs_link(T, files, facts, nodes, [], binder=b)
+    rec.check("Y6 a CONCRETE (abstract-class) receiver whose lookup reaches the interface's member: nothing (the "
+              "dispatch rule is for interface receivers only)", cs_typed(T, nodes, "Caller.Use") == {},
+              cs_typed(T, nodes, "Caller.Use"))
+    # Y7 DEEPMAP_TYPED_CALLS_IFACE and the rules off
+    files, facts, nodes, b = cs_dispatch(T, _impls(1))
+    both = {"IS.Go": I, "A0.Go": I}
+    for val, want, unk in (("static", {"IS.Go": I}, []), ("impl", {"A0.Go": I}, []), ("0", {}, []),
+                           # CR-3: an ON word is every mode (like unset), never a CSV selecting nothing; an unknown
+                           # token is ignored and reported, a value naming no mode at all is every mode
+                           ("1", both, []), ("On", both, []), ("statc", both, ["statc"]),
+                           ("impl, statc", {"A0.Go": I}, ["statc"]), ("off", {}, [])):
+        n2 = copy.deepcopy(nodes)
+        _out, st = cs_link(T, files, facts, n2, [], binder=b, env={"DEEPMAP_TYPED_CALLS": "csharp",
+                                                                   "DEEPMAP_TYPED_CALLS_IFACE": val})
+        rec.check(f"Y7 DEEPMAP_TYPED_CALLS_IFACE={val!r} -> {want}, stats unknown_iface {unk}",
+                  cs_typed(T, n2, "Caller.Use") == want and st.get("unknown_iface") == unk,
+                  (cs_typed(T, n2, "Caller.Use"), st.get("unknown_iface")))
+    c = T._config({"DEEPMAP_TYPED_CALLS": "python", "DEEPMAP_TYPED_CALLS_IFACE": "statc"}, T.LANGUAGES)
+    rec.check("Y7 DEEPMAP_TYPED_CALLS_IFACE is read only while a language with iface_dispatch is on (python: every "
+              "mode, no unknown reported)", c.iface == frozenset(T.IFACE_MODES) and c.unknown_iface == [],
+              (c.iface, c.unknown_iface))
+    off = dataclasses.replace(T.LANGUAGES["csharp"], lookup_rules=frozenset())
+    n2 = copy.deepcopy(nodes)
+    out, st = cs_link(T, files, facts, n2, [], binder=b, spec=off)
+    rec.check("Y7 the same facts with the lookup rules off: nothing (the interface member is skipped as in every other "
+              "language) — the rules alone make the difference", cs_typed(T, n2, "Caller.Use") == {}
+              and st["skipped_interface"] == 1, (cs_typed(T, n2, "Caller.Use"), st["skipped_interface"]))
+    # Y8 call_lines: the first call line of every emitted key, merged as the minimum, the engine's "name" kept
+    files, facts, nodes, b = cs_dispatch(T, _impls(1))
+    cl = _line_of(files["cs/d.cs"], "_s.Go();")
+    c = next(n for n in nodes if n["name"] == "Caller.Use")
+    keys = {n["name"]: n["key"] for n in nodes}
+    c["call_lines"] = {"key": {keys["IS.Go"]: 1}, "name": {"Go": cl}}
+    old = c["call_lines"]
+    cs_link(T, files, facts, nodes, [], binder=b)
+    rec.check("Y8 call_lines['key']: the call line of each emitted key, the minimum kept, the 'name' entries kept, "
+              "a NEW dict (the old one untouched for the rollback)",
+              c.get("call_lines") == {"key": {keys["IS.Go"]: 1, keys["A0.Go"]: cl}, "name": {"Go": cl}}
+              and old == {"key": {keys["IS.Go"]: 1}, "name": {"Go": cl}}, (c.get("call_lines"), old))
+    # Y9 partial types
+    p = {"cs/p1.cs": [dict(name="K", open=True, fields={"_r": "R"}, methods=[("A", [("this", "B")], set())]),
+                      dict(name="R", methods=[("Go", [], set())])],
+         "cs/p2.cs": [dict(name="K", open=True, methods=[("B", [(("ident", "_r"), "Go")], set())])]}
+    files, facts, nodes = cs_files(T, p)
+    free = {("cs/p2.cs", "R"): T.Resolution("symbol", rel="cs/p1.cs", name="R")}
+    for parts, want_a, want_b in (([[("cs/p1.cs", 0), ("cs/p2.cs", 0)]], {"K.B": I}, {"R.Go": I}), ([], {}, {})):
+        n2 = copy.deepcopy(nodes)
+        out, st = cs_link(T, files, facts, n2, [], binder=CsFBinder(T, partials=parts, free=free))
+        rec.check(f"Y9 partial parts {'grouped' if parts else 'NOT grouped'}: `this.B()` into the other part -> "
+                  f"{want_a}; the other part's use of the field the first declares -> {want_b}",
+                  cs_typed(T, n2, "K.A") == want_a and cs_typed(T, n2, "K.B") == want_b and st["error"] is None,
+                  (cs_typed(T, n2, "K.A"), cs_typed(T, n2, "K.B"), st["error"]))
+    # Y10 member scope: an inherited project field; an external class base hides a simple name, an interface-named one
+    # does not; a class's own field binds before an external base; a bare `T()` is never a constructor
+    m = {"cs/m.cs": [dict(name="Helper", methods=[("Run", [], {"static"}), ("Inst", [], set())]),
+                     dict(name="BaseSvc", fields={"_h": "Helper"}),
+                     dict(name="Sub", bases=["BaseSvc"], methods=[("Get", [(("ident", "_h"), "Inst")], set())]),
+                     dict(name="Ctl", bases=["ExtBase"], methods=[("Get", [(("ident", "Helper"), "Run")], set())]),
+                     dict(name="Ctl2", bases=["IThing"], methods=[("Get", [(("ident", "Helper"), "Run")], set())]),
+                     dict(name="Ctl4", bases=["ExtBase"], fields={"_k": "Helper"},
+                          methods=[("Get", [(("field", "_k"), "Inst")], set())]),
+                     dict(name="Q", methods=[("A", [("bare", "Helper")], set())])]}
+    files, facts, nodes = cs_files(T, m)
+    out, st = cs_link(T, files, facts, nodes, [], binder=FBinder(T))
+    got = {k: cs_typed(T, nodes, k) for k in ("Sub.Get", "Ctl.Get", "Ctl2.Get", "Ctl4.Get", "Q.A")}
+    rec.check("Y10 member scope: an inherited project field types (Sub `_h`); `Helper.Run()` in a class whose external "
+              "base may hold a `Helper` member is unknown, beside an interface-named base (IThing) that cannot; a "
+              "field of the class itself binds before its external base; a bare `Helper()` is no constructor",
+              got == {"Sub.Get": {"Helper.Inst": E}, "Ctl.Get": {}, "Ctl2.Get": {"Helper.Run": E},
+                      "Ctl4.Get": {"Helper.Inst": E}, "Q.A": {}}, got)
+    # Y11 using static: exactly one project candidate; two -> unknown (the engine's tuple kept); an unresolvable import
+    u = {"cs/s.cs": [dict(name="MathX", methods=[("Round", [], {"static"})])],
+         "cs/s2.cs": [dict(name="MathY", methods=[("Round", [], {"static"}), ("Floor", [], {"static"})])],
+         "cs/u.cs": [dict(name="U", methods=[("A", [("bare", "Round")], set())])],
+         "cs/v.cs": [dict(name="V", methods=[("A", [("bare", "Round"), ("bare", "Floor")], set())])],
+         "cs/w.cs": [dict(name="W", methods=[("A", [("bare", "Round")], set())])]}
+    files, facts, nodes = cs_files(T, u)
+    sx = T.Resolution("symbol", rel="cs/s.cs", name="MathX")
+    sy = T.Resolution("symbol", rel="cs/s2.cs", name="MathY")
+    vk = next(n["key"] for n in nodes if n["name"] == "V.A")
+    out, st = cs_link(T, files, facts, nodes, [(vk, "Round")], binder=CsFBinder(
+        T, statics={"cs/u.cs": [sx], "cs/v.cs": [sx, sy], "cs/w.cs": [sx, T.RES_UNKNOWN]}))
+    got = {k: cs_typed(T, nodes, k) for k in ("U.A", "V.A", "W.A")}
+    rec.check("Y11 using static: one project candidate -> INFERRED; two candidates -> unknown (the other name of the "
+              "file still typed); an import that is no project class -> unknown",
+              got == {"U.A": {"MathX.Round": I}, "V.A": {"MathY.Floor": I}, "W.A": {}}
+              and (vk, "Round") in out, (got, (vk, "Round") in out))
+    # Y12 extension methods: exactly one on the receiver's chain; an instance method wins; another class's extension
+    # of that name is not a candidate; a generic `this T` extension of that name makes it unknown
+    e = {"cs/o.cs": [dict(name="Order", methods=[("Validate", [], set())]), dict(name="Other")],
+         "cs/e.cs": [dict(name="Ext", methods=[("Total", [], {"static"}), ("Validate", [], {"static"}),
+                                               ("Dump", [], {"static"}), ("Dump2", [], {"static"})])],
+         "cs/e2.cs": [dict(name="Ext2", methods=[("Total", [], {"static"}), ("Dump", [], {"static"})])],
+         "cs/c.cs": [dict(name="C", methods=[("A", [(("param", "o", "Order"), "Total"),
+                                                    (("param", "o", "Order"), "Validate"),
+                                                    (("param", "o", "Order"), "Dump")], set())])]}
+    files, facts, nodes = cs_files(T, e)
+    facts["cs/e.cs"].patches = [(T.t_name("Order"), "Total"), (T.t_name("Order"), "Validate"),
+                                (T.t_name("Order"), "Dump")]
+    facts["cs/e2.cs"].patches = [(T.t_name("Other"), "Total"), (T.T_UNKNOWN, "Dump")]
+    exts = {"Total": [("cs/e.cs", 0, T.t_name("Order")), ("cs/e2.cs", 0, T.t_name("Other"))],
+            "Validate": [("cs/e.cs", 0, T.t_name("Order"))],
+            "Dump": [("cs/e.cs", 0, T.t_name("Order")), ("cs/e2.cs", 0, T.T_UNKNOWN)]}
+    free = {(r, n_): T.Resolution("symbol", rel="cs/o.cs", name=n_) for r in ("cs/e.cs", "cs/e2.cs", "cs/c.cs")
+            for n_ in ("Order", "Other")}
+    out, st = cs_link(T, files, facts, nodes, [], binder=CsFBinder(T, exts=exts, free=free))
+    got = cs_typed(T, nodes, "C.A")
+    rec.check("Y12 extensions: `o.Total()` -> the one extension on Order's chain (Ext2.Total is on Other); "
+              "`o.Validate()` -> the instance method, never the same-named extension; `o.Dump()` with a `this T` "
+              "extension of that name -> unknown", got == {"Ext.Total": I, "Order.Validate": I}, got)
+    rec.check("Y12 an extension onto a project type never marks the class patched (its instance methods stay typed)",
+              st["error"] is None and "Order.Validate" in got, st["error"])
+
+
+# ================================================================================================
 # Q: mutation teeth (each rule broken in a copy of the module -> its section goes RED)
 # ================================================================================================
 
@@ -4399,15 +4815,15 @@ MUTATIONS = [
     ("a kept tuple's override re-emitted too", "        return keep, rekey - kept_reach\n",
      "        return keep, rekey\n", "sec_dispatch"),
     ("a declared receiver is exact",
-     '            return self._target_verdict(looks, v, rel, shape, r.kind, line=site.line,\n'
-     '                                        dispatch="sub" if v.decl else "")',
-     '            return self._target_verdict(looks, v, rel, shape, r.kind, line=site.line,\n'
-     '                                        dispatch="")', "sec_dispatch"),
+     '            return self._target_verdict(looks, v.but(weak=True) if "weak" in ovs else v, rel, shape, r.kind,\n'
+     '                                        line=site.line, dispatch="sub" if v.decl else "")',
+     '            return self._target_verdict(looks, v.but(weak=True) if "weak" in ovs else v, rel, shape, r.kind,\n'
+     '                                        line=site.line, dispatch="")', "sec_dispatch"),
     ("a constructed receiver dispatches",
-     '            return self._target_verdict(looks, v, rel, shape, r.kind, line=site.line,\n'
-     '                                        dispatch="sub" if v.decl else "")',
-     '            return self._target_verdict(looks, v, rel, shape, r.kind, line=site.line,\n'
-     '                                        dispatch="sub")', "sec_dispatch"),
+     '            return self._target_verdict(looks, v.but(weak=True) if "weak" in ovs else v, rel, shape, r.kind,\n'
+     '                                        line=site.line, dispatch="sub" if v.decl else "")',
+     '            return self._target_verdict(looks, v.but(weak=True) if "weak" in ovs else v, rel, shape, r.kind,\n'
+     '                                        line=site.line, dispatch="sub")', "sec_dispatch"),
     ("`self` is exact", 'src="self", decl=True)', 'src="self")', "sec_dispatch"),
     ("`super()` reaches no cooperative next definer",
      "                        out.update(self.method_nodes(x, m, mfs)[0])\n                        break\n",
@@ -4510,6 +4926,62 @@ MUTATIONS = [
      "    return type(x) is int\n", "sec_review2"),
     ("the validator's site fast path accepts a bool line",
      "(type(x.line) is int or _ok_int(x.line))", "(type(x.line) is int or True)", "sec_review2"),
+    # the C# lookup rules (section Y)
+    ("C# interface dispatch off", '                if dispatch_ok and vd.why == "interface":\n',
+     "                if False:\n", "sec_csharp"),
+    ("an implementer fan-out past MAX_TARGETS emitted",
+     '        if len(impls) > MAX_TARGETS:\n            ds["too_many"] += 1\n            return\n',
+     '        if False:\n            ds["too_many"] += 1\n            return\n', "sec_csharp"),
+    ("an implementer fan-out graded INFERRED", '        grade = "INFERRED" if len(impls) == 1 else "AMBIGUOUS"',
+     '        grade = "INFERRED"', "sec_csharp"),
+    ("a test fake counts for a production caller",
+     "            if not caller_test and self.test_file(si.rel, unknown=False):\n                continue\n",
+     "            if False:\n                continue\n", "sec_csharp"),
+    ("an implementer whose reach is unknown is skipped (the others still emitted)",
+     "            if not found and found != ():\n                out = None\n                break\n",
+     "            if not found and found != ():\n                continue\n", "sec_csharp"),
+    ("an abstract class without a definition blocks the reach",
+     '                found = () if si.facts.kind == "abstract" else None', "                found = None",
+     "sec_csharp"),
+    ("dispatch for a concrete receiver",
+     '        if not keys or not all(k in self.classes and self.classes[k].facts.kind == "interface" for k in keys) '
+     '\\\n', "        if not keys \\\n", "sec_csharp"),
+    ("partial types not merged", "        self.merge_partials()\n", "        pass\n", "sec_csharp"),
+    ("member scope off", "        mv = self.member_scope(rel, si, x, depth)", "        mv = None", "sec_csharp"),
+    ("an external class base never hides a simple name", "        if self.member_open(key):\n            return _UNK\n",
+     "        if False:\n            return _UNK\n", "sec_csharp"),
+    ("an interface-named external base hides simple names",
+     '                out = not re.match(r"I[A-Z]", str(b[1] or ""))', "                out = True", "sec_csharp"),
+    ("the C# field rule off (an external base after the class's own field blocks it)",
+     '        if ci0 is not None and ci0.spec is not None and "member_scope" in ci0.spec.lookup_rules:\n'
+     "            return self.cs_field_type(key, attr, depth)",
+     "        if False:\n            return self.cs_field_type(key, attr, depth)", "sec_csharp"),
+    ("a bare C# `T()` read as a constructor",
+     "                v = _UNK                               # C#: a bare `T()` is never a constructor (only `new T()` "
+     "is)", "                pass", "sec_csharp"),
+    ("using static: several candidates typed",
+     '        if len(targets) != 1:\n            return _Verdict("unknown", why="using static", shape="M", '
+     'recv_kind="") if targets else None', "        if not targets:\n            return None", "sec_csharp"),
+    ("using static: an unresolvable import ignored",
+     '            if v.kind != "cls" or len(v.keys) != 1:\n                return _Verdict("unknown", '
+     'why="using static", shape="M", recv_kind="")',
+     '            if v.kind != "cls" or len(v.keys) != 1:\n                continue', "sec_csharp"),
+    ("extensions: the receiver's chain ignored (any project extension of that name)",
+     "            if next(iter(tv.keys)) not in chain:\n                continue",
+     "            if False:\n                continue", "sec_csharp"),
+    ("extensions: a `this T` extension of that name ignored",
+     '            if tv.kind != "inst" or len(tv.keys) != 1:\n                return _Verdict("unknown", '
+     'why="extension", shape=shape, recv_kind=recv_kind)',
+     '            if tv.kind != "inst" or len(tv.keys) != 1:\n                continue', "sec_csharp"),
+    ("a C# extension on a project type marks the class patched",
+     "                    continue                         # a C# extension on a project type: the extension rule "
+     "decides", "                    pass", "sec_csharp"),
+    ("call_lines never recorded", "                self.note_line(ck, t, tline.get(t, gline))\n",
+     "                pass\n", "sec_csharp"),
+    ("call_lines overwrites a smaller line", "        if not (_ok_int(have) and have > 0) or ln < have:",
+     "        if True:", "sec_csharp"),
+    ("call_lines drops the engine's name entries", '    out = {k: v for k, v in base.items() if k != "key"}',
+     "    out = {}", "sec_csharp"),
 ]
 
 
@@ -4574,6 +5046,8 @@ SECTIONS = [
      "validator's fast paths)", sec_review2),
     ("X: the phase-2 verification (a merged getter / setter node is audited over its scopes' union; an interface "
      "claiming a real method by name)", sec_verify2),
+    ("Y: the C# lookup rules (interface dispatch, partial types, member scope, using static, extension methods, "
+     "call_lines)", sec_csharp),
     ("O: seeded fuzz", sec_fuzz),
     ("Q: mutation teeth", sec_mutations),
 ]

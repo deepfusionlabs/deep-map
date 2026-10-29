@@ -34,6 +34,52 @@ DECISION.md.
 | S, STAGE-0 | `tests/stage0_refreeze.py --check --env KEY=VAL` | The committed oracles against a variant's graph (DEEPMAP_* keys only; `--freeze` refuses `--env`). |
 | all G/E | `run_matrix.sh` | corpus x engine x variant orchestration (`CL_DRY=1` prints the plan). Measures a snapshot of `build/*.py` (`CL_WORK/build_snapshot`) unless `CL_BUILD` names one; VOID runs go to `VOID.txt`, invariant failures to `INVARIANT.txt`. |
 
+## D3-cs: C# typed linking ([PREREG_CS.md](PREREG_CS.md))
+
+A second registration, apart from PREREG.md: whether `DEEPMAP_TYPED_CALLS=csharp` joins the default graph. Its
+protocol block is hash-locked like PREREG §8; the kit keeps every C# table APART from the ones harness gate H reads
+for PREREG.md, and a jedi / tsc truth is scored exactly as before (the closed decisions recompute identically).
+
+| What (PREREG_CS) | Where |
+|---|---|
+| The reference (§8.2): `truth_roslyn.py` + `truth_roslyn/` | a DISPATCH truth: the `call-linking/truth/1` row plus a per-row `dispatch` list, entries of exactly the `defs` shape (`_common.has_dispatch`) |
+| T_s / T_d and the mapping (§8.5) | `_common.truth_pairs_cs` (T_s = each row's `defs`, exactly `truth_pairs`' T; T_d = each row's `dispatch` minus T_s; the same GraphLocator: the innermost defstack entry that has a node, else the file's Module; a def maps to the node on its line or an alt line) and `classify_pair_cs` (confirmed / dispatch-confirmed / refuted / unverified; AC6: a site is resolved when it is bound, statically or by dispatch, to a definition that maps to a graph node, so a caller whose sites of that name bind only outside the corpus is unverified, never refuted); `RECEIVER_FORMS["cs"]` = name_attr + recv + this; `caller_class` reads a `.cs` path by the product's rule only (`sync._is_test_path`, its .NET test-project directory suffixes included) |
+| Row fields (AC5) | every row's `dispatch` (a list), a row with dispatch targets' `dispatch_rule` (`interface` / `override`), every def's `interface`: `_common._static_iface` (G4c: the row's `dispatch_rule` when it has dispatch targets, else the defs' `interface`, so an external static target such as IDisposable.Dispose still answers) and `_common.static_dispatchable` (AC9's fallback: either dispatch rule, else the defs' `interface`) |
+| G scores | `compare_calls.py` on a dispatch truth: the §8.5 classification, recall over T_s (overall, per form), dispatch recall over T_d, the AMBIGUOUS and EXTRACTED-refuted shares, G4c (`g4c`, through AC5's fields; `exact` False only for a producing row that names no dispatch rule), the static-only classification beside it (`static_only`, never decisive); `pool --family=cs` (dispatch-truth scores only, all whole-graph or all `--src-prefix`) |
+| Deltas | `delta.py`: the verdict covers dispatch-confirmed, `verdict_static` beside it, and a `cs` block with G2d (added edges from a non-test caller to a node in a test file) |
+| Spots (§8.3) | `impact_spot.py` `CS_SPOTS` / `CS_RESERVES` (ids J1..E5, J-r1..E-r3), reference T_s ∪ T_d, the exactly-one-node check; `substitute --base39 --base51` applies the substitution rule and writes the final list; AC12: `--corpus=<id> --final=<id>/spots_final.json` measures exactly that FINAL list (a C# `--corpus` without `--final`, a final list of another corpus or one `substitute` cannot have written is refused, exit 2) and prints the G1c count |
+| Audit (§8.6 A) | `audit_sample.py`: `CS_SHEET_SENTENCE` (verbatim) on a C# sheet, the call-site shapes `M<...>(` and `?.M(`, dispatch-confirmed removals in the exhaustive stratum (AC10), `removed_all_exact` beside the unchanged `removed_all`, `exact` (per-bucket bounds, a census at its exact share), `EXTRACTED_split` (G4b), `pool` (population-weighted over corpora, Wilson on the summed rows beside it); the dispatch stratum (AC9, G3b) = `sample --base=<VT-cs-ifs>` (implementer AND override edges), `--impl-fallback` only without `DEEPMAP_TYPED_CALLS_IFACE` (interface, virtual, abstract or override static targets); `refrate --dir=... --sheets=...` (AC11: the reference error rate per corpus × engine over the union of the main and dispatch-stratum samples, a pair once; unreliable when either engine is at 10% or more) |
+| Variants (§8.4) | `variants.py` `CS_VARIANTS` (`list-cs`): V0, VT-cs, VT-cs[shape], VT-cs+t, VT-cs+np, VT-cs-ifs (`DEEPMAP_TYPED_CALLS_IFACE=static`: the statically bound member only, interface or virtual), VT-cs-if0 (`=0`: neither dispatch rule), VRC-cs (`--set`; AC16: `variants.py vrc-cs` prints `DEEPMAP_TYPED_CALLS=<every language in the RC tree's _TYPED_DEFAULT_LANGS>,csharp`, and `env` / `run VRC-cs` refuse a value that leaves one out) |
+| Dumps | `offline_calls.py`: `effective.typed_iface` (the interface-dispatch modes, through `typed_calls._config`), VOID when a requested `DEEPMAP_TYPED_CALLS_IFACE` was not turned on exactly, the C# VOID rule (`csharp_void`: csharp disabled for any reason, or no C# file read, on a corpus holding `.cs` nodes); `identity` (N1 / N2) |
+| RC identity (§1, AC7) | `offline_calls.py codehash --build <snapshot>/build` (build/*.py); `offline_calls.py kithash --kit <snapshot>/benchmark/call_linking [--truth <truth.json>]`: the kit hash (every kit file, `__pycache__/`, `truth_roslyn/bin/`, `truth_roslyn/obj/`, RESULTS_CS.md, DECISION_CS.md and `cs/` excluded) and the reference tool identity (checked equal to `truth_roslyn.py identity`), plus the truth's resolver versions; `--build ... --record <file>` records / checks the three together (run_matrix.sh's `out/rc_identity.json`) |
+| G5b manifest (AC15) | `offline_calls.py manifest <repo>/benchmark/call_linking/cs [--write]`: `cs/.gitattributes` (`* -text`) and `cs/MANIFEST.sha256` (`<sha256>  <path relative to cs/>`, byte order, LF, never itself or a sheet.md); a dry run without `--write`; refuses a sheet.md, a dump or truth file, a symbolic link, an existing different manifest; prints the line DECISION_CS.md records |
+| Orchestration | `run_matrix.sh` with `CL_MATRIX=cs CL_PHASE=self-snapshot \| truth \| v0 \| spots \| rest \| audit \| gates \| manifest` (`cs_corpus_row`, `CS_C_CORPORA`, `CS_N_CORPORA`): §8.1's order, each phase refusing to start before its inputs exist; every phase but `self-snapshot` runs FROM the snapshot (AC7) and checks its identity against `out/rc_identity.json`; `rest` ends with the engine-parity gate exactly as AC13 names it; `gates` runs G5a's gates (`CS_G5A_GATES`) under both engines' Pythons and the no-Neo4j suite on 0.8.39, logs under `out/gates/` |
+
+```bash
+W=<scratch>   # a CL_WORK of its own, outside this repository; CL_DMHOME short (MAX_PATH)
+export CL_WORK=$W CL_DMHOME=<short dir> CL_PY51=C:/tmp/cl6-842925/prep/v51/Scripts/python.exe CL_MATRIX=cs \
+       CL_SELF_RC=$W/self_rc
+CL_PHASE=self-snapshot bash benchmark/call_linking/run_matrix.sh     # ONCE, from this working tree, at the RC suite run
+RM=$CL_SELF_RC/benchmark/call_linking/run_matrix.sh                  # AC7: every other phase runs the snapshot's copy
+python $CL_SELF_RC/benchmark/call_linking/offline_calls.py codehash --build $CL_SELF_RC/build      # §1's slots
+python $CL_SELF_RC/benchmark/call_linking/offline_calls.py kithash --kit $CL_SELF_RC/benchmark/call_linking
+CL_PHASE=truth CL_ROSLYN_ARGS="<registered options>" bash $RM   # record, then:
+CL_PHASE=v0    bash $RM                                         # record, then:
+CL_PHASE=spots bash $RM                                         # record the final list, then:
+CL_PHASE=rest  bash $RM                                         # ... and the engine-parity gate (AC13), then the review:
+CL_PHASE=audit bash $RM                                         # the reviewers' sheet_r1.csv / sheet_r2.csv in each audit dir
+CL_PHASE=gates bash $RM                                         # G5a from the snapshot (the Linux-container suite: by hand)
+CL_PHASE=manifest CL_CS_DIR=<this repo>/benchmark/call_linking/cs bash $RM   # G5b, once the files are placed there
+```
+
+The live layers run from the same snapshot (AC7), never from this working tree: S is
+`python $CL_SELF_RC/tests/stage0_refreeze.py --work <fresh> --check --env DEEPMAP_TYPED_CALLS=csharp` on each engine's
+Python; P is `<engine python> $CL_SELF_RC/benchmark/clone_graph.py build <clone>` (its `BUILD` is the snapshot's
+build/), then the six alternating `<engine python> $CL_SELF_RC/build/deepmap_cli.py sync <clone> --stale-cleanup`
+re-syncs of §8.6 P under each arm's `variants.py run <arm> --` environment; R (VRC-cs only) is
+`$CL_SELF_RC/benchmark/call_linking/run_variant.py` / `measure_self.py`, with
+`variants.py run VRC-cs --set $(python $CL_SELF_RC/benchmark/call_linking/variants.py vrc-cs) -- ...` (AC16).
+
 ## Environment (PREREG §8.2)
 
 ```bash
@@ -94,6 +140,13 @@ and the dev pairs, and checks the graph's owner stamp.
   list is rewritten by MSYS before Python sees it (`impact_offline.py --case REPO ROOT DUMP`).
 - **The `self` corpus is the working tree** (there is no RC commit): `run_matrix.sh` clones the repository into the
   scratch dir, copies the working tree over it and runs `git add -A` in that throwaway clone only (the engine's
-  skipped-dir rescue reads `git ls-files --cached`).
+  skipped-dir rescue reads `git ls-files --cached`). The C# matrix never does that mid-run: its `self` is copied from
+  `CL_SELF_RC`, one snapshot made the same way at the RC suite run (`CL_PHASE=self-snapshot`; AC7: the working tree's
+  deleted tracked files are removed from the clone first, and the snapshot's index must list exactly the working
+  tree's files), read-only to every dump; `self` is its `.git` plus exactly the files its index lists. Every other C#
+  phase runs the snapshot's own `run_matrix.sh` on the snapshot's `build/` (it refuses any other copy).
+- **A dispatch truth is not a jedi / tsc truth.** `compare_calls`, `delta`, `impact_spot` and `audit_sample` switch to
+  PREREG_CS §8.5's rules only when the truth's rows carry `dispatch` (`_common.has_dispatch`); the decisive fields of a
+  C# score are its top-level ones, and `static_only` (dispatch ignored) is reported beside them, never decisive.
 - **Pilot numbers are pilot data.** PREREG §7 holds the S0 V0 baseline that proved the kit; decisions use only
   the RC runs of S6.

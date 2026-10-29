@@ -1,0 +1,16 @@
+namespace Infra;
+
+public class Uses
+{
+    public decimal Go()
+    {
+        var o = new OrderAlias(1);
+        var t = TaxOf(1m);
+        var v = VersionInfo.Get();
+        var w = "i".Warm();
+        var c = new List<int>().CountX();
+        var m = new Mapper().Map();
+        var k = 5.Twice();
+        return o.Total() + t + v.Length + w + c + m + k;
+    }
+}

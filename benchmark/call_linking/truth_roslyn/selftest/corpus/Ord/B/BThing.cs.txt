@@ -1,0 +1,6 @@
+namespace Ord.B;
+
+public static class BThing
+{
+    public static int B() => 2;
+}

@@ -1,0 +1,3524 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_cs_gates.TREES['cqrs'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_cs_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "admin_admin",
+    "source_file": "src/Admin/Admin.csproj",
+    "target": "src_admin_admin_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "admin_adminjob",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L1",
+    "target": "orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "admin_adminjob",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L5",
+    "target": "admin_adminjob_adminjob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "admin_adminjob_adminjob",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L7",
+    "target": "admin_adminjob_adminjob_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "admin_adminjob_adminjob_run",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L7",
+    "target": "src_admin_adminjob_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "src/Admin/Models/Order.cs",
+    "source_location": "L3",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/Admin/Models/Order.cs",
+    "source_location": "L5",
+    "target": "models_order_order_validate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "billing_invoice",
+    "source_file": "src/Shop/Billing/Invoice.cs",
+    "source_location": "L3",
+    "target": "billing_invoice_invoice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "billing_invoice_invoice",
+    "source_file": "src/Shop/Billing/Invoice.cs",
+    "source_location": "L5",
+    "target": "billing_invoice_invoice_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "billing_invoicejob",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L1",
+    "target": "legacy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "billing_invoicejob",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L5",
+    "target": "billing_invoicejob_invoicejob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "billing_invoicejob_invoicejob",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L7",
+    "target": "billing_invoicejob_invoicejob_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "billing_invoicejob_invoicejob_run",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L7",
+    "target": "src_shop_billing_invoicejob_cs_invoice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "carts_cart",
+    "source_file": "src/Shop/Carts/Cart.cs",
+    "source_location": "L3",
+    "target": "carts_cart_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_cart_cart",
+    "source_file": "src/Shop/Carts/Cart.cs",
+    "source_location": "L9",
+    "target": "carts_cart_cart_recalculate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "carts_cart",
+    "source_file": "src/Shop/Carts/Cart.cs",
+    "source_location": "L14",
+    "target": "carts_cart_cartitem",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "carts_ishoppingcarthelper",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L3",
+    "target": "carts_ishoppingcarthelper_ishoppingcarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_ishoppingcarthelper_ishoppingcarthelper",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L5",
+    "target": "carts_ishoppingcarthelper_ishoppingcarthelper_createshoppingcartasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "carts_ishoppingcarthelper_ishoppingcarthelper_createshoppingcartasync",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L5",
+    "target": "src_shop_carts_ishoppingcarthelper_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "carts_ishoppingcarthelper_ishoppingcarthelper_createshoppingcartasync",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L5",
+    "target": "src_shop_carts_ishoppingcarthelper_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_ishoppingcarthelper_ishoppingcarthelper",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L7",
+    "target": "carts_ishoppingcarthelper_ishoppingcarthelper_savecartitemsasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "carts_ishoppingcarthelper_ishoppingcarthelper_savecartitemsasync",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L7",
+    "target": "src_shop_carts_ishoppingcarthelper_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "carts_shoppingcarthelper",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L3",
+    "target": "carts_shoppingcarthelper_shoppingcarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L3",
+    "target": "ishoppingcarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L5",
+    "target": "carts_shoppingcarthelper_shoppingcarthelper_createshoppingcartasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper_createshoppingcartasync",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L5",
+    "target": "src_shop_carts_shoppingcarthelper_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper_createshoppingcartasync",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L5",
+    "target": "src_shop_carts_shoppingcarthelper_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L12",
+    "target": "carts_shoppingcarthelper_shoppingcarthelper_savecartitemsasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper_savecartitemsasync",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L12",
+    "target": "src_shop_carts_shoppingcarthelper_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L16",
+    "target": "carts_shoppingcarthelper_shoppingcarthelper_buildcartitems",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper_buildcartitems",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L16",
+    "target": "src_shop_carts_shoppingcarthelper_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper_buildcartitems",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L16",
+    "target": "list",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "carts_shoppingcarthelper_shoppingcarthelper_buildcartitems",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L16",
+    "target": "cartitem",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "legacy_invoice",
+    "source_file": "src/Shop/Legacy/Invoice.cs",
+    "source_location": "L3",
+    "target": "legacy_invoice_invoice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "legacy_invoice_invoice",
+    "source_file": "src/Shop/Legacy/Invoice.cs",
+    "source_location": "L5",
+    "target": "legacy_invoice_invoice_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "members_carttotals",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L3",
+    "target": "members_carttotals_carttotals",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "members_carttotals_carttotals",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L5",
+    "target": "orderpricer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "members_carttotals",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L31",
+    "target": "members_carttotals_orderpricer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "members_carttotals_orderpricer",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L33",
+    "target": "members_carttotals_orderpricer_warm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "members_carttotals_orderpricer",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L37",
+    "target": "members_carttotals_orderpricer_price",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "misc_alertsender",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L3",
+    "target": "misc_alertsender_mailer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_alertsender_mailer",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L5",
+    "target": "misc_alertsender_mailer_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "misc_alertsender",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L10",
+    "target": "misc_alertsender_alertsender",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "misc_alertsender_alertsender",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L12",
+    "target": "action",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "misc_alertsender_alertsender",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L13",
+    "target": "misc_alertsender_mailer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_alertsender_alertsender",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L15",
+    "target": "misc_alertsender_alertsender_alert",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "misc_alertsender_alertsender_alert",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L18",
+    "target": "misc_alertsender_mailer_send",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "misc_dispatcher",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L1",
+    "target": "orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "misc_dispatcher",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L5",
+    "target": "misc_dispatcher_dispatcher",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "misc_dispatcher_dispatcher",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L7",
+    "target": "src_shop_misc_dispatcher_cs_orderservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_dispatcher_dispatcher",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L9",
+    "target": "misc_dispatcher_dispatcher_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_dispatcher_dispatcher",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L14",
+    "target": "misc_dispatcher_dispatcher_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_dispatcher_dispatcher",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L19",
+    "target": "misc_dispatcher_dispatcher_once",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "misc_toggle",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L1",
+    "target": "orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "misc_toggle",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L5",
+    "target": "misc_toggle_toggle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "misc_toggle_toggle",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L7",
+    "target": "src_shop_misc_toggle_cs_orderservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_toggle_toggle",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L9",
+    "target": "misc_toggle_toggle_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_toggle_toggle",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L18",
+    "target": "misc_toggle_toggle_plain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "misc_windowsy",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L1",
+    "target": "orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "misc_windowsy",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L5",
+    "target": "misc_windowsy_windowsy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "misc_windowsy_windowsy",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L7",
+    "target": "src_shop_misc_windowsy_cs_orderservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "misc_windowsy_windowsy",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L9",
+    "target": "misc_windowsy_windowsy_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "notify_inotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L3",
+    "target": "notify_inotifier_inotifier",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "notify_inotifier_inotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L5",
+    "target": "notify_inotifier_inotifier_notify",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "notify_inotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L8",
+    "target": "notify_inotifier_emailnotifier",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "notify_inotifier_emailnotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L8",
+    "target": "notify_inotifier_inotifier",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "notify_inotifier_emailnotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L10",
+    "target": "notify_inotifier_emailnotifier_notify",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "notify_inotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L15",
+    "target": "notify_inotifier_smsnotifier",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "notify_inotifier_smsnotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L15",
+    "target": "notify_inotifier_inotifier",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "notify_inotifier_smsnotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L17",
+    "target": "notify_inotifier_smsnotifier_notify",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "notify_inotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L22",
+    "target": "notify_inotifier_notifyhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "notify_inotifier_notifyhandler",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L24",
+    "target": "notify_inotifier_inotifier",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "notify_inotifier_notifyhandler",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L26",
+    "target": "notify_inotifier_notifyhandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "notify_inotifier_notifyhandler_handle",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L28",
+    "target": "notify_inotifier_smsnotifier_notify",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "orders_cancelorderhandler",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L1",
+    "target": "carts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_cancelorderhandler",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L5",
+    "target": "orders_cancelorderhandler_cancelorderhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_cancelorderhandler_cancelorderhandler",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L7",
+    "target": "orders_cancelorderhandler_cancelorderhandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_cancelorderhandler_cancelorderhandler_handle",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L7",
+    "target": "cancelordercommand",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "orders_createorderhandler_persist",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L1",
+    "target": "carts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_createorderhandler_persist",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L5",
+    "target": "orders_createorderhandler_persist_createorderhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_createorderhandler_persist_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L7",
+    "target": "orders_createorderhandler_persist_createorderhandler_persist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_createorderhandler_persist_createorderhandler_persist",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L7",
+    "target": "src_shop_orders_createorderhandler_persist_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "orders_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L1",
+    "target": "carts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L5",
+    "target": "orders_createorderhandler_createorderhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "orders_createorderhandler_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L5",
+    "target": "irequesthandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L5",
+    "target": "createordercommand",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L5",
+    "target": "orderresult",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L7",
+    "target": "src_shop_orders_createorderhandler_cs_ishoppingcarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L8",
+    "target": "iorderrepository",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_createorderhandler_createorderhandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18",
+    "target": "orders_createorderhandler_createorderhandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler_handle",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18",
+    "target": "createordercommand",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler_handle",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18",
+    "target": "cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler_handle",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18",
+    "target": "src_shop_orders_createorderhandler_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler_handle",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18",
+    "target": "orderresult",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "attribute",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler_handle",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18",
+    "target": "obsolete",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "attribute",
+    "relation": "references",
+    "source": "orders_createorderhandler_createorderhandler_handle",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18",
+    "target": "httppost",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "orders_iorderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L1",
+    "target": "carts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_iorderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L5",
+    "target": "orders_iorderrepository_iorderrepository",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_iorderrepository_iorderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L7",
+    "target": "orders_iorderrepository_iorderrepository_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "orders_iorderrepository_iorderrepository_get",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L7",
+    "target": "src_shop_orders_iorderrepository_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_iorderrepository_iorderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L9",
+    "target": "orders_iorderrepository_iorderrepository_add",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_iorderrepository_iorderrepository_add",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L9",
+    "target": "src_shop_orders_iorderrepository_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_iorderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L12",
+    "target": "orders_iorderrepository_orderrepository",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "orders_iorderrepository_orderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L12",
+    "target": "orders_iorderrepository_iorderrepository",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_iorderrepository_orderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L14",
+    "target": "orders_iorderrepository_orderrepository_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "orders_iorderrepository_orderrepository_get",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L14",
+    "target": "src_shop_orders_iorderrepository_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_iorderrepository_orderrepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L16",
+    "target": "orders_iorderrepository_orderrepository_add",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_iorderrepository_orderrepository_add",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L16",
+    "target": "src_shop_orders_iorderrepository_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_order",
+    "source_file": "src/Shop/Orders/Order.cs",
+    "source_location": "L3",
+    "target": "orders_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_order_order",
+    "source_file": "src/Shop/Orders/Order.cs",
+    "source_location": "L9",
+    "target": "orders_order_order_validate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_orderhandlerbase",
+    "source_file": "src/Shop/Orders/OrderHandlerBase.cs",
+    "source_location": "L3",
+    "target": "orders_orderhandlerbase_orderhandlerbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_orderhandlerbase_orderhandlerbase",
+    "source_file": "src/Shop/Orders/OrderHandlerBase.cs",
+    "source_location": "L5",
+    "target": "orders_orderhandlerbase_orderhandlerbase_audit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_orderline",
+    "source_file": "src/Shop/Orders/OrderLine.cs",
+    "source_location": "L5",
+    "target": "orders_orderline_check",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_orderline_check",
+    "source_file": "src/Shop/Orders/OrderLine.cs",
+    "source_location": "L5",
+    "target": "src_shop_orders_orderline_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_orderservice",
+    "source_file": "src/Shop/Orders/OrderService.cs",
+    "source_location": "L3",
+    "target": "orders_orderservice_orderservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_orderservice_orderservice",
+    "source_file": "src/Shop/Orders/OrderService.cs",
+    "source_location": "L5",
+    "target": "orders_orderservice_orderservice_ship",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_orderservice_orderservice",
+    "source_file": "src/Shop/Orders/OrderService.cs",
+    "source_location": "L9",
+    "target": "orders_orderservice_orderservice_cancel",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_shiporderhandler",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L3",
+    "target": "orders_shiporderhandler_shiporderhandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "orders_shiporderhandler_shiporderhandler",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L3",
+    "target": "orders_orderhandlerbase_orderhandlerbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_shiporderhandler_shiporderhandler",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L5",
+    "target": "orders_shiporderhandler_shiporderhandler_audit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_shiporderhandler_shiporderhandler",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L10",
+    "target": "orders_shiporderhandler_shiporderhandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_shiporderhandler_shiporderhandler_handle",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L10",
+    "target": "shipordercommand",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_shiporderhandler_shiporderhandler_handle",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L10",
+    "target": "src_shop_orders_shiporderhandler_cs_orderservice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_shiporderhandler_shiporderhandler",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L23",
+    "target": "orders_shiporderhandler_shiporderhandler_gen",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "orders_shiporderhandler_shiporderhandler_gen",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L23",
+    "target": "src_shop_orders_shiporderhandler_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_shiporderhandler",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L26",
+    "target": "orders_shiporderhandler_shipaudit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_shiporderhandler_shipaudit",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L28",
+    "target": "orders_shiporderhandler_shipaudit_validate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "orders_shiporderhandler_shiporderhandler_handle",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L13",
+    "target": "orders_shiporderhandler_shiporderhandler_audit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "orders_shiporderhandler_shiporderhandler_handle",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L15",
+    "target": "orders_shiporderhandler_shipaudit_validate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "paint_canvas",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L3",
+    "target": "paint_canvas_canvas",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "paint_canvas_canvas",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L7",
+    "target": "paint_canvas_canvas_apply",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "paint_canvas",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L14",
+    "target": "paint_canvas_badge",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "paint_canvas_badge",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L18",
+    "target": "paint_canvas_badge_apply",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "paint_color",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L3",
+    "target": "paint_color_color",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "paint_color_color",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L5",
+    "target": "paint_color_color_fromname",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "paint_color_color_fromname",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L5",
+    "target": "paint_color_color",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "paint_color_color",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L10",
+    "target": "paint_color_color_hex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "paint_color",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L16",
+    "target": "paint_color_status",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "paint_color_status",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L18",
+    "target": "paint_color_status_hex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pricing_pricemath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L1",
+    "target": "orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pricing_pricemath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L5",
+    "target": "pricing_pricemath_pricemath",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pricing_pricemath_pricemath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L7",
+    "target": "pricing_pricemath_pricemath_roundprice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pricing_pricemath_pricemath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L12",
+    "target": "pricing_pricemath_pricemath_discounted",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "pricing_pricemath_pricemath_discounted",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L12",
+    "target": "src_shop_pricing_pricemath_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pricing_pricemath_pricemath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L17",
+    "target": "pricing_pricemath_pricemath_validate",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "pricing_pricemath_pricemath_validate",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L17",
+    "target": "src_shop_pricing_pricemath_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pricing_pricemath_pricemath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L21",
+    "target": "pricing_pricemath_pricemath_applytax",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pricing_pricemath_pricemath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L26",
+    "target": "pricing_pricemath_pricemath_gross",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "pricing_pricemath_pricemath_gross",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L28",
+    "target": "pricing_pricemath_pricemath_applytax",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pricing_pricinghandler",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L1",
+    "target": "pricemath",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "pricing_pricinghandler",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L2",
+    "target": "orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "pricing_pricinghandler",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L6",
+    "target": "pricing_pricinghandler_pricinghandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "pricing_pricinghandler_pricinghandler",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L8",
+    "target": "pricing_pricinghandler_pricinghandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "pricing_pricinghandler_pricinghandler_handle",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L8",
+    "target": "src_shop_pricing_pricinghandler_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "reports_reportjob",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L1",
+    "target": "billing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "reports_reportjob",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L2",
+    "target": "legacy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "reports_reportjob",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L6",
+    "target": "reports_reportjob_reportjob",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "reports_reportjob_reportjob",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L8",
+    "target": "reports_reportjob_reportjob_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "reports_reportjob_reportjob_run",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L8",
+    "target": "src_shop_reports_reportjob_cs_invoice",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "shop_shop",
+    "source_file": "src/Shop/Shop.csproj",
+    "target": "src_shop_shop_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "steps_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L3",
+    "target": "steps_istep_istep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "steps_istep_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L5",
+    "target": "steps_istep_istep_execute",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "steps_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L8",
+    "target": "steps_istep_stepa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "steps_istep_stepa",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L8",
+    "target": "steps_istep_istep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "steps_istep_stepa",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L10",
+    "target": "steps_istep_stepa_execute",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "steps_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L15",
+    "target": "steps_istep_stepb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "steps_istep_stepb",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L15",
+    "target": "steps_istep_istep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "steps_istep_stepb",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L17",
+    "target": "steps_istep_stepb_execute",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "steps_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L22",
+    "target": "steps_istep_stepc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "steps_istep_stepc",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L22",
+    "target": "steps_istep_istep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "steps_istep_stepc",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L24",
+    "target": "steps_istep_stepc_execute",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "steps_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L29",
+    "target": "steps_istep_stepd",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "steps_istep_stepd",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L29",
+    "target": "steps_istep_istep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "steps_istep_stepd",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L31",
+    "target": "steps_istep_stepd_execute",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "steps_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L36",
+    "target": "steps_istep_stepe",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "steps_istep_stepe",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L36",
+    "target": "steps_istep_istep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "steps_istep_stepe",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L38",
+    "target": "steps_istep_stepe_execute",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "steps_istep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L43",
+    "target": "steps_istep_steprunner",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "steps_istep_steprunner",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L45",
+    "target": "steps_istep_steprunner_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "steps_istep_steprunner_run",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L45",
+    "target": "steps_istep_istep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "steps_istep_steprunner_run",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L47",
+    "target": "steps_istep_stepe_execute",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_orderscontroller",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L1",
+    "target": "mvc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_orderscontroller",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L5",
+    "target": "web_orderscontroller_orderscontroller",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "web_orderscontroller_orderscontroller",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L5",
+    "target": "controllerbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_orderscontroller_orderscontroller",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L7",
+    "target": "web_orderscontroller_orderscontroller_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_orderscontroller",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L14",
+    "target": "web_orderscontroller_plaincontroller",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_orderscontroller_plaincontroller",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L16",
+    "target": "web_orderscontroller_plaincontroller_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_request",
+    "source_file": "src/Shop/Web/Request.cs",
+    "source_location": "L3",
+    "target": "web_request_request",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_request_request",
+    "source_file": "src/Shop/Web/Request.cs",
+    "source_location": "L5",
+    "target": "web_request_request_log",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_user",
+    "source_file": "src/Shop/Web/User.cs",
+    "source_location": "L3",
+    "target": "web_user_user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_user",
+    "source_file": "src/Shop/Web/User.cs",
+    "source_location": "L5",
+    "target": "web_user_user_find",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "shop_tests_fakecarthelper",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L1",
+    "target": "carts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_tests_fakecarthelper",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L5",
+    "target": "shop_tests_fakecarthelper_fakecarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "shop_tests_fakecarthelper_fakecarthelper",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L5",
+    "target": "ishoppingcarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_tests_fakecarthelper_fakecarthelper",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L7",
+    "target": "shop_tests_fakecarthelper_fakecarthelper_createshoppingcartasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "shop_tests_fakecarthelper_fakecarthelper_createshoppingcartasync",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L7",
+    "target": "tests_shop_tests_fakecarthelper_cs_task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "shop_tests_fakecarthelper_fakecarthelper_createshoppingcartasync",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L7",
+    "target": "tests_shop_tests_fakecarthelper_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_tests_fakecarthelper_fakecarthelper",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L12",
+    "target": "shop_tests_fakecarthelper_fakecarthelper_savecartitemsasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "shop_tests_fakecarthelper_fakecarthelper_savecartitemsasync",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L12",
+    "target": "tests_shop_tests_fakecarthelper_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shop_tests_fakecarthelper",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L17",
+    "target": "shop_tests_fakecarthelper_carttests",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "shop_tests_fakecarthelper_carttests",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L19",
+    "target": "ishoppingcarthelper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shop_tests_fakecarthelper_carttests",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L21",
+    "target": "shop_tests_fakecarthelper_carttests_creates",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "shop_tests_fakecarthelper_carttests_creates",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L23",
+    "target": "shop_tests_fakecarthelper_fakecarthelper_createshoppingcartasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "shop_tests_shop_tests",
+    "source_file": "tests/Shop.Tests/Shop.Tests.csproj",
+    "target": "tests_shop_tests_shop_tests_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_report",
+    "source_file": "tools/report.py",
+    "source_location": "L1",
+    "target": "tools_report_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "tools_report",
+    "source_file": "tools/report.py",
+    "source_location": "L5",
+    "target": "tools_report_build",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "tools_report_build",
+    "source_file": "tools/report.py",
+    "source_location": "L6",
+    "target": "tools_report_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "INFERRED",
+    "confidence_score": 0.8,
+    "context": "call",
+    "relation": "calls",
+    "source": "pricing_pricinghandler_pricinghandler_handle",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L10",
+    "target": "pricing_pricemath_pricemath_roundprice",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "admin_admin",
+    "label": "Admin.csproj",
+    "source_file": "src/Admin/Admin.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_admin_admin_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Admin/Admin.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "admin_adminjob",
+    "label": "AdminJob.cs",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "admin_adminjob_adminjob",
+    "label": "AdminJob",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "admin_adminjob_adminjob_run",
+    "label": ".Run()",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_admin_adminjob_cs_order",
+    "label": "Order",
+    "source_file": "src/Admin/AdminJob.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order",
+    "label": "Order.cs",
+    "source_file": "src/Admin/Models/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order",
+    "label": "Order",
+    "source_file": "src/Admin/Models/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_validate",
+    "label": ".Validate()",
+    "source_file": "src/Admin/Models/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "billing_invoice",
+    "label": "Invoice.cs",
+    "source_file": "src/Shop/Billing/Invoice.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "billing_invoice_invoice",
+    "label": "Invoice",
+    "source_file": "src/Shop/Billing/Invoice.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "billing_invoice_invoice_send",
+    "label": ".Send()",
+    "source_file": "src/Shop/Billing/Invoice.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "billing_invoicejob",
+    "label": "InvoiceJob.cs",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "billing_invoicejob_invoicejob",
+    "label": "InvoiceJob",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "billing_invoicejob_invoicejob_run",
+    "label": ".Run()",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_billing_invoicejob_cs_invoice",
+    "label": "Invoice",
+    "source_file": "src/Shop/Billing/InvoiceJob.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_cart",
+    "label": "Cart.cs",
+    "source_file": "src/Shop/Carts/Cart.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_cart_cart",
+    "label": "Cart",
+    "source_file": "src/Shop/Carts/Cart.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_cart_cart_recalculate",
+    "label": ".Recalculate()",
+    "source_file": "src/Shop/Carts/Cart.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_cart_cartitem",
+    "label": "CartItem",
+    "source_file": "src/Shop/Carts/Cart.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_ishoppingcarthelper",
+    "label": "IShoppingCartHelper.cs",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_ishoppingcarthelper_ishoppingcarthelper",
+    "label": "IShoppingCartHelper",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_ishoppingcarthelper_ishoppingcarthelper_createshoppingcartasync",
+    "label": ".CreateShoppingCartAsync()",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_carts_ishoppingcarthelper_cs_task",
+    "label": "Task",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_carts_ishoppingcarthelper_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_ishoppingcarthelper_ishoppingcarthelper_savecartitemsasync",
+    "label": ".SaveCartItemsAsync()",
+    "source_file": "src/Shop/Carts/IShoppingCartHelper.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_shoppingcarthelper",
+    "label": "ShoppingCartHelper.cs",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_shoppingcarthelper_shoppingcarthelper",
+    "label": "ShoppingCartHelper",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ishoppingcarthelper",
+    "label": "IShoppingCartHelper",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_shoppingcarthelper_shoppingcarthelper_createshoppingcartasync",
+    "label": ".CreateShoppingCartAsync()",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_carts_shoppingcarthelper_cs_task",
+    "label": "Task",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_carts_shoppingcarthelper_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_shoppingcarthelper_shoppingcarthelper_savecartitemsasync",
+    "label": ".SaveCartItemsAsync()",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_shoppingcarthelper_shoppingcarthelper_buildcartitems",
+    "label": ".BuildCartItems()",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "list",
+    "label": "List",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cartitem",
+    "label": "CartItem",
+    "source_file": "src/Shop/Carts/ShoppingCartHelper.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_invoice",
+    "label": "Invoice.cs",
+    "source_file": "src/Shop/Legacy/Invoice.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_invoice_invoice",
+    "label": "Invoice",
+    "source_file": "src/Shop/Legacy/Invoice.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_invoice_invoice_send",
+    "label": ".Send()",
+    "source_file": "src/Shop/Legacy/Invoice.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "members_carttotals",
+    "label": "CartTotals.cs",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "members_carttotals_carttotals",
+    "label": "CartTotals",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orderpricer",
+    "label": "OrderPricer",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "members_carttotals_orderpricer",
+    "label": "OrderPricer",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "members_carttotals_orderpricer_warm",
+    "label": ".Warm()",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "members_carttotals_orderpricer_price",
+    "label": ".Price()",
+    "source_file": "src/Shop/Members/CartTotals.cs",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_alertsender",
+    "label": "AlertSender.cs",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_alertsender_mailer",
+    "label": "Mailer",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_alertsender_mailer_send",
+    "label": ".Send()",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_alertsender_alertsender",
+    "label": "AlertSender",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "action",
+    "label": "Action",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_alertsender_alertsender_alert",
+    "label": ".Alert()",
+    "source_file": "src/Shop/Misc/AlertSender.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_dispatcher",
+    "label": "Dispatcher.cs",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_dispatcher_dispatcher",
+    "label": "Dispatcher",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_misc_dispatcher_cs_orderservice",
+    "label": "OrderService",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_dispatcher_dispatcher_run",
+    "label": ".Run()",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_dispatcher_dispatcher_once",
+    "label": ".Once()",
+    "source_file": "src/Shop/Misc/Dispatcher.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_toggle",
+    "label": "Toggle.cs",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_toggle_toggle",
+    "label": "Toggle",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_misc_toggle_cs_orderservice",
+    "label": "OrderService",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_toggle_toggle_run",
+    "label": ".Run()",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_toggle_toggle_plain",
+    "label": ".Plain()",
+    "source_file": "src/Shop/Misc/Toggle.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_windowsy",
+    "label": "Windowsy.cs",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_windowsy_windowsy",
+    "label": "Windowsy",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_misc_windowsy_cs_orderservice",
+    "label": "OrderService",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "misc_windowsy_windowsy_run",
+    "label": ".Run()",
+    "source_file": "src/Shop/Misc/Windowsy.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier",
+    "label": "INotifier.cs",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_inotifier",
+    "label": "INotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_inotifier_notify",
+    "label": ".Notify()",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_emailnotifier",
+    "label": "EmailNotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_emailnotifier_notify",
+    "label": ".Notify()",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_smsnotifier",
+    "label": "SmsNotifier",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_smsnotifier_notify",
+    "label": ".Notify()",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_notifyhandler",
+    "label": "NotifyHandler",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "notify_inotifier_notifyhandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Shop/Notify/INotifier.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_cancelorderhandler",
+    "label": "CancelOrderHandler.cs",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_cancelorderhandler_cancelorderhandler",
+    "label": "CancelOrderHandler",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_cancelorderhandler_cancelorderhandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cancelordercommand",
+    "label": "CancelOrderCommand",
+    "source_file": "src/Shop/Orders/CancelOrderHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_createorderhandler_persist",
+    "label": "CreateOrderHandler.Persist.cs",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_createorderhandler_persist_createorderhandler",
+    "label": "CreateOrderHandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_createorderhandler_persist_createorderhandler_persist",
+    "label": ".Persist()",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_createorderhandler_persist_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.Persist.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_createorderhandler",
+    "label": "CreateOrderHandler.cs",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_createorderhandler_createorderhandler",
+    "label": "CreateOrderHandler",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "irequesthandler",
+    "label": "IRequestHandler",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "createordercommand",
+    "label": "CreateOrderCommand",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orderresult",
+    "label": "OrderResult",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_createorderhandler_cs_ishoppingcarthelper",
+    "label": "IShoppingCartHelper",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iorderrepository",
+    "label": "IOrderRepository",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_createorderhandler_createorderhandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_createorderhandler_cs_task",
+    "label": "Task",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "obsolete",
+    "label": "Obsolete",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "httppost",
+    "label": "HttpPost",
+    "source_file": "src/Shop/Orders/CreateOrderHandler.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_iorderrepository",
+    "label": "IOrderRepository.cs",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_iorderrepository_iorderrepository",
+    "label": "IOrderRepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_iorderrepository_iorderrepository_get",
+    "label": ".Get()",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_iorderrepository_cs_t",
+    "label": "T",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_iorderrepository_iorderrepository_add",
+    "label": ".Add()",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_iorderrepository_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_iorderrepository_orderrepository",
+    "label": "OrderRepository",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_iorderrepository_orderrepository_get",
+    "label": ".Get()",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_iorderrepository_orderrepository_add",
+    "label": ".Add()",
+    "source_file": "src/Shop/Orders/IOrderRepository.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_order",
+    "label": "Order.cs",
+    "source_file": "src/Shop/Orders/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_order_order",
+    "label": "Order",
+    "source_file": "src/Shop/Orders/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_order_order_validate",
+    "label": ".Validate()",
+    "source_file": "src/Shop/Orders/Order.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderhandlerbase",
+    "label": "OrderHandlerBase.cs",
+    "source_file": "src/Shop/Orders/OrderHandlerBase.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderhandlerbase_orderhandlerbase",
+    "label": "OrderHandlerBase",
+    "source_file": "src/Shop/Orders/OrderHandlerBase.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderhandlerbase_orderhandlerbase_audit",
+    "label": ".Audit()",
+    "source_file": "src/Shop/Orders/OrderHandlerBase.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderline",
+    "label": "OrderLine.cs",
+    "source_file": "src/Shop/Orders/OrderLine.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderline_check",
+    "label": "Check()",
+    "source_file": "src/Shop/Orders/OrderLine.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_orderline_cs_order",
+    "label": "Order",
+    "source_file": "src/Shop/Orders/OrderLine.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderservice",
+    "label": "OrderService.cs",
+    "source_file": "src/Shop/Orders/OrderService.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderservice_orderservice",
+    "label": "OrderService",
+    "source_file": "src/Shop/Orders/OrderService.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderservice_orderservice_ship",
+    "label": ".Ship()",
+    "source_file": "src/Shop/Orders/OrderService.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_orderservice_orderservice_cancel",
+    "label": ".Cancel()",
+    "source_file": "src/Shop/Orders/OrderService.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_shiporderhandler",
+    "label": "ShipOrderHandler.cs",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_shiporderhandler_shiporderhandler",
+    "label": "ShipOrderHandler",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_shiporderhandler_shiporderhandler_audit",
+    "label": ".Audit()",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_shiporderhandler_shiporderhandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shipordercommand",
+    "label": "ShipOrderCommand",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_shiporderhandler_cs_orderservice",
+    "label": "OrderService",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_shiporderhandler_shiporderhandler_gen",
+    "label": ".Gen()",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_orders_shiporderhandler_cs_t",
+    "label": "T",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_shiporderhandler_shipaudit",
+    "label": "ShipAudit",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_shiporderhandler_shipaudit_validate",
+    "label": ".Validate()",
+    "source_file": "src/Shop/Orders/ShipOrderHandler.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_canvas",
+    "label": "Canvas.cs",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_canvas_canvas",
+    "label": "Canvas",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_canvas_canvas_apply",
+    "label": ".Apply()",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_canvas_badge",
+    "label": "Badge",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_canvas_badge_apply",
+    "label": ".Apply()",
+    "source_file": "src/Shop/Paint/Canvas.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_color",
+    "label": "Color.cs",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_color_color",
+    "label": "Color",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_color_color_fromname",
+    "label": ".FromName()",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_color_color_hex",
+    "label": ".Hex()",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_color_status",
+    "label": "Status",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "paint_color_status_hex",
+    "label": ".Hex()",
+    "source_file": "src/Shop/Paint/Color.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricemath",
+    "label": "PriceMath.cs",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricemath_pricemath",
+    "label": "PriceMath",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricemath_pricemath_roundprice",
+    "label": ".RoundPrice()",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricemath_pricemath_discounted",
+    "label": ".Discounted()",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_pricing_pricemath_cs_order",
+    "label": "Order",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricemath_pricemath_validate",
+    "label": ".Validate()",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricemath_pricemath_applytax",
+    "label": ".ApplyTax()",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricemath_pricemath_gross",
+    "label": ".Gross()",
+    "source_file": "src/Shop/Pricing/PriceMath.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricinghandler",
+    "label": "PricingHandler.cs",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricinghandler_pricinghandler",
+    "label": "PricingHandler",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "pricing_pricinghandler_pricinghandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_pricing_pricinghandler_cs_order",
+    "label": "Order",
+    "source_file": "src/Shop/Pricing/PricingHandler.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "reports_reportjob",
+    "label": "ReportJob.cs",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "reports_reportjob_reportjob",
+    "label": "ReportJob",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "reports_reportjob_reportjob_run",
+    "label": ".Run()",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_shop_reports_reportjob_cs_invoice",
+    "label": "Invoice",
+    "source_file": "src/Shop/Reports/ReportJob.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_shop",
+    "label": "Shop.csproj",
+    "source_file": "src/Shop/Shop.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_shop_shop_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Shop/Shop.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep",
+    "label": "IStep.cs",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_istep",
+    "label": "IStep",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_istep_execute",
+    "label": ".Execute()",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepa",
+    "label": "StepA",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepa_execute",
+    "label": ".Execute()",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepb",
+    "label": "StepB",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepb_execute",
+    "label": ".Execute()",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepc",
+    "label": "StepC",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepc_execute",
+    "label": ".Execute()",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepd",
+    "label": "StepD",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepd_execute",
+    "label": ".Execute()",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepe",
+    "label": "StepE",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_stepe_execute",
+    "label": ".Execute()",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_steprunner",
+    "label": "StepRunner",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "steps_istep_steprunner_run",
+    "label": ".Run()",
+    "source_file": "src/Shop/Steps/IStep.cs",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_orderscontroller",
+    "label": "OrdersController.cs",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_orderscontroller_orderscontroller",
+    "label": "OrdersController",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "controllerbase",
+    "label": "ControllerBase",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_orderscontroller_orderscontroller_get",
+    "label": ".Get()",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_orderscontroller_plaincontroller",
+    "label": "PlainController",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_orderscontroller_plaincontroller_get",
+    "label": ".Get()",
+    "source_file": "src/Shop/Web/OrdersController.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_request",
+    "label": "Request.cs",
+    "source_file": "src/Shop/Web/Request.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_request_request",
+    "label": "Request",
+    "source_file": "src/Shop/Web/Request.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_request_request_log",
+    "label": ".Log()",
+    "source_file": "src/Shop/Web/Request.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user",
+    "label": "User.cs",
+    "source_file": "src/Shop/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_user",
+    "label": "User",
+    "source_file": "src/Shop/Web/User.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_user_find",
+    "label": ".Find()",
+    "source_file": "src/Shop/Web/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_tests_fakecarthelper",
+    "label": "FakeCartHelper.cs",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_tests_fakecarthelper_fakecarthelper",
+    "label": "FakeCartHelper",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ishoppingcarthelper",
+    "label": "IShoppingCartHelper",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_tests_fakecarthelper_fakecarthelper_createshoppingcartasync",
+    "label": ".CreateShoppingCartAsync()",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_shop_tests_fakecarthelper_cs_task",
+    "label": "Task",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tests_shop_tests_fakecarthelper_cs_cart",
+    "label": "Cart",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_tests_fakecarthelper_fakecarthelper_savecartitemsasync",
+    "label": ".SaveCartItemsAsync()",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_tests_fakecarthelper_carttests",
+    "label": "CartTests",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_tests_fakecarthelper_carttests_creates",
+    "label": ".Creates()",
+    "source_file": "tests/Shop.Tests/FakeCartHelper.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shop_tests_shop_tests",
+    "label": "Shop.Tests.csproj",
+    "source_file": "tests/Shop.Tests/Shop.Tests.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "tests_shop_tests_shop_tests_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "tests/Shop.Tests/Shop.Tests.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_report",
+    "label": "report.py",
+    "source_file": "tools/report.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_report_helper",
+    "label": "helper()",
+    "source_file": "tools/report.py",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_report_build",
+    "label": "build()",
+    "source_file": "tools/report.py",
+    "source_location": "L5"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "d6bb042d42ff40422bd0b0d5af93d6cee9a3069b307b1bc2f9019fe4689ffd6d"
+}

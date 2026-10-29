@@ -32,6 +32,12 @@ FLAGS (read at each call; `env=` overrides os.environ)
   DEEPMAP_TYPED_CALLS_NONPROD  default off; 1 -> non-production callers (NONPROD_DIRS) get pure additions too.
   DEEPMAP_TYPED_CALLS_MAX_FILES  default 20000: a language with more graph files is skipped whole (a note +
                                langs_disabled[lang] = "max_files"), never half-indexed.
+  DEEPMAP_TYPED_CALLS_IFACE    C# interface and virtual dispatch (LanguageSpec.lookup_rules iface_dispatch /
+                               virtual_dispatch), read only when such a language is on: unset or 1/true/yes/on ->
+                               static,impl; a CSV of IFACE_MODES -> static (the interface member / the declared
+                               virtual member: Roslyn's own binding) and / or impl (its project implementers / the
+                               overrides); 0/false/no/off -> neither. Unknown tokens are ignored (stats
+                               unknown_iface); a value naming no mode at all selects both, like unset.
   DEEPMAP_CALLS_AUDIT          like DEEPMAP_TYPED_CALLS, default _AUDIT_DEFAULT_LANGS (empty for now). Grade-only.
 
 WHAT IT DECIDES (design 2.4-2.8, 4)
@@ -45,7 +51,7 @@ WHAT IT DECIDES (design 2.4-2.8, 4)
   call returns; so does a member m of a DECLARED external type (an annotation — any language: even a checked
   TypeScript one admits a subclass instance) when a project class whose chain is open — an external, unresolved or
   unlinearizable base — defines m: the value may be that subclass) | absent (a closed chain in a
-  LanguageSpec.absent_ok language — .ts/.tsx, Java, C# — defines no m, the caller is in such a language too, and
+  LanguageSpec.absent_ok language — .ts/.tsx, Java; never C# — defines no m, the caller is in such a language too, and
   no `@ts-nocheck` / nearby `@ts-ignore` / `@ts-expect-error` switches the check off) | unknown (everything else:
   |T| > 4, an external / unresolved / dynamic link before the hit, a field or property called, a dunder, a bare
   call of a project function, a disabled shape, a target of another language family).
@@ -80,7 +86,11 @@ WHAT IT DECIDES (design 2.4-2.8, 4)
     MEMBER OF AN INTERFACE (ClassFacts.kind "interface": a TS interface, a Python typing.Protocol or a class
     written under `if TYPE_CHECKING:`): that declaration never runs — the call runs whatever its run-time receiver
     implements (`cast(_OrjsonModule, import_module("orjson")).dumps()`, flask's LocalProxy globals) — so it is
-    never a typed key and never REPLACEs the engine's tuples (stats skipped_interface). A group with no tuple of
+    never a typed key and never REPLACEs the engine's tuples (stats skipped_interface). The one exception, C# with
+    the reader's tables (LanguageSpec.lookup_rules iface_dispatch): a site whose WHOLE dispatch set is known (the
+    interface member plus at most MAX_TARGETS implementers, both IFACE modes on, no class that may implement it
+    unseen) no longer vetoes, and its set counts as the group's static targets; a C# static interface member with a
+    body is an exact call, no interface member at all. A group with no tuple of
     m and no `call_member` m is MOOT: REPLACE and ADD emit the same, so it is not judged (no textual scan).
     DYNAMIC DISPATCH: a REPLACE never removes a run-time target the static binding misses. A typed site whose
     receiver may be (the class object of) a project SUBCLASS of its class — a declared type (an annotation, a
@@ -139,11 +149,17 @@ INTEGRATION CONTRACT (slice S2, build/sync.py)
       call_weak   sorted [target key, ...]: after every other rule, an existing (C, t) edge becomes AMBIGUOUS.
                   Never holds a key of the same caller's call_typed.
       call_member the existing G5 attribute; a REPLACE removes m from it (the key is deleted when it empties).
+      call_lines  {"key": {target key: line}, "name": {...}} (contract C1): every key this pass emits gets the first
+                  line of a site that produced it in "key" (the minimum with a line already there); "name", written
+                  by graphify_extract.map_graph / the ast extractor, is kept as it is. sync._call_lines reads it for
+                  the :CALLS edge's display-only r.line. A NEW dict is set, so the rollback restores the old one.
   * `stats` (JSON-serialisable; `seconds` is the only non-deterministic value) for one stderr line
     (`describe(stats)`) and the graph-build manifest's `call_linking` block — never `_Extraction.info`:
       version, engine, typed_langs, audit_langs, shapes, replace, tests, nonprod, unknown_langs, unknown_shapes,
-      langs_disabled {lang: reason}, files, files_failed, files_capped, sites {typed, external, absent, unknown},
-      by_lang {lang: {...}}, by_shape {shape: {sites, emitted}}, groups {replace, add, moot},
+      unknown_iface, langs_disabled {lang: reason}, files, files_failed, files_capped,
+      sites {typed, external, absent, unknown}, by_lang {lang: {...}; C# also lookup {rule: hits}, dispatch {...}
+      (interface dispatch), virtual {...} (virtual dispatch), overloads {...} (argument applicability)},
+      by_shape {shape: {sites, emitted}}, groups {replace, add, moot},
       vetoes {unknown_site, nested, text, census, span, replace_off, dispatch}, removed, emitted, new_pairs,
       override_kept, override_keyed, override_unseen, sources_shared,
       grades {EXTRACTED, INFERRED, AMBIGUOUS}, candidate_sets, candidate_skipped, too_many, skipped_policy,
@@ -275,7 +291,8 @@ METHOD_FLAGS = frozenset({"static", "class", "property", "abstract"})
 RESOLUTION_KINDS = frozenset({"module", "symbol", "namespace", "external", "unknown"})
 # Scope.kind names the syntax (reader contract). Another value is legal IR and reads as UNCERTAIN attribution.
 SCOPE_KINDS = frozenset({"function", "method", "lambda", "comprehension",                    # Python
-                         "function_decl", "generator_decl", "function_expr", "arrow", "method_def"})   # JS / TS
+                         "function_decl", "generator_decl", "function_expr", "arrow", "method_def",   # JS / TS
+                         "ctor", "accessor", "local_function", "anonymous_method"})   # C# (with method, lambda)
 ENGINES = ("graphify", "ast")
 
 
@@ -552,7 +569,31 @@ class LanguageSpec:
     caller (parent -1) whose WHOLE body it walks — nested scopes and their headers included — giving every BARE call
     it resolves there to that caller; `symbol_imports_only`: it resolves only a name an import binds (Python: a
     `from` import; else any bare call — JS / TS resolve lexical aliases of imports too); `symbol_plain`: only an
-    UNDECORATED caller is walked (a Python decorated def is a decorated_definition at the root, never walked)."""
+    UNDECORATED caller is walked (a Python decorated def is a decorated_definition at the root, never walked).
+    `lookup_rules` (C# only; every other language has none, so its results are byte-identical): iface_dispatch (a
+    site typed to an interface's own member through an interface receiver links that member at INFERRED plus its
+    project implementers: one -> INFERRED, 2..MAX_TARGETS -> AMBIGUOUS each, more -> none; a test-file implementer
+    only for a test caller; with the reader's tables, a site whose whole set is known may REPLACE, and a static
+    interface member with a body is an exact call; _Linker.iface_dispatch), partials (the parts of one partial type
+    are ONE class: _Linker.merge_partials, binder.partials()), member_scope (a simple name is first a member of the
+    enclosing class
+    chain, a field there typed by its declaration; an external class base may hide one: _Linker.member_scope, the C#
+    field rule in _field_type, no bare-call constructor), using_static (a bare call missing from a fully-project
+    chain reaches exactly one `using static` project method: binder.static_imports(rel)), extensions (a member
+    missing from a fully-project chain reaches exactly one project extension method on that chain:
+    binder.extensions(rel, m); such a patch never marks the class patched), nested_types (a type name's head is
+    first a nested type of the enclosing class, its project base classes, then of each outer class and its bases:
+    _Linker.cs_type_head), overloads (a member hit with a rival of its name and arity — a base-class method of
+    another signature, a project extension method that may apply — is typed only when the call's argument types are
+    known to fit the hit, and then never EXTRACTED, nor when the hit is an override and a class between it and its
+    slot's declarer holds a rival; signatures compare normalised, a generic base's type parameters substituted along
+    the base lists: _Linker.cs_overloads, cs_sig_norm, _cs_tcmp) and virtual_dispatch (a call of a virtual /
+    abstract / override class member through a receiver whose run-time class may be a subclass links the declared
+    member at INFERRED plus the project overrides that may run — never a subclass closing a generic receiver class
+    with other type arguments — counted like interface implementers; a REPLACE then keeps only those overrides
+    reachable: _Linker.virtual_dispatch, override_reach). These read the reader's private
+    `_cs` table (FileFacts._cs: per-site argument receivers, per-method modifiers and parameter types, signatures,
+    type parameters, base lists); a reader without one gets the rules above only."""
     name: str
     exts: tuple
     family: str
@@ -577,6 +618,7 @@ class LanguageSpec:
     symbol_walk: frozenset = frozenset()
     symbol_imports_only: bool = False
     symbol_plain: bool = False
+    lookup_rules: frozenset = frozenset()     # C# only (see the docstring)
 
 
 _PY_BUILTIN_TYPES = frozenset({
@@ -623,6 +665,21 @@ _JS_DETACHED = frozenset({"function_decl", "arrow", "method_def"})
 _PY_SYMBOL_WALK = frozenset({"function"})
 _JS_SYMBOL_WALK = frozenset({"function_decl", "arrow"})
 _TS_UNCHECKED = (("@ts-nocheck",), ("@ts-ignore", "@ts-expect-error"))
+# C#: graphify's call walk stops only at method_declaration (the same on 0.8.39 and 0.8.51), so a lambda's, an
+# anonymous method's and a local function's calls belong to the enclosing member; a method, a constructor and an
+# accessor are members of their own (locked by tests/typed_calls_core_gates.py section R). The builtin list stays
+# SHORT on purpose: a name read as external may drive a REPLACE removal, so only types no project redefines belong.
+_CS_ATTRIBUTED = frozenset({"lambda", "anonymous_method", "local_function"})
+_CS_DETACHED = frozenset({"method", "ctor", "accessor"})
+_CS_BUILTIN_TYPES = frozenset({
+    "Console", "Math", "Convert", "String", "Int32", "Int64", "Decimal", "Double", "Boolean", "Guid", "DateTime",
+    "DateTimeOffset", "TimeSpan", "Task", "ValueTask", "List", "Dictionary", "HashSet", "Enumerable", "StringBuilder",
+    "Exception", "ArgumentException", "ArgumentNullException", "InvalidOperationException",
+    "NotImplementedException", "NotSupportedException", "Environment", "GC", "Activator", "Array", "Tuple",
+    "Nullable", "Interlocked", "Volatile"})
+_CS_LOOKUP_RULES = frozenset({"iface_dispatch", "partials", "member_scope", "using_static", "extensions",
+                              "nested_types", "overloads", "virtual_dispatch"})
+IFACE_MODES = ("static", "impl")
 
 LANGUAGES: dict = {s.name: s for s in (
     LanguageSpec("python", (".py", ".pyi"), "python", "receiver_facts_py", wave=1, mro="c3", lexer="python",
@@ -645,8 +702,12 @@ LANGUAGES: dict = {s.name: s for s in (
     LanguageSpec("go", (".go",), "go", "receiver_facts_go", wave=2, mro="depth"),
     LanguageSpec("java", (".java",), "jvm", "receiver_facts_java", wave=2, absent_ok=True, implicit_this=True,
                  neutral=frozenset({"Object"})),
-    LanguageSpec("csharp", (".cs",), "dotnet", "receiver_facts_csharp", wave=2, absent_ok=True, implicit_this=True,
-                 neutral=frozenset({"object", "Object"})),
+    # C#: opt-in (DEEPMAP_TYPED_CALLS=csharp; =1 is wave 1 only). Never `absent`: extension methods, partial parts in
+    # a file that fails to parse, source generators and `dynamic` make a closed-chain miss unsafe.
+    LanguageSpec("csharp", (".cs",), "dotnet", "receiver_facts_csharp", wave=2, absent_ok=False, implicit_this=True,
+                 builtins=_CS_BUILTIN_TYPES, opaque=frozenset({"object", "Object", "dynamic"}),
+                 neutral=frozenset({"object", "Object"}), unions=False, nested_attributed=_CS_ATTRIBUTED,
+                 nested_detached=_CS_DETACHED, lookup_rules=_CS_LOOKUP_RULES),
     LanguageSpec("rust", (".rs",), "rust", "receiver_facts_rust", wave=2),
     LanguageSpec("ruby", (".rb",), "ruby", "receiver_facts_ruby", wave=2, implicit_this=True, lexer="ruby"),
 )}
@@ -700,6 +761,160 @@ _EXT_BARE_OK = frozenset({"symbol", "builtin", "builtin_func"})
 _TRUE = frozenset({"1", "true", "yes", "on"})
 _FALSE = frozenset({"0", "false", "no", "off"})
 
+# C# argument applicability (LanguageSpec.lookup_rules overloads): the predefined types compared by name, and the
+# implicit numeric conversions (C# spec 10.2.3). A constant's own conversions (an int literal to byte when in range,
+# 0 to an enum) and user-defined conversions are not read: such an argument is never known to fit.
+_CS_KNOWN = frozenset({"string", "bool", "char", "sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong",
+                       "float", "double", "decimal"})
+_CS_WIDEN = {
+    "sbyte": frozenset({"short", "int", "long", "float", "double", "decimal"}),
+    "byte": frozenset({"short", "ushort", "int", "uint", "long", "ulong", "float", "double", "decimal"}),
+    "short": frozenset({"int", "long", "float", "double", "decimal"}),
+    "ushort": frozenset({"int", "uint", "long", "ulong", "float", "double", "decimal"}),
+    "int": frozenset({"long", "float", "double", "decimal"}),
+    "uint": frozenset({"long", "ulong", "float", "double", "decimal"}),
+    "long": frozenset({"float", "double", "decimal"}),
+    "ulong": frozenset({"float", "double", "decimal"}),
+    "char": frozenset({"ushort", "int", "uint", "long", "ulong", "float", "double", "decimal"}),
+    "float": frozenset({"double"}),
+}
+_CS_VIRTUAL = frozenset({"virtual", "abstract", "override"})
+_CS_ACCESS = frozenset({"public", "protected", "internal", "private"})
+_NOINFO = object()          # a reader keeps no `_cs` table (FileFacts._cs) for that file: the C# rules reading it skip
+# C# signatures compared across a base list (rule overloads: a base definition of the hit's own signature is the one
+# the hit hides or overrides, never a rival; rules virtual_dispatch / iface_dispatch: only a definition of the slot's
+# own signature continues, breaks or implements it): the System names of the predefined types (`System.Int32` is
+# `int`; `dynamic` is `object` in a signature), the predefined value types (`int?` is Nullable<int>, while `string?` is
+# only an annotation), and the token of a type the comparison cannot place (a class type parameter no base list fixes,
+# an unread type): it is never "the same type" as anything, and never proven another one either (_cs_tcmp: None).
+_CS_SYSTEM_ALIAS = {"Int32": "int", "Int64": "long", "Int16": "short", "Byte": "byte", "SByte": "sbyte",
+                    "UInt32": "uint", "UInt64": "ulong", "UInt16": "ushort", "Char": "char", "Boolean": "bool",
+                    "Double": "double", "Single": "float", "Decimal": "decimal", "String": "string",
+                    "Object": "object", "dynamic": "object", "IntPtr": "nint", "UIntPtr": "nuint"}
+_CS_VALUE_KW = frozenset({"bool", "char", "sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong", "float",
+                          "double", "decimal", "nint", "nuint"})
+_CS_UNK = ("?t",)
+# Types that exist in a namespace of every .NET 6+ reference set (the BCL, Microsoft.Extensions.Logging): two
+# unqualified spellings of one of these names in scopes that both import its namespace are that one type (_cs_unq_same)
+_CS_KNOWN_NS = {
+    "System": frozenset({"Guid", "DateTime", "DateTimeOffset", "TimeSpan", "Uri", "Exception", "Action", "Func",
+                         "EventArgs", "EventHandler", "IDisposable", "IServiceProvider", "Type", "Version", "Lazy",
+                         "IComparable", "IEquatable", "Span", "ReadOnlySpan", "Memory", "ReadOnlyMemory"}),
+    "System.Threading": frozenset({"CancellationToken", "CancellationTokenSource", "SemaphoreSlim", "Timer"}),
+    "System.Threading.Tasks": frozenset({"Task", "ValueTask", "TaskCompletionSource"}),
+    "System.Collections.Generic": frozenset({"IEnumerable", "IList", "List", "Dictionary", "IDictionary",
+                                             "ICollection", "IReadOnlyList", "IReadOnlyCollection",
+                                             "IReadOnlyDictionary", "HashSet", "ISet", "KeyValuePair",
+                                             "IAsyncEnumerable", "Queue", "Stack"}),
+    "System.IO": frozenset({"Stream", "TextReader", "TextWriter", "FileInfo", "DirectoryInfo"}),
+    "System.Linq": frozenset({"IQueryable", "IOrderedQueryable", "IGrouping", "ILookup"}),
+    "System.Linq.Expressions": frozenset({"Expression"}),
+    "System.Text": frozenset({"StringBuilder", "Encoding"}),
+    "System.Net.Http": frozenset({"HttpClient", "HttpRequestMessage", "HttpResponseMessage"}),
+    "Microsoft.Extensions.Logging": frozenset({"ILogger", "ILoggerFactory"}),
+}
+
+
+def _cs_tcmp(a, b) -> "bool | None":
+    """Two normalised C# signature types (_Linker.cs_sig_norm): True (one type), False (two types: PROVEN) or None (the
+    pass cannot tell). False only for two keywords, two project classes, a keyword against a project class, another
+    generic arity / array rank, a type parameter against anything else, `X?` of a known value type against X (and
+    what those decide inside a generic or an array). A class type parameter is its own type (`("tpv", declaring
+    class, name)`: in a generic declaration `M(T)` and `M(Cart)` are two signatures, whatever T is constructed with).
+    A name the pass did not resolve ("n": an external type, or an alias it does not read: an MSBuild <Using Alias>,
+    C# 12's alias of any type) is one type with another only when both have its last segment and: both are written
+    under one qualifier; or one is qualified and the other's scope sees that namespace before any other using
+    (_cs_unq_is); or both are unqualified in scopes whose usings resolve a simple name alike (_cs_unq_same). Every
+    other comparison of a name is None: never "two types", since either may be an alias of the other."""
+    if not isinstance(a, tuple) or not isinstance(b, tuple) or not a or not b or a == _CS_UNK or b == _CS_UNK:
+        return None
+    ta, tb = a[0], b[0]
+    if ta == "x" or tb == "x":
+        return True if a == b else None
+    if ta == "?" or tb == "?":
+        if ta == tb:
+            return _cs_tcmp(a[1] if len(a) > 1 else None, b[1] if len(b) > 1 else None)
+        q, o = (a, b) if ta == "?" else (b, a)
+        if o[:1] == ("g",) and len(o) == 3 and o[1][:2] == ("n", "Nullable"):
+            r = _cs_tcmp(q[1] if len(q) > 1 else None, o[2])   # a Nullable<X> not proven System's (an implicit
+            return False if r is False else None                # `using System;`): maybe X?
+        r = _cs_tcmp(q[1] if len(q) > 1 else None, o)
+        return False if r is False or (r is True and len(q) > 2 and q[2] is True) else None
+    if ta == "n" or tb == "n":
+        if ta != tb:
+            o = b if ta == "n" else a
+            return False if o[0] in ("tpv", "mtp") else None
+        if len(a) < 4 or len(b) < 4 or a[1] != b[1]:
+            return True if a == b else None    # another last segment: either may be an alias
+        qa, qb = a[2], b[2]
+        if qa is None and qb is None:
+            return _cs_unq_same(a[3], b[3], a[1])
+        if qa is not None and qb is not None:
+            return True if qa == qb else None  # another qualifier: relative, or a namespace alias it does not read
+        q, lev = (qa, b[3]) if qa is not None else (qb, a[3])
+        return _cs_unq_is(".".join(q), lev)
+    if ta != tb:
+        g, c = (a, b) if ta == "g" else (b, a)
+        if g[0] == "g" and c[0] == "c" and len(g) > 1 and g[1] == c:
+            return None                        # one project class key read with and without type arguments
+        return False
+    if ta in ("g", "[]"):
+        if len(a) != len(b) or (ta == "[]" and a[2:] != b[2:]):
+            return False
+        pairs = zip(a[1:2], b[1:2]) if ta == "[]" else zip(a[1:], b[1:])
+        got = [_cs_tcmp(x, y) for x, y in pairs]
+        return False if False in got else (None if None in got else True)
+    if ta == "c":
+        return len(a) > 1 and len(b) > 1 and a[1] == b[1]
+    return a == b                                  # ("b", keyword), ("mtp", position), ("tpv", class, name)
+
+
+def _cs_ulevels(lev) -> "tuple | None":
+    """The using levels of a scope's lookup order (cs_scope_levels: ("m", namespace) / ("u", namespaces)), nearest
+    first: the non-empty ones, and always the compilation unit's (its usings with the project's global ones) last."""
+    if not isinstance(lev, tuple) or not lev or lev[-1][:1] != ("u",):
+        return None
+    return tuple(v for k, v in lev[:-1] if k == "u" and v) + (lev[-1][1],)
+
+
+def _cs_unq_same(la, lb, seg="") -> "bool | None":
+    """Two unqualified spellings of external simple name seg, in scopes la / lb (cs_scope_levels): True when the name
+    resolves alike — the same using levels; or the same ones but the compilation unit's, where one set holds the
+    other (a type the smaller set imports is the only one of that name the larger may import there: two would be an
+    ambiguity error) or both import a namespace known to hold seg (_CS_KNOWN_NS: that type, for the same reason);
+    else None (another using may import another type of that name first). The members of an enclosing namespace are
+    not read (an external type there: a known gap)."""
+    ua, ub = _cs_ulevels(la), _cs_ulevels(lb)
+    if ua is None or ub is None:
+        return None
+    if ua == ub:
+        return True
+    if len(ua) == len(ub) and ua[:-1] == ub[:-1]:
+        if ua[-1] <= ub[-1] or ub[-1] <= ua[-1]:
+            return True
+        if any(seg in _CS_KNOWN_NS.get(ns, ()) for ns in ua[-1] & ub[-1]):
+            return True
+    return None
+
+
+def _cs_unq_is(ns, lev) -> "bool | None":
+    """Is an unqualified external name, in a scope of lookup order lev (cs_scope_levels), the type namespace ns holds?
+    True when ns is one of the scope's enclosing namespaces, or imported by its nearest non-empty using level, before
+    any other using level (a nearer using may import another type of that name first: None); None when the scope
+    does not see ns (only an MSBuild implicit using may)."""
+    if not isinstance(lev, tuple):
+        return None
+    for kind, val in lev:
+        if kind == "m":
+            if val == ns:
+                return True
+            continue
+        if ns in val:
+            return True
+        if val:
+            return None
+    return None
+
 
 # ================================================================================================
 # Flags
@@ -751,6 +966,30 @@ class _Config:
     max_files: int
     unknown_langs: list
     unknown_shapes: list
+    iface: frozenset = frozenset(IFACE_MODES)
+    unknown_iface: list = field(default_factory=list)
+
+
+def _iface_read(env, langs, registry) -> tuple:
+    """(modes, unknown tokens) of DEEPMAP_TYPED_CALLS_IFACE (read only when a language with the iface_dispatch rule is
+    on): unset or an ON-word -> every mode; an OFF-word -> none; else a CSV of IFACE_MODES. An unknown token is
+    ignored and reported (stats unknown_iface); a value naming no known mode at all selects every mode, like unset
+    (a typo never silently turns dispatch off)."""
+    if not any("iface_dispatch" in getattr(registry.get(n), "lookup_rules", ()) for n in langs if n in registry):
+        return frozenset(IFACE_MODES), []
+    raw = _env_get(env, "DEEPMAP_TYPED_CALLS_IFACE").lower()
+    if not raw or raw in _TRUE:
+        return frozenset(IFACE_MODES), []
+    if raw in _FALSE:
+        return frozenset(), []
+    names = [x.strip() for x in raw.split(",") if x.strip()]
+    known = frozenset(n for n in names if n in IFACE_MODES)
+    return (known or frozenset(IFACE_MODES)), sorted({n for n in names if n not in IFACE_MODES})
+
+
+def _iface_modes(env, langs, registry) -> frozenset:
+    """DEEPMAP_TYPED_CALLS_IFACE's modes (_iface_read; sync_status canonicalises the knob through this)."""
+    return _iface_read(env, langs, registry)[0]
 
 
 def _config(env, registry) -> _Config:
@@ -772,11 +1011,13 @@ def _config(env, registry) -> _Config:
         max_files = MAX_FILES_DEFAULT
     if max_files <= 0:
         max_files = MAX_FILES_DEFAULT
+    iface, unk_i = _iface_read(env, set(typed) | set(audit), registry)
     return _Config(typed=typed, audit=audit, shapes=shapes,
                    replace=_env_get(env, "DEEPMAP_TYPED_CALLS_REPLACE").lower() not in _FALSE,
                    tests=_env_get(env, "DEEPMAP_TYPED_CALLS_TESTS").lower() in _TRUE,
                    nonprod=_env_get(env, "DEEPMAP_TYPED_CALLS_NONPROD").lower() in _TRUE,
-                   max_files=max_files, unknown_langs=sorted(set(unk_t) | set(unk_a)), unknown_shapes=unk_s)
+                   max_files=max_files, unknown_langs=sorted(set(unk_t) | set(unk_a)), unknown_shapes=unk_s,
+                   iface=iface, unknown_iface=unk_i)
 
 
 # ================================================================================================
@@ -1837,11 +2078,14 @@ def _agree(vals) -> bool:
 
 
 class _ClassInfo:
-    __slots__ = ("key", "rel", "idx", "facts", "spec", "patched", "ambiguous", "node_name")
+    __slots__ = ("key", "rel", "idx", "facts", "spec", "patched", "ambiguous", "node_name", "parts")
 
     def __init__(self, key, rel, idx, facts, spec, node_name):
         self.key, self.rel, self.idx, self.facts, self.spec = key, rel, idx, facts, spec
         self.patched, self.ambiguous, self.node_name = set(), False, node_name
+        # a merged partial type (LanguageSpec.lookup_rules partials): {"rels": [the parts' files], "of": {id(a base
+        # TypeRef / field Binding / MethodFacts): the part file it was written in}}; None for every other class
+        self.parts = None
 
 
 class _Look(NamedTuple):
@@ -1887,6 +2131,7 @@ def _stats_skeleton(cfg: "_Config | None", engine=None) -> dict:
         "nonprod": bool(cfg.nonprod) if cfg else False,
         "unknown_langs": list(cfg.unknown_langs) if cfg else [],
         "unknown_shapes": list(cfg.unknown_shapes) if cfg else [],
+        "unknown_iface": list(cfg.unknown_iface) if cfg else [],
         "langs_disabled": {},
         "files": 0, "files_failed": 0, "files_capped": 0,
         "sites": {"typed": 0, "external": 0, "absent": 0, "unknown": 0},
@@ -1924,6 +2169,7 @@ class _Linker:
         self.class_key: dict = {}       # (rel, class idx) -> class key
         self.owner_of: dict = {}        # method node key -> class key
         self.iface_only: dict = {}      # method node key -> True iff EVERY class claiming it is an interface
+        self.cs_static_iface: set = set()   # C#: method nodes of a static interface member with a body (exact)
         self.loose_patched: dict = {}   # PATCH_RULES loose: (language family, written in a test file) -> attrs
         #                                 patched onto anything but one project class ("*": every attr)
         self.memo: dict = {}
@@ -1933,6 +2179,7 @@ class _Linker:
         # fluent chain must not poison its receiver's sibling sites).
         self.cut = 0
         self.texts: dict = {}           # rel -> FileText (or None: unreadable)
+        self.line_attr: dict = {}       # caller -> {emitted target: its first call line} (call_lines["key"])
 
     # ---------------------------------------------------------------- setup
     def spec_for_path(self, rel):
@@ -2101,6 +2348,7 @@ class _Linker:
                     continue
                 self.classes[key] = _ClassInfo(key, rel, idx, cf, spec, self.name_of.get(key, cf.name))
                 self.class_key[(rel, idx)] = key
+        self.merge_partials()
         for key in sorted(self.classes):
             ci = self.classes[key]
             iface = ci.facts.kind == "interface"
@@ -2108,17 +2356,102 @@ class _Linker:
                 for t in self.method_nodes(ci, m)[0]:
                     self.owner_of.setdefault(t, key)
                     self.iface_only[t] = self.iface_only.get(t, True) and iface
+        for key in sorted(self.classes):           # C# (iface_dispatch, with the reader's modifiers): a STATIC
+            ci = self.classes[key]                 # interface member with a body (C# 8+) runs as written: an exact
+            if ci.facts.kind != "interface" or ci.spec is None or "iface_dispatch" not in ci.spec.lookup_rules \
+                    or self.cs_table(ci.rel) is None:      # call (`IFactory.Make()`), never interface dispatch
+                continue
+            for m in sorted(ci.facts.methods):
+                every = ci.facts.methods[m]
+                for t in self.method_nodes(ci, m)[0]:
+                    defs = [mf for mf in every if t in self.method_nodes(ci, m, [mf])[0]] or every
+                    mods = [self.cs_member(ci, mf, m, "mods") for mf in defs]
+                    if all("static" in mf.flags and "abstract" not in mf.flags for mf in defs) and all(
+                            isinstance(md, frozenset) and not (md & {"abstract", "virtual"}) for md in mods):
+                        self.cs_static_iface.add(t)
+                        self.iface_only[t] = False
         fam_of = _sibling("edge_resolve").lang_family
         for rel in sorted(self.facts):
             in_test = None
+            spec_p = self.spec_of(rel)
+            ext_rule = spec_p is not None and "extensions" in spec_p.lookup_rules
             for tref, attr in self.facts[rel].patches:
                 v = self.eval_type(tref, rel, -1)
+                if ext_rule and v.kind == "inst" and len(v.keys) == 1:
+                    continue                         # a C# extension on a project type: the extension rule decides
                 if v.kind == "inst" and len(v.keys) == 1:
                     self.classes[next(iter(v.keys))].patched.add(attr)
                 else:                                # PATCH_RULES loose (per language family; a test file's own)
                     if in_test is None:
                         in_test = self.test_file(rel, unknown=False)
                     self.loose_patched.setdefault((fam_of(rel), in_test), set()).add(attr)
+
+    def merge_partials(self):
+        """LanguageSpec.lookup_rules partials (C#): the parts of one partial type, which the engine gives one :Class
+        node each, become ONE class for the pass — the first part's key (by file, then line) holds the union of
+        every part's bases, fields and methods (each still resolved in the file it was written in: `parts["of"]`),
+        every part's (file, class index) maps to it, and the other parts' keys leave `classes`. A part that is
+        ambiguous, or a group with fewer than two indexed parts, is left as it is."""
+        for lang in sorted(self.binders):
+            spec = self.registry.get(lang)
+            if spec is None or "partials" not in spec.lookup_rules:
+                continue
+            fn = getattr(self.binders[lang], "partials", None)
+            try:
+                groups = fn() if callable(fn) else ()
+            except Exception:  # noqa: BLE001 — no grouping: every part stays its own class
+                groups = ()
+            for group in groups or ():
+                keys = []
+                for item in group or ():
+                    try:
+                        key = self.class_key.get((_norm_rel(item[0]), int(item[1])))
+                    except (TypeError, ValueError, IndexError):
+                        key = None
+                    if key is not None and key in self.classes and key not in keys:
+                        keys.append(key)
+                if len(keys) < 2 or any(self.classes[k].ambiguous for k in keys):
+                    continue
+                keys.sort(key=lambda k: (self.classes[k].rel, self.classes[k].facts.line))
+                parts = [self.classes[k] for k in keys]
+                head = parts[0]
+                of: dict = {}
+                bases, fields, methods = [], {}, {}
+                for p in parts:
+                    for b in p.facts.bases:
+                        of[id(b)] = p.rel
+                        bases.append(b)
+                    for f, bs in p.facts.fields.items():
+                        for b in bs:
+                            of[id(b)] = p.rel
+                        fields.setdefault(f, []).extend(bs)
+                    for m, mfs in p.facts.methods.items():
+                        for mf in mfs:
+                            of[id(mf)] = p.rel
+                        methods.setdefault(m, []).extend(mfs)
+                cf = head.facts
+                merged = ClassFacts(cf.name, cf.line, cf.end_line, kind=cf.kind, bases=tuple(bases), fields=fields,
+                                    methods=methods, dynamic=any(p.facts.dynamic for p in parts), open=True,
+                                    lines=cf.lines, outer=cf.outer, scope=cf.scope,
+                                    type_params=frozenset().union(*(p.facts.type_params for p in parts)))
+                ci = _ClassInfo(head.key, head.rel, head.idx, merged, head.spec, head.node_name)
+                ci.parts = {"rels": sorted({p.rel for p in parts}), "of": of}
+                self.classes[head.key] = ci
+                for p in parts:
+                    self.class_key[(p.rel, p.idx)] = head.key
+                    if p.key != head.key:
+                        del self.classes[p.key]
+                st = self.stats["by_lang"].setdefault(lang, _lang_stats())
+                st.setdefault("lookup", {}).setdefault("partials", 0)
+                st["lookup"]["partials"] += 1
+
+    @staticmethod
+    def rel_of(ci, obj):
+        """The file a base TypeRef / field Binding / MethodFacts of class `ci` was written in (a merged partial
+        type's part; otherwise the class's own file)."""
+        if ci.parts is None:
+            return ci.rel
+        return ci.parts["of"].get(id(obj), ci.rel)
 
     def test_file(self, rel, unknown=True) -> bool:
         """The caller rule link() got (sync._is_test_path) for rel; `unknown` when there is none or it fails."""
@@ -2451,6 +2784,9 @@ class _Linker:
             if x in self.local_cls.get(rel, {}).get(s, ()):
                 return _UNK
             s = sc.parent
+        mv = self.member_scope(rel, si, x, depth)       # C#: a member of the class chain comes before the file's names
+        if mv is not None:
+            return mv
         v = self.file_symbol(rel, x, depth + 1)
         return _UNK if v.kind == "unbound" else v
 
@@ -2471,6 +2807,9 @@ class _Linker:
             v = _join(vals) if (spec is None or spec.unions or _agree(vals)) else _UNK
             if v.kind in ("inst", "ext"):
                 v = v.but(src="param" if (x in sc.params and not sc.locals.get(x)) else "local")
+                if v.kind == "inst" and not v.decl and spec is not None and "virtual_dispatch" in spec.lookup_rules \
+                        and x in self.cs_reassigned(rel, si):
+                    v = v.but(decl=True)           # C#: `var x = new T()` later rebound may hold a subclass of T
             else:
                 v = _UNK
         finally:
@@ -2479,8 +2818,9 @@ class _Linker:
             self.memo[mk] = v
         return v
 
-    def eval_binding(self, rel, b, depth=0, self_key=None, extra_shadow=frozenset(), home=None) -> _V:
-        """One Binding's value (instances / externals only: a class, module or function value is never typed)."""
+    def eval_binding(self, rel, b, depth=0, self_key=None, extra_shadow=frozenset(), home=None, ctx=None) -> _V:
+        """One Binding's value (instances / externals only: a class, module or function value is never typed).
+        `ctx`: the class whose nested types a type name may mean (eval_type), when the binding is a class member's."""
         if depth > _EVAL_DEPTH:
             self.cut += 1
             return _UNK
@@ -2493,7 +2833,8 @@ class _Linker:
         if k in ("ann", "param", "ctor"):
             if b.type is None:
                 return _UNK
-            v = self.eval_type(b.type, rel, si, self_key=self_key, depth=depth + 1, extra_shadow=extra_shadow)
+            v = self.eval_type(b.type, rel, si, self_key=self_key, depth=depth + 1, extra_shadow=extra_shadow,
+                               ctx=ctx if b.scope < 0 else None)
             if v.kind not in ("inst", "ext", "none"):
                 return _UNK
             if k == "param":
@@ -2510,7 +2851,10 @@ class _Linker:
         return v if v.kind == "inst" or (v.kind == "ext" and v.ref in _EXT_VALUE_OK) else _UNK
 
     # ---------------------------------------------------------------- types
-    def eval_type(self, t, rel, si, self_key=None, depth=0, opaque=True, extra_shadow=frozenset()) -> _V:
+    def eval_type(self, t, rel, si, self_key=None, depth=0, opaque=True, extra_shadow=frozenset(), ctx=None) -> _V:
+        """The value a written type denotes in scope si of rel. `ctx` (LanguageSpec.lookup_rules nested_types only):
+        the class whose nested types a type name's head may mean when it is not si's class (a field's or a method's
+        declaring class, an outer class for a base list)."""
         if t is None:
             return _UNK
         if depth > _EVAL_DEPTH:
@@ -2518,25 +2862,29 @@ class _Linker:
             return _UNK
         spec = self.spec_of(rel)
         k = t.kind
+        nested = spec is not None and "nested_types" in spec.lookup_rules
         if k == "name":
             nm = t.name
             if nm in _NONE_TYPES:
                 return _NONEV
             if nm in extra_shadow or nm in self.shadow(rel, si):
                 return _UNK
-            return self._type_of(self.file_symbol(rel, nm, depth + 1), nm, spec, opaque)
+            hv = self.cs_type_head(rel, si, nm, ctx) if nested else None
+            return self._type_of(hv if hv is not None else self.file_symbol(rel, nm, depth + 1), nm, spec, opaque)
         if k == "qualified":
             parts = t.parts
             if not parts or parts[0] in extra_shadow or parts[0] in self.shadow(rel, si):
                 return _UNK
-            v = self.file_symbol(rel, parts[0], depth + 1)
+            v = self.cs_type_head(rel, si, parts[0], ctx) if nested else None
+            if v is None:
+                v = self.file_symbol(rel, parts[0], depth + 1)
             for p in parts[1:]:
                 if v.kind not in ("module", "ns", "cls"):
                     return _UNK
                 v = self.member_value(v, p, depth + 1)
             return self._type_of(v, parts[-1], spec, opaque)
         if k == "union":
-            vals = [self.eval_type(a, rel, si, self_key, depth + 1, opaque, extra_shadow) for a in t.args]
+            vals = [self.eval_type(a, rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx) for a in t.args]
             vals = [v for v in vals if v.kind != "none"]
             if not vals:
                 return _UNK
@@ -2546,11 +2894,12 @@ class _Linker:
                 return _join(vals)
             return vals[0] if len(vals) == 1 else _UNK
         if k == "nullable":
-            return self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow) if t.args else _UNK
+            return self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx) \
+                if t.args else _UNK
         if k == "generic":
             if not t.args:
                 return _UNK
-            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow)
+            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx)
             return v if v.kind == "inst" else _UNK      # a project generic Foo[T] -> Foo; List[X] / Promise<T> -> ?
         if k == "self":
             key = self_key or self.scope_class_key(rel, si)
@@ -2558,7 +2907,8 @@ class _Linker:
                 return _UNK
             return _V("inst", {key}, ev={self.classes[key].rel})
         if k == "classof":
-            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow) if t.args else _UNK
+            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx) \
+                if t.args else _UNK
             return _V("cls", v.keys, ev=v.ev) if v.kind == "inst" and len(v.keys) == 1 else _UNK
         if k == "builtin":
             if t.name in _NONE_TYPES:
@@ -2587,8 +2937,8 @@ class _Linker:
             head = b
             while head.kind == "generic" and head.args:
                 head = head.args[0]
-            v = self.eval_type(head, ci.rel, ci.facts.scope, depth=1, opaque=False,
-                               extra_shadow=ci.facts.type_params)
+            v = self.eval_type(head, self.rel_of(ci, b), ci.facts.scope, depth=1, opaque=False,
+                               extra_shadow=ci.facts.type_params, ctx=self.outer_key(key))
             nm = head.name if head.kind in ("name", "builtin") else (head.parts[-1] if head.parts else "")
             if v.kind == "inst" and len(v.keys) == 1:
                 out.append(("class", next(iter(v.keys))))
@@ -2744,16 +3094,18 @@ class _Linker:
         mfs = every if mfs is None else mfs
         keys, by = [], {}
         for mf in mfs:
-            k = self.node_at(ci.rel, (mf.line,) + tuple(mf.lines), m, TARGET_LABELS)
+            k = self.node_at(self.rel_of(ci, mf), (mf.line,) + tuple(mf.lines), m, TARGET_LABELS)
             if k is not None and k not in by:
                 keys.append(k)
                 by[k] = mf
         if not keys and mfs and len(mfs) == len(every):
             owner = name_seg(ci.node_name)
-            for k in self.by_file_seg.get((ci.rel, m), ()):
-                if self.label_of.get(k) in TARGET_LABELS and self.name_of.get(k) == f"{owner}.{m}" and k not in by:
-                    keys.append(k)
-                    by[k] = None
+            for rel in (ci.parts["rels"] if ci.parts is not None else (ci.rel,)):
+                for k in self.by_file_seg.get((rel, m), ()):
+                    if self.label_of.get(k) in TARGET_LABELS and self.name_of.get(k) == f"{owner}.{m}" \
+                            and k not in by:
+                        keys.append(k)
+                        by[k] = None
         return keys, by
 
     def lookup(self, key, m, *, skip=0, argc=-1, on_class=False) -> _Look:
@@ -2846,6 +3198,9 @@ class _Linker:
             if v.kind in ("inst", "ext") else _UNK
 
     def _field_type(self, key, attr, depth, sub=False) -> _V:
+        ci0 = self.classes.get(key)
+        if ci0 is not None and ci0.spec is not None and "member_scope" in ci0.spec.lookup_rules:
+            return self.cs_field_type(key, attr, depth)
         levels = self.mro(key)
         if levels is None:
             return _UNK
@@ -2885,6 +3240,758 @@ class _Linker:
             return bound.plus_ev(ev)
         v = _join(vals)
         return v.plus_ev(ev) if v.kind in ("inst", "ext") else _UNK
+
+    def cs_field_type(self, key, attr, depth) -> _V:
+        """C# (LanguageSpec.lookup_rules member_scope): a field / property binds STATICALLY to its nearest declaration
+        on the class chain, so the declared type of the first class declaring `attr` is its type (Roslyn's binding),
+        whatever a later external base or a subclass declares; unknown when an external / unresolved base, a dynamic
+        or ambiguous class or a method of that name comes first, or the declarations disagree."""
+        levels = self.mro(key)
+        if levels is None:
+            return _UNK
+        ev = set()
+        for level in levels:
+            for ent in level:
+                if ent[0] != "class":
+                    return _UNK
+                ci = self.classes.get(ent[1])
+                if ci is None or ci.ambiguous or ci.facts.dynamic or attr in ci.facts.methods:
+                    return _UNK
+                ev.add(ci.rel)
+                binds = ci.facts.fields.get(attr)
+                if not binds:
+                    continue
+                vals = [self.eval_binding(self.rel_of(ci, b), b, depth=depth + 1, self_key=key,
+                                          extra_shadow=ci.facts.type_params,
+                                          home=ci.facts.scope if ci.facts.scope >= 0 else None, ctx=ci.key)
+                        for b in binds]
+                if not _agree(vals):
+                    return _UNK
+                v = _join(vals)
+                return v.plus_ev(ev | {self.rel_of(ci, b) for b in binds}) if v.kind in ("inst", "ext") else _UNK
+        return _UNK
+
+    def member_scope(self, rel, si, x, depth):
+        """C# (LanguageSpec.lookup_rules member_scope): a simple name the scope chain does not bind is first a member
+        of the enclosing class chain (another part of a partial type and an inherited project class included) — a
+        field / property: its declared type; a method (a method group): unknown; a nested type: its class — and,
+        when that chain's class base is external or unresolved (`OrdersController : ControllerBase`), unknown (an
+        inherited member such as `Request` or `User` may be what the name means). A member of an outer type is
+        unknown too. None: not a member, so the file's names decide."""
+        spec = self.spec_of(rel)
+        if spec is None or "member_scope" not in spec.lookup_rules:
+            return None
+        key = self.scope_class_key(rel, si)
+        if key is None or key not in self.classes:
+            return None
+        st = self.stats["by_lang"].setdefault(spec.name, _lang_stats()).setdefault("lookup", {})
+        levels = self.mro(key)
+        if levels is None:
+            return _UNK
+        chain = []
+        for e in (e for lv in levels for e in lv):
+            if e[0] != "class":
+                break                                # what follows an external / unresolved base is not read
+            chain.append(e[1])
+        for ck in chain:
+            ci = self.classes.get(ck)
+            if ci is None or ci.ambiguous:
+                return _UNK
+            if ci.facts.kind == "interface":
+                continue                             # an interface's members are never reached by a simple name
+            if x in ci.facts.fields:
+                st["member_scope"] = st.get("member_scope", 0) + 1
+                v = self.field_type(_V("inst", {key}, ev={self.classes[key].rel}, decl=True, src="self"), x,
+                                    depth + 1)
+                return v if v.kind in ("inst", "ext") else _UNK
+            if x in ci.facts.methods:
+                return _UNK
+            nested = self.nested_class(ci.key, x)
+            if nested is not None:
+                return _V("cls", {nested}, ev={ci.rel, self.classes[nested].rel}, src="class")
+        if self.member_open(key):
+            return _UNK
+        ff = self.facts.get(rel)
+        sc = ff.scopes[si] if ff is not None and 0 <= si < len(ff.scopes) else None
+        o = ff.classes[sc.cls].outer if sc is not None and 0 <= sc.cls < len(ff.classes) else -1
+        while ff is not None and 0 <= o < len(ff.classes):
+            if x in ff.classes[o].fields or x in ff.classes[o].methods:
+                return _UNK
+            o = ff.classes[o].outer
+        return None
+
+    def member_open(self, key) -> bool:
+        """C#: may an instance of class `key` carry members this pass cannot see — its class-base chain (the FIRST
+        base-list entry, which C# reserves for the base class) reaching an external or unresolved class? An external
+        first entry named like an interface (`I` + an upper-case letter) is read as one: an interface contributes no
+        member reachable by a simple name."""
+        mk = ("mopen", key)
+        if mk not in self.memo:
+            out, seen, cur = False, set(), key
+            while cur is not None and cur not in seen:
+                seen.add(cur)
+                bs = self.bases(cur) if cur in self.classes else []
+                if not bs:
+                    break
+                b = bs[0]
+                if b[0] == "class":
+                    nxt = self.classes.get(b[1])
+                    cur = b[1] if nxt is not None and nxt.facts.kind != "interface" else None
+                    continue
+                out = not re.match(r"I[A-Z]", str(b[1] or ""))
+                break
+            self.memo[mk] = out
+        return self.memo[mk]
+
+    # ---------------------------------------------------------------- C#: the reader's private table
+    def cs_table(self, rel):
+        """The C# reader's private `_cs` table of rel's FileFacts, or None (a reader that keeps none)."""
+        t = getattr(self.facts.get(rel), "_cs", None)
+        return t if isinstance(t, dict) else None
+
+    def cs_member(self, ci, mf, m, table):
+        """_cs[table][(m, mf.line)] for definition mf of member m of class ci (table mods: the modifier words;
+        mparams: (((TypeRef | None, passing, optional), ...), variadic)): the entry, None when unknown (not recorded,
+        two members of that name on one line) or _NOINFO when the file's reader keeps no such table."""
+        if mf is None:
+            return None
+        t = self.cs_table(self.rel_of(ci, mf))
+        if t is None or not isinstance(t.get(table), dict):
+            return _NOINFO
+        return t[table].get((m, mf.line))
+
+    def cs_reassigned(self, rel, si) -> frozenset:
+        """C#: the names an assignment (or a ref / out argument) in scope si's span rebinds (_cs["reassigned"]); empty
+        for a reader that keeps no such table (its constructed locals stay exact, as before the table existed)."""
+        t = self.cs_table(rel)
+        try:
+            return frozenset(t["reassigned"][si])
+        except (TypeError, KeyError, IndexError):
+            return frozenset()
+
+    def outer_key(self, key):
+        """The class key of class key's enclosing type, or None."""
+        ci = self.classes.get(key)
+        if ci is None or ci.facts.outer < 0:
+            return None
+        return self.class_key.get((ci.rel, ci.facts.outer))
+
+    def class_parts(self, key) -> list:
+        """[(rel, class index)] of every declaration of class key (several for a merged partial type)."""
+        if "parts_of" not in self.memo:
+            po: dict = {}
+            for (r, i), k in sorted(self.class_key.items()):
+                po.setdefault(k, []).append((r, i))
+            self.memo["parts_of"] = po
+        return self.memo["parts_of"].get(key, [])
+
+    # ---------------------------------------------------------------- C#: nested type names (lookup_rules nested_types)
+    def cs_nested(self, key, name):
+        """The nested type `name` declared in class key (any part): ("one", class key) | ("unk",) (declared, but
+        without one indexed node) | None (not declared there)."""
+        found = []
+        for rel, idx in self.class_parts(key):
+            found.extend(self.class_key.get((rel, j)) for j in self.nested_of.get(rel, {}).get((idx, name), ()))
+        if not found:
+            return None
+        ks = set(found)
+        if None in ks or len(ks) != 1 or self.classes[next(iter(ks))].ambiguous:
+            return ("unk",)
+        return ("one", next(iter(ks)))
+
+    def cs_base_chain(self, key) -> list:
+        """key, then its project base classes in order (interfaces skipped unless key is one), up to the first external
+        or unresolved entry: the classes whose nested types a simple name inside key may mean."""
+        out = [key]
+        iface = self.classes[key].facts.kind == "interface"
+        for e in (e for lv in (self.mro(key) or ()) for e in lv):
+            if e[0] != "class":
+                break
+            c = self.classes.get(e[1])
+            if c is None:
+                break
+            if e[1] != key and (iface or c.facts.kind != "interface"):
+                out.append(e[1])
+        return out
+
+    def cs_type_head(self, rel, si, name, ctx):
+        """C# (lookup_rules nested_types): what a type name `name` written in scope si (or in class ctx) means when a
+        nested type holds it — C#'s order: the nested types of the scope's class and of its project base classes,
+        then of each outer class (and its bases), before any namespace-level name. A _V cls; _UNK when such a nested
+        type is declared but cannot be placed; None when none is (the file's names decide: file_symbol). A nested
+        type inherited from an EXTERNAL base is not seen (its members are not read)."""
+        key = ctx if ctx is not None else self.scope_class_key(rel, si)
+        seen = set()
+        while key is not None and key in self.classes and key not in seen:
+            seen.add(key)
+            for k in self.cs_base_chain(key):
+                got = self.cs_nested(k, name)
+                if got is None:
+                    continue
+                if got[0] != "one":
+                    return _UNK
+                self._lookup_stat(rel, "nested_types")
+                return _V("cls", {got[1]}, ev={self.classes[k].rel, self.classes[got[1]].rel}, src="class")
+            key = self.outer_key(key)
+        return None
+
+    # ---------------------------------------------------------------- C#: argument applicability (rule overloads)
+    def cs_supertypes(self, key):
+        """({class key and every project class / interface on its chain}, closed: no external / unresolved entry)."""
+        levels = self.mro(key)
+        if levels is None:
+            return {key}, False
+        out, closed = set(), True
+        for e in (e for lv in levels for e in lv):
+            if e[0] == "class":
+                out.add(e[1])
+            else:
+                closed = False
+        return out, closed
+
+    def cs_field_typeref(self, key, attr):
+        """(TypeRef, its file, its class key) of field / property attr as the first class of key's chain declaring
+        it writes it — one written type across its declarations — or None."""
+        for e in (e for lv in (self.mro(key) or ()) for e in lv):
+            if e[0] != "class":
+                return None
+            ci = self.classes.get(e[1])
+            if ci is None or ci.ambiguous or attr in ci.facts.methods:
+                return None
+            binds = ci.facts.fields.get(attr)
+            if not binds:
+                continue
+            ts = {b.type for b in binds if b.kind == "ann" and b.type is not None}
+            if len(ts) != 1 or any(b.kind != "ann" for b in binds):
+                return None
+            return next(iter(ts)), self.rel_of(ci, binds[0]), ci.key
+        return None
+
+    def cs_decl_typeref(self, rel, si, r):
+        """(TypeRef, its file, its scope index, its class context) of the DECLARED type of receiver r — a parameter
+        or local of the scope chain written with one type, a field / property of a typed instance — or None."""
+        if r is None:
+            return None
+        ff = self.facts.get(rel)
+        if r.kind == "IDENT" and ff is not None:
+            s = si
+            while 0 <= s < len(ff.scopes):
+                sc = ff.scopes[s]
+                if r.name in sc.poisoned:
+                    return None
+                if r.name in sc.params or r.name in sc.locals:
+                    binds = ([sc.params[r.name]] if r.name in sc.params else []) + list(sc.locals.get(r.name, ()))
+                    ts = {b.type for b in binds if b.kind in ("ann", "param") and b.type is not None}
+                    if len(ts) != 1 or any(b.kind not in ("ann", "param") for b in binds):
+                        return None
+                    return next(iter(ts)), rel, s, None
+                s = sc.parent
+            key = self.scope_class_key(rel, si)
+            got = self.cs_field_typeref(key, r.name) if key in self.classes else None
+            return (got[0], got[1], -1, got[2]) if got else None
+        if r.kind == "FIELD":
+            base = self.eval_recv(rel, si, r.inner, 0)
+            if base.kind != "inst" or len(base.keys) != 1:
+                return None
+            got = self.cs_field_typeref(next(iter(base.keys)), r.name)
+            return (got[0], got[1], -1, got[2]) if got else None
+        return None
+
+    def cs_arg_type(self, rel, si, r):
+        """An argument's static type for the applicability rule: ("lit", builtin) a literal, ("b", builtin) a value
+        declared with a predefined type, ("c", class key) a project class instance, or None (unknown)."""
+        if r is None:
+            return None
+        if r.kind == "LITERAL":
+            return ("lit", r.type.name) if r.type is not None and r.type.kind == "builtin" else None
+        d = self.cs_decl_typeref(rel, si, r)
+        if d is not None:
+            if d[0].kind == "builtin":
+                return ("b", d[0].name)
+            if d[0].kind not in ("name", "qualified"):
+                return None                        # generic, nullable, array ...: its arguments are not compared
+        v = self.eval_recv(rel, si, r, 0)
+        return ("c", next(iter(v.keys))) if v.kind == "inst" and len(v.keys) == 1 else None
+
+    def cs_param_type(self, ci, rel_d, t):
+        """A declared parameter type: ("b", builtin), ("b?", builtin) a nullable one, ("c", class key) or None (a type
+        parameter, a generic, an array, an external or unresolved type)."""
+        if t is None:
+            return None
+        if t.kind == "builtin":
+            return ("b", t.name)
+        if t.kind == "nullable" and t.args and t.args[0].kind == "builtin":
+            return ("b?", t.args[0].name)          # `int?` takes an int (and what widens to one)
+        if t.kind not in ("name", "qualified"):
+            return None
+        v = self.eval_type(t, rel_d, -1, opaque=False, ctx=ci.key)
+        return ("c", next(iter(v.keys))) if v.kind == "inst" and len(v.keys) == 1 else None
+
+    def cs_fits(self, a, p) -> bool:
+        """Is an argument of static type a KNOWN to convert implicitly to parameter type p (identity, an implicit
+        numeric conversion, a project class to itself, a base class or an interface it lists, anything to object)?
+        Unknown counts as no: the rule then answers unknown, never a binding it cannot prove."""
+        if a is None or p is None:
+            return False
+        if p == ("b", "object") or p == ("b", "dynamic"):
+            return True
+        if a[0] in ("lit", "b"):
+            return p[0] in ("b", "b?") and (a[1] == p[1] or p[1] in _CS_WIDEN.get(a[1], ()))
+        return p[0] == "c" and (a[1] == p[1] or p[1] in self.cs_supertypes(a[1])[0])
+
+    @staticmethod
+    def _cs_sig_params(s):
+        return tuple(p[0] for p in s[0]) if isinstance(s, tuple) and s and isinstance(s[0], tuple) else None
+
+    @staticmethod
+    def _cs_sig_takes(params, variadic, argc) -> bool:
+        """Can a parameter list (each (TypeRef, passing, optional)) take argc positional arguments (-1: unknown)?"""
+        if argc < 0:
+            return True
+        need = sum(1 for p in params if not p[2])
+        return need <= argc and (variadic or argc <= len(params))
+
+    # ---------------------------------------------------------------- C#: signatures across a base list (overloads)
+    def cs_base_sigs(self, key) -> dict:
+        """{id(base TypeRef): the reader's tagged tuple of it (_cs bsig)} over every part of class key."""
+        out: dict = {}
+        for rel, idx in self.class_parts(key):
+            t, ff = self.cs_table(rel), self.facts.get(rel)
+            bs = t.get("bsig", {}).get(idx) if t is not None and isinstance(t.get("bsig"), dict) else None
+            if ff is None or not isinstance(bs, tuple) or not 0 <= idx < len(ff.classes) \
+                    or len(bs) != len(ff.classes[idx].bases):
+                continue
+            for b, s in zip(ff.classes[idx].bases, bs):
+                out[id(b)] = s
+        return out
+
+    def cs_tporder(self, key):
+        """Class key's own type parameters in order (_cs tporder), or None (unknown)."""
+        ci = self.classes.get(key)
+        t = self.cs_table(ci.rel) if ci is not None else None
+        got = t.get("tporder", {}).get(ci.idx) if t is not None and isinstance(t.get("tporder"), dict) else None
+        return got if isinstance(got, tuple) else None
+
+    def cs_subst(self, key, target):
+        """{type parameter of class target: its normalised type argument} as class key's base list (and its bases'
+        lists, composed) writes it, seen from class key: `OrderHandler : BaseHandler<CreateOrder, int>` gives
+        BaseHandler {TReq: CreateOrder, TRes: int}; key's own type parameters are identity tokens ("tpv", key, name),
+        so `CartStore<T> : Store<T>` gives Store {T: CartStore's T} and target == key gives key's tokens (a generic
+        declaration's `M(T)` is never the signature of `M(Cart)`). A parameter the path does not fix is absent (it
+        compares as _CS_UNK: never the same type); None when no base-list path from key reaches target."""
+        mk = ("csub", key, target)
+        if mk in self.memo:
+            return self.memo[mk]
+        own = self.cs_tporder(key) if key in self.classes else None
+        out, cur, subst, seen = None, key, {nm: ("tpv", key, nm) for nm in (own or ())}, set()
+        for _ in range(_MRO_MAX):
+            if cur == target:
+                out = subst
+                break
+            ci = self.classes.get(cur)
+            if ci is None or cur in seen:
+                break
+            seen.add(cur)
+            sigs, nxt = self.cs_base_sigs(cur), None
+            for b in ci.facts.bases:
+                head = b.args[0] if b.kind == "generic" and b.args else b
+                v = self.eval_type(head, self.rel_of(ci, b), ci.facts.scope, depth=1, opaque=False,
+                                   extra_shadow=ci.facts.type_params, ctx=self.outer_key(cur))
+                bk = next(iter(v.keys)) if v.kind == "inst" and len(v.keys) == 1 else None
+                if bk is not None and bk in self.classes and (bk == target or target in self.mro_class_keys(bk)):
+                    nxt = (b, bk)
+                    break
+            if nxt is None:
+                break
+            b, bk = nxt
+            s, order = sigs.get(id(b)), self.cs_tporder(bk)
+            new: dict = {}
+            if isinstance(s, tuple) and s[:1] == ("g",) and order is not None and len(s) - 2 == len(order):
+                for name, arg in zip(order, s[2:]):
+                    new[name] = self.cs_sig_norm(arg, self.rel_of(ci, b), self.outer_key(cur), subst, scope=cur)
+            cur, subst = bk, new
+        self.memo[mk] = out
+        return out
+
+    def cs_sig_norm(self, t, rel, ctx, subst, depth=0, scope=None):
+        """A tagged signature type (the reader's sigt) written in rel (class ctx's context; `scope`: the class whose
+        declaration holds it), normalised for comparison (_cs_tcmp): ("c", class key, simple name) a project type,
+        ("b", keyword) a predefined one (System.Int32 is int, IntPtr nint), ("n", last segment, qualifier parts or
+        None, the scope's lookup order when written unqualified: cs_scope_levels) any other named type (an alias of
+        the file or a `global using` alias of its .csproj group read as its target, a namespace alias expanded),
+        ("g", head, *args), ("?", inner, value type?) a nullable VALUE type (`System.Nullable<X>` too) or one whose
+        kind is unknown (a reference type's `?` is an annotation only: dropped, and so is a class type parameter's
+        `T?` unless the parameter is constrained `struct` / `unmanaged`, C# 9+), ("[]", element, rank), ("mtp", i),
+        ("tpv", class, name) a class type parameter (`subst`: cs_subst), ("x", text) or _CS_UNK (a class type
+        parameter `subst` does not fix)."""
+        if not isinstance(t, tuple) or not t or depth > _EVAL_DEPTH:
+            return ("x", repr(t))
+        tag = t[0]
+        if tag == "tp":
+            got = (subst or {}).get(t[1]) if len(t) > 1 else None
+            return got if got is not None else _CS_UNK
+        if tag == "b" and len(t) > 1:
+            return ("b", _CS_SYSTEM_ALIAS.get(str(t[1]), str(t[1])))
+        if tag == "n" and len(t) > 1 and isinstance(t[1], tuple) and t[1] and all(isinstance(p, str) for p in t[1]):
+            parts = t[1]
+            tr = t_name(parts[0]) if len(parts) == 1 else t_qual(*parts)
+            v = self.eval_type(tr, rel, -1, depth=depth + 1, opaque=False, ctx=ctx)
+            if v.kind == "inst" and len(v.keys) == 1:
+                k = next(iter(v.keys))
+                ck = self.classes.get(k)
+                return ("c", k, str(getattr(ck.facts, "name", "") or "") if ck is not None else "")
+            ff = self.facts.get(rel)
+            imps = (ff.imports.get(parts[0]) or []) if ff is not None else []
+            if imps:                               # the file's own alias, else a `global using` alias of the group
+                targets = {str(getattr(i, "spec", "") or "") if getattr(i, "kind", "") == "named" else "" for i in imps}
+            else:
+                targets = self.cs_group_tables(rel)[1].get(parts[0], set())
+            if len(targets) > 1:
+                return ("x", ".".join(parts), "alias")         # two aliases of that name: unknown
+            if targets:
+                target = next(iter(targets))
+                if not target or not all(p.isidentifier() for p in target.split(".")):
+                    return ("x", ".".join(parts), target)      # an alias of a generic / unreadable target
+                parts = tuple(target.split(".")) + tuple(parts[1:])
+            seg, qual = parts[-1], (tuple(parts[:-1]) or None)
+            if seg in _CS_SYSTEM_ALIAS and qual in (None, ("System",)):
+                return ("b", _CS_SYSTEM_ALIAS[seg])
+            return ("n", seg, qual, None if qual is not None else self.cs_scope_levels(rel, scope))
+        if tag == "g" and len(t) > 1:
+            out = ("g",) + tuple(self.cs_sig_norm(a, rel, ctx, subst, depth + 1, scope) for a in t[1:])
+            h = out[1]
+            if len(out) == 3 and h[:2] == ("n", "Nullable") and len(h) > 3 and (
+                    h[2] == ("System",) or h[2] is None and _cs_unq_is("System", h[3])):
+                return ("?", out[2], True)         # System.Nullable<X> is X? (X a value type)
+            return out
+        if tag == "?" and len(t) > 1:
+            raw = t[1]
+            inner = self.cs_sig_norm(raw, rel, ctx, subst, depth + 1, scope)
+            is_tp = isinstance(raw, tuple) and len(raw) > 1 and raw[0] == "tp"
+            tpk = self.cs_tp_kind(scope, raw[1]) if is_tp else None
+            if tpk == "a":
+                return inner                       # `T?` of a T not constrained `struct`: an annotation (C# 9+)
+            if tpk == "s":
+                return ("?", inner, True)          # `where T : struct`: Nullable<T>
+            if inner[:1] == ("b",) and len(inner) > 1 and inner[1] not in _CS_VALUE_KW:
+                return inner                       # `string?`, `object?`: the same type
+            if inner[:1] == ("c",) and self.classes.get(inner[1]) is not None \
+                    and self.classes[inner[1]].facts.kind not in ("struct", "enum"):
+                return inner                       # a project class's `?`: an annotation
+            if inner[:1] == ("[]",):
+                return inner                       # an array is a reference type: its `?` is an annotation
+            known = not is_tp and (
+                (inner[:1] == ("b",) and len(inner) > 1 and inner[1] in _CS_VALUE_KW) or (
+                    inner[:1] == ("c",) and self.classes.get(inner[1]) is not None))
+            return ("?", inner, bool(known))       # a type parameter's constraint unknown: `T?` is T or Nullable<T>
+        if tag == "[]" and len(t) > 2:
+            return ("[]", self.cs_sig_norm(t[1], rel, ctx, subst, depth + 1, scope), t[2])
+        if tag == "mtp":
+            return t
+        return ("x",) + tuple(str(x) for x in t[1:])
+
+    def cs_tp_kind(self, key, name) -> "str | None":
+        """C#: what type parameter `name` of class key (or of an outer class) is constrained to (_cs tpkind): "s"
+        (`struct` / `unmanaged`: `T?` is Nullable<T>), "a" (anything else, or nothing: `T?` an annotation) or None
+        (unknown: a constraint naming a type parameter, a reader without the table, no class declaring it)."""
+        seen = 0
+        while key is not None and key in self.classes and seen < _MRO_MAX:
+            seen += 1
+            order = self.cs_tporder(key)
+            if order is None:
+                return None
+            if name in order:
+                kinds = set()
+                for rel, idx in self.class_parts(key):
+                    tb = self.cs_table(rel)
+                    tk = tb.get("tpkind") if tb is not None else None
+                    got = tk.get(idx) if isinstance(tk, dict) else None
+                    if not isinstance(got, dict) or got.get(name) not in ("s", "a", "?"):
+                        return None
+                    kinds.add(got[name])
+                return "s" if "s" in kinds else (None if "?" in kinds or not kinds else "a")
+            key = self.outer_key(key)
+        return None
+
+    def cs_group_of(self, rel) -> str:
+        """The .csproj group of rel (the C# binder's group_of), or "" when its binder keeps none."""
+        fn = getattr(self.binder_of(rel), "group_of", None)
+        try:
+            return str(fn(rel)) if callable(fn) else ""
+        except Exception:  # noqa: BLE001
+            return ""
+
+    def cs_group_tables(self, rel) -> tuple:
+        """(the `global using` namespaces, {alias: {targets}} of the `global using X = ...` aliases) of the C# files of
+        rel's .csproj group: what every file of that project sees."""
+        grp = self.cs_group_of(rel)
+        mk = ("csgrp", grp)
+        if mk not in self.memo:
+            gu, ga = set(), {}
+            for r in sorted(self.facts):
+                tb = self.cs_table(r)
+                if tb is None or self.cs_group_of(r) != grp:
+                    continue
+                for u in tb.get("usings") or ():
+                    if isinstance(u, tuple) and len(u) >= 2 and u[1] and isinstance(u[0], str):
+                        gu.add(u[0])
+                for a in tb.get("galias") or ():
+                    if isinstance(a, tuple) and len(a) == 2 and all(isinstance(x, str) for x in a):
+                        ga.setdefault(a[0], set()).add(a[1])
+            self.memo[mk] = (frozenset(gu), ga)
+        return self.memo[mk]
+
+    def cs_scope_levels(self, rel, key) -> "tuple | None":
+        """C#: the lookup order of a simple type name written in class key's declaration in file rel (_cs cvis),
+        nearest first: ("m", namespace) an enclosing namespace's members, ("u", namespaces) the usings of a namespace
+        declaration enclosing it, the last ("u", ...) the compilation unit's usings with every `global using` of the
+        .csproj group. MSBuild's implicit usings are not read. None when unknown (no part of class key in rel, two
+        parts of it in rel under other usings, a reader without the table)."""
+        mk = ("cslev", rel, key)
+        if mk in self.memo:
+            return self.memo[mk]
+        tb = self.cs_table(rel)
+        cv = tb.get("cvis") if tb is not None else None
+        out = None
+        if isinstance(cv, dict) and key is not None:
+            got = {cv.get(i) for r, i in self.class_parts(key) if r == rel}
+            frames = next(iter(got)) if len(got) == 1 else None
+            if isinstance(frames, tuple) and frames and all(isinstance(f, tuple) and len(f) == 2 for f in frames):
+                lev: list = []
+                for k in range(len(frames) - 1, 0, -1):
+                    ns, us = str(frames[k][0]), frames[k][1]
+                    outer = str(frames[k - 1][0])
+                    parts = ns.split(".")
+                    lev.append(("m", ns))
+                    if us:
+                        lev.append(("u", frozenset(us)))
+                    low = len(outer.split(".")) if outer else 0
+                    lev.extend(("m", ".".join(parts[:j])) for j in range(len(parts) - 1, low, -1))
+                lev.append(("m", ""))
+                lev.append(("u", frozenset(frames[0][1]) | self.cs_group_tables(rel)[0]))
+                out = tuple(lev)
+        self.memo[mk] = out
+        return out
+
+    def cs_sig_of(self, ci, mf, m, s, subst):
+        """((normalised type, by-ref?), ...) of definition mf of member m of class ci (its mparams `s`, its msig), the
+        type parameters of its class read through `subst` (cs_subst); None when the reader kept no msig for it."""
+        sig = self.cs_member(ci, mf, m, "msig")
+        if not isinstance(sig, tuple) or not isinstance(s, tuple) or not s or len(sig) != len(s[0]):
+            return None
+        rel_d = self.rel_of(ci, mf)
+        return tuple((self.cs_sig_norm(t, rel_d, ci.key, subst, scope=ci.key), p[1] in ("ref", "out", "in"))
+                     for t, p in zip(sig, s[0]))
+
+    def cs_same_sig(self, p, sig, mine, skip=0) -> bool:
+        """Is a definition (raw parameter types p, normalised signature sig; its first `skip` parameters dropped: an
+        extension's `this`) PROVEN one of the hit's own signatures (`mine`: [(raw, normalised)])? Normalised where both
+        sides have one (cs_sig_cmp: only True counts; a signature the pass cannot tell stays a rival), else by the raw
+        TypeRefs (a reader without msig: the rule as before)."""
+        for q, qs in mine:
+            if sig is not None and qs is not None:
+                if self.cs_sig_cmp(sig[skip:], qs) is True:
+                    return True
+            elif p[skip:] == q:
+                return True
+        return False
+
+    @staticmethod
+    def cs_sig_cmp(a, b) -> "bool | None":
+        """Two normalised signatures (cs_sig_of: ((type, by-ref?), ...)): True one signature, False two, None unknown
+        (a missing side, a parameter type _cs_tcmp cannot tell)."""
+        if a is None or b is None:
+            return None
+        if len(a) != len(b):
+            return False
+        got = [False if x[1] != y[1] else _cs_tcmp(x[0], y[0]) for x, y in zip(a, b)]
+        return False if False in got else (None if None in got else True)
+
+    def cs_def_sig(self, ci, mf, m, frame):
+        """Definition mf of member m of class ci, normalised as class `frame` sees it (ci's type parameters as frame's
+        base lists fix them, frame's own as identity tokens: cs_subst), or None when unknown (no mparams / msig, no
+        base-list path from frame to ci)."""
+        s = self.cs_member(ci, mf, m, "mparams")
+        if self._cs_sig_params(s) is None:
+            return None
+        sub = self.cs_subst(frame, ci.key)
+        return None if sub is None else self.cs_sig_of(ci, mf, m, s, sub)
+
+    def cs_rival_kind(self, rel, key, m, look, argc, on_class, allow_ext) -> str:
+        """LanguageSpec.lookup_rules overloads (C#): "none" | "rival" | "noinfo" — does member m, which lookup on class
+        key bound to look's hit, have a RIVAL the compiler may bind instead: a definition of m of another signature,
+        taking argc arguments, on a project class after the hit on key's chain (C# keeps every base overload a
+        derived class does not hide or override), or — for an instance receiver (allow_ext) — a project extension
+        method m whose `this` type is on that chain or cannot be placed (a generic `this T`, `object`), of another
+        signature? Signatures are compared normalised (cs_sig_norm, _cs_tcmp; only a PROVEN one signature counts as
+        the hit's own): a base class's type parameters read as the receiver's base lists fix them (`override
+        Handle(CreateOrder r, CancellationToken ct)` has the signature of `BaseHandler<TReq, TRes>.Handle(TReq r,
+        CancellationToken ct)` under `: BaseHandler<CreateOrder, int>`, so the definition it overrides is no rival;
+        one the path leaves open is never the same type), a project type by its class, `System.Int32` as `int`, an
+        alias as its target, an external name by its scope's usings (`System.Threading.CancellationToken` is
+        `CancellationToken` under `using System.Threading;`). An external base's overloads are not read. "noinfo":
+        the reader keeps no _cs table (the rule does not apply); any other language: "none"."""
+        spec = self.spec_of(rel)
+        if spec is None or "overloads" not in spec.lookup_rules or look.kind != "hit" or look.is_class \
+                or look.owner is None or self.cs_table(rel) is None:
+            return "none"
+        mk = ("ovr", rel, key, m, look.owner.key, argc, bool(on_class), bool(allow_ext))
+        if mk not in self.memo:
+            self.memo[mk] = self._cs_rival_kind(rel, key, m, look.owner, argc, on_class, allow_ext)
+        return self.memo[mk]
+
+    def _cs_rival_kind(self, rel, key, m, X, argc, on_class, allow_ext) -> str:
+        mine = []                                  # [(raw parameter types, normalised signature or None)]: the hit's
+        for mf in self.member_defs(X, m, on_class):    # own, its class's type parameters as the receiver's chain
+            s = self.cs_member(X, mf, m, "mparams")    # fixes them (cs_subst)
+            if s is _NOINFO:
+                return "noinfo"
+            p = self._cs_sig_params(s)
+            if p is None:
+                return "rival"                     # the hit's own signature is unknown: nothing can be compared
+            mine.append((p, self.cs_sig_of(X, mf, m, s, self.cs_subst(key, X.key) or {})))
+        levels = self.mro(key)
+        entries = [e for lv in (levels or ()) for e in lv]
+        if ("class", X.key) not in entries:
+            return "rival"
+        iface_recv = key in self.classes and self.classes[key].facts.kind == "interface"
+        for e in entries[entries.index(("class", X.key)) + 1:]:
+            if e[0] != "class":
+                break                              # an external base's overloads are not read (a known gap)
+            c = self.classes.get(e[1])
+            if c is None or c.ambiguous:
+                return "rival"
+            if c.facts.kind == "interface" and not iface_recv:
+                continue                           # an interface member is no candidate of a class's member lookup
+            subst = None
+            for mf in self.member_defs(c, m, on_class):
+                s = self.cs_member(c, mf, m, "mparams")
+                p = self._cs_sig_params(s)
+                if p is None:
+                    return "rival"
+                if subst is None:                  # c's type parameters as the receiver's base lists fix them
+                    subst = self.cs_subst(key, c.key) or {}
+                q = self.cs_sig_of(c, mf, m, s, subst)
+                if not self._cs_sig_takes(s[0], s[1], argc) or self.cs_same_sig(p, q, mine):
+                    continue                       # another arity, or the hit's own signature (hidden / overridden:
+                return "rival"                     # `override Handle(CreateOrder r)` of `Handle(TReq r)`)
+        if not allow_ext:
+            return "none"
+        fn = getattr(self.binder_of(rel), "extensions", None)
+        try:
+            cands = list(fn(rel, m) or ()) if callable(fn) else []
+        except Exception:  # noqa: BLE001
+            return "rival"
+        chain = self.mro_class_keys(key) | {key}
+        for item in cands:
+            try:
+                crel, cidx, tref = _norm_rel(item[0]), int(item[1]), item[2]
+            except (TypeError, ValueError, IndexError):
+                return "rival"
+            sk = self.class_key.get((crel, cidx))
+            tv = self.eval_type(tref, crel, -1, ctx=sk) if _ok_typeref(tref) else _UNK
+            if tv.kind == "ext" or (tv.kind == "inst" and len(tv.keys) == 1 and next(iter(tv.keys)) not in chain):
+                continue                           # an extension of a builtin / external type, or off the chain
+            sci = self.classes.get(sk) if sk is not None else None
+            if sci is None or sci.ambiguous:
+                return "rival"
+            for mf in (mf for mf in sci.facts.methods.get(m) or () if "static" in mf.flags):
+                s = self.cs_member(sci, mf, m, "mparams")
+                p = self._cs_sig_params(s)
+                if p is None or not p:
+                    return "rival"
+                if not self._cs_sig_takes(s[0][1:], s[1], argc) or \
+                        self.cs_same_sig(p, self.cs_sig_of(sci, mf, m, s, {}), mine, skip=1):
+                    continue
+                return "rival"
+        return "none"
+
+    def cs_args_fit(self, rel, si, idx, X, m, argc, on_class) -> bool:
+        """Are the site's argument types KNOWN to convert to the declared parameter types of one of class X's
+        definitions of m (its overloads are the one node the hit names)?"""
+        t = self.cs_table(rel)
+        try:
+            args = t["args"][si][idx]
+        except (TypeError, KeyError, IndexError):
+            return False
+        if not isinstance(args, tuple) or (argc >= 0 and len(args) != argc):
+            return False
+        descs = [self.cs_arg_type(rel, si, a) for a in args]
+        for mf in self.member_defs(X, m, on_class):
+            s = self.cs_member(X, mf, m, "mparams")
+            if self._cs_sig_params(s) is None:
+                continue
+            params, _variadic = s
+            if len(args) > len(params) or any(not p[2] for p in params[len(args):]):
+                continue                           # a `params` array's extra arguments are not matched
+            if all(p[1] not in ("ref", "out", "this")
+                   and self.cs_fits(a, self.cs_param_type(X, self.rel_of(X, mf), p[0]))
+                   for a, p in zip(descs, params)):
+                return True
+        return False
+
+    def cs_overloads(self, rel, si, idx, site, key, look, on_class, allow_ext) -> str:
+        """LanguageSpec.lookup_rules overloads (C#) for one site whose lookup on class key hit `look`: "ok" (no rival:
+        the hit stands as before), "weak" (a rival exists and the argument types are known to fit the hit: typed,
+        never EXTRACTED) or "unknown" (a rival, arguments not known to fit: the compiler may bind the rival)."""
+        kind = self.cs_rival_kind(rel, key, site.member, look, site.argc, on_class, allow_ext)
+        if kind != "rival":
+            return "ok"
+        spec = self.spec_of(rel)
+        st = self.stats["by_lang"].setdefault(spec.name, _lang_stats()).setdefault(
+            "overloads", {"sites": 0, "fit": 0, "unknown": 0})
+        st["sites"] += 1
+        if idx >= 0 and not self.cs_override_shadowed(key, site.member, look.owner, site.argc, on_class) \
+                and self.cs_args_fit(rel, si, idx, look.owner, site.member, site.argc, on_class):
+            st["fit"] += 1
+            return "weak"
+        st["unknown"] += 1
+        return "unknown"
+
+    def cs_override_shadowed(self, key, m, X, argc, on_class) -> bool:
+        """May a call that member lookup on class key bound to class X's m bind ANOTHER class's definition although
+        its arguments fit X's? C# leaves an `override` out of the candidates (the virtual it overrides stands in for
+        it, declared higher up) and then drops every candidate of a less derived class than one with an applicable
+        candidate: when every definition of m in X is an override, a definition of m of another signature in a
+        class strictly between X and the class declaring that virtual, taking argc arguments, may be the one bound
+        (Der7 : Mid7 : Base7, `override M7(int)` / `M7(double)` / `virtual M7(int)`: `_d.M7(5)` binds Mid7.M7)."""
+        mine, own = [], self.cs_subst(key, X.key) or {}
+        for mf in self.member_defs(X, m, on_class):
+            mods = self.cs_member(X, mf, m, "mods")
+            if not isinstance(mods, frozenset) or "override" not in mods:
+                return False
+            s = self.cs_member(X, mf, m, "mparams")
+            p = self._cs_sig_params(s)
+            if p is None:
+                return True
+            mine.append((p, self.cs_sig_of(X, mf, m, s, own)))
+        if not mine:
+            return False
+        entries = [e for lv in (self.mro(key) or ()) for e in lv]
+        if ("class", X.key) not in entries:
+            return True
+        for e in entries[entries.index(("class", X.key)) + 1:]:
+            c = self.classes.get(e[1]) if e[0] == "class" else None
+            if c is None or c.ambiguous:
+                return True                        # an external / unread base: its overloads are not read
+            if c.facts.kind == "interface":
+                continue
+            subst, declarer, rival = self.cs_subst(key, c.key) or {}, False, False
+            for mf in self.member_defs(c, m, on_class):
+                mods = self.cs_member(c, mf, m, "mods")
+                s = self.cs_member(c, mf, m, "mparams")
+                p = self._cs_sig_params(s)
+                if not isinstance(mods, frozenset) or p is None:
+                    return True
+                if self.cs_same_sig(p, self.cs_sig_of(c, mf, m, s, subst), mine):
+                    declarer = declarer or "override" not in mods
+                elif self._cs_sig_takes(s[0], s[1], argc):
+                    rival = True
+            if declarer:
+                return False                       # the slot's declarer: its own overloads are the rule as before
+            if rival:
+                return True                        # a more derived candidate than the slot's declarer
+        return False
 
     # ---------------------------------------------------------------- expressions
     def eval_recv(self, rel, si, r, depth) -> _V:
@@ -2976,8 +4083,10 @@ class _Linker:
             mf = look.mfs[0]
             if mf is None or mf.returns is None:
                 return _UNK
-            t = self.eval_type(mf.returns, look.owner.rel, look.owner.facts.scope, self_key=key, depth=depth + 1,
-                               extra_shadow=look.owner.facts.type_params)
+            if self.cs_rival_kind(rel, key, m, look, -1, base.kind == "cls", base.kind == "inst") == "rival":
+                return _UNK                        # C#: which overload runs (so its return type) is not known here
+            t = self.eval_type(mf.returns, self.rel_of(look.owner, mf), look.owner.facts.scope, self_key=key,
+                               depth=depth + 1, extra_shadow=look.owner.facts.type_params, ctx=look.owner.key)
             if t.kind not in ("inst", "ext"):
                 return _UNK
             vals.append(t.but(ev=t.ev | look.ev, weak=True, ret=True, src="return", decl=True))
@@ -2988,7 +4097,7 @@ class _Linker:
     def site_verdict(self, rel, si, idx, site) -> _Verdict:
         mk = ("sv", rel, si, idx)
         if mk not in self.memo:
-            self.memo[mk] = self._site_verdict(rel, si, site)
+            self.memo[mk] = self._site_verdict(rel, si, site, idx)
         return self.memo[mk]
 
     def _target_verdict(self, looks, v, rel, shape_hint, recv_kind, recv_cls="", line=0, dispatch="",
@@ -3013,7 +4122,7 @@ class _Linker:
         why = next((lk.why for lk in looks if lk.kind == "unknown"), "absent")
         return _Verdict("unknown", why=why, shape=shape_hint, recv_kind=recv_kind, recv_cls=recv_cls)
 
-    def _site_verdict(self, rel, si, site) -> _Verdict:
+    def _site_verdict(self, rel, si, site, idx=-1) -> _Verdict:
         spec = self.spec_of(rel)
         m = site.member
         if not m:
@@ -3032,6 +4141,8 @@ class _Linker:
             return _Verdict("unknown", why="ctor", shape="C", recv_kind="CLASSREF")
         if site.kind == "bare":
             v = self.name_value(rel, si, m, 0)
+            if v.kind == "cls" and spec is not None and "member_scope" in spec.lookup_rules:
+                v = _UNK                               # C#: a bare `T()` is never a constructor (only `new T()` is)
             if v.kind == "cls" and len(v.keys) == 1:
                 return _Verdict("typed", tuple(sorted(v.keys)), v.ev, v.weak, "C", recv_kind="")
             if v.kind == "ext" and v.ref in _EXT_BARE_OK:
@@ -3044,8 +4155,14 @@ class _Linker:
                 if key is not None and sk in ("inst", "class"):
                     look = self.lookup(key, m, argc=site.argc)
                     base = _V("inst", {key}, ev={self.classes[key].rel})
-                    return self._target_verdict([look], base, rel, "S", "SELF", line=site.line, dispatch="sub",
-                                                on_class=sk == "class")
+                    alt = self.static_import_verdict(rel, site, look)
+                    if alt is not None:
+                        return alt
+                    ov = self.cs_overloads(rel, si, idx, site, key, look, sk == "class", False)
+                    if ov == "unknown":
+                        return _Verdict("unknown", why="overload", shape="S", recv_kind="SELF")
+                    return self._target_verdict([look], base.but(weak=ov == "weak"), rel, "S", "SELF",
+                                                line=site.line, dispatch="sub", on_class=sk == "class")
             return _Verdict("unknown", why="bare", shape="M", recv_kind="")
         r = site.recv
         if r is None:
@@ -3059,19 +4176,32 @@ class _Linker:
             static_ctx = (spec_k is not None and spec_k.static_split and ff_s is not None
                           and 0 <= si < len(ff_s.scopes) and ff_s.scopes[si].self_kind == "class")
             look = self.lookup(key, m, skip=1, argc=site.argc, on_class=static_ctx)
-            return self._target_verdict([look], _V("inst", {key}, ev={self.classes[key].rel}), rel, "S", "SUPER",
-                                        line=site.line, dispatch="super", on_class=static_ctx)
+            ov = self.cs_overloads(rel, si, idx, site, key, look, static_ctx, False)
+            if ov == "unknown":
+                return _Verdict("unknown", why="overload", shape="S", recv_kind="SUPER")
+            return self._target_verdict([look], _V("inst", {key}, ev={self.classes[key].rel}, weak=ov == "weak"),
+                                        rel, "S", "SUPER", line=site.line, dispatch="super", on_class=static_ctx)
         v = self.eval_recv(rel, si, r, 0)
         shape = self._shape(r, v)
         if v.kind == "inst":
-            looks = [self.lookup(k, m, argc=site.argc) for k in sorted(v.keys)]
-            return self._target_verdict(looks, v, rel, shape, r.kind, line=site.line,
-                                        dispatch="sub" if v.decl else "")
+            keys = sorted(v.keys)
+            looks = [self.lookup(k, m, argc=site.argc) for k in keys]
+            alt = self.extension_verdict(rel, site, v, looks, shape, r.kind)
+            if alt is not None:
+                return alt
+            ovs = [self.cs_overloads(rel, si, idx, site, k, lk, False, True) for k, lk in zip(keys, looks)]
+            if "unknown" in ovs:
+                return _Verdict("unknown", why="overload", shape=shape, recv_kind=r.kind)
+            return self._target_verdict(looks, v.but(weak=True) if "weak" in ovs else v, rel, shape, r.kind,
+                                        line=site.line, dispatch="sub" if v.decl else "")
         if v.kind == "cls":
             key = next(iter(v.keys))
             look = self.lookup(key, m, argc=site.argc, on_class=True)
-            return self._target_verdict([look], v, rel, shape, r.kind, recv_cls=key, line=site.line,
-                                        dispatch="sub" if v.decl else "", on_class=True)
+            ov = self.cs_overloads(rel, si, idx, site, key, look, True, False)
+            if ov == "unknown":
+                return _Verdict("unknown", why="overload", shape=shape, recv_kind=r.kind, recv_cls=key)
+            return self._target_verdict([look], v.but(weak=True) if ov == "weak" else v, rel, shape, r.kind,
+                                        recv_cls=key, line=site.line, dispatch="sub" if v.decl else "", on_class=True)
         if v.kind == "module":
             mv = self.module_member(v.ref, m, 0).plus_ev(v.ev)
             if mv.kind == "cls" and len(mv.keys) == 1:
@@ -3109,6 +4239,92 @@ class _Linker:
                 return False
             s = sc.parent
         return self.file_symbol(rel, m).kind == "unbound"
+
+    def _lookup_stat(self, rel, name):
+        spec = self.spec_of(rel)
+        if spec is not None:
+            st = self.stats["by_lang"].setdefault(spec.name, _lang_stats()).setdefault("lookup", {})
+            st[name] = st.get(name, 0) + 1
+
+    def static_import_verdict(self, rel, site, look):
+        """C# (LanguageSpec.lookup_rules using_static): a bare call the enclosing class chain does not hold (a
+        fully-project chain without it: lookup why "open") is a static method of a `using static` type. Exactly one
+        project method across the file's static imports -> typed, weak (INFERRED; shape M); several, or a static
+        import that is not a project class (it may hold the method) -> unknown. None: the rule does not apply."""
+        spec = self.spec_of(rel)
+        if spec is None or "using_static" not in spec.lookup_rules or look.kind != "unknown" or look.why != "open":
+            return None
+        fn = getattr(self.binder_of(rel), "static_imports", None)
+        try:
+            imports = list(fn(rel) or ()) if callable(fn) else []
+        except Exception:  # noqa: BLE001
+            imports = [RES_UNKNOWN]
+        if not imports:
+            return None
+        targets, ev = set(), set()
+        for res in imports:
+            v = self.res_value(rel, res, 1)
+            if v.kind != "cls" or len(v.keys) != 1:
+                return _Verdict("unknown", why="using static", shape="M", recv_kind="")
+            lk = self.lookup(next(iter(v.keys)), site.member, argc=site.argc, on_class=True)
+            if lk.kind == "hit" and not lk.is_class:
+                targets.update(lk.targets)
+                ev |= set(lk.ev) | set(v.ev)
+            elif lk.kind == "unknown" and lk.why != "open":
+                return _Verdict("unknown", why="using static", shape="M", recv_kind="")
+        if len(targets) != 1:
+            return _Verdict("unknown", why="using static", shape="M", recv_kind="") if targets else None
+        self._lookup_stat(rel, "using_static")
+        return _Verdict("typed", tuple(sorted(targets)), frozenset(ev), True, "M", recv_kind="")
+
+    def extension_verdict(self, rel, site, v, looks, shape, recv_kind):
+        """C# (LanguageSpec.lookup_rules extensions): a member the receiver's fully-project chain does not hold (an
+        instance method always wins: this runs only after a miss, lookup why "open") is an extension method whose
+        `this` type is a class of that chain. Exactly one such project method -> typed, weak (INFERRED); several, or
+        an extension of that name on a type the pass cannot place (a generic `this T`, `object`, an unknown type:
+        it may apply) -> unknown. None: the rule does not apply."""
+        spec = self.spec_of(rel)
+        if spec is None or "extensions" not in spec.lookup_rules or len(v.keys) != 1 or len(looks) != 1 \
+                or looks[0].kind != "unknown" or looks[0].why != "open":
+            return None
+        fn = getattr(self.binder_of(rel), "extensions", None)
+        try:
+            cands = list(fn(rel, site.member) or ()) if callable(fn) else []
+        except Exception:  # noqa: BLE001
+            return _Verdict("unknown", why="extension", shape=shape, recv_kind=recv_kind)
+        if not cands:
+            return None
+        key = next(iter(v.keys))
+        chain = self.mro_class_keys(key) | {key}
+        targets, ev = set(), set(v.ev)
+        for item in cands:
+            try:
+                crel, cidx, tref = _norm_rel(item[0]), int(item[1]), item[2]
+            except (TypeError, ValueError, IndexError):
+                return _Verdict("unknown", why="extension", shape=shape, recv_kind=recv_kind)
+            tv = self.eval_type(tref, crel, -1, ctx=self.class_key.get((crel, cidx))) if _ok_typeref(tref) else _UNK
+            if tv.kind == "ext":
+                continue                              # an extension of an external type: not on a project chain
+            if tv.kind != "inst" or len(tv.keys) != 1:
+                return _Verdict("unknown", why="extension", shape=shape, recv_kind=recv_kind)
+            if next(iter(tv.keys)) not in chain:
+                continue
+            sk = self.class_key.get((crel, cidx))
+            sci = self.classes.get(sk) if sk is not None else None
+            if sci is None or sci.ambiguous:
+                return _Verdict("unknown", why="extension", shape=shape, recv_kind=recv_kind)
+            mfs = [mf for mf in sci.facts.methods.get(site.member) or () if "static" in mf.flags]
+            keys, _by = self.method_nodes(sci, site.member, mfs)
+            if not keys:
+                return _Verdict("unknown", why="extension", shape=shape, recv_kind=recv_kind)
+            targets.update(keys)
+            ev |= set(tv.ev) | {sci.rel} | {self.file_of[k] for k in keys}
+        if not targets:
+            return None
+        if len(targets) != 1:
+            return _Verdict("unknown", why="extension", shape=shape, recv_kind=recv_kind)
+        self._lookup_stat(rel, "extensions")
+        return _Verdict("typed", tuple(sorted(targets)), frozenset(ev), True, shape, recv_kind=recv_kind)
 
     @staticmethod
     def _shape(r, v: _V) -> str:
@@ -3373,10 +4589,15 @@ class _Linker:
         g5 = self.node_by_key[ck].get("call_member") or ()
         if not isinstance(g5, (list, tuple, set, frozenset)):
             g5 = ()
+        spec_c = self.spec_of(rel)
+        dispatch_ok = spec_c is not None and "iface_dispatch" in spec_c.lookup_rules
+        virtual_ok = spec_c is not None and "virtual_dispatch" in spec_c.lookup_rules
         for m in sorted(sites_by):
             if not m:
                 continue
             group = sites_by[m]
+            iface_add: dict = {}                       # C# interface dispatch: target -> [grade, shape, line]
+            virt_hold: list = []                       # C# virtual dispatch: a fan-out this group may not REPLACE
             verdicts = []
             for s, idx, site, att in group:
                 vd = self.site_verdict(rel, s, idx, site)
@@ -3389,6 +4610,15 @@ class _Linker:
                 if vd.kind == "typed" and any(self.interface_member(t) for t in vd.targets):
                     st["skipped_interface"] += 1   # a member of an interface never runs: no key, and it may never
                     vd = vd._replace(kind="unknown", why="interface")   # REPLACE the engine's tuples either
+                if dispatch_ok and vd.why == "interface":
+                    known = self.iface_dispatch(rel, m, site, att, self.site_verdict(rel, s, idx, site), iface_add,
+                                                si=s)
+                    if known is not None:          # C#: the whole dispatch set is known (the interface member + its
+                        vd = vd._replace(kind="dispatch", targets=tuple(sorted(known)))   # implementers): no veto
+                if dispatch_ok and vd.kind == "typed" and any(t in self.cs_static_iface for t in vd.targets):
+                    self.cs_dispatch_stats(rel)["static_member"] += 1     # `IFactory.Make()`: an exact call
+                if virtual_ok and vd.kind == "typed":
+                    vd = self.virtual_dispatch(rel, m, site, att, vd, iface_add, virt_hold, si=s)
                 verdicts.append((vd, att))
             if _SEG_SPLIT.search(m):               # never an identifier: the general rule, tuple by tuple
                 prior = [i for ii in segs.values() for i in ii if i not in removed
@@ -3412,6 +4642,8 @@ class _Linker:
             else:
                 mode, why = "replace", ""
             over = None
+            if mode == "replace" and virt_hold:    # C# virtual dispatch whose overrides are unknowable or more than
+                mode, why = "add", "dispatch"      # MAX_TARGETS: the engine's tuples stay (never a wider fan-out)
             if mode == "replace":                  # what dynamic dispatch reaches beyond the static targets
                 over = self.override_reach(rel, m, verdicts, fam_c, lang_family)
                 if over is None:
@@ -3442,9 +4674,19 @@ class _Linker:
                     if _GRADE_RANK[g] > _GRADE_RANK.get(grades.get(t), -1):
                         grades[t], shapes[t] = g, vd.shape
             st["skipped_nested"] += len(nested_only - set(grades))
+            for t, (g, shp, _ln) in sorted(iface_add.items()):     # C# interface dispatch: never narrowed by the
+                if _GRADE_RANK[g] > _GRADE_RANK.get(grades.get(t), -1):   # candidate rule (an implementer fan-out
+                    grades[t], shapes[t] = g, shp      # of 2..MAX_TARGETS is this language's deliberate exception)
+                singular.add(t)
+            tline = {t: v[2] for t, v in iface_add.items()}       # the first call line of every typed target
+            for (_s, _i, site_, att_), (vd_, _a) in zip(group, verdicts):
+                if vd_.kind == "typed" and att_ in _ATTRIBUTED:
+                    for t_ in vd_.targets:
+                        tline[t_] = min(tline.get(t_, site_.line), site_.line)
+            gline = min((site_.line for _s, _i, site_, att_ in group if att_ in _ATTRIBUTED), default=0)
             rekey: set = set()
-            if mode == "replace":
-                static = {t for vd, _a in verdicts if vd.kind == "typed" for t in vd.targets}
+            if mode == "replace":                  # (a C# interface site's targets: its whole known dispatch set)
+                static = {t for vd, _a in verdicts if vd.kind in ("typed", "dispatch") for t in vd.targets}
                 keep, rekey = self.override_split(ck, prior, over, static, m, fam_c, lang_family)
                 removed.update(i for i in prior if i not in keep)
                 st["override_kept"] += len(keep)
@@ -3474,11 +4716,13 @@ class _Linker:
                     continue
                 emitted.append((ck, t, shapes.get(t, "")))
                 typed_attr.setdefault(ck, {})[t] = grades[t]
+                self.note_line(ck, t, tline.get(t, gline))
             for t in sorted(rekey - set(grades)):   # an override a removed fan-out reached: kept as a key, at the
                 if t == ck or t not in self.node_by_key:    # grade a fan-out has (AMBIGUOUS — never an upgrade)
                     continue
                 emitted.append((ck, t, ""))
                 typed_attr.setdefault(ck, {})[t] = "AMBIGUOUS"
+                self.note_line(ck, t, gline)
                 st["override_keyed"] += 1
 
     def interface_member(self, t) -> bool:
@@ -3490,7 +4734,8 @@ class _Linker:
         site typed to one is unknown for the merge (no key, no REPLACE: the engine's tuples stay as they are);
         its verdict, the site census and the audit are unchanged. Only when EVERY class that claims node t is an
         interface: a TS interface merged with a same-named class (`interface Order { extra(): void }` beside
-        `class Order { extra() {} }`) claims the class's real `Order.extra` node by name — a real method."""
+        `class Order { extra() {} }`) claims the class's real `Order.extra` node by name — a real method. C# (with the
+        reader's modifiers): a static interface member with a body is no such declaration (cs_static_iface)."""
         return self.iface_only.get(t, False)
 
     def via_interface(self, vd, t) -> bool:
@@ -3499,19 +4744,623 @@ class _Linker:
         receiver's class is one? Its run-time values need not be its subclasses (structural implementers; a
         typing-only proxy's real object), so the static target may not be what the call runs: never EXTRACTED."""
         keys = set(vd.recv_keys) | ({vd.recv_cls} if vd.recv_cls else set())
+        if t in self.cs_static_iface:
+            return False                           # C#: `IFactory.Make()`, a static member with a body, runs as written
         return self.interface_member(t) or any(k in self.classes and self.classes[k].facts.kind == "interface"
                                                for k in keys)
+
+    def note_line(self, ck, t, line) -> None:
+        """Record the first call line of emitted key t in caller ck (applied in _finish as call_lines["key"])."""
+        if _ok_int(line) and line > 0:
+            cur = self.line_attr.setdefault(ck, {})
+            if t not in cur or line < cur[t]:
+                cur[t] = line
+
+    def cs_virtual_kind(self, t, m) -> str:
+        """C# (virtual_dispatch): is method node t (member m) a VIRTUAL slot — "virtual" (every definition of m in its
+        class is virtual / abstract / override and none is sealed), "plain" (none is), "mixed" (overloads disagree, or
+        a modifier set is unknown), "noinfo" (the reader keeps no modifiers)."""
+        ci = self.classes.get(self.owner_of.get(t))
+        if ci is None or ci.facts.kind == "interface":
+            return "plain"
+        defs = [mf for mf in ci.facts.methods.get(m) or () if t in self.method_nodes(ci, m, [mf])[0]] or \
+            list(ci.facts.methods.get(m) or ())
+        kinds = set()
+        for mf in defs:
+            mods = self.cs_member(ci, mf, m, "mods")
+            if mods is _NOINFO:
+                return "noinfo"
+            if not isinstance(mods, frozenset):
+                kinds.add("?")
+            elif "static" in mods or "sealed" in mods or not (mods & _CS_VIRTUAL):
+                kinds.add("plain")
+            else:
+                kinds.add("virtual")
+        return kinds.pop() if len(kinds) == 1 and "?" not in kinds else ("plain" if not kinds else "mixed")
+
+    def virtual_dispatch(self, rel, m, site, att, vd, out, hold, si=-1) -> _Verdict:
+        """LanguageSpec.lookup_rules virtual_dispatch (C#): a site typed to a VIRTUAL class member (virtual, abstract or
+        override, never sealed) through a receiver whose run-time class may be a project subclass (a declared type,
+        `this`, an implicit `this`; never `base.`, never a construction, never a struct or a sealed / static class)
+        is dispatch, like an interface member: the
+        declared member is linked at INFERRED, never EXTRACTED (DEEPMAP_TYPED_CALLS_IFACE static; a body-less
+        abstract member included), plus the overrides with a body that project subclasses of the receiver's static
+        type declare in an unbroken override chain (impl): one -> INFERRED, 2..MAX_TARGETS -> AMBIGUOUS each, more
+        or an unknowable reach -> none, and the group then never REPLACEs (`hold`). A test-file override counts only
+        for a test caller. A receiver of a closed generic class (`Converter<int> _c`) skips a subclass whose base list
+        closes it with other concrete type arguments (`: Converter<string>`: never a Converter<int>; cs_args_exclude,
+        invariant). Without the static mode the site no longer types its declared member (unknown: ADD only).
+        Returns the verdict to merge; `out` = {target: [grade, shape, first line]} like iface_dispatch's; `si` = the
+        site's scope (its receiver's declaration)."""
+        if vd.dispatch != "sub" or vd.recv_kind == "SUPER" or not vd.recv_keys \
+                or all(self.cs_final(k) for k in vd.recv_keys):
+            return vd                              # a struct / sealed receiver: its run-time class is exactly it
+        kinds = {self.cs_virtual_kind(t, m) for t in vd.targets}
+        if kinds <= {"plain", "noinfo"}:
+            if "noinfo" in kinds and any("abstract" in mf.flags for t in vd.targets
+                                         for mf in self.target_defs(t, m)):
+                return vd._replace(weak=True)      # a body-less member never runs: never EXTRACTED
+            return vd
+        lang = self.lang_of.get(rel) or getattr(self.spec_of(rel), "name", "")
+        ds = self.stats["by_lang"].setdefault(lang, _lang_stats()).setdefault(
+            "virtual", {"sites": 0, "static": 0, "overrides": 0, "fanout": 0, "too_many": 0, "unknown": 0,
+                        "mixed": 0, "closed_args": 0})
+        if kinds != {"virtual"}:
+            ds["mixed"] += 1                       # an overload set the pass cannot split: never EXTRACTED, no fan-out
+            return vd._replace(weak=True)
+        ds["sites"] += 1
+        if "impl" in self.cfg.iface:
+            closed = self.cs_closed_args(rel, si, site.recv) if len(vd.recv_keys) == 1 else None
+            got = self.virt_overrides(vd.recv_keys, m, set(vd.targets), self.test_file(rel), closed)
+            ds["closed_args"] = ds.get("closed_args", 0) + int(self.memo.get(
+                ("virtx", frozenset(vd.recv_keys), m, frozenset(vd.targets), bool(self.test_file(rel)), closed),
+                0) or 0)
+            if got is None:
+                ds["unknown"] += 1
+                hold.append("unknown")
+            elif len(got) > MAX_TARGETS:
+                ds["too_many"] += 1
+                hold.append("too many")
+            elif got and att in _ATTRIBUTED:
+                grade = "INFERRED" if len(got) == 1 else "AMBIGUOUS"
+                if len(got) > 1:
+                    ds["fanout"] += 1
+                for t in sorted(got):
+                    cur = out.get(t)
+                    if cur is None:
+                        out[t] = [grade, vd.shape, site.line]
+                    else:
+                        if _GRADE_RANK[grade] > _GRADE_RANK[cur[0]]:
+                            cur[0] = grade
+                        cur[2] = min(cur[2], site.line)
+                    ds["overrides"] += 1
+        if "static" in self.cfg.iface:
+            ds["static"] += 1
+            return vd._replace(weak=True)
+        return vd._replace(kind="unknown", why="virtual")
+
+    def cs_final(self, key) -> bool:
+        """C#: can no class derive from class key — a struct / enum, or a class declared sealed or static in any
+        part (_cs["sealed"])? False when unknown."""
+        ci = self.classes.get(key)
+        if ci is None:
+            return False
+        if ci.facts.kind in ("struct", "enum"):
+            return True
+        for rel, idx in self.class_parts(key):
+            t = self.cs_table(rel)
+            if t is not None and isinstance(t.get("sealed"), list) and idx in t["sealed"]:
+                return True
+        return False
+
+    def target_defs(self, t, m) -> list:
+        """The MethodFacts of member m in method node t's class."""
+        ci = self.classes.get(self.owner_of.get(t))
+        return list(ci.facts.methods.get(m) or ()) if ci is not None else []
+
+    def virt_overrides(self, keys, m, targets, caller_test, closed=None) -> "set | None":
+        """The overrides a virtual call of m through a receiver of static type(s) `keys` may run (virtual_dispatch):
+        every definition of m with a body marked `override` in a project subclass that overrides the slot of the
+        call's target definition(s) (cs_slot_unbroken: its own signature, an unbroken override chain up to the
+        receiver's class — a `new` / non-override definer of THAT signature between them starts another slot; a
+        same-named definition of another signature neither breaks nor continues it). None when that cannot be
+        known: a subclass is ambiguous, dynamic, unlinearizable or has no modifiers recorded, or a signature on the
+        path cannot be told. `closed` (cs_closed_args, one receiver class): its concrete type arguments — a subclass
+        whose every listing of the class has other concrete arguments is skipped (cs_args_exclude, invariant; the
+        count kept in memo ("virtx", ...))."""
+        mk = ("virt", frozenset(keys), m, frozenset(targets), bool(caller_test), closed)
+        if mk in self.memo:
+            return self.memo[mk]
+        out: "set | None" = set()
+        skipped = 0
+        for key in sorted(keys):
+            if key not in self.classes or self.classes[key].ambiguous:
+                out = None
+                break
+            for s in self.descendants(key):
+                sc = self.classes.get(s)
+                if sc is None or sc.ambiguous or sc.facts.dynamic:
+                    out = None
+                    break
+                if sc.facts.kind == "interface" or (not caller_test and self.test_file(sc.rel, unknown=False)):
+                    continue
+                if closed is not None:
+                    lv = self.mro(s)
+                    if lv is not None and self.cs_args_exclude(s, key, closed, [e for x in lv for e in x]):
+                        skipped += 1
+                        continue
+                ov = []
+                for mf in sc.facts.methods.get(m) or ():
+                    mods = self.cs_member(sc, mf, m, "mods")
+                    if not isinstance(mods, frozenset):
+                        out = None
+                        break
+                    if "override" in mods and "abstract" not in mf.flags:
+                        ov.append(mf)
+                if out is None:
+                    break
+                if not ov:
+                    continue
+                slot, picked = self.cs_slot_sigs(s, key, m, targets), []
+                for mf in ov:
+                    ok = self.cs_slot_unbroken(s, key, m, mf, slot)
+                    if ok is None:
+                        out = None
+                        break
+                    if not ok:
+                        continue
+                    picked.append(mf)
+                if out is None:
+                    break
+                if not picked:
+                    continue
+                nodes = self.method_nodes(sc, m, picked)[0]
+                if not nodes:
+                    out = None
+                    break
+                out.update(nodes)
+            if out is None:
+                break
+        if out is not None:
+            out -= set(targets)
+        self.memo[mk] = out
+        self.memo[("virtx",) + mk[1:]] = skipped
+        return out
+
+    def cs_slot_sigs(self, s, key, m, targets) -> "list | None":
+        """The signatures, as subclass s sees them (cs_def_sig), of the definitions of m that the call's target nodes
+        hold in classes on receiver class key's chain (key itself or a base: the class its member lookup hit), or
+        None when one cannot be read."""
+        mk = ("cslot", s, key, m, frozenset(targets))
+        if mk in self.memo:
+            return self.memo[mk]
+        chain = self.mro_class_keys(key) | {key}
+        out: "list | None" = []
+        for t in sorted(targets):
+            ci = self.classes.get(self.owner_of.get(t))
+            if ci is None or ci.key not in chain:
+                continue
+            defs = [mf for mf in ci.facts.methods.get(m) or () if t in self.method_nodes(ci, m, [mf])[0]] or \
+                list(ci.facts.methods.get(m) or ())
+            for mf in defs:
+                sig = self.cs_def_sig(ci, mf, m, s)
+                if sig is None:
+                    out = None
+                    break
+                out.append(sig)
+            if out is None:
+                break
+        self.memo[mk] = out if out else None
+        return self.memo[mk]
+
+    def cs_slot_unbroken(self, s, key, m, mf, slot) -> "bool | None":
+        """Does definition mf (an `override`) of m in subclass s override the call's slot — the target definitions'
+        signatures `slot` (cs_slot_sigs)? Its signature must be one of the slot's, and every class strictly between s
+        and class key on s's chain that defines m with THAT signature must define it as an `override` (C# hides only a
+        base method of the same signature: a definition of another signature neither breaks nor continues the slot,
+        and neither does a private one, which no subclass sees). None when unknowable (an unreadable entry or
+        modifiers, a signature _cs_tcmp cannot tell, an `internal` / `private protected` one in another .csproj than
+        s: another assembly does not see it)."""
+        levels = self.mro(s)
+        sc = self.classes.get(s)
+        if levels is None or slot is None or sc is None:
+            return None
+        entries = [e for lv in levels for e in lv]
+        if ("class", key) not in entries:
+            return None
+        mine = self.cs_def_sig(sc, mf, m, s)
+        cmp = [self.cs_sig_cmp(mine, q) for q in slot]
+        if True not in cmp:
+            return None if None in cmp else False  # an override of another slot (another signature)
+        for e in entries[1:entries.index(("class", key))]:
+            if e[0] != "class":
+                return None
+            c = self.classes.get(e[1])
+            if c is None or c.ambiguous:
+                return None
+            if c.facts.kind == "interface":
+                continue
+            for d in c.facts.methods.get(m) or ():
+                mods = self.cs_member(c, d, m, "mods")
+                if not isinstance(mods, frozenset):
+                    return None
+                same = self.cs_sig_cmp(self.cs_def_sig(c, d, m, s), mine)
+                if same is None:
+                    return None
+                if same and "override" not in mods:
+                    acc = mods & _CS_ACCESS
+                    if acc <= {"private"}:
+                        continue                   # private (as written, or by default): no subclass sees it
+                    if acc in ({"internal"}, {"private", "protected"}) \
+                            and self.cs_group_of(self.rel_of(c, d)) != self.cs_group_of(sc.rel):
+                        return None                # another .csproj: maybe another assembly, which does not see it
+                    return False
+        return True
+
+    def iface_dispatch(self, rel, m, site, att, orig, out, si=-1) -> "frozenset | None":
+        """LanguageSpec.lookup_rules iface_dispatch (C#): an ATTRIBUTED site typed to an interface's own member through
+        an interface receiver (`private readonly IShoppingCartHelper _h; _h.Create()`) links that member at INFERRED
+        (the compiler's own binding; DEEPMAP_TYPED_CALLS_IFACE static) plus the project implementers it may run
+        (impl): one -> INFERRED, 2..MAX_TARGETS -> AMBIGUOUS each, more or an unknowable reach -> none. A test-file
+        implementer counts only for a test caller. A STATIC interface member with a body (C# 8+) never gets here:
+        it is an exact call (cs_static_iface); a body-less static one has no implementers either.
+        A receiver of a closed generic interface (`IRepo<Order> _r`) skips an implementer whose own base-list entry
+        for it has other concrete type arguments (`: IRepo<User>`) unless the interface is variant (`in` / `out`).
+        `out` = {target: [grade, shape, first line]} for the group; `si` = the site's scope (its receiver's
+        declaration). Returns the site's WHOLE dispatch set (the interface member plus every implementer) when it is
+        fully known: both modes on, the reader's tables read, every implementer reach known and at most
+        MAX_TARGETS, no project class that may implement the interface unseen (cs_iface_unresolved). The group may
+        then REPLACE the engine's tuples outside that set (stats dispatch known). Else None: ADD only."""
+        if att not in _ATTRIBUTED or orig.kind != "typed":
+            return
+        ds = self.cs_dispatch_stats(rel)
+        keys = set(orig.recv_keys) | ({orig.recv_cls} if orig.recv_cls else set())
+        if not keys or not all(k in self.classes and self.classes[k].facts.kind == "interface" for k in keys) \
+                or not all(self.interface_member(t) for t in orig.targets):
+            ds["not_interface"] += 1                   # a member reached through a concrete receiver: as before
+            return
+        ds["sites"] += 1
+
+        def add(t, g):
+            cur = out.get(t)
+            if cur is None:
+                out[t] = [g, orig.shape, site.line]
+            else:
+                if _GRADE_RANK[g] > _GRADE_RANK[cur[0]]:
+                    cur[0] = g
+                cur[2] = min(cur[2], site.line)
+        if "static" in self.cfg.iface:
+            for t in orig.targets:
+                add(t, "INFERRED")
+            ds["static"] += 1
+        if "impl" not in self.cfg.iface:
+            return
+        defs = [self.target_defs(t, m) for t in orig.targets]
+        if all(d and all("static" in mf.flags for mf in d) for d in defs):
+            ds["static_member"] += 1               # a static interface member has no implementers: nothing to run
+            return
+        caller_test = self.test_file(rel)
+        closed = self.cs_closed_args(rel, si, site.recv) if len(keys) == 1 else None
+        impls: set = set()
+        for k in sorted(keys):
+            got = self.impl_reach(k, m, caller_test, closed)
+            if got is None:
+                ds["unknown"] += 1
+                return
+            ds["closed_args"] += int(self.memo.get(("implx", k, m, bool(caller_test), closed), 0) or 0)
+            impls |= got
+        if len(impls) > MAX_TARGETS:
+            ds["too_many"] += 1
+            return
+        grade = "INFERRED" if len(impls) == 1 else "AMBIGUOUS"
+        if len(impls) > 1:
+            ds["fanout"] += 1
+        for t in sorted(impls):
+            add(t, grade)
+            ds["implementers"] += 1
+        if "static" not in self.cfg.iface or self.cs_table(rel) is None \
+                or any(self.cs_iface_unresolved(k, m) for k in keys):
+            return
+        ds["known"] += 1
+        return frozenset(orig.targets) | frozenset(impls)
+
+    def cs_dispatch_stats(self, rel) -> dict:
+        """by_lang[<rel's language>]["dispatch"] (interface dispatch counters), created with every key."""
+        lang = self.lang_of.get(rel) or getattr(self.spec_of(rel), "name", "")
+        ds = self.stats["by_lang"].setdefault(lang, _lang_stats()).setdefault(
+            "dispatch", {"sites": 0, "static": 0, "implementers": 0, "fanout": 0, "too_many": 0, "unknown": 0,
+                         "not_interface": 0, "static_member": 0, "closed_args": 0, "known": 0})
+        ds.setdefault("known", 0)
+        return ds
+
+    def cs_iface_unresolved(self, key, m) -> bool:
+        """May a project class of interface key's language implement it unseen: one that lists a base of the
+        interface's own name the pass cannot resolve (an ambiguous using, an alias it does not hold), or a base it
+        cannot read at all (`global::Ns.IPlugin`) while defining m itself? Then the interface's dispatch set is not
+        fully known."""
+        mk = ("ifunres", key, m)
+        if mk not in self.memo:
+            if "unres_idx" not in self.memo:      # once per run: {base name: classes}, [classes with an unread base]
+                by_name: dict = {}
+                blank: list = []
+                for k in sorted(self.classes):
+                    for e in self.bases(k):
+                        if e[0] == "unres":
+                            (by_name.setdefault(e[1], []) if e[1] else blank).append(k)
+                self.memo["unres_idx"] = (by_name, blank)
+            by_name, blank = self.memo["unres_idx"]
+            ci = self.classes.get(key)
+            name = ci.facts.name if ci is not None else None
+            fam = ci.spec.family if ci is not None and ci.spec is not None else None
+
+            def same_family(k):
+                c = self.classes[k]
+                return k != key and c.spec is not None and c.spec.family == fam
+            self.memo[mk] = name is None or any(same_family(k) for k in by_name.get(name, ())) or any(
+                same_family(k) and m in self.classes[k].facts.methods for k in blank)
+        return self.memo[mk]
+
+    def impl_reach(self, key, m, caller_test, closed=None) -> "set | None":
+        """The project methods a call of m through interface `key` may run (iface_dispatch): for every project class
+        that implements it (transitively; never an interface), the definition of m that implements it — with the C#
+        reader's modifiers (cs_impl_of): the member mapped by the most derived class that LISTS the interface (or an
+        interface deriving from it) in its own base list, or the most derived `override` of that member in an
+        unbroken override chain; a `new` / non-virtual same-named method of a subclass that does not re-list the
+        interface is not one. Without modifiers: the first NON-abstract, non-static definition of m before `key` on
+        that class's chain. An explicit implementation is included. None when that cannot be known: a descendant is
+        ambiguous, dynamic or unlinearizable, an external or unresolved entry comes first (an external base may
+        implement m), or a concrete class has no definition (an unread part, a generated one). An abstract class
+        without a definition defers to its subclasses. A test-file class counts only for a test caller. `closed`
+        (cs_closed_args): the receiver's concrete type arguments — an implementer whose every listing of `key` has
+        other concrete arguments is skipped (cs_args_exclude). The count of those is kept in memo ("implx", ...)."""
+        mk = ("impl", key, m, bool(caller_test), closed)
+        if mk in self.memo:
+            return self.memo[mk]
+        out: "set | None" = set()
+        skipped = 0
+        ci = self.classes.get(key)
+        if ci is None or ci.ambiguous:
+            out = None
+        for s in (self.descendants(key) if out is not None else ()):
+            si = self.classes.get(s)
+            if si is None or si.ambiguous or si.facts.dynamic:
+                out = None
+                break
+            if si.facts.kind == "interface":
+                continue
+            if not caller_test and self.test_file(si.rel, unknown=False):
+                continue
+            levels = self.mro(s)
+            entries = [e for lv in levels for e in lv] if levels is not None else []
+            if ("class", key) not in entries:
+                out = None
+                break
+            if closed is not None and self.cs_args_exclude(s, key, closed, entries):
+                skipped += 1
+                continue
+            if self.cs_table(si.rel) is not None:
+                found = self.cs_impl_of(si, key, m, entries)
+            else:
+                found = None
+                for e in entries[:entries.index(("class", key))]:
+                    if e[0] != "class":
+                        break
+                    x = self.classes.get(e[1])
+                    if x is None or x.ambiguous or x.facts.dynamic:
+                        break
+                    mfs = [mf for mf in x.facts.methods.get(m) or () if not ({"abstract", "static"} & set(mf.flags))]
+                    if mfs:
+                        found = self.method_nodes(x, m, mfs)[0]
+                        break
+                else:
+                    found = () if si.facts.kind == "abstract" else None
+            if not found and found != ():
+                out = None
+                break
+            out.update(found)
+        self.memo[mk] = out
+        self.memo[("implx",) + mk[1:]] = skipped
+        return out
+
+    def cs_lists(self, x, key) -> bool:
+        """Does class x's OWN base list name interface key, or an interface deriving from it?"""
+        for b in self.bases(x):
+            if b[0] != "class" or b[1] not in self.classes or self.classes[b[1]].facts.kind != "interface":
+                continue
+            if b[1] == key or key in self.mro_class_keys(b[1]):
+                return True
+        return False
+
+    def cs_impl_of(self, si, key, m, entries):
+        """C# (iface_dispatch, with the reader's modifiers): the node(s) of the definition of m that class si runs for
+        interface key's member m — () for an abstract class with none, None when unknowable (impl_reach)."""
+        chain: list = []                           # si and its base classes before key, most derived first
+        for e in entries[:entries.index(("class", key))]:
+            if e[0] != "class":
+                chain.append(None)                 # an external / unresolved base
+                break
+            x = self.classes.get(e[1])
+            if x is None or x.ambiguous or x.facts.dynamic:
+                return None
+            if x.facts.kind != "interface":
+                chain.append(x)
+        defs = [[mf for mf in x.facts.methods.get(m) or () if "static" not in mf.flags] if x is not None else None
+                for x in chain]
+        j = next((i for i, x in enumerate(chain) if x is not None and self.cs_lists(x.key, key)), None)
+        if j is None or None in chain[:j]:
+            return None
+        islot = self.cs_iface_sigs(si.key, key, m)
+        if islot is None:
+            return None
+        nodes: list = []
+        for sig in islot:                          # each signature the interface declares m with
+            same: dict = {}                        # chain index -> [(definition, modifiers)] of THAT signature
+            for i, (x, d) in enumerate(zip(chain, defs)):
+                if x is None:
+                    break
+                for mf in d:
+                    c = self.cs_sig_cmp(self.cs_def_sig(x, mf, m, si.key), sig)
+                    if c is None:
+                        return None                # a definition the pass cannot place: the implementer unknown
+                    if c:
+                        md = self.cs_member(x, mf, m, "mods")
+                        if not isinstance(md, frozenset):
+                            return None
+                        same.setdefault(i, []).append((mf, md))
+                if i >= j and i in same:
+                    break                          # the implementing class: the bases above it are not read
+            # the interface mapping: from the most derived class listing the interface up, the first definition of
+            # the member's own signature (a same-named one of another signature implements nothing)
+            impl = next((i for i in range(j, len(chain)) if chain[i] is None or i in same), None)
+            if impl is None:
+                if si.facts.kind == "abstract":
+                    continue
+                return None
+            if chain[impl] is None:
+                return None                        # an external base may implement m
+
+            def overrides(i):
+                return i in same and all("override" in md for _mf, md in same[i])
+
+            pick = impl
+            for i in range(impl):                  # the most derived override of the implementing member's slot
+                if overrides(i) and all(k not in same or overrides(k) for k in range(i + 1, impl)):
+                    pick = i
+                    break
+            body = [mf for mf, _md in same[pick] if "abstract" not in mf.flags]
+            if not body:
+                if si.facts.kind == "abstract":
+                    continue
+                return None
+            got = self.method_nodes(chain[pick], m, body)[0]
+            if not got:
+                return None
+            nodes.extend(k for k in got if k not in nodes)
+        return nodes or (() if si.facts.kind == "abstract" else None)
+
+    def cs_iface_sigs(self, frame, key, m) -> "list | None":
+        """The signatures, as class `frame` sees them (cs_def_sig), of every definition of m that interface key and
+        the interfaces it derives from declare (the members a call through key may bind), or None when one cannot be
+        read or none is found."""
+        mk = ("cisig", frame, key, m)
+        if mk in self.memo:
+            return self.memo[mk]
+        out: "list | None" = []
+        for k in [key] + sorted(self.mro_class_keys(key) - {key}):
+            ci = self.classes.get(k)
+            if ci is None or ci.facts.kind != "interface":
+                continue
+            for mf in ci.facts.methods.get(m) or ():
+                if "static" in mf.flags:
+                    continue
+                sig = self.cs_def_sig(ci, mf, m, frame)
+                if sig is None:
+                    out = None
+                    break
+                out.append(sig)
+            if out is None:
+                break
+        self.memo[mk] = out if out else None
+        return self.memo[mk]
+
+    def cs_type_desc(self, t, rel, si, ctx):
+        """A written type argument as ("b", builtin) | ("c", class key) | None (a type parameter, a generic, an
+        external or unresolved type)."""
+        if t is None:
+            return None
+        if t.kind == "builtin":
+            return ("b", t.name)
+        if t.kind not in ("name", "qualified"):
+            return None
+        v = self.eval_type(t, rel, si, opaque=False, ctx=ctx)
+        return ("c", next(iter(v.keys))) if v.kind == "inst" and len(v.keys) == 1 else None
+
+    def cs_closed_args(self, rel, si, recv):
+        """The receiver's declared generic interface type arguments (`IRepo<Order> _r` -> (("c", Order),)), each a
+        cs_type_desc or None, or None when it has none known."""
+        d = self.cs_decl_typeref(rel, si, recv)
+        if d is None:
+            return None
+        t = d[0]
+        if t.kind == "nullable" and t.args:
+            t = t.args[0]
+        if t.kind != "generic" or len(t.args) < 2:
+            return None
+        got = tuple(self.cs_type_desc(a, d[1], d[2], d[3]) for a in t.args[1:])
+        return got if any(g is not None for g in got) else None
+
+    def cs_type_args_apart(self, a, b, variance) -> bool:
+        """Can two concrete type arguments a, b (cs_type_desc) never denote one constructed interface? Invariant: they
+        differ. `out` / `in` (covariance / contravariance): also no reference conversion either way — two project
+        classes with closed chains, neither on the other's; a predefined type other than object against another
+        type (a value type never varies; nothing derives from string)."""
+        if a is None or b is None or a == b:
+            return False
+        if not variance:
+            return True
+        if a[0] == "b" or b[0] == "b":
+            return not any(x[0] == "b" and x[1] in ("object", "dynamic") for x in (a, b)) \
+                and all(x[0] != "b" or x[1] in _CS_KNOWN for x in (a, b))
+        sa, ca = self.cs_supertypes(a[1])
+        sb, cb = self.cs_supertypes(b[1])
+        return ca and cb and b[1] not in sa and a[1] not in sb
+
+    def cs_args_exclude(self, s, key, closed, entries) -> bool:
+        """Is implementer s never a run-time value of a receiver typed `key<closed>` — every base-list entry naming key
+        along s's chain has, at some position, a concrete type argument the receiver's can never be
+        (cs_type_args_apart; a variant type parameter only where no reference conversion exists either)?"""
+        kc = self.classes.get(key)
+        if kc is None:
+            return False
+        variance: tuple = ()
+        for rel_k, idx in self.class_parts(key):
+            t = self.cs_table(rel_k)
+            if t is None or not isinstance(t.get("variant"), dict):
+                return False
+            variance = variance or tuple(t["variant"].get(idx, ()))
+        listings = 0
+        for e in entries:
+            if e[0] != "class" or e[1] == key:
+                continue
+            c = self.classes.get(e[1])
+            if c is None:
+                return False
+            for b in c.facts.bases:
+                head = b.args[0] if b.kind == "generic" and b.args else b
+                v = self.eval_type(head, self.rel_of(c, b), c.facts.scope, opaque=False,
+                                   extra_shadow=c.facts.type_params, ctx=self.outer_key(c.key))
+                if v.kind != "inst" or v.keys != frozenset({key}):
+                    continue
+                listings += 1
+                if b.kind != "generic" or len(b.args) - 1 != len(closed):
+                    return False
+                mine = [self.cs_type_desc(a, self.rel_of(c, b), c.facts.scope, self.outer_key(c.key))
+                        for a in b.args[1:]]
+                if not any(self.cs_type_args_apart(x, y, variance[i] if i < len(variance) else "")
+                           for i, (x, y) in enumerate(zip(mine, closed))):
+                    return False                   # this listing may be the receiver's constructed interface
+        return listings > 0
 
     def override_reach(self, rel, m, verdicts, fam_c, lang_family):
         """The node keys a REPLACE group's typed sites may reach by dynamic dispatch beyond their static targets
         (a project override of m in a subclass of a receiver whose run-time class may be that subclass; the next
-        definer for a cooperative `super()`), or None when that cannot be known (then the group only ADDs)."""
+        definer for a cooperative `super()`), or None when that cannot be known (then the group only ADDs). C#
+        (virtual_dispatch, with the reader's modifiers): only the overrides virt_overrides finds (an `override` with
+        a body in an unbroken chain from the receiver's class, test files included), so a REPLACE removes a tuple
+        to a hiding `new` method or to an override of another slot."""
         out: set = set()
         for vd, _att in verdicts:
             if vd.kind != "typed" or not vd.dispatch:
                 continue
             for key in sorted(vd.recv_keys):
-                got = self.dispatch_reach(key, m, vd.dispatch, vd.on_class)
+                ci = self.classes.get(key)
+                if vd.dispatch == "sub" and ci is not None and ci.spec is not None \
+                        and "virtual_dispatch" in ci.spec.lookup_rules and self.cs_table(ci.rel) is not None:
+                    # C# (virtual_dispatch): only an override in an unbroken chain from the receiver's class runs,
+                    # never a `new` method, nor an override of another slot (one under a `new virtual`)
+                    got = self.virt_overrides({key}, m, set(vd.targets), True)
+                else:
+                    got = self.dispatch_reach(key, m, vd.dispatch, vd.on_class)
                 if got is None:
                     return None
                 out |= got
@@ -3661,6 +5510,12 @@ class _Linker:
                 changes.append((node, "call_weak", sorted(want)))
             elif "call_weak" in node:
                 changes.append((node, "call_weak", _DELETE))
+        for ck in sorted(self.line_attr):          # call_lines["key"]: the first call line of every emitted key
+            node = self.node_by_key.get(ck)
+            keep = {t: ln for t, ln in self.line_attr[ck].items() if t in (typed_attr.get(ck) or {})}
+            merged = _merged_lines(node.get("call_lines") if node is not None else None, keep)
+            if node is not None and merged is not None:
+                changes.append((node, "call_lines", merged))
         _apply(changes)
         return out
 
@@ -3700,6 +5555,28 @@ class _Linker:
 
 
 _DELETE = object()
+
+
+def _merged_lines(old, add) -> "dict | None":
+    """A NEW call_lines dict: `old`'s entries (its "name" sub-dict and any other key kept as they are) with every
+    `add` {target key: line} merged into "key" as the minimum with a line already there; None when nothing changes.
+    `old` is never mutated, so _apply's undo restores it exactly."""
+    if not add:
+        return None
+    base = old if isinstance(old, dict) else {}
+    cur = base.get("key")
+    keys = dict(cur) if isinstance(cur, dict) else {}
+    changed = not isinstance(cur, dict)
+    for t, ln in add.items():
+        have = keys.get(str(t))
+        if not (_ok_int(have) and have > 0) or ln < have:
+            keys[str(t)] = ln
+            changed = True
+    if not changed:
+        return None
+    out = {k: v for k, v in base.items() if k != "key"}
+    out["key"] = keys
+    return out
 
 
 def _apply(changes) -> None:

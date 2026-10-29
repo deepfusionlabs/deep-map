@@ -399,7 +399,16 @@ def gate_c_calls_plus_tests() -> None:
     check("the predicate IS sync._is_test_path (the one test-code rule)", pred is S._is_test_path, pred)
     corpus = ["tests/test_x.py", "src/contest.py", "lib/latest.js", "pkg/a_test.go", "app/Latest.java",
               "app/UserTest.java", "spec/x.rb", "x.spec.ts", "src/testing/util.py", "test_a.py", "a/b/c.py",
-              "__tests__/a.js", "e2e/run.ts", "src/tests_helper.py"]
+              "__tests__/a.js", "e2e/run.ts", "src/tests_helper.py",
+              # the .NET test-project directory rule (sync._DOTNET_TEST_DIR_SUFFIXES): a component ENDING with
+              # .Tests / .UnitTests / ... is test code; a test-support library and a look-alike name are not
+              "src/Shop.Tests/X.cs", "Shop.UnitTests/Fakes/FakeRepo.cs", "src/Shop.Testing.Abstractions/X.cs",
+              "src/Contest/X.cs", "api.test/router.ts", "SRC/SHOP.INTEGRATIONTESTS/X.CS", "src\\Shop.Specs\\X.cs",
+              "src/Shop.Tests.cs", "src/Shop.TestsHelpers/X.cs"]
+    check("the corpus holds .NET test projects the rule must call test code (premise)",
+          all(S._is_test_path(p) for p in ("src/Shop.Tests/X.cs", "Shop.UnitTests/Fakes/FakeRepo.cs",
+                                           "api.test/router.ts"))
+          and not any(S._is_test_path(p) for p in ("src/Shop.Testing.Abstractions/X.cs", "src/Contest/X.cs")))
     saved = sys.modules.get("sync")
     sys.modules["sync"] = None          # `import sync` raises ImportError -> the fallback mirror
     try:

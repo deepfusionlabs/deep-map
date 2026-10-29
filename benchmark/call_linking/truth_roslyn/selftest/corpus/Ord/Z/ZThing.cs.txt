@@ -1,0 +1,6 @@
+namespace Ord.Z;
+
+public static class ZThing
+{
+    public static int Z() => 26;
+}

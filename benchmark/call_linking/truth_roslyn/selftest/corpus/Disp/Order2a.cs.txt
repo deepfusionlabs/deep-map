@@ -1,0 +1,25 @@
+namespace Disp;
+
+public class Xa
+{
+    public virtual int Go() => 1;
+}
+
+public class Xd : Xa
+{
+}
+
+public class Xe : Xd
+{
+    public override int Go() => 3;
+}
+
+public class Xf : Xa
+{
+    public override int Go() => 4;
+}
+
+public static class Order2a
+{
+    public static int Narrow<T>(T t) where T : Xd => t.Go();
+}

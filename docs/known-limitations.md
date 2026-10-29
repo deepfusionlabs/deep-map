@@ -11,8 +11,9 @@ Many of these limits also show up while you work. Every link in the graph carrie
 - `INFERRED`: matched by name to exactly one symbol. Likelier, but still a name match.
 - `AMBIGUOUS`: several matches, or a dynamic link. A lead, not a fact: open the `file:line` and verify.
 
-`deepmap_impact` says when an empty answer is not proof and when a method answer is a lower bound. Setup and
-refresh end with a verdict, `READY`, `DEGRADED` or `FAILED`, and a `DEGRADED` verdict names the gap.
+`deepmap_impact` says when an empty answer is not proof and when a method answer is a lower bound, and for a C#
+symbol which calls the graph cannot see. Setup and refresh end with a verdict, `READY`, `DEGRADED` or `FAILED`, and
+a `DEGRADED` verdict names the gap.
 
 ## What DeepMap is not
 
@@ -202,8 +203,13 @@ project then uses that endpoint, and `status` / `doctor` report `isolation: OPER
 - **Pascal/Delphi.** Designer and package files (`.dfm`, `.lfm`, `.lpk`) are data and are not mapped, so
   form-to-unit wiring is not in the graph. A unit's scope node appears both as a `:Module` and a `:Class`.
 - **Test code is indexed with library code,** so on large repositories search can surface test files.
-  `DEEPMAP_EXCLUDE_TESTS=1` (off by default) drops test directories and the usual test filename conventions; the
-  JUnit `*Test.java` rule is case-sensitive on purpose, so `Latest.java` stays.
+  `DEEPMAP_EXCLUDE_TESTS=1` (off by default) drops test code: files under a test directory (`test`, `tests`,
+  `__tests__`, `spec`, `specs`, `testing`, `e2e`, `__mocks__`, or a .NET test-project directory whose name ends with
+  `.Tests`, `.Test`, `.UnitTests`, `.UnitTest`, `.IntegrationTests`, `.IntegrationTest`, `.FunctionalTests`,
+  `.AcceptanceTests` or `.Specs`, such as `src/Shop.Tests/`) and the usual test filename conventions. The JUnit
+  `*Test.java` rule is case-sensitive on purpose, so `Latest.java` stays, and `Shop.Testing/` (a test-support
+  library) stays production. The same rule decides what counts as a test caller or a test implementation for the
+  opt-in call-linking modes.
 - **Some directories graphify skips are never re-included.** Git-tracked source that graphify skips is rescued by
   default, except the virtualenv family (`env`, `.env`, `venv`, `.venv`, `*_env`, `*_venv`, `site-packages`,
   `lib64`), `dist/`, and vendor and tool directories (`node_modules`, `vendor`, `public`, `coverage`, caches).
@@ -252,8 +258,9 @@ project then uses that endpoint, and `status` / `doctor` report `isolation: OPER
 - **Calls on objects are mostly missing.** The engine emits no call through a parameter (`def f(inv): inv.m()`), a
   field (`_service.Find`), a Go, Rust or TypeScript receiver, a trait or a namespace, and misses calls inside
   nested closures, module-level calls, and `alias.f()` / `module.f()` in Python. Calls on `self`, `cls`, `super()`
-  and `this` are kept. On graphify 0.8.47 and later, `alias.func()` gets no link at all in a file that has two or
-  more methods of that name. **Workaround:** Grep for the callee name before calling a symbol a leaf.
+  and `this` are kept when the method is in the same file. On graphify 0.8.47 and later, `alias.func()` gets no link
+  at all in a file that has two or more methods of that name. C# has its own entry: "C# members and calls" below.
+  **Workaround:** Grep for the callee name before calling a symbol a leaf.
 - **A receiver-blind name can bind the wrong method.** A compiled regex's `pattern.search(...)` binds by bare name
   to a project method named `search`, graded `INFERRED` when only one exists. **Workaround:** read the call site
   behind an `INFERRED` receiver call.
@@ -303,8 +310,9 @@ default name match, or stay missing):
 
 - Untyped parameters (every JavaScript parameter), `Any` / `object` / `any` / `unknown`, and a call on whatever an
   external call returns (`re.compile(...).search()`) give no type.
-- No override or interface fan-out: a call through a TypeScript interface, a `typing.Protocol` or a class declared
-  under `if TYPE_CHECKING:` is never keyed, and a typed call of more than 4 targets is not linked.
+- No override or interface fan-out in Python, TypeScript and JavaScript (the C# reader has its own dispatch rules,
+  below): a call through a TypeScript interface, a `typing.Protocol` or a class declared under `if TYPE_CHECKING:`
+  is never keyed, and a typed call of more than 4 targets is not linked.
 - No flow narrowing: `isinstance`, `instanceof`, type guards and `as` casts do not type a name, and a name bound by a
   loop, `with`, `except`, a walrus, tuple unpacking or `del` (in TypeScript and JavaScript, any reassignment) is
   untyped. A module loaded at run time (`importlib.import_module(...)`, a computed `require()`) stays unknown.
@@ -314,10 +322,103 @@ default name match, or stay missing):
 - A name's existing name-matched links are replaced only when every call of that name in the caller is accounted
   for and the caller spans at most 5,000 lines; otherwise the typed link is added beside them.
 
-Go, Java, C#, Rust and Ruby have no reader yet: naming one changes nothing (the manifest records `no reader`). With
-the flags on, sync takes a few percent longer, and two typed links on the zod codebase differ between engine 0.8.39
-and 0.8.51. The flags shape the graph, so the background refresh skips (`recipe:settings`) a session whose value
-differs from the last build until `/deep-map:refresh`.
+Go, Java, Rust and Ruby have no reader yet: naming one changes nothing (the manifest records `no reader`). C# has
+its own opt-in reader (see "C# members and calls" below). With the flags on, sync takes a few percent longer, and
+two typed links on the zod codebase differ between engine 0.8.39 and 0.8.51. The flags shape the graph, so the
+background refresh skips (`recipe:settings`) a session whose value differs from the last build until
+`/deep-map:refresh`.
+
+### C# members and calls
+
+- **Computed properties and constructors are nodes; nothing links calls into them.** The engine makes no node for a
+  C# property or constructor and reads calls only inside method bodies. DeepMap adds them from one declaration-only
+  parse of each `.cs` file the engine kept (on by default): a computed property (an expression body `=> ...`, or an
+  accessor with a body) is a `:Method Owner.Prop` node, and one constructor per type is `:Method Owner.Owner`, the
+  way Java constructors appear: the type's first instance constructor, or its static constructor when it has no
+  instance one. Its other constructors get no node, and the calls inside them are never linked. The nodes are found
+  by search, but reading a property is never a link, a bare call never binds to them by name, and `new Order()` is
+  not linked to the constructor node, so `deepmap_impact` on a property or a constructor is always empty. By default
+  the calls made inside them are not linked either.
+  **Workaround:** grep the property name to find its readers.
+- **`DEEPMAP_CSHARP_MEMBERS=0`** turns this off (and the record and struct owners below): each `.cs` file is then
+  mapped exactly as the engine left it. After the next sync an existing graph has that shape apart from stale
+  nodes: a node whose key changed label is replaced (see below), and the property, constructor and owner nodes the
+  step added are stale then, which only a sync that prunes (`/deep-map:refresh`) removes.
+- **Not nodes:** auto-properties (`{ get; set; }`, `{ get; init; }`), indexers, operators, events, destructors,
+  primary constructors, a type's other constructors and local functions. Calls inside indexers, operators, event
+  accessors and destructors are not linked.
+- **Calls into another file through a receiver or a type name are never linked by default (engine limit, on
+  graphify 0.8.39 and 0.8.51).** The engine treats every dotted C# call (`_service.Find()`, `Helper.Build()`,
+  `this.Save()`, `x?.M()`) as a member call and resolves member calls only inside their own file, by name whatever
+  the receiver. A bare call (`Validate(x)`) links only when no other symbol in the project has that name, and a
+  generic call (`Get<Order>()`) never links. So a handler that reaches its services through injected fields shows no
+  outgoing calls, and those services show no callers from it.
+  **Workaround:** grep the method name, or opt in to the C# reader below.
+- **`deepmap_impact` says so.** When the queried name matches a C# symbol, the answer carries a C# note: an empty
+  answer is not proof and the note names what the graph cannot see; a non-empty answer is marked as a lower bound.
+  When the last sync ran the C# reader, the note describes that reader instead: calls through a receiver or a type
+  name are linked when the source states the receiver's type, but some can still be missing, and the note names the
+  main cases (an awaited value, a cast, an untyped lambda parameter, a static field in a static method, `dynamic`,
+  reflection, delegates, a mediator, Razor files, test, example and docs callers with the flag that links each,
+  overloaded callers, methods holding `#if`, a type's other constructors, overloads chosen by argument type, more
+  than 4 implementations, property reads). When the graph was built with `DEEPMAP_TYPED_CALLS_SHAPES` or
+  `DEEPMAP_TYPED_CALLS_IFACE` narrowing the reader, the note adds that more C# calls are unlinked than it lists. The
+  full list is the reader's entry below.
+- **MediatR `Send` to `Handle` is not linked,** with or without the reader, so a handler dispatched through a
+  mediator has no callers in the graph. **Workaround:** grep the request type to find who sends it.
+- **Opt-in: the C# typed-receiver reader.** Name `csharp` in `DEEPMAP_TYPED_CALLS` (for example
+  `python,typescript,javascript,csharp`; `=1` selects Python, TypeScript and JavaScript only), then
+  `/deep-map:refresh`. It reads `.cs` files only and types each receiver from the caller's own source: a field,
+  property or primary-constructor parameter by its declared type, a parameter, a local, `this.` and `base.` (into
+  another part of a partial class, or a base class in another file), `x?.M()`, `M<T>()`, a static `Type.M()`,
+  `using static` and extension methods. It links the calls inside a computed property's accessors and inside the
+  one constructor that has a node. A local binds only inside its own block, and a type name means a nested type of
+  the enclosing class, its base classes in the project or an outer class before a namespace-level type, as in C#.
+  - **Interface dispatch:** a call through an interface links the interface member (`INFERRED`) plus the
+    implementations in the project: one `INFERRED`, 2 to 4 `AMBIGUOUS` each, more than 4 none. An implementation is
+    the method the class runs for that member (a `new` method of the same name in a subclass that does not list the
+    interface again is not one); a static interface member has none (one with a body is an exact call); and a
+    receiver typed `IRepo<Order>` skips a class that implements only `IRepo<User>`.
+  - **Virtual dispatch:** a call of a virtual, abstract or override method (not sealed) through a typed receiver or
+    `this` links the method it names (`INFERRED`, never `EXTRACTED`) plus the overrides with a body in project
+    subclasses, counted the same way. `base.M()`, `new T().M()`, a `var x = new T()` / `T x = new()` local never
+    reassigned, a struct and a sealed or static class are exact, with no dispatch.
+  - When the whole set is known (at most 4, every implementing class read), these links replace the engine's own
+    name match for that call: a same-named method that does not implement the member loses its link. Otherwise they
+    are added beside it.
+  - An implementation or override in test code counts only for a test caller (test code as `DEEPMAP_EXCLUDE_TESTS`
+    defines it, .NET test-project directories such as `Shop.Tests/` included).
+  - `DEEPMAP_TYPED_CALLS_IFACE` selects what both kinds of dispatch link: unset or `1` / `true` / `yes` / `on` =
+    everything; `static` = the interface member or the named virtual method only; `impl` = the implementations or
+    overrides only; `static,impl` = both; `0` / `false` / `no` / `off` = neither. Unknown words are ignored (and
+    listed as `unknown_iface` in `.deepmap/graph_build.json`); a value that names no mode selects both.
+
+  Its gaps: more than 4 implementations or overrides link the named member only; a call whose method has a rival
+  overload the compiler may pick instead (a base-class method of that name and argument count, or an extension
+  method) is linked only when the argument types are plain to read (literals, values declared with a built-in type,
+  project class instances), and never `EXTRACTED`; parameter types count as one type, or as two, only when that is
+  proven, and anything unproven leaves the call's typed links added beside the engine's match, never replacing it
+  (so a call may stay untyped, but no true link is removed); the usings MSBuild adds implicitly (`ImplicitUsings`,
+  `<Using>` items) are not read, so when an interface and its implementation put their usings at different levels
+  (top of file vs inside the namespace) a parameter type can read as unknown and only the interface member is
+  linked; the receiver's own generic arguments are not substituted; calls in a type's other constructors and in Razor files
+  (`.razor`, `.cshtml`) are not linked; callers in tests, examples or docs get corrections only unless
+  `DEEPMAP_TYPED_CALLS_TESTS=1` / `DEEPMAP_TYPED_CALLS_NONPROD=1`; `dynamic`, reflection, delegates and a mediator
+  are not followed; an overloaded caller is never typed; the result of `await`, a cast or `as` is untyped, and so is
+  a static field read from a static method; an external base class's members, overloads and nested types are not
+  read. It stays off by default until its own pre-registered decision, measured against Roslyn, passes; with it
+  unset the graph is identical to a build without it.
+- **Records and structs on graphify 0.8.39.** On 0.8.39, records, record structs, structs and enums have no class
+  node; DeepMap adds one per type name and file and names their methods `Owner.method`, as 0.8.51 does by itself.
+  Two same-named methods in one file that 0.8.39 merged get separate nodes, but the calls inside the second stay
+  attributed to the first. A record, struct or enum declared before a same-named class of its file folds into that
+  class's node.
+- **A node whose key changes label is replaced.** On 0.8.39 those methods keep their keys but move from `:Function`
+  to `:Method` (and back with `DEEPMAP_CSHARP_MEMBERS=0`). Every sync removes such an old node before it writes,
+  whatever it decides about stale nodes, re-creates the full-text index and prints how many it removed
+  (`relabeled` in `.deepmap/sync_last.json`); the replacing node is embedded once. The same pass removes a stale
+  class node that duplicates a class this sync wrote under another key (same file, name and line). On 0.8.51 no key
+  changes label.
 
 ## Framework wiring per ecosystem
 
@@ -596,6 +697,13 @@ most, and about 64 KB of text per answer. The CLI exits 0 (answered), 2 (rejecte
   `DEEPMAP_IMPACT_PROFILE=rails` adds the ORM associations instead.
 - **Hops 2 and beyond expand through `AMBIGUOUS` links,** so a deep answer can include name-matched chains.
   **Workaround:** read `AMBIGUOUS` rows at the call site.
+- **Lines.** A row's `file:line` is where the dependent starts (its definition). The optional `call_line` is the
+  line of its call, and the CLI prints `file:<call_line> (call site; caller starts at line <line>)` (from hop 2 on,
+  `first call on the path` instead of `call site`). Only the first
+  call of each (caller, callee) pair is recorded; from hop 2 on it is the call into the next symbol of the path, not
+  into the queried one; and it is absent for a row whose own edge is not `CALLS`, for calls the opt-in
+  `DEEPMAP_GRAPHIFY_CALLS_PLUS` or `DEEPMAP_SUPPLEMENTAL_TS_RUST` adds, and on a graph synced before call lines were
+  recorded (until the next sync). **Workaround:** without a `call_line`, look for the call inside the caller.
 - **Counting.** `--limit` counts distinct (dependent, callee) rows, so a caller that reaches several same-named
   callees uses several rows; rows identical in every field are collapsed. The CLI clamps `--top-k` to 1 to 50 and
   `--limit` to 1 to 100, like the MCP tools.

@@ -13,6 +13,12 @@ Buckets (the audit_sample.py buckets come from here):
 each split by caller class (prod / test / nonprod, design §2.6) and, with --truth, by verdict
 (confirmed / refuted / unverified — compare_calls' rule).
 
+With a DISPATCH truth (truth_roslyn.py, D3-cs; PREREG_CS §8.5) the verdict is §8.5's: confirmed (T_s) |
+dispatch-confirmed (T_d) | refuted | unverified, and each item also carries `verdict_static` (dispatch ignored; never
+decisive) and `callee_class`. The delta then has a `cs` block: G2d — the ADDED edges whose caller is not test code
+and whose callee is declared in a test file (the product's rule, _common.caller_class / sync._is_test_path), zero
+allowed. A jedi / tsc truth's delta is exactly as before.
+
 usage: python delta.py <base.json> <variant.json> [--truth=truth.json] [--src-prefix=a/,b/] [--json=out.json]
        [--list=N]   (print the first N items of each bucket)
 """
@@ -40,8 +46,12 @@ def delta(base, variant, truth=None, prefixes=None) -> dict:
         name_of.setdefault(k, n.get("name"))
         file_of.setdefault(k, n.get("source_file"))
     E0, E1 = C.edges_of(base), C.edges_of(variant)
-    T = by_cn = None
-    if truth is not None:
+    T = by_cn = P = None
+    cs = truth is not None and C.has_dispatch(truth)
+    if cs:
+        P = C.truth_pairs_cs(truth, nodes, None)
+        T, by_cn = P["Ts"], P["by_cn_static"]
+    elif truth is not None:
         T, by_cn, _st = C.truth_pairs(truth, nodes, None)
 
     def item(pair, g0, g1):
@@ -49,7 +59,11 @@ def delta(base, variant, truth=None, prefixes=None) -> dict:
         it = {"caller": a, "callee": b, "caller_name": name_of.get(a), "callee_name": name_of.get(b),
               "caller_file": file_of.get(a), "callee_file": file_of.get(b), "base": g0, "variant": g1,
               "caller_class": C.caller_class(file_of.get(a))}
-        if T is not None:
+        if cs:
+            it["verdict"] = C.classify_pair_cs(pair, P["Ts"], P["Td"], P["by_cn"], name_of)
+            it["verdict_static"] = C.classify_pair(pair, T, by_cn, name_of)
+            it["callee_class"] = C.caller_class(file_of.get(b))
+        elif T is not None:
             it["verdict"] = C.classify_pair(pair, T, by_cn, name_of)
         return it
 
@@ -74,6 +88,8 @@ def delta(base, variant, truth=None, prefixes=None) -> dict:
             if "verdict" in it:
                 c[f"verdict:{it['verdict']}"] += 1
                 c[f"{it['caller_class']}:{it['verdict']}"] += 1
+            if "verdict_static" in it:
+                c[f"static:{it['verdict_static']}"] += 1
         counts[b] = {"n": len(out[b]), **dict(sorted(c.items()))}
     void = []
     for side, d in (("base", base), ("variant", variant)):
@@ -86,12 +102,17 @@ def delta(base, variant, truth=None, prefixes=None) -> dict:
                     "(an inert variant)")
     xfile = sorted([it["caller"], it["callee"]] for it in out["EXTRACTED"]
                    if C.norm_path(it["caller_file"]) != C.norm_path(it["callee_file"]))
-    return {"base": base.get("_path"), "variant": variant.get("_path"), "base_flags": base.get("flags"),
-            "variant_flags": variant.get("flags"), "prefixes": prefixes, "void": void,
-            "extracted_cross_file": len(xfile), "extracted_cross_file_pairs": xfile[:20],
-            "node_set_identical": not node_mismatch, "node_mismatch": node_mismatch[:50],
-            "n_node_mismatch": len(node_mismatch), "edges_base": len(E0), "edges_variant": len(E1),
-            "counts": counts, "items": out}
+    res = {"base": base.get("_path"), "variant": variant.get("_path"), "base_flags": base.get("flags"),
+           "variant_flags": variant.get("flags"), "prefixes": prefixes, "void": void,
+           "extracted_cross_file": len(xfile), "extracted_cross_file_pairs": xfile[:20],
+           "node_set_identical": not node_mismatch, "node_mismatch": node_mismatch[:50],
+           "n_node_mismatch": len(node_mismatch), "edges_base": len(E0), "edges_variant": len(E1),
+           "counts": counts, "items": out}
+    if cs:
+        g2d = sorted([it["caller"], it["callee"]] for it in out["added"]
+                     if it["caller_class"] != "test" and it.get("callee_class") == "test")
+        res["cs"] = {"truth_kind": "dispatch", "g2d_added_nontest_to_test": len(g2d), "g2d_pairs": g2d[:50]}
+    return res
 
 
 def main(argv=None) -> int:
@@ -102,7 +123,7 @@ def main(argv=None) -> int:
         return 2
     base, var = C.load_json(args[0]), C.load_json(args[1])
     base["_path"], var["_path"] = os.path.basename(args[0]), os.path.basename(args[1])
-    truth = C.load_json(opts["--truth"]) if opts.get("--truth") else None
+    truth = C.load_truth(opts["--truth"]) if opts.get("--truth") else None
     d = delta(base, var, truth, C.parse_prefixes(opts.get("--src-prefix")))
     print(f"delta {d['base']} -> {d['variant']}: edges {d['edges_base']} -> {d['edges_variant']}"
           f"  node sets identical: {d['node_set_identical']} ({d['n_node_mismatch']} differ)"
@@ -111,6 +132,9 @@ def main(argv=None) -> int:
         print(f"  VOID: {why}")
     for b in BUCKETS:
         print(f"  {b:9s} " + " ".join(f"{k}={v}" for k, v in d["counts"][b].items()))
+    if d.get("cs"):
+        print(f"  G2d (added, non-test caller -> a node in a test file): {d['cs']['g2d_added_nontest_to_test']}"
+              + (f" e.g. {d['cs']['g2d_pairs'][:3]}" if d["cs"]["g2d_pairs"] else ""))
     n = int(opts.get("--list") or 0)
     for b in BUCKETS:
         for it in d["items"][b][:n]:

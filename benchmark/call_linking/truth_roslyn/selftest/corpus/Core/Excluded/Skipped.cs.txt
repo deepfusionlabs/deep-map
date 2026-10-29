@@ -1,0 +1,8 @@
+namespace Core.Excluded;
+
+public static class Skipped
+{
+    public static int X() => Y();
+
+    private static int Y() => 1;
+}

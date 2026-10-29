@@ -1,0 +1,23 @@
+namespace Microsoft.Extensions.Hosting
+{
+    public static class CoreHostingExtensions
+    {
+        public static int Warm(this string s) => s.Length;
+    }
+}
+
+namespace Microsoft.Extensions.Logging
+{
+    public static class CoreLoggingExtensions
+    {
+        public static int Log2(this string s) => s.Length;
+    }
+}
+
+namespace System.Linq
+{
+    public static class CoreLinqExtensions
+    {
+        public static int CountX<T>(this System.Collections.Generic.IEnumerable<T> items) => 0;
+    }
+}

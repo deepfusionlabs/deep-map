@@ -1,0 +1,6 @@
+namespace Ord.P;
+
+public static class PThing
+{
+    public static int P() => Ord.A.AThing.A() + Ord.B.BThing.B() + Ord.Z.ZThing.Z();
+}

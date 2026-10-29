@@ -1,0 +1,14 @@
+internal static class Extensions
+{
+    public static int Twice(this int x) => x + x;
+}
+
+internal class Mapper
+{
+    public int Map() => 2;
+}
+
+public class Helper
+{
+    public static int Id() => 2;
+}

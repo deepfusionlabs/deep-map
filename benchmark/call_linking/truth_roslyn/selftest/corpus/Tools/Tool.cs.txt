@@ -1,0 +1,8 @@
+namespace Tools;
+
+public static class Tool
+{
+    public static void Run()
+    {
+    }
+}

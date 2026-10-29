@@ -1,0 +1,23 @@
+namespace Core;
+
+public static class Platform
+{
+    public static int Probe()
+    {
+#if NET10_0 && NET9_0_OR_GREATER && NETCOREAPP3_1_OR_GREATER && NET && NETCOREAPP
+        return Ten();
+#endif
+#if CORE_FEATURE && RELEASE && TRACE
+        return Feature();
+#endif
+#if DEBUG || ROOT_DEBUG || NET11_0_OR_GREATER || NETSTANDARD
+        return Debugging();
+#endif
+    }
+
+    private static int Ten() => 10;
+
+    private static int Feature() => 1;
+
+    private static int Debugging() => 2;
+}

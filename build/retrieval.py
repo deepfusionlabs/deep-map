@@ -529,7 +529,8 @@ def query_callers(driver, symbol: str, limit: int = 30, *, in_file: "str | None"
     `confidence` — name-resolved CALLS edges are INFERRED (one candidate) or AMBIGUOUS (the name
     maps to several symbols); the firmest edges are ordered FIRST so the audit reads trust-first.
     Shared by the deepmap_impact MCP tool and the `deepmap_cli.py impact` command. `in_file` (a full-match
-    source_file regex; query_impact's module-qualified reading) restricts the callee to that file.
+    source_file regex; query_impact's module-qualified reading) restricts the callee to that file. `line` is
+    where the caller starts; `call_line` (only when sync recorded it as the edge's `r.line`) is its first call.
     """
     # Normalise the query INPUT (never stored data) to how names are stored: trim padding (' foo ' matched
     # nothing), translate Ruby's `Class#method` to the dotted `Class.method` (F10d), THEN drop a leading
@@ -540,17 +541,33 @@ def query_callers(driver, symbol: str, limit: int = 30, *, in_file: "str | None"
     params["limit"] = limit
     with driver.session() as s:
         # RETURN DISTINCT before LIMIT: a name that resolves to N same-named nodes projects N identical
-        # rows per caller, which used to fill the LIMIT window with copies of the first caller.
+        # rows per caller, which used to fill the LIMIT window with copies of the first caller. The call line
+        # is a min() grouped by exactly the columns RETURN DISTINCT projected before it existed, so two
+        # same-named callees with different call lines never split one caller into two rows.
         rows = s.run(_timed(s,
             _callee_match(in_file) +
             "MATCH (caller)-[r:CALLS]->(callee) "
-            "WITH caller, callee, coalesce(r.confidence, 'INFERRED') AS confidence "
-            "RETURN DISTINCT caller.name AS caller, labels(caller)[0] AS caller_type, "
-            "       caller.source_file AS file, caller.start_line AS line, "
-            "       confidence, callee.name AS callee "
+            "WITH caller, callee, coalesce(r.confidence, 'INFERRED') AS confidence, r.line AS rl "
+            "WITH caller.name AS cn, labels(caller)[0] AS ct, caller.source_file AS cf, caller.start_line AS cs, "
+            "     confidence, callee.name AS ce, min(rl) AS cl "
+            "RETURN DISTINCT cn AS caller, ct AS caller_type, cf AS file, cs AS line, "
+            "       confidence, ce AS callee, cl AS call_line "
             "ORDER BY CASE confidence WHEN 'EXTRACTED' THEN 0 WHEN 'INFERRED' THEN 1 ELSE 2 END, "
             "         caller, file, line, callee LIMIT $limit"), **params)
-        return [dict(r) for r in rows]
+        return [_with_call_line(dict(r)) for r in rows]
+
+
+def _with_call_line(row):
+    """`row` with `call_line` only when it is known: a positive int on a :CALLS hop. The walk and query_callers
+    project null for an older graph (sync wrote no `r.line`), a non-CALLS hop or a producer that records no line;
+    dropping the key keeps such a row byte-identical to the rows impact returned before call_line existed."""
+    if isinstance(row, dict) and "call_line" in row:
+        v = row.get("call_line")
+        if (not isinstance(v, int) or isinstance(v, bool) or v <= 0
+                or str(row.get("via") or "CALLS") != "CALLS"):
+            row = dict(row)
+            row.pop("call_line", None)
+    return row
 
 
 # ---- Track C: multi-hop reverse-reachability over runtime edges -------------
@@ -734,12 +751,114 @@ def _present_rel_types(session) -> "set | None":
 def _count_symbol_matches(session, name: str, name_rx) -> "int | None":
     """How many graph nodes the symbol resolves to (the walk's own callee match): 0 means "not in the
     graph", so an empty answer can say which kind of empty it is. None when the answer is unreadable."""
-    rec = _first(session.run(_timed(session, _CALLEE_MATCH + "RETURN count(callee) AS matched"),
+    return _count_symbol_matches_langs(session, name, name_rx)[0]
+
+
+# ---- C# in the impact notes (2026-10 C# field report) ------------------------------------------------------
+# graphify marks every dotted C# call (`_svc.M()`, `Type.M()`, `this.M()`) as a member call, and its cross-file
+# pass skips member calls, so a C# graph links only same-file calls and bare calls to a name no other symbol
+# shares; calls inside constructors and property getters are never read. "Often not resolved" understated that, so
+# the count query also returns the matched symbols' source-file extensions (`exts`, in the SAME round trip), which
+# map to language families through edge_resolve.lang_family, and a C# match gets notes that say what this graph
+# cannot see. An answer without extensions (an older test double) is an unknown language: the notes stay as before.
+_CSHARP_FAMILY = "dotnet"
+# edge_resolve._FAMILY_EXTS["dotnet"] without the dots, used only when edge_resolve can't be imported here;
+# tests/impact_csharp_honesty_gates.py locks it to the real list.
+_DOTNET_EXTS_MIRROR = frozenset({"cs", "vb", "fs", "fsx", "razor", "cshtml"})
+_COUNT_EXTS = "collect(DISTINCT toLower(last(split(coalesce(callee.source_file, ''), '.')))) AS exts"
+# What sync records on the :_DeepMapMeta singleton: the typed-call languages that actually ran (absent = an older
+# graph, read as "not linked") and, beside them, whether that pass ran narrowed (typed_call_narrowed: true when
+# DEEPMAP_TYPED_CALLS_SHAPES / DEEPMAP_TYPED_CALLS_IFACE selected fewer than all shapes / modes; absent = unknown,
+# read as not narrowed). Both come from ONE read, made once and only when a C# symbol matched.
+_TYPED_LANGS_CYPHER = "MATCH (m:_DeepMapMeta) RETURN m.typed_call_langs AS l, m.typed_call_narrowed AS n LIMIT 1"
+
+
+def _count_symbol_matches_langs(session, name: str, name_rx) -> "tuple[int | None, set | None]":
+    """(_count_symbol_matches' count, the language families of the matched symbols' files): one query. The
+    families are None when the answer carries no extensions (unknown, so no language-specific note)."""
+    rec = _first(session.run(_timed(session, _CALLEE_MATCH + "RETURN count(callee) AS matched, " + _COUNT_EXTS),
                              name=name, name_rx=name_rx))
     try:
-        return int(rec["matched"])
+        matched = int(rec["matched"])
     except Exception:  # noqa: BLE001 — no record / a test double's row: unknown, not zero
+        matched = None
+    try:
+        exts = rec["exts"]
+    except Exception:  # noqa: BLE001 — a record without the extensions (an older double): unknown language
+        exts = None
+    return matched, _ext_families(exts)
+
+
+def _ext_families(exts) -> "set | None":
+    """{language family} of file extensions ('cs' -> 'dotnet'); an extension no family knows counts as its own
+    'other:<ext>' language, so a mix is never read as C# alone. An empty extension (a node without a source
+    file) or a path without one is skipped. None when `exts` is None or unreadable."""
+    if exts is None or isinstance(exts, (str, bytes)):
         return None
+    try:
+        items = list(exts)
+    except TypeError:
+        return None
+    try:
+        from edge_resolve import lang_family
+    except Exception:  # noqa: BLE001 — build/ not importable here: the mirror (C# or another language)
+        lang_family = None
+    families = set()
+    for raw in items:
+        ext = str(raw or "").strip().lower().lstrip(".")
+        if not ext or "/" in ext or "\\" in ext:
+            continue
+        if lang_family is not None:
+            family = lang_family("x." + ext)
+        else:
+            family = _CSHARP_FAMILY if ext in _DOTNET_EXTS_MIRROR else None
+        families.add(family or f"other:{ext}")
+    return families
+
+
+def _file_families(files) -> "set | None":
+    """_ext_families of source paths (the module-qualified reading's matched files)."""
+    exts = []
+    for f in files or []:
+        base = str(f or "").replace("\\", "/").rsplit("/", 1)[-1]
+        if "." in base:
+            exts.append(base.rsplit(".", 1)[-1])
+    return _ext_families(exts)
+
+
+def _csharp_mode(langs) -> "str | None":
+    """'only' when every matched symbol is C#, 'mixed' when C# is one of several languages, else None."""
+    if not langs or _CSHARP_FAMILY not in langs:
+        return None
+    return "only" if len(langs) == 1 else "mixed"
+
+
+def _typed_call_meta(session) -> "tuple[frozenset | None, bool]":
+    """(the typed-call languages sync recorded as having run, lower-cased; did that pass run narrowed) from ONE
+    timed read of the :_DeepMapMeta singleton. The languages are None when the graph has no record (an older graph),
+    no meta node, or the read fails benignly: all read as "not linked". Narrowed is True only for a recorded boolean
+    true beside a readable language list; absent, null, false, a non-bool value or a record without the column
+    (an older double) read as not narrowed. An instance-level failure re-raises (never answer from an outage), like
+    _present_rel_types."""
+    try:
+        rec = _first(session.run(_timed(session, _TYPED_LANGS_CYPHER)))
+        value = None if rec is None else rec["l"]
+    except Exception as exc:  # noqa: BLE001
+        if _impact_should_raise(exc):
+            raise
+        return None, False
+    if not isinstance(value, (list, tuple)):
+        return None, False
+    try:
+        narrowed = rec["n"] is True
+    except Exception:  # noqa: BLE001 — a record without the column: unknown, read as not narrowed
+        narrowed = False
+    return frozenset(str(v).strip().lower() for v in value if isinstance(v, str)), narrowed
+
+
+def _typed_call_langs(session) -> "frozenset | None":
+    """_typed_call_meta's languages alone."""
+    return _typed_call_meta(session)[0]
 
 
 # ---- module-qualified names (round 8, J6) ----------------------------------------------------------------
@@ -887,12 +1006,81 @@ def _method_shaped(symbol: str, rows) -> bool:
     return any("." in str(r.get("callee") or "").lstrip(".") for r in rows if isinstance(r, dict))
 
 
-def _impact_rows(rows, symbol: str, limit: int, matched, max_hops, notes=(), shape=None) -> ImpactRows:
+_EMPTY_TAIL = (" That is NOT proof nothing uses it: calls through a receiver or method (obj.m(), self.m()), a "
+               "trait/interface, a callback or a namespace are often not resolved by the extractor — verify with "
+               "Grep or by reading the call sites before treating it as unused.")
+# The C# notes ({m} = the queried symbol's last name segment). The *_TYPED forms apply once sync recorded that the
+# opt-in C# typed-receiver linking ran (DEEPMAP_TYPED_CALLS=csharp; :_DeepMapMeta.typed_call_langs). They share
+# _CS_TYPED_CORE: what that reader (build/receiver_facts_csharp.py + typed_calls' C# rules) still leaves unlinked,
+# measured on graphify 0.8.39 and 0.8.51. It types no receiver the source leaves untyped (an await, a cast or `as`,
+# an untyped lambda parameter) and no static field read in a static method; reads only .cs files, so a Razor caller
+# or Razor-defined target is never linked; gives test files and example / sample / demo / docs folders corrections
+# only unless DEEPMAP_TYPED_CALLS_TESTS=1 / DEEPMAP_TYPED_CALLS_NONPROD=1; never types a caller that shares one node
+# with another scope (overloads), holds #if, or has no node (a static constructor beside an instance one, a second
+# or later instance constructor: only the type's first instance constructor, or its only one, is the Owner.Owner
+# node); leaves a call unknown when a rival overload makes it turn on argument types it cannot read; and links only
+# the declared member when an interface or virtual member has more than 4 implementations. "some can still be
+# missing, including" keeps the list from reading as complete. _CS_NARROWED follows any typed note when sync
+# recorded typed_call_narrowed = true (DEEPMAP_TYPED_CALLS_SHAPES / DEEPMAP_TYPED_CALLS_IFACE narrowed).
+# Every C# note, untyped and typed, says "reading a property is never a link" in those words, never with {m}: the
+# queried name is usually a method, and "reading a property (x.<method>)" read as if the method were a property.
+_CS_EMPTY = (" That is NOT proof nothing uses it: for C#, this graph links only calls inside the same file and bare "
+             "calls to a name no other symbol shares. A call from another file through a receiver (a field, "
+             "parameter or local, as in _service.{m}()) or a type name (Helper.{m}()) is never resolved, calls made "
+             "inside constructors and property getters are not read, a handler reached through a mediator (MediatR "
+             "Send) has no callers here, and reading a property is never a link. Grep for {m} or read the call "
+             "sites before treating it as unused.")
+_CS_TYPED_CORE = ("calls through a receiver or a type name are linked in this graph when the source states the "
+                  "receiver's type, but some can still be missing, including calls on an awaited value, a cast, an "
+                  "untyped lambda parameter or a static field inside a static method; calls through dynamic, "
+                  "reflection, delegates or a mediator (MediatR Send); calls from Razor files (.razor, .cshtml) or to "
+                  "code in them; calls from test files, unless the graph was built with DEEPMAP_TYPED_CALLS_TESTS=1, "
+                  "and from example, sample, demo or docs folders, unless it was built with "
+                  "DEEPMAP_TYPED_CALLS_NONPROD=1; calls from an overloaded method, a method holding #if, a static "
+                  "constructor beside an instance one or a second or later instance constructor; and calls whose "
+                  "overload depends on the argument types. A call through an interface or a virtual member with more "
+                  "than 4 implementations reaches only the declared member, and reading a property is never a link.")
+_CS_EMPTY_TYPED = (" That is NOT proof nothing uses it: C# " + _CS_TYPED_CORE +
+                   " Grep for {m} or read the call sites before treating it as unused.")
+_CS_ROWS = ("For C#, these dependents are a lower bound: only calls inside the same file and bare calls to a name no "
+            "other symbol shares are linked, so callers that reach it from another file through a receiver (a "
+            "field, parameter or local) or a type name, through an interface or a mediator, or from a constructor "
+            "or property getter are missing, and reading a property is never a link. Grep for {m} to find the rest.")
+_CS_ROWS_TYPED = "For C#, these dependents are a lower bound: " + _CS_TYPED_CORE + " Grep for {m} to find the rest."
+_CS_MIXED_EMPTY = (" For the C# matches, calls from another file through a receiver or a type name are never "
+                   "resolved, constructor and getter bodies are not read, and reading a property is never a link.")
+_CS_MIXED_EMPTY_TYPED = " For the C# matches, " + _CS_TYPED_CORE
+_CS_MIXED_ROWS = ("Some matches are C# symbols: callers that reach them from another file through a receiver or a "
+                  "type name, or from constructors and getters, are not linked, and reading a property is never a "
+                  "link. Treat their dependents as a lower bound and grep for {m}.")
+_CS_MIXED_ROWS_TYPED = ("Some matches are C# symbols, and their dependents are a lower bound: " + _CS_TYPED_CORE +
+                        " Grep for {m} to find the rest.")
+_CS_NARROWED = (" This graph was built with DEEPMAP_TYPED_CALLS_SHAPES or DEEPMAP_TYPED_CALLS_IFACE narrowed, so more "
+                "C# calls are unlinked than listed here.")
+
+
+def _last_segment(symbol: str) -> str:
+    """The last name segment of a queried symbol (after . : # ::), the name a grep should look for."""
+    text = str(symbol or "").strip()
+    parts = [p.strip() for p in re.split(r"::|[.:#]", text) if p.strip()]
+    seg = parts[-1] if parts else text
+    return seg[:-2] if seg.endswith("()") and len(seg) > 2 else seg
+
+
+def _impact_rows(rows, symbol: str, limit: int, matched, max_hops, notes=(), shape=None, langs=None,
+                 typed_langs=None, typed_narrowed=False) -> ImpactRows:
     """Dedupe (the Cypher already DISTINCTs; this is the safety net), trim the one look-ahead row to
     `limit`, and attach the notes that keep a short, empty or partial answer honest. `shape` is the name the
-    method caveat judges (the resolved symbol of a module-qualified name; default `symbol`)."""
-    rows = _dedup_impact_rows(rows)
+    method caveat judges (the resolved symbol of a module-qualified name; default `symbol`). `langs` (the matched
+    symbols' language families; None = unknown), `typed_langs` (the typed-call languages sync recorded) and
+    `typed_narrowed` (sync recorded that pass as narrowed; only an exact True counts) decide the C# wording; an
+    unknown or C#-free answer gets exactly the notes it always did."""
+    rows = _dedup_impact_rows([_with_call_line(r) for r in rows])
     notes = list(notes)
+    cs = _csharp_mode(langs)
+    linked = bool(typed_langs) and "csharp" in typed_langs
+    tail = _CS_NARROWED if linked and typed_narrowed is True else ""   # appended to the typed note only
+    m = _last_segment(symbol)
     truncated = len(rows) > limit
     if truncated:
         rows = rows[:limit]
@@ -901,12 +1089,19 @@ def _impact_rows(rows, symbol: str, limit: int, matched, max_hops, notes=(), sha
     elif not rows:
         found = (f"{symbol!r} is in the graph ({_plural(matched, 'matching symbol')}) but no dependents "
                  "were found." if matched else f"No dependents of {symbol!r} were found.")
-        notes.append(found + " That is NOT proof nothing uses it: calls through a receiver or method "
-                     "(obj.m(), self.m()), a trait/interface, a callback or a namespace are often not "
-                     "resolved by the extractor — verify with Grep or by reading the call sites before "
-                     "treating it as unused.")
-    if rows and _method_shaped(symbol if shape is None else shape, rows):
-        notes.append(_METHOD_CAVEAT)   # a NON-empty answer can be partial too (Context.Next: 2 of its 4 callers)
+        if cs == "only":            # still the ONE note of an empty answer
+            notes.append(found + (_CS_EMPTY_TYPED if linked else _CS_EMPTY).replace("{m}", m) + tail)
+        else:
+            notes.append(found + _EMPTY_TAIL + ((_CS_MIXED_EMPTY_TYPED if linked else _CS_MIXED_EMPTY)
+                                                .replace("{m}", m) + tail if cs == "mixed" else ""))
+    if rows:
+        if cs == "only":            # every C# answer is a lower bound, method-shaped or not: it replaces the caveat
+            notes.append((_CS_ROWS_TYPED if linked else _CS_ROWS).replace("{m}", m) + tail)
+        else:
+            if _method_shaped(symbol if shape is None else shape, rows):
+                notes.append(_METHOD_CAVEAT)   # a NON-empty answer can be partial too (Context.Next: 2 of 4 callers)
+            if cs == "mixed":
+                notes.append((_CS_MIXED_ROWS_TYPED if linked else _CS_MIXED_ROWS).replace("{m}", m) + tail)
     return ImpactRows(rows, matched=matched, truncated=truncated, max_hops=max_hops, notes=notes)
 
 
@@ -934,20 +1129,26 @@ def _impact_walk(session, rel_pattern: str, max_hops: int, name: str, name_rx, l
         "     [r IN rels | type(r)] AS via_path, "
         "     reduce(w = 0, r IN rels | CASE coalesce(r.confidence, 'INFERRED') "
         "         WHEN 'AMBIGUOUS' THEN 2 "
-        "         WHEN 'INFERRED' THEN (CASE WHEN w < 1 THEN 1 ELSE w END) ELSE w END) AS worstOrd "
+        "         WHEN 'INFERRED' THEN (CASE WHEN w < 1 THEN 1 ELSE w END) ELSE w END) AS worstOrd, "
+        # The dependent's own first call line on this path: rels[0] is the edge leaving the dependent (`via`),
+        # and only a :CALLS edge carries one (sync's r.line; null on an older graph).
+        "     CASE WHEN type(rels[0]) = 'CALLS' THEN rels[0].line END AS cl "
         # Equal-hop, equal-confidence paths tie-break on wiring severity, so a dependent that both cascades
         # and references its owner reads `via CASCADES`, not whichever edge Neo4j happened to expand first.
-        f"WITH caller, callee, hop, via, via_path, worstOrd, {via_rank} AS viaRank "
-        "ORDER BY hop ASC, worstOrd ASC, viaRank ASC, via ASC "
+        f"WITH caller, callee, hop, via, via_path, worstOrd, {via_rank} AS viaRank, cl "
+        "ORDER BY hop ASC, worstOrd ASC, viaRank ASC, via ASC, cl ASC "
         "WITH caller, callee, "
-        "     collect({hop:hop, via:via, via_path:via_path, worstOrd:worstOrd})[0] AS best "
+        "     collect({hop:hop, via:via, via_path:via_path, worstOrd:worstOrd, cl:cl})[0] AS best "
+        # The call line is a min() grouped by exactly the columns RETURN DISTINCT projected before it existed, so
+        # the row set is unchanged: same-named callees with different call lines never split one dependent.
+        "WITH caller.name AS cn, labels(caller)[0] AS ct, caller.source_file AS cf, caller.start_line AS cs, "
+        "     CASE best.worstOrd WHEN 0 THEN 'EXTRACTED' WHEN 1 THEN 'INFERRED' "
+        "          ELSE 'AMBIGUOUS' END AS confidence, "
+        "     callee.name AS ce, best.hop AS hop, best.via AS via, best.via_path AS vp, min(best.cl) AS cl "
         # DISTINCT before LIMIT: a name resolving to N same-named nodes projects N identical rows per
         # caller, which used to fill the LIMIT window with copies of the first caller (10 of 52 shown).
-        "RETURN DISTINCT caller.name AS caller, labels(caller)[0] AS caller_type, "
-        "       caller.source_file AS file, caller.start_line AS line, "
-        "       CASE best.worstOrd WHEN 0 THEN 'EXTRACTED' WHEN 1 THEN 'INFERRED' "
-        "            ELSE 'AMBIGUOUS' END AS confidence, "
-        "       callee.name AS callee, best.hop AS hop, best.via AS via, best.via_path AS via_path "
+        "RETURN DISTINCT cn AS caller, ct AS caller_type, cf AS file, cs AS line, confidence, ce AS callee, "
+        "       hop, via, vp AS via_path, cl AS call_line "
         "ORDER BY CASE confidence WHEN 'EXTRACTED' THEN 0 WHEN 'INFERRED' THEN 1 ELSE 2 END, "
         "         hop, caller, file, line, callee LIMIT $limit + 1"), **params)
     return [dict(r) for r in rows]
@@ -994,8 +1195,13 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
     server-side timeout) falls back to one-hop query_callers; a walk that exhausts Neo4j's transaction
     memory (a hub name) is retried at 1 hop; only an instance-down error fails loud.
 
+    `line` is where the dependent starts (its own start_line); `call_line`, present only when sync recorded it on
+    the dependent's :CALLS edge (r.line), is the dependent's first call on the representative path.
+
     Returns an ImpactRows (a list) whose `notes` keep a short or empty answer honest: not in the graph
-    vs. in the graph with no resolved dependents, truncated at `limit`, or walked at reduced depth."""
+    vs. in the graph with no resolved dependents, truncated at `limit`, or walked at reduced depth; for a C#
+    match they also say which C# calls this graph does not link (worded by the recorded typed-call languages and,
+    from the same meta read, whether that typed pass ran narrowed)."""
     types, max_hops = _resolve_impact_params(edge_types, max_hops)
     # What was explicitly asked for (an unknown profile / edge type is named, never silently ignored).
     requested, notes = _impact_request(edge_types)
@@ -1007,9 +1213,11 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
     name_rx = _impact_name_regex(name)
     file_rx = None          # set only for a module-qualified reading (round 8, J6): the callee's source file
     matched, reduced_from = None, None
+    langs, typed_langs = None, None   # the matched symbols' language families; the recorded typed-call languages
+    typed_narrowed = False            # sync recorded that typed pass as narrowed (SHAPES / IFACE)
     try:
         with driver.session() as s:
-            matched = _count_symbol_matches(s, name, name_rx)
+            matched, langs = _count_symbol_matches_langs(s, name, name_rx)
             if matched == 0:
                 # A QUALIFIED name with no direct match may be module-qualified (`provision.is_bolt_up`): read
                 # it as <symbol> in that module's file before calling it absent. A bare name skips this.
@@ -1017,12 +1225,15 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
                 if reading is not None:
                     name, name_rx, file_rx = reading["name"], reading["name_rx"], reading["file_rx"]
                     matched = reading["matched"]
+                    langs = _file_families(reading.get("files"))
                     notes.append(_module_reading_note(shown, reading))
             if matched == 0:   # not in the graph: say so, and skip the (expensive) walk entirely
                 return ImpactRows([], matched=0, max_hops=max_hops, notes=notes + [
                     f"{shown!r} is not in the graph (no indexed symbol has that name) — check the spelling "
                     "or try the bare method name; if its language or directory is not indexed, search "
                     "the source with Grep instead." + _suggestions(s, name)])
+            if _csharp_mode(langs) is not None:   # one timed read, only when a C# symbol matched
+                typed_langs, typed_narrowed = _typed_call_meta(s)
             present = _present_rel_types(s)
             if present is not None:
                 filtered = [t for t in types if t in present] or ["CALLS"]
@@ -1067,12 +1278,14 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
                    else query_callers(driver, name, limit + 1, in_file=file_rx))
         return _impact_rows(one_hop, shown, limit, matched, 1, notes + [
             f"The multi-hop walk was unavailable ({why}); showing direct :CALLS callers (1 hop) only."],
-            shape=None if file_rx is None else name)
+            shape=None if file_rx is None else name, langs=langs, typed_langs=typed_langs,
+            typed_narrowed=typed_narrowed)
     if reduced_from is not None:
         notes.append(f"The {reduced_from}-hop walk exhausted Neo4j's transaction memory{_shared(matched)}, "
                      "so only direct (1-hop) dependents are shown — query a qualified Class.method name "
                      "for a deeper walk.")
-    return _impact_rows(rows, shown, limit, matched, max_hops, notes, shape=None if file_rx is None else name)
+    return _impact_rows(rows, shown, limit, matched, max_hops, notes, shape=None if file_rx is None else name,
+                        langs=langs, typed_langs=typed_langs, typed_narrowed=typed_narrowed)
 
 
 def _shared(matched) -> str:

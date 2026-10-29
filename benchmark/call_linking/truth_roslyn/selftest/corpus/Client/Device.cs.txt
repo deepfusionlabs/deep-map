@@ -1,0 +1,21 @@
+namespace Client;
+
+public static class Device
+{
+    public static int Probe()
+    {
+#if ANDROID && CLIENT_X && NET10_0
+        return Droid();
+#else
+        return Desktop();
+#endif
+    }
+
+#if DEBUG_ONLY
+    public static int Debug() => Desktop();
+#endif
+
+    private static int Droid() => 1;
+
+    private static int Desktop() => 2;
+}

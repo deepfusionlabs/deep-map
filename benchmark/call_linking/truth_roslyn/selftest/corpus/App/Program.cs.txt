@@ -1,0 +1,11 @@
+using App;
+
+var repo = new Infra.OrderRepository();
+var handler = new OrderHandler(repo);
+handler.Handle(1);
+Console.WriteLine(Local(2));
+Tools.Tool.Run();
+
+static int Local(int x) => x + Helper();
+
+static int Helper() => 1;

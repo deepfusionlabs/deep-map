@@ -478,15 +478,15 @@ def deepmap_search(query: str, top_k: int = TOP_K_DEFAULT) -> list[dict]:
                          describe=mcp_bounds.project_tool_describer("Traces dependents in the DeepMap graph"))
 def deepmap_impact(symbol: str, limit: int = IMPACT_LIMIT_DEFAULT,
                    edge_types: list[str] | None = None) -> list[dict]:
-    """What REACHES `symbol` — multi-hop reverse-reachability (refactor impact / blast radius) across
+    """What REACHES `symbol` — multi-hop reverse-reachability (blast radius) across
     :CALLS PLUS framework/runtime edges (routes, dependency injection, events, scheduled jobs,
-    inheritance): the runtime ENTRY POINTS a grep or a plain call graph can't see. Use before
-    refactoring, or for "what depends on / breaks if I change X". Returns dependents {caller,
-    caller_type, file, line, confidence, callee, hop, via, via_path}: `hop` = shortest reverse distance,
-    `via` = the edge type attaching the dependent (e.g. ROUTES_TO, CALLS), `via_path` = the edge types
-    along the path, `confidence` = the WEAKEST edge on it (EXTRACTED / INFERRED / AMBIGUOUS — a name
-    that maps to several symbols or a reflective hop: verify by reading). Matches `foo`, `.foo`,
-    `Class.method`, `Class#method` or `Owner::method` (owner generics like `Foo<T>` are fine), and a
+    inheritance): the runtime ENTRY POINTS a grep can't see. Use before refactoring, or for "what
+    breaks if I change X". Returns dependents {caller, caller_type, file, line, call_line, confidence,
+    callee, hop, via, via_path}: `line` = where the dependent starts, `call_line` = its first call on
+    the path (when recorded), `hop` = shortest reverse distance, `via` = the edge type attaching the
+    dependent, `via_path` = the edge types along the path, `confidence` = the WEAKEST edge on it
+    (EXTRACTED / INFERRED / AMBIGUOUS — a name that maps to several symbols or a reflective hop: verify
+    by reading). Matches `foo`, `.foo`, `Class.method`, `Class#method` or `Owner::method`, and a
     module-qualified `module.foo` (the defining file's stem). A graph without runtime edges gets a
     multi-hop :CALLS walk.
     `edge_types` (optional) REPLACES the default walk — it is not added to it (CALLS is always kept).
@@ -497,7 +497,7 @@ def deepmap_impact(symbol: str, limit: int = IMPACT_LIMIT_DEFAULT,
     Trailing {"note": ...} entries keep a short answer honest: the symbol is not in the graph, or it has
     no resolved dependents (calls through a receiver, trait or namespace are often unresolved — verify
     by reading), the walk was truncated / reduced in depth, an edge type is unknown or absent from the
-    graph, the limit was clamped, or — for a method — the dependents are a lower bound."""
+    graph, the limit was clamped, or, for a method or a C# symbol, the dependents are a lower bound."""
     # Empty/whitespace-only symbol guard (P2): a contentless symbol matches nothing meaningful —
     # reject at the boundary (as an error) rather than issuing a `name = ''` traversal.
     if not symbol or not symbol.strip():
@@ -509,7 +509,7 @@ def deepmap_impact(symbol: str, limit: int = IMPACT_LIMIT_DEFAULT,
     # Impact is a use, like search: stamp last_used so an impact-only session never looks idle (ISS-build:021).
     _touch_last_used()
     # The retriever's honesty notes (not in the graph / no resolved dependents / truncated / reduced
-    # depth / an unknown edge type / a partial method answer) ride along as trailing {"note": ...} entries,
+    # depth / an unknown edge type / a partial method or C# answer) ride along as trailing {"note": ...} entries,
     # and so does a clamped limit (it was silent); a plain answer is returned unchanged.
     notes = list(getattr(rows, "notes", None) or [])
     if limit != asked:
@@ -536,7 +536,7 @@ def deepmap_cypher(query: str, params: dict | None = None,
     source_file, start_line, body_summary, confidence. Links (a)-[:TYPE]->(b) carry confidence EXTRACTED |
     INFERRED | AMBIGUOUS (AMBIGUOUS = the name matched several symbols: unverified, read the code). Types: CALLS,
     IMPORTS, INHERITS, IMPLEMENTS, ROUTES_TO, DEPENDS_ON, HOOKS, SCHEDULED_AS, TRIGGERS, DISPATCHES, CASCADES
-    (dependent -> owner), HAS_MANY, REFERENCES, RENDERS.
+    (dependent -> owner), HAS_MANY, REFERENCES, RENDERS; CALLS also carry line (first call site; may be null).
     Examples:
       MATCH (f:Function) WHERE f.source_file STARTS WITH 'src/api/' RETURN f.name, f.start_line
       MATCH (c:Class)<-[:INHERITS]-(s) RETURN c.name, count(s) AS n ORDER BY n DESC LIMIT 10

@@ -1,0 +1,76 @@
+namespace Disp;
+
+public interface IStore
+{
+    int Load(int id);
+
+    void Put(int id);
+}
+
+public abstract class StoreBase : IStore
+{
+    public abstract int Load(int id);
+
+    public virtual void Put(int id)
+    {
+    }
+}
+
+public class SqlStore : StoreBase
+{
+    public override int Load(int id) => id;
+}
+
+public class AuditStore : SqlStore
+{
+    public override int Load(int id) => id + 1;
+
+    public override void Put(int id)
+    {
+    }
+}
+
+public sealed class CacheStore : StoreBase
+{
+    public sealed override int Load(int id) => 0;
+}
+
+public abstract class HalfStore : StoreBase
+{
+    public abstract override void Put(int id);
+}
+
+public class FullStore : HalfStore
+{
+    public override int Load(int id) => 2;
+
+    public override void Put(int id)
+    {
+    }
+}
+
+public class Plain : IStore
+{
+    public virtual int Load(int id) => 5;
+
+    public void Put(int id)
+    {
+    }
+}
+
+public class Hider : Plain
+{
+    public new virtual int Load(int id) => 6;
+}
+
+public class Ac1Calls
+{
+    public int Run(IStore s, StoreBase b, SqlStore q)
+    {
+        s.Put(1);
+        int x = s.Load(1);
+        return x + b.Load(2) + q.Load(3);
+    }
+
+    public int Gen<T>(T t) where T : IStore => t.Load(4);
+}

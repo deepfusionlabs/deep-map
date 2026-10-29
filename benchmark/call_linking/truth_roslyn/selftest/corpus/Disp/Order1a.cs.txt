@@ -1,0 +1,25 @@
+namespace Disp;
+
+public class Wa
+{
+    public virtual int Go() => 1;
+}
+
+public class Wd : Wa
+{
+}
+
+public class We : Wd
+{
+    public override int Go() => 3;
+}
+
+public class Wf : Wa
+{
+    public override int Go() => 4;
+}
+
+public static class Order1a
+{
+    public static int Wide<T>(T t) where T : Wa => t.Go();
+}

@@ -1,0 +1,12 @@
+using Disp;
+
+namespace Shop.Tests;
+
+public class FakeStore : IStore
+{
+    public int Load(int id) => 9;
+
+    public void Put(int id)
+    {
+    }
+}

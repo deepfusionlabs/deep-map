@@ -1,0 +1,11 @@
+namespace Lib.Stranger;
+
+public static class StrangerCalls
+{
+    public static int Run()
+    {
+        int a = global::Lib.Secret.Code();
+        int b = global::Lib.Open.Hidden();
+        return a + b;
+    }
+}

@@ -10,7 +10,8 @@ Two jobs:
   1. CUT-PHRASE scan  — fail if any claim DeepMap does not back appears in copy
      (self-improving search, runtime learning, auto-optimize after N queries,
      exports fine-tuning data, code-trained/code-aware embeddings, bare
-     "commercial-safe", ...). T12/T13/T14.
+     "commercial-safe", "calls on self/this are kept" without its same-file
+     scope, ...). T12/T13/T14/T-csharp.
   2. VERSION-CONSISTENCY scan — one coherent version across plugin.json,
      marketplace.json, the MCP server version strings, and the README. T16.
 
@@ -142,6 +143,16 @@ RETRIEVAL_VALIDATED_ON_8 = re.compile(
 # the true retrieval count stated nearby -> the claim is properly qualified.
 RETRIEVAL_PROVEN_QUALIFIER = re.compile(rf"[^\w]{RETRIEVAL_PROVEN_LANG_COUNT}[^\w]")
 
+# Self/this call-scope honesty (C# field report, 2026-10). The engine binds a `self.m()` / `this.m()` call only to
+# a method in the caller's OWN file (cross-file member calls are skipped in every language; in C# `this.Save()`
+# into another part of a partial class or into a base class elsewhere is lost), so "calls on self or this are
+# kept" overclaims unless "same file" is said within +-2 lines. The claim may wrap, so the previous line is joined
+# in; a sentence end (. ; ! ?) between `self`/`this` and `kept` breaks the claim, and the context must talk about
+# calls (so an unrelated "this ... is kept" never fires).
+SELF_THIS_KEPT = re.compile(r"\b(?:self|this)\b[^.;!?]{0,60}?\bkept\b", re.IGNORECASE)
+SELF_THIS_CALL_CONTEXT = re.compile(r"\bcall", re.IGNORECASE)
+SAME_FILE_QUALIFIER = re.compile(r"same[\s-]+file", re.IGNORECASE)
+
 VERSION_RE = re.compile(r'"?version"?\s*[:=]\s*["\']?v?(\d+\.\d+\.\d+)', re.IGNORECASE)
 
 
@@ -194,6 +205,19 @@ def scan_text(name, text):
                              f"RETRIEVAL is proven on only {RETRIEVAL_PROVEN_LANG_COUNT} "
                              f"(Python/TS/Go/Rust) — state the retrieval count separately "
                              f"(docs/multi-language-support.md is the source of truth)", "T13"))
+        if re.search(r"\bkept\b", line, re.IGNORECASE):
+            # "calls on self/this are kept" is honest only with its same-file scope within +-2 lines. The previous
+            # line is joined in (a wrapped claim); a match counts once, on the line that holds its `kept`.
+            prev = lines[i - 2] if i >= 2 else ""
+            joined, off = prev + " " + line, len(prev) + 1
+            claim = any(m.end() > off for m in SELF_THIS_KEPT.finditer(joined))
+            if claim and SELF_THIS_CALL_CONTEXT.search(joined):
+                ctx = "\n".join(lines[max(0, i - 3): i + 2])
+                if not SAME_FILE_QUALIFIER.search(ctx):
+                    hits.append((i, "self/this calls kept (no same-file scope)",
+                                 "a self./this. call is kept only when the method is in the caller's own file "
+                                 "(C# this.M() into another partial part or a base class elsewhere is dropped); "
+                                 "say 'kept when the method is in the same file' within +-2 lines", "T-csharp"))
     return hits
 
 
@@ -276,6 +300,28 @@ DeepMap's typed-graph extraction is validated end-to-end, with committed gates, 
 its 3-arm hybrid retrieval is additionally proven end-to-end on 4 of them (Python, TS, Go, Rust).
 """
 
+# The self/this call-scope rule (C# field report, 2026-10): "calls on self or this are kept" overclaims, because
+# the engine keeps such a call only when the method is in the caller's own file (C# `this.Save()` into another
+# part of a partial class, or into a base class elsewhere, is dropped). Each OVERCLAIM fixture must be flagged,
+# each HONEST one must stay clean. Kept apart from GOOD/BAD so the other rules don't interact.
+SELF_THIS_OVERCLAIM_FIXTURES = [
+    "Calls on an object are mostly missing; calls on `self` or `this` are kept. We saw this in C#.",
+    "declares the object's type; calls on <code>self</code> or <code>this</code> are kept. We saw this in Python,",
+    "Calls on an object are mostly missing; calls on `self` or\n`this` are kept.",       # wrapped across lines
+    "Calls on `self`, `cls`, `super()`\nand `this` are kept. On graphify 0.8.47 and later, ...",
+]
+SELF_THIS_HONEST_FIXTURES = [
+    "calls on `self` or `this` are kept when the method is in the same file. We saw this in C#.",
+    "calls on <code>self</code> or <code>this</code> are kept\nwhen the method is in the same file.",
+    "Calls on `self` and `this` are kept only for a same-file method.",
+    # no self/this call claim at all: "this" and "kept" in unrelated sentences, or a different verb
+    "over an existing graph that fallback is refused and the previous graph is kept.",
+    "a new session loads the installed version, while this chat keeps the version it started with.",
+    "We saw this in Python. The previous graph is kept.",
+    "With this flag set, the previous graph is kept.",          # "this ... kept", but not about calls
+    "A call through `self` binds by name. The previous graph is kept.",   # a sentence end breaks the claim
+]
+
 
 def selftest():
     ok = True
@@ -322,6 +368,22 @@ def selftest():
         print(f"  [FAIL] honest retrieval split wrongly flagged: {rh}")
     else:
         print("  [PASS] honest retrieval split (extraction on 8; retrieval on 4) is clean")
+
+    # 5) the self/this call-scope rule: every overclaim fires (must_fire), every honest form stays clean.
+    for fx in SELF_THIS_OVERCLAIM_FIXTURES:
+        st = scan_text("SELF_THIS_OVERCLAIM", fx)
+        if any("self/this calls kept" in p.lower() for _, p, _, _ in st):
+            print(f"  [PASS] self/this overclaim is flagged: {fx.splitlines()[0][:70]!r}")
+        else:
+            ok = False
+            print(f"  [FAIL] self/this overclaim NOT flagged: {fx!r} -> {st}")
+    for fx in SELF_THIS_HONEST_FIXTURES:
+        st = scan_text("SELF_THIS_HONEST", fx)
+        if any("self/this calls kept" in p.lower() for _, p, _, _ in st):
+            ok = False
+            print(f"  [FAIL] honest self/this wording wrongly flagged: {fx!r} -> {st}")
+        else:
+            print(f"  [PASS] honest self/this wording is clean: {fx.splitlines()[0][:70]!r}")
 
     print("\nRESULT:", "GREEN — scanner is load-bearing" if ok else "RED — scanner defect")
     return 0 if ok else 1

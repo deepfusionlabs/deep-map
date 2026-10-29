@@ -1,0 +1,38 @@
+namespace Disp;
+
+public class Va
+{
+    public virtual int Go() => 1;
+}
+
+public class Vb : Va
+{
+    public override int Go() => 2;
+}
+
+public class Vd : Va
+{
+    public override int Go() => 4;
+}
+
+public class Ve : Vd
+{
+    public override int Go() => 5;
+}
+
+public class Ac2Calls
+{
+    public string Iface(IStore s) => s.ToString() + s.GetHashCode();
+
+    public string Free<T>(T t) => t.ToString();
+
+    public string Val<T>(T t) where T : struct => t.ToString();
+
+    public string Ifc<T>(T t) where T : IStore => t.ToString();
+
+    public int Cls<T>(T t) where T : Vd => t.Go();
+
+    public int Via<T, U>(T t) where T : U where U : Vd => t.Go();
+
+    public int Top<T>(T t) where T : Va => t.Go();
+}

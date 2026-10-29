@@ -1,0 +1,13 @@
+namespace Lib.Friends;
+
+public static class FriendCalls
+{
+    public static int Run()
+    {
+        int a = global::Lib.Secret.Code();
+        int b = global::Lib.Open.Hidden();
+        int c = global::Lib.Open.Shown();
+        int d = global::Quiet.QuietSecret.Q();
+        return a + b + c + d;
+    }
+}

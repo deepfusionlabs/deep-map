@@ -1,0 +1,8 @@
+namespace Core.Shapes;
+
+public class Circle : Shape
+{
+    public override double Area() => 3.0;
+
+    public override string Describe() => "circle " + base.Describe() + this.Area() + Area();
+}

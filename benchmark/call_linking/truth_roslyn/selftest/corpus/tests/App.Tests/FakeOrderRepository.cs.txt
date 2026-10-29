@@ -1,0 +1,12 @@
+using Core.Domain;
+
+namespace App.Tests;
+
+public class FakeOrderRepository : IOrderRepository
+{
+    public Order Find(int id) => new Order(id);
+
+    public void Save(Order order)
+    {
+    }
+}

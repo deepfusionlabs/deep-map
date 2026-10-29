@@ -1,0 +1,8 @@
+namespace Core.Nested;
+
+public static class NestedThing
+{
+    public static int N() => M(new List<int>());
+
+    private static int M(List<int> xs) => xs.Count;
+}

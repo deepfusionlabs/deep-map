@@ -37,6 +37,15 @@ What it proves (no Neo4j, no network; the real engine is never run — captured 
      a CallKey or a typed attribute.
   H  mutation teeth: 20 mutants of build/sync.py (one a MOVE: the pure passes back after the write checkpoint), each
      must turn a check RED.
+  I  D3-cs N3 (benchmark/call_linking/PREREG_CS.md §8.7 N3, amendment AC14; a G5a gate): DEEPMAP_TYPED_CALLS=csharp
+     leaves the push output of this gate's corpus byte-identical to the flags-off run, on the engine whose Python runs
+     the gate (G5a runs it under both): the corpus holds no `.cs` file (every seed of every mode, every captured tree;
+     case-insensitive); A's 40 projects under all 9 modes, plus the other C# arms (+TESTS/NONPROD, IFACE static / 0)
+     under two, give the flags-off nodes (every attribute), calls, edges and counts, and A's frozen digests; so do E's
+     captured graphs of both engines. Not vacuous: the typed pass ran with csharp on (typed_langs ['csharp'], nothing
+     unknown or disabled), and on the C# trees' captured graphs (tests/fixtures/typed_calls/<0839|0851>/cs/) it
+     changes the pushed edges and reads their `.cs` files. Teeth: a typed_calls mutant whose csharp also turns the
+     wave-1 languages on, and one that no longer knows csharp, are each caught.
 
 usage: python tests/typed_calls_push_gates.py [--root <tree holding build/>] [--freeze <dir holding a sync.py>]
 """
@@ -1703,6 +1712,184 @@ def sec_h():
 
 
 # =====================================================================================================
+# I — D3-cs N3 (PREREG_CS §8.7 N3, AC14): DEEPMAP_TYPED_CALLS=csharp on this corpus (no .cs file) == flags off
+# =====================================================================================================
+# The C# arms of PREREG_CS §8.4 a corpus without C# source must not notice: VT-cs (the candidate), and the ablations
+# that change the C# pass's own policy (+t / +np; the interface-dispatch modes).
+CS = "csharp"
+CS_ARMS = {"VT-cs": {"DEEPMAP_TYPED_CALLS": CS},
+           "VT-cs+t+np": {"DEEPMAP_TYPED_CALLS": CS, "DEEPMAP_TYPED_CALLS_TESTS": "1",
+                          "DEEPMAP_TYPED_CALLS_NONPROD": "1"},
+           "VT-cs-ifs": {"DEEPMAP_TYPED_CALLS": CS, "DEEPMAP_TYPED_CALLS_IFACE": "static"},
+           "VT-cs-if0": {"DEEPMAP_TYPED_CALLS": CS, "DEEPMAP_TYPED_CALLS_IFACE": "0"}}
+CS_ALL_ARMS_MODES = ("off", "precise")          # every C# arm here; VT-cs under all 9 modes
+CS_E_ARMS = ("VT-cs", "VT-cs+t+np")              # on E's captured graphs (the interface modes act on C# sites only)
+
+
+def is_cs(rel) -> bool:
+    """A C# source file by its name, case-insensitively (PREREG_CS §8.6 N: "does not end in `.cs`")."""
+    return str(rel or "").replace("\\", "/").lower().endswith(".cs")
+
+
+def push_view(res) -> str:
+    """Everything the push writes from one chain run: canonical's calls (with key marks), private attributes, edges
+    and counts, plus EVERY attribute of every node (a node property the C# pass set would be pushed too)."""
+    nodes, calls, edges, counts = res
+    return json.dumps({"canonical": json.loads(canonical(nodes, calls, edges, counts)),
+                       "nodes": [norm(n) for n in nodes]}, sort_keys=True, default=str)
+
+
+def _cs_trees():
+    """{(bucket, tree): (graph, files)} — the captured graphs of typed_calls_cs_gates' C# trees (both engines; a stale
+    capture is not used), and notes."""
+    out, notes = {}, []
+    saved = list(sys.path)
+    try:
+        mod = load_module(REPO / "tests" / "typed_calls_cs_gates.py", "dm_s2_trees_cs")
+        trees = dict(getattr(mod, "TREES"))
+    except Exception as exc:  # noqa: BLE001
+        return out, [f"typed_calls_cs_gates.py: {exc!r}"]
+    finally:
+        sys.path[:] = saved
+    for bucket in ("0839", "0851"):
+        for name, files in sorted(trees.items()):
+            p = FX / bucket / "cs" / f"{name}.json"
+            if not p.is_file():
+                notes.append(f"{bucket}/cs/{name}: no capture")
+                continue
+            cap = json.loads(p.read_text(encoding="utf-8"))
+            sha = hashlib.sha256(json.dumps(files, sort_keys=True).encode("utf-8")).hexdigest()
+            if cap.get("tree_sha256") not in (None, sha):
+                notes.append(f"{bucket}/cs/{name}: stale capture")
+                continue
+            out[(bucket, name)] = (cap["graph"], files)
+    return out, notes
+
+
+def i_identity(Sm, rec, tag, *, mode_names=None, all_arm_modes=CS_ALL_ARMS_MODES, trees=None, e_arms=CS_E_ARMS):
+    """N3's identity on module `Sm` (the real sync, with the typed_calls the caller patched in): per mode and seed of
+    A's corpus (`mode_names`, default all 9; VT-cs under each, every C# arm under `all_arm_modes`), and per captured
+    graph of E (`trees`, default E's; the `e_arms`), the push view of the C# arm == the flags-off run's. Records one
+    check per mode and one for the captured graphs on `rec`; returns {mode or "E": [differing seeds / trees]}."""
+    bad = {}
+    for mode in (MODES if mode_names is None else mode_names):
+        env, gen = MODES[mode]
+        arms = list(CS_ARMS) if mode in all_arm_modes else ["VT-cs"]
+        diff, frozen_bad = [], []
+        for seed in SEEDS:
+            files, nodes, calls = gen_project(seed, gen)
+            root = write_tree(tmp() / f"i_{tag}" / mode / f"s{seed}", files)
+            with flags(**env), quiet():
+                off = chain(Sm, root, nodes, calls)
+            view_off = push_view(off)
+            for arm in arms:
+                with flags(**dict(env, **CS_ARMS[arm])), quiet():
+                    on = chain(Sm, root, nodes, calls)
+                if push_view(on) != view_off:
+                    diff.append((seed, arm))
+                if arm == "VT-cs" and digest(canonical(*on)) != (FROZEN.get(mode) or [None] * 40)[seed]:
+                    frozen_bad.append(seed)
+        bad[mode] = diff + [(s, "frozen") for s in frozen_bad]
+        rec.check(f"I1 [{mode}]: DEEPMAP_TYPED_CALLS=csharp ({', '.join(arms)}) leaves all {len(SEEDS)} projects' push "
+                  f"output (nodes with every attribute, calls, edges, counts) byte-identical to the flags-off run, "
+                  f"and VT-cs's equals A's frozen digest", not diff and not frozen_bad,
+                  {"differ (seed, arm)": diff[:8], "frozen digest differs": frozen_bad[:8]})
+    trees = _fixture_trees()[0] if trees is None else trees
+    diff = []
+    for (bucket, lang, name), (graph, files) in sorted(trees.items()):
+        root = write_tree(tmp() / f"i_{tag}_e" / bucket / lang / name, files)
+        view_off = push_view(replay(Sm, graph, root, dict(OFF)))
+        for arm in e_arms:
+            if push_view(replay(Sm, graph, root, dict(OFF, **CS_ARMS[arm]))) != view_off:
+                diff.append((bucket, lang, name, arm))
+    bad["E"] = diff
+    rec.check(f"I2: ... and on E's {len(trees)} captured graphs of both engines (Python, TS / JS): the push output of "
+              f"{' and '.join(e_arms)} == V0's", trees and not diff, diff[:8])
+    return bad
+
+
+def sec_i():
+    print("\n-- I: D3-cs N3 (PREREG_CS §8.7, AC14): DEEPMAP_TYPED_CALLS=csharp on this corpus (no .cs file) == the "
+          "flags-off push, on this engine's Python --")
+    import graphify_extract as _gx
+    try:
+        eng = _gx.graphify_version()
+    except Exception:  # noqa: BLE001
+        eng = None
+    print(f"  (the engine of this Python: graphify {eng or '(not installed)'}; G5a runs this gate under both ends)")
+    tc = _have_typed()
+    if tc is None:
+        check("I: build/typed_calls.py is importable", False)
+        return
+    cs_files = sorted({(mode, seed, rel) for mode, (_e, gen) in MODES.items() for seed in SEEDS
+                       for files, nodes, _c in [gen_project(seed, gen)]
+                       for rel in list(files) + [n.get("source_file") for n in nodes] if is_cs(rel)})
+    trees, notes = _fixture_trees()
+    tree_cs = sorted({(b, lang, nm, rel) for (b, lang, nm), (_g, files) in trees.items() for rel in files if is_cs(rel)})
+    check(f"I0: the corpus holds no .cs file, case-insensitively — A's {len(SEEDS)} projects x {len(MODES)} modes (files "
+          f"and node source files) and E's {len(trees)} captured trees", not cs_files and not tree_cs and trees,
+          {"A": cs_files[:6], "E": tree_cs[:6], "notes": notes[:4]})
+    i_identity(S, LOUD, "real", trees=trees)
+    # not vacuous (a): the typed pass ran, with csharp on and nothing unknown or disabled
+    _f0, snodes, scalls = gen_project(0, {})
+    sroot = write_tree(tmp() / "i_stats", _f0)
+    got = {}
+    for arm, env in (("off", {}),) + tuple(CS_ARMS.items()):
+        with flags(**dict(OFF, **env)), quiet():
+            st = chain(S, sroot, snodes, scalls)[3]["stats"]
+        got[arm] = None if st is None else {k: st.get(k) for k in ("typed_langs", "unknown_langs", "langs_disabled",
+                                                                    "error")}
+    want_on = {"typed_langs": [CS], "unknown_langs": [], "langs_disabled": {}, "error": None}
+    check("I3: not vacuous — under every C# arm the typed pass RAN with csharp on (typed_langs ['csharp'], no unknown "
+          "language, csharp not disabled, no error); flags off it does not run (stats None)",
+          got.get("off") is None and all(got.get(a) == want_on for a in CS_ARMS), got)
+    # not vacuous (b): on the C# trees' captured graphs (both engines) the same switch changes the push
+    cs_trees, cs_notes = _cs_trees()
+    live, read = {}, {}
+    for (bucket, name), (graph, files) in sorted(cs_trees.items()):
+        croot = write_tree(tmp() / "i_cs" / bucket / name, files)
+        off = replay(S, graph, croot, dict(OFF))
+        on = replay(S, graph, croot, dict(OFF, **CS_ARMS["VT-cs"]))
+        live[(bucket, name)] = on[2] != off[2]
+        read[(bucket, name)] = (((on[3]["stats"] or {}).get("by_lang") or {}).get(CS) or {}).get("files")
+    by_bucket = {b: any(v for (bb, _n), v in live.items() if bb == b) for b in ("0839", "0851")}
+    check("I4: not vacuous — on the C# trees' captured graphs of BOTH engines (tests/fixtures/typed_calls/<0839|0851>/"
+          "cs/), DEEPMAP_TYPED_CALLS=csharp reads their .cs files and changes the pushed edges: the switch is live on "
+          "this Python, so I1 / I2's identity is the C# pass leaving non-C# code alone",
+          all(by_bucket.values()) and all((n or 0) > 0 for n in read.values()) and len(cs_trees) >= 2,
+          {"changed": {f"{b}/{n}": v for (b, n), v in live.items()}, "cs files read": {f"{b}/{n}": v for (b, n), v in
+                                                                                       read.items()},
+           "notes": cs_notes[:4]})
+    # teeth: two mutants of typed_calls, each loaded beside the real one and handed to the real sync
+    src = (BUILD / "typed_calls.py").read_text(encoding="utf-8")
+    anchor_leak = '    names = [x.strip() for x in low.split(",") if x.strip()]\n'
+    anchor_name = 'LanguageSpec("csharp", (".cs",)'
+    mutants = (("csharp also turns the wave-1 languages on", anchor_leak,
+                anchor_leak + '    names += list(WAVE1_LANGS) if "csharp" in names else []\n', (), "I1/I2"),
+               ("csharp is no longer a known language (the switch would be inert)", anchor_name,
+                'LanguageSpec("csharp_gone", (".cs",)', (), "I3"))
+    for i, (label, old, new, modes, which) in enumerate(mutants):
+        if src.count(old) != 1:
+            check(f"I5: mutant '{label}': its anchor is found exactly once in typed_calls.py", False,
+                  f"found {src.count(old)} times")
+            continue
+        try:
+            mt = load_module(BUILD / "typed_calls.py", f"dm_s2_tc_mutant_{i}", src.replace(old, new))
+        except Exception as exc:  # noqa: BLE001
+            check(f"I5: mutant '{label}' loads", False, repr(exc))
+            continue
+        rec = Rec(loud=False)
+        with patched(S, _typed_calls_module=lambda m=mt: m):
+            if which == "I1/I2":
+                i_identity(S, rec, f"m{i}", mode_names=modes, trees=trees, e_arms=("VT-cs",))
+            else:
+                with flags(**dict(OFF, **CS_ARMS["VT-cs"])), quiet():
+                    st = chain(S, sroot, snodes, scalls)[3]["stats"]
+                rec.check("I3", st is not None and st.get("typed_langs") == [CS] and not st.get("unknown_langs"))
+        check(f"I5: mutant '{label}' is caught by {which} ({rec.failed} check(s) RED)", rec.failed > 0, rec.labels[:2])
+
+
+# =====================================================================================================
 def main() -> int:
     if FREEZE is not None:
         try:
@@ -1711,7 +1898,7 @@ def main() -> int:
             shutil.rmtree(str(_TMP[0]), ignore_errors=True) if _TMP else None
     print(f"typed_calls_push_gates — build: {BUILD}")
     try:
-        for sec in (sec_a, sec_b, sec_c, sec_d, sec_e, sec_f, sec_g, sec_h):
+        for sec in (sec_a, sec_b, sec_c, sec_d, sec_e, sec_f, sec_g, sec_h, sec_i):
             try:
                 sec()
             except Exception as exc:  # noqa: BLE001 — a crashing section is a RED section

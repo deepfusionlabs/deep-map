@@ -1,0 +1,6 @@
+namespace App.Tests;
+
+public class NoUsings
+{
+    public int N() => new List<int>().Count;
+}

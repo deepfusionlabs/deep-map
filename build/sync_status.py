@@ -148,18 +148,21 @@ _DEFAULT_ON_KNOBS = (      # off iff the value is an OFF-word (the readers' `not
     "DEEPMAP_CASE_INSENSITIVE_EXT", "DEEPMAP_RESCUE_SKIPPED_DIRS", "DEEPMAP_FALSE_CALL_FILTER",
     "DEEPMAP_SELF_CALL_REBIND", "DEEPMAP_CLEAN_OWNER_NAMES", "DEEPMAP_RESOLVED_IMPORTS",
     "DEEPMAP_VECTOR_QUANTIZATION", "DEEPMAP_PRECISE_FIXES",
-    "DEEPMAP_TYPED_CALLS_REPLACE")                       # typed_calls._config: `not in _FALSE`
+    "DEEPMAP_TYPED_CALLS_REPLACE",                       # typed_calls._config: `not in _FALSE`
+    "DEEPMAP_CSHARP_MEMBERS")                            # graphify_extract: C# property / constructor nodes
 # Set-valued knobs, read through the PRODUCT's own reader (one rule — KL-architecture:002). Unset (or blank) is ""
 # = whatever the code selects by default when the graph is built. An EXPLICIT value's canonical form is what it
 # SELECTS — "off" for nothing, "on" for DEEPMAP_PRECISE_CALLS' every-file mode, else the selected names sorted —
 # even when that equals today's default set: so an explicit opt-out (`=0`) is recorded and replayed as "off", and a
-# later default flip (slice S8) never turns it into the new default. A typo selects nothing, so it is never
-# recorded as if it did. Every canonical value reads back to itself (replay_env). recipe_conflicts compares what
+# later default flip (slice S8) never turns it into the new default. A typo is recorded as what it selects: nothing
+# for most knobs, every mode for DEEPMAP_TYPED_CALLS_IFACE (whose reader ignores unknown tokens and reads a value
+# naming no mode as unset). Every canonical value reads back to itself (replay_env). recipe_conflicts compares what
 # the two values SELECT (so `=0` and unset never conflict while both select nothing). When the reader cannot be
 # loaded, an explicit value is kept AS SPELLED (replaying the spelling makes the reader select what it selected)
 # and recipe_conflicts never calls it a conflict: it cannot judge (and a sync that cannot load that reader cannot
 # apply the knob either).
-_SET_KNOBS = ("DEEPMAP_PRECISE_CALLS", "DEEPMAP_TYPED_CALLS", "DEEPMAP_CALLS_AUDIT", "DEEPMAP_TYPED_CALLS_SHAPES")
+_SET_KNOBS = ("DEEPMAP_PRECISE_CALLS", "DEEPMAP_TYPED_CALLS", "DEEPMAP_CALLS_AUDIT", "DEEPMAP_TYPED_CALLS_SHAPES",
+              "DEEPMAP_TYPED_CALLS_IFACE")
 GRAPH_SHAPING_ENV: dict = {
     "DEEPMAP_EXTRACTOR": "auto",
     **{name: "off" for name in _DEFAULT_OFF_KNOBS},
@@ -173,6 +176,10 @@ GRAPH_SHAPING_ENV: dict = {
     "DEEPMAP_TYPED_CALLS": "",
     "DEEPMAP_CALLS_AUDIT": "",
     "DEEPMAP_TYPED_CALLS_SHAPES": "",
+    # C# interface and virtual dispatch (typed_calls._iface_modes; read only while a language with that lookup rule is
+    # on): unset or an ON-word = every mode (static, impl), an OFF-word = none, else a CSV of typed_calls.IFACE_MODES
+    # (an unknown token is ignored; a value naming no mode at all selects every mode, like unset)
+    "DEEPMAP_TYPED_CALLS_IFACE": "",
     "DEEPMAP_TYPED_CALLS_MAX_FILES": "20000",
     # the recognizer set (language_recognizers._enabled_entries): unset / ON-word / "all" = every entry,
     # an OFF-word = none, else a CSV of entry names
@@ -272,6 +279,16 @@ def _set_selection(name: str, text: str):
             if not callable(fn):
                 return None
             return frozenset(fn({name: text} if text else {})), None
+        if name == "DEEPMAP_TYPED_CALLS_IFACE":
+            # what the value selects for a language that has the iface_dispatch rule (the only one it is read for):
+            # an ON-word selects every mode like unset (canonical "impl,static", explicit); an OFF-word nothing
+            # ("off"); an unknown token is ignored, and a value naming no mode at all selects every mode, so a typo
+            # is recorded as what it builds (every mode), never as "off"
+            fn, registry = getattr(tc, "_iface_modes", None), getattr(tc, "LANGUAGES", None)
+            langs = [n for n, s in (registry or {}).items() if "iface_dispatch" in (getattr(s, "lookup_rules", ()) or ())]
+            if not callable(fn) or not langs:
+                return None
+            return frozenset(fn({name: text} if text else {}, langs, registry)), None
         cfg, registry = getattr(tc, "_config", None), getattr(tc, "LANGUAGES", None)
         if not callable(cfg) or registry is None:
             return None

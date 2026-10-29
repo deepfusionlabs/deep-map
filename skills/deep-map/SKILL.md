@@ -34,8 +34,13 @@ served to you over MCP. **Search by intent, then read the real code at the file:
 `deepmap_impact(symbol: str, limit: int = 30, edge_types: list[str] | None = None)` → what REACHES
 `symbol`: multi-hop reverse reachability across `:CALLS` + the framework/runtime edges (routes, DI,
 events, jobs, inheritance, cascades, view renders), as
-`{caller, caller_type, file, line, confidence, callee, hop, via, via_path}`. `via` is the wiring
-each dependent arrives through (e.g. `ROUTES_TO`, `CALLS`); `hop` is its distance. Use it before
+`{caller, caller_type, file, line, confidence, callee, hop, via, via_path}`, plus `call_line` when the
+graph recorded it. A row's `file:line` is where the caller starts (its definition), not the call.
+`call_line` is the line in that file of the caller's first call to the next symbol on its path (only
+the first call per caller/callee pair is recorded, so there may be more calls further down). It is
+absent on a graph synced before call lines were recorded and on a row whose `via` is not `CALLS`: then
+look for the call inside the caller. `via` is the wiring each dependent arrives through (e.g.
+`ROUTES_TO`, `CALLS`); `hop` is its distance. Use it before
 refactoring or to answer "what depends on / breaks if I change X", including runtime entry points a
 grep misses. `confidence` (below) is the weakest edge on the path. `limit` counts result rows (one
 per dependent–callee pair). `edge_types` REPLACES the default walk rather than adding to it: pass the
@@ -99,7 +104,8 @@ entry point, grep/read to trace the details.
 2. **Evidence-chain**: never assert a location from the summary alone. Cite `name` + `file:line`,
    then READ that span to confirm before you act or answer. The summary points; the code proves.
 3. **Impact / structural**: for "what depends on X" or before a refactor, call `deepmap_impact(X)`
-   to get the callers with edge confidence; verify `AMBIGUOUS` edges by reading the call site.
+   to get the callers with edge confidence; verify `AMBIGUOUS` edges by reading the call site (at
+   `call_line` when the row has one; otherwise inside the caller that starts at `file:line`).
 4. **Rationale-first**: before editing a symbol, retrieve and read its summary and callers so the
    change preserves intent and you know the blast radius.
 5. **Confidence caveat**: see below.
@@ -132,7 +138,10 @@ entry point, grep/read to trace the details.
   symbol.** The extractor does not resolve every call (method/receiver calls through variables,
   dynamic dispatch, reflection), so grep for the name before calling a symbol a leaf or a list of
   callers complete, and relay any note the tool attaches (a result cut at `limit`, a walk that fell
-  back to one hop).
+  back to one hop). C# is the clearest case: by default a call from another file through an object (a
+  field, parameter or local), a type name, an interface or a mediator (MediatR `Send`) is not linked,
+  so C# dependents are a lower bound and an empty C# answer says little: grep the name, and relay the
+  C# note the tool attaches.
 - **The summary can be stale or thin** for undocumented code (it's synthesised from structure by
   default; if the optional opt-in enrichment tier is enabled it may instead be an LLM-written intent
   summary). Either way treat it as a hint at lower confidence than a real docstring; the source at
@@ -142,10 +151,12 @@ entry point, grep/read to trace the details.
   the graph; likelier, but still name-based: a same-named library call can land on it) · `AMBIGUOUS`
   (the callee name maps to several symbols, so the true target is uncertain). When an
   impact/"what calls X" answer rests on `AMBIGUOUS` edges, say so and verify by reading the call
-  site. This is the audit wedge: you can always cite the node, the `file:line`, and how sure the
-  graph is. DeepMap does not learn from your usage; by default it uploads nothing. The one opt-in
-  exception is summary enrichment (off by default), which sends undocumented code to your existing
-  Claude session to write better summaries, nowhere you aren't already sending code via Claude Code.
+  site: `call_line` when the row has one, else the caller's body (an impact row's `file:line` is
+  where the caller starts). This is the audit wedge: you can always cite the node, its `file:line`,
+  and how sure the graph is. DeepMap does not learn from your usage; by default it uploads nothing.
+  The one opt-in exception is summary enrichment (off by default), which sends undocumented code to
+  your existing Claude session to write better summaries, nowhere you aren't already sending code via
+  Claude Code.
 
 ## Setup (only if the tool is unavailable)
 

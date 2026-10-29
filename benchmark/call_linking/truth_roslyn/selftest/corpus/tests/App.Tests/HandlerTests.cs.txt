@@ -1,0 +1,15 @@
+using Core.Domain;
+
+namespace App.Tests;
+
+public class HandlerTests
+{
+    private readonly IOrderRepository _repo = new FakeOrderRepository();
+
+    public void Finds()
+    {
+        var o = _repo.Find(1);
+        o.Total();
+        new App.OrderHandler(_repo).Handle(1);
+    }
+}

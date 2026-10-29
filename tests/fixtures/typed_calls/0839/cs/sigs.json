@@ -1,0 +1,3572 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_cs_gates.TREES['sigs'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_cs_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L3",
+    "target": "ext_drawers_drawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers_drawer",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L5",
+    "target": "ext_drawers_drawer_draw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers_drawer_draw",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L5",
+    "target": "src_sg_ext_drawers_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers_drawer",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L9",
+    "target": "ext_drawers_drawer_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers_drawer_mark",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L9",
+    "target": "src_sg_ext_drawers_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L14",
+    "target": "ext_drawers_fancydrawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "ext_drawers_fancydrawer",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L14",
+    "target": "ext_drawers_drawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers_fancydrawer",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L16",
+    "target": "ext_drawers_fancydrawer_draw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers_fancydrawer_draw",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L16",
+    "target": "src_sg_ext_drawers_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers_fancydrawer",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L20",
+    "target": "ext_drawers_fancydrawer_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers_fancydrawer_mark",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L20",
+    "target": "src_sg_ext_drawers_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L25",
+    "target": "ext_drawers_drawuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ext_drawers_drawuser",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L27",
+    "target": "ext_drawers_fancydrawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers_drawuser",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L29",
+    "target": "ext_drawers_drawuser_drawit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers_drawuser_drawit",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L29",
+    "target": "src_sg_ext_drawers_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers_drawuser",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L34",
+    "target": "ext_drawers_drawuser_markit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers_drawuser_markit",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L34",
+    "target": "src_sg_ext_drawers_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ext_drawers_drawuser_drawit",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L31",
+    "target": "ext_drawers_fancydrawer_draw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ext_drawers_drawuser_markit",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L36",
+    "target": "ext_drawers_fancydrawer_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ext_drawers2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L1",
+    "target": "foundation",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L5",
+    "target": "ext_drawers2_fancydrawer2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "ext_drawers2_fancydrawer2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L5",
+    "target": "ext_drawers_drawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers2_fancydrawer2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L7",
+    "target": "ext_drawers2_fancydrawer2_draw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers2_fancydrawer2_draw",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L7",
+    "target": "src_sg_ext_drawers2_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L12",
+    "target": "ext_drawers2_drawuser2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ext_drawers2_drawuser2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L14",
+    "target": "ext_drawers2_fancydrawer2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers2_drawuser2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L16",
+    "target": "ext_drawers2_drawuser2_drawit",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers2_drawuser2_drawit",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L16",
+    "target": "src_sg_ext_drawers2_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ext_drawers2_drawuser2_drawit",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L18",
+    "target": "ext_drawers2_fancydrawer2_draw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ext_drawers3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L1",
+    "target": "drawing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ext_drawers3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L2",
+    "target": "drw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L6",
+    "target": "ext_drawers3_plaindrawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "ext_drawers3_plaindrawer",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L6",
+    "target": "ext_drawers_drawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers3_plaindrawer",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L8",
+    "target": "ext_drawers3_plaindrawer_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers3_plaindrawer_mark",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L8",
+    "target": "src_sg_ext_drawers3_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L13",
+    "target": "ext_drawers3_aliasdrawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "ext_drawers3_aliasdrawer",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L13",
+    "target": "ext_drawers_drawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers3_aliasdrawer",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L15",
+    "target": "ext_drawers3_aliasdrawer_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers3_aliasdrawer_mark",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L15",
+    "target": "src_sg_ext_drawers3_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ext_drawers3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L20",
+    "target": "ext_drawers3_drawuser3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ext_drawers3_drawuser3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L22",
+    "target": "ext_drawers3_plaindrawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ext_drawers3_drawuser3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L23",
+    "target": "ext_drawers3_aliasdrawer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers3_drawuser3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L25",
+    "target": "ext_drawers3_drawuser3_markplain",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers3_drawuser3_markplain",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L25",
+    "target": "src_sg_ext_drawers3_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ext_drawers3_drawuser3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L30",
+    "target": "ext_drawers3_drawuser3_markalias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ext_drawers3_drawuser3_markalias",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L30",
+    "target": "src_sg_ext_drawers3_cs_point",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ext_drawers3_drawuser3_markplain",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L27",
+    "target": "ext_drawers3_aliasdrawer_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ext_drawers3_drawuser3_markalias",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L32",
+    "target": "ext_drawers3_aliasdrawer_mark",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "locals_locals",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L3",
+    "target": "locals_locals_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_repo",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L5",
+    "target": "locals_locals_repo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "locals_locals",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L15",
+    "target": "locals_locals_cachedrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "locals_locals_cachedrepo",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L15",
+    "target": "locals_locals_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_cachedrepo",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L17",
+    "target": "locals_locals_cachedrepo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "locals_locals",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L22",
+    "target": "locals_locals_localuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_localuser",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L24",
+    "target": "locals_locals_localuser_deconstruct",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_localuser",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L32",
+    "target": "locals_locals_localuser_deconstructvar",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_localuser",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L40",
+    "target": "locals_locals_localuser_reflocal",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_localuser",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L48",
+    "target": "locals_locals_localuser_nested",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_localuser",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L57",
+    "target": "locals_locals_localuser_fresh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_locals_localuser",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L66",
+    "target": "locals_locals_localuser_increment",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "locals_locals_localuser_deconstruct",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L29",
+    "target": "locals_locals_cachedrepo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "locals_locals_localuser_deconstructvar",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L37",
+    "target": "locals_locals_cachedrepo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "locals_locals_localuser_reflocal",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L45",
+    "target": "locals_locals_cachedrepo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "locals_locals_localuser_nested",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L54",
+    "target": "locals_locals_cachedrepo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "locals_locals_localuser_fresh",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L63",
+    "target": "locals_locals_cachedrepo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "locals_locals_localuser_increment",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L70",
+    "target": "locals_locals_cachedrepo_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "locals_reordered",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L3",
+    "target": "locals_reordered_cachedrepo4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "locals_reordered_cachedrepo4",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L3",
+    "target": "locals_reordered_repo4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_reordered_cachedrepo4",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L5",
+    "target": "locals_reordered_cachedrepo4_keep4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "locals_reordered",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L10",
+    "target": "locals_reordered_repo4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_reordered_repo4",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L12",
+    "target": "locals_reordered_repo4_keep4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "locals_reordered",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L17",
+    "target": "locals_reordered_localuser4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "locals_reordered_localuser4",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L19",
+    "target": "locals_reordered_localuser4_deconstruct",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "locals_reordered_localuser4_deconstruct",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L24",
+    "target": "locals_reordered_repo4_keep4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_lastbase",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L3",
+    "target": "open_lastbase_cartstorex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "open_lastbase_cartstorex",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L3",
+    "target": "open_lastbase_storex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "open_lastbase_cartstorex",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L3",
+    "target": "src_sg_open_lastbase_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_lastbase_cartstorex",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L5",
+    "target": "open_lastbase_cartstorex_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_lastbase_cartstorex_save",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L5",
+    "target": "src_sg_open_lastbase_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_lastbase",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L10",
+    "target": "open_lastbase_storex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_lastbase_storex",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L12",
+    "target": "open_lastbase_storex_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_lastbase_storex_save",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L12",
+    "target": "src_sg_open_lastbase_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_lastbase",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L17",
+    "target": "open_lastbase_lastuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "open_lastbase_lastuser",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L19",
+    "target": "open_lastbase_cartstorex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_lastbase_lastuser",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L21",
+    "target": "open_lastbase_lastuser_saveorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_lastbase_lastuser_saveorder",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L21",
+    "target": "src_sg_open_lastbase_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_lastbase_lastuser",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L26",
+    "target": "open_lastbase_lastuser_savecart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_lastbase_lastuser_savecart",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L26",
+    "target": "src_sg_open_lastbase_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "open_lastbase_lastuser_saveorder",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L23",
+    "target": "open_lastbase_storex_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "open_lastbase_lastuser_savecart",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L28",
+    "target": "open_lastbase_storex_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_storeuser",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L3",
+    "target": "open_storeuser_storeuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "open_storeuser_storeuser",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L5",
+    "target": "cartstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_storeuser_storeuser",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L7",
+    "target": "open_storeuser_storeuser_saveorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_storeuser_storeuser_saveorder",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L7",
+    "target": "src_sg_open_storeuser_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_storeuser_storeuser",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L12",
+    "target": "open_storeuser_storeuser_savecart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_storeuser_storeuser_savecart",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L12",
+    "target": "src_sg_open_storeuser_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_storeuser_storeuser",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L17",
+    "target": "open_storeuser_storeuser_keeporder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_storeuser_storeuser_keeporder",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L17",
+    "target": "src_sg_open_storeuser_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_stores",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L3",
+    "target": "open_stores_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_stores",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L7",
+    "target": "open_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_stores",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L11",
+    "target": "open_stores_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_store",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L13",
+    "target": "open_stores_store_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_store_save",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L13",
+    "target": "src_sg_open_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_store",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L17",
+    "target": "open_stores_store_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_store_keep",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L17",
+    "target": "src_sg_open_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_stores",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L22",
+    "target": "open_stores_cartstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "open_stores_cartstore",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L22",
+    "target": "open_stores_store",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "open_stores_cartstore",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L22",
+    "target": "src_sg_open_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_cartstore",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L24",
+    "target": "open_stores_cartstore_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_cartstore_save",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L24",
+    "target": "open_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_cartstore",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L28",
+    "target": "open_stores_cartstore_keep",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_cartstore_keep",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L28",
+    "target": "src_sg_open_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_stores",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L33",
+    "target": "open_stores_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_box",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L35",
+    "target": "open_stores_box_fill",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_box_fill",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L35",
+    "target": "src_sg_open_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "open_stores",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L40",
+    "target": "open_stores_cartbox",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "open_stores_cartbox",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L40",
+    "target": "open_stores_box",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "open_stores_cartbox",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L40",
+    "target": "src_sg_open_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_cartbox",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L42",
+    "target": "open_stores_cartbox_fill",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_cartbox_fill",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L42",
+    "target": "open_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_cartbox",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L46",
+    "target": "open_stores_cartbox_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_cartbox_go",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L46",
+    "target": "src_sg_open_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "open_stores_cartbox",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L51",
+    "target": "open_stores_cartbox_gocart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "open_stores_cartbox_gocart",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L51",
+    "target": "open_stores_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "open_stores_cartbox_go",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L48",
+    "target": "open_stores_cartbox_fill",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "open_stores_cartbox_gocart",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L53",
+    "target": "open_stores_cartbox_fill",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "repos_repos",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L3",
+    "target": "repos_repos_entity",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "repos_repos",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L7",
+    "target": "repos_repos_repository",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "repos_repos_repository",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L7",
+    "target": "repos_repos_repobase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "repos_repos_repository",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L9",
+    "target": "repos_repos_repository_remove",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "repos_repos_repository_remove",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L9",
+    "target": "src_sg_repos_repos_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "repos_repos_repository",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L13",
+    "target": "repos_repos_repository_add",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "repos_repos_repository_add",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L13",
+    "target": "src_sg_repos_repos_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "repos_repos",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L18",
+    "target": "repos_repos_repobase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "repos_repos_repobase",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L20",
+    "target": "repos_repos_repobase_remove",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "repos_repos",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L25",
+    "target": "repos_repos_repouser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "repos_repos_repouser",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L27",
+    "target": "repos_repos_repository",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "repos_repos_repouser",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L29",
+    "target": "repos_repos_repouser_removeid",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "repos_repos_repouser",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L34",
+    "target": "repos_repos_repouser_addone",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "repos_repos_repouser_addone",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L34",
+    "target": "repos_repos_entity",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "repos_repos_repouser_removeid",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L31",
+    "target": "repos_repos_repobase_remove",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "repos_repos_repouser_addone",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L36",
+    "target": "repos_repos_repository_add",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "sg_sg",
+    "source_file": "src/Sg/Sg.csproj",
+    "target": "sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L2",
+    "target": "tasks",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L6",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L10",
+    "target": "slots_persist_iorderstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_persist_iorderstore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L12",
+    "target": "slots_persist_iorderstore_saveasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_iorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L12",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "slots_persist_iorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L12",
+    "target": "task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L15",
+    "target": "slots_persist_orderstorebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "slots_persist_orderstorebase",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L15",
+    "target": "slots_persist_iorderstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_persist_orderstorebase",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L17",
+    "target": "slots_persist_orderstorebase_saveasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_orderstorebase_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L17",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "slots_persist_orderstorebase_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L17",
+    "target": "task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L20",
+    "target": "slots_persist_cachedorderstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_persist_cachedorderstore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L20",
+    "target": "slots_persist_orderstorebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_persist_cachedorderstore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L22",
+    "target": "slots_persist_cachedorderstore_saveasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_cachedorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L22",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "slots_persist_cachedorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L22",
+    "target": "task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_persist_cachedorderstore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L27",
+    "target": "slots_persist_cachedorderstore_saveasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_cachedorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L27",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_cachedorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L27",
+    "target": "cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "slots_persist_cachedorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L27",
+    "target": "task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L33",
+    "target": "slots_persist_tracingorderstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_persist_tracingorderstore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L33",
+    "target": "slots_persist_cachedorderstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_persist_tracingorderstore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L35",
+    "target": "slots_persist_tracingorderstore_saveasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_tracingorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L35",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "slots_persist_tracingorderstore_saveasync",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L35",
+    "target": "task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L41",
+    "target": "slots_persist_persistuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_persist_persistuser",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L43",
+    "target": "slots_persist_iorderstore",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_persist_persistuser",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L44",
+    "target": "slots_persist_orderstorebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_persist_persistuser",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L46",
+    "target": "slots_persist_persistuser_persist",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_persistuser_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L46",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "slots_persist_persistuser_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L46",
+    "target": "task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_persist_persistuser",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L51",
+    "target": "slots_persist_persistuser_persistbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "slots_persist_persistuser_persistbase",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L51",
+    "target": "slots_persist_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "slots_persist_persistuser_persistbase",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L51",
+    "target": "task",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_persist_persistuser_persist",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L48",
+    "target": "slots_persist_tracingorderstore_saveasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_persist_persistuser_persistbase",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L53",
+    "target": "slots_persist_tracingorderstore_saveasync",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L3",
+    "target": "slots_slots_vb1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vb1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L5",
+    "target": "slots_slots_vb1_run1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L10",
+    "target": "slots_slots_vm1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vm1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L10",
+    "target": "slots_slots_vb1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vm1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L12",
+    "target": "slots_slots_vm1_run1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L17",
+    "target": "slots_slots_vs1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vs1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L17",
+    "target": "slots_slots_vm1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L19",
+    "target": "slots_slots_vs1_run1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L24",
+    "target": "slots_slots_irun2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_irun2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L26",
+    "target": "slots_slots_irun2_run2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L29",
+    "target": "slots_slots_vb2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "slots_slots_vb2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L29",
+    "target": "slots_slots_irun2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vb2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L31",
+    "target": "slots_slots_vb2_run2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L36",
+    "target": "slots_slots_vm2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vm2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L36",
+    "target": "slots_slots_vb2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vm2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L38",
+    "target": "slots_slots_vm2_run2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L43",
+    "target": "slots_slots_vs2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vs2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L43",
+    "target": "slots_slots_vm2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L45",
+    "target": "slots_slots_vs2_run2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L50",
+    "target": "slots_slots_irun3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_irun3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L52",
+    "target": "slots_slots_irun3_run3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L55",
+    "target": "slots_slots_vb3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "slots_slots_vb3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L55",
+    "target": "slots_slots_irun3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vb3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L57",
+    "target": "slots_slots_vb3_run3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L62",
+    "target": "slots_slots_vs3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vs3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L62",
+    "target": "slots_slots_vb3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L64",
+    "target": "slots_slots_vs3_run3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L68",
+    "target": "slots_slots_vs3_run3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L73",
+    "target": "slots_slots_vb4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vb4",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L75",
+    "target": "slots_slots_vb4_run4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L80",
+    "target": "slots_slots_vs4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vs4",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L80",
+    "target": "slots_slots_vb4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs4",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L82",
+    "target": "slots_slots_vs4_run4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs4",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L86",
+    "target": "slots_slots_vs4_run4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L91",
+    "target": "slots_slots_vb6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vb6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L93",
+    "target": "slots_slots_vb6_run6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L98",
+    "target": "slots_slots_vm6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vm6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L98",
+    "target": "slots_slots_vb6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vm6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L100",
+    "target": "slots_slots_vm6_run6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L105",
+    "target": "slots_slots_vs6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vs6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L105",
+    "target": "slots_slots_vm6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L107",
+    "target": "slots_slots_vs6_run6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L112",
+    "target": "slots_slots_irun7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_irun7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L114",
+    "target": "slots_slots_irun7_run7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L117",
+    "target": "slots_slots_vb7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "slots_slots_vb7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L117",
+    "target": "slots_slots_irun7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vb7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L119",
+    "target": "slots_slots_vb7_run7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vb7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L123",
+    "target": "slots_slots_vb7_run7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L128",
+    "target": "slots_slots_vs7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "slots_slots_vs7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L128",
+    "target": "slots_slots_vb7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_vs7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L130",
+    "target": "slots_slots_vs7_run7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "slots_slots",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L135",
+    "target": "slots_slots_slotuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L137",
+    "target": "slots_slots_vb1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L138",
+    "target": "slots_slots_irun2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L139",
+    "target": "slots_slots_irun3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L140",
+    "target": "slots_slots_vb4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L141",
+    "target": "slots_slots_vm6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L142",
+    "target": "slots_slots_irun7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L144",
+    "target": "slots_slots_slotuser_use1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L149",
+    "target": "slots_slots_slotuser_use2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L154",
+    "target": "slots_slots_slotuser_use3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L159",
+    "target": "slots_slots_slotuser_use4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L164",
+    "target": "slots_slots_slotuser_use6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "slots_slots_slotuser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L169",
+    "target": "slots_slots_slotuser_use7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_slots_slotuser_use1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L146",
+    "target": "slots_slots_vs1_run1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_slots_slotuser_use2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L151",
+    "target": "slots_slots_vs2_run2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_slots_slotuser_use3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L156",
+    "target": "slots_slots_vs3_run3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_slots_slotuser_use4",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L161",
+    "target": "slots_slots_vs4_run4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_slots_slotuser_use6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L166",
+    "target": "slots_slots_vs6_run6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "slots_slots_slotuser_use7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L171",
+    "target": "slots_slots_vs7_run7",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers",
+    "label": "Drawers.cs",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_drawer",
+    "label": "Drawer",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_drawer_draw",
+    "label": ".Draw()",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_ext_drawers_cs_point",
+    "label": "Point",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_drawer_mark",
+    "label": ".Mark()",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_fancydrawer",
+    "label": "FancyDrawer",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_fancydrawer_draw",
+    "label": ".Draw()",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_fancydrawer_mark",
+    "label": ".Mark()",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_drawuser",
+    "label": "DrawUser",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_drawuser_drawit",
+    "label": ".DrawIt()",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers_drawuser_markit",
+    "label": ".MarkIt()",
+    "source_file": "src/Sg/Ext/Drawers.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers2",
+    "label": "Drawers2.cs",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers2_fancydrawer2",
+    "label": "FancyDrawer2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers2_fancydrawer2_draw",
+    "label": ".Draw()",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_ext_drawers2_cs_point",
+    "label": "Point",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers2_drawuser2",
+    "label": "DrawUser2",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers2_drawuser2_drawit",
+    "label": ".DrawIt()",
+    "source_file": "src/Sg/Ext/Drawers2.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3",
+    "label": "Drawers3.cs",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3_plaindrawer",
+    "label": "PlainDrawer",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3_plaindrawer_mark",
+    "label": ".Mark()",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_ext_drawers3_cs_point",
+    "label": "Point",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3_aliasdrawer",
+    "label": "AliasDrawer",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3_aliasdrawer_mark",
+    "label": ".Mark()",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3_drawuser3",
+    "label": "DrawUser3",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3_drawuser3_markplain",
+    "label": ".MarkPlain()",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ext_drawers3_drawuser3_markalias",
+    "label": ".MarkAlias()",
+    "source_file": "src/Sg/Ext/Drawers3.cs",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals",
+    "label": "Locals.cs",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_repo",
+    "label": "Repo",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_repo_keep",
+    "label": ".Keep()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_cachedrepo",
+    "label": "CachedRepo",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_cachedrepo_keep",
+    "label": ".Keep()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_localuser",
+    "label": "LocalUser",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_localuser_deconstruct",
+    "label": ".Deconstruct()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_localuser_deconstructvar",
+    "label": ".DeconstructVar()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_localuser_reflocal",
+    "label": ".RefLocal()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_localuser_nested",
+    "label": ".Nested()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_localuser_fresh",
+    "label": ".Fresh()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_locals_localuser_increment",
+    "label": ".Increment()",
+    "source_file": "src/Sg/Locals/Locals.cs",
+    "source_location": "L66"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_reordered",
+    "label": "Reordered.cs",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_reordered_cachedrepo4",
+    "label": "CachedRepo4",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_reordered_cachedrepo4_keep4",
+    "label": ".Keep4()",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_reordered_repo4",
+    "label": "Repo4",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_reordered_repo4_keep4",
+    "label": ".Keep4()",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_reordered_localuser4",
+    "label": "LocalUser4",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "locals_reordered_localuser4_deconstruct",
+    "label": ".Deconstruct()",
+    "source_file": "src/Sg/Locals/Reordered.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase",
+    "label": "LastBase.cs",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase_cartstorex",
+    "label": "CartStoreX",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_open_lastbase_cs_t",
+    "label": "T",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase_cartstorex_save",
+    "label": ".Save()",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_open_lastbase_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase_storex",
+    "label": "StoreX",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase_storex_save",
+    "label": ".Save()",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase_lastuser",
+    "label": "LastUser",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase_lastuser_saveorder",
+    "label": ".SaveOrder()",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_open_lastbase_cs_order",
+    "label": "Order",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_lastbase_lastuser_savecart",
+    "label": ".SaveCart()",
+    "source_file": "src/Sg/Open/LastBase.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_storeuser",
+    "label": "StoreUser.cs",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_storeuser_storeuser",
+    "label": "StoreUser",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cartstore",
+    "label": "CartStore",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_storeuser_storeuser_saveorder",
+    "label": ".SaveOrder()",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_open_storeuser_cs_order",
+    "label": "Order",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_storeuser_storeuser_savecart",
+    "label": ".SaveCart()",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_open_storeuser_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_storeuser_storeuser_keeporder",
+    "label": ".KeepOrder()",
+    "source_file": "src/Sg/Open/StoreUser.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores",
+    "label": "Stores.cs",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_order",
+    "label": "Order",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cart",
+    "label": "Cart",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_store",
+    "label": "Store",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_store_save",
+    "label": ".Save()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_open_stores_cs_t",
+    "label": "T",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_store_keep",
+    "label": ".Keep()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cartstore",
+    "label": "CartStore",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cartstore_save",
+    "label": ".Save()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cartstore_keep",
+    "label": ".Keep()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_box",
+    "label": "Box",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_box_fill",
+    "label": ".Fill()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cartbox",
+    "label": "CartBox",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cartbox_fill",
+    "label": ".Fill()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cartbox_go",
+    "label": ".Go()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L46"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "open_stores_cartbox_gocart",
+    "label": ".GoCart()",
+    "source_file": "src/Sg/Open/Stores.cs",
+    "source_location": "L51"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos",
+    "label": "Repos.cs",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_entity",
+    "label": "Entity",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repository",
+    "label": "Repository",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repository_remove",
+    "label": ".Remove()",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg_repos_repos_cs_t",
+    "label": "T",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repository_add",
+    "label": ".Add()",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repobase",
+    "label": "RepoBase",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repobase_remove",
+    "label": ".Remove()",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repouser",
+    "label": "RepoUser",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repouser_removeid",
+    "label": ".RemoveId()",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "repos_repos_repouser_addone",
+    "label": ".AddOne()",
+    "source_file": "src/Sg/Repos/Repos.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sg_sg",
+    "label": "Sg.csproj",
+    "source_file": "src/Sg/Sg.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Sg/Sg.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist",
+    "label": "Persist.cs",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_order",
+    "label": "Order",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_iorderstore",
+    "label": "IOrderStore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_iorderstore_saveasync",
+    "label": ".SaveAsync()",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "task",
+    "label": "Task",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_orderstorebase",
+    "label": "OrderStoreBase",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_orderstorebase_saveasync",
+    "label": ".SaveAsync()",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_cachedorderstore",
+    "label": "CachedOrderStore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_cachedorderstore_saveasync",
+    "label": ".SaveAsync()",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_tracingorderstore",
+    "label": "TracingOrderStore",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_tracingorderstore_saveasync",
+    "label": ".SaveAsync()",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_persistuser",
+    "label": "PersistUser",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_persistuser_persist",
+    "label": ".Persist()",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L46"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_persist_persistuser_persistbase",
+    "label": ".PersistBase()",
+    "source_file": "src/Sg/Slots/Persist.cs",
+    "source_location": "L51"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots",
+    "label": "Slots.cs",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb1",
+    "label": "VB1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb1_run1",
+    "label": ".Run1()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vm1",
+    "label": "VM1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vm1_run1",
+    "label": ".Run1()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs1",
+    "label": "VS1",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs1_run1",
+    "label": ".Run1()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_irun2",
+    "label": "IRun2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_irun2_run2",
+    "label": ".Run2()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb2",
+    "label": "VB2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb2_run2",
+    "label": ".Run2()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vm2",
+    "label": "VM2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vm2_run2",
+    "label": ".Run2()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs2",
+    "label": "VS2",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs2_run2",
+    "label": ".Run2()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_irun3",
+    "label": "IRun3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L50"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_irun3_run3",
+    "label": ".Run3()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L52"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb3",
+    "label": "VB3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L55"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb3_run3",
+    "label": ".Run3()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs3",
+    "label": "VS3",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L62"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs3_run3",
+    "label": ".Run3()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L64"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb4",
+    "label": "VB4",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L73"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb4_run4",
+    "label": ".Run4()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L75"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs4",
+    "label": "VS4",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L80"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs4_run4",
+    "label": ".Run4()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L82"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb6",
+    "label": "VB6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L91"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb6_run6",
+    "label": ".Run6()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L93"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vm6",
+    "label": "VM6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L98"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vm6_run6",
+    "label": ".Run6()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L100"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs6",
+    "label": "VS6",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L105"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs6_run6",
+    "label": ".Run6()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L107"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_irun7",
+    "label": "IRun7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L112"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_irun7_run7",
+    "label": ".Run7()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L114"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb7",
+    "label": "VB7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L117"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vb7_run7",
+    "label": ".Run7()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L119"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs7",
+    "label": "VS7",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L128"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_vs7_run7",
+    "label": ".Run7()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L130"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_slotuser",
+    "label": "SlotUser",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L135"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_slotuser_use1",
+    "label": ".Use1()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L144"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_slotuser_use2",
+    "label": ".Use2()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L149"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_slotuser_use3",
+    "label": ".Use3()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L154"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_slotuser_use4",
+    "label": ".Use4()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L159"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_slotuser_use6",
+    "label": ".Use6()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L164"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "slots_slots_slotuser_use7",
+    "label": ".Use7()",
+    "source_file": "src/Sg/Slots/Slots.cs",
+    "source_location": "L169"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "7cbbd8e2d71c0de50f1f50a66017d537b70fa603ac1fc532cc06a264ca6501d0"
+}

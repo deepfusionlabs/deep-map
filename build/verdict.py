@@ -119,9 +119,13 @@ _LANG_ZERO_MIN_FILES = 5
 # share of the census — one unparseable file in a big repo is logged, not a degraded graph (G4).
 _FAILED_FILES_MIN = 10
 _FAILED_FILES_SHARE = 0.05
-# Mirrors build/sync.py:_TEST_DIR_PARTS (drift-locked by tests/extraction_engine_gates.py): under the
-# opt-in DEEPMAP_EXCLUDE_TESTS those files are dropped on purpose, so they are not "missing".
+# Under the opt-in DEEPMAP_EXCLUDE_TESTS sync drops the files THE test rule (sync._is_test_path) names on purpose,
+# so they are not "missing": _test_path_predicate hands that rule to the skipped / unindexed directory findings.
+# These mirror build/sync.py:_TEST_DIR_PARTS and _DOTNET_TEST_DIR_SUFFIXES for its fallback (drift-locked by
+# tests/extraction_engine_gates.py and tests/test_rule_mirror_gates.py).
 _TEST_DIR_PARTS = {"test", "tests", "__tests__", "spec", "specs", "testing", "e2e", "__mocks__"}
+_DOTNET_TEST_DIR_SUFFIXES = (".tests", ".test", ".unittests", ".unittest", ".integrationtests", ".integrationtest",
+                             ".functionaltests", ".acceptancetests", ".specs")
 # Windows path limits (T10#14 / T10d-8): with LongPathsEnabled=0 a directory path of 248+ characters cannot
 # be listed and a file path of 260+ cannot be opened — os.walk skipped such subtrees SILENTLY, the engine
 # dropped them too, and the census could not see what it never listed, so the verdict said READY.
@@ -407,18 +411,68 @@ def _count_source_files(d: Path, *, limit: int = 20000, rule=None) -> int:
     return sum(1 for _ in _walk_source(d, rule or _dir_ignore_rule(), limit))
 
 
+def _test_path_predicate():
+    """sync._is_test_path, THE test-code rule DEEPMAP_EXCLUDE_TESTS drops files by (a test directory component, a
+    .NET test-project directory such as src/Shop.Tests/, or a test file name; never a substring, so src/Contest/
+    and Shop.Testing.Abstractions/ are production). Imported lazily, and only while that switch is on: sync
+    imports this module, and on the sync path it is already loaded. A mirror of the whole rule when sync cannot
+    be imported (locked against sync by tests/test_rule_mirror_gates.py). Never raises."""
+    try:
+        here = str(Path(__file__).resolve().parent)
+        if here not in sys.path:
+            sys.path.insert(0, here)
+        import sync  # noqa: E402 — the owner of the rule
+        fn = getattr(sync, "_is_test_path", None)
+        if callable(fn):
+            return fn
+    except Exception:  # noqa: BLE001
+        pass
+
+    def fallback(source_file) -> bool:
+        parts = str(source_file or "").replace("\\", "/").split("/")
+        low = parts[-1].lower()
+        return (any(p.lower() in _TEST_DIR_PARTS or p.lower().endswith(_DOTNET_TEST_DIR_SUFFIXES) for p in parts[:-1])
+                or (low.startswith("test_") and low.endswith(".py"))
+                or low.endswith(("_test.py", "_test.go", "_test.rs", "_spec.rb"))
+                or any(low.endswith(m + e) for m in (".test", ".spec")
+                       for e in (".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"))
+                or parts[-1].endswith(("Test.java", "Tests.java")))
+    return fallback
+
+
+def _without_test_files(files, is_test) -> list:
+    """`files` (root-relative paths) minus the ones `is_test` names: sync drops those under DEEPMAP_EXCLUDE_TESTS on
+    purpose, so a directory finding counts only what the graph was meant to hold. Never raises (a file the rule
+    cannot judge is kept)."""
+    kept = []
+    for f in files or []:
+        try:
+            drop = bool(is_test(f))
+        except Exception:  # noqa: BLE001
+            drop = False
+        if not drop:
+            kept.append(f)
+    return kept
+
+
 def _skipped_source_dirs(root) -> dict:
-    """graphify_extract.skipped_source_dirs(root) — {engine-skipped dir: [git-tracked source files]} —
-    minus test dirs when DEEPMAP_EXCLUDE_TESTS drops them on purpose. {} on any problem."""
+    """graphify_extract.skipped_source_dirs(root) — {engine-skipped dir: [git-tracked source files]} — minus,
+    when DEEPMAP_EXCLUDE_TESTS drops them on purpose, every file THE test rule names (a dir left with none is not
+    listed). {} on any problem."""
     try:
         here = str(Path(__file__).resolve().parent)
         if here not in sys.path:
             sys.path.insert(0, here)
         import graphify_extract
         found = graphify_extract.skipped_source_dirs(root)
-        if str(os.environ.get("DEEPMAP_EXCLUDE_TESTS", "")).strip().lower() in {"1", "true", "yes", "on"}:
-            found = {d: fs for d, fs in found.items()
-                     if not any(p.lower() in _TEST_DIR_PARTS for p in d.split("/"))}
+        if _exclude_tests() and found:
+            is_test = _test_path_predicate()
+            kept: dict = {}
+            for d, fs in found.items():
+                files = _without_test_files(fs, is_test)
+                if files:
+                    kept[d] = files
+            found = kept
         return found
     except Exception:
         return {}
@@ -531,14 +585,21 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
 
 
 def _unindexed_source_dirs(root) -> dict:
-    """graphify_extract.unindexed_source_dirs(root) — {dir: {"files": [...], "kind": ...}} — minus test dirs
-    when DEEPMAP_EXCLUDE_TESTS drops them on purpose. {} on any problem."""
+    """graphify_extract.unindexed_source_dirs(root) — {dir: {"files": [...], "kind": ...}} — minus, when
+    DEEPMAP_EXCLUDE_TESTS drops them on purpose, every file THE test rule names (a dir left with none is not
+    listed). {} on any problem."""
     try:
         gx = _extract_mod()
         fn = getattr(gx, "unindexed_source_dirs", None) if gx is not None else None
         found = fn(root) if callable(fn) else {}
-        if _exclude_tests():
-            found = {d: u for d, u in found.items() if not any(p.lower() in _TEST_DIR_PARTS for p in d.split("/"))}
+        if _exclude_tests() and found:
+            is_test = _test_path_predicate()
+            kept: dict = {}
+            for d, u in found.items():
+                files = _without_test_files(u.get("files"), is_test)
+                if files:
+                    kept[d] = {**u, "files": files}
+            found = kept
         return found or {}
     except Exception:
         return {}

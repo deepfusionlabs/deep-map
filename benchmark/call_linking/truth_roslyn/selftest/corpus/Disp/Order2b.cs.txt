@@ -1,0 +1,6 @@
+namespace Disp;
+
+public static class Order2b
+{
+    public static int Wide<T>(T t) where T : Xa => t.Go();
+}

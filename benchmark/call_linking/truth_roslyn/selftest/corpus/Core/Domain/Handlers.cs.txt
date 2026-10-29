@@ -1,0 +1,39 @@
+namespace Core.Domain;
+
+public interface IHandler<T>
+{
+    void Handle(T item);
+}
+
+public class MultiHandler : IHandler<Customer>, IHandler<Product>
+{
+    void IHandler<Customer>.Handle(Customer item)
+    {
+    }
+
+    void IHandler<Product>.Handle(Product item)
+    {
+    }
+}
+
+public interface IGreeter
+{
+    string Greet() => "hi " + Name();
+
+    string Name();
+}
+
+public class English : IGreeter
+{
+    public string Name() => "en";
+}
+
+public interface IFactory<TSelf> where TSelf : IFactory<TSelf>
+{
+    static abstract TSelf Create();
+}
+
+public class Widget : IFactory<Widget>
+{
+    public static Widget Create() => new();
+}

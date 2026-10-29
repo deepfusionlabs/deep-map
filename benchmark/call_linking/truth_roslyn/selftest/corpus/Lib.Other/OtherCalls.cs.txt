@@ -1,0 +1,12 @@
+namespace Lib.Other;
+
+public static class OtherCalls
+{
+    public static int Run()
+    {
+        int a = global::Lib.Secret.Code();
+        int b = global::Quiet.QuietSecret.Q();
+        int c = global::Locked.LockedSecret.L();
+        return a + b + c;
+    }
+}

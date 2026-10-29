@@ -1,0 +1,40 @@
+namespace Core.Domain;
+
+public interface IRepository<T>
+{
+    T Get(int id);
+}
+
+public record Customer(int Id);
+
+public record Product(int Id);
+
+public class CustomerRepository : IRepository<Customer>
+{
+    public Customer Get(int id) => new Customer(id);
+}
+
+public class ProductRepository : IRepository<Product>
+{
+    Product IRepository<Product>.Get(int id) => new(id);
+}
+
+public abstract class RepoBase<T> : IRepository<T>
+{
+    public abstract T Get(int id);
+}
+
+public class SpecialRepo : RepoBase<Order>
+{
+    public override Order Get(int id) => new Order(id);
+}
+
+public class VirtualRepo : IRepository<Order>
+{
+    public virtual Order Get(int id) => new Order(id);
+}
+
+public class DerivedVirtualRepo : VirtualRepo
+{
+    public override Order Get(int id) => new Order(id + 1);
+}

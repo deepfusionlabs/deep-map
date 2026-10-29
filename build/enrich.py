@@ -718,13 +718,18 @@ def _in_degrees(calls) -> dict:
     return deg
 
 
-_TEST_DIRS = frozenset({"test", "tests", "spec", "specs", "__tests__", "testing"})
+# The fallback mirror of sync's rule: == sync._TEST_DIR_PARTS and sync._DOTNET_TEST_DIR_SUFFIXES (a .NET test
+# project's DIRECTORY, src/Shop.Tests/, is test code). Both, and _is_test_file's fallback, are locked against sync
+# by tests/test_rule_mirror_gates.py.
+_TEST_DIRS = frozenset({"test", "tests", "__tests__", "spec", "specs", "testing", "e2e", "__mocks__"})
+_DOTNET_TEST_DIR_SUFFIXES = (".tests", ".test", ".unittests", ".unittest", ".integrationtests", ".integrationtest",
+                             ".functionaltests", ".acceptancetests", ".specs")
 
 
 def _is_test_file(source_file) -> bool:
     """sync._is_test_path (THE test-code rule — directory component or filename convention, never a substring:
-    src/contest.py and Latest.java are production), with a minimal mirror when sync can't be imported. Never
-    raises."""
+    src/contest.py and Latest.java are production), with a mirror of the whole rule when sync can't be imported.
+    Never raises."""
     try:
         import sync  # noqa: E402 — already imported by _rebuild_code on the enumeration path
         return bool(sync._is_test_path(source_file))
@@ -733,9 +738,11 @@ def _is_test_file(source_file) -> bool:
     try:
         parts = str(source_file or "").replace("\\", "/").split("/")
         low = parts[-1].lower()
-        return (any(p.lower() in _TEST_DIRS for p in parts[:-1])
+        return (any(p.lower() in _TEST_DIRS or p.lower().endswith(_DOTNET_TEST_DIR_SUFFIXES) for p in parts[:-1])
                 or (low.startswith("test_") and low.endswith(".py"))
                 or low.endswith(("_test.py", "_test.go", "_test.rs", "_spec.rb"))
+                or any(low.endswith(m + e) for m in (".test", ".spec")
+                       for e in (".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"))
                 or parts[-1].endswith(("Test.java", "Tests.java")))
     except Exception:
         return False
