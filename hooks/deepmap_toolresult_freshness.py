@@ -48,6 +48,7 @@ def _json_reader():
         strict = True
         object_hook = None
         object_pairs_hook = None
+        array_hook = None        # read by Python 3.15+'s scanner (JSONDecoder grew array_hook); older ones ignore it
         parse_float = float
         parse_int = int
         parse_constant = float   # NaN / Infinity / -Infinity, as json.loads

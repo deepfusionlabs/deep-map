@@ -4,6 +4,12 @@ All notable changes to DeepMap are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and versions are 0.x: DeepMap is an early release, and features
 may change between versions.
 
+## [0.6.1] - 2026-10-29
+
+### Fixed
+- **Python 3.15:** the hook that adds a freshness note after a DeepMap tool call takes its quick exit again (on 3.15
+  it took the slower full path on every call; the result was the same).
+
 ## [0.6.0] - 2026-10-28
 
 Better C# and .NET support, and impact rows that point at the call.
