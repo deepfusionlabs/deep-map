@@ -27,7 +27,10 @@ score says so (`truth_kind` "dispatch"; a jedi / tsc truth's score is exactly as
   g4c         EXTRACTED edges in T_d (`extracted_dispatch`), and those whose producing site binds statically to an
               interface member (`extracted_dispatch_iface`, read through PREREG_CS AC5's fields: the producing row's
               `dispatch_rule` — every T_d pair comes from a row with dispatch targets; `exact` False when a producing
-              row breaks AC5 (no `interface` / `override` rule) and the count could be higher)
+              row breaks AC5 (no `interface` / `override` rule) and the count could be higher). This is the decisive
+              count (AC24: "a's site of that name" is a site whose dispatch targets include b). Beside it, never
+              decisive (`any_site_decisive` False): `extracted_dispatch_iface_any_site`, the EXTRACTED T_d pairs (a, b)
+              where ANY site of a named b's last name segment binds statically to an interface member
 
 usage:
   python compare_calls.py <truth.json> <dump.json> [<dump.json> ...] [--src-prefix=src/flask/,...] [--json=out.json]
@@ -139,6 +142,8 @@ def score_cs(truth, dump, prefixes=None) -> dict:
     xd = sorted(p for p, g in G.items() if g == "EXTRACTED" and p in Td)
     xd_iface = [p for p in xd if td_iface.get(p) is True]
     xd_unknown = [p for p in xd if td_iface.get(p) is None]
+    # AC24: the count over ANY same-named site of the caller, reported beside the producing-site count, never decisive
+    xd_any = [p for p in xd if (p[0], C.last_segment(name_of.get(p[1]))) in P["iface_sites"]]
     return {
         "dump": dump.get("_path"), "flags": dump.get("flags"), "engine": dump.get("engine"),
         "graphify_version": dump.get("graphify_version"), "prefixes": prefixes, "truth_kind": "dispatch",
@@ -154,7 +159,8 @@ def score_cs(truth, dump, prefixes=None) -> dict:
         "extracted_cross_file": len(xfile), "extracted_cross_file_pairs": [list(p) for p in xfile[:20]],
         "g4c": {"extracted_dispatch": len(xd), "extracted_dispatch_iface": len(xd_iface),
                 "exact": not xd_unknown, "iface_unknown": len(xd_unknown),
-                "pairs": [list(p) for p in (xd_iface + xd_unknown)[:20]]},
+                "pairs": [list(p) for p in (xd_iface + xd_unknown)[:20]],
+                "extracted_dispatch_iface_any_site": len(xd_any), "any_site_decisive": False},
         "void": dump.get("void"),
         "by_grade": dict(sorted(by_grade.items())),
         "by_form": forms(Ts),
@@ -207,7 +213,9 @@ def _format_cs(s) -> list:
            f"G4c: EXTRACTED dispatch-only edges={g4['extracted_dispatch']} of them through an interface binding="
            f"{g4['extracted_dispatch_iface']}" + ("" if g4["exact"] else
                                                   f" (NOT EXACT: {g4['iface_unknown']} whose producing row names "
-                                                  f"no dispatch_rule interface / override, PREREG_CS AC5)"),
+                                                  f"no dispatch_rule interface / override, PREREG_CS AC5)")
+           + f"; through an interface binding at any same-named site (AC24, never decisive)="
+             f"{g4['extracted_dispatch_iface_any_site']}",
            f"static-only (dispatch ignored; never decisive): confirmed={so['confirmed']} refuted={so['refuted']} "
            f"({so['refuted_share']}) unverified={so['unverified']} EXTRACTED refuted share="
            f"{so['extracted_refuted_share']}"]

@@ -1,0 +1,18 @@
+namespace Microsoft.Extensions.Hosting
+{
+    public class Gizmo
+    {
+        public void Spin() { }
+    }
+}
+
+namespace Sa
+{
+    public class SaCalls
+    {
+        public void Go(Gizmo g)
+        {
+            g.Spin();
+        }
+    }
+}

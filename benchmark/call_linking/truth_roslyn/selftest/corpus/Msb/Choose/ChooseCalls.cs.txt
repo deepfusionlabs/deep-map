@@ -1,0 +1,36 @@
+namespace Ch.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Ch
+{
+    public class ChCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Ch.Late
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Ch.Other
+{
+    public class Marker { }
+}
+
+namespace Ch.Prop
+{
+    public class Marker { }
+}

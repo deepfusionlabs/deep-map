@@ -4844,20 +4844,29 @@ def _graph_input_exts() -> set:
 # TypeScript / JavaScript recognizer places imports and routes from tsconfig.json / jsconfig.json (`paths`, `baseUrl`
 # and an `extends` chain, usually tsconfig.<name>.json), package.json (`imports`, workspace packages, the next
 # dependency), nest-cli.json / angular.json / workspace.json / an Nx project.json (project roots) and next.config.*.
+# The C# reader (DEEPMAP_TYPED_CALLS=csharp, build/csharp_msbuild.py) reads what MSBuild evaluates for a project: the
+# .csproj, Directory.Build.props / .targets, Directory.Packages.props, every .props / .targets / .projitems they
+# import, packages.config, and a Directory.Build.rsp (whose -p: switches MSBuild reads as global properties; the
+# reader reads none of them: one there makes its reading incomplete). These count whether or not the reader is on,
+# as tsconfig.json counts in a repository with no TypeScript: the rule reads no knob, so a C# repository gets one
+# extra refresh at the upgrade and one on a project-file change, and that refresh changes the graph only when the
+# reader is on.
 # A change to one changes the typed edges, so it is "dirty" and part of the source fingerprint. The names the
-# recognizers read are drift-locked by tests/sync_status_gates.py section L (every *.json literal in a recognizer
-# module must be a graph input).
+# recognizers read are drift-locked by tests/sync_status_gates.py section L2 (every *.json literal in a recognizer
+# module must be a graph input) and L3 (every file name csharp_msbuild spells, and every file it opens).
 _GRAPH_CONFIG_NAMES = frozenset({".gitignore", ".graphifyignore", "package.json", "tsconfig.json", "jsconfig.json",
-                                 "nest-cli.json", "angular.json", "workspace.json", "project.json"})
+                                 "nest-cli.json", "angular.json", "workspace.json", "project.json",
+                                 "packages.config", "directory.build.rsp"})
 _GRAPH_CONFIG_JSON_PREFIXES = ("tsconfig.", "jsconfig.")     # an `extends` target: tsconfig.base.json, ...
 _GRAPH_CONFIG_PREFIXES = ("next.config.",)
+_GRAPH_CONFIG_SUFFIXES = (".csproj", ".props", ".targets", ".projitems")   # MSBuild: any name, any directory
 
 
 def _is_graph_config(name: str) -> bool:
     """True iff a file NAMED `name` is one of the non-source graph inputs above (case-insensitive)."""
     n = str(name).lower()
     return (n in _GRAPH_CONFIG_NAMES or (n.startswith(_GRAPH_CONFIG_JSON_PREFIXES) and n.endswith(".json"))
-            or n.startswith(_GRAPH_CONFIG_PREFIXES))
+            or n.startswith(_GRAPH_CONFIG_PREFIXES) or n.endswith(_GRAPH_CONFIG_SUFFIXES))
 
 
 def _affects_graph(rel: str, vendor_parts, exts) -> bool:
@@ -5324,7 +5333,8 @@ def write_graph_build_manifest(root, *, n_nodes: int, n_edges: int, n_embedded: 
     the memory the engine-downgrade prune guard reads back (see _read_prior_extractor).
 
     `stale_cleanup_skipped` (optional; round 7, T5#7) — the reason a requested stale prune was refused
-    ("blast-radius", "engine-downgrade") — with `graph_nodes`, the graph's real node total then: `nodes`
+    ("blast-radius", "engine-downgrade", "no-root-marker", "zero-nodes"; "evidence" for the background refresh's
+    evidence-only prune) — with `graph_nodes`, the graph's real node total then (when it was read): `nodes`
     stays what THIS run pushed, so after a refused prune the manifest no longer reads as the whole graph
     (670 pushed while the graph held 1589).
 
@@ -6580,7 +6590,11 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
                       f"--force-prune to override.", file=sys.stderr)
         elif full and nodes and not root_ok:
             # Keys are root-relative, so a subdir sync's live set never covers the full graph — a
-            # graph-wide DETACH DELETE would wipe out-of-scope nodes. Refuse it loudly.
+            # graph-wide DETACH DELETE would wipe out-of-scope nodes. Refuse it loudly, and record it
+            # (sync_last.json, the manifest: stale_cleanup_skipped). No prune plan was read, so how many stale
+            # nodes the graph holds is UNKNOWN here: the verdict below DEGRADEs only when the graph provably
+            # holds more nodes than this run pushed (`unplanned_extra`), and never states a count it did not see.
+            prune_skipped = "no-root-marker"
             print(f"[deepmap sync] stale-cleanup SKIPPED: {root} has no repo-root marker "
                   "(.git/.hg/.svn/pyproject.toml/package.json/go.mod/Cargo.toml/…) — a subdir sync's "
                   "keys are subtree-scoped, so a graph-wide prune would wipe out-of-scope nodes. Run "
@@ -6588,7 +6602,9 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
                   file=sys.stderr)
         elif full and not nodes:
             # An extraction that yields 0 nodes (extractor crash, empty repo, graphify miss) must
-            # NOT trigger DETACH DELETE of everything — that would wipe a good graph. Refuse it.
+            # NOT trigger DETACH DELETE of everything — that would wipe a good graph. Refuse it, and record it in
+            # sync_last.json (and in a manifest this pass writes: an EMPTY graph's; a kept graph keeps its own).
+            prune_skipped = "zero-nodes"
             print("[deepmap sync] stale-cleanup SKIPPED: extraction produced 0 nodes "
                   "(refusing to wipe the graph)", file=sys.stderr)
         if fts_dirty:
@@ -6659,6 +6675,13 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
         # Round 7 (T5#7): a refused prune leaves nodes this run did not extract in the graph — report the
         # graph's real total next to this run's count (and in the manifest + verdict below).
         graph_total = _graph_node_count(driver) if (prune_skipped and n_pushed) else None
+        # A stale-cleanup refused for a missing repo-root marker read no prune plan, so its stale count is unknown.
+        # What IS provable: the graph holding MORE nodes than this run pushed. A push writes only `nodes` (edges never
+        # create a node) and len(nodes) can only over-count the nodes it wrote (a key listed twice under one label is
+        # one node), so the excess is a LOWER bound on the nodes this run did not extract. None: not shown to exist.
+        unplanned_extra = (graph_total - n_pushed
+                           if (prune_skipped == "no-root-marker" and n_pushed and graph_total is not None
+                               and graph_total > n_pushed) else None)
         if graph_kept:
             kept_n = _graph_node_count(driver)
             kept = (f"{kept_n} nodes, {n_emb_total} embedded" if kept_n is not None
@@ -6670,10 +6693,21 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
                   f"graph still holds a previous build could not be read, so its graph-build manifest was left "
                   f"unchanged", file=sys.stderr)
         else:
+            if prune_skipped == "no-root-marker":
+                # never "nodes this run did not extract are still in it" unless the counts prove some are
+                held = (f"; the graph holds {graph_total} nodes, {unplanned_extra} more than this run pushed — the "
+                        f"stale-cleanup did not run (no repo-root marker), so nodes this run did not extract are "
+                        f"still in it" if unplanned_extra else
+                        "; the stale-cleanup did not run (no repo-root marker)"
+                        + (f", and the graph holds {graph_total} nodes, no more than this run pushed"
+                           if graph_total is not None else ", and the graph's node count could not be read"))
+            elif graph_total is not None:
+                held = (f"; the graph holds {graph_total} nodes — the stale-cleanup was skipped, so nodes this "
+                        f"run did not extract are still in it")
+            else:
+                held = ""
             print(f"[deepmap sync] {n_pushed} nodes, {n_edges} CALLS edges, {n_emb} embedded this run "
-                  f"({n_emb_total} embedded total) from {root}"
-                  + (f"; the graph holds {graph_total} nodes — the stale-cleanup was skipped, so nodes this "
-                     f"run did not extract are still in it" if graph_total is not None else ""))
+                  f"({n_emb_total} embedded total) from {root}" + held)
         # Honest verdict (P1/P4/P5 + the Rails coverage layer): a degraded/empty outcome must be
         # LOUD, not a silent success — 0 nodes on a non-Python repo, 0 embeddings (vector search
         # off), or a dead conventional layer (app/models/ with files but ~no nodes). Advisory +
@@ -6690,7 +6724,20 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
                 extractor=engine,   # the RESOLVED engine actually used (graphify or ast fallback)
                 ml_ok=_verdict.ml_stack_ok(),
                 coverage=_cov, extraction=extraction)
-            if prune_skipped and prune_skipped != "evidence" and n_pushed:
+            if prune_skipped == "no-root-marker":
+                # No prune plan: DEGRADED only when the graph provably holds nodes this run did not extract (at least
+                # `unplanned_extra`); otherwise the verdict is this run's own (the line above says the stale-cleanup
+                # did not run, and sync_last.json / the manifest record why).
+                if unplanned_extra:
+                    _rs = list(_rs or []) + [
+                        f"STALE NODES KEPT — the requested stale-cleanup was skipped (no-root-marker: without a "
+                        f"repo-root marker DeepMap cannot tell this directory is the whole project), so the graph "
+                        f"still holds at least {unplanned_extra} node(s) this run did not extract ({graph_total} "
+                        f"nodes in all); search and impact can return them. Run --stale-cleanup from the "
+                        f"repository root, or drop a .deepmap-root file there"]
+                    if _v == _verdict.READY:
+                        _v = _verdict.DEGRADED
+            elif prune_skipped and prune_skipped != "evidence" and n_pushed:
                 # Round 7 (T5#7): the graph is not what this run extracted — say so, and never call it READY.
                 # (Not for the background refresh's evidence-only prune, auto-sync H7: a DEGRADED verdict would
                 # silence DeepMap's guidance over a few kept nodes — they are reported as stale_kept instead.)
@@ -6725,9 +6772,12 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
             engines_after = sorted(set(prior_engines) | {engine})
         else:
             engines_after = prior_engines if keep_manifest else []
+        # Every refusal is recorded, the 0-node one too ("zero-nodes": nothing pushed, the graph left as it was).
+        # stale_kept: the prune plan's count, or for "no-root-marker" (no plan) the proven lower bound; else 0.
         pinfo.update(reasons=list(_rs or []), pushed_nodes=int(n_pushed or 0),
-                     stale_cleanup_skipped=(prune_skipped if n_pushed else None),
+                     stale_cleanup_skipped=prune_skipped,
                      stale_kept=(int(evidence_kept or 0) if prune_skipped == "evidence" else
+                                 int(unplanned_extra or 0) if prune_skipped == "no-root-marker" else
                                  int((plan or {}).get("would_delete") or 0) if prune_skipped else 0))
         if not keep_manifest:
             # Provenance sidecar (best-effort) — records the git SHA the graph was built at so the
@@ -6744,7 +6794,7 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
                 extractor=engine,   # the RESOLVED engine (graphify or ast fallback), not just the mode
                 verdict=_v, reasons=_rs, coverage=_cov, extraction=extraction,
                 source_state=source_state, graph_engines=engines_after,
-                stale_cleanup_skipped=prune_skipped if n_pushed else None, graph_nodes=graph_total,
+                stale_cleanup_skipped=prune_skipped, graph_nodes=graph_total,
                 stale_kept=(evidence_kept if (prune_skipped == "evidence" and n_pushed) else None),
                 build_recipe=recipe, sync_wall_s=time.monotonic() - lock_t0,
                 embeddings_pending=(True if deferred else None), call_linking=call_stats)

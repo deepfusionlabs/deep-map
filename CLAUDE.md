@@ -24,7 +24,7 @@ name internal fix rounds. Keep them: they tie a check to the defect it locks.
   extraction and the verdict (`graphify_extract.py`, `graphify_case_shim.py`, `verdict.py`), retrieval and the CLI
   (`retrieval.py`, `deepmap_cli.py`), typed edges (`framework_edges.py`, `edge_resolve.py`,
   `language_recognizers.py`, the `*_edges.py` readers), enrichment (`enrich.py`) and the opt-in call linker
-  (`typed_calls.py`, `receiver_facts_*.py`, `py_import_resolver.py`). Detail: `build/CLAUDE.md`.
+  (`typed_calls.py`, `receiver_facts_*.py`, `csharp_msbuild.py`, `py_import_resolver.py`). Detail: `build/CLAUDE.md`.
 - `hooks/`: `hooks.json` and the hook scripts; `deepmap_hook_state.py` is the module they share.
 - `commands/`: the `/deep-map:*` slash commands. `skills/deep-map/SKILL.md`: the reasoning skill.
 - `tests/`: the gate suites (`*_gates.py`), fanned out by `tests/run_all.py`; frozen ordering oracles under

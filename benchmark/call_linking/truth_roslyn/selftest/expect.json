@@ -1769,6 +1769,22 @@
    ]
   },
   {
+   "what": "AC20: `unmanaged` reads as `struct` (System.ValueType): the same targets as the struct row (line 29), the struct's override only (receiver_reading value_type: tool_counts override_type_parameter_receiver:value_type is 2)",
+   "file": "Disp/Ac2.cs",
+   "line": 39,
+   "name": "ToString",
+   "receiver_type": "T",
+   "defs": [],
+   "dispatch_rule": "override",
+   "dispatch": [
+    [
+     "Core/Domain/Pricing.cs",
+     15
+    ]
+   ],
+   "dispatch_dropped": {}
+  },
+  {
    "what": "AC2: an interface constraint is no class constraint: System.Object",
    "file": "Disp/Ac2.cs",
    "line": 31,
@@ -1845,6 +1861,145 @@
      20
     ]
    ]
+  },
+  {
+   "what": "AC25 + AC1, interface rule: T ranges over every non-interface type implementing IRepoA, the ABSTRACT RepoBaseA included (8.2), so RepoBaseA.Save's body is a target although every concrete subclass overrides it; SqlRepoA and MemRepoA run their overrides (AC1)",
+   "file": "Disp/Ac25.cs",
+   "line": 55,
+   "name": "Save",
+   "form": "name_attr",
+   "defstack": [
+    [
+     "Ac25Calls.ViaInterface",
+     55,
+     []
+    ]
+   ],
+   "defs": [
+    [
+     "Disp/Ac25.cs",
+     5
+    ]
+   ],
+   "def_interface": [
+    true
+   ],
+   "def_body": [
+    false
+   ],
+   "dispatch_rule": "interface",
+   "dispatch": [
+    [
+     "Disp/Ac25.cs",
+     10
+    ],
+    [
+     "Disp/Ac25.cs",
+     17
+    ],
+    [
+     "Disp/Ac25.cs",
+     24
+    ]
+   ],
+   "dispatch_dropped": {},
+   "dispatch_none": null
+  },
+  {
+   "what": "AC25, override rule: through the abstract RepoBaseA, RepoBaseA.Save is the static def (S itself is never a dispatch target) and the overrides below it are the dispatch",
+   "file": "Disp/Ac25.cs",
+   "line": 57,
+   "name": "Save",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Disp/Ac25.cs",
+     10
+    ]
+   ],
+   "def_interface": [
+    false
+   ],
+   "def_body": [
+    true
+   ],
+   "dispatch_rule": "override",
+   "dispatch": [
+    [
+     "Disp/Ac25.cs",
+     17
+    ],
+    [
+     "Disp/Ac25.cs",
+     24
+    ]
+   ],
+   "dispatch_dropped": {},
+   "dispatch_none": null
+  },
+  {
+   "what": "AC25 + AC1, interface rule through an abstract middle class: MidRepoB (abstract) runs its own override, so MidRepoB.Save is a target although LeafRepoB overrides it; the abstract RepoBaseB's slot is bodiless",
+   "file": "Disp/Ac25.cs",
+   "line": 59,
+   "name": "Save",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Disp/Ac25.cs",
+     31
+    ]
+   ],
+   "def_interface": [
+    true
+   ],
+   "def_body": [
+    false
+   ],
+   "dispatch_rule": "interface",
+   "dispatch": [
+    [
+     "Disp/Ac25.cs",
+     41
+    ],
+    [
+     "Disp/Ac25.cs",
+     48
+    ]
+   ],
+   "dispatch_dropped": {
+    "bodiless": 1
+   }
+  },
+  {
+   "what": "AC25, override rule: an override declared on an abstract class (MidRepoB.Save) is in the override set of the abstract root RepoBaseB.Save, beside the leaf's",
+   "file": "Disp/Ac25.cs",
+   "line": 61,
+   "name": "Save",
+   "form": "name_attr",
+   "defs": [
+    [
+     "Disp/Ac25.cs",
+     36
+    ]
+   ],
+   "def_interface": [
+    false
+   ],
+   "def_body": [
+    false
+   ],
+   "dispatch_rule": "override",
+   "dispatch": [
+    [
+     "Disp/Ac25.cs",
+     41
+    ],
+    [
+     "Disp/Ac25.cs",
+     48
+    ]
+   ],
+   "dispatch_dropped": {}
   },
   {
    "what": "one S through two constraints, the wide one's file first: T : Wa",
@@ -2088,6 +2243,36 @@
    "defs": []
   },
   {
+   "what": "AC21: Directory.Build.targets is read after the project, the last assignment wins: Nest3's props disables ImplicitUsings, its targets enables them, so List binds through the implicit System.Collections.Generic",
+   "file": "Nest3/Late/LateCalls.cs",
+   "line": 5,
+   "name": "List",
+   "site_kind": "object_creation",
+   "resolution": "symbol",
+   "defs": [],
+   "project": "Nest3/Late/Late.csproj"
+  },
+  {
+   "what": "AC21: the same project's File.Exists binds only through the implicit System.IO",
+   "file": "Nest3/Late/LateCalls.cs",
+   "line": 7,
+   "name": "Exists",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "defs": [],
+   "project": "Nest3/Late/Late.csproj"
+  },
+  {
+   "what": "AC21: the targets' enable wins over the project's own disable too (Directory.Build.targets comes after the project body)",
+   "file": "Nest3/Own/OwnCalls.cs",
+   "line": 5,
+   "name": "Exists",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "defs": [],
+   "project": "Nest3/Own/Own.csproj"
+  },
+  {
    "what": "AC3: an <InternalsVisibleTo Include> item: an internal member of an internal type",
    "file": "Lib.Friends/FriendCalls.cs",
    "line": 7,
@@ -2200,6 +2385,38 @@
    "internals_visible_to": "source"
   },
   {
+   "what": "AC21: $(AssemblyName) in an <InternalsVisibleTo Include> item is the assembly name MSBuild assigns before its item pass, the project file's name when nothing sets <AssemblyName> (Kit -> the friend Kit.Tests)",
+   "file": "tests/Kit.Tests/KitTests.cs",
+   "line": 5,
+   "name": "K",
+   "defs": [
+    [
+     "Kit/KitSecret.cs",
+     5
+    ]
+   ],
+   "dispatch": [],
+   "resolution": "symbol",
+   "project": "tests/Kit.Tests/Kit.Tests.csproj",
+   "internals_visible_to": "generated"
+  },
+  {
+   "what": "AC21: an explicit <AssemblyName> wins, even one written after the item (properties are evaluated before items): Cog -> the friend Cog.Tests, not the file name's Gear.Tests",
+   "file": "tests/Cog.Tests/CogTests.cs",
+   "line": 5,
+   "name": "G",
+   "defs": [
+    [
+     "Gear/GearSecret.cs",
+     5
+    ]
+   ],
+   "dispatch": [],
+   "resolution": "symbol",
+   "project": "tests/Cog.Tests/Cog.Tests.csproj",
+   "internals_visible_to": "generated"
+  },
+  {
    "what": "AC3: MAUI single project: only the first target framework's platform folder is compiled (iOS)",
    "file": "Mobile/MobileApp.cs",
    "line": 5,
@@ -2210,6 +2427,326 @@
      5
     ]
    ]
+  },
+  {
+   "what": "fix 1: a multi-line <ImplicitUsings> is not 'enable' (MSBuild keeps a property value verbatim): no SDK using, so Timer is only the Ws.Lib the verbatim-reading condition added",
+   "file": "Ws/WsCalls.cs",
+   "line": 20,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Ws/Ws.csproj",
+   "defs": [
+    [
+     "Ws/WsCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 2: <Using Remove=\"system.THREAD*\"> removes System.Threading by wildcard, in any letter case, so Timer is not ambiguous with Rm.Lib's",
+   "file": "Rm/Glob/RmCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Rm/Glob/RmGlob.csproj",
+   "defs": [
+    [
+     "Rm/Glob/RmCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 3: net48: no System.Net.Http using (Microsoft.NET.Sdk.CSharp.props:31), so HttpClient is NetFx.Lib's and not ambiguous",
+   "file": "NetFx/Main/NetFxCalls.cs",
+   "line": 20,
+   "name": "Send",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "NetFx/Main/NetFxMain.csproj",
+   "defs": [
+    [
+     "NetFx/Main/NetFxCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 4: a <Using Include> and ImplicitUsings=disable in Directory.Packages.props count: Timer is Pkg.Lib's",
+   "file": "Pkg/On/PkgOnCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Pkg/On/PkgOn.csproj",
+   "defs": [
+    [
+     "Pkg/On/PkgOnCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 5: Exists() is read on the tree: an item's condition from the project directory (ExCalls.cs), an Import's and a PropertyGroup's from the file holding them (Shared.props, Proj/ExCalls.cs); Timer is Ex.Lib's",
+   "file": "Msb/Exists/Proj/ExCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Exists/Proj/ExProj.csproj",
+   "defs": [
+    [
+     "Msb/Exists/Proj/ExCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 6: MSBuild compares two boolean-like operands as booleans: ImplicitUsings=yes is on, 'On' == 'TRUE' adds Bo.Lib, !'!true' removes System.Threading, so Timer is Bo.Lib's alone",
+   "file": "Msb/Bool/BoolCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Bool/BoolProj.csproj",
+   "defs": [
+    [
+     "Msb/Bool/BoolCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 7: Directory.Build.rsp's -p switches are global properties: ImplicitUsings=disable and RsFlag=on win over the project's, so Timer is Rs.Lib's (no System.Threading)",
+   "file": "Msb/Rsp/Proj/RspCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Rsp/Proj/RspProj.csproj",
+   "defs": [
+    [
+     "Msb/Rsp/Proj/RspCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 8: TreatAsLocalProperty on the project holds from Directory.Build.props on: its Configuration=Debug replaces the global Release, so Tl.Lib is imported",
+   "file": "Msb/Tlp/Proj/TlpCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Tlp/Proj/TlpProj.csproj",
+   "defs": [
+    [
+     "Msb/Tlp/Proj/TlpCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 9: a Directory.Build.props written <Project Sdk=\"Microsoft.NET.Sdk.Worker\"> imports that SDK: Microsoft.Extensions.Hosting is a global using, so Gizmo binds",
+   "file": "Msb/SdkImp/Attr/SdkAttrCalls.cs",
+   "line": 15,
+   "name": "Spin",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/SdkImp/Attr/SdkAttr.csproj",
+   "defs": [
+    [
+     "Msb/SdkImp/Attr/SdkAttrCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 9: an imported file's <Sdk Name=\"Microsoft.NET.Sdk.Web\" /> imports that SDK: Microsoft.AspNetCore.Routing is a global using, so Gadget binds",
+   "file": "Msb/SdkImp/Elem/SdkElemCalls.cs",
+   "line": 15,
+   "name": "Spin",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/SdkImp/Elem/SdkElem.csproj",
+   "defs": [
+    [
+     "Msb/SdkImp/Elem/SdkElemCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 10: <Using Update=\"./System.Threading\" Alias=\"Thr\"> turns the SDK's System.Threading into an alias and Exclude=\"./Up.Other\" drops Up.Other, so Timer is Up.Lib's alone",
+   "file": "Msb/Update/UpCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Update/UpProj.csproj",
+   "defs": [
+    [
+     "Msb/Update/UpCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 11: %XX is decoded after the ';' split: ImplicitUsings %65nable is enable, Es%2ELib is Es.Lib, System%2EThreading is removed, so Timer is Es.Lib's",
+   "file": "Msb/Esc/EscCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Esc/EscProj.csproj",
+   "defs": [
+    [
+     "Msb/Esc/EscCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 12: Remove=\"System.Threading.\" removes System.Threading (Windows drops a path's trailing periods), so Timer is Dt.Lib's",
+   "file": "Msb/Dots/DotsCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Dots/DotsProj.csproj",
+   "defs": [
+    [
+     "Msb/Dots/DotsCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 13: a project with no SDK has no GenerateGlobalUsings target: its <Using Include=\"Nb.Other\"> is never written, so the file's own using Nb.Lib decides Timer",
+   "file": "Msb/NoSdk/Bare/NbCalls.cs",
+   "line": 17,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/NoSdk/Bare/NoSdkBare.csproj",
+   "defs": [
+    [
+     "Msb/NoSdk/Bare/NbCalls.cs",
+     7
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 13: Sdk.props without Sdk.targets: no GenerateGlobalUsings target, nothing written (no SDK list, no Po.Other), so the file's own using Po.Lib decides Timer",
+   "file": "Msb/NoSdk/PropsOnly/PoCalls.cs",
+   "line": 17,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/NoSdk/PropsOnly/PropsOnly.csproj",
+   "defs": [
+    [
+     "Msb/NoSdk/PropsOnly/PoCalls.cs",
+     7
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 14: Sdk.targets alone writes the project's Using items but no SDK list (System.Threading is not a using), so Timer is Tg.Lib's",
+   "file": "Msb/TgtOnly/TgCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/TgtOnly/TgtOnly.csproj",
+   "defs": [
+    [
+     "Msb/TgtOnly/TgCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 15: UseWPF removes System.IO (and System.Net.Http), so File is Dk.Lib's, not ambiguous with System.IO.File",
+   "file": "Msb/Desk/DkCalls.cs",
+   "line": 15,
+   "name": "Touch",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Desk/DeskProj.csproj",
+   "defs": [
+    [
+     "Msb/Desk/DkCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 15: UseWindowsForms adds System.Drawing and System.Windows.Forms, so Widget binds",
+   "file": "Msb/Desk/DkCalls.cs",
+   "line": 16,
+   "name": "Spin",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Desk/DeskProj.csproj",
+   "defs": [
+    [
+     "Msb/Desk/DkCalls.cs",
+     25
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 16: an item type ignores letter case: <using Include> adds Lw.Lib and <USING Remove> removes System.Threading, so Timer is Lw.Lib's",
+   "file": "Msb/Lower/LowerCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Lower/LowerProj.csproj",
+   "defs": [
+    [
+     "Msb/Lower/LowerCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
+  },
+  {
+   "what": "fix 17: <Choose> is evaluated, its When decided in the property pass: ChLate is set after the Choose, so the Release branch's Ch.Lib (not Ch.Late) is the using and Timer is Ch.Lib's",
+   "file": "Msb/Choose/ChooseCalls.cs",
+   "line": 15,
+   "name": "Tick",
+   "form": "name_attr",
+   "resolution": "symbol",
+   "project": "Msb/Choose/ChooseProj.csproj",
+   "defs": [
+    [
+     "Msb/Choose/ChooseCalls.cs",
+     5
+    ]
+   ],
+   "dispatch": []
   }
  ],
  "absent_sites": [
@@ -2568,6 +3105,14 @@
   ],
   "resolver|projects|Locked/Locked.csproj|internals_visible_to": [],
   "resolver|projects|Locked/Locked.csproj|generate_assembly_info": false,
+  "resolver|projects|Kit/Kit.csproj|assembly_name": "Kit",
+  "resolver|projects|Kit/Kit.csproj|internals_visible_to": [
+   "Kit.Tests"
+  ],
+  "resolver|projects|Gear/Gear.csproj|assembly_name": "Cog",
+  "resolver|projects|Gear/Gear.csproj|internals_visible_to": [
+   "Cog.Tests"
+  ],
   "resolver|projects|Mobile/Mobile.csproj|target_framework": "net10.0-ios",
   "resolver|projects|Mobile/Mobile.csproj|maui_removed_files": [
    "Mobile/Platforms/Android/Native.cs",
@@ -2575,14 +3120,341 @@
    "Mobile/Platforms/Shared.cs",
    "Mobile/Platforms/Windows/Native.cs"
   ],
-  "tool_counts|ivt_sites:generated": 4,
+  "tool_counts|ivt_sites:generated": 6,
   "tool_counts|ivt_sites:source": 2,
   "tool_counts|maui_platform_files_excluded": 4,
-  "tool_counts|ac1_rows:interface": 6,
-  "tool_counts|ac1_targets:interface": 19,
+  "tool_counts|ac1_rows:interface": 8,
+  "tool_counts|ac1_targets:interface": 23,
   "tool_counts|override_type_parameter_receiver:class_constraint": 6,
   "tool_counts|override_type_parameter_receiver:inherited_class_constraint": 1,
   "tool_counts|override_type_parameter_receiver:object": 2,
-  "tool_counts|override_type_parameter_receiver:value_type": 1
+  "tool_counts|override_type_parameter_receiver:value_type": 2,
+  "resolver|projects|Nest3/Late/Late.csproj|implicit_usings": true,
+  "resolver|projects|Nest3/Late/Late.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Nest3/Late/Late.csproj|read": [
+   "Nest3/Directory.Build.props",
+   "Nest3/Late/Late.csproj",
+   "Nest3/Directory.Build.targets"
+  ],
+  "resolver|projects|Nest3/Own/Own.csproj|implicit_usings": true,
+  "resolver|projects|Nest3/Own/Own.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Nest3/Own/Own.csproj|read": [
+   "Nest3/Directory.Build.props",
+   "Nest3/Own/Own.csproj",
+   "Nest3/Directory.Build.targets"
+  ],
+  "resolver|projects|Ws/Ws.csproj|implicit_usings": false,
+  "resolver|projects|Ws/Ws.csproj|global_usings": [
+   "global using global::Ws.Lib;"
+  ],
+  "resolver|projects|Rm/Glob/RmGlob.csproj|global_usings": [
+   "global using global::Rm.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Net.Http;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Rm/Stars/RmStars.csproj|global_usings": [
+   "global using global::System;"
+  ],
+  "resolver|projects|Rm/Dots/RmDots.csproj|global_usings": [],
+  "resolver|projects|NetFx/Main/NetFxMain.csproj|global_usings": [
+   "global using global::NetFx.Lib;",
+   "global using global::NetFx.Other;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|NetFx/Dotted/NetFxDotted.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|NetFx/Core5/NetFxCore5.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|NetFx/Tfi/NetFxTfi.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Pkg/On/PkgOn.csproj|implicit_usings": false,
+  "resolver|projects|Pkg/On/PkgOn.csproj|global_usings": [
+   "global using global::Pkg.Lib;"
+  ],
+  "resolver|projects|Pkg/On/PkgOn.csproj|read": [
+   "Directory.Build.props",
+   "Pkg/Directory.Packages.props",
+   "Pkg/On/PkgOn.csproj"
+  ],
+  "resolver|projects|Pkg/Off/PkgOff.csproj|implicit_usings": true,
+  "resolver|projects|Pkg/Off/PkgOff.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Pkg/Off/PkgOff.csproj|read": [
+   "Pkg/Off/Directory.Build.props",
+   "Pkg/Off/PkgOff.csproj"
+  ],
+  "resolver|projects|Pkg/Cpm/PkgCpm.csproj|implicit_usings": false,
+  "resolver|projects|Pkg/Cpm/PkgCpm.csproj|global_usings": [
+   "global using global::Pkg.Lib;"
+  ],
+  "resolver|projects|Pkg/Cpm/PkgCpm.csproj|read": [
+   "Pkg/Cpm/Directory.Build.props",
+   "Pkg/Directory.Packages.props",
+   "Pkg/Cpm/PkgCpm.csproj"
+  ],
+  "resolver|projects|Pkg/Proj/PkgProj.csproj|implicit_usings": true,
+  "resolver|projects|Pkg/Proj/PkgProj.csproj|global_usings": [
+   "global using global::Pkg.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Pkg/Proj/PkgProj.csproj|read": [
+   "Directory.Build.props",
+   "Pkg/Directory.Packages.props",
+   "Pkg/Proj/PkgProj.csproj"
+  ],
+  "resolver|projects|NetFx/Std/NetFxStd.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|NetFx/Imp/NetFxImp.csproj|global_usings": [
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|NetFx/Imp/NetFxImp.csproj|read": [
+   "Directory.Build.props",
+   "NetFx/Imp/NetFxImp.csproj"
+  ],
+  "resolver|projects|Pkg/Twice/PkgTwice.csproj|implicit_usings": true,
+  "resolver|projects|Pkg/Twice/PkgTwice.csproj|global_usings": [
+   "global using global::Pkg.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Pkg/Twice/PkgTwice.csproj|read": [
+   "Pkg/Twice/Directory.Build.props",
+   "Pkg/Directory.Packages.props",
+   "Pkg/Twice/PkgTwice.csproj"
+  ],
+  "resolver|projects|Pkg/Path/PkgPath.csproj|implicit_usings": true,
+  "resolver|projects|Pkg/Path/PkgPath.csproj|global_usings": [
+   "global using global::Pkg.Alt;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Pkg/Path/PkgPath.csproj|read": [
+   "Pkg/Path/Directory.Build.props",
+   "Pkg/Alt.props",
+   "Pkg/Path/PkgPath.csproj"
+  ],
+  "resolver|projects|Msb/Bool/BoolProj.csproj|global_usings": [
+   "global using global::Bo.Bare;",
+   "global using global::Bo.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Msb/Choose/ChooseProj.csproj|global_usings": [
+   "global using global::Ch.Lib;",
+   "global using global::Ch.Prop;"
+  ],
+  "resolver|projects|Msb/Desk/DeskProj.csproj|global_usings": [
+   "global using global::Dk.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.Drawing;",
+   "global using global::System.Linq;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System.Windows.Forms;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Msb/Dots/DotsProj.csproj|global_usings": [
+   "global using global::Dt.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Msb/Esc/EscProj.csproj|global_usings": [
+   "global using Eo = global::Es.Other;",
+   "global using global::Es.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Msb/Exists/Proj/ExProj.csproj|global_usings": [
+   "global using global::Ex.Dir;",
+   "global using global::Ex.Lib;",
+   "global using global::Ex.Shared;"
+  ],
+  "resolver|projects|Msb/Lower/LowerProj.csproj|global_usings": [
+   "global using global::Lw.Lib;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Msb/NoSdk/Bare/NoSdkBare.csproj|global_usings": [],
+  "resolver|projects|Msb/NoSdk/PropsOnly/PropsOnly.csproj|global_usings": [],
+  "resolver|projects|Msb/Rsp/Proj/RspProj.csproj|global_usings": [
+   "global using global::Rs.Lib;",
+   "global using global::Rs.Two;"
+  ],
+  "resolver|projects|Msb/SdkImp/Attr/SdkAttr.csproj|global_usings": [
+   "global using global::Microsoft.Extensions.Configuration;",
+   "global using global::Microsoft.Extensions.DependencyInjection;",
+   "global using global::Microsoft.Extensions.Hosting;",
+   "global using global::Microsoft.Extensions.Logging;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Msb/SdkImp/Elem/SdkElem.csproj|global_usings": [
+   "global using global::Microsoft.AspNetCore.Builder;",
+   "global using global::Microsoft.AspNetCore.Hosting;",
+   "global using global::Microsoft.AspNetCore.Http;",
+   "global using global::Microsoft.AspNetCore.Routing;",
+   "global using global::Microsoft.Extensions.Configuration;",
+   "global using global::Microsoft.Extensions.DependencyInjection;",
+   "global using global::Microsoft.Extensions.Hosting;",
+   "global using global::Microsoft.Extensions.Logging;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http.Json;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System.Threading;",
+   "global using global::System;"
+  ],
+  "resolver|projects|Msb/TgtOnly/TgtOnly.csproj|global_usings": [
+   "global using global::Tg.Lib;"
+  ],
+  "resolver|projects|Msb/Tlp/Proj/TlpProj.csproj|global_usings": [
+   "global using global::Tl.Lib;"
+  ],
+  "resolver|projects|Msb/Update/UpProj.csproj|global_usings": [
+   "global using Thr = global::System.Threading;",
+   "global using global::System.Collections.Generic;",
+   "global using global::System.IO;",
+   "global using global::System.Linq;",
+   "global using global::System.Net.Http;",
+   "global using global::System.Threading.Tasks;",
+   "global using global::System;",
+   "global using global::Up.Lib;",
+   "global using static global::System.Math;"
+  ],
+  "resolver|projects|Msb/Bool/BoolProj.csproj|implicit_usings": true,
+  "resolver|projects|Msb/Esc/EscProj.csproj|implicit_usings": true,
+  "resolver|projects|Msb/Rsp/Proj/RspProj.csproj|implicit_usings": false,
+  "resolver|projects|Msb/Rsp/Proj/RspProj.csproj|read": [
+   "Msb/Rsp/Directory.Build.rsp",
+   "Directory.Build.props",
+   "Msb/Rsp/Proj/RspProj.csproj"
+  ],
+  "resolver|projects|Msb/Exists/Proj/ExProj.csproj|read": [
+   "Msb/Exists/Directory.Build.props",
+   "Msb/Exists/Shared.props",
+   "Msb/Exists/Proj/ExProj.csproj"
+  ],
+  "resolver|projects|Msb/Exists/Proj/ExProj.csproj|notes": [
+   "Msb/Exists/Directory.Build.props: Exists() of a path outside the corpus, not read (taken as false): ../../../../far.txt"
+  ],
+  "resolver|projects|Msb/SdkImp/Attr/SdkAttr.csproj|sdk": [
+   "Microsoft.NET.Sdk.Worker",
+   "Microsoft.NET.Sdk"
+  ],
+  "resolver|projects|Msb/SdkImp/Elem/SdkElem.csproj|sdk": [
+   "Microsoft.NET.Sdk",
+   "Microsoft.NET.Sdk.Web"
+  ],
+  "resolver|projects|Msb/NoSdk/Bare/NoSdkBare.csproj|sdk": [],
+  "resolver|projects|Msb/NoSdk/Bare/NoSdkBare.csproj|notes": [
+   "ImplicitUsings is on but no SDK's Sdk.props is imported: no SDK Using items",
+   "no SDK's Sdk.targets is imported: no GenerateGlobalUsings target, its Using items are not written"
+  ],
+  "resolver|projects|Msb/NoSdk/PropsOnly/PropsOnly.csproj|notes": [
+   "no SDK's Sdk.targets is imported: no GenerateGlobalUsings target, its Using items are not written"
+  ],
+  "resolver|projects|Msb/TgtOnly/TgtOnly.csproj|notes": [
+   "ImplicitUsings is on but no SDK's Sdk.props is imported: no SDK Using items"
+  ]
  }
 }

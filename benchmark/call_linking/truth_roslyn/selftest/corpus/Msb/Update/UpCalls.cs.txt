@@ -1,0 +1,26 @@
+namespace Up.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Up
+{
+    public class UpCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Up.Other
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}

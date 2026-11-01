@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DirectoryPackagesPropsPath>$(MSBuildThisFileDirectory)../Alt.props</DirectoryPackagesPropsPath>
+  </PropertyGroup>
+</Project>

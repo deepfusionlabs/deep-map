@@ -1,0 +1,23 @@
+namespace Tl.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Tl
+{
+    public class TlCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Tl.Plat
+{
+    public class Marker { }
+}

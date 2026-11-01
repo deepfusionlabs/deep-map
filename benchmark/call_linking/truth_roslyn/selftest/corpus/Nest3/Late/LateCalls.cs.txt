@@ -1,0 +1,8 @@
+namespace Nest3.Late;
+
+public static class LateCalls
+{
+    public static int Run() => new List<int>().Count;
+
+    public static bool Has(string path) => File.Exists(path);
+}

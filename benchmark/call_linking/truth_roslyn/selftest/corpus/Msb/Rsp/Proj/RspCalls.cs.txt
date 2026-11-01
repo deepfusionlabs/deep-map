@@ -1,0 +1,28 @@
+namespace Rs.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Rs
+{
+    public class RsCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Rs.Two
+{
+    public class Marker { }
+}
+
+namespace Rs.Dbg
+{
+    public class Marker { }
+}

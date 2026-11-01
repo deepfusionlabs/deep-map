@@ -1,0 +1,6 @@
+namespace Nest3.Own;
+
+public static class OwnCalls
+{
+    public static bool Has(string path) => File.Exists(path);
+}

@@ -1,0 +1,23 @@
+namespace NetFx.Lib
+{
+    public class HttpClient
+    {
+        public void Send() { }
+    }
+}
+
+namespace NetFx.Other
+{
+    public class Marker { }
+}
+
+namespace NetFx
+{
+    public class NetFxCalls
+    {
+        public void Go(HttpClient c)
+        {
+            c.Send();
+        }
+    }
+}

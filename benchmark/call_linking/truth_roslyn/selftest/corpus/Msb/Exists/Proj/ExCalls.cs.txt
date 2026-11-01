@@ -1,0 +1,38 @@
+namespace Ex.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Ex
+{
+    public class ExCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Ex.Shared
+{
+    public class Marker { }
+}
+
+namespace Ex.Dir
+{
+    public class Marker { }
+}
+
+namespace Ex.Gone
+{
+    public class Marker { }
+}
+
+namespace Ex.Far
+{
+    public class Marker { }
+}

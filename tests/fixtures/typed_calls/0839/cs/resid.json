@@ -1,0 +1,3725 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_cs_gates.TREES['resid'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_cs_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L3",
+    "target": "xd_runs_irund",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs_irund",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L5",
+    "target": "xd_runs_irund_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L8",
+    "target": "xd_runs_runa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xd_runs_runa",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L8",
+    "target": "xd_runs_irund",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs_runa",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L10",
+    "target": "xd_runs_runa_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs_runa",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L14",
+    "target": "xd_runs_runa_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L19",
+    "target": "xd_runs_runb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xd_runs_runb",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L19",
+    "target": "xd_runs_runa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs_runb",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L21",
+    "target": "xd_runs_runb_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L26",
+    "target": "xd_runs_runuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xd_runs_runuser",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L28",
+    "target": "xd_runs_irund",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs_runuser",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L30",
+    "target": "xd_runs_runuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xd_runs_runuser_go",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L32",
+    "target": "xd_runs_runb_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L3",
+    "target": "xd_runs2_irund2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs2_irund2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L5",
+    "target": "xd_runs2_irund2_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L8",
+    "target": "xd_runs2_runa2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xd_runs2_runa2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L8",
+    "target": "xd_runs2_irund2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs2_runa2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L10",
+    "target": "xd_runs2_runa2_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L15",
+    "target": "xd_runs2_runb2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xd_runs2_runb2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L15",
+    "target": "xd_runs2_runa2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs2_runb2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L17",
+    "target": "xd_runs2_runb2_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L22",
+    "target": "xd_runs2_runuser2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xd_runs2_runuser2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L24",
+    "target": "xd_runs2_irund2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs2_runuser2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L26",
+    "target": "xd_runs2_runuser2_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xd_runs2_runuser2_go",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L28",
+    "target": "xd_runs2_runb2_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L3",
+    "target": "xd_runs3_irund3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs3_irund3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L5",
+    "target": "xd_runs3_irund3_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L8",
+    "target": "xd_runs3_iother3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs3_iother3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L10",
+    "target": "xd_runs3_iother3_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L13",
+    "target": "xd_runs3_runbase3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs3_runbase3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L15",
+    "target": "xd_runs3_runbase3_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L20",
+    "target": "xd_runs3_runc3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xd_runs3_runc3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L20",
+    "target": "xd_runs3_runbase3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xd_runs3_runc3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L20",
+    "target": "xd_runs3_irund3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xd_runs3_runc3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L20",
+    "target": "xd_runs3_iother3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs3_runc3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L22",
+    "target": "xd_runs3_runc3_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xd_runs3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L27",
+    "target": "xd_runs3_runuser3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xd_runs3_runuser3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L29",
+    "target": "xd_runs3_irund3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xd_runs3_runuser3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L31",
+    "target": "xd_runs3_runuser3_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xd_runs3_runuser3_go",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L33",
+    "target": "xd_runs3_runc3_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "xd_xd",
+    "source_file": "src/Xd/Xd.csproj",
+    "target": "src_xd_xd_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L3",
+    "target": "xe_runs_irune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs_irune",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L5",
+    "target": "xe_runs_irune_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L8",
+    "target": "xe_runs_pubbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs_pubbase",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L10",
+    "target": "xe_runs_pubbase_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L15",
+    "target": "xe_runs_privimpl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xe_runs_privimpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L15",
+    "target": "xe_runs_pubbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xe_runs_privimpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L15",
+    "target": "xe_runs_irune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs_privimpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L17",
+    "target": "xe_runs_privimpl_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L22",
+    "target": "xe_runs_intimpl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xe_runs_intimpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L22",
+    "target": "xe_runs_pubbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xe_runs_intimpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L22",
+    "target": "xe_runs_irune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs_intimpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L24",
+    "target": "xe_runs_intimpl_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L29",
+    "target": "xe_runs_runusere",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xe_runs_runusere",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L31",
+    "target": "xe_runs_irune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs_runusere",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L33",
+    "target": "xe_runs_runusere_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xe_runs_runusere_go",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L35",
+    "target": "xe_runs_intimpl_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L3",
+    "target": "xe_runs2_irune2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs2_irune2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L5",
+    "target": "xe_runs2_irune2_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L8",
+    "target": "xe_runs2_pubimpl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xe_runs2_pubimpl",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L8",
+    "target": "xe_runs_pubbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xe_runs2_pubimpl",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L8",
+    "target": "xe_runs2_irune2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs2_pubimpl",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L10",
+    "target": "xe_runs2_pubimpl_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L15",
+    "target": "xe_runs2_runusere2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xe_runs2_runusere2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L17",
+    "target": "xe_runs2_irune2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs2_runusere2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L19",
+    "target": "xe_runs2_runusere2_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xe_runs2_runusere2_go",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L21",
+    "target": "xe_runs2_pubimpl_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L3",
+    "target": "xe_runs3_irune3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs3_irune3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L5",
+    "target": "xe_runs3_irune3_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L10",
+    "target": "xe_runs3_privonly",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xe_runs3_privonly",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L10",
+    "target": "xe_runs3_irune3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs3_privonly",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L12",
+    "target": "xe_runs3_privonly_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xe_runs3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L17",
+    "target": "xe_runs3_runusere3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xe_runs3_runusere3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L19",
+    "target": "xe_runs3_irune3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xe_runs3_runusere3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L21",
+    "target": "xe_runs3_runusere3_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xe_runs3_runusere3_go",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L23",
+    "target": "xe_runs3_privonly_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "xe_xe",
+    "source_file": "src/Xe/Xe.csproj",
+    "target": "src_xe_xe_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L3",
+    "target": "xf_cv8_ord9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L11",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L13",
+    "target": "xf_cv8_cv8_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L18",
+    "target": "xf_cv8_cv8int",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xf_cv8_cv8int",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L18",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8int",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L20",
+    "target": "xf_cv8_cv8int_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L25",
+    "target": "xf_cv8_cv8nul",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xf_cv8_cv8nul",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L25",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8nul",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L27",
+    "target": "xf_cv8_cv8nul_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L32",
+    "target": "xf_cv8_cv8ord",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xf_cv8_cv8ord",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L32",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "xf_cv8_cv8ord",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L32",
+    "target": "xf_cv8_ord9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8ord",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L34",
+    "target": "xf_cv8_cv8ord_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L39",
+    "target": "xf_cv8_cv8s",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xf_cv8_cv8s",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L39",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "xf_cv8_cv8s",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L39",
+    "target": "s9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8s",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L41",
+    "target": "xf_cv8_cv8s_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L46",
+    "target": "xf_cv8_cv8user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xf_cv8_cv8user",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L48",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xf_cv8_cv8user",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L49",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xf_cv8_cv8user",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L50",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8user",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L52",
+    "target": "xf_cv8_cv8user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8user",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L57",
+    "target": "xf_cv8_cv8user_goord",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_cv8user",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L62",
+    "target": "xf_cv8_cv8user_gos",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L68",
+    "target": "xf_cv8_holder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xf_cv8_holder",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L70",
+    "target": "xf_cv8_cv8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_cv8_holder",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L72",
+    "target": "xf_cv8_holder_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xf_cv8_cv8user_go",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L54",
+    "target": "xf_cv8_cv8s_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xf_cv8_cv8user_goord",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L59",
+    "target": "xf_cv8_cv8s_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xf_cv8_cv8user_gos",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L64",
+    "target": "xf_cv8_cv8s_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xf_cv8_holder_go",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L74",
+    "target": "xf_cv8_cv8s_m8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_repo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L3",
+    "target": "xf_repo9_irepo9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_repo9_irepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L5",
+    "target": "xf_repo9_irepo9_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "return_type",
+    "relation": "references",
+    "source": "xf_repo9_irepo9_get",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L5",
+    "target": "src_xf_repo9_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_repo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L8",
+    "target": "xf_repo9_intrepo9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xf_repo9_intrepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L8",
+    "target": "xf_repo9_irepo9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_repo9_intrepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L10",
+    "target": "xf_repo9_intrepo9_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_repo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L16",
+    "target": "xf_repo9_nulrepo9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "xf_repo9_nulrepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L16",
+    "target": "xf_repo9_irepo9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_repo9_nulrepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L18",
+    "target": "xf_repo9_nulrepo9_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xf_repo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L24",
+    "target": "xf_repo9_repo9user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xf_repo9_repo9user",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L26",
+    "target": "xf_repo9_irepo9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xf_repo9_repo9user",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L28",
+    "target": "xf_repo9_repo9user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xf_repo9_repo9user_go",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L30",
+    "target": "xf_repo9_nulrepo9_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "xf_xf",
+    "source_file": "src/Xf/Xf.csproj",
+    "target": "src_xf_xf_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L3",
+    "target": "xg_access_root12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_root12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L5",
+    "target": "xg_access_root12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L10",
+    "target": "xg_access_hid12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_hid12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L10",
+    "target": "xg_access_root12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_hid12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L12",
+    "target": "xg_access_hid12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_hid12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L12",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L17",
+    "target": "xg_access_mid12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_mid12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L17",
+    "target": "xg_access_hid12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_mid12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L19",
+    "target": "xg_access_mid12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_mid12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L19",
+    "target": "src_xg_access_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L24",
+    "target": "xg_access_prot12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_prot12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L24",
+    "target": "xg_access_root12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_prot12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L26",
+    "target": "xg_access_prot12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_prot12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L26",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L31",
+    "target": "xg_access_midp12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_midp12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L31",
+    "target": "xg_access_prot12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_midp12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L33",
+    "target": "xg_access_midp12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_midp12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L33",
+    "target": "src_xg_access_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L38",
+    "target": "xg_access_int12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_int12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L38",
+    "target": "xg_access_root12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_int12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L40",
+    "target": "xg_access_int12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_int12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L40",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L45",
+    "target": "xg_access_midi12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_midi12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L45",
+    "target": "xg_access_int12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_midi12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L47",
+    "target": "xg_access_midi12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_midi12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L47",
+    "target": "src_xg_access_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L52",
+    "target": "xg_access_pi12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_pi12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L52",
+    "target": "xg_access_root12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_pi12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L54",
+    "target": "xg_access_pi12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_pi12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L54",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L59",
+    "target": "xg_access_midpi12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_midpi12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L59",
+    "target": "xg_access_pi12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_midpi12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L61",
+    "target": "xg_access_midpi12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_midpi12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L61",
+    "target": "src_xg_access_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L66",
+    "target": "xg_access_dflt12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_dflt12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L66",
+    "target": "xg_access_root12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_dflt12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L68",
+    "target": "xg_access_dflt12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_dflt12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L68",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L73",
+    "target": "xg_access_midd12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_midd12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L73",
+    "target": "xg_access_dflt12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_midd12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L75",
+    "target": "xg_access_midd12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_midd12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L75",
+    "target": "src_xg_access_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L80",
+    "target": "xg_access_pub12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_pub12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L80",
+    "target": "xg_access_root12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_pub12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L82",
+    "target": "xg_access_pub12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_pub12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L82",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L87",
+    "target": "xg_access_midb12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_midb12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L87",
+    "target": "xg_access_pub12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_midb12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L89",
+    "target": "xg_access_midb12_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_midb12_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L89",
+    "target": "src_xg_access_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L94",
+    "target": "xg_access_part13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_part13",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L96",
+    "target": "xg_access_part13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L101",
+    "target": "xg_access_midq13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_access_midq13",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L101",
+    "target": "xg_access_part13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_midq13",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L103",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_midq13_put",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L103",
+    "target": "src_xg_access_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L108",
+    "target": "xg_access_g3user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L110",
+    "target": "xg_access_mid12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L111",
+    "target": "xg_access_midp12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L112",
+    "target": "xg_access_midi12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L113",
+    "target": "xg_access_midpi12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L114",
+    "target": "xg_access_midd12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L115",
+    "target": "xg_access_midb12",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L116",
+    "target": "xg_access_midq13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L118",
+    "target": "xg_access_g3user_gopriv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_g3user_gopriv",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L118",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L123",
+    "target": "xg_access_g3user_goprot",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_g3user_goprot",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L123",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L128",
+    "target": "xg_access_g3user_goint",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_g3user_goint",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L128",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L133",
+    "target": "xg_access_g3user_goprotint",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_g3user_goprotint",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L133",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L138",
+    "target": "xg_access_g3user_godefault",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_g3user_godefault",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L138",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L143",
+    "target": "xg_access_g3user_gopub",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_g3user_gopub",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L143",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L148",
+    "target": "xg_access_g3user_gopart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access_g3user",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L153",
+    "target": "xg_access_g3user_gopartorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access_g3user_gopartorder",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L153",
+    "target": "src_xg_access_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_gopriv",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L120",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_goprot",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L125",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_goint",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L130",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_goprotint",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L135",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_godefault",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L140",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_gopub",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L145",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_gopart",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L150",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_access_g3user_gopartorder",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L155",
+    "target": "xg_access_midq13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_access2",
+    "source_file": "src/Xg/Access2.cs",
+    "source_location": "L3",
+    "target": "xg_access2_part13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_access2_part13",
+    "source_file": "src/Xg/Access2.cs",
+    "source_location": "L5",
+    "target": "xg_access2_part13_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_access2_part13_put",
+    "source_file": "src/Xg/Access2.cs",
+    "source_location": "L5",
+    "target": "iformattable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_saves",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L3",
+    "target": "xg_saves_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_saves",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L7",
+    "target": "xg_saves_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_saves",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L11",
+    "target": "xg_saves_orderc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_saves",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L19",
+    "target": "xg_saves_savebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_saves_savebase",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L21",
+    "target": "xg_saves_savebase_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_saves_savebase_save",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L21",
+    "target": "xg_saves_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_saves",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L26",
+    "target": "xg_saves_repo11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_saves_repo11",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L26",
+    "target": "xg_saves_savebase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_saves_repo11",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L28",
+    "target": "xg_saves_repo11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_saves_repo11_save",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L28",
+    "target": "src_xg_saves_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_saves",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L33",
+    "target": "xg_saves_g1user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_saves_g1user",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L35",
+    "target": "xg_saves_repo11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_saves_g1user",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L36",
+    "target": "xg_saves_repo11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_saves_g1user",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L38",
+    "target": "xg_saves_g1user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_saves_g1user_go",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L38",
+    "target": "xg_saves_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_saves_g1user",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L43",
+    "target": "xg_saves_g1user_gocart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_saves_g1user_gocart",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L43",
+    "target": "xg_saves_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_saves_g1user_go",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L40",
+    "target": "xg_saves_repo11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_saves_g1user_gocart",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L45",
+    "target": "xg_saves_repo11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_stores",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L3",
+    "target": "xg_stores_store11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_stores_store11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L5",
+    "target": "xg_stores_store11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_stores_store11_save",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L5",
+    "target": "src_xg_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_stores",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L10",
+    "target": "xg_stores_cartstore11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "xg_stores_cartstore11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L10",
+    "target": "xg_stores_store11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "xg_stores_cartstore11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L10",
+    "target": "src_xg_stores_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_stores_cartstore11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L12",
+    "target": "xg_stores_cartstore11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_stores_cartstore11_save",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L12",
+    "target": "src_xg_stores_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_stores",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L17",
+    "target": "xg_stores_g2user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_stores_g2user",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L19",
+    "target": "xg_stores_cartstore11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_stores_g2user",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L20",
+    "target": "xg_stores_cartstore11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_stores_g2user",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L22",
+    "target": "xg_stores_g2user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_stores_g2user_go",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L22",
+    "target": "orderc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_stores_g2user",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L27",
+    "target": "xg_stores_g2user_goorder",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_stores_g2user_goorder",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L27",
+    "target": "src_xg_stores_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "xg_stores",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L33",
+    "target": "xg_stores_h11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "xg_stores_h11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L35",
+    "target": "xg_stores_cartstore11",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_stores_h11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L37",
+    "target": "xg_stores_h11_got",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_stores_h11_got",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L37",
+    "target": "tx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "xg_stores_h11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L42",
+    "target": "xg_stores_h11_gocart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "xg_stores_h11_gocart",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L42",
+    "target": "src_xg_stores_cs_cart",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_stores_g2user_go",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L24",
+    "target": "xg_stores_cartstore11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_stores_g2user_goorder",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L29",
+    "target": "xg_stores_cartstore11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_stores_h11_got",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L39",
+    "target": "xg_stores_cartstore11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "xg_stores_h11_gocart",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L44",
+    "target": "xg_stores_cartstore11_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "xg_xg",
+    "source_file": "src/Xg/Xg.csproj",
+    "target": "src_xg_xg_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs",
+    "label": "Runs.cs",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_irund",
+    "label": "IRunD",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_irund_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_runa",
+    "label": "RunA",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_runa_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_runb",
+    "label": "RunB",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_runb_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_runuser",
+    "label": "RunUser",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs_runuser_go",
+    "label": ".Go()",
+    "source_file": "src/Xd/Runs.cs",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2",
+    "label": "Runs2.cs",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_irund2",
+    "label": "IRunD2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_irund2_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_runa2",
+    "label": "RunA2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_runa2_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_runb2",
+    "label": "RunB2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_runb2_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_runuser2",
+    "label": "RunUser2",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs2_runuser2_go",
+    "label": ".Go()",
+    "source_file": "src/Xd/Runs2.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3",
+    "label": "Runs3.cs",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_irund3",
+    "label": "IRunD3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_irund3_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_iother3",
+    "label": "IOther3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_iother3_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_runbase3",
+    "label": "RunBase3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_runbase3_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_runc3",
+    "label": "RunC3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_runc3_run",
+    "label": ".Run()",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_runuser3",
+    "label": "RunUser3",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_runs3_runuser3_go",
+    "label": ".Go()",
+    "source_file": "src/Xd/Runs3.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xd_xd",
+    "label": "Xd.csproj",
+    "source_file": "src/Xd/Xd.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_xd_xd_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Xd/Xd.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs",
+    "label": "Runs.cs",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_irune",
+    "label": "IRunE",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_irune_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_pubbase",
+    "label": "PubBase",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_pubbase_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_privimpl",
+    "label": "PrivImpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_privimpl_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_intimpl",
+    "label": "IntImpl",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_intimpl_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_runusere",
+    "label": "RunUserE",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs_runusere_go",
+    "label": ".Go()",
+    "source_file": "src/Xe/Runs.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs2",
+    "label": "Runs2.cs",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs2_irune2",
+    "label": "IRunE2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs2_irune2_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs2_pubimpl",
+    "label": "PubImpl",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs2_pubimpl_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs2_runusere2",
+    "label": "RunUserE2",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs2_runusere2_go",
+    "label": ".Go()",
+    "source_file": "src/Xe/Runs2.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs3",
+    "label": "Runs3.cs",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs3_irune3",
+    "label": "IRunE3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs3_irune3_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs3_privonly",
+    "label": "PrivOnly",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs3_privonly_run",
+    "label": ".Run()",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs3_runusere3",
+    "label": "RunUserE3",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_runs3_runusere3_go",
+    "label": ".Go()",
+    "source_file": "src/Xe/Runs3.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xe_xe",
+    "label": "Xe.csproj",
+    "source_file": "src/Xe/Xe.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_xe_xe_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Xe/Xe.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8",
+    "label": "Cv8.cs",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_ord9",
+    "label": "Ord9",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8",
+    "label": "Cv8",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8_m8",
+    "label": ".M8()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8int",
+    "label": "Cv8Int",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8int_m8",
+    "label": ".M8()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8nul",
+    "label": "Cv8Nul",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8nul_m8",
+    "label": ".M8()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8ord",
+    "label": "Cv8Ord",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8ord_m8",
+    "label": ".M8()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8s",
+    "label": "Cv8S",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "s9",
+    "label": "S9",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8s_m8",
+    "label": ".M8()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8user",
+    "label": "Cv8User",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L46"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8user_go",
+    "label": ".Go()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L52"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8user_goord",
+    "label": ".GoOrd()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_cv8user_gos",
+    "label": ".GoS()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L62"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_holder",
+    "label": "Holder",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L68"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_cv8_holder_go",
+    "label": ".Go()",
+    "source_file": "src/Xf/Cv8.cs",
+    "source_location": "L72"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9",
+    "label": "Repo9.cs",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_irepo9",
+    "label": "IRepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_irepo9_get",
+    "label": ".Get()",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_xf_repo9_cs_t",
+    "label": "T",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_intrepo9",
+    "label": "IntRepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_intrepo9_get",
+    "label": ".Get()",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_nulrepo9",
+    "label": "NulRepo9",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_nulrepo9_get",
+    "label": ".Get()",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_repo9user",
+    "label": "Repo9User",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_repo9_repo9user_go",
+    "label": ".Go()",
+    "source_file": "src/Xf/Repo9.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xf_xf",
+    "label": "Xf.csproj",
+    "source_file": "src/Xf/Xf.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_xf_xf_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Xf/Xf.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access",
+    "label": "Access.cs",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_root12",
+    "label": "Root12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_root12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_hid12",
+    "label": "Hid12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_hid12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_xg_access_cs_order",
+    "label": "Order",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_mid12",
+    "label": "Mid12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_mid12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_xg_access_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_prot12",
+    "label": "Prot12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_prot12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midp12",
+    "label": "MidP12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midp12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_int12",
+    "label": "Int12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_int12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L40"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midi12",
+    "label": "MidI12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midi12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L47"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_pi12",
+    "label": "PI12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L52"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_pi12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L54"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midpi12",
+    "label": "MidPI12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L59"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midpi12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L61"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_dflt12",
+    "label": "Dflt12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L66"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_dflt12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L68"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midd12",
+    "label": "MidD12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L73"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midd12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L75"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_pub12",
+    "label": "Pub12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L80"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_pub12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L82"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midb12",
+    "label": "MidB12",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L87"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midb12_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L89"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_part13",
+    "label": "Part13",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L94"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_part13_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L96"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midq13",
+    "label": "MidQ13",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L101"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_midq13_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L103"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user",
+    "label": "G3User",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L108"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_gopriv",
+    "label": ".GoPriv()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L118"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_goprot",
+    "label": ".GoProt()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L123"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_goint",
+    "label": ".GoInt()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L128"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_goprotint",
+    "label": ".GoProtInt()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L133"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_godefault",
+    "label": ".GoDefault()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L138"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_gopub",
+    "label": ".GoPub()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L143"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_gopart",
+    "label": ".GoPart()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L148"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access_g3user_gopartorder",
+    "label": ".GoPartOrder()",
+    "source_file": "src/Xg/Access.cs",
+    "source_location": "L153"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access2",
+    "label": "Access2.cs",
+    "source_file": "src/Xg/Access2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access2_part13",
+    "label": "Part13",
+    "source_file": "src/Xg/Access2.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_access2_part13_put",
+    "label": ".Put()",
+    "source_file": "src/Xg/Access2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iformattable",
+    "label": "IFormattable",
+    "source_file": "src/Xg/Access2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves",
+    "label": "Saves.cs",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_order",
+    "label": "Order",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_cart",
+    "label": "Cart",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_orderc",
+    "label": "OrderC",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_savebase",
+    "label": "SaveBase",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_savebase_save",
+    "label": ".Save()",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_repo11",
+    "label": "Repo11",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_repo11_save",
+    "label": ".Save()",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_xg_saves_cs_t",
+    "label": "T",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_g1user",
+    "label": "G1User",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_g1user_go",
+    "label": ".Go()",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_saves_g1user_gocart",
+    "label": ".GoCart()",
+    "source_file": "src/Xg/Saves.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores",
+    "label": "Stores.cs",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_store11",
+    "label": "Store11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_store11_save",
+    "label": ".Save()",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_xg_stores_cs_t",
+    "label": "T",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_cartstore11",
+    "label": "CartStore11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_cartstore11_save",
+    "label": ".Save()",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_xg_stores_cs_cart",
+    "label": "Cart",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_g2user",
+    "label": "G2User",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_g2user_go",
+    "label": ".Go()",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orderc",
+    "label": "OrderC",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_g2user_goorder",
+    "label": ".GoOrder()",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_xg_stores_cs_order",
+    "label": "Order",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_h11",
+    "label": "H11",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_h11_got",
+    "label": ".GoT()",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tx",
+    "label": "TX",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_stores_h11_gocart",
+    "label": ".GoCart()",
+    "source_file": "src/Xg/Stores.cs",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "xg_xg",
+    "label": "Xg.csproj",
+    "source_file": "src/Xg/Xg.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_xg_xg_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Xg/Xg.csproj",
+    "source_location": null
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "741d6b9f240037add6c3eade29c8aba54a8bd84a9cb6f3c22c0189f7001b6002"
+}

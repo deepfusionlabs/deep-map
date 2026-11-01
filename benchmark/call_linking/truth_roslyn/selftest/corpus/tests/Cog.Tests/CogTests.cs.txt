@@ -1,0 +1,6 @@
+namespace Cog.Tests;
+
+public static class CogTests
+{
+    public static int Run() => global::Gear.GearSecret.G();
+}

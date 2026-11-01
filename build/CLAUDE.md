@@ -89,7 +89,8 @@ the five `*_edges.py` recognizers: ruby_rails, csharp, java, go, typescript; `en
   `_is_user_request`; outcome `user-request-pending`, rc 4), records an enrich-only yield as busy-enrich
   (`sync_status.yield_fields`, THE rule), and refuses an unowned non-empty graph (refusal_kind `unowned`). A config
   file a recognizer starts reading must be added to `sync._GRAPH_CONFIG_NAMES` (section L2 locks the `*.json`
-  literals). — `build/sync_status.py:110`, `:158-195`, `:671`; `build/sync.py:4441-4444`, `:5246-5259`
+  literals; section L3 locks every MSBuild file name `csharp_msbuild` spells and every file it opens, matched by
+  `_GRAPH_CONFIG_SUFFIXES`). — `build/sync_status.py:110`, `:158-195`, `:671`; `build/sync.py:4441-4444`, `:5246-5259`
 - `sync.sync(prune_policy=None|'none'|'evidence'|'full', unattended=UnattendedControl|None)`: a claimed re-run request
   max-merges the policy (none < evidence < full). An unattended request always writes `cleanup_stale` false, because an
   older holder ORs only that field. The evidence prune (`_plan_prune_evidence`) is a subset of `_plan_prune` and never

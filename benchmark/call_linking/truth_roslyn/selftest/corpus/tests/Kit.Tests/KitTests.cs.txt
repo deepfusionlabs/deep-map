@@ -1,0 +1,6 @@
+namespace Kit.Tests;
+
+public static class KitTests
+{
+    public static int Run() => global::Kit.KitSecret.K();
+}

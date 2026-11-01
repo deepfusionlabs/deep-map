@@ -13,19 +13,31 @@
 // THE CONTRACT, as implemented here (PREREG_CS §8.2, with its "Amendments before RC" AC1-AC4 where they govern):
 //  * Compilations: one per git-tracked .csproj (the --tracked list is the git-tracked set), as MSBuild builds them (AC3):
 //    - evaluation: the nearest Directory.Build.props above the project (in its own directory or the closest ancestor)
-//      and whatever it <Import>s, then the project, then the nearest Directory.Build.targets and its imports, exactly
-//      MSBuild's lookup (a props file one level up is read only when the nearer one imports it, e.g. with
-//      $([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../')) or
+//      and whatever it <Import>s, then the nearest Directory.Packages.props and its imports (NuGet.props, right after
+//      Directory.Build.props: unless ImportDirectoryPackagesProps is set to anything but true at that point, or
+//      DirectoryPackagesPropsPath names another file; ManagePackageVersionsCentrally plays no part, measured on SDK
+//      8.0.202; a file already imported is not read twice), then the project, then the nearest Directory.Build.targets
+//      and its imports, exactly MSBuild's lookup (a props file one level up is read only when the nearer one imports
+//      it, e.g. with $([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../')) or
 //      $([MSBuild]::GetDirectoryNameOfFileAbove(...))/Directory.Build.props, both evaluated here); the last assignment
-//      of a property wins.
+//      of a property wins, and a property keeps its value verbatim, white space included, as MSBuild does (a multi-line
+//      <ImplicitUsings> is not 'enable', and a condition sees the whitespace; only the readers that take a name, a
+//      number or a list trim). TargetFrameworkIdentifier: as written when both it and TargetFrameworkVersion are set,
+//      else read from TargetFramework where Microsoft.NET.TargetFrameworkInference.targets reads it, after the project
+//      and before Directory.Build.targets. A <Choose> takes its first <When> whose condition holds, else <Otherwise>,
+//      decided with the properties defined at that point (the item pass reads the branch the property pass took).
+//      TreatAsLocalProperty: from the file whose <Project> names it on (the project's holds before Directory.Build.props
+//      is read), an assignment of that property replaces the global value. The SDKs a file names (the project or ANY
+//      file it imports: <Project Sdk>, <Sdk Name>, <Import Sdk>) are imported: Sdk.props gives the SDK's Using items,
+//      Sdk.targets the GenerateGlobalUsings target (an <Import Project="Sdk.props|Sdk.targets" Sdk> imports one half).
 //    - files: every tracked .cs under the project's directory that no deeper .csproj claims, minus the project's own
 //      bin/ and obj/ (MSBuild's default excludes, relative to the project directory) and its <Compile Remove> items,
-//      plus <Compile Include> items (links). Items are applied in MSBuild's order: Directory.Build.props items, the
-//      SDK's default glob, the project's items, Directory.Build.targets items. UseMaui=true (the MAUI single-project
-//      layout): a .cs under the project's Platforms/ folder is compiled only under Platforms/<the folder of the first
-//      target framework's platform>/ (Android, iOS, MacCatalyst, Windows, Tizen), as the MAUI SDK's own
-//      _MauiRemovePlatformCompileItems Compile Remove does (it runs after evaluation, so it is applied last); the
-//      others are "uncompiled_files" with reason maui_platform.
+//      plus <Compile Include> items (links). Items are applied in MSBuild's order: Directory.Build.props items,
+//      Directory.Packages.props items, the SDK's default glob, the project's items, Directory.Build.targets items.
+//      UseMaui=true (the MAUI single-project layout): a .cs under the project's Platforms/ folder is compiled only
+//      under Platforms/<the folder of the first target framework's platform>/ (Android, iOS, MacCatalyst, Windows,
+//      Tizen), as the MAUI SDK's own _MauiRemovePlatformCompileItems Compile Remove does (it runs after evaluation, so
+//      it is applied last); the others are "uncompiled_files" with reason maui_platform.
 //    - references: the reference assemblies of Microsoft.NETCore.App.Ref 8.0.3 and Microsoft.AspNetCore.App.Ref 8.0.3
 //      (packs/ of the dotnet that runs the tool), then the compilations of the project's <ProjectReference>s: the
 //      transitive closure (MSBuild's default; DisableTransitiveProjectReferences=true keeps the direct ones only), in
@@ -36,9 +48,22 @@
 //      assembly, no <Reference>/HintPath assembly.
 //    - implicit usings: the SDK's list (SDK 8.0.202's props files: Microsoft.NET.Sdk's seven namespaces; .Web, .Worker
 //      and .BlazorWebAssembly add theirs; .Razor adds none; any other SDK, e.g. Aspire.AppHost.Sdk or MSTest.Sdk, takes
-//      Microsoft.NET.Sdk's list) when ImplicitUsings is enable/true after the evaluation above (the project and the
-//      Directory.Build.props files MSBuild imports for it; the last assignment wins); <Using Include> items are added
-//      (with Alias / Static) and <Using Remove> items removed, as the SDK's GenerateGlobalUsings target writes them.
+//      Microsoft.NET.Sdk's list) from every SDK whose Sdk.props is imported, when the SDK's own condition
+//      "'$(ImplicitUsings)' == 'true' Or '$(ImplicitUsings)' == 'enable'" holds under MSBuild's comparison (MsbEquals:
+//      unescaped, case ignored, two boolean-like operands as booleans, so yes / On / !false are true; nothing trimmed)
+//      after the evaluation above (the Directory.Build.props files MSBuild imports for the project,
+//      Directory.Packages.props, the project, then the Directory.Build.targets files, AC21; the last assignment wins),
+//      System.Net.Http only when TargetFrameworkIdentifier is not .NETFramework (Microsoft.NET.Sdk.CSharp.props:31);
+//      then the WindowsDesktop props every Microsoft.NET.Sdk project imports: UseWindowsForms true adds System.Drawing
+//      and System.Windows.Forms, UseWPF true removes System.IO and System.Net.Http (only with implicit usings on).
+//      <Using Include> items are added (with Alias / Static; an Exclude drops what it matches), <Using Remove> items
+//      removed and <Using Update> items set Alias / Static on the items defined so far that they match, in MSBuild's
+//      order, as the SDK's GenerateGlobalUsings target writes them ("global using [static ][A = ]global::N;"). An item
+//      type is matched in any letter case (<using>). A spec is split on ';' before %XX is decoded (an identity, a
+//      metadata value and a condition operand are read unescaped). A Remove / Update / Exclude spec matches item
+//      identities as MSBuild does (P.ItemMatches): by wildcard (* and ?) over the whole identity, case-insensitively,
+//      and without one as the same path (./System.IO and System.IO. are System.IO). A project that imports no SDK's
+//      Sdk.targets has no GenerateGlobalUsings target: no global usings at all.
 //    - generated assembly attributes (AC3): the InternalsVisibleTo attributes MSBuild writes (the SDK's
 //      Microsoft.NET.GenerateAssemblyInfo.targets): every <AssemblyAttribute Include="System.Runtime.CompilerServices.
 //      InternalsVisibleTo[Attribute]"> item's _Parameter1, and every <InternalsVisibleTo Include> item ("Name", or
@@ -49,12 +74,27 @@
 //      the project's first target framework (as an SDK that supports it defines them: NET, NETn_m, NETCOREAPP, the
 //      NETCOREAPPx_y_OR_GREATER and NETk_0_OR_GREATER series ...), the platform symbol of a platform-suffixed
 //      framework (ANDROID, IOS, WINDOWS ...), plus the tokens of <DefineConstants>.
-//    - assembly name = <AssemblyName> (else the project file name), so InternalsVisibleTo attributes apply; output kind
+//    - assembly name = <AssemblyName> (else the project file name), so InternalsVisibleTo attributes apply; it is in
+//      the property bag before the items are read (AC21), so $(AssemblyName) in an item spec expands to it; output kind
 //      from <OutputType> (Web / Worker SDKs default to Exe); <Nullable> as declared. No analyzer and no source
 //      generator runs.
 //    - Property and item conditions are evaluated with Configuration=Release, Platform=AnyCPU and TargetFramework = the
-//      first target framework (global properties); a condition this evaluator cannot read (property functions, item
-//      lists) counts as false and is listed in the project's "notes".
+//      first target framework (global properties, after the -p switches of the nearest Directory.Build.rsp from the
+//      project directory up, which are global properties too and lose to those three); a condition this evaluator
+//      cannot read (property functions, item lists, a function other than Exists) counts as false and is listed in the
+//      project's "notes". == and != compare as MSBuild does (MsbEquals; two numeric operands are compared as strings
+//      here, as numbers by MSBuild). Exists() is read on the tracked tree (a tracked file or a directory holding one; a
+//      path leaving the corpus: noted, false), a relative path from the file holding a PropertyGroup / Import /
+//      ImportGroup condition, else from the project's directory (measured). As in MSBuild, a property, <Import> or
+//      <When> condition sees the properties defined at that point and an item condition the final ones.
+//    - NOT modelled (each a known difference from real MSBuild, the real-MSBuild differential's list): a wildcard
+//      <Using Include> (kept as written), ItemDefinitionGroup metadata, items set inside a <Target>, the
+//      Custom{Before,After}Microsoft* and DirectoryBuild{Props,Targets}Path hooks, project content before an explicit
+//      Sdk.props import, a wildcard <Import>, environment variables, property functions other than the two above, a
+//      single target framework seen before its assignment, a padded <TargetFramework> (trimmed here), numeric
+//      comparison, SDK property defaults such as RootNamespace, where an SDK named by an imported file runs its
+//      Sdk.targets (at the bottom of that file), Directory.Build.props read without Sdk.props, letter case on a
+//      case-sensitive file system, and a build in Configuration=Debug (the model pins Release).
 //    - a git-tracked .cs that no project compiles and that is in no project's tree is compiled once, in a leftover
 //      compilation (assembly TruthRoslyn.Leftover, LanguageVersion.CSharp12, no preprocessor symbols, no implicit
 //      usings) that references every project. A tracked .cs inside a project's tree that the project does not compile
@@ -255,6 +295,69 @@ internal static class P
 
     public static bool IsGlob(string s) => s.IndexOf('*') >= 0 || s.IndexOf('?') >= 0;
 
+    /// <summary>MSBuild's EscapingUtilities.UnescapeAll: every %XX (two hex digits) is that character. MSBuild keeps
+    /// values escaped while it expands and splits them (an item spec is split on ';' BEFORE it is unescaped, so %3B is a
+    /// ';' inside one item: `Remove="System.IO%3BSystem.Linq"` removes nothing), and unescapes an item's identity, a
+    /// metadata value, a path and a condition's operands (measured on SDK 8.0.202).</summary>
+    public static string Unescape(string s) =>
+        Regex.Replace(s, "%([0-9A-Fa-f]{2})", m => ((char)Convert.ToInt32(m.Groups[1].Value, 16)).ToString());
+
+    /// <summary>Windows path normalization (GetFullPathName) as MSBuild's item matching meets it on Windows: a segment
+    /// ending in a single period loses that period, and the path's trailing periods and spaces are removed
+    /// (`System.IO.`, `System.IO..` and `System.IO .` are System.IO, as a spec and as an item; measured on SDK
+    /// 8.0.202, Windows).</summary>
+    public static string WinNorm(string rel)
+    {
+        var segs = rel.Split('/');
+        for (int i = 0; i < segs.Length - 1; i++)
+        {
+            string s = segs[i];
+            if (s.Length > 1 && s[^1] == '.' && s[^2] != '.')
+            {
+                segs[i] = s[..^1];
+            }
+        }
+        return string.Join("/", segs).TrimEnd('.', ' ');
+    }
+
+    /// <summary>Does the Remove / Update / Exclude spec `spec` match the item identity `item` of a project in `dir`?
+    /// MSBuild's rule (ItemSpec + FileSpecMatcherTester) reads both as paths under the project directory,
+    /// case-insensitively. A spec without a wildcard, or with an escaped one (%2A, %3F), is the same path after
+    /// normalizing, Windows' trailing-period rule on both sides included (WinNorm). A spec with one is a glob over the
+    /// whole identity: * within a segment, ? one character, ** alone as a segment any number of directories. A trailing
+    /// ** means **/*.*. With **/ as its only directory the name is matched as written, so `**` needs a dot in the
+    /// identity (it keeps System); any other name has its *.* read as * (`*.*` removes System). A spec MSBuild calls
+    /// illegal (** inside a segment, "...") stays a literal, which no namespace equals, and a glob spec ending in a
+    /// separator names no file.</summary>
+    public static bool ItemMatches(string spec, string item, string dir)
+    {
+        string raw = Unescape(spec).Trim().Replace('\\', '/');
+        string? it = Resolve(Unescape(item), dir);
+        if (!IsGlob(spec) || spec.Contains("%2A", StringComparison.OrdinalIgnoreCase) ||
+            spec.Contains("%3F", StringComparison.OrdinalIgnoreCase))
+        {
+            string? sp = Resolve(raw, dir);
+            return it != null && sp != null && WinNorm(it).Equals(WinNorm(sp), StringComparison.OrdinalIgnoreCase);
+        }
+        string name = Name(raw), path = raw[..(raw.Length - name.Length)];
+        if (name.Trim('.').Length == 0 || raw.Contains("...", StringComparison.Ordinal) ||
+            raw.Split('/').Any(x => x.Contains("**", StringComparison.Ordinal) && x != "**"))
+        {
+            return false;
+        }
+        if (name == "**")
+        {
+            path += "**/";
+            name = "*.*";
+        }
+        if (path != "**/")
+        {
+            name = name.Replace("*.*", "*", StringComparison.Ordinal);
+        }
+        string? glob = Resolve(path + name, dir);
+        return it != null && glob != null && Glob(glob).IsMatch(it);
+    }
+
     /// <summary>MSBuild's glob: ** any number of directories, * within a segment, ? one character; case-insensitive
     /// (MSBuild on Windows).</summary>
     public static Regex Glob(string pattern)
@@ -296,6 +399,28 @@ internal sealed class Corpus
 
     public string? Find(string rel) =>
         TrackedSet.Contains(rel) ? rel : TrackedCi.GetValueOrDefault(rel.ToLowerInvariant());
+
+    private HashSet<string>? _dirsCi;
+
+    /// <summary>Is `rel` (corpus-relative, any letter case: Windows) the corpus root or a directory holding a tracked
+    /// file? The Exists() condition's directory half, on the tracked tree.</summary>
+    public bool DirExists(string rel)
+    {
+        lock (TrackedCi)
+        {
+            if (_dirsCi == null)
+            {
+                _dirsCi = new HashSet<string>(StringComparer.Ordinal) { "" };
+                foreach (var t in TrackedCi.Keys)
+                {
+                    for (string d = P.Dir(t); d.Length > 0 && _dirsCi.Add(d); d = P.Dir(d))
+                    {
+                    }
+                }
+            }
+            return _dirsCi.Contains(rel.ToLowerInvariant());
+        }
+    }
 
     public XDocument? Load(string rel)
     {
@@ -350,9 +475,14 @@ internal sealed class ProjectInfo
     public required string Name;
     public string AssemblyName = "";
     public readonly List<string> Sdks = new();
+    public readonly List<string> SdkProps = new();         // the SDKs whose Sdk.props is imported (their Using items)
+    public bool SdkTargets;                                // some SDK's Sdk.targets is imported (GenerateGlobalUsings)
+    public bool UseWpf;                                    // the WindowsDesktop props' conditions, MSBuild's comparison
+    public bool UseWindowsForms;
     public string? FirstTf;
     public readonly SortedSet<string> Defines = new(StringComparer.Ordinal);
     public bool ImplicitUsings;
+    public bool NetFramework;                              // TargetFrameworkIdentifier is .NETFramework
     public readonly List<string> UsingLines = new();
     public string OutputKind = "DynamicallyLinkedLibrary";
     public string Nullable = "Disable";
@@ -383,14 +513,26 @@ internal sealed class MsEval
     private readonly HashSet<string> _global = new(StringComparer.OrdinalIgnoreCase);
     private string _thisFile = "";
     private readonly List<string> _stack = new();          // the files being read (an Import of one of them: a cycle)
+    private readonly HashSet<string> _seen = new(StringComparer.Ordinal);   // the files read in this walk
+    private readonly HashSet<XElement> _imported = new();  // the <Import>s the property pass took
+    private readonly Dictionary<XElement, XElement?> _chosen = new();   // each <Choose>'s branch, as the property pass took it
+    private readonly HashSet<string> _local = new(StringComparer.OrdinalIgnoreCase);   // TreatAsLocalProperty names
+    private string? _packagesProps;                        // the property pass's Directory.Packages.props, if imported
     private string _phase = "";
     private bool _items;
     private bool _record;
 
-    private MsEval(Corpus c, ProjectInfo p, string? tf)
+    private MsEval(Corpus c, ProjectInfo p, string? tf, IReadOnlyList<(string Name, string Value)> rsp)
     {
         _c = c;
         _p = p;
+        // Directory.Build.rsp's -p switches are global properties; the command line's (Configuration, Platform, the
+        // inner build's TargetFramework) come after them and win (measured: an rsp's Configuration=Debug loses to
+        // -p:Configuration=Release)
+        foreach (var (k, v) in rsp)
+        {
+            Set(k, v, global: true);
+        }
         Set("Configuration", "Release", global: true);
         Set("Platform", "AnyCPU", global: true);
         if (tf != null)
@@ -417,29 +559,183 @@ internal sealed class MsEval
 
     private string Get(string k) => _v.GetValueOrDefault(k) ?? "";
 
+    /// <summary>A property's value as a condition compares it: unescaped (%XX).</summary>
+    private string GetU(string k) => P.Unescape(Get(k));
+
+    private static readonly string[] BoolTrue = { "true", "on", "yes", "!false", "!off", "!no" };
+    private static readonly string[] BoolFalse = { "false", "off", "no", "!true", "!on", "!yes" };
+
+    /// <summary>MSBuild's boolean-like strings (ConversionUtilities.CanConvertStringToBool): true / on / yes / !false /
+    /// !off / !no and false / off / no / !true / !on / !yes, in any letter case, nothing trimmed ("yes " is no
+    /// boolean); null for any other string.</summary>
+    public static bool? BoolLike(string v) =>
+        BoolTrue.Contains(v, StringComparer.OrdinalIgnoreCase) ? true
+        : BoolFalse.Contains(v, StringComparer.OrdinalIgnoreCase) ? false : null;
+
+    /// <summary>MSBuild's `==` on two expanded, unescaped operands (MultipleComparisonNode): an empty operand equals
+    /// only an empty one; two boolean-like operands compare as booleans ('On' == 'true', '!true' == 'no'); else the
+    /// strings, ignoring case. MSBuild compares two NUMERIC operands as numbers before the boolean step ('1.0' == '1',
+    /// '0x10' == '16', measured on SDK 8.0.202); that step is not modelled here: such a pair compares as strings.</summary>
+    public static bool MsbEquals(string a, string b)
+    {
+        if (a.Length == 0 || b.Length == 0)
+        {
+            return a.Length == b.Length;
+        }
+        if (BoolLike(a) is bool x && BoolLike(b) is bool y)
+        {
+            return x == y;
+        }
+        return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>The -p / -property switches (any of the prefixes - / -- /, any letter case) of the nearest
+    /// Directory.Build.rsp from the project directory up, as (name, value) in order: MSBuild's auto-response file,
+    /// which `dotnet build` and `dotnet msbuild` read. Lines starting with # are comments; arguments split on white
+    /// space outside double quotes, the quotes removed; a switch's parameters split on ';' and ',' outside quotes, each
+    /// Name=Value (the first '='). Any other switch sets no property and is ignored; an @file include and a parameter
+    /// without a valid name are noted and skipped.</summary>
+    private static List<(string Name, string Value)> ResponseFileProperties(Corpus c, ProjectInfo p, out string? file)
+    {
+        var o = new List<(string, string)>();
+        file = c.Nearest(p.Dir, "Directory.Build.rsp");
+        if (file == null)
+        {
+            return o;
+        }
+        string text;
+        try
+        {
+            text = File.ReadAllText(Path.Combine(c.Root, file));
+        }
+        catch (Exception exc)
+        {
+            p.Notes.Add($"{file}: not readable ({exc.GetType().Name})");
+            return o;
+        }
+        foreach (var rawLine in text.Split('\n'))
+        {
+            string line = rawLine.Trim();
+            if (line.Length == 0 || line[0] == '#')
+            {
+                continue;
+            }
+            foreach (var arg in SplitQuoted(line, ch => char.IsWhiteSpace(ch), keepQuotes: true))
+            {
+                string bare = arg.Replace("\"", "");
+                if (bare.StartsWith('@'))
+                {
+                    p.Notes.Add($"{file}: response file include not read: {Short(bare)}");
+                    continue;
+                }
+                string sw = bare.StartsWith("--", StringComparison.Ordinal) ? bare[2..]
+                          : bare.StartsWith('-') || bare.StartsWith('/') ? bare[1..] : "";
+                int colon = sw.IndexOf(':');
+                if (colon < 0)
+                {
+                    continue;
+                }
+                string name = sw[..colon];
+                if (!name.Equals("p", StringComparison.OrdinalIgnoreCase) &&
+                    !name.Equals("property", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                // the parameters keep their quotes until they are split: -p:DefineConstants="A;B" is one property
+                foreach (var prm in SplitQuoted(arg[(arg.IndexOf(':') + 1)..], ch => ch is ';' or ',', keepQuotes: false))
+                {
+                    int eq = prm.IndexOf('=');
+                    string k = eq < 0 ? "" : prm[..eq].Trim();
+                    if (!Regex.IsMatch(k, @"^[A-Za-z_][A-Za-z0-9_\-]*$"))
+                    {
+                        p.Notes.Add($"{file}: property switch not read: {Short(prm)}");
+                        continue;
+                    }
+                    o.Add((k, prm[(eq + 1)..]));
+                }
+            }
+        }
+        return o;
+    }
+
+    /// <summary>`s` split at the characters `sep` accepts outside double quotes, empty pieces dropped; the quotes kept
+    /// or removed.</summary>
+    private static List<string> SplitQuoted(string s, Func<char, bool> sep, bool keepQuotes)
+    {
+        var o = new List<string>();
+        var sb = new StringBuilder();
+        bool q = false;
+        foreach (char ch in s)
+        {
+            if (ch == '"')
+            {
+                q = !q;
+                if (keepQuotes)
+                {
+                    sb.Append(ch);
+                }
+            }
+            else if (!q && sep(ch))
+            {
+                if (sb.Length > 0)
+                {
+                    o.Add(sb.ToString());
+                }
+                sb.Clear();
+            }
+            else
+            {
+                sb.Append(ch);
+            }
+        }
+        if (sb.Length > 0)
+        {
+            o.Add(sb.ToString());
+        }
+        return o;
+    }
+
     public static void Evaluate(Corpus c, ProjectInfo p)
     {
         // MSBuild imports the NEAREST Directory.Build.props / .targets only (Microsoft.Common.props / .targets:
         // GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), ...)); a farther one is read only through an Import
         var props = c.Nearest(p.Dir, "Directory.Build.props") is { } np ? new List<string> { np } : new List<string>();
         var targets = c.Nearest(p.Dir, "Directory.Build.targets") is { } nt ? new List<string> { nt } : new List<string>();
+        // dotnet build / dotnet msbuild read the NEAREST Directory.Build.rsp from the project directory up (MSBuild's
+        // auto-response file; a farther one is not read, measured): its -p switches are global properties
+        var rsp = ResponseFileProperties(c, p, out string? rspFile);
         // pass A: the first target framework (TargetFramework, else the first of TargetFrameworks)
-        var a = new MsEval(c, p, null);
+        var a = new MsEval(c, p, null, rsp);
         a.Walk(props, targets);
         string? tf = FirstTf(a.Get("TargetFramework"), a.Get("TargetFrameworks"));
         // pass B: properties with that framework as a global property (MSBuild's inner build); then the items, every
         // condition read with the final property values (MSBuild evaluates properties before items)
-        var b = new MsEval(c, p, tf) { _record = true };
+        var b = new MsEval(c, p, tf, rsp) { _record = true };
+        if (rspFile != null)
+        {
+            p.Read.Add(rspFile);
+        }
         b.Walk(props, targets);
+        // AC21: the assembly name is a property, so MSBuild has it before its item pass: an explicit <AssemblyName>
+        // (the project, or a Directory.Build.* file it imports; the last assignment wins), else the project file's
+        // name (Microsoft.NET.Sdk.props' default, $(MSBuildProjectName)). It goes into the bag before the items are
+        // read, so $(AssemblyName) in an item spec (<InternalsVisibleTo Include="$(AssemblyName).Tests" />) is it.
+        string asm = b.Get("AssemblyName").Trim();
+        p.AssemblyName = asm.Length > 0 ? asm : p.Name;
+        b._v["AssemblyName"] = p.AssemblyName;
         b._items = true;
         b._record = false;
         b.Walk(props, targets);
         p.FirstTf = tf;
-        string asm = b.Get("AssemblyName").Trim();
-        p.AssemblyName = asm.Length > 0 ? asm : p.Name;
-        p.ImplicitUsings = b.Get("ImplicitUsings").Trim() is var iu &&
-                           (iu.Equals("enable", StringComparison.OrdinalIgnoreCase) ||
-                            iu.Equals("true", StringComparison.OrdinalIgnoreCase));
+        // the SDK's own conditions, on the verbatim values under MSBuild's comparison (MsbEquals: unescaped, case
+        // ignored, two boolean-like operands compared as booleans, so yes / on / !false are 'true');
+        // Microsoft.NET.Sdk.CSharp.props:26 "'$(ImplicitUsings)' == 'true' Or '$(ImplicitUsings)' == 'enable'", and the
+        // WindowsDesktop props' "'$(UseWPF)' == 'true'" / "'$(UseWindowsForms)' == 'true'" (WPF.props:5,
+        // WindowsForms.props:15)
+        p.ImplicitUsings = b.GetU("ImplicitUsings") is var iu && (MsbEquals(iu, "true") || MsbEquals(iu, "enable"));
+        p.UseWpf = MsbEquals(b.GetU("UseWPF"), "true");
+        p.UseWindowsForms = MsbEquals(b.GetU("UseWindowsForms"), "true");
+        p.NetFramework = b.Get("TargetFrameworkIdentifier").Equals(".NETFramework", StringComparison.OrdinalIgnoreCase);
         p.Defines.Add("TRACE");
         p.Defines.Add("RELEASE");
         foreach (var s in TfSymbols(tf))
@@ -494,6 +790,32 @@ internal sealed class MsEval
         string t = (tf ?? "").Trim().ToLowerInvariant();
         int dash = t.IndexOf('-');
         return dash < 0 ? "" : Regex.Match(t[(dash + 1)..], "^[a-z]+").Value;
+    }
+
+    /// <summary>$([MSBuild]::GetTargetFrameworkIdentifier) of a moniker, as far as this tool asks: .NETFramework for
+    /// net48, net4.8, net48-windows; .NETCoreApp for net5.0, net50, netcoreapp3.1; .NETStandard for netstandard2.0; ""
+    /// for any other moniker (never .NETFramework there).</summary>
+    public static string FrameworkIdentifier(string tf)
+    {
+        string t = tf.Trim().ToLowerInvariant();
+        int dash = t.IndexOf('-');
+        t = dash < 0 ? t : t[..dash];
+        if (t.StartsWith("netcoreapp", StringComparison.Ordinal))
+        {
+            return ".NETCoreApp";
+        }
+        if (t.StartsWith("netstandard", StringComparison.Ordinal))
+        {
+            return ".NETStandard";
+        }
+        // the major version: the number before the first dot of net4.8 / net10.0, the first digit of net48 / net50
+        var m = Regex.Match(t, @"^net(?:(\d+)\.\d[\d.]*|(\d)\d*)$");
+        if (!m.Success)
+        {
+            return "";
+        }
+        string major = m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value;
+        return major.Length == 1 && major[0] < '5' ? ".NETFramework" : ".NETCoreApp";
     }
 
     private static string? FirstTf(string tf, string tfs)
@@ -578,13 +900,24 @@ internal sealed class MsEval
     // ---- the walk -----------------------------------------------------------------------------------------------
     private void Walk(List<string> props, List<string> targets)
     {
+        _seen.Clear();
+        // MSBuild enters the project's <Project> element before anything it imports (its implicit Sdk.props import, and
+        // so Directory.Build.props, included): the project's TreatAsLocalProperty holds from the first file on
+        _local.Clear();
+        LocalProperties(_c.Load(_p.Rel)?.Root, _p.Rel);
         foreach (var f in props)
         {
             _phase = "props";
             ReadFile(f, 0, isProject: false);
         }
+        _phase = "props";
+        PackagesProps();
         _phase = "project";
         ReadFile(_p.Rel, 0, isProject: true);
+        if (!_items)
+        {
+            InferFrameworkIdentifier();
+        }
         foreach (var f in targets)
         {
             _phase = "targets";
@@ -592,9 +925,74 @@ internal sealed class MsEval
         }
     }
 
+    /// <summary>NuGet.props, imported by Microsoft.Common.props right after Directory.Build.props: the nearest
+    /// Directory.Packages.props, or the tracked file DirectoryPackagesPropsPath names (relative: to the project), unless
+    /// ImportDirectoryPackagesProps is set to anything but true by then. ManagePackageVersionsCentrally has no say:
+    /// SDK 8.0.202 imports the file with it false. The property pass decides and the item pass reads the same file: a
+    /// property set later does not undo an import.</summary>
+    private void PackagesProps()
+    {
+        if (_items)
+        {
+            if (_packagesProps != null)
+            {
+                ReadFile(_packagesProps, 0, isProject: false);
+            }
+            return;
+        }
+        _packagesProps = null;
+        if (Get("ImportDirectoryPackagesProps").Length == 0)
+        {
+            _v["ImportDirectoryPackagesProps"] = "true";
+        }
+        if (!Get("ImportDirectoryPackagesProps").Equals("true", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+        string? found;
+        string named = Get("DirectoryPackagesPropsPath");
+        if (named.Length == 0)
+        {
+            found = _c.Nearest(_p.Dir, "Directory.Packages.props");
+            if (found == null)
+            {
+                return;
+            }
+            _v["DirectoryPackagesPropsPath"] = P.AsMsBuildDir(P.Dir(found)) + "/" + P.Name(found);
+        }
+        else
+        {
+            string? r = P.Resolve(named, _p.Dir);
+            found = r == null || P.IsGlob(r) ? null : _c.Find(r);
+            if (found == null)
+            {
+                Note($"{_p.Rel}: DirectoryPackagesPropsPath is no tracked file: {Short(named)}");
+                return;
+            }
+        }
+        if (!_seen.Contains(found))                        // MSBuild ignores a second import of one file (MSB4011)
+        {
+            _packagesProps = found;
+            ReadFile(found, 0, isProject: false);
+        }
+        _v["CentralPackageVersionsFileImported"] = "true";
+    }
+
+    /// <summary>Microsoft.NET.TargetFrameworkInference.targets (Sdk.targets: after the project, before
+    /// Directory.Build.targets, whose conditions see the result).</summary>
+    private void InferFrameworkIdentifier()
+    {
+        string tf = Get("TargetFramework");
+        if (tf.Length > 0 && (Get("TargetFrameworkIdentifier").Length == 0 || Get("TargetFrameworkVersion").Length == 0))
+        {
+            _v["TargetFrameworkIdentifier"] = FrameworkIdentifier(tf);
+        }
+    }
+
     private void ReadFile(string rel, int depth, bool isProject)
     {
         var doc = _c.Load(rel);
+        _seen.Add(rel);
         if (_record)
         {
             _p.Read.Add(rel);
@@ -607,16 +1005,21 @@ internal sealed class MsEval
         string prev = _thisFile;
         _thisFile = rel;
         _stack.Add(rel);
-        if (isProject && _record)
+        // an imported file's TreatAsLocalProperty holds from that file on (MSBuild registers it as it enters the file)
+        LocalProperties(doc.Root, rel);
+        if (_record)
         {
+            // the implicit imports of ANY file read (the project, or a file it imports, e.g. a Directory.Build.props
+            // written <Project Sdk="...">): the Sdk attribute and <Sdk Name> elements import that SDK's Sdk.props at the
+            // top of the file and its Sdk.targets at the bottom
             foreach (var s in (doc.Root.Attribute("Sdk")?.Value ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries |
                                                                                StringSplitOptions.TrimEntries))
             {
-                AddSdk(s);
+                AddSdk(s, props: true, targets: true);
             }
             foreach (var e in doc.Root.Elements().Where(e => e.Name.LocalName == "Sdk"))
             {
-                AddSdk(e.Attribute("Name")?.Value ?? "");
+                AddSdk(e.Attribute("Name")?.Value ?? "", props: true, targets: true);
             }
         }
         foreach (var el in doc.Root.Elements())
@@ -627,13 +1030,44 @@ internal sealed class MsEval
         _thisFile = prev;
     }
 
-    private void AddSdk(string s)
+    /// <summary>The SDK `s` ("Name" or "Name/Version") is named; `props`: its Sdk.props is imported (the SDK's Using
+    /// items: the implicit-usings lists), `targets`: its Sdk.targets is (the GenerateGlobalUsings target).</summary>
+    private void AddSdk(string s, bool props, bool targets)
     {
         int slash = s.IndexOf('/');
         string n = (slash >= 0 ? s[..slash] : s).Trim();
-        if (n.Length > 0 && !_p.Sdks.Contains(n, StringComparer.OrdinalIgnoreCase))
+        if (n.Length == 0)
+        {
+            return;
+        }
+        if (!_p.Sdks.Contains(n, StringComparer.OrdinalIgnoreCase))
         {
             _p.Sdks.Add(n);
+        }
+        if (props && !_p.SdkProps.Contains(n, StringComparer.OrdinalIgnoreCase))
+        {
+            _p.SdkProps.Add(n);
+        }
+        _p.SdkTargets |= targets;
+    }
+
+    /// <summary>A file's <Project TreatAsLocalProperty="A;B">: from here on an assignment of A or B overrides the
+    /// global property of that name (the value is expanded and split on ';' when the file is entered).</summary>
+    private void LocalProperties(XElement? root, string rel)
+    {
+        string? tlp = root?.Attribute("TreatAsLocalProperty")?.Value;
+        if (tlp == null)
+        {
+            return;
+        }
+        if (!Expand(tlp, out string v))
+        {
+            Note($"{rel}: TreatAsLocalProperty not evaluated: {Short(tlp)}");
+            return;
+        }
+        foreach (var n in v.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            _local.Add(P.Unescape(n));
         }
     }
 
@@ -666,7 +1100,7 @@ internal sealed class MsEval
                 Import(el, depth);
                 break;
             case "ImportGroup":
-                if (Cond(el))
+                if (_items || Cond(el))
                 {
                     foreach (var imp in el.Elements().Where(x => x.Name.LocalName == "Import"))
                     {
@@ -675,8 +1109,41 @@ internal sealed class MsEval
                 }
                 break;
             case "Choose":
-                Note($"{_thisFile}: <Choose> is not evaluated");
+                Choose(el, depth);
                 break;
+        }
+    }
+
+    /// <summary><Choose>: the first <When> whose condition holds, else <Otherwise>, decided in the property pass with
+    /// the properties defined at that point (MSBuild evaluates When conditions in its property pass; a property set
+    /// after the Choose is not seen, measured); the item pass reads the branch the property pass took. The branch's
+    /// PropertyGroup, ItemGroup and nested Choose elements are read as if they stood in the file.</summary>
+    private void Choose(XElement el, int depth)
+    {
+        XElement? branch = null;
+        if (_items)
+        {
+            _chosen.TryGetValue(el, out branch);
+        }
+        else
+        {
+            foreach (var c in el.Elements())
+            {
+                if (c.Name.LocalName == "When" && Cond(c) || c.Name.LocalName == "Otherwise")
+                {
+                    branch = c;
+                    break;
+                }
+            }
+            _chosen[el] = branch;
+        }
+        if (branch == null)
+        {
+            return;
+        }
+        foreach (var c in branch.Elements())
+        {
+            Element(c, depth);
         }
     }
 
@@ -694,7 +1161,7 @@ internal sealed class MsEval
     private void Assign(XElement prop)
     {
         string name = prop.Name.LocalName;
-        if (_global.Contains(name))
+        if (_global.Contains(name) && !_local.Contains(name))  // a global property wins unless TreatAsLocalProperty
         {
             return;
         }
@@ -703,13 +1170,17 @@ internal sealed class MsEval
             Note($"{_thisFile}: <{name}> not evaluated: {Short(prop.Value)}");
             return;
         }
-        _v[name] = val.Trim();
+        _v[name] = val;                                    // verbatim: conditions see it as MSBuild's do
     }
+
+    /// <summary>The item types this evaluator reads. An item type is a name MSBuild compares ignoring case (`<using>`
+    /// and `<USING>` are Using items, measured), so an element is matched to its type in any letter case.</summary>
+    private static readonly string[] ItemTypes = { "Compile", "ProjectReference", "Using", "InternalsVisibleTo", "AssemblyAttribute" };
 
     private void Item(XElement item)
     {
-        string type = item.Name.LocalName;
-        if (type is not ("Compile" or "ProjectReference" or "Using" or "InternalsVisibleTo" or "AssemblyAttribute"))
+        string? type = ItemTypes.FirstOrDefault(t => t.Equals(item.Name.LocalName, StringComparison.OrdinalIgnoreCase));
+        if (type == null)
         {
             return;
         }
@@ -717,15 +1188,18 @@ internal sealed class MsEval
         {
             return;
         }
-        string? inc = Attr(item, "Include"), rem = Attr(item, "Remove"), exc = Attr(item, "Exclude");
-        string? op = inc != null ? "Include" : rem != null ? "Remove" : null;
+        string? inc = Attr(item, "Include"), rem = Attr(item, "Remove"), upd = Attr(item, "Update"),
+                exc = Attr(item, "Exclude");
+        // Update sets metadata on the items of that type defined so far that its spec matches (ApplyItems: Using)
+        string? op = inc != null ? "Include" : rem != null ? "Remove" : upd != null ? "Update" : null;
         if (op == null)
         {
-            return;                                        // Update: metadata only
+            return;
         }
-        if (!Expand(op == "Include" ? inc! : rem!, out string spec))
+        string opValue = op == "Include" ? inc! : op == "Remove" ? rem! : upd!;
+        if (!Expand(opValue, out string spec))
         {
-            Note($"{_thisFile}: <{type} {op}> not evaluated: {Short(op == "Include" ? inc! : rem!)}");
+            Note($"{_thisFile}: <{type} {op}> not evaluated: {Short(opValue)}");
             return;
         }
         string? exclude = null;
@@ -748,13 +1222,13 @@ internal sealed class MsEval
             {
                 continue;
             }
-            meta[an] = Expand(a.Value, out string av) ? av.Trim() : a.Value.Trim();
+            meta[an] = P.Unescape(Expand(a.Value, out string av) ? av.Trim() : a.Value.Trim());   // a task reads it unescaped
         }
         foreach (var child in item.Elements())
         {
             if (Cond(child))
             {
-                meta[child.Name.LocalName] = Expand(child.Value, out string cv) ? cv.Trim() : child.Value.Trim();
+                meta[child.Name.LocalName] = P.Unescape(Expand(child.Value, out string cv) ? cv.Trim() : child.Value.Trim());
             }
         }
         _p.Items.Add(new ItemOp(_phase, type, op, spec, exclude, meta, _thisFile));
@@ -762,20 +1236,33 @@ internal sealed class MsEval
 
     private void Import(XElement el, int depth)
     {
-        if (!Cond(el))
+        // MSBuild decides an import with the properties defined at that point, so the item pass follows the property
+        // pass's decision: a condition read with the final values would take an import MSBuild did not take
+        if (_items ? !_imported.Contains(el) : !Cond(el))
         {
             return;
         }
+        _imported.Add(el);
         string? sdk = Attr(el, "Sdk");
+        string? proj = Attr(el, "Project");
         if (sdk != null)
         {
+            // <Import Project="Sdk.props" Sdk="X" /> imports X's props (its Using items), "Sdk.targets" its targets (the
+            // GenerateGlobalUsings target): a project importing only one of them gets no SDK list, resp. no file
+            string what = P.Name((proj ?? "").Trim().Replace('\\', '/'));
+            bool isProps = what.Equals("Sdk.props", StringComparison.OrdinalIgnoreCase);
+            bool isTargets = what.Equals("Sdk.targets", StringComparison.OrdinalIgnoreCase);
             if (_record)
             {
-                AddSdk(sdk);
+                AddSdk(sdk, isProps, isTargets);
+                if (!isProps && !isTargets)
+                {
+                    Note($"{_thisFile}: <Import Project=\"{Short(proj ?? "")}\" Sdk=\"{Short(sdk)}\"> is neither Sdk.props " +
+                         "nor Sdk.targets: not modelled");
+                }
             }
             return;
         }
-        string? proj = Attr(el, "Project");
         if (proj == null)
         {
             return;
@@ -790,8 +1277,8 @@ internal sealed class MsEval
             Note($"{_thisFile}: <Import> of a file not found above: {Short(proj)}");
             return;
         }
-        string? r = P.Resolve(path, P.Dir(_thisFile));
-        string? t = r == null || P.IsGlob(r) ? null : _c.Find(r);
+        string? r = P.IsGlob(path) ? null : P.Resolve(P.Unescape(path), P.Dir(_thisFile));    // a path is unescaped
+        string? t = r == null ? null : _c.Find(r);
         if (t == null)
         {
             Note($"{_thisFile}: <Import> of a file outside the tracked corpus: {Short(proj)}");
@@ -987,6 +1474,54 @@ internal sealed class MsEval
         return true;
     }
 
+    /// <summary>The condition function Exists(arg) on the tracked tree, as MSBuild evaluates it (measured on SDK
+    /// 8.0.202): the argument expanded (a $([MSBuild]::GetPathOfFileAbove / GetDirectoryNameOfFileAbove) too, as an
+    /// Import's Project is), split on ';' (each piece must exist; none at all: false), each piece unescaped and
+    /// resolved against `dir` (Cond's rule: the project's directory, or the file holding a PropertyGroup / Import /
+    /// ImportGroup; a $(MSBuildThisFileDirectory) path is absolute); a piece exists when it is a git-tracked file or a
+    /// directory holding one, in any letter case (Windows), a wildcard never does. A path that leaves the corpus (or is
+    /// absolute outside it) is not read: noted, false. null when the argument is not evaluable (another property
+    /// function, an item list).</summary>
+    private bool? Exists(string args, string dir)
+    {
+        string a = args.Trim();
+        if (a.Length >= 2 && a[0] == '\'' && a[^1] == '\'')
+        {
+            a = a[1..^1];
+        }
+        else if (a.Contains('\''))
+        {
+            return null;
+        }
+        if (!ExpandImport(a, out string v))
+        {
+            return null;
+        }
+        var pieces = v.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (pieces.Length == 0)
+        {
+            return false;
+        }
+        foreach (var piece in pieces)
+        {
+            if (P.IsGlob(piece))
+            {
+                return false;
+            }
+            string? r = P.Resolve(P.Unescape(piece), dir);
+            if (r == null)
+            {
+                Note($"{_thisFile}: Exists() of a path outside the corpus, not read (taken as false): {Short(piece)}");
+                return false;
+            }
+            if (_c.Find(r) == null && !_c.DirExists(r))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private bool Cond(XElement el)
     {
         string? c = Attr(el, "Condition");
@@ -994,7 +1529,11 @@ internal sealed class MsEval
         {
             return true;
         }
-        bool? v = new CondParser(c, this).Run();
+        // the directory a relative path in the condition is read from (MSBuild's GetCurrentDirectoryForCondition-
+        // Evaluation, measured on SDK 8.0.202): the file holding the element for a PropertyGroup, an Import and an
+        // ImportGroup; the project's own directory for a property, a When, an ItemGroup and an item
+        string baseDir = el.Name.LocalName is "PropertyGroup" or "Import" or "ImportGroup" ? P.Dir(_thisFile) : _p.Dir;
+        bool? v = new CondParser(c, this, baseDir).Run();
         if (v == null)
         {
             Note($"{_thisFile}: condition not evaluated (taken as false): {Short(c)}");
@@ -1004,17 +1543,20 @@ internal sealed class MsEval
     }
 
     /// <summary>MSBuild conditions: or / and / ! / ( ) / == != &lt; &gt; &lt;= &gt;= over quoted strings, $(...)
-    /// and bare words, in three-valued logic (null = not evaluable: a function call or a property function).</summary>
+    /// and bare words, and the function Exists(), in three-valued logic (null = not evaluable: another function or a
+    /// property function).</summary>
     private sealed class CondParser
     {
         private readonly string _s;
         private readonly MsEval _e;
+        private readonly string _dir;
         private int _i;
 
-        public CondParser(string s, MsEval e)
+        public CondParser(string s, MsEval e, string dir)
         {
             _s = s;
             _e = e;
+            _dir = dir;
         }
 
         public bool? Run()
@@ -1100,7 +1642,7 @@ internal sealed class MsEval
                 _i++;
                 return v;
             }
-            var (ok, a) = Operand();
+            var (ok, a, fn, fv) = Operand();
             Ws();
             string? op = null;
             foreach (var o in new[] { "==", "!=", "<=", ">=", "<", ">" })
@@ -1114,24 +1656,24 @@ internal sealed class MsEval
             }
             if (op == null)
             {
-                if (!ok)
+                if (fn)
                 {
-                    return null;
+                    return fv;                             // a function's own value (Exists), null when not evaluated
                 }
-                return a.Equals("true", StringComparison.OrdinalIgnoreCase) ? true
-                     : a.Equals("false", StringComparison.OrdinalIgnoreCase) ? false : null;
+                // a lone operand is a boolean only when it is boolean-like ('$(Flag)' with Flag On: true)
+                return ok ? MsEval.BoolLike(a) : null;
             }
-            var (ok2, b) = Operand();
-            if (!ok || !ok2)
+            var (ok2, b, fn2, _) = Operand();
+            if (!ok || !ok2 || fn || fn2)
             {
                 return null;
             }
             switch (op)
             {
                 case "==":
-                    return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+                    return MsEval.MsbEquals(a, b);
                 case "!=":
-                    return !string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+                    return !MsEval.MsbEquals(a, b);
                 default:
                     if (!double.TryParse(a, NumberStyles.Float, CultureInfo.InvariantCulture, out double x) ||
                         !double.TryParse(b, NumberStyles.Float, CultureInfo.InvariantCulture, out double y))
@@ -1142,7 +1684,10 @@ internal sealed class MsEval
             }
         }
 
-        private (bool Ok, string Value) Operand()
+        /// <summary>One operand: a quoted string, a $(...) or a bare word, expanded and UNESCAPED (MSBuild compares
+        /// unescaped values: '%65nable' == 'enable'); or a function call (Fn), whose value is Exists' on the tree and
+        /// null for any other function.</summary>
+        private (bool Ok, string Value, bool Fn, bool? FnValue) Operand()
         {
             Ws();
             if (_i >= _s.Length)
@@ -1158,7 +1703,7 @@ internal sealed class MsEval
                 }
                 string raw = _s[(_i + 1)..j];
                 _i = j + 1;
-                return _e.Expand(raw, out string v) ? (true, v) : (false, "");
+                return _e.Expand(raw, out string v) ? (true, P.Unescape(v), false, null) : (false, "", false, null);
             }
             if (_s[_i] == '$' && _i + 1 < _s.Length && _s[_i + 1] == '(')
             {
@@ -1180,7 +1725,7 @@ internal sealed class MsEval
                 }
                 string raw = _s[_i..(j + 1)];
                 _i = j + 1;
-                return _e.Expand(raw, out string v) ? (true, v) : (false, "");
+                return _e.Expand(raw, out string v) ? (true, P.Unescape(v), false, null) : (false, "", false, null);
             }
             int k = _i;
             while (k < _s.Length && (char.IsLetterOrDigit(_s[k]) || _s[k] is '_' or '.' or '-'))
@@ -1196,23 +1741,36 @@ internal sealed class MsEval
             Ws();
             if (_i < _s.Length && _s[_i] == '(')
             {
-                // a function (Exists, HasTrailingSlash ...): skip its arguments, not evaluated
-                int depth = 0;
-                for (; _i < _s.Length; _i++)
+                // a function: its arguments up to the matching ')' (quotes respected); Exists is evaluated on the tree,
+                // any other function (HasTrailingSlash ...) is not
+                int depth = 0, start = _i + 1, end = -1;
+                bool q = false;
+                for (int x = _i; x < _s.Length; x++)
                 {
-                    if (_s[_i] == '(')
+                    char ch = _s[x];
+                    if (ch == '\'')
+                    {
+                        q = !q;
+                    }
+                    else if (!q && ch == '(')
                     {
                         depth++;
                     }
-                    else if (_s[_i] == ')' && --depth == 0)
+                    else if (!q && ch == ')' && --depth == 0)
                     {
-                        _i++;
+                        end = x;
                         break;
                     }
                 }
-                return (false, word);
+                if (end < 0)
+                {
+                    throw new FormatException();
+                }
+                _i = end + 1;
+                bool? fv = word.Equals("Exists", StringComparison.OrdinalIgnoreCase) ? _e.Exists(_s[start..end], _dir) : null;
+                return (false, word, true, fv);
             }
-            return (true, word);
+            return (true, P.Unescape(word), false, null);
         }
     }
 }
@@ -1372,6 +1930,11 @@ internal static class Program
     private static readonly string[] UsingsBlazorWasm =
         { "Microsoft.Extensions.Configuration", "Microsoft.Extensions.DependencyInjection",
           "Microsoft.Extensions.Logging" };
+    // the SDK 8.0.202 WindowsDesktop props Microsoft.NET.Sdk.props imports for every project (no target-framework
+    // condition): Microsoft.NET.Sdk.WindowsDesktop.WindowsForms.props:15 adds these when UseWindowsForms is true, and
+    // Microsoft.NET.Sdk.WindowsDesktop.WPF.props:5 removes these when UseWPF is true, both only with implicit usings on
+    private static readonly string[] WindowsFormsAddedUsings = { "System.Drawing", "System.Windows.Forms" };
+    private static readonly string[] WpfRemovedUsings = { "System.IO", "System.Net.Http" };
 
     private static readonly SymbolDisplayFormat TypeFmt = new(
         globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
@@ -2051,17 +2614,23 @@ internal static class Program
         return r.StartsWith("bin/", StringComparison.OrdinalIgnoreCase) || r.StartsWith("obj/", StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <summary>The Using items the imported SDK props define (p.SdkProps: an SDK whose Sdk.props is imported; one whose
+    /// Sdk.targets alone is imported defines none, measured), in their props' order.</summary>
     private static IEnumerable<string> SdkUsings(ProjectInfo p)
     {
-        if (p.Sdks.Count == 0)
+        if (p.SdkProps.Count == 0)
         {
             yield break;
         }
         foreach (var u in UsingsBase)
         {
-            yield return u;
+            // Microsoft.NET.Sdk.CSharp.props:31: Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'"
+            if (!(p.NetFramework && u == "System.Net.Http"))
+            {
+                yield return u;
+            }
         }
-        bool Has(string s) => p.Sdks.Any(x => x.Equals(s, StringComparison.OrdinalIgnoreCase));
+        bool Has(string s) => p.SdkProps.Any(x => x.Equals(s, StringComparison.OrdinalIgnoreCase));
         if (Has("Microsoft.NET.Sdk.Web"))
         {
             foreach (var u in UsingsWeb)
@@ -2151,14 +2720,32 @@ internal static class Program
                         }
                     }
                 }
-                if (p.ImplicitUsings)
+                if (p.ImplicitUsings && p.SdkProps.Count == 0)
+                {
+                    p.Notes.Add("ImplicitUsings is on but no SDK's Sdk.props is imported: no SDK Using items");
+                }
+                if (p.ImplicitUsings && p.SdkProps.Count > 0)
                 {
                     usings.AddRange(SdkUsings(p).Select(u => (u, (string?)null, false)));
+                    // the WindowsDesktop props, after Microsoft.NET.Sdk.CSharp.props (a Remove acts on every Using item
+                    // defined so far, a Directory.Build.props one included)
+                    if (p.UseWindowsForms)
+                    {
+                        usings.AddRange(WindowsFormsAddedUsings.Select(u => (u, (string?)null, false)));
+                    }
+                    if (p.UseWpf)
+                    {
+                        usings.RemoveAll(x => WpfRemovedUsings.Any(r => P.ItemMatches(r, x.Ns, p.Dir)));
+                    }
                 }
                 continue;
             }
             foreach (var op in p.Items.Where(x => x.Phase == phase))
             {
+                if (op.Op == "Update" && op.Type != "Using")
+                {
+                    continue;                              // metadata on other item types decides nothing modelled here
+                }
                 switch (op.Type)
                 {
                     case "Compile":
@@ -2218,18 +2805,49 @@ internal static class Program
                         }
                         break;
                     case "Using":
+                    {
+                        // the spec is split on ';' while still escaped, then each piece is matched (Remove / Update /
+                        // Exclude: P.ItemMatches, as paths) or unescaped into the item's identity (Include)
+                        var excl = (op.Exclude ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                         foreach (var piece in op.Spec.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
                         {
                             if (op.Op == "Remove")
                             {
-                                usings.RemoveAll(x => x.Ns.Equals(piece, StringComparison.OrdinalIgnoreCase));
+                                usings.RemoveAll(x => P.ItemMatches(piece, x.Ns, p.Dir));
                                 continue;
+                            }
+                            if (op.Op == "Update")
+                            {
+                                // the items defined so far that the spec matches take the metadata it sets (an empty
+                                // Alias clears it); a later Include is not touched
+                                for (int k = 0; k < usings.Count; k++)
+                                {
+                                    if (P.ItemMatches(piece, usings[k].Ns, p.Dir))
+                                    {
+                                        var (ns, al, stc) = usings[k];
+                                        if (op.Meta.TryGetValue("Alias", out var ua))
+                                        {
+                                            al = string.IsNullOrEmpty(ua) ? null : ua;
+                                        }
+                                        if (op.Meta.TryGetValue("Static", out var us))
+                                        {
+                                            stc = string.Equals(us, "true", StringComparison.OrdinalIgnoreCase);
+                                        }
+                                        usings[k] = (ns, al, stc);
+                                    }
+                                }
+                                continue;
+                            }
+                            if (excl.Any(e => P.ItemMatches(e, piece, p.Dir)))
+                            {
+                                continue;                  // Exclude: matched as Remove matches
                             }
                             string? alias = op.Meta.GetValueOrDefault("Alias");
                             bool st = string.Equals(op.Meta.GetValueOrDefault("Static"), "true", StringComparison.OrdinalIgnoreCase);
-                            usings.Add((piece, string.IsNullOrEmpty(alias) ? null : alias, st));
+                            usings.Add((P.Unescape(piece), string.IsNullOrEmpty(alias) ? null : alias, st));
                         }
                         break;
+                    }
                     case "InternalsVisibleTo":
                         foreach (var piece in op.Spec.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
                         {
@@ -2302,9 +2920,22 @@ internal static class Program
         p.Files.AddRange(compile);
         p.Links.AddRange(compile.Where(f => claimDir(f) != p.Dir));
         p.Removed.AddRange(removed.Where(f => !set.Contains(f)));
-        p.UsingLines.AddRange(usings.Select(x => x.Alias != null ? $"global using {x.Alias} = global::{x.Ns};"
-                                                 : x.Static ? $"global using static global::{x.Ns};"
-                                                 : $"global using global::{x.Ns};")
+        // GenerateGlobalUsings is a target of the SDK's targets (Microsoft.NET.GenerateGlobalUsings.targets): a project
+        // that imports no SDK's Sdk.targets (no SDK at all, or Sdk.props alone) has no such target and gets no file,
+        // whatever Using items it holds (measured: MSB4057)
+        if (!p.SdkTargets)
+        {
+            if (usings.Count > 0)
+            {
+                p.Notes.Add("no SDK's Sdk.targets is imported: no GenerateGlobalUsings target, its Using items are not " +
+                            "written");
+            }
+            usings.Clear();
+        }
+        // the task's line: `global using [static ][Alias = ]global::Ns;` (static and an alias together give
+        // "global using static A = global::Ns;", as SDK 8.0.202 writes it)
+        p.UsingLines.AddRange(usings.Select(x => "global using " + (x.Static ? "static " : "") +
+                                                 (x.Alias != null ? x.Alias + " = " : "") + $"global::{x.Ns};")
                                     .Distinct(StringComparer.Ordinal).OrderBy(x => x, StringComparer.Ordinal));
     }
 

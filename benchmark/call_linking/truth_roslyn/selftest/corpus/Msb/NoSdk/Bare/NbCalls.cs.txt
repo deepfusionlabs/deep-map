@@ -1,0 +1,28 @@
+using Nb.Lib;
+
+namespace Nb.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Nb
+{
+    public class NbCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Nb.Other
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}

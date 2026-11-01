@@ -1,0 +1,13 @@
+<Project>
+  <Import Project="Shared.props" Condition="Exists('Shared.props')" />
+  <Import Project="Gone.props" Condition="Exists('Gone.props')" />
+  <PropertyGroup Condition="Exists('Proj/ExCalls.cs')">
+    <ExFromDir>yes</ExFromDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Ex.Lib" Condition="Exists('ExCalls.cs')" />
+    <Using Include="Ex.Gone" Condition="Exists('Gone.cs')" />
+    <Using Include="Ex.Dir" Condition="'$(ExFromDir)' == 'yes'" />
+    <Using Include="Ex.Far" Condition="Exists('../../../../far.txt')" />
+  </ItemGroup>
+</Project>

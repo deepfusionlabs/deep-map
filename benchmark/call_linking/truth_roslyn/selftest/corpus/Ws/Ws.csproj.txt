@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>
+      enable
+    </ImplicitUsings>
+    <WsFlag> on </WsFlag>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Ws.Lib" Condition="'$(WsFlag)' == ' on '" />
+    <Using Include="Ws.Other" Condition="'$(WsFlag)' == 'on'" />
+  </ItemGroup>
+</Project>

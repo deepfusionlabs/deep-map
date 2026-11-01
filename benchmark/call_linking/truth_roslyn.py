@@ -3,10 +3,16 @@
 its "Amendments before RC" AC1-AC5 and AC7 govern it): every invocation and object creation of a C# corpus, bound by
 Roslyn 4.8.0's GetSymbolInfo over one CSharpCompilation per git-tracked .csproj, built as MSBuild builds it (AC3: the
 transitive ProjectReference closure in dependency order, no Aspire resource reference, implicit usings from the
-Directory.Build.props files MSBuild imports, the generated InternalsVisibleTo attributes, the MAUI platform folders,
-the leftover compilation), with the runtime dispatch targets of each call (AC1: per implementing type, the override an
-object of that type runs; AC2: the override rule's receivers). The .NET tool in truth_roslyn/ (Program.cs documents
-the contract rule by rule).
+Directory.Build.props / Directory.Packages.props / .targets files MSBuild imports (AC21: the targets after the project,
+the last assignment winning; every property value verbatim), System.Net.Http only outside .NETFramework, <Using Remove>
+matched as MSBuild matches items, the generated InternalsVisibleTo attributes, the MAUI platform folders, the leftover
+compilation; and, each measured against real MSBuild 17.9 / SDK 8.0.202: Exists() read on the tracked tree, MSBuild's
+boolean-like comparison, Directory.Build.rsp's -p switches, TreatAsLocalProperty, an SDK named by an imported file,
+<Using Update> and Exclude, %XX decoded after the ';' split, a trailing-period Remove, no global usings without an
+SDK's Sdk.targets and no SDK list without its Sdk.props, UseWPF / UseWindowsForms, item types in any letter case,
+<Choose>; Program.cs's header lists the rest it does not model), with the
+runtime dispatch targets of each call (AC1: per implementing type, the override an object of that type runs; AC2: the
+override rule's receivers). The .NET tool in truth_roslyn/ (Program.cs documents the contract rule by rule).
 
 MEASUREMENT ONLY. Roslyn lives in the .NET tool next to this file (truth_roslyn/, restored OFFLINE from the local
 global packages folder: its nuget.config clears every package source), never in a shipped list; nothing under build/

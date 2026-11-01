@@ -54,8 +54,9 @@
 #                  VT-cs; the dispatch stratum VT-cs-ifs -> VT-cs, AC9: implementer AND override edges, or the
 #                  --impl-fallback stratum) and LAST the engine-parity gate exactly as AC13 names it — the snapshot's
 #                  `python tests/typed_calls_engine_parity_gates.py --corpora --only jellyfin__jellyfin,dotnet__eShop
-#                  --py39 <CL_PY39> --py51 <CL_PY51>` (CALL_LINKING_CS_SOURCES = CL_CS_SOURCES) -> out/engine_parity_cs.log;
-#                  only in this phase, only on both C# corpora (never with CL_CS_CORPORA narrowing them), never in a dry run
+#                  --py39 <CL_PY39> --py51 <CL_PY51>` (CALL_LINKING_CS_SOURCES = CL_CS_SOURCES) -> out/engine_parity_cs.log,
+#                  its FULL output, stdout and stderr (AC29: C1 to C4 are read from it; run_log); only in this phase,
+#                  only on both C# corpora (never with CL_CS_CORPORA narrowing them), never in a dry run
 #   audit          after the blind review (§8.6 A): needs every audit dir's key.json and each reviewer's filled sheet
 #                  (CL_SHEETS, default "sheet_r1.csv sheet_r2.csv", inside each dir); scores each sample
 #                  (audit_sample.py score -> <dir>/score.json), the reference error rate per corpus (AC11:
@@ -64,7 +65,8 @@
 #   gates          G5a (AC7: the G5a gates run from the snapshot): every gate of CS_G5A_GATES under each engine's Python
 #                  (CL_PY39 / CL_PY51) and the full no-Neo4j suite (tests/run_all.py) under CL_PY39, the snapshot's
 #                  tests/; one log per run under out/gates/<engine>/ with its exit code (out/gates/SUMMARY.txt). The
-#                  Linux-container run of the suite on 0.8.51 is the operator's. The logs go to cs/gates/ for G5b
+#                  Linux-container run of the suite on 0.8.51 is the operator's; it copies $CL_SELF_RC (the RC
+#                  snapshot), never this repository (AC29). The logs go to cs/gates/ for G5b
 #   manifest       G5b (AC15), once the files to commit are placed under benchmark/call_linking/cs/: writes cs/.gitattributes
 #                  (`* -text`) and cs/MANIFEST.sha256 there (offline_calls.py manifest "$CL_CS_DIR" --write; CL_CS_DIR
 #                  names that folder, explicitly: the only phase that writes into a repository) and prints the line
@@ -266,6 +268,18 @@ CS_G5A_GATES="typed_calls_core_gates typed_calls_py_gates typed_calls_ts_gates t
 run_to() {  # <out file> <command ...>: the command's stdout into the file (CL_DRY: printed, nothing written)
   local f="$1"; shift
   if [ -n "$DRY" ]; then { printf '%q ' "$@"; echo "> $f"; } >&2; else "$@" > "$f"; fi
+}
+
+run_log() {  # <log> <command ...>: the command's FULL output, stdout AND stderr, into <log>.partial, its exit code
+  # appended, then renamed to <log> (a killed run never leaves a log that reads as complete); returns the command's
+  # exit code. CL_DRY: that same redirect printed, nothing written. AC29: RESULTS_CS reads the engine-parity gate's
+  # C1 to C4 from this full log (cs_engine_parity; harness gates J and O lock it)
+  local f="$1" rc; shift
+  if [ -n "$DRY" ]; then { printf '%q ' "$@"; printf '> %q 2>&1; mv %q %q\n' "$f.partial" "$f.partial" "$f"; } >&2; return 0; fi
+  "$@" > "$f.partial" 2>&1; rc=$?
+  echo "[run_matrix] exit $rc" >> "$f.partial"
+  mv "$f.partial" "$f"
+  return $rc
 }
 
 sha_of() { "$PY39" -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())' "$1"; }
@@ -543,23 +557,18 @@ cs_rc_identity() {  # <phase>: out/rc_identity.json records the snapshot's ident
 }
 
 cs_engine_parity() {  # AC13: the engine-parity gate's C# corpora mode, EXACTLY as AC13 names it, from the snapshot
+  # AC29: C1 to C4 come from the command's FULL log (stdout and stderr), $OUT/engine_parity_cs.log, written by run_log
   local lg="$OUT/engine_parity_cs.log" rc
   if [ "$CS_C" != "$CS_C_CORPORA" ]; then
     log "engine parity (AC13): not run — it runs on both C# corpora only (CL_CS_CORPORA narrows them to [$CS_C])"
     return 0
   fi
   [ -n "$PY51" ] || { log "engine parity (AC13): set CL_PY51 to the 0.8.51 Python"; return 1; }
-  if [ -n "$DRY" ]; then
-    run env CALL_LINKING_CS_SOURCES="$CS_SOURCES" "$PY39" "$REPO/tests/typed_calls_engine_parity_gates.py" --corpora \
-        --only jellyfin__jellyfin,dotnet__eShop --py39 "$PY39" --py51 "$PY51"
-    return 0
-  fi
-  [ -f "$lg" ] && { log "engine parity (AC13): present ($lg) — never re-run"; return 0; }
-  env CALL_LINKING_CS_SOURCES="$CS_SOURCES" "$PY39" "$REPO/tests/typed_calls_engine_parity_gates.py" --corpora \
-      --only jellyfin__jellyfin,dotnet__eShop --py39 "$PY39" --py51 "$PY51" > "$lg.partial" 2>&1
+  if [ -z "$DRY" ] && [ -f "$lg" ]; then log "engine parity (AC13): present ($lg) — never re-run"; return 0; fi
+  run_log "$lg" env CALL_LINKING_CS_SOURCES="$CS_SOURCES" "$PY39" "$REPO/tests/typed_calls_engine_parity_gates.py" \
+      --corpora --only jellyfin__jellyfin,dotnet__eShop --py39 "$PY39" --py51 "$PY51"
   rc=$?
-  echo "[run_matrix] exit $rc" >> "$lg.partial"
-  mv "$lg.partial" "$lg"
+  [ -n "$DRY" ] && return 0
   log "engine parity (AC13): exit $rc — $(grep -h '^RESULT:' "$lg" | head -1) (log: $lg)"
 }
 
@@ -601,6 +610,7 @@ cs_audit() {  # after the blind review: each sample's score, the reference error
 }
 
 cs_gates() {  # G5a: each gate under each engine's Python, and the no-Neo4j suite on the dev end, from the snapshot
+  # (G5a's Linux-container run of the suite is the operator's, by hand: it copies $CL_SELF_RC, never this repository — AC29)
   local e py g lg rc
   run mkdir -p "$OUT/gates"
   for e in $ENGINES; do

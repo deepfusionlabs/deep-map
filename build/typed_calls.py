@@ -90,7 +90,9 @@ WHAT IT DECIDES (design 2.4-2.8, 4)
     the reader's tables (LanguageSpec.lookup_rules iface_dispatch): a site whose WHOLE dispatch set is known (the
     interface member plus at most MAX_TARGETS implementers, both IFACE modes on, no class that may implement it
     unseen) no longer vetoes, and its set counts as the group's static targets; a C# static interface member with a
-    body is an exact call, no interface member at all. A group with no tuple of
+    body is an exact call, no interface member at all. A C# site typed to a BASE class's overload by the rival
+    binding (lookup_rules overloads: the hit and every class up to that base proven inapplicable) only ADDs: its
+    group never REPLACEs. A group with no tuple of
     m and no `call_member` m is MOOT: REPLACE and ADD emit the same, so it is not judged (no textual scan).
     DYNAMIC DISPATCH: a REPLACE never removes a run-time target the static binding misses. A typed site whose
     receiver may be (the class object of) a project SUBCLASS of its class — a declared type (an annotation, a
@@ -263,6 +265,7 @@ from __future__ import annotations
 import bisect
 import gc
 import importlib
+import inspect
 import os
 import re
 import sys
@@ -570,24 +573,37 @@ class LanguageSpec:
     it resolves there to that caller; `symbol_imports_only`: it resolves only a name an import binds (Python: a
     `from` import; else any bare call — JS / TS resolve lexical aliases of imports too); `symbol_plain`: only an
     UNDECORATED caller is walked (a Python decorated def is a decorated_definition at the root, never walked).
-    `lookup_rules` (C# only; every other language has none, so its results are byte-identical): iface_dispatch (a
+    `lookup_rules` (C# only; every other language has none, so its results are byte-identical; `lookup` itself keeps
+    only what the call site can see: never an explicit interface implementation, nor a member PROVEN inaccessible from
+    it, the walk going on to the base: _Linker.cs_access, cs_unseen): iface_dispatch (a
     site typed to an interface's own member through an interface receiver links that member at INFERRED plus its
     project implementers: one -> INFERRED, 2..MAX_TARGETS -> AMBIGUOUS each, more -> none; a test-file implementer
-    only for a test caller; with the reader's tables, a site whose whole set is known may REPLACE, and a static
-    interface member with a body is an exact call; _Linker.iface_dispatch), partials (the parts of one partial type
+    only for a test caller; with the reader's tables, a site whose whole set is known may REPLACE, a static
+    interface member with a body is an exact call, and an implementer is C#'s interface mapping — an explicit
+    implementation of the call's interface first, else a PUBLIC member of its signature, never one of another
+    interface's explicit implementations; _Linker.iface_dispatch, cs_impl_of), partials (the parts of one partial type
     are ONE class: _Linker.merge_partials, binder.partials()), member_scope (a simple name is first a member of the
     enclosing class
     chain, a field there typed by its declaration; an external class base may hide one: _Linker.member_scope, the C#
     field rule in _field_type, no bare-call constructor), using_static (a bare call missing from a fully-project
-    chain reaches exactly one `using static` project method: binder.static_imports(rel)), extensions (a member
+    chain reaches exactly one `using static` project method among the directives in effect at the caller's class,
+    and no enclosing type of that class may hold the name: binder.static_imports(rel, cls_idx), _Linker.
+    static_import_verdict / cs_outer_holds), extensions (a member
     missing from a fully-project chain reaches exactly one project extension method on that chain:
     binder.extensions(rel, m); such a patch never marks the class patched), nested_types (a type name's head is
     first a nested type of the enclosing class, its project base classes, then of each outer class and its bases:
-    _Linker.cs_type_head), overloads (a member hit with a rival of its name and arity — a base-class method of
-    another signature, a project extension method that may apply — is typed only when the call's argument types are
-    known to fit the hit, and then never EXTRACTED, nor when the hit is an override and a class between it and its
-    slot's declarer holds a rival; signatures compare normalised, a generic base's type parameters substituted along
-    the base lists: _Linker.cs_overloads, cs_sig_norm, _cs_tcmp) and virtual_dispatch (a call of a virtual /
+    _Linker.cs_type_head; then, in a file that declares an alias of that name, the alias IN EFFECT where the name
+    is written — a nearer namespace declaration's member or using beats an outer alias, an alias applies only in its
+    own declaration: binder.alias_in_effect / resolve_scoped, _Linker.cs_alias_scope), overloads (a member hit with
+    a rival of its name and arity — a base-class method of another signature, a project extension method that may
+    apply — is typed only when the call's argument types are known to fit the hit, and then never EXTRACTED, nor
+    when the hit is an override and a class between it and its slot's declarer holds a rival; signatures compare
+    normalised, a generic base's type parameters substituted along the base lists and the receiver's declared type
+    arguments for its class's own (`Repo<Order> _r`: _Linker.cs_recv_sigma); when the arguments are PROVEN not to
+    fit the hit and every class up to a base whose definition they are known to fit, that base's member is bound
+    instead — never EXTRACTED, and its group never REPLACEs: _Linker.cs_overloads, cs_rival_bind, cs_sig_norm,
+    _cs_tcmp; names in signatures compare by their scopes' lookup orders, MSBuild's implicit usings and <Using>
+    items included: cs_scope_levels) and virtual_dispatch (a call of a virtual /
     abstract / override class member through a receiver whose run-time class may be a subclass links the declared
     member at INFERRED plus the project overrides that may run — never a subclass closing a generic receiver class
     with other type arguments — counted like interface implementers; a REPLACE then keeps only those overrides
@@ -763,7 +779,9 @@ _FALSE = frozenset({"0", "false", "no", "off"})
 
 # C# argument applicability (LanguageSpec.lookup_rules overloads): the predefined types compared by name, and the
 # implicit numeric conversions (C# spec 10.2.3). A constant's own conversions (an int literal to byte when in range,
-# 0 to an enum) and user-defined conversions are not read: such an argument is never known to fit.
+# 0 to an enum) and user-defined conversions are not read: such an argument is never known to fit, and (the rival
+# binding, _Linker.cs_not_fits) never proven NOT to fit either: a value that may be such a constant, or a type whose
+# chain declares a conversion operator (_cs convops), proves nothing.
 _CS_KNOWN = frozenset({"string", "bool", "char", "sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong",
                        "float", "double", "decimal"})
 _CS_WIDEN = {
@@ -780,6 +798,38 @@ _CS_WIDEN = {
 }
 _CS_VIRTUAL = frozenset({"virtual", "abstract", "override"})
 _CS_ACCESS = frozenset({"public", "protected", "internal", "private"})
+# A parameter's passing as a signature reads it: `ref`, `out` and `in` are three signatures to interface mapping and
+# `override` (the keywords differ, so a member of one never implements or overrides another), while `ref readonly` and
+# `in` are one (a mismatch between them is only warning CS9196); a value parameter ("", `this`) is none of them
+_CS_BYREF = {"ref": "ref", "out": "out", "in": "in", "ref readonly": "in"}
+# R12: `[assembly: InternalsVisibleTo("X")]` / `<InternalsVisibleTo Include="X" />`, each occurrence's literal name
+_CS_FRIEND = re.compile(r"InternalsVisibleTo(?:Attribute)?\b")
+_CS_FRIEND_NAME = re.compile(r"""(?:\s*\(\s*(?:assemblyName\s*:\s*)?|\s+Include\s*=\s*)"([^"]*)\"""")
+_CS_ASM_NAME = re.compile(r"<AssemblyName\b[^>]*>([^<]*)<")
+_CS_GLOBAL_USING = re.compile(r"\bglobal\s+using\b")
+
+
+_ARITY_KW: dict = {}
+
+
+def _takes_arity(fn) -> bool:
+    """R30: does binder method fn take the generic arity a type name is written with (keyword `arity`)? The C#
+    binder's lookups do; every other binder (and a C# reader without the rule) does not, and is called as before."""
+    key = getattr(fn, "__func__", fn)
+    got = _ARITY_KW.get(key)
+    if got is None:
+        try:
+            got = "arity" in inspect.signature(fn).parameters
+        except (TypeError, ValueError):
+            got = False
+        _ARITY_KW[key] = got
+    return got
+
+
+def _cs_imports(text) -> bool:
+    """Does a project file's text bring in another file (an <Import>, or the file DirectoryPackagesPropsPath names)?
+    What that file writes is not in the text, so an answer read off this text alone is not proven."""
+    return "<Import" in text or "DirectoryPackagesPropsPath" in text
 _NOINFO = object()          # a reader keeps no `_cs` table (FileFacts._cs) for that file: the C# rules reading it skip
 # C# signatures compared across a base list (rule overloads: a base definition of the hit's own signature is the one
 # the hit hides or overrides, never a rival; rules virtual_dispatch / iface_dispatch: only a definition of the slot's
@@ -813,24 +863,115 @@ _CS_KNOWN_NS = {
     "System.Net.Http": frozenset({"HttpClient", "HttpRequestMessage", "HttpResponseMessage"}),
     "Microsoft.Extensions.Logging": frozenset({"ILogger", "ILoggerFactory"}),
 }
+# Names of _CS_KNOWN_NS whose non-generic type lives in another namespace than the generic one listed
+# (System.Collections.IEnumerable beside System.Collections.Generic.IEnumerable<T>): a level importing the listed
+# namespace holds no type of that name for a non-generic spelling, so they never decide a lookup (_cs_known_holder)
+_CS_ARITY_SPLIT = frozenset({"IEnumerable", "IList", "ICollection", "IDictionary", "Queue", "Stack"})
+_CS_X_NAME = re.compile(r"[A-Za-z_]\w*")         # the names of a type the reader keeps as text (_cs_x_same)
+
+
+def _cs_x_same(a, b) -> bool:
+    """R3: are two ("x", ...) types (cs_sig_norm: what the pass cannot name) PROVEN one type? Unknown is never "the
+    same": the tags "alias?", "project?" and "alias", an alias whose target is unreadable (target "", two groups'
+    unreadable MSBuild aliases included) and an empty text never compare True, not even with themselves. Only:
+    - ("x", name, target, lev), an alias of a target the pass does not take apart (`using L = List<Order>;`): one name,
+      one target text and one lookup order lev (cs_scope_levels, its .csproj group included). Argument: a target's
+      names are looked up from the alias's own declaration (`namespace B { using L = List<Order>; }` means B's Order,
+      another block's text means its own), and equal orders are the same namespace declarations, aliases and usings,
+      so one text there is one type. Equal text in two scopes proves nothing;
+    - ("x", text), a type read as text (a tuple, a pointer, `global::`): one text whose only names are predefined
+      keywords (_CS_X_NAME), which mean the same in every scope. Any other name in the text (`(Order, int)`, a tuple
+      element's name, a `global::` path two .csproj groups may each declare) is looked up from where it is written:
+      unknown."""
+    if a != b:
+        return False
+    if len(a) == 4:
+        return bool(a[2]) and _cs_lev_ok(a[3])
+    if len(a) != 2 or not isinstance(a[1], str):
+        return False
+    names = _CS_X_NAME.findall(a[1])
+    return bool(names) and all(n in _CS_KNOWN or n in ("object", "nint", "nuint") for n in names)
 
 
 def _cs_tcmp(a, b) -> "bool | None":
-    """Two normalised C# signature types (_Linker.cs_sig_norm): True (one type), False (two types: PROVEN) or None (the
-    pass cannot tell). False only for two keywords, two project classes, a keyword against a project class, another
-    generic arity / array rank, a type parameter against anything else, `X?` of a known value type against X (and
-    what those decide inside a generic or an array). A class type parameter is its own type (`("tpv", declaring
-    class, name)`: in a generic declaration `M(T)` and `M(Cart)` are two signatures, whatever T is constructed with).
-    A name the pass did not resolve ("n": an external type, or an alias it does not read: an MSBuild <Using Alias>,
-    C# 12's alias of any type) is one type with another only when both have its last segment and: both are written
-    under one qualifier; or one is qualified and the other's scope sees that namespace before any other using
-    (_cs_unq_is); or both are unqualified in scopes whose usings resolve a simple name alike (_cs_unq_same). Every
-    other comparison of a name is None: never "two types", since either may be an alias of the other."""
+    """Two normalised C# signature types (_Linker.cs_sig_norm): True (one type, PROVEN), False (two types, PROVEN) or
+    None (the pass cannot tell). None costs a link at most (ADD-only). A wrong True is the worst answer here: it proves
+    an implementer or an override, and that proof REPLACES, removing a true engine tuple.
+
+    False only for two keywords, two project classes, a keyword against a project class, another generic arity /
+    array rank, a type parameter against anything else, `X?` of a known value type against X (and what those decide
+    inside a generic or an array). A class type parameter is its own type (`("tpv", declaring class, name)`: in a
+    generic declaration `M(T)` and `M(Cart)` are two signatures, whatever T is constructed with). Two names are never
+    False: either may be an alias of the other. R43: two shapes of different kinds are False only when both are KNOWN
+    (_cs_has_unknown): a generic, array or nullable whose head, argument or element the pass cannot place (an ("x",
+    ...) unknown, _CS_UNK) is None against any other kind (`Nullable<int>` with `Nullable` unplaced may be `int?`).
+
+    True, each with its argument:
+    - one keyword, one project class, one type parameter token: identity;
+    - ("x", ...): _cs_x_same;
+    - two names ("n", last segment, qualifier parts or None, the scope's lookup order) with one last segment, both
+      written under one qualifier rooted in a namespace external code fills (cs_sig_norm: cs_rooted; such a name
+      carries no scope): one qualified name. Any other qualifier may be relative (`Core.Tok` means each enclosing
+      namespace's own Core), so that name carries its scope and compares True only with one spelling in one lookup
+      order, and never with an unqualified one;
+    - one qualified as ns.T under such a root, one unqualified: _cs_unq_is (the unqualified scope reaches ns before
+      any level that may supply another T);
+    - both unqualified: _cs_unq_same (the same levels, or levels that provably resolve the name alike: U1 / U2),
+      counting MSBuild's implicit usings and <Using> items.
+    A name the binder places in the project but not as one class ("x", "project?") is unknown, and every other pair
+    of names is None. No level of a scope may supply the name at all: that proves the model below wrong, so None
+    (_cs_can_supply).
+
+    What a True of a name assumes, all of it:
+    (1) the code compiles: two holders of one name at one level are ambiguous (CS0104);
+    (2) the binder knows the project's types: a simple name it does not place is no project type (a source generator's
+        output is not read). A project DELEGATE type is not indexed either (the reader records classes, structs,
+        interfaces, records and enums), so a delegate sharing its simple name with an external type another scope
+        sees reads as that external type: a known gap, rare;
+    (3) capable (binder.capable, the one rule, R32): an external assembly declares types only in an enclosing namespace
+        whose first segment is System or Microsoft, a root no project owns (no project's AssemblyName, RootNamespace or
+        project file name has it as its first segment; a tree without a .csproj owns none), a root a package shares
+        (a package / <Reference> id's first segment starts with it or is a prefix of it, any case: `AcmeCorp.Core`
+        shares `Acme`), or a namespace related to one only external code fills. Holding project types does NOT make a
+        namespace closed: `namespace System.Timers;` in the project is capable, and so is `Acme.Web` when a package id
+        starts `Acme`. An owned, unshared enclosing namespace, and the global one, is read as holding project types
+        only (a package whose id shares nothing with the root it declares types under, a type in the global namespace:
+        a known gap, R21);
+    (4) transparent (binder.transparent): a using of a namespace that holds project types, under an owned and unshared
+        root (not capable by that rule), unrelated to external code, under a first segment with two or more project
+        namespaces, supplies project types
+        only, which the binder answered, so it is passed. A level of such usings alone supplies nothing external. An
+        accepted limit: compiled source the reader does not see (vendored code in a skipped directory, generated code,
+        a source generator's output) that declares such a namespace, with no package id naming it, is not seen.
+        Vendored code under its own first segment already reads as external (no project type fills that namespace),
+        and scanning skipped .cs files would only move the line: generated code stays unseen, and reading obj/ would
+        make the graph depend on whether the tree was built. The same shape WITH a package id is a defect;
+    (5) MSBuild's reading (cs_msbuild) of a compilation unit: what is certain is there, and an incomplete reading
+        leaves an unseen part that is the same in one group's files, so two groups' sets compare only when both are
+        complete and neither project has a package (U3, R45: a package's props / targets may add or remove usings
+        no project file shows);
+    (5a) R44: a using level holds what each directive MEANS (cs_scope_levels, the binder's decl_meanings: a directive
+        written inside a namespace declaration resolved from that declaration outward), so two levels written alike
+        in two namespaces compare by the namespaces they import; a directive whose meaning the binder cannot tell
+        makes its level unknown (no comparison reads it as complete);
+    (5b) R42: an unresolved base may be any project class or interface: no rule reads one as "unrelated",
+        "external", "no implementer" or "no override" (the dispatch, overload, nested-type and member rules answer
+        unknown where such a base could change the answer);
+    (6) a qualifier cs_rooted holds (System / Microsoft, a package id's exact first segment, a namespace a using
+        imports from external code; never merely a root no project owns, which R32 makes capable) is rooted: the same
+        words in an enclosing namespace of the writing scope, `Acme.System.Threading` from a package the project files
+        do not name, are not read. Two spellings under another qualifier are None;
+    (7) a nested type inherited from an EXTERNAL base is not read (cs_type_head), so a simple name it would mean reads
+        as a namespace-level name;
+    (8) the binder's lookup past a namespace declaration's using of a namespace that may hold external types: a
+        project TYPE or alias found further out is unknown there (that using may import a type of the name, which C#
+        finds first), but a project NAMESPACE found further out still answers, as the head of a qualified name: an
+        external type of that name would have to nest the rest of the name for the code to compile."""
     if not isinstance(a, tuple) or not isinstance(b, tuple) or not a or not b or a == _CS_UNK or b == _CS_UNK:
         return None
     ta, tb = a[0], b[0]
     if ta == "x" or tb == "x":
-        return True if a == b else None
+        return True if _cs_x_same(a, b) else None
     if ta == "?" or tb == "?":
         if ta == tb:
             return _cs_tcmp(a[1] if len(a) > 1 else None, b[1] if len(b) > 1 else None)
@@ -850,13 +991,19 @@ def _cs_tcmp(a, b) -> "bool | None":
         if qa is None and qb is None:
             return _cs_unq_same(a[3], b[3], a[1])
         if qa is not None and qb is not None:
+            if a[3] is not None or b[3] is not None:       # a qualifier that may be relative: one scope, or unknown
+                return True if qa == qb and a[3] == b[3] and _cs_lev_ok(a[3]) else None
             return True if qa == qb else None  # another qualifier: relative, or a namespace alias it does not read
         q, lev = (qa, b[3]) if qa is not None else (qb, a[3])
+        if (a[3] if qa is not None else b[3]) is not None:
+            return None                                    # ... its namespace is not known to the other scope
         return _cs_unq_is(".".join(q), lev)
     if ta != tb:
         g, c = (a, b) if ta == "g" else (b, a)
         if g[0] == "g" and c[0] == "c" and len(g) > 1 and g[1] == c:
             return None                        # one project class key read with and without type arguments
+        if _cs_has_unknown(a) or _cs_has_unknown(b):
+            return None                        # R43: an unknown head / element may be any shape (System.Nullable)
         return False
     if ta in ("g", "[]"):
         if len(a) != len(b) or (ta == "[]" and a[2:] != b[2:]):
@@ -869,12 +1016,260 @@ def _cs_tcmp(a, b) -> "bool | None":
     return a == b                                  # ("b", keyword), ("mtp", position), ("tpv", class, name)
 
 
-def _cs_ulevels(lev) -> "tuple | None":
-    """The using levels of a scope's lookup order (cs_scope_levels: ("m", namespace) / ("u", namespaces)), nearest
-    first: the non-empty ones, and always the compilation unit's (its usings with the project's global ones) last."""
-    if not isinstance(lev, tuple) or not lev or lev[-1][:1] != ("u",):
+def _cs_has_unknown(t, depth=0) -> bool:
+    """R43: does normalised type t (cs_sig_norm) hold a part the pass cannot place — _CS_UNK, an ("x", ...) not proven
+    one type even with itself (_cs_x_same: the tags "alias?", "project?" and "alias", an unreadable alias target, a
+    tuple / pointer text naming more than keywords), anything that is no normalised type — at its top or as a
+    generic's head or argument, an array's or a nullable's element? Such a type is never proven ANOTHER SHAPE than
+    anything (_cs_tcmp: None, never False): an unknown head may be System.Nullable (`Nullable<int>` read where
+    `Nullable` cannot be placed is `int?`), a project generic or an alias's target. Two shapes of ONE kind still
+    compare part by part: another generic arity, another array rank, or a pair of arguments / elements proven
+    different are two types whatever an unknown head is (one head: the arguments differ; two heads: two types)."""
+    if depth > _EVAL_DEPTH or not isinstance(t, tuple) or not t or t == _CS_UNK:
+        return True
+    if t[0] == "x":
+        return not _cs_x_same(t, t)
+    if t[0] == "g":
+        return any(_cs_has_unknown(x, depth + 1) for x in t[1:])
+    if t[0] in ("?", "[]"):
+        return len(t) < 2 or _cs_has_unknown(t[1], depth + 1)
+    return False
+
+
+def _cs_alias_last(t):
+    """L1 (R42): the last type-name segment of a C# alias target text (`global::A.B<C.D>.E` -> E, `X::Y` -> Y), or
+    None when the text is not a plain (qualified, possibly generic) type name: empty (an alias whose target the pass
+    cannot read), a tuple, an array, a pointer, a nullable. A qualified name's last segment is a TYPE name (a namespace
+    or an alias only ever stands at its head); a simple name may also be an outer alias (the caller follows both)."""
+    if not isinstance(t, str):
         return None
-    return tuple(v for k, v in lev[:-1] if k == "u" and v) + (lev[-1][1],)
+    out, depth = [], 0
+    for ch in t:
+        if ch == "<":
+            depth += 1
+        elif ch == ">":
+            depth -= 1
+            if depth < 0:
+                return None
+        elif depth == 0:
+            out.append(ch)
+    if depth:
+        return None
+    seg = "".join(out).strip().rsplit("::", 1)[-1].split(".")[-1].strip()
+    return seg if seg.isidentifier() else None
+
+
+def _cs_is_nullable(h) -> bool:
+    """Is normalised name h (a generic's head) System.Nullable: written under System, or unqualified where the scope
+    reaches `System` first (_cs_unq_is)?"""
+    return isinstance(h, tuple) and h[:2] == ("n", "Nullable") and len(h) > 3 and (
+        h[2] == ("System",) or h[2] is None and _cs_unq_is("System", h[3]) is True)
+
+
+def _cs_lev_ok(lev) -> bool:
+    """Is lev a lookup order cs_scope_levels writes (or a hand-built one): a non-empty tuple of entries, each a tuple
+    of a kind and a value, the compilation unit's ("u", ...) last — and complete: no ("p", ...) entry holding a
+    directive written inside a preprocessor branch (R24: `#if X using A; #else using B; #endif`)? Such a scope's using
+    sets are only possible (the branch taken depends on symbols a file may #define for itself), so every clause that
+    reads them as complete (_cs_unq_same, _cs_x_same, a qualifier that may be relative) refuses: False."""
+    return isinstance(lev, tuple) and bool(lev) and all(isinstance(e, tuple) and len(e) >= 2 for e in lev) \
+        and lev[-1][0] == "u" and not any(e[0] == "p" and e[1] for e in lev)
+
+
+def _cs_eff(ent) -> frozenset:
+    """The namespaces (and `using static` types) a lookup-order entry ("u", usings[, eff[, cu]]) may take an EXTERNAL
+    type from: its eff (cs_scope_levels: the usings that are not transparent); all its usings when it carries none
+    (a hand-built 2-tuple: every using may, as before eff existed)."""
+    return frozenset(ent[2] if len(ent) > 2 and isinstance(ent[2], (set, frozenset)) else ent[1])
+
+
+def _cs_capable(ent) -> bool:
+    """Is a lookup-order entry ("m", namespace[, ext]) an enclosing namespace an external assembly may declare types
+    in (cs_scope_levels: capable)? A 2-tuple never is (as before the flag existed)."""
+    return ent[0] == "m" and len(ent) > 2 and ent[2] is True
+
+
+def _cs_ulevel(ent) -> frozenset:
+    """R23: what a using level ("u", namespaces[, eff[, cu]]) imports, as _cs_ulevels compares it: its namespaces and
+    each `using static` type written there, tagged ("static", T) (eff minus the namespaces: cs_scope_levels puts the
+    statics in eff only). A static type's nested types are found at that level beside the namespaces' types (C#
+    looks a type name up in both at once: two would be ambiguous, CS0104), so two levels are one only when both hold
+    the same statics too. A static of the same text as a namespace using of its level cannot compile (that name binds
+    the namespace first, and `using static` of a namespace is CS7007), so the difference loses none."""
+    us = frozenset(ent[1])
+    return us | frozenset(("static", s) for s in _cs_eff(ent) - us)
+
+
+def _cs_ulevels(lev) -> "tuple | None":
+    """The using levels of a scope's lookup order (cs_scope_levels: ("m", namespace[, ext]) / ("a", aliases) / ("u",
+    namespaces[, eff[, cu]])), nearest first: the non-empty using levels (namespaces and, R23, the `using static`
+    types written there: _cs_ulevel; a level of statics alone is a level), a CAPABLE enclosing namespace N (one an
+    external assembly may declare types in) as the level {N} at its place (its external types are what `using N;`
+    there would import), and always the compilation unit's (its usings and statics with the project's global and
+    MSBuild ones) last. An enclosing namespace that is not capable supplies project types only (the binder's):
+    dropped."""
+    if not _cs_lev_ok(lev):
+        return None
+    out = []
+    for ent in lev[:-1]:
+        if ent[0] == "u" and _cs_ulevel(ent):
+            out.append(_cs_ulevel(ent))
+        elif _cs_capable(ent):
+            out.append(frozenset({ent[1]}))
+    return tuple(out) + (_cs_ulevel(lev[-1]),)
+
+
+def _cs_cu_comparable(la, lb) -> bool:
+    """U3: may the compilation-unit sets of scopes la / lb be compared as complete? Each CU level's meta
+    (cs_scope_levels: (.csproj group, or a per-file token for a file other projects may compile: cs_cu_reading; MSBuild
+    reading complete; possible namespaces[; package signature])) names what MSBuild may add
+    unseen: an incomplete reading (a condition, an SDK, an import the pass cannot read) leaves an unseen part, the
+    same set in every compilation of ONE group. So two CU sets compare (equal, one holding the other) only when both
+    scopes are of one group or both readings are complete. R45 (replacing R37's equal signatures, measured false with
+    real packages: build/ vs buildTransitive assets, PrivateAssets, framework-specific assets, package conditions,
+    ReferenceOutputAssembly and the central-management switches all change what one package adds, and a package's
+    .targets may also remove usings or switch ImplicitUsings off): a package's props and targets may change the usings
+    no project file shows, so two complete readings of two groups compare only when NEITHER project has a package:
+    both package signatures (MsbUsings.pkgsig over the project and its readable ProjectReference closure, every
+    PackageReference / GlobalPackageReference of every file the evaluation reads, imports and Directory.Build.* files
+    included) are the EMPTY set. An unreadable signature (None: an Update / Remove of a package, an unread input, an
+    unreadable ProjectReference), a non-empty one, a meta without the field (a reader without the signature cannot
+    show there is none), or one level carrying a meta and the other not: never. Two levels without the meta
+    (hand-built ones, a reader without the MSBuild reading: no group is known, as before): their sets."""
+    ma = la[-1][3] if len(la[-1]) > 3 and isinstance(la[-1][3], tuple) and len(la[-1][3]) >= 2 else None
+    mb = lb[-1][3] if len(lb[-1]) > 3 and isinstance(lb[-1][3], tuple) and len(lb[-1][3]) >= 2 else None
+    if ma is None and mb is None:
+        return True
+    if ma is not None and mb is not None and ma[0] == mb[0]:
+        return True
+    if ma is None or mb is None or ma[1] is not True or mb[1] is not True:
+        return False
+    pa = ma[3] if len(ma) > 3 else _CS_NOPKG
+    pb = mb[3] if len(mb) > 3 else _CS_NOPKG
+    return isinstance(pa, frozenset) and isinstance(pb, frozenset) and not pa and not pb
+
+
+_CS_NOPKG = object()        # a CU meta without R37's package signature (_cs_cu_comparable)
+
+
+def _cs_known_holder(lev, seg) -> "str | None":
+    """U1: the namespace whose type seg an UNQUALIFIED spelling in scope lev (cs_scope_levels) resolves to, decided by
+    a level that holds a KNOWN type of that name (_CS_KNOWN_NS) before any level that may supply another, or None
+    (open, undecided). Nearest first: an enclosing namespace N listing seg decides N (its member exists, whatever else
+    N holds); a capable one without it is open (an external assembly may declare seg there, also in a namespace that
+    holds project types: `namespace System.Timers;`); any other enclosing namespace is read as holding project types
+    only (_cs_tcmp's assumption 3: skipped); an alias level is skipped (an alias of seg was expanded before the name
+    got here); a using
+    level whose eff holds exactly one namespace listing seg decides it, a non-empty eff without one is open, an empty
+    one (only transparent usings: project types) is skipped. Proof of a decision: no earlier level can supply an
+    external seg (only skipped levels came before), the deciding level imports N whose seg exists, and a second type
+    seg at that level (also one an unseen MSBuild using of the compilation unit adds) would make the code ambiguous
+    (CS0104): it would not compile. The name is no project type (cs_sig_norm F4 made such a name unknown first).
+    Never for a name whose generic and non-generic types live in two namespaces (_CS_ARITY_SPLIT): the comparison
+    does not see the spelling's generic arity, and `IEnumerable` (System.Collections) is no type of
+    System.Collections.Generic, which holds only IEnumerable<T>."""
+    if seg in _CS_ARITY_SPLIT:
+        return None
+    for ent in lev:
+        kind = ent[0]
+        if kind == "m":
+            if seg in _CS_KNOWN_NS.get(str(ent[1]), ()):
+                return str(ent[1])
+            if _cs_capable(ent):
+                return None
+            continue
+        if kind == "p" and ent[1]:
+            return None                            # R24: a directive in a preprocessor branch may supply seg here
+        if kind != "u":
+            continue
+        eff = _cs_eff(ent)
+        hold = [ns for ns in eff if seg in _CS_KNOWN_NS.get(ns, ())]
+        if len(hold) == 1:
+            return hold[0]
+        if eff:
+            return None
+    return None
+
+
+def _cs_effseq(lev) -> tuple:
+    """U2: a scope's lookup order as the sequence of what each level may supply an external type from: a capable
+    enclosing namespace as {N}, each using level's non-empty eff, always the compilation unit's eff last."""
+    out = []
+    for ent in lev[:-1]:
+        if _cs_capable(ent):
+            out.append(frozenset({ent[1]}))
+        elif ent[0] == "u":
+            eff = _cs_eff(ent)
+            if eff:
+                out.append(eff)
+    return tuple(out) + (_cs_eff(lev[-1]),)
+
+
+def _cs_can_supply(lev) -> bool:
+    """R2: may any level of lookup order lev supply an EXTERNAL simple name: a capable enclosing namespace, a using
+    level with an eff, or an unseen part of the compilation unit (cs_scope_levels' meta: an incomplete MSBuild reading,
+    namespaces it may add)? An external name written where nothing may supply it compiled all the same, so the model
+    (_cs_tcmp's assumptions 3 and 4) is wrong about that scope, and what the scope's levels seemed to prove is no proof:
+    the name rules then answer None. A package nobody names, a namespace the project extends and a package shares: this
+    is the evidence the project files did not give."""
+    if not _cs_lev_ok(lev):
+        return False
+    if any(_cs_capable(e) or (e[0] == "u" and _cs_eff(e)) for e in lev):
+        return True
+    meta = lev[-1][3] if len(lev[-1]) > 3 and isinstance(lev[-1][3], tuple) and len(lev[-1][3]) >= 2 else None
+    return meta is not None and (meta[1] is not True or bool(len(meta) > 2 and meta[2]))
+
+
+def _cs_coarsens(a, b) -> bool:
+    """U2: is sequence a (the coarser scope's _cs_effseq) sequence b cut into len(a) consecutive non-empty runs whose
+    unions equal a's levels in order — except that a's LAST level may hold the union of b's last run (or, when that
+    run is ONE level, be held by it)? Proof that an external simple name then resolves alike in both scopes (both
+    compile; it is no project type; the two compilation units compare: U3): a level of a equal to the union of a run
+    of b has a type of that name exactly when one level of the run has one, and it is one type there (two different
+    ones in one level of a would be ambiguous, CS0104); so both scopes pass the same equal levels without finding the
+    name, and where a finds it, b's first level holding it in the matching run holds a type a's level holds too: the
+    same type. At the last level a's set holds every namespace b's last run may supply it from (or, one level each,
+    b's holds a's): the type found there is one of the other level's, one type for the same reason. The proof needs a
+    level to find the name in: a sequence of empty levels alone (an empty a[-1] is a subset of anything) proves
+    nothing (R2), and False."""
+    k, n = len(a), len(b)
+    if not 0 < k <= n or not any(a) or not any(b):
+        return False
+
+    def fit(i, j):
+        if i == k - 1:
+            run = b[j:]
+            if not run:
+                return False
+            u = frozenset().union(*run)
+            return u <= a[-1] or (len(run) == 1 and a[-1] <= run[0])
+        u = frozenset()
+        for e in range(j, n - (k - 1 - i)):
+            u = u | b[e]
+            if not u <= a[i]:
+                return False
+            if u == a[i] and fit(i + 1, e + 1):
+                return True
+        return False
+    return fit(0, 0)
+
+
+def _cs_unq_far(la, lb, ua, ub, seg, comparable) -> "bool | None":
+    """_cs_unq_same for scopes whose using levels differ before the compilation unit's (another number of levels, or
+    other sets): U1 (both decide one namespace holding a known type seg: _cs_known_holder), else U2 (one scope's
+    levels a coarsening of the other's: _cs_coarsens, the compilation units comparable: U3); else None. Never False."""
+    if ua[:-1] == ub[:-1]:
+        return None                                # the equal-prefix case is _cs_unq_same's own clauses' alone
+    if seg:
+        ha, hb = _cs_known_holder(la, seg), _cs_known_holder(lb, seg)
+        if ha is not None and ha == hb:
+            return True
+    if not comparable:
+        return None
+    ea, eb = _cs_effseq(la), _cs_effseq(lb)
+    if (len(ea) <= len(eb) and _cs_coarsens(ea, eb)) or (len(eb) <= len(ea) and _cs_coarsens(eb, ea)):
+        return True
+    return None
 
 
 def _cs_unq_same(la, lb, seg="") -> "bool | None":
@@ -882,35 +1277,58 @@ def _cs_unq_same(la, lb, seg="") -> "bool | None":
     resolves alike — the same using levels; or the same ones but the compilation unit's, where one set holds the
     other (a type the smaller set imports is the only one of that name the larger may import there: two would be an
     ambiguity error) or both import a namespace known to hold seg (_CS_KNOWN_NS: that type, for the same reason);
-    else None (another using may import another type of that name first). The members of an enclosing namespace are
-    not read (an external type there: a known gap)."""
+    else None (another using may import another type of that name first). The first two read the compilation units'
+    sets as complete, so they hold only when both are of one .csproj group or both MSBuild readings are complete and
+    neither project has a package (U3: _cs_cu_comparable, R45); the known holder needs no such reading (an unseen
+    holder would be ambiguous). A capable enclosing namespace counts as a using level ({N}: _cs_ulevels). When the
+    levels before the compilation unit's differ: U1 / U2 (_cs_unq_far). Never False: two spellings are never proven
+    two types (either may be an alias). A scope in which no level may supply the name proves the model wrong
+    (_cs_can_supply): None, whatever the levels look like."""
     ua, ub = _cs_ulevels(la), _cs_ulevels(lb)
     if ua is None or ub is None:
         return None
-    if ua == ub:
+    if not _cs_can_supply(la) or not _cs_can_supply(lb):
+        return None
+    comparable = _cs_cu_comparable(la, lb)
+    if ua == ub and comparable:
         return True
     if len(ua) == len(ub) and ua[:-1] == ub[:-1]:
-        if ua[-1] <= ub[-1] or ub[-1] <= ua[-1]:
+        if comparable and (ua[-1] <= ub[-1] or ub[-1] <= ua[-1]):
             return True
         if any(seg in _CS_KNOWN_NS.get(ns, ()) for ns in ua[-1] & ub[-1]):
             return True
-    return None
+        return None
+    return _cs_unq_far(la, lb, ua, ub, seg, comparable)
 
 
 def _cs_unq_is(ns, lev) -> "bool | None":
     """Is an unqualified external name, in a scope of lookup order lev (cs_scope_levels), the type namespace ns holds?
-    True when ns is one of the scope's enclosing namespaces, or imported by its nearest non-empty using level, before
-    any other using level (a nearer using may import another type of that name first: None); None when the scope
-    does not see ns (only an MSBuild implicit using may)."""
+    True when ns is one of the scope's enclosing namespaces (it holds that type, the qualified spelling says so, and
+    it comes first), or imported by a using level before any level that may supply another type of that name: a
+    capable enclosing namespace (an external assembly may declare one there) or a using level whose eff is not empty
+    (a level of transparent usings only supplies project types, which the binder answered: it is passed). A level that
+    imports ns while reading it as transparent is no evidence (R2): the name is external and that level says ns
+    supplies none, so the model is wrong about this scope and a level it passed may hold the name: None. None too when
+    the scope does not see ns (only an unread MSBuild using may)."""
     if not isinstance(lev, tuple):
         return None
-    for kind, val in lev:
+    for ent in lev:
+        if not isinstance(ent, tuple) or len(ent) < 2:
+            return None
+        kind, val = ent[0], ent[1]
         if kind == "m":
             if val == ns:
                 return True
+            if _cs_capable(ent):
+                return None                        # (c) an enclosing namespace an external assembly may declare
             continue
+        if kind == "p" and val:
+            return None                            # (d) R24: a directive in a preprocessor branch may supply it here
+        if kind != "u":
+            continue                               # (b) an alias level: an alias of the name was expanded before
         if ns in val:
-            return True
+            return True if ns in _cs_eff(ent) else None
+        val = _cs_eff(ent)
         if val:
             return None
     return None
@@ -2391,7 +2809,13 @@ class _Linker:
         node each, become ONE class for the pass — the first part's key (by file, then line) holds the union of
         every part's bases, fields and methods (each still resolved in the file it was written in: `parts["of"]`),
         every part's (file, class index) maps to it, and the other parts' keys leave `classes`. A part that is
-        ambiguous, or a group with fewer than two indexed parts, is left as it is."""
+        ambiguous, or a group with fewer than two indexed parts, is left as it is. R31: a part the binder could not
+        merge (binder.partials_unmerged: two projects compile it into their own types, or it would join two groups) is
+        marked ambiguous: a member lookup on it is unknown and no rule walks past it to a base (its other parts may
+        declare the member); every part of it, in every file. R25: so is every class of a file its own project's
+        <Compile Remove> takes out (binder.in_group False): it is compiled only where a link reaches it, or nowhere, so
+        it is neither a sure member nor a sure implementer / override (a dispatch set holding it, or skipping it, is
+        unknown: ADD-only)."""
         for lang in sorted(self.binders):
             spec = self.registry.get(lang)
             if spec is None or "partials" not in spec.lookup_rules:
@@ -2401,6 +2825,24 @@ class _Linker:
                 groups = fn() if callable(fn) else ()
             except Exception:  # noqa: BLE001 — no grouping: every part stays its own class
                 groups = ()
+            un = getattr(self.binders[lang], "partials_unmerged", None)
+            try:
+                loose = list(un() or ()) if callable(un) else []
+            except Exception:  # noqa: BLE001 — unknown: every partial part of the language is left unmerged
+                loose = None
+            if loose is None:
+                groups = ()
+                loose = [(c.rel, c.idx) for c in self.classes.values() if c.facts.open and c.spec is spec]
+            for item in loose:
+                try:
+                    k = self.class_key.get((_norm_rel(item[0]), int(item[1])))
+                except (TypeError, ValueError, IndexError):
+                    k = None
+                if k is not None and k in self.classes:
+                    self.classes[k].ambiguous = True
+            for c in [c for c in self.classes.values() if c.spec is spec]:
+                if self.cs_in_group(c.rel) is False:
+                    c.ambiguous = True             # R25: removed from its own project's compilation
             for group in groups or ():
                 keys = []
                 for item in group or ():
@@ -2604,10 +3046,11 @@ class _Linker:
             return True
         return max(star_lines) > max(bound)
 
-    def file_symbol(self, rel, x, depth=0) -> _V:
+    def file_symbol(self, rel, x, depth=0, place=None) -> _V:
         """What file-level name x of rel denotes (classes, functions, globals, imports; then the binder's free
-        names, then the language's builtins). _UNBOUND when the file binds nothing of that name."""
-        mk = ("fs", rel, x)
+        names, then the language's builtins). _UNBOUND when the file binds nothing of that name. `place` (C# only,
+        cs_place): where the name is written, which decides which of the file's own classes it may mean (R26)."""
+        mk = ("fs", rel, x) if place is None else ("fs", rel, x, place)
         if mk in self.memo:
             return self.memo[mk]
         if mk in self.busy or depth > REEXPORT_DEPTH + _EVAL_DEPTH:
@@ -2616,18 +3059,93 @@ class _Linker:
         self.busy.add(mk)
         c0 = self.cut
         try:
-            v = self._file_symbol(rel, x, depth)
+            v = self._file_symbol(rel, x, depth, place)
         finally:
             self.busy.discard(mk)
         if self.cut == c0:
             self.memo[mk] = v
         return v
 
-    def _file_symbol(self, rel, x, depth) -> _V:
+    def cs_place(self, rel, si, ctx=None, akey=None, arity=0):
+        """R26: where a C# name is written, for the same-file rule (_file_symbol): ("cls", class key whose declaration
+        holds it, generic arity), ("top", arity) for a top-level statement, ("?", arity) when unknown; None for every
+        other language (its rule unchanged). The class is the one whose aliases are in effect there (cs_alias_scope's
+        choice: akey, else ctx, else si's class)."""
+        spec = self.spec_of(rel)
+        if spec is None or "nested_types" not in spec.lookup_rules:
+            return None
+        key = akey if akey is not None else (ctx if ctx is not None else self.scope_class_key(rel, si))
+        if key is not None:
+            return ("cls", key, arity)
+        ff = self.facts.get(rel)
+        if ff is not None and 0 <= si < len(ff.scopes) and ff.scopes[si].cls < 0:
+            return ("top", arity)
+        return ("?", arity)
+
+    def cs_same_decl(self, rel, i, place) -> bool:
+        """R26: may top-level class i of rel be what a simple name written at `place` (cs_place) means by the same-file
+        rule: the name's own namespace declarations (_cs cvis: each declaration's namespace and usings, the compilation
+        unit first) are class i's, and its generic arity is class i's (R30: `Result` is no `Result<T>`)? Argument:
+        class i is then a member of the namespace the lookup searches FIRST (C# 7.6.5: after the enclosing classes'
+        nested types and the scope's own names, which the callers decide before this rule), and a member is found
+        before that declaration's aliases and usings; a second member of that full name and arity would not compile
+        (CS0101, partial parts are one type). A class of another declaration (another namespace block, an enclosing
+        one, whose nearer declarations' members, aliases and usings come first) goes to the binder like a class of
+        another file. Unknown (the place's parts in rel under two chains, the place in no class of rel, an unknown
+        place): False, the binder decides. A C# 11 `file` class (_cs filelocal, R28): False, the binder decides (it
+        reads a file-local type beside a non-file type of one full name as unknown). A reader that keeps no cvis /
+        tporder table: True (the rule as before)."""
+        tb = self.cs_table(rel)
+        cv = tb.get("cvis") if tb is not None else None
+        tp = tb.get("tporder") if tb is not None else None
+        if not isinstance(cv, dict) or not isinstance(tp, dict):
+            return True
+        if not isinstance(place, tuple) or not place:
+            return False
+        fl = tb.get("filelocal")
+        if fl is not None and (not isinstance(fl, (list, tuple, set, frozenset)) or i in fl):
+            return False
+        mine = cv.get(i)
+        own = tp.get(i)
+        if not isinstance(mine, tuple) or not mine or not isinstance(own, tuple) or len(own) != place[-1]:
+            return False
+        if place[0] == "top":
+            return len(mine) == 1                 # a top-level statement: the global namespace's members first
+        if place[0] != "cls":
+            return False
+        chains = {cv.get(j) for r, j in self.class_parts(place[1]) if r == rel}
+        return len(chains) == 1 and next(iter(chains)) == mine
+
+    def cs_place_resolve(self, rel, x, place):
+        """R26 / R29: what simple name x means at a C# place (cs_place) the binder can name: binder.resolve_scoped at
+        the place's class declaration in rel (every part of it there must answer alike, else RES_UNKNOWN), or at the
+        compilation unit for a top-level statement — C#'s lookup per namespace DECLARATION innermost out (its members,
+        aliases, usings and `using static`s), so a class of another block of the file, or of an enclosing one, is
+        found exactly where C# finds it, not by the file-wide resolve_free (one answer for every declaration of the
+        file, else unknown). _NOINFO when the place cannot be named (no place, an unknown one, a class with no part in
+        rel, a binder without the walk): the caller asks resolve_free, as before."""
+        if not isinstance(place, tuple) or not place or place[0] not in ("cls", "top"):
+            return _NOINFO
+        idxs = [i for r, i in self.class_parts(place[1]) if r == rel] if place[0] == "cls" else [-1]
+        if not idxs:
+            return _NOINFO
+        out, first = None, True
+        for i in idxs:
+            got = self.cs_binder_call(rel, "resolve_scoped", rel, i, x, arity=place[-1])
+            if got is _NOINFO:
+                return _NOINFO
+            if not first and got != out:
+                return RES_UNKNOWN
+            out, first = got, False
+        return out
+
+    def _file_symbol(self, rel, x, depth, place=None) -> _V:
         ff = self.facts.get(rel)
         if ff is None:
             return _UNK
         cls_idx = [i for i, c in enumerate(ff.classes) if c.name == x and c.outer < 0 and c.scope < 0]
+        if place is not None:                      # C# (R26): only a class of the name's own declaration
+            cls_idx = [i for i in cls_idx if self.cs_same_decl(rel, i, place)]
         fns, gl, im = ff.functions.get(x), ff.globals.get(x), ff.imports.get(x)
         tables = sum(1 for t in (cls_idx, fns, gl, im) if t)
         if tables > 1:
@@ -2652,8 +3170,12 @@ class _Linker:
             return vals[0].but(ev=frozenset().union(*(v.ev for v in vals)), src="import")
         if self.has_star(ff):
             return _UNK
-        try:
-            res = self.binder_of(rel).resolve_free(rel, x)
+        binder = self.binder_of(rel)
+        res = self.cs_place_resolve(rel, x, place)     # C# (R26 / R29): the lookup at the name's own place
+        try:                                       # C# (R30): the arity the name is written with (place), else unknown
+            if res is _NOINFO:
+                res = binder.resolve_free(rel, x, **self.cs_akw(binder, "resolve_free",
+                                                                place[-1] if place is not None else None))
         except Exception:  # noqa: BLE001
             res = None
         if res is not None:
@@ -2700,10 +3222,11 @@ class _Linker:
                       src="import")
         return _UNK
 
-    def submodule_value(self, module, attr, depth, lang=None) -> _V:
+    def submodule_value(self, module, attr, depth, lang=None, arity=0) -> _V:
         binder = self.binders.get(lang) if lang is not None else self.binder_of(module)
-        try:
-            res = (binder or Binder()).submodule(module, attr)
+        binder = binder or Binder()
+        try:                                       # C# (R30): `attr` written with `arity` type arguments
+            res = binder.submodule(module, attr, **self.cs_akw(binder, "submodule", arity))
         except Exception:  # noqa: BLE001
             res = None
         if res is None:
@@ -2718,7 +3241,7 @@ class _Linker:
             v = self.submodule_value(mod_rel, attr, depth + 1)
         return v.plus_ev({mod_rel}) if v.kind not in ("unk", "unbound") else _UNK
 
-    def member_value(self, base: _V, attr, depth) -> _V:
+    def member_value(self, base: _V, attr, depth, arity=0) -> _V:
         if depth > _EVAL_DEPTH:
             self.cut += 1
             return _UNK
@@ -2726,9 +3249,9 @@ class _Linker:
             return self.module_member(base.ref, attr, depth + 1).plus_ev(base.ev)
         if base.kind == "ns":
             lang, token = base.ref
-            return self.submodule_value(token, attr, depth + 1, lang=lang).plus_ev(base.ev)
-        if base.kind == "cls":
-            nested = self.nested_class(next(iter(base.keys)), attr)
+            return self.submodule_value(token, attr, depth + 1, lang=lang, arity=arity).plus_ev(base.ev)
+        if base.kind == "cls":                     # C# (R30): `Outer.Inner` names a nested type of its own arity
+            nested = self.nested_class(next(iter(base.keys)), attr, arity)
             return _V("cls", {nested}, ev=base.ev | {self.classes[nested].rel}) if nested else _UNK
         if base.kind == "inst":
             return self.field_type(base, attr, depth + 1)
@@ -2736,11 +3259,19 @@ class _Linker:
             return _V("ext", ref="module-attr", ev=base.ev, src="import")   # os.path
         return _UNK                                # an attribute of any other external value may be anything
 
-    def nested_class(self, key, name):
+    def nested_class(self, key, name, arity=_NOINFO):
+        """The one nested class `name` declared in class key's own node, or None. `arity` (C#, R30): the type
+        arguments the name is written with: a nested type of another generic arity is another type (cs_arity_ok);
+        one whose arity cannot be told: None."""
         ci = self.classes.get(key)
         if ci is None:
             return None
         hits = self.nested_of.get(ci.rel, {}).get((ci.idx, name), ())
+        if arity is not _NOINFO:
+            oks = [(j, self.cs_arity_ok(ci.rel, j, arity)) for j in hits]
+            if any(ok is None for _j, ok in oks):
+                return None
+            hits = tuple(j for j, ok in oks if ok)
         k = self.class_key.get((ci.rel, hits[0])) if len(hits) == 1 else None
         return k if k is not None and not self.classes[k].ambiguous else None
 
@@ -2787,7 +3318,12 @@ class _Linker:
         mv = self.member_scope(rel, si, x, depth)       # C#: a member of the class chain comes before the file's names
         if mv is not None:
             return mv
-        v = self.file_symbol(rel, x, depth + 1)
+        spec = self.spec_of(rel)
+        if spec is not None and "nested_types" in spec.lookup_rules:   # C# (b): the alias of x in effect here, if any
+            av = self.cs_alias_scope(rel, si, x, None, None, depth)
+            if av is not None:
+                return av
+        v = self.file_symbol(rel, x, depth + 1, place=self.cs_place(rel, si))
         return _UNK if v.kind == "unbound" else v
 
     def local_value(self, rel, si, x, depth) -> _V:
@@ -2851,10 +3387,13 @@ class _Linker:
         return v if v.kind == "inst" or (v.kind == "ext" and v.ref in _EXT_VALUE_OK) else _UNK
 
     # ---------------------------------------------------------------- types
-    def eval_type(self, t, rel, si, self_key=None, depth=0, opaque=True, extra_shadow=frozenset(), ctx=None) -> _V:
+    def eval_type(self, t, rel, si, self_key=None, depth=0, opaque=True, extra_shadow=frozenset(), ctx=None,
+                  akey=None, arity=0) -> _V:
         """The value a written type denotes in scope si of rel. `ctx` (LanguageSpec.lookup_rules nested_types only):
         the class whose nested types a type name's head may mean when it is not si's class (a field's or a method's
-        declaring class, an outer class for a base list)."""
+        declaring class, an outer class for a base list); `akey` (C#): the class whose declaration the type is written
+        in when neither names it (a base list's type arguments: the place whose aliases are in effect); `arity` (C#,
+        the same-file rule: cs_place): the generic arity a name is written with (a generic's head: its arguments)."""
         if t is None:
             return _UNK
         if depth > _EVAL_DEPTH:
@@ -2869,22 +3408,28 @@ class _Linker:
                 return _NONEV
             if nm in extra_shadow or nm in self.shadow(rel, si):
                 return _UNK
-            hv = self.cs_type_head(rel, si, nm, ctx) if nested else None
-            return self._type_of(hv if hv is not None else self.file_symbol(rel, nm, depth + 1), nm, spec, opaque)
+            hv = self.cs_type_head(rel, si, nm, ctx, arity) if nested else None
+            if hv is None and nested:              # (b) an alias of that name: the one in effect where it is written
+                hv = self.cs_alias_scope(rel, si, nm, ctx, akey, depth, arity)
+            return self._type_of(hv if hv is not None else self.file_symbol(
+                rel, nm, depth + 1, place=self.cs_place(rel, si, ctx, akey, arity)), nm, spec, opaque)
         if k == "qualified":
             parts = t.parts
             if not parts or parts[0] in extra_shadow or parts[0] in self.shadow(rel, si):
                 return _UNK
-            v = self.cs_type_head(rel, si, parts[0], ctx) if nested else None
+            v = self.cs_type_head(rel, si, parts[0], ctx, 0) if nested else None     # a qualifier part: no type
+            if v is None and nested:                                                  # arguments (qparts)
+                v = self.cs_alias_scope(rel, si, parts[0], ctx, akey, depth)
             if v is None:
-                v = self.file_symbol(rel, parts[0], depth + 1)
-            for p in parts[1:]:
+                v = self.file_symbol(rel, parts[0], depth + 1, place=self.cs_place(rel, si, ctx, akey))
+            for i, p in enumerate(parts[1:], 2):  # C# (R30): the last part is written with `arity` type arguments
                 if v.kind not in ("module", "ns", "cls"):
                     return _UNK
-                v = self.member_value(v, p, depth + 1)
+                v = self.member_value(v, p, depth + 1, arity if i == len(parts) else 0)
             return self._type_of(v, parts[-1], spec, opaque)
         if k == "union":
-            vals = [self.eval_type(a, rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx) for a in t.args]
+            vals = [self.eval_type(a, rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx, akey=akey)
+                    for a in t.args]
             vals = [v for v in vals if v.kind != "none"]
             if not vals:
                 return _UNK
@@ -2894,12 +3439,13 @@ class _Linker:
                 return _join(vals)
             return vals[0] if len(vals) == 1 else _UNK
         if k == "nullable":
-            return self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx) \
-                if t.args else _UNK
+            return self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx,
+                                  akey=akey) if t.args else _UNK
         if k == "generic":
             if not t.args:
                 return _UNK
-            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx)
+            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx, akey=akey,
+                               arity=len(t.args) - 1)
             return v if v.kind == "inst" else _UNK      # a project generic Foo[T] -> Foo; List[X] / Promise<T> -> ?
         if k == "self":
             key = self_key or self.scope_class_key(rel, si)
@@ -2907,8 +3453,8 @@ class _Linker:
                 return _UNK
             return _V("inst", {key}, ev={self.classes[key].rel})
         if k == "classof":
-            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx) \
-                if t.args else _UNK
+            v = self.eval_type(t.args[0], rel, si, self_key, depth + 1, opaque, extra_shadow, ctx=ctx,
+                               akey=akey) if t.args else _UNK
             return _V("cls", v.keys, ev=v.ev) if v.kind == "inst" and len(v.keys) == 1 else _UNK
         if k == "builtin":
             if t.name in _NONE_TYPES:
@@ -2934,11 +3480,11 @@ class _Linker:
         ci = self.classes[key]
         out = []
         for b in ci.facts.bases:
-            head = b
+            head, ar = b, 0
             while head.kind == "generic" and head.args:
-                head = head.args[0]
-            v = self.eval_type(head, self.rel_of(ci, b), ci.facts.scope, depth=1, opaque=False,
-                               extra_shadow=ci.facts.type_params, ctx=self.outer_key(key))
+                head, ar = head.args[0], len(head.args) - 1        # R30: the head written with its type arguments
+            v = self.eval_type(head, self.rel_of(ci, b), ci.facts.scope, depth=1, opaque=False, arity=ar,
+                               extra_shadow=ci.facts.type_params, ctx=self.outer_key(key), akey=key)
             nm = head.name if head.kind in ("name", "builtin") else (head.parts[-1] if head.parts else "")
             if v.kind == "inst" and len(v.keys) == 1:
                 out.append(("class", next(iter(v.keys))))
@@ -3108,8 +3654,10 @@ class _Linker:
                         by[k] = None
         return keys, by
 
-    def lookup(self, key, m, *, skip=0, argc=-1, on_class=False) -> _Look:
-        """Member m on (instances of) class key, over its chain: hit (the method node(s)) | absent | unknown."""
+    def lookup(self, key, m, *, skip=0, argc=-1, on_class=False, access=None) -> _Look:
+        """Member m on (instances of) class key, over its chain: hit (the method node(s)) | absent | unknown. `access`
+        (cs_access, C# only): where the call site stands; a definition it cannot see is no member of the lookup
+        (cs_unseen), so the walk goes on to the base and the hit is the base's, its grade with it."""
         levels = self.mro(key)
         if levels is None:
             return _Look("unknown", why="mro")
@@ -3138,20 +3686,25 @@ class _Linker:
                     if nested is not None:
                         hits.append(("class", nested, ci))
                         continue
-                if self.member_defs(ci, m, on_class):
-                    hits.append(("method", None, ci))
+                defs = self.member_defs(ci, m, on_class)
+                if access is not None:
+                    defs = [mf for mf in defs if not self.cs_unseen(ci, mf, m, access, key)]
+                if defs:
+                    hits.append(("method", defs, ci))
             if not hits:
                 continue
             if len(hits) > 1:
                 return _Look("unknown", why="tie")
-            what, nested, ci = hits[0]
+            what, got, ci = hits[0]
             if what == "class":
-                return _Look("hit", (nested,), (None,), ci, frozenset(ev | {self.classes[nested].rel}),
-                             is_class=True)
-            mfs = self.member_defs(ci, m, on_class)
+                return _Look("hit", (got,), (None,), ci, frozenset(ev | {self.classes[got].rel}), is_class=True)
+            mfs = got
             if any("property" in mf.flags for mf in mfs):
                 return _Look("unknown", why="property")
             keys, by = self.method_nodes(ci, m, mfs)
+            if not keys and access is not None and len(mfs) < len(ci.facts.methods.get(m) or ()):
+                keys = self.method_nodes(ci, m)[0]     # the seen overload has no node of its own: the engine's one
+                by = {k: None for k in keys}           # node of the name stands for it (no definition to count)
             if not keys:
                 return _Look("unknown", why="no node")
             if argc >= 0:
@@ -3309,6 +3862,7 @@ class _Linker:
             nested = self.nested_class(ci.key, x)
             if nested is not None:
                 return _V("cls", {nested}, ev={ci.rel, self.classes[nested].rel}, src="class")
+        self.cs_member_x = x                         # L1: the name member_open asks about (consumed by it, once)
         if self.member_open(key):
             return _UNK
         ff = self.facts.get(rel)
@@ -3320,13 +3874,27 @@ class _Linker:
             o = ff.classes[o].outer
         return None
 
-    def member_open(self, key) -> bool:
+    def member_open(self, key, x=_NOINFO) -> bool:
         """C#: may an instance of class `key` carry members this pass cannot see — its class-base chain (the FIRST
         base-list entry, which C# reserves for the base class) reaching an external or unresolved class? An external
         first entry named like an interface (`I` + an upper-case letter) is read as one: an interface contributes no
-        member reachable by a simple name."""
-        mk = ("mopen", key)
-        if mk not in self.memo:
+        member reachable by a simple name. An UNRESOLVED first entry that may name a project type (cs_unres_proj) is
+        open whatever its spelling (R42: it may be any project class, `IFoo` included) when it may supply the member
+        x asked about (L1, cs_unres_member: that base is external or one of the project types of its name / alias
+        targets, so it is open only when one of those carries x on its base-class chain or is open itself for x);
+        otherwise it reads like an external one. x: the simple name member_scope asks about (passed through
+        self.cs_member_x, consumed here; none: any member)."""
+        if x is _NOINFO:
+            x = self.__dict__.pop("cs_member_x", None)
+        mk = ("mopen", key, x)
+        if mk in self.memo:
+            return self.memo[mk]
+        if mk in self.busy:                        # re-entered through an unresolved base's candidates: unknown
+            self.cut += 1
+            return True
+        self.busy.add(mk)
+        c0 = self.cut
+        try:
             out, seen, cur = False, set(), key
             while cur is not None and cur not in seen:
                 seen.add(cur)
@@ -3338,10 +3906,193 @@ class _Linker:
                     nxt = self.classes.get(b[1])
                     cur = b[1] if nxt is not None and nxt.facts.kind != "interface" else None
                     continue
+                if b[0] == "unres" and self.cs_unres_proj(b[1]) and self.cs_unres_member(b[1], x):
+                    out = True                     # R42: an unresolved first entry may be any project class
+                    break
                 out = not re.match(r"I[A-Z]", str(b[1] or ""))
                 break
+        finally:
+            self.busy.discard(mk)
+        if self.cut == c0:
             self.memo[mk] = out
+        return out
+
+    # ---------------------------------------------------------------- C#: what a call site can see (R12)
+    def cs_access(self, rel, si):
+        """Where a C# call site in scope si of rel stands for member lookup: (its class key, or None outside every
+        class; rel), or None when the rule does not apply (another language, a reader without the table, a scope or a
+        class the pass cannot name: every definition stays a member, as before)."""
+        spec = self.spec_of(rel)
+        ff = self.facts.get(rel)
+        if spec is None or "overloads" not in spec.lookup_rules or ff is None or self.cs_table(rel) is None \
+                or not 0 <= si < len(ff.scopes):
+            return None
+        if ff.scopes[si].cls < 0:
+            return (None, rel)
+        key = self.class_key.get((rel, ff.scopes[si].cls))
+        return (key, rel) if key in self.classes else None
+
+    def cs_unseen(self, ci, mf, m, access, recv) -> bool:
+        """R12: is definition mf of m in class ci PROVEN no member of a lookup on class recv from `access` (cs_access)?
+        C#'s member lookup (12.5) keeps accessible members only, and an explicit interface implementation is no member
+        at all (it is reached through its interface). True for an explicit implementation; for a `private` one (as
+        written, or by default in a class or struct) unless the call site is inside ci or a type nested in it; for a
+        `protected` one out of its reach (cs_no_protected: an unrelated class, or a subclass going through a receiver
+        that is not of its own type); for an `internal` one from another assembly (cs_other_assembly); `protected
+        internal` needs both, `private protected` either. Unknown (modifiers or a specifier the pass cannot read, a
+        chain it cannot close) is False: the definition stays a member, as before."""
+        ex = self.cs_explicit(ci, mf, m)
+        if ex is _NOINFO or ex is None:
+            return False
+        if ex is not False:
+            return True
+        mods = self.cs_member(ci, mf, m, "mods")
+        if not isinstance(mods, frozenset):
+            return False
+        acc = mods & _CS_ACCESS
+        if "public" in acc or (not acc and ci.facts.kind == "interface"):
+            return False
+        ck, rel = access
+        place: list = []
+        while ck is not None and ck not in place and len(place) < _MRO_MAX:
+            place.append(ck)
+            ck = self.outer_key(ck)
+        if ci.key in place:
+            return False
+        if acc <= {"private"}:
+            return True
+        out_of_reach = self.cs_no_protected(place, ci.key, recv, "static" in mf.flags)
+        if acc == {"protected"}:
+            return out_of_reach
+        if acc == {"internal"}:
+            return self.cs_other_assembly(rel, ci, mf)
+        if acc == {"protected", "internal"}:
+            return out_of_reach and self.cs_other_assembly(rel, ci, mf)
+        return acc == {"private", "protected"} and (out_of_reach or self.cs_other_assembly(rel, ci, mf))
+
+    def cs_no_protected(self, place, key, recv, static) -> bool:
+        """R12: is a `protected` member of class key PROVEN out of reach from `place` (the call site's class and its
+        outer types) through a receiver of class recv? C#: it is reachable only inside a class c deriving from key, and
+        an instance member only through a receiver of type c or a subclass of c (CS1540). An unresolved entry on a chain
+        may be such a class (unknown: False); an external one is not read as one (an external assembly does not derive
+        from the project)."""
+        def chain(k):
+            levels = self.mro(k)
+            if levels is None or any(e[0] == "unres" for lv in levels for e in lv):
+                return None
+            return {e[1] for lv in levels for e in lv if e[0] == "class"}
+        for c in place:
+            up = chain(c)
+            if up is None:
+                return False
+            if key in up:
+                sub = chain(recv)
+                if static or sub is None or c in sub:
+                    return False
+        return True
+
+    def cs_other_assembly(self, rel, ci, mf) -> bool:
+        """R12: does a call site in rel PROVABLY not see an `internal` definition mf of class ci: two .csproj groups,
+        one assembly each (each file in its own project alone: cs_cu_reading; both MSBuild readings complete, so no
+        unseen import names a friend or another assembly name), and rel's assembly no friend of ci's (cs_friends,
+        cs_assembly_names)?"""
+        rd = self.rel_of(ci, mf)
+        ga, gd = self.cs_group_of(rel), self.cs_group_of(rd)
+        if not ga or not gd or ga == gd or not self.cs_cu_reading(rel)[1] or not self.cs_cu_reading(rd)[1] \
+                or not self.cs_group_tables(rel)[3] or not self.cs_group_tables(rd)[3]:
+            return False
+        friends, names = self.cs_friends(rd), self.cs_assembly_names(ga)
+        return friends is not None and bool(names) and not friends & names
+
+    def cs_project_files(self, grp) -> list:
+        """[(path, its text)] of group grp's project files: every *.csproj / *.props / *.targets in its directory and
+        the Directory.Build.props / .targets / Directory.Packages.props of the directories up to the root. An
+        unreadable file: text None."""
+        out, cur = [], grp
+        try:
+            root = Path(self.root)
+            for e in sorted(os.scandir(root / grp), key=lambda e: e.name):
+                if e.is_file() and e.name.lower().endswith((".csproj", ".props", ".targets")):
+                    out.append(Path(e.path))
+            while cur:
+                cur = cur.rsplit("/", 1)[0] if "/" in cur else ""
+                out.extend(p for p in (root / cur / n for n in ("Directory.Build.props", "Directory.Build.targets",
+                                                                "Directory.Packages.props")) if p.is_file())
+        except (OSError, ValueError):
+            return [(Path(grp), None)]
+        got = []
+        for p in out:
+            try:
+                got.append((p, p.read_text(encoding="utf-8", errors="replace")))
+            except OSError:
+                got.append((p, None))
+        return got
+
+    def cs_friends(self, rel) -> "frozenset | None":
+        """R12: the lower-cased assembly names rel's .csproj group makes friends (an `InternalsVisibleTo` attribute in
+        one of its C# files or of the files it links in, the MSBuild item in one of its project files: both grant
+        `internal` to that assembly), or None when one cannot be read (a name built from a constant or
+        `$(AssemblyName)`, the word without a literal beside it, an unreadable file, a linked file not found, a project
+        file that imports another: this pass reads no such file's items)."""
+        grp = self.cs_group_of(rel)
+        mk = ("csivt", grp)
+        if mk not in self.memo:
+            texts = []
+            for r in self.cs_group_run(grp):
+                if self.cs_group_of(r) != grp:
+                    break
+                try:
+                    texts.append(self.source.raw(r))
+                except Exception:  # noqa: BLE001 — a file the pass cannot read may name anyone
+                    texts.append(None)
+            texts.extend(self.cs_linked_texts(rel))
+            texts.extend(None if t is None or _cs_imports(t) else t for _p, t in self.cs_project_files(grp))
+            out: "set | None" = set()
+            for t in texts:
+                if isinstance(t, bytes):
+                    t = t.decode("utf-8", "replace")
+                if not isinstance(t, str):
+                    out = None
+                    break
+                for hit in _CS_FRIEND.finditer(t):
+                    name = _CS_FRIEND_NAME.match(t, hit.end())
+                    tail = t[name.end():name.end() + 80].lstrip() if name is not None else ""
+                    if name is None or "$" in name.group(1) or not name.group(1).split(",")[0].strip() \
+                            or (tail.startswith("+") and "," not in name.group(1)):   # "Yn" + Tail: the name goes on
+                        out = None
+                        break
+                    out.add(name.group(1).split(",")[0].strip().lower())
+                if out is None:
+                    break
+            self.memo[mk] = frozenset(out) if out is not None else None
         return self.memo[mk]
+
+    def cs_assembly_names(self, grp) -> frozenset:
+        """R12: the lower-cased names group grp's assembly may have: each *.csproj's file name and every <AssemblyName>
+        its project files write. Empty when one cannot be read (an expanded value, an unreadable file, a project file
+        that imports another, which may name the assembly)."""
+        mk = ("csasm", grp)
+        if mk not in self.memo:
+            out = set()
+            for p, t in self.cs_project_files(grp):
+                written = _CS_ASM_NAME.findall(t) if t is not None else ()
+                if t is None or _cs_imports(t) or any("$" in v or not v.strip() for v in written):
+                    out = set()
+                    break
+                out.update(v.strip().lower() for v in written)
+                if p.suffix.lower() == ".csproj":
+                    out.add(p.stem.lower())
+            self.memo[mk] = frozenset(out)
+        return self.memo[mk]
+
+    def cs_seen_defs(self, ci, m, on_class) -> list:
+        """member_defs as the running overload rule's call site sees them (cs_acc_now: cs_unseen); all of them outside
+        it."""
+        mfs = self.member_defs(ci, m, on_class)
+        acc = getattr(self, "cs_acc_now", None)
+        now = getattr(self, "cs_sig_now", None)
+        recv = now[0] if isinstance(now, tuple) and now else ci.key
+        return mfs if acc is None else [mf for mf in mfs if not self.cs_unseen(ci, mf, m, acc, recv)]
 
     # ---------------------------------------------------------------- C#: the reader's private table
     def cs_table(self, rel):
@@ -3386,12 +4137,21 @@ class _Linker:
         return self.memo["parts_of"].get(key, [])
 
     # ---------------------------------------------------------------- C#: nested type names (lookup_rules nested_types)
-    def cs_nested(self, key, name):
+    def cs_nested(self, key, name, arity=_NOINFO):
         """The nested type `name` declared in class key (any part): ("one", class key) | ("unk",) (declared, but
-        without one indexed node) | None (not declared there)."""
+        without one indexed node) | None (not declared there). `arity` (R30): the type arguments the name is written
+        with. C# finds a nested type only with its own number of type parameters (spec: namespace and type names), so
+        one of another arity is not declared there for this spelling (the lookup goes on outward: `Entry` written in a
+        class holding `Entry<T>` means an outer `Entry`); an arity that cannot be told on either side (a spelling of
+        unknown arity, a nested type without a tporder entry) makes a hit of that name ("unk",)."""
         found = []
         for rel, idx in self.class_parts(key):
-            found.extend(self.class_key.get((rel, j)) for j in self.nested_of.get(rel, {}).get((idx, name), ()))
+            for j in self.nested_of.get(rel, {}).get((idx, name), ()):
+                ok = True if arity is _NOINFO else self.cs_arity_ok(rel, j, arity)
+                if ok is None:
+                    return ("unk",)
+                if ok:
+                    found.append(self.class_key.get((rel, j)))
         if not found:
             return None
         ks = set(found)
@@ -3414,26 +4174,292 @@ class _Linker:
                 out.append(e[1])
         return out
 
-    def cs_type_head(self, rel, si, name, ctx):
+    def cs_arity_ok(self, rel, j, arity) -> "bool | None":
+        """R30: may class j of rel be what a type name written with `arity` type arguments means: its own type
+        parameter count (_cs tporder) is `arity` (True), another (False), or unknown (None: arity None, a tporder table
+        without class j). True for a file whose reader keeps no tporder table (every language but C#: as before)."""
+        tb = self.cs_table(rel)
+        tp = tb.get("tporder") if tb is not None else None
+        if not isinstance(tp, dict):
+            return True
+        own = tp.get(j)
+        if arity is None or isinstance(arity, bool) or not isinstance(arity, int) or not isinstance(own, tuple):
+            return None
+        return len(own) == arity
+
+    def cs_type_head(self, rel, si, name, ctx, arity=_NOINFO):
         """C# (lookup_rules nested_types): what a type name `name` written in scope si (or in class ctx) means when a
         nested type holds it — C#'s order: the nested types of the scope's class and of its project base classes,
         then of each outer class (and its bases), before any namespace-level name. A _V cls; _UNK when such a nested
         type is declared but cannot be placed; None when none is (the file's names decide: file_symbol). A nested
-        type inherited from an EXTERNAL base is not seen (its members are not read)."""
+        type inherited from an EXTERNAL base is not seen (its members are not read). `arity` (R30, cs_nested): only a
+        nested type of that many type parameters matches. Assumed, not read: a nested type of a base class is
+        accessible here (C# skips a private one and looks further out; a known gap, rare: a base's private nested
+        type sharing its name with an outer type the derived class means). R42: a class whose base-class chain reaches
+        an UNRESOLVED base (cs_class_base_unres) may inherit any project class's nested types: _UNK when some project
+        type nests a type of that name (cs_nests_name) and the known chain did not decide; L1: only a project type
+        that unresolved base may be, or one on such a type's chain (cs_unres_nests), counts."""
         key = ctx if ctx is not None else self.scope_class_key(rel, si)
         seen = set()
         while key is not None and key in self.classes and key not in seen:
             seen.add(key)
             for k in self.cs_base_chain(key):
-                got = self.cs_nested(k, name)
+                got = self.cs_nested(k, name, arity)
                 if got is None:
                     continue
                 if got[0] != "one":
                     return _UNK
                 self._lookup_stat(rel, "nested_types")
                 return _V("cls", {got[1]}, ev={self.classes[k].rel, self.classes[got[1]].rel}, src="class")
+            if self.cs_nests_name(name) and self.cs_class_base_unres(key) and self.cs_unres_nests(key, name, arity):
+                return _UNK                        # R42: the unresolved base class may nest a project type `name`
             key = self.outer_key(key)
         return None
+
+    def cs_class_base_unres(self, key) -> bool:
+        """R42: does class key's base-CLASS chain (the first base-list entry of each class, the one C# reserves for
+        the base class) reach an UNRESOLVED entry that may name a project type (cs_unres_proj)? That base may be any
+        project class, its nested types and members unknown. An interface first entry ends the chain (no base
+        class); an external one too (assumption 7: an external base's nested types are not read), and so does an
+        unresolved one that names no project type."""
+        mk = ("csbcu", key)
+        if mk in self.memo:
+            return self.memo[mk]
+        if mk in self.busy:                        # re-entered from its own base evaluation: a cut, unknown
+            self.cut += 1
+            return True
+        self.busy.add(mk)
+        c0 = self.cut
+        try:
+            out, seen, cur = False, set(), key
+            while cur is not None and cur in self.classes and cur not in seen:
+                seen.add(cur)
+                bs = self.bases(cur)
+                if not bs:
+                    break
+                if bs[0][0] == "unres":
+                    out = self.cs_unres_proj(bs[0][1])
+                    break
+                nxt = self.classes.get(bs[0][1]) if bs[0][0] == "class" else None
+                cur = bs[0][1] if nxt is not None and nxt.facts.kind != "interface" else None
+        finally:
+            self.busy.discard(mk)
+        if self.cut == c0:
+            self.memo[mk] = out
+        return out
+
+    def cs_nests_name(self, name) -> bool:
+        """R42: does any project type of a C# file (nested_types) declare a nested type named `name`?"""
+        if "csnests" not in self.memo:
+            self.memo["csnests"] = frozenset(
+                nm for rel, d in self.nested_of.items()
+                if (lambda sp: sp is not None and "nested_types" in sp.lookup_rules)(self.spec_of(rel))
+                for (_o, nm) in d)
+        return name in self.memo["csnests"]
+
+    def cs_unres_proj(self, nm) -> bool:
+        """R42: may an UNRESOLVED base written with (last) name nm be a project class or interface? A base-list name
+        resolves to a type of that simple name (any arity; a qualified or generic spelling: its last segment) or to an
+        alias of that name, so yes when nm is empty (unread), when a type some C# file declares carries it (nested
+        types included), or when an alias of that name is written anywhere (a `using X = ...` of any declaration of
+        any file, a `global using` alias, an MSBuild <Using Alias>, a name an unreadable item may define:
+        cs_group_tables). Such a base may then be a project class or interface, the class in question too (L1: which
+        ones, cs_unres_types / cs_unres_targets). Else it names no project type and reads like an external base.
+        Assumed, as for every alias the binder reads: an MSBuild input the pass cannot read at all defines no alias of
+        a name it cannot see."""
+        if not nm:
+            return True
+        if "csunrp" not in self.memo:
+            names: set = set()
+            for rel in sorted(self.facts):
+                spec = self.spec_of(rel)
+                if spec is None or "nested_types" not in spec.lookup_rules:
+                    continue
+                names.update(str(cf.name) for cf in self.facts[rel].classes)
+                tb = self.cs_table(rel)
+                for a in (tb.get("aliases") or ()) if isinstance(tb, dict) else ():
+                    if isinstance(a, (list, tuple)) and a:
+                        names.add(str(a[0]))
+                names.update(str(x) for x in self.cs_group_tables(rel)[1])
+            self.memo["csunrp"] = frozenset(names)
+        return str(nm) in self.memo["csunrp"]
+
+    def cs_unres_types(self, nm):
+        """L1 (within R42): the project types an UNRESOLVED base written with (last) name nm may BE, as a frozenset of
+        class keys, or None (any project type). The argument: C# resolves a base-list name to a type of that simple
+        name (any namespace, nested types included, any arity: a qualified or generic spelling is recorded by its
+        last segment, bases()) or, for a simple name, to the target of an alias of that name (a `using X = ...` of any
+        declaration of any file, a `global using` alias, an MSBuild <Using Alias>); an alias target's last segment is
+        again a type name or, for a simple target, an outer alias of that name (C# resolves an alias target with the
+        enclosing declarations' directives), so both are followed to a fixed point (_cs_alias_last). Whatever else it
+        may be is external. None (any) when nm is empty (a base the pass could not read), when a type of one of these
+        names has no class key of its own (a second definition sharing one node: its chain cannot be read) or is a
+        partial part left unmerged (its chain may miss the other parts' bases), or when an alias of one of these names
+        has a target the pass cannot read (target "": an MSBuild item it cannot read, a directive in a preprocessor
+        branch) or cannot split (a tuple, a pointer). A class marked ambiguous only because its own project may not
+        compile it (R25) is a candidate like any other: its declared bases are read. Assumed, as in cs_unres_proj: a
+        C# file the reader failed on declares no type and no alias (its classes are unseen by every rule of the
+        pass)."""
+        if "csunrt_idx" not in self.memo:
+            types: dict = {}                       # simple name -> {class keys}, None: a type of that name unreadable
+            aliases: dict = {}                     # alias name -> {target texts}
+            for rel in sorted(self.facts):
+                spec = self.spec_of(rel)
+                if spec is None or "nested_types" not in spec.lookup_rules:
+                    continue
+                for idx, cf in enumerate(self.facts[rel].classes):
+                    k = self.class_key.get((rel, idx))
+                    if types.get(str(cf.name), set()) is None:
+                        continue
+                    if k is None or k not in self.classes or (self.classes[k].ambiguous and self.classes[k].facts.open):
+                        types[str(cf.name)] = None
+                    else:
+                        types.setdefault(str(cf.name), set()).add(k)
+                tb = self.cs_table(rel)
+                for a in (tb.get("aliases") or ()) if isinstance(tb, dict) else ():
+                    if isinstance(a, (list, tuple)) and a:
+                        aliases.setdefault(str(a[0]), set()).add(a[1] if len(a) > 1 else "")
+                for a, ts in self.cs_group_tables(rel)[1].items():
+                    aliases.setdefault(str(a), set()).update(ts or {""})
+            self.memo["csunrt_idx"] = (types, aliases)
+        mk = ("csunrt", nm)
+        if mk not in self.memo:
+            types, aliases = self.memo["csunrt_idx"]
+            out: "set | None" = set()
+            work, seen = [str(nm or "")], set()
+            while work and out is not None:
+                n = work.pop()
+                if n in seen:
+                    continue
+                seen.add(n)
+                if not n or (n in types and types[n] is None):
+                    out = None
+                    break
+                out |= types.get(n, set())
+                for t in sorted(aliases.get(n, ()), key=str):
+                    seg = _cs_alias_last(t)
+                    if seg is None:
+                        out = None
+                        break
+                    work.append(seg)
+            self.memo[mk] = None if out is None else frozenset(out)
+            self.memo[("csunrn", nm)] = frozenset(seen)
+        return self.memo[mk]
+
+    def cs_unres_targets(self, nm):
+        """L1 (within R42): every project class or interface an UNRESOLVED base named nm may put on a chain — the
+        types it may be (cs_unres_types) with every project type of their own chains, an unresolved entry there
+        followed the same way — as a frozenset of class keys, or None (any project type: an unread base, a type whose
+        chain cannot be linearized, an unreadable alias). An external entry on those chains adds no project type."""
+        mk = ("csunre", nm)
+        if mk not in self.memo:
+            out: "set | None" = set()
+            names, todo = {str(nm or "")}, list(self.cs_unres_types(nm) or ())
+            if self.cs_unres_types(nm) is None:
+                out = None
+            while todo and out is not None:
+                k = todo.pop()
+                if k in out:
+                    continue
+                out.add(k)
+                levels = self.mro(k)
+                if levels is None:
+                    out = None
+                    break
+                for e in (e for lv in levels for e in lv):
+                    if e[0] == "class":
+                        out.add(e[1])
+                    elif e[0] == "unres" and self.cs_unres_proj(e[1]) and str(e[1] or "") not in names:
+                        names.add(str(e[1] or ""))
+                        more = self.cs_unres_types(e[1])
+                        if more is None:
+                            out = None
+                            break
+                        todo.extend(sorted(more))
+            self.memo[mk] = None if out is None else frozenset(out)
+        return self.memo[mk]
+
+    def cs_unres_may_reach(self, nm, target) -> bool:
+        """L1 (within R42): may an UNRESOLVED base named nm put project type `target` on a chain — nm may name a
+        project type (cs_unres_proj) and target is one of its candidates or on their chains (cs_unres_targets; None:
+        any)? Else that base is external or a project type whose chain does not hold target."""
+        if not self.cs_unres_proj(nm):
+            return False
+        got = self.cs_unres_targets(nm)
+        return got is None or target in got
+
+    def cs_unres_reach(self, k):
+        """L1 (within R42): the project types the unresolved entries of class k's chain may add to it (the union of
+        their cs_unres_targets), or None (any: an entry whose candidates are unknown, or a chain the pass cannot
+        linearize)."""
+        mk = ("csunrr", k)
+        if mk not in self.memo:
+            levels = self.mro(k) if k in self.classes else None
+            out: "set | None" = None if levels is None else set()
+            for e in (e for lv in (levels or ()) for e in lv):
+                if out is not None and e[0] == "unres" and self.cs_unres_proj(e[1]):
+                    got = self.cs_unres_targets(e[1])
+                    out = None if got is None else out | got
+            self.memo[mk] = None if out is None else frozenset(out)
+        return self.memo[mk]
+
+    def cs_unres_member(self, nm, x) -> bool:
+        """L1 (within R42, member_open): may an UNRESOLVED first base-list entry named nm supply a member x by a simple
+        name? It is external or one of the project types of its name / of the alias targets of its name
+        (cs_unres_types). Read as an external type, it is open (as every external base class) unless named like an
+        interface — by the NAME it may carry: nm (member_open's own rule) or an alias target's last segment
+        (`using IBaseAlias = Shop.BaseCls;` may name an external class BaseCls: open). Read as a project type: an
+        interface gives no member a simple name reaches; a class does when x is a field / property, a method or a
+        nested type on its base-class chain, or that chain cannot be read or is itself open for x (member_open).
+        x None: any member (yes)."""
+        if x is None:
+            return True
+        cands = self.cs_unres_types(nm)
+        if cands is None:
+            return True
+        if any(n != str(nm or "") and not re.match(r"I[A-Z]", n) for n in self.memo.get(("csunrn", nm), ())):
+            return True                            # an alias target that may be an external class of that name
+        for ck in sorted(cands):
+            ci = self.classes.get(ck)
+            if ci is None or ci.ambiguous:
+                return True
+            if ci.facts.kind == "interface":
+                continue
+            levels = self.mro(ck)
+            if levels is None:
+                return True
+            for e in (e for lv in levels for e in lv):
+                if e[0] != "class":
+                    break
+                c = self.classes.get(e[1])
+                if c is None or c.ambiguous:
+                    return True
+                if c.facts.kind == "interface":
+                    continue
+                if x in c.facts.fields or x in c.facts.methods or self.cs_nested(c.key, x) is not None:
+                    return True
+            if self.member_open(ck, x):
+                return True
+        return False
+
+    def cs_unres_nests(self, key, name, arity=_NOINFO) -> bool:
+        """L1 (within R42, cs_type_head): may the UNRESOLVED entry class key's base-class chain reaches (the first
+        base-list entry of each class) be a project type whose chain nests a type `name` of that arity
+        (cs_unres_targets; unknown candidates: any project type nesting `name`, cs_nests_name)?"""
+        seen, cur = set(), key
+        while cur is not None and cur in self.classes and cur not in seen:
+            seen.add(cur)
+            bs = self.bases(cur)
+            if not bs:
+                return False
+            if bs[0][0] == "unres":
+                got = self.cs_unres_targets(bs[0][1]) if self.cs_unres_proj(bs[0][1]) else frozenset()
+                if got is None:
+                    return self.cs_nests_name(name)
+                return any(self.cs_nested(c, name, arity) is not None for c in sorted(got))
+            nxt = self.classes.get(bs[0][1]) if bs[0][0] == "class" else None
+            cur = bs[0][1] if nxt is not None and nxt.facts.kind != "interface" else None
+        return False
 
     # ---------------------------------------------------------------- C#: argument applicability (rule overloads)
     def cs_supertypes(self, key):
@@ -3578,52 +4604,88 @@ class _Linker:
         BaseHandler {TReq: CreateOrder, TRes: int}; key's own type parameters are identity tokens ("tpv", key, name),
         so `CartStore<T> : Store<T>` gives Store {T: CartStore's T} and target == key gives key's tokens (a generic
         declaration's `M(T)` is never the signature of `M(Cart)`). A parameter the path does not fix is absent (it
-        compares as _CS_UNK: never the same type); None when no base-list path from key reaches target."""
+        compares as _CS_UNK: never the same type); None when no base-list path from key reaches target. Every path
+        counts (R7): a class reaching one generic interface by two paths (`SubOne : OneE, IRepo<Cart>`, `OneE :
+        IRepo<Order>`) fixes only what all of them fix alike, so a parameter they fix differently is absent, never the
+        first path's. R42: for an INTERFACE target, a walked class's unresolved base that may put target on its chain
+        (L1, cs_unres_may_reach: target is one of the project types that base may be or on their chains; or a base
+        whose chain reaches target only past an external / such an unresolved entry, a path the walk does not follow)
+        may be another such path:
+        then nothing is fixed. A CLASS target is reached only through the one base-class chain, which an unresolved
+        entry cuts (no known path: None), so a later unresolved entry (an interface) adds no path to it."""
         mk = ("csub", key, target)
         if mk in self.memo:
             return self.memo[mk]
         own = self.cs_tporder(key) if key in self.classes else None
         out, cur, subst, seen = None, key, {nm: ("tpv", key, nm) for nm in (own or ())}, set()
-        for _ in range(_MRO_MAX):
+        todo = [(cur, subst)]
+        tgt_iface = target in self.classes and self.classes[target].facts.kind == "interface"
+        blind = False                              # R42: a path to an INTERFACE target the walk cannot follow
+        while todo and len(seen) < _MRO_MAX:
+            cur, subst = todo.pop()
+            state = (cur, tuple(sorted(subst.items(), key=lambda kv: kv[0])))
+            if state in seen:
+                continue
+            seen.add(state)
             if cur == target:
-                out = subst
-                break
+                out = subst if out is None else {n: t for n, t in out.items() if n in subst and (
+                    t == subst[n] or _cs_tcmp(t, subst[n]) is True)}
+                continue
             ci = self.classes.get(cur)
-            if ci is None or cur in seen:
-                break
-            seen.add(cur)
-            sigs, nxt = self.cs_base_sigs(cur), None
+            if ci is None:
+                continue
+            sigs = self.cs_base_sigs(cur)
             for b in ci.facts.bases:
                 head = b.args[0] if b.kind == "generic" and b.args else b
-                v = self.eval_type(head, self.rel_of(ci, b), ci.facts.scope, depth=1, opaque=False,
-                                   extra_shadow=ci.facts.type_params, ctx=self.outer_key(cur))
+                v = self.eval_type(head, self.rel_of(ci, b), ci.facts.scope, depth=1, opaque=False, arity=(
+                                   len(b.args) - 1 if head is not b else 0),
+                                   extra_shadow=ci.facts.type_params, ctx=self.outer_key(cur), akey=cur)
                 bk = next(iter(v.keys)) if v.kind == "inst" and len(v.keys) == 1 else None
-                if bk is not None and bk in self.classes and (bk == target or target in self.mro_class_keys(bk)):
-                    nxt = (b, bk)
-                    break
-            if nxt is None:
-                break
-            b, bk = nxt
-            s, order = sigs.get(id(b)), self.cs_tporder(bk)
-            new: dict = {}
-            if isinstance(s, tuple) and s[:1] == ("g",) and order is not None and len(s) - 2 == len(order):
-                for name, arg in zip(order, s[2:]):
-                    new[name] = self.cs_sig_norm(arg, self.rel_of(ci, b), self.outer_key(cur), subst, scope=cur)
-            cur, subst = bk, new
+                if bk is None or bk not in self.classes or not (bk == target or target in self.mro_class_keys(bk)):
+                    nm = head.name if head.kind in ("name", "builtin") else (head.parts[-1] if head.parts else "")
+                    if tgt_iface and (v.kind != "ext" and self.cs_unres_may_reach(nm, target) if bk is None else
+                                      bk in self.classes and any(
+                            e == ("class", target) or e[0] == "unres" and self.cs_unres_may_reach(e[1], target)
+                            for lv in (self.mro(bk) or ((("unres", ""),),)) for e in lv)):
+                        blind = True               # an unresolved base, or one whose path to target passes an
+                    continue                       # external / unresolved entry: it may hold other type arguments
+                s, order = sigs.get(id(b)), self.cs_tporder(bk)
+                new: dict = {}
+                if isinstance(s, tuple) and s[:1] == ("g",) and order is not None and len(s) - 2 == len(order):
+                    for name, arg in zip(order, s[2:]):
+                        new[name] = self.cs_sig_norm(arg, self.rel_of(ci, b), self.outer_key(cur), subst, scope=cur)
+                todo.append((bk, new))
+        if (todo or blind) and out is not None:
+            out = {}                               # paths not walked: nothing is fixed for all of them
         self.memo[mk] = out
         return out
 
-    def cs_sig_norm(self, t, rel, ctx, subst, depth=0, scope=None):
+    def cs_sig_norm(self, t, rel, ctx, subst, depth=0, scope=None, arity=0):
         """A tagged signature type (the reader's sigt) written in rel (class ctx's context; `scope`: the class whose
         declaration holds it), normalised for comparison (_cs_tcmp): ("c", class key, simple name) a project type,
-        ("b", keyword) a predefined one (System.Int32 is int, IntPtr nint), ("n", last segment, qualifier parts or
-        None, the scope's lookup order when written unqualified: cs_scope_levels) any other named type (an alias of
-        the file or a `global using` alias of its .csproj group read as its target, a namespace alias expanded),
+        ("b", keyword) a predefined one (System.Int32 is int, IntPtr nint; an unqualified `Int32` / `Object` only where
+        its scope reaches `System` first: _cs_unq_is), ("n", last segment, qualifier parts or
+        None, the scope's lookup order when written unqualified or under a qualifier that may be relative, one not
+        known to be rooted in external code (cs_rooted): cs_scope_levels, () when unknown) any other named type (an
+        alias of the file, a `global using` alias of its .csproj group or an MSBuild <Using Alias> read as its target —
+        the one IN EFFECT where the name is written, binder.alias_in_effect: a nearer namespace declaration's member or
+        using beats an outer alias, and an alias applies only inside its own declaration — a namespace alias expanded;
+        an alias whose effect is unknown, or a simple name the binder places in the project without one class (two
+        candidates, a namespace: F4), is ("x", name, tag): unknown; an alias of a target it does not take apart is
+        ("x", name, target, the lookup order where it is written): _cs_x_same),
         ("g", head, *args), ("?", inner, value type?) a nullable VALUE type (`System.Nullable<X>` too) or one whose
         kind is unknown (a reference type's `?` is an annotation only: dropped, and so is a class type parameter's
         `T?` unless the parameter is constrained `struct` / `unmanaged`, C# 9+), ("[]", element, rank), ("mtp", i),
         ("tpv", class, name) a class type parameter (`subst`: cs_subst), ("x", text) or _CS_UNK (a class type
-        parameter `subst` does not fix)."""
+        parameter `subst` does not fix). `arity` (R30): the type arguments a name is written with (a generic's head:
+        its arguments; None: unknown)."""
+        got = self.cs_sig_norm_of(t, rel, ctx, subst, depth, scope, arity)
+        if got[:1] == ("n",) and len(got) > 3 and got[2] is not None and not self.cs_rooted(rel, ".".join(got[2])):
+            return got[:3] + (self.cs_scope_levels(rel, scope) or (),)     # a qualifier that may be relative
+        return got
+
+    def cs_sig_norm_of(self, t, rel, ctx, subst, depth, scope, arity=0):
+        """cs_sig_norm, before a qualified name's qualifier is judged."""
         if not isinstance(t, tuple) or not t or depth > _EVAL_DEPTH:
             return ("x", repr(t))
         tag = t[0]
@@ -3635,7 +4697,7 @@ class _Linker:
         if tag == "n" and len(t) > 1 and isinstance(t[1], tuple) and t[1] and all(isinstance(p, str) for p in t[1]):
             parts = t[1]
             tr = t_name(parts[0]) if len(parts) == 1 else t_qual(*parts)
-            v = self.eval_type(tr, rel, -1, depth=depth + 1, opaque=False, ctx=ctx)
+            v = self.eval_type(tr, rel, -1, depth=depth + 1, opaque=False, ctx=ctx, akey=scope, arity=arity)
             if v.kind == "inst" and len(v.keys) == 1:
                 k = next(iter(v.keys))
                 ck = self.classes.get(k)
@@ -3646,22 +4708,38 @@ class _Linker:
                 targets = {str(getattr(i, "spec", "") or "") if getattr(i, "kind", "") == "named" else "" for i in imps}
             else:
                 targets = self.cs_group_tables(rel)[1].get(parts[0], set())
+            if targets:                            # (b) which alias of that name, if any, is in effect where it is
+                ae = self.cs_alias_at(rel, scope, parts[0], arity if len(parts) == 1 else 0)    # written
+                #                                          (binder.alias_in_effect; None: no table)
+                if ae is not None:
+                    if ae[0] == "alias" and len(ae) > 1:
+                        targets = {str(ae[1] or "")}
+                    elif ae[0] == "none":
+                        targets = set()            # an alias of another declaration: not in effect here
+                    else:                          # unknown, or a project member eval_type did not place as one class
+                        return ("x", ".".join(parts), "alias?")
             if len(targets) > 1:
                 return ("x", ".".join(parts), "alias")         # two aliases of that name: unknown
             if targets:
                 target = next(iter(targets))
                 if not target or not all(p.isidentifier() for p in target.split(".")):
-                    return ("x", ".".join(parts), target)      # an alias of a generic / unreadable target
+                    return ("x", ".".join(parts), target, self.cs_scope_levels(rel, scope))    # an alias of a generic /
+                    #                                            unreadable target: where it is written (_cs_x_same)
                 parts = tuple(target.split(".")) + tuple(parts[1:])
+            elif len(parts) == 1 and self.cs_project_name(rel, parts[0], ctx, arity):
+                return ("x", parts[0], "project?")             # F4: a project name the binder cannot place
             seg, qual = parts[-1], (tuple(parts[:-1]) or None)
+            if qual is None and seg in _CS_SYSTEM_ALIAS and seg != "dynamic" \
+                    and _cs_unq_is("System", self.cs_scope_levels(rel, scope)) is not True:
+                return ("n", seg, None, self.cs_scope_levels(rel, scope))          # `Object`, System not reached first
             if seg in _CS_SYSTEM_ALIAS and qual in (None, ("System",)):
                 return ("b", _CS_SYSTEM_ALIAS[seg])
             return ("n", seg, qual, None if qual is not None else self.cs_scope_levels(rel, scope))
         if tag == "g" and len(t) > 1:
-            out = ("g",) + tuple(self.cs_sig_norm(a, rel, ctx, subst, depth + 1, scope) for a in t[1:])
+            out = ("g",) + tuple(self.cs_sig_norm(a, rel, ctx, subst, depth + 1, scope, len(t) - 2 if i == 1 else 0)
+                                 for i, a in enumerate(t[1:], 1))       # the head: written with len(t) - 2 arguments
             h = out[1]
-            if len(out) == 3 and h[:2] == ("n", "Nullable") and len(h) > 3 and (
-                    h[2] == ("System",) or h[2] is None and _cs_unq_is("System", h[3])):
+            if len(out) == 3 and _cs_is_nullable(h):
                 return ("?", out[2], True)         # System.Nullable<X> is X? (X a value type)
             return out
         if tag == "?" and len(t) > 1:
@@ -3690,6 +4768,81 @@ class _Linker:
             return t
         return ("x",) + tuple(str(x) for x in t[1:])
 
+    def cs_project_name(self, rel, name, ctx, arity=0) -> bool:
+        """F4: does simple type name `name` written in rel (class ctx's context) name something of the project that
+        eval_type did not turn into one class — a type or namespace the binder finds for the file (two candidates, two
+        namespace declarations answering differently, a namespace: binder.resolve_free not None), or a nested type of
+        the class chain it cannot place (cs_type_head)? Such a name is no external type: the rules that read the
+        scope's usings for one (_cs_unq_same, _cs_unq_is) assume none is visible, so it compares as unknown. `arity`
+        (R30): the type arguments it is written with (None: unknown, and any project hit then counts)."""
+        mk = ("csprj", rel, name, ctx, arity)
+        if mk not in self.memo:
+            binder = self.binder_of(rel)
+            try:
+                res = binder.resolve_free(rel, name, **self.cs_akw(binder, "resolve_free", arity))
+            except Exception:  # noqa: BLE001 — a binder that fails cannot say the name is external
+                res = RES_UNKNOWN
+            spec = self.spec_of(rel)
+            nested = spec is not None and "nested_types" in spec.lookup_rules and ctx is not None \
+                and self.cs_type_head(rel, -1, name, ctx, arity) is not None
+            self.memo[mk] = res is not None or bool(nested)
+        return self.memo[mk]
+
+    def cs_alias_at(self, rel, key, name, arity=0):
+        """(b) binder.alias_in_effect for simple name `name` written in class key's declaration in rel: ("alias",
+        target) | ("none",) | ("unknown",) | ("member", Resolution) — every part of key in rel must answer alike (else
+        ("unknown",)) — or None when the binder keeps no such walk (the file's / group's alias table decides, as
+        before)."""
+        idxs = [i for r, i in self.class_parts(key) if r == rel] if key is not None else []
+        if not idxs:
+            return None
+        out = None
+        for i in idxs:
+            got = self.cs_binder_call(rel, "alias_in_effect", rel, i, name, arity=arity)
+            if got is _NOINFO:
+                return None
+            if not isinstance(got, tuple) or not got or got[0] not in ("alias", "none", "unknown", "member"):
+                got = ("unknown",)
+            if out is not None and got != out:
+                return ("unknown",)
+            out = got
+        return out
+
+    def cs_alias_scope(self, rel, si, name, ctx, akey=None, depth=0, arity=0):
+        """(b) C# (the nested_types test): what simple name `name` written in scope si of rel (or in class ctx's /
+        akey's declaration) means when rel declares an alias of that name (_cs aliases): binder.resolve_scoped walks
+        that place's namespace declarations innermost out — the declaration's members, then ITS aliases, its usings;
+        the compilation unit last (its aliases with the group's global and MSBuild ones, then its usings) — so a
+        nearer using's project type beats an outer alias, and an alias applies only inside its own declaration. A _V;
+        _UNK when the walk answers unknown or nothing (an external type, never another declaration's alias); None
+        when the rule does not apply (no alias of that name in rel, a binder without the walk, a place it cannot name:
+        file_symbol decides, as before). A scope outside every class (top-level statements) walks the compilation
+        unit's chain."""
+        tb = self.cs_table(rel)
+        al = tb.get("aliases") if tb is not None else None
+        if not isinstance(al, (list, tuple)) or not any(isinstance(a, tuple) and a and a[0] == name for a in al):
+            return None
+        key = akey if akey is not None else (ctx if ctx is not None else self.scope_class_key(rel, si))
+        if key is not None:
+            idxs = [i for r, i in self.class_parts(key) if r == rel]
+        else:
+            ff = self.facts.get(rel)
+            idxs = [-1] if ff is not None and 0 <= si < len(ff.scopes) and ff.scopes[si].cls < 0 else []
+        if not idxs:
+            return None
+        res, first = None, True
+        for i in idxs:
+            got = self.cs_binder_call(rel, "resolve_scoped", rel, i, name, arity=arity)
+            if got is _NOINFO:
+                return None
+            if not first and got != res:
+                return _UNK
+            res, first = got, False
+        if res is None:
+            return _UNK                            # nothing of the project, no alias in effect: an external type
+        v = self.res_value(rel, res, depth + 1)
+        return v if v.kind != "unbound" else _UNK
+
     def cs_tp_kind(self, key, name) -> "str | None":
         """C#: what type parameter `name` of class key (or of an outer class) is constrained to (_cs tpkind): "s"
         (`struct` / `unmanaged`: `T?` is Nullable<T>), "a" (anything else, or nothing: `T?` an annotation) or None
@@ -3713,6 +4866,14 @@ class _Linker:
             key = self.outer_key(key)
         return None
 
+    @staticmethod
+    def cs_akw(binder, method, arity) -> dict:
+        """R30: {"arity": arity} when binder's `method` takes the generic arity a name is written with (the C#
+        binder: `Result` and `Result<T>` are two types; None = unknown, and any project hit is then unknown), else {}
+        (every other language's binder: called as before)."""
+        fn = getattr(binder, method, None)
+        return {"arity": arity} if callable(fn) and _takes_arity(fn) else {}
+
     def cs_group_of(self, rel) -> str:
         """The .csproj group of rel (the C# binder's group_of), or "" when its binder keeps none."""
         fn = getattr(self.binder_of(rel), "group_of", None)
@@ -3721,86 +4882,570 @@ class _Linker:
         except Exception:  # noqa: BLE001
             return ""
 
+    def cs_binder_call(self, rel, name, *args, arity=_NOINFO):
+        """The C# binder's method `name` (of rel's language) called with args, or _NOINFO when the binder keeps no
+        such method (a reader without the table: the caller takes the path it took before) or it raises. `arity`
+        (R30): passed when the method takes it (_takes_arity)."""
+        fn = getattr(self.binder_of(rel), name, None)
+        if not callable(fn):
+            return _NOINFO
+        kw = {"arity": arity} if arity is not _NOINFO and _takes_arity(fn) else {}
+        try:
+            return fn(*args, **kw)
+        except Exception:  # noqa: BLE001 — the binder never raises; a reader bug reads as no table
+            return _NOINFO
+
+    def cs_msbuild(self, rel):
+        """The MSBuild reading of rel's .csproj group (binder.msbuild: the implicit usings and <Using> items the
+        project files, Directory.Build.props / .targets and the SDKs give every file of it) as (certain namespaces,
+        {alias: target}, possible namespaces, complete?, alias names an unreadable item may define, `using static`
+        types), or None (a binder without the reading: MSBuild unread, as before). A reading the pass cannot take
+        apart reads as empty and incomplete (never as complete)."""
+        grp = self.cs_group_of(rel)
+        mk = ("csmsb", grp)
+        if mk not in self.memo:
+            got = self.cs_binder_call(rel, "msbuild", grp)
+            out = None
+            if got is not _NOINFO and got is not None:
+                try:
+                    al = getattr(got, "aliases", None) or {}
+                    out = (frozenset(str(x) for x in (getattr(got, "certain", None) or ())),
+                           {str(a): str(t) for a, t in dict(al).items()},
+                           frozenset(str(x) for x in (getattr(got, "possible", None) or ())),
+                           getattr(got, "complete", False) is True,
+                           frozenset(str(x) for x in (getattr(got, "alias_unknown", None) or ())),
+                           tuple(str(x) for x in (getattr(got, "statics", None) or ())),
+                           self.cs_pkgsig(got))
+                except (TypeError, ValueError, AttributeError):
+                    out = (frozenset(), {}, frozenset(), False, frozenset(), (), None)
+            self.memo[mk] = out
+        return self.memo[mk]
+
+    @staticmethod
+    def cs_pkgsig(got):
+        """R37: an MsbUsings' package signature (pkgsig: a frozenset of (id, version, assets) over the project and its
+        readable ProjectReference closure; frozenset() when none) as a frozenset, None when unreadable, or _CS_NOPKG
+        for a reading without the field (U3 then never compares two groups: R45 needs the empty set shown)."""
+        if not hasattr(got, "pkgsig"):
+            return _CS_NOPKG
+        p = getattr(got, "pkgsig")
+        try:
+            return frozenset(tuple(str(y) for y in x) if isinstance(x, tuple) else str(x) for x in p) \
+                if isinstance(p, (set, frozenset)) else None
+        except TypeError:
+            return None
+
+    def cs_in_group(self, rel):
+        """R25: does rel's own .csproj compile it (binder.in_group): True, False (a readable, certain <Compile Remove>
+        takes it out: its global usings, aliases and statics count for no compilation of that group), None (maybe:
+        its global usings possible, its global aliases and statics unknown). True for a binder without the rule."""
+        got = self.cs_binder_call(rel, "in_group", rel)
+        return True if got is _NOINFO else (got if got in (True, False) else None)
+
+    @staticmethod
+    def cs_pp(tb, name):
+        """R24: the indexes a reader's pp_* table marks (directives of that list written inside a preprocessor
+        branch: only possible); frozenset() for a reader without it, None when unreadable (every entry possible)."""
+        got = tb.get(name, frozenset()) if isinstance(tb, dict) else frozenset()
+        if isinstance(got, (set, frozenset, list, tuple)) and all(isinstance(i, int) for i in got):
+            return frozenset(got)
+        return None
+
+    def cs_group_run(self, grp):
+        """R14: the C# files in order of (.csproj group, path), from group grp's first file on: one pass over the tree
+        (the first call) for every group, so a group's tables cost its own files (a reader stops at the next group's
+        first file), not groups × files."""
+        if "csgrun" not in self.memo:
+            flat = sorted((self.cs_group_of(r), r) for r in self.facts if self.cs_table(r) is not None)
+            first: dict = {}
+            for i, (g, _r) in enumerate(flat):
+                first.setdefault(g, i)
+            self.memo["csgrun"] = ([r for _g, r in flat], first)
+        flat, first = self.memo["csgrun"]
+        for i in range(first.get(grp, len(flat)), len(flat)):
+            yield flat[i]
+
     def cs_group_tables(self, rel) -> tuple:
-        """(the `global using` namespaces, {alias: {targets}} of the `global using X = ...` aliases) of the C# files of
-        rel's .csproj group: what every file of that project sees."""
+        """(the `global using` namespaces with the namespaces MSBuild surely adds (cs_msbuild certain), {alias:
+        {targets}} of the `global using X = ...` aliases and MSBuild's <Using Alias> items (a name an unreadable item
+        may define: target "", which every reader takes as unknown), the namespaces MSBuild may add unseen, its reading
+        complete?) of the C# files of rel's .csproj group: what every file of that project sees. A `global using` in a
+        file the project links in (cs_linked_texts), or a link it cannot follow, leaves the reading incomplete: every
+        file of the project sees what those files say, and a link may hold a condition this pass does not judge (the
+        binder's index folds their namespaces as possible, their aliases as unknown). A file some other project may
+        compile: cs_file_tables."""
         grp = self.cs_group_of(rel)
         mk = ("csgrp", grp)
         if mk not in self.memo:
-            gu, ga = set(), {}
-            for r in sorted(self.facts):
+            gu, ga, maybe, sure = set(), {}, set(), True
+            for r in self.cs_group_run(grp):
                 tb = self.cs_table(r)
                 if tb is None or self.cs_group_of(r) != grp:
+                    break
+                ing = self.cs_in_group(r)          # R25: a file the project's <Compile Remove> takes out counts for
+                if ing is False:                   # none of its compilations; one it may take out: possible / unknown
                     continue
-                for u in tb.get("usings") or ():
-                    if isinstance(u, tuple) and len(u) >= 2 and u[1] and isinstance(u[0], str):
+                ppu, ppa, pps = self.cs_pp(tb, "pp_usings"), self.cs_pp(tb, "pp_galias"), self.cs_pp(tb, "pp_statics")
+                for j, u in enumerate(tb.get("usings") or ()):
+                    ok = isinstance(u, tuple) and len(u) >= 2 and u[1] and isinstance(u[0], str)
+                    if ok and (ing is None or ppu is None or j in ppu):
+                        maybe.add(u[0])            # R24: written in a preprocessor branch: possible, never certain
+                    elif ok:
                         gu.add(u[0])
-                for a in tb.get("galias") or ():
+                for j, a in enumerate(tb.get("galias") or ()):
                     if isinstance(a, tuple) and len(a) == 2 and all(isinstance(x, str) for x in a):
-                        ga.setdefault(a[0], set()).add(a[1])
-            self.memo[mk] = (frozenset(gu), ga)
+                        odd = ing is None or ppa is None or j in ppa
+                        ga.setdefault(a[0], set()).add("" if odd else a[1])
+                        sure = sure and not odd    # an alias that may be in effect: unknown, the reading incomplete
+                for j, s in enumerate(tb.get("statics") or ()):
+                    if isinstance(s, tuple) and len(s) >= 2 and s[1] and (ing is None or pps is None or j in pps):
+                        sure = False               # a `global using static` that may hold: the reading incomplete
+            possible, complete = frozenset(), True
+            msb = self.cs_msbuild(rel)
+            if msb is not None:
+                gu |= msb[0]
+                for a, t in sorted(msb[1].items()):
+                    ga.setdefault(a, set()).add(t)
+                for a in sorted(msb[4]):
+                    ga.setdefault(a, set()).add("")
+                possible, complete = msb[2], msb[3]
+            for t in self.cs_linked_texts(rel):     # a `global using` in a file it links in holds for the whole project
+                if t is None or _CS_GLOBAL_USING.search(t):
+                    complete = False                # (the binder folds what it says: possible / unknown)
+            if maybe - gu or not sure:
+                possible, complete = frozenset(possible | (maybe - gu)), False
+            self.memo[mk] = (frozenset(gu), ga, possible, complete)
+        if not self.cs_cu_reading(rel)[1]:
+            return self.cs_file_tables(rel, self.memo[mk])
         return self.memo[mk]
+
+    def cs_file_tables(self, rel, gt) -> tuple:
+        """cs_group_tables of a file some other project may compile (cs_cu_reading: not whole; a file in no project's
+        directory is one): the binder's cu_globals (THE rule: what every compilation holding it gives is certain, the
+        rest possible / unknown) with the file's own `global using`s, and the reading incomplete. A binder without
+        that rule: only the file's own are certain, the group's (gt) namespaces possible and its aliases unknown."""
+        mk = ("csgrpf", rel)
+        if mk not in self.memo:
+            tb = self.cs_table(rel) or {}
+            ppu = self.cs_pp(tb, "pp_usings")      # R24: the file's own global usings in a branch: possible
+            own = [(j, u[0]) for j, u in enumerate(tb.get("usings") or ())
+                   if isinstance(u, tuple) and len(u) >= 2 and u[1] and isinstance(u[0], str)]
+            gu = frozenset(u for j, u in own if ppu is not None and j not in ppu)
+            pgu = frozenset(u for _j, u in own) - gu
+            got = self.cs_binder_call(rel, "cu_globals", rel)
+            try:
+                sure, _st, al, maybe = got
+                ga = {str(a): {str(t) for t in ts} for a, ts in dict(al).items()}
+                out = (gu | frozenset(str(u) for u in sure), ga, frozenset(str(u) for u in maybe) | pgu, False)
+            except (TypeError, ValueError):
+                ga = {a: {""} for a in gt[1]}
+                ppa = self.cs_pp(tb, "pp_galias")
+                for j, a in enumerate(tb.get("galias") or ()):
+                    if isinstance(a, tuple) and len(a) == 2 and all(isinstance(x, str) for x in a):
+                        ga[a[0]] = {"" if ppa is None or j in ppa else a[1]}
+                out = (gu, ga, frozenset(gt[0] | gt[2]) | pgu, False)
+            self.memo[mk] = (out[0], out[1], out[2] - out[0], False)
+        return self.memo[mk]
+
+    def cs_group_statics(self, rel) -> frozenset:
+        """The `global using static` types of rel's .csproj group and MSBuild's <Using Static="true"> items: types
+        whose nested types every file of it may name unqualified (an eff entry of the compilation unit's level)."""
+        grp = self.cs_group_of(rel)
+        mk = ("csgst", grp)
+        if mk not in self.memo:
+            out = set()
+            for r in self.cs_group_run(grp):
+                tb = self.cs_table(r)
+                if tb is None or grp != self.cs_group_of(r):
+                    break
+                pps = self.cs_pp(tb, "pp_statics")     # R24 / R25: a static that may hold is no certain entry (the
+                if pps is None or self.cs_in_group(r) is not True:     # group's reading is incomplete for it:
+                    continue                                           # cs_group_tables)
+                out.update(s[0] for j, s in enumerate(tb.get("statics") or ())
+                           if isinstance(s, tuple) and len(s) >= 2 and s[1] and isinstance(s[0], str)
+                           and j not in pps)
+            msb = self.cs_msbuild(rel)
+            out.update(msb[5] if msb is not None else ())
+            self.memo[mk] = frozenset(out)
+        return self.memo[mk]
+
+    def cs_ns_info(self, rel):
+        """(the namespaces that directly hold a top-level project type, the namespaces a using / `global using` /
+        MSBuild item of any group imports that hold none and are no proper ancestor of one: what only external code
+        fills, the lower-cased first segments of the package ids the project files name (R2; frozenset() from a binder
+        that gives none)) — binder.ns_info — or None (a binder without it: no namespace capable, none transparent)."""
+        mk = ("csnsi",)
+        if mk not in self.memo:
+            got = self.cs_binder_call(rel, "ns_info")
+            out = None
+            if isinstance(got, tuple) and len(got) >= 2:
+                try:
+                    out = (frozenset(str(x) for x in got[0]), frozenset(str(x) for x in got[1]),
+                           frozenset(str(x).lower() for x in got[2]) if len(got) > 2 else frozenset())
+                except TypeError:
+                    out = None
+            self.memo[mk] = out
+        return self.memo[mk]
+
+    def cs_rooted(self, rel, q) -> bool:
+        """Is a written qualifier q (`System.Threading` in `System.Threading.Timer`) known to be ROOTED, so that the
+        same words name one namespace wherever they are written (_cs_tcmp's assumption 6)? A qualifier's first word is
+        looked up from the writing scope outward: `Core.Tok` written in namespace A.B means A.B.Core.Tok when that
+        namespace exists in ANY assembly, also in code the reader does not see (vendored, generated). True only for
+        the roots external code is known to fill: System / Microsoft, a package id's first segment (exactly, as R2
+        reads it), or a namespace equal to, above or below one a using imports from external code only (ns_info's
+        second set) — and only where the binder's capable rule holds too. NOT merely a root no project owns (R32 makes
+        such a root capable: external code MAY fill it, which is the conservative side for an enclosing namespace, but
+        it is no evidence that the words are not relative: `Core`, `Models`, `Data` are exactly such words). False:
+        the qualifier carries its scope (cs_sig_norm) and compares True only with one spelling in one lookup order."""
+        if not q or not self.cs_capable(rel, q):
+            return False
+        info = self.cs_ns_info(rel)
+        if info is None:
+            return False
+        parts = q.split(".")
+        if parts[0] in ("System", "Microsoft") or parts[0].lower() in info[2]:
+            return True
+        ext = info[1]
+        return q in ext or any(".".join(parts[:k]) in ext for k in range(1, len(parts))) or any(
+            e.startswith(q + ".") for e in ext)
+
+    def cs_capable(self, rel, ns) -> bool:
+        """F3 capable (binder.capable, the one rule, R32): may an EXTERNAL assembly declare types in enclosing namespace
+        ns, so that a simple name written inside it may be ns's external member before any using? Yes when ns's first
+        segment is System or Microsoft, a root no project owns (no project's AssemblyName, RootNamespace or project
+        file name has it as its first segment), a root a package shares (a package / <Reference> id's first segment
+        starts with it or is a prefix of it, any case), or ns equals, is an ancestor or a descendant of a namespace
+        only external code fills (binder.ns_info). Holding project types decides nothing: `namespace System.Timers;`
+        in the project still shares its namespace with the assembly that declares System.Timers.Timer. The global
+        namespace never is (an external type there: a known gap). False for a binder without the rule (as before).
+        Read only in the conservative direction (a level that may supply an external type); whether a written
+        qualifier is rooted is cs_rooted's narrower question."""
+        if not ns:
+            return False
+        mk = ("cscap", ns)
+        if mk not in self.memo:
+            self.memo[mk] = self.cs_binder_call(rel, "capable", ns) is True
+        return self.memo[mk]
+
+    def cs_transparent(self, rel, u) -> bool:
+        """F3 transparent: does `using u;` supply PROJECT types only (which the binder already answered), so that it
+        never supplies an external type of a simple name? binder.transparent (the one rule: u directly holds a project
+        type, its root is owned and unshared (not capable by R32's rule), and it is unrelated to every namespace only
+        external code fills) AND, the core's
+        extra caution, u's first segment holds project types in two or more namespaces (binder.ns_info): a namespace
+        the project declares alone under its first segment may be a library's own, extended (`namespace Serilog {
+        static class MyLoggingExtensions }` beside `using Serilog;` for Serilog's own ILogger). False for a binder
+        without the rule (every using may supply an external type, as before)."""
+        if not u:
+            return False
+        mk = ("cstr", u)
+        if mk not in self.memo:
+            info = self.cs_ns_info(rel)
+            root = u.split(".")[0]
+            self.memo[mk] = info is not None and self.cs_binder_call(rel, "transparent", u) is True and sum(
+                1 for t in info[0] if t == root or t.startswith(root + ".")) >= 2
+        return self.memo[mk]
+
+    def cs_linked_texts(self, rel) -> list:
+        """The text of each .cs file rel's .csproj group compiles from outside its directory (binder.linked_in), None
+        for one the pass cannot read, and one None more when a link may compile a file it cannot find. [] for a binder
+        without the rule."""
+        got = self.cs_binder_call(rel, "linked_in", self.cs_group_of(rel))
+        if not isinstance(got, tuple) or len(got) != 2:
+            return []
+        out: list = [] if got[1] is True else [None]
+        for r in got[0]:
+            try:
+                t = self.source.raw(r)
+            except Exception:  # noqa: BLE001 — a file the pass cannot read may say anything
+                t = None
+            out.append(t.decode("utf-8", "replace") if isinstance(t, bytes) else t if isinstance(t, str) else None)
+        return out
+
+    def cs_cu_reading(self, rel) -> tuple:
+        """(binder.cu_reading: rel's compilation-unit token, its project reading whole?): the token is rel's group, or
+        a per-file token and False for a file some other project may compile (a <Compile> link, a file in no project's
+        directory): its CU set then compares with no other file's (_cs_cu_comparable). (the group, True) for a binder
+        without it."""
+        got = self.cs_binder_call(rel, "cu_reading", rel)
+        if isinstance(got, tuple) and len(got) == 2:
+            return str(got[0]), got[1] is True
+        return self.cs_group_of(rel), True
 
     def cs_scope_levels(self, rel, key) -> "tuple | None":
         """C#: the lookup order of a simple type name written in class key's declaration in file rel (_cs cvis),
-        nearest first: ("m", namespace) an enclosing namespace's members, ("u", namespaces) the usings of a namespace
-        declaration enclosing it, the last ("u", ...) the compilation unit's usings with every `global using` of the
-        .csproj group. MSBuild's implicit usings are not read. None when unknown (no part of class key in rel, two
-        parts of it in rel under other usings, a reader without the table)."""
+        nearest first, per namespace declaration enclosing it, innermost out: ("m", namespace, ext) its members (ext:
+        cs_capable), ("a", ((alias, target), ...)) that declaration's own aliases (_cs cvalias; only when it has
+        some), ("u", usings, eff) its usings (eff: the usings that are not cs_transparent, plus the `using static`
+        types written there, whose nested types it imports: what may supply an external type), then the implicit
+        namespaces of a dotted declaration as more ("m", ...); last ("m", "", False), the compilation unit's own
+        aliases, and ("u", usings, eff, cu): its usings with every `global using` of the .csproj group and the
+        namespaces MSBuild surely adds (cs_group_tables), cu = (the group, its MSBuild reading complete?, the
+        namespaces it may add unseen; a file that may be compiled into another project reads per file and incomplete:
+        cs_cu_reading; then the package signature, when the reading has one: U3 / R45) — only when the binder reads
+        MSBuild. R29: each level is that DECLARATION's own (_cs frames / cframe: its usings, aliases and `using
+        static`s; another block of the same namespace holds its own). R24: a declaration's directives written inside a
+        preprocessor branch are no part of its "u" level (only possible) but a ("p", what they name) entry after it
+        (the compilation unit's before its "u", which stays last): a scope holding one is not complete (_cs_lev_ok).
+        R44: every level holds what a directive MEANS, never its text (cs_meant_decls): a using written inside a
+        namespace declaration is resolved from that declaration outward, as C# resolves it (`namespace App.Orders {
+        using Models; }` imports App.Orders.Models when it exists), so two declarations writing one text compare by
+        what each imports; a directive whose meaning is unknown joins the declaration's ("p", ...) entry as ("?u",
+        text) / ("?s", text) / ("?a", alias): every name it could supply is unknown there, and the scope is not
+        complete. None when unknown (no part of class key in rel, two parts of it in rel under other declarations, a
+        reader without the table, an unreadable frames table, parts whose directives mean different things)."""
         mk = ("cslev", rel, key)
         if mk in self.memo:
             return self.memo[mk]
         tb = self.cs_table(rel)
         cv = tb.get("cvis") if tb is not None else None
         out = None
-        if isinstance(cv, dict) and key is not None:
-            got = {cv.get(i) for r, i in self.class_parts(key) if r == rel}
-            frames = next(iter(got)) if len(got) == 1 else None
-            if isinstance(frames, tuple) and frames and all(isinstance(f, tuple) and len(f) == 2 for f in frames):
-                lev: list = []
-                for k in range(len(frames) - 1, 0, -1):
-                    ns, us = str(frames[k][0]), frames[k][1]
-                    outer = str(frames[k - 1][0])
-                    parts = ns.split(".")
-                    lev.append(("m", ns))
-                    if us:
-                        lev.append(("u", frozenset(us)))
-                    low = len(outer.split(".")) if outer else 0
-                    lev.extend(("m", ".".join(parts[:j])) for j in range(len(parts) - 1, low, -1))
-                lev.append(("m", ""))
-                lev.append(("u", frozenset(frames[0][1]) | self.cs_group_tables(rel)[0]))
-                out = tuple(lev)
+        idxs = [i for r, i in self.class_parts(key) if r == rel]
+        decl = self.cs_decls(tb, idxs) if isinstance(cv, dict) and key is not None else None
+        if decl:
+            decl = self.cs_meant_decls(rel, tb, idxs, decl)
+        if decl:
+            lev: list = []
+
+            def eff(us, sts):
+                return frozenset(u for u in us if not self.cs_transparent(rel, u)) | frozenset(sts)
+            for k in range(len(decl) - 1, 0, -1):
+                ns, us, pp, als, sts = decl[k]
+                outer = decl[k - 1][0]
+                parts = ns.split(".")
+                lev.append(("m", ns, self.cs_capable(rel, ns)))
+                if als:
+                    lev.append(("a", als))
+                if us or sts:
+                    lev.append(("u", frozenset(us), eff(us, sts)))
+                if pp:
+                    lev.append(("p", pp))
+                low = len(outer.split(".")) if outer else 0
+                lev.extend(("m", sub, self.cs_capable(rel, sub))
+                           for sub in (".".join(parts[:j]) for j in range(len(parts) - 1, low, -1)))
+            lev.append(("m", "", False))
+            _ns, us0, pp0, als0, sts0 = decl[0]
+            if als0:
+                lev.append(("a", als0))
+            if pp0:
+                lev.append(("p", pp0))
+            gt = self.cs_group_tables(rel)
+            cu = frozenset(us0) | gt[0]
+            cu_eff = eff(cu, sts0) | self.cs_group_statics(rel)
+            msb = self.cs_msbuild(rel)
+            if msb is not None:
+                token, whole = self.cs_cu_reading(rel)
+                meta = (token, bool(gt[3]) and whole, frozenset(gt[2]))
+                pk = msb[6] if len(msb) > 6 else _CS_NOPKG
+                lev.append(("u", cu, cu_eff, meta + ((pk,) if pk is not _CS_NOPKG else ())))
+            else:
+                lev.append(("u", cu, cu_eff))
+            out = tuple(lev)
         self.memo[mk] = out
         return out
 
+    def cs_decls(self, tb, idxs) -> "list | None":
+        """The namespace declarations enclosing class indexes idxs of one file (every part must have the same ones,
+        else None), the compilation unit first, each (namespace, its certain usings, what it writes inside a
+        preprocessor branch (R24: the usings, ("static", T), ("alias", X); empty when none), its aliases ((X, A.B),
+        ...) sorted, its `using static` types). R29: from the reader's frames / cframe (each declaration's own
+        directives); a reader without them: from cvis / cvalias, the statics by namespace name and nothing in a
+        branch, as before. None when unknown or unreadable."""
+        cv = tb.get("cvis")
+        got = {cv.get(i) for i in idxs}
+        frames = next(iter(got)) if len(got) == 1 else None
+        if not (isinstance(frames, tuple) and frames and all(isinstance(f, tuple) and len(f) == 2 for f in frames)):
+            return None
+        fr, cf = tb.get("frames"), tb.get("cframe")
+        if fr is not None or cf is not None:
+            return self.cs_frame_decls(fr, cf, idxs, len(frames))
+        ca = tb.get("cvalias") if isinstance(tb.get("cvalias"), dict) else {}
+        agot = {ca.get(i) for i in idxs}
+        als = next(iter(agot)) if len(agot) == 1 else None
+        if not (isinstance(als, tuple) and len(als) == len(frames) and all(isinstance(a, tuple) for a in als)):
+            als = None
+        stat: dict = {}
+        for s in tb.get("statics") or ():
+            if isinstance(s, tuple) and len(s) >= 3 and not s[1] and isinstance(s[0], str):
+                stat.setdefault(str(s[2]), set()).add(s[0])
+        return [(str(f[0]), tuple(f[1]), frozenset(), tuple(als[k]) if als is not None else (),
+                 frozenset(stat.get(str(f[0]), ()))) for k, f in enumerate(frames)]
+
+    def cs_meant_decls(self, rel, tb, idxs, decl) -> "list | None":
+        """R44: decl (cs_decls: per namespace declaration enclosing class indexes idxs of rel, the compilation unit
+        first, its directives as WRITTEN) with each namespace declaration's directives replaced by what they MEAN:
+        binder.decl_meanings(rel, class index) — per declaration of the class's R29 chain (frames / cframe), the
+        compilation unit first, a 7-tuple (namespace, usings, pp_usings, aliases, pp_aliases, statics, pp_statics)
+        aligned with that frame's text tuples, each meaning an absolute full name (str) or None (unknown: C#
+        resolves a directive written inside a namespace declaration from that declaration outward, `global::` aside,
+        and the binder cannot tell which candidate exists). A known meaning takes the text's place (a using: the
+        namespace it imports; a static: its type; an alias: its target); an unknown one moves to the declaration's
+        R24 entry as ("?u", text) / ("?s", text) / ("?a", alias name), so every name it could supply is unknown
+        there. The compilation unit's directives are absolute: kept as written. A binder without decl_meanings, an
+        answer that does not line up with the frames, or a reader without frames: every directive of a namespace
+        declaration is unknown (the rule is not read, so nothing written there is proven). None when two parts of
+        the class read differently."""
+        fr, cf = tb.get("frames"), tb.get("cframe")
+        got = None
+        for i in idxs or [None]:
+            chain: list = []
+            f, seen = cf.get(i) if isinstance(cf, dict) else None, set()
+            while isinstance(fr, (list, tuple)) and isinstance(f, int) and not isinstance(f, bool) \
+                    and 0 <= f < len(fr) and f not in seen:
+                seen.add(f)
+                chain.append(fr[f])
+                f = fr[f][1] if isinstance(fr[f], (list, tuple)) and len(fr[f]) > 1 else None
+            chain.reverse()
+            ms = self.cs_binder_call(rel, "decl_meanings", rel, i) if i is not None else None
+            if len(chain) != len(decl) or not isinstance(ms, (list, tuple)) or len(ms) != len(decl):
+                chain, ms = [None] * len(decl), [None] * len(decl)
+            cur = [d if k == 0 else self.cs_meant_decl(d, chain[k], ms[k]) for k, d in enumerate(decl)]
+            if got is not None and cur != got:
+                return None
+            got = cur
+        return got
+
+    @staticmethod
+    def cs_meant_decl(d, e, mm) -> tuple:
+        """cs_meant_decls for one namespace declaration d (namespace, usings, R24 entry, aliases, statics), its raw
+        frame e (8-tuple: namespace, parent, usings, pp_usings, aliases, pp_aliases, statics, pp_statics) and its
+        meanings mm (7-tuple aligned with e[2:]); e / mm None or not lining up: every directive unknown."""
+        ns, us, pp, als, sts = d
+        ok = isinstance(e, (list, tuple)) and len(e) == 8 and isinstance(mm, (list, tuple)) and len(mm) == 7 \
+            and mm[0] == e[0] == ns and all(isinstance(mm[j], (list, tuple)) and isinstance(e[j + 1], (list, tuple))
+                                            and len(mm[j]) == len(e[j + 1]) for j in range(1, 7))
+        if not ok:
+            unk = frozenset(("?u", str(u)) for u in us) | frozenset(("?s", str(s)) for s in sts) \
+                | frozenset(("?a", str(a[0])) for a in als)
+            return ns, (), frozenset(pp) | unk, (), frozenset()
+        mean = {}
+        for j in range(1, 7):
+            mean[j] = [m if isinstance(m, str) and m else None for m in mm[j]]
+        nus, npp, nals, nsts = [], set(), set(), set()
+        for t, m in zip(e[2], mean[1]):
+            (nus.append(m) if m is not None else npp.add(("?u", str(t))))
+        for t, m in zip(e[3], mean[2]):
+            npp.add(m if m is not None else ("?u", str(t)))
+        for j, side in ((4, 3), (5, 4)):
+            for a, m in zip(e[j], mean[side]):
+                name = str(a[0]) if isinstance(a, (list, tuple)) and a else str(a)
+                if m is None:
+                    npp.add(("?a", name))
+                else:
+                    nals.add((name, m))
+                    if j == 5:
+                        npp.add(("alias", name))
+        for t, m in zip(e[6], mean[5]):
+            (nsts.add(m) if m is not None else npp.add(("?s", str(t))))
+        for t, m in zip(e[7], mean[6]):
+            npp.add(("static", m) if m is not None else ("?s", str(t)))
+        return ns, tuple(nus), frozenset(npp), tuple(sorted(nals)), frozenset(nsts)
+
+    @staticmethod
+    def cs_frame_decls(fr, cf, idxs, depth) -> "list | None":
+        """cs_decls from the reader's R29 tables: frames [(namespace, parent frame, usings, pp_usings, aliases,
+        pp_aliases, statics, pp_statics)] and cframe {class index: its frame}; every part's chain of declarations must
+        be the same in content (a partial class's parts in two blocks of one name and one set of directives read as
+        one, as cvis does) and `depth` long (cvis'). None when unreadable."""
+        if not isinstance(fr, (list, tuple)) or not isinstance(cf, dict) or not idxs:
+            return None
+        out = None
+        for i in idxs:
+            f, chain, seen = cf.get(i), [], set()
+            while isinstance(f, int) and not isinstance(f, bool) and 0 <= f < len(fr) and f not in seen:
+                seen.add(f)
+                e = fr[f]
+                if not (isinstance(e, (list, tuple)) and len(e) == 8 and isinstance(e[0], str)
+                        and all(isinstance(x, (list, tuple)) for x in e[2:])):
+                    return None
+                try:
+                    pp = frozenset(str(u) for u in e[3]) | frozenset(("static", str(s)) for s in e[7]) \
+                        | frozenset(("alias", str(a[0])) for a in e[5])
+                    chain.append((e[0], tuple(str(u) for u in e[2]), pp,
+                                  tuple(sorted({(str(a[0]), str(a[1])) for a in tuple(e[4]) + tuple(e[5])})),
+                                  frozenset(str(s) for s in e[6])))
+                except (TypeError, IndexError):
+                    return None
+                f = e[1]
+            if f != -1 or not chain:
+                return None
+            chain.reverse()
+            if len(chain) != depth or (out is not None and chain != out):
+                return None
+            out = chain
+        return out
+
     def cs_sig_of(self, ci, mf, m, s, subst):
-        """((normalised type, by-ref?), ...) of definition mf of member m of class ci (its mparams `s`, its msig), the
-        type parameters of its class read through `subst` (cs_subst); None when the reader kept no msig for it."""
+        """((normalised type, passing: _CS_BYREF), ...) of definition mf of member m of class ci (its mparams `s`, its
+        msig), the type parameters of its class read through `subst` (cs_subst); None when the reader kept no msig for
+        it. R22: the signature C# compares (overriding, hiding, interface mapping, CS0111) is the WHOLE parameter list
+        and the method's own generic arity: the `params` parameter (_cs msigp, apart from msig) follows as an ordinary
+        parameter (its type; `params` is no passing mode: `M(params int[] a)` and `M(int[] a)` are one signature), and
+        the arity last as (("#arity", n), "#") (cs_sig_arity): `Save<T>(Order)` and `Save(Order)` are two signatures.
+        A reader without the R22 tables: the parameters it lists, as before; a table without this member's entry
+        (two members on one line): None."""
         sig = self.cs_member(ci, mf, m, "msig")
         if not isinstance(sig, tuple) or not isinstance(s, tuple) or not s or len(sig) != len(s[0]):
             return None
+        tail = self.cs_sig_tail(ci, mf, m)
+        if tail is None:
+            return None
         rel_d = self.rel_of(ci, mf)
-        return tuple((self.cs_sig_norm(t, rel_d, ci.key, subst, scope=ci.key), p[1] in ("ref", "out", "in"))
-                     for t, p in zip(sig, s[0]))
+        return tuple((self.cs_sig_norm(t, rel_d, ci.key, subst, scope=ci.key), _CS_BYREF.get(p[1], ""))
+                     for t, p in zip(sig, s[0])) + tuple(
+            (self.cs_sig_norm(t, rel_d, ci.key, subst, scope=ci.key), "") for t in tail[0]) + tail[1]
+
+    def cs_sig_tail(self, ci, mf, m):
+        """R22: (the `params` parameter's written types (_cs msigp: () or one), the arity element: ((("#arity", n),
+        "#"),)) of definition mf of member m of class ci, ((), ()) for a reader without the R22 tables (msigp and
+        marity both absent: the signature as before), None when unknown (one table without the other, or no valid
+        entry for this member)."""
+        sp, ar = self.cs_member(ci, mf, m, "msigp"), self.cs_member(ci, mf, m, "marity")
+        if sp is _NOINFO and ar is _NOINFO:
+            return (), ()
+        if not isinstance(sp, tuple) or len(sp) > 1 or isinstance(ar, bool) or not isinstance(ar, int) or ar < 0:
+            return None
+        return sp, ((("#arity", ar), "#"),)
+
+    def cs_raw_sig(self, ci, mf, m, s):
+        """The raw signature of definition mf of m in class ci (cs_same_sig's fallback without msig): its mparams
+        TypeRefs (_cs_sig_params), then R22's `params` parameter TypeRef (_cs mparamsp) and its own generic arity
+        (_cs marity) when the reader keeps those tables; None when unknown."""
+        p = self._cs_sig_params(s)
+        if p is None:
+            return None
+        pp, ar = self.cs_member(ci, mf, m, "mparamsp"), self.cs_member(ci, mf, m, "marity")
+        if pp is _NOINFO and ar is _NOINFO:
+            return p
+        if not isinstance(pp, tuple) or len(pp) > 1 or not all(isinstance(x, tuple) and x for x in pp) \
+                or isinstance(ar, bool) or not isinstance(ar, int) or ar < 0:
+            return None
+        return p + tuple(x[0] for x in pp) + (("#arity", ar),)
 
     def cs_same_sig(self, p, sig, mine, skip=0) -> bool:
         """Is a definition (raw parameter types p, normalised signature sig; its first `skip` parameters dropped: an
         extension's `this`) PROVEN one of the hit's own signatures (`mine`: [(raw, normalised)])? Normalised where both
         sides have one (cs_sig_cmp: only True counts; a signature the pass cannot tell stays a rival), else by the raw
-        TypeRefs (a reader without msig: the rule as before)."""
+        TypeRefs (a reader without msig: the rule as before; cs_raw_sig, R22's `params` parameter and arity included).
+        """
         for q, qs in mine:
             if sig is not None and qs is not None:
                 if self.cs_sig_cmp(sig[skip:], qs) is True:
                     return True
-            elif p[skip:] == q:
+            elif p is not None and q is not None and p[skip:] == q:
                 return True
         return False
 
     @staticmethod
     def cs_sig_cmp(a, b) -> "bool | None":
-        """Two normalised signatures (cs_sig_of: ((type, by-ref?), ...)): True one signature, False two, None unknown
-        (a missing side, a parameter type _cs_tcmp cannot tell)."""
+        """Two normalised signatures (cs_sig_of: ((type, passing), ...)): True one signature, False two, None unknown
+        (a missing side, a parameter type _cs_tcmp cannot tell). R22: the arity element (("#arity", n), "#") ends a
+        signature the reader recorded it for: two arities, two signatures (False); a signature with it against one
+        without (a reader without the table): None."""
         if a is None or b is None:
+            return None
+        if (bool(a) and a[-1][1] == "#") != (bool(b) and b[-1][1] == "#"):
             return None
         if len(a) != len(b):
             return False
@@ -3817,6 +5462,111 @@ class _Linker:
         sub = self.cs_subst(frame, ci.key)
         return None if sub is None else self.cs_sig_of(ci, mf, m, s, sub)
 
+    def cs_recv_sigma(self, rel, si, recv, key):
+        """(g1) The receiver's DECLARED type arguments for class key's own type parameters, as ((type parameter,
+        normalised type: cs_sig_norm's ("c", class, name) / ("b", keyword) / ("?", inner, True)), ...) sorted, or None:
+        the receiver's declared type (cs_decl_typeref: a parameter, an `ann` local, a field / property; never a `var`
+        or constructed local, never `this`) must be key<A1..An> with n = key's own type parameters; an argument with
+        no cs_type_desc (a type parameter, a generic, an external type) keeps the identity token (as before)."""
+        if recv is None or key not in self.classes:
+            return None
+        mk = ("cssig", rel, si, id(recv), key)
+        if mk in self.memo:
+            return self.memo[mk]
+        out = None
+        d = self.cs_decl_typeref(rel, si, recv)
+        t = d[0] if d is not None else None
+        if t is not None and t.kind == "nullable" and t.args:
+            t = t.args[0]                          # the receiver's own `?`: an annotation
+        order = self.cs_tporder(key)
+        if t is not None and t.kind == "generic" and order and len(t.args) - 1 == len(order):
+            hv = self.eval_type(t.args[0], d[1], d[2], opaque=False, ctx=d[3], arity=len(t.args) - 1)
+            if hv.kind == "inst" and hv.keys == frozenset({key}):
+                got = {}
+                for name, a in zip(order, t.args[1:]):
+                    n = self.cs_desc_norm(self.cs_type_desc(a, d[1], d[2], d[3]))
+                    if n is not None:
+                        got[name] = n
+                out = tuple(sorted(got.items())) or None
+        self.memo[mk] = out
+        return out
+
+    def cs_rival_plain(self, rel, key, m, look, argc, on_class, allow_ext, access=None) -> str:
+        """cs_rival_kind for a call other than the site whose overload rule runs (a chained call's return type):
+        never with that site's receiver type arguments (cs_sig_now cleared while it runs); `access`: its own place."""
+        prev, pa = getattr(self, "cs_sig_now", None), getattr(self, "cs_acc_now", None)
+        self.cs_sig_now, self.cs_acc_now = None, access
+        try:
+            return self.cs_rival_kind(rel, key, m, look, argc, on_class, allow_ext)
+        finally:
+            self.cs_sig_now, self.cs_acc_now = prev, pa
+
+    def cs_desc_norm(self, desc):
+        """A cs_type_desc as cs_sig_norm writes that type, or None."""
+        if not isinstance(desc, tuple) or len(desc) != 2:
+            return None
+        if desc[0] == "b":
+            return ("b", _CS_SYSTEM_ALIAS.get(str(desc[1]), str(desc[1])))
+        if desc[0] == "c":
+            ck = self.classes.get(desc[1])
+            return ("c", desc[1], str(getattr(ck.facts, "name", "") or "") if ck is not None else "")
+        if desc[0] == "?":
+            inner = self.cs_desc_norm(desc[1])
+            return ("?", inner, True) if inner is not None else None
+        return None
+
+    def cs_sigma_key(self, key):
+        """The receiver's type arguments (cs_recv_sigma) the running overload rule reads for class key, or None."""
+        now = getattr(self, "cs_sig_now", None)
+        return now[1] if isinstance(now, tuple) and len(now) == 2 and now[0] == key else None
+
+    def cs_sigma_subst(self, key, subst) -> dict:
+        """(g1) A cs_subst map seen from receiver class key with the receiver's type arguments (cs_sigma_key) put in
+        for key's own type-parameter tokens ("tpv", key, name); unchanged without them."""
+        sig = self.cs_sigma_key(key)
+        if not sig or not subst:
+            return subst
+        table = dict(sig)
+
+        def put(t, depth=0):
+            if not isinstance(t, tuple) or not t or depth > _EVAL_DEPTH:
+                return t
+            if t[0] == "tpv" and len(t) == 3 and t[1] == key and t[2] in table:
+                return table[t[2]]
+            if t[0] == "g":
+                return (t[0],) + tuple(put(x, depth + 1) for x in t[1:])
+            if t[0] in ("?", "[]") and len(t) > 1:
+                return (t[0], put(t[1], depth + 1)) + tuple(t[2:])
+            return t
+        return {k: put(v) for k, v in subst.items()}
+
+    def cs_tp_param(self, X, mf, m, i):
+        """(g1) cs_args_fit: the i-th parameter of definition mf of m in class X when it is one of X's type parameters,
+        as cs_param_type reads a type ("c", class key) / ("b", keyword) / ("b?", keyword), through the substituted map
+        of the running overload rule's receiver class: the base lists from it to X (cs_subst: `CartStore : Store<Order>`
+        reads Store<T>'s `Save(T)` as `Save(Order)`) and the receiver's declared type arguments (cs_sigma_subst); None
+        otherwise (a type parameter nothing fixes: as before, never fits)."""
+        now = getattr(self, "cs_sig_now", None)
+        if not isinstance(now, tuple) or len(now) != 2 or now[0] not in self.classes:
+            return None
+        sig = self.cs_member(X, mf, m, "msig")
+        if not isinstance(sig, tuple) or not 0 <= i < len(sig) or not isinstance(sig[i], tuple) \
+                or sig[i][:1] != ("tp",) or len(sig[i]) < 2:
+            return None
+        sub = self.cs_subst(now[0], X.key)
+        if sub is None:
+            return None
+        v = self.cs_sigma_subst(now[0], sub).get(sig[i][1])
+        if not isinstance(v, tuple) or not v:
+            return None
+        if v[0] == "c" and len(v) > 1:
+            return ("c", v[1])
+        if v[0] == "b" and len(v) > 1:
+            return ("b", v[1])
+        if v[0] == "?" and len(v) > 1 and isinstance(v[1], tuple) and v[1][:1] == ("b",) and len(v[1]) > 1:
+            return ("b?", v[1][1])
+        return None
+
     def cs_rival_kind(self, rel, key, m, look, argc, on_class, allow_ext) -> str:
         """LanguageSpec.lookup_rules overloads (C#): "none" | "rival" | "noinfo" — does member m, which lookup on class
         key bound to look's hit, have a RIVAL the compiler may bind instead: a definition of m of another signature,
@@ -3829,33 +5579,73 @@ class _Linker:
         CancellationToken ct)` under `: BaseHandler<CreateOrder, int>`, so the definition it overrides is no rival;
         one the path leaves open is never the same type), a project type by its class, `System.Int32` as `int`, an
         alias as its target, an external name by its scope's usings (`System.Threading.CancellationToken` is
-        `CancellationToken` under `using System.Threading;`). An external base's overloads are not read. "noinfo":
-        the reader keeps no _cs table (the rule does not apply); any other language: "none"."""
+        `CancellationToken` under `using System.Threading;`). An external base's overloads are not read. R42: an
+        UNRESOLVED base after the hit that may name a project type (cs_unres_proj) is never read like an external one:
+        L1, it is external or one of the project types of its name / the targets of aliases of its name, with their
+        chains (cs_unres_targets), so "rival" (unknown) when one of those may hold a rival overload (cs_unres_rival);
+        and an extension's `this` type counts on the receiver's chain when it is one of those types (cs_unres_reach;
+        unknown candidates: any type). "noinfo": the reader keeps no _cs table (the rule does not apply); any other
+        language: "none"."""
         spec = self.spec_of(rel)
         if spec is None or "overloads" not in spec.lookup_rules or look.kind != "hit" or look.is_class \
                 or look.owner is None or self.cs_table(rel) is None:
             return "none"
-        mk = ("ovr", rel, key, m, look.owner.key, argc, bool(on_class), bool(allow_ext))
+        mk = ("ovr", rel, key, m, look.owner.key, argc, bool(on_class), bool(allow_ext), self.cs_sigma_key(key),
+              getattr(self, "cs_acc_now", None))
         if mk not in self.memo:
             self.memo[mk] = self._cs_rival_kind(rel, key, m, look.owner, argc, on_class, allow_ext)
         return self.memo[mk]
 
+    def cs_unres_rival(self, key, nm, m, argc, on_class, iface_recv, mine) -> bool:
+        """L1 (within R42, _cs_rival_kind): may an UNRESOLVED base named nm after the hit on key's chain bring a RIVAL
+        overload of m? It is external (its overloads are not read: the known gap of every external base) or one of
+        the project types it may be with their chains (cs_unres_targets): a rival when one of those classes (an
+        interface only for an interface receiver) is unknown or ambiguous, or defines m taking argc arguments with a
+        signature not PROVEN the hit's own (its type parameters are fixed only along a known path from key, cs_subst:
+        off that path they stay open, so only a non-generic signature can be proven the same); unknown candidates:
+        yes."""
+        got = self.cs_unres_targets(nm)
+        if got is None:
+            return True
+        for ck in sorted(got):
+            c = self.classes.get(ck)
+            if c is None or c.ambiguous:
+                return True
+            if c.facts.kind == "interface" and not iface_recv:
+                continue                           # an interface member is no candidate of a class's member lookup
+            subst = None
+            for mf in self.member_defs(c, m, on_class):
+                s = self.cs_member(c, mf, m, "mparams")
+                p = self.cs_raw_sig(c, mf, m, s)
+                if p is None:
+                    return True
+                if subst is None:
+                    subst = self.cs_sigma_subst(key, self.cs_subst(key, c.key) or {})
+                q = self.cs_sig_of(c, mf, m, s, subst)
+                if not self._cs_sig_takes(s[0], s[1], argc) or self.cs_same_sig(p, q, mine) is True:
+                    continue                       # another arity, or PROVEN the hit's own signature (hidden by it)
+                return True
+        return False
+
     def _cs_rival_kind(self, rel, key, m, X, argc, on_class, allow_ext) -> str:
         mine = []                                  # [(raw parameter types, normalised signature or None)]: the hit's
-        for mf in self.member_defs(X, m, on_class):    # own, its class's type parameters as the receiver's chain
+        for mf in self.cs_seen_defs(X, m, on_class):   # own, its class's type parameters as the receiver's chain
             s = self.cs_member(X, mf, m, "mparams")    # fixes them (cs_subst)
             if s is _NOINFO:
                 return "noinfo"
-            p = self._cs_sig_params(s)
+            p = self.cs_raw_sig(X, mf, m, s)
             if p is None:
                 return "rival"                     # the hit's own signature is unknown: nothing can be compared
-            mine.append((p, self.cs_sig_of(X, mf, m, s, self.cs_subst(key, X.key) or {})))
+            mine.append((p, self.cs_sig_of(X, mf, m, s, self.cs_sigma_subst(key, self.cs_subst(key, X.key) or {}))))
         levels = self.mro(key)
         entries = [e for lv in (levels or ()) for e in lv]
         if ("class", X.key) not in entries:
             return "rival"
         iface_recv = key in self.classes and self.classes[key].facts.kind == "interface"
         for e in entries[entries.index(("class", X.key)) + 1:]:
+            if e[0] == "unres" and self.cs_unres_proj(e[1]) \
+                    and self.cs_unres_rival(key, e[1], m, argc, on_class, iface_recv, mine):
+                return "rival"                     # R42: an unresolved base may be any project class: unknown
             if e[0] != "class":
                 break                              # an external base's overloads are not read (a known gap)
             c = self.classes.get(e[1])
@@ -3866,11 +5656,12 @@ class _Linker:
             subst = None
             for mf in self.member_defs(c, m, on_class):
                 s = self.cs_member(c, mf, m, "mparams")
-                p = self._cs_sig_params(s)
+                p = self.cs_raw_sig(c, mf, m, s)
                 if p is None:
                     return "rival"
                 if subst is None:                  # c's type parameters as the receiver's base lists fix them
                     subst = self.cs_subst(key, c.key) or {}
+                    subst = self.cs_sigma_subst(key, subst)    # (g1) and as the receiver's type arguments do
                 q = self.cs_sig_of(c, mf, m, s, subst)
                 if not self._cs_sig_takes(s[0], s[1], argc) or self.cs_same_sig(p, q, mine):
                     continue                       # another arity, or the hit's own signature (hidden / overridden:
@@ -3882,7 +5673,11 @@ class _Linker:
             cands = list(fn(rel, m) or ()) if callable(fn) else []
         except Exception:  # noqa: BLE001
             return "rival"
-        chain = self.mro_class_keys(key) | {key}
+        chain = {e[1] for e in entries if e[0] == "class"} | {key}     # every project type on key's chain, also one
+        #                                                                after an external base; R42 / L1: an
+        extra = self.cs_unres_reach(key)                               # unresolved base adds the types it may be
+        unres = extra is None                                          # and their chains (None: ANY type)
+        chain |= extra or frozenset()
         for item in cands:
             try:
                 crel, cidx, tref = _norm_rel(item[0]), int(item[1]), item[2]
@@ -3890,21 +5685,31 @@ class _Linker:
                 return "rival"
             sk = self.class_key.get((crel, cidx))
             tv = self.eval_type(tref, crel, -1, ctx=sk) if _ok_typeref(tref) else _UNK
-            if tv.kind == "ext" or (tv.kind == "inst" and len(tv.keys) == 1 and next(iter(tv.keys)) not in chain):
+            if tv.kind == "ext" or (tv.kind == "inst" and len(tv.keys) == 1 and next(iter(tv.keys)) not in chain
+                                    and not unres):
                 continue                           # an extension of a builtin / external type, or off the chain
             sci = self.classes.get(sk) if sk is not None else None
             if sci is None or sci.ambiguous:
                 return "rival"
             for mf in (mf for mf in sci.facts.methods.get(m) or () if "static" in mf.flags):
                 s = self.cs_member(sci, mf, m, "mparams")
-                p = self._cs_sig_params(s)
-                if p is None or not p:
+                p = self.cs_raw_sig(sci, mf, m, s)
+                if p is None or not self._cs_sig_params(s):
                     return "rival"
                 if not self._cs_sig_takes(s[0][1:], s[1], argc) or \
                         self.cs_same_sig(p, self.cs_sig_of(sci, mf, m, s, {}), mine, skip=1):
                     continue
                 return "rival"
         return "none"
+
+    def cs_nongeneric(self, ci, mf, m) -> bool:
+        """R22: is definition mf of m in class ci known to declare no type parameter of its own (_cs marity 0)? A
+        generic method is never KNOWN to fit the arguments (cs_args_fit, cs_def_fits): a call without type arguments
+        binds it only when inference fixes every type parameter (`Save<T>(Order o)` cannot infer T: `_d.Save(o)`
+        binds another candidate), and a non-generic candidate of the same parameter types is better (C# 12.6.4.3).
+        True for a reader without the table (as before)."""
+        ar = self.cs_member(ci, mf, m, "marity")
+        return ar is _NOINFO or (ar == 0 and not isinstance(ar, bool))
 
     def cs_args_fit(self, rel, si, idx, X, m, argc, on_class) -> bool:
         """Are the site's argument types KNOWN to convert to the declared parameter types of one of class X's
@@ -3917,23 +5722,40 @@ class _Linker:
         if not isinstance(args, tuple) or (argc >= 0 and len(args) != argc):
             return False
         descs = [self.cs_arg_type(rel, si, a) for a in args]
-        for mf in self.member_defs(X, m, on_class):
+        for mf in self.cs_seen_defs(X, m, on_class):
             s = self.cs_member(X, mf, m, "mparams")
-            if self._cs_sig_params(s) is None:
+            if self._cs_sig_params(s) is None or not self.cs_nongeneric(X, mf, m):
                 continue
             params, _variadic = s
             if len(args) > len(params) or any(not p[2] for p in params[len(args):]):
                 continue                           # a `params` array's extra arguments are not matched
             if all(p[1] not in ("ref", "out", "this")
-                   and self.cs_fits(a, self.cs_param_type(X, self.rel_of(X, mf), p[0]))
-                   for a, p in zip(descs, params)):
+                   and self.cs_fits(a, self.cs_param_type(X, self.rel_of(X, mf), p[0])
+                                    or self.cs_tp_param(X, mf, m, i))
+                   for i, (a, p) in enumerate(zip(descs, params))):
                 return True
         return False
 
     def cs_overloads(self, rel, si, idx, site, key, look, on_class, allow_ext) -> str:
         """LanguageSpec.lookup_rules overloads (C#) for one site whose lookup on class key hit `look`: "ok" (no rival:
         the hit stands as before), "weak" (a rival exists and the argument types are known to fit the hit: typed,
-        never EXTRACTED) or "unknown" (a rival, arguments not known to fit: the compiler may bind the rival)."""
+        never EXTRACTED) or "unknown" (a rival, arguments not known to fit: the compiler may bind the rival). (g1) The
+        signatures compare with the receiver's DECLARED type arguments substituted for its class's type parameters
+        (cs_recv_sigma: `Repo11<Order> _r` reads Repo11<T>'s `Save(T)` as `Save(Order)`), as C#'s overload resolution
+        sees the constructed type; override slots and interface mappings keep the generic declarations. The hit's own
+        definitions are those the call site sees (cs_acc_now: cs_unseen). Another language has no such rule: "ok"."""
+        spec = self.spec_of(rel)
+        if spec is None or "overloads" not in spec.lookup_rules:
+            return "ok"
+        prev, pa = getattr(self, "cs_sig_now", None), getattr(self, "cs_acc_now", None)
+        self.cs_sig_now = (key, self.cs_recv_sigma(rel, si, site.recv, key))
+        self.cs_acc_now = self.cs_access(rel, si)
+        try:
+            return self._cs_overloads(rel, si, idx, site, key, look, on_class, allow_ext)
+        finally:
+            self.cs_sig_now, self.cs_acc_now = prev, pa
+
+    def _cs_overloads(self, rel, si, idx, site, key, look, on_class, allow_ext) -> str:
         kind = self.cs_rival_kind(rel, key, site.member, look, site.argc, on_class, allow_ext)
         if kind != "rival":
             return "ok"
@@ -3946,7 +5768,197 @@ class _Linker:
             st["fit"] += 1
             return "weak"
         st["unknown"] += 1
+        if allow_ext and idx >= 0 and not on_class:
+            bound = self.cs_rival_bind(rel, si, idx, site, key, look.owner)
+            if bound is not None:              # (g2) the class the compiler binds, proven: typed, held ADD-only
+                st["rival"] = st.get("rival", 0) + 1
+                self.memo[("csg2", rel, si, idx, key)] = bound
+                return "rival"
         return "unknown"
+
+    def cs_convops(self):
+        """(g2) The class keys declaring a user-defined conversion operator (_cs convops: `implicit operator` /
+        `explicit operator`), or None when a C# file's reader keeps no such table (no argument is then ever proven
+        inconvertible to or from a project type)."""
+        mk = ("csconv",)
+        if mk not in self.memo:
+            out: "set | None" = set()
+            for rel in sorted(self.facts):
+                spec = self.spec_of(rel)
+                if spec is None or "overloads" not in spec.lookup_rules:
+                    continue
+                tb = self.cs_table(rel)
+                cv = tb.get("convops") if tb is not None else None
+                if not isinstance(cv, (list, tuple)):
+                    out = None
+                    break
+                out.update(k for k in (self.class_key.get((rel, i)) for i in cv) if k is not None)
+            self.memo[mk] = frozenset(out) if out is not None else None
+        return self.memo[mk]
+
+    def cs_closed_noconv(self, key):
+        """(g2) The project types on class key's chain when that chain is closed (no external / unresolved entry) and
+        no class on it declares a conversion operator (cs_convops: a user-defined conversion is looked up in the source
+        and target types and their base classes); None otherwise."""
+        conv = self.cs_convops()
+        if conv is None or key not in self.classes:
+            return None
+        sup, closed = self.cs_supertypes(key)
+        return sup if closed and not (sup & conv) else None
+
+    def cs_not_fits(self, a, p) -> bool:
+        """(g2) Is an argument of static type a (cs_arg_type) PROVEN not implicitly convertible to parameter type p
+        (cs_param_type)? Only for: a string / bool literal to a predefined type other than its own or object (never to
+        a project type: an interpolated string may convert to a project interpolated-string handler); a value of a
+        predefined type to a predefined type with no implicit conversion from it (identity, the numeric widenings of
+        _CS_WIDEN; an int / long that may be a constant may narrow to a smaller integral type: never proven) or to a
+        project class / struct with a closed chain that declares no conversion operator (an enum may take a constant
+        0: never proven); a project type to a project type off its closed chain, neither chain declaring a conversion
+        operator, or to a predefined type other than object (its chain declaring none). Null, lambdas, method groups,
+        `params` elements, an unknown or `dynamic` type: never proven."""
+        if a is None or p is None:
+            return False
+        if p[0] == "b" and p[1] in ("object", "dynamic"):
+            return False
+        if a[0] == "b" and a[1] in ("object", "dynamic"):
+            return a[1] == "object" and p[0] in ("b", "b?") and p[1] in _CS_KNOWN
+        if a[0] in ("lit", "b"):
+            if a[0] == "lit" and a[1] not in ("string", "bool"):
+                return False                       # a numeric / char literal may convert as a constant
+            if p[0] in ("b", "b?"):
+                if a[1] == p[1] or p[1] in _CS_WIDEN.get(a[1], ()):
+                    return False
+                if a[1] == "int" and p[1] in ("sbyte", "byte", "short", "ushort", "uint", "ulong"):
+                    return False                   # a constant int in range converts implicitly
+                if a[1] == "long" and p[1] == "ulong":
+                    return False
+                return a[1] in _CS_KNOWN and p[1] in _CS_KNOWN
+            if p[0] == "c":
+                pc = self.classes.get(p[1])
+                if a[0] == "lit" or pc is None or pc.facts.kind == "enum":
+                    return False                   # an interpolated string may convert to a project handler type
+                return self.cs_closed_noconv(p[1]) is not None
+            return False
+        if a[0] != "c":
+            return False
+        sa = self.cs_closed_noconv(a[1])
+        if sa is None:
+            return False
+        if p[0] == "c":
+            return p[1] not in sa and self.cs_closed_noconv(p[1]) is not None
+        if p[0] in ("b", "b?"):
+            return p[1] in _CS_KNOWN
+        return False
+
+    def cs_args_descs(self, rel, si, idx, argc):
+        """(g2) The static types of the site's arguments (cs_arg_type), or None when its argument list is unknown
+        (a named / ref / out / in argument, another count) or holds a `dynamic` value (bound at run time)."""
+        t = self.cs_table(rel)
+        try:
+            args = t["args"][si][idx]
+        except (TypeError, KeyError, IndexError):
+            return None
+        if not isinstance(args, tuple) or (argc >= 0 and len(args) != argc):
+            return None
+        descs = list(map(lambda a: self.cs_arg_type(rel, si, a), args))
+        if any(d is not None and d[:2] == ("b", "dynamic") for d in descs):
+            return None
+        return descs
+
+    def cs_inapplicable(self, ci, mf, m, descs) -> bool:
+        """(g2) Is definition mf of m in class ci PROVEN inapplicable to arguments of static types descs (no named,
+        ref, out or in argument): it cannot take that many (_cs_sig_takes), a `ref` / `out` parameter gets a value,
+        or one argument is proven not convertible to its parameter (cs_not_fits; a type parameter of the class as the
+        receiver's type arguments fix it: cs_tp_param)? A generic method's own type parameters, a `params` array's
+        elements, an unknown parameter and C# 12's `ref readonly` parameter (it takes a value argument, like `in`, and
+        the rule does not judge it further) are never proven."""
+        s = self.cs_member(ci, mf, m, "mparams")
+        if self._cs_sig_params(s) is None:
+            return False
+        params, variadic = s
+        if not self._cs_sig_takes(params, variadic, len(descs)):
+            return True
+        rel_d = self.rel_of(ci, mf)
+        for i, (a, p) in enumerate(zip(descs, params)):
+            if p[1] in ("ref", "out"):
+                return True
+            if p[1] == "this":
+                return False
+            if p[1] == "ref readonly":
+                continue
+            if self.cs_not_fits(a, self.cs_param_type(ci, rel_d, p[0]) or self.cs_tp_param(ci, mf, m, i)):
+                return True
+        return False
+
+    def cs_def_fits(self, ci, mf, m, descs) -> bool:
+        """(g2) Are the arguments' static types KNOWN to convert to definition mf's parameters (cs_args_fit, one
+        definition)?"""
+        s = self.cs_member(ci, mf, m, "mparams")
+        if self._cs_sig_params(s) is None or not self.cs_nongeneric(ci, mf, m):
+            return False
+        params, _variadic = s
+        if len(descs) > len(params) or any(not p[2] for p in params[len(descs):]):
+            return False
+        rel_d = self.rel_of(ci, mf)
+        return all(p[1] not in ("ref", "out", "this")
+                   and self.cs_fits(a, self.cs_param_type(ci, rel_d, p[0]) or self.cs_tp_param(ci, mf, m, i))
+                   for i, (a, p) in enumerate(zip(descs, params)))
+
+    def cs_rival_bind(self, rel, si, idx, site, key, X):
+        """(g2, rule overloads) A NEW binding, ADD-only: an instance call whose lookup on CLASS key hit class X's m,
+        with a rival and arguments not known to fit X's, binds a base class c's m when — walking key's chain from X
+        up, every entry a readable project class — every definition of m in X and in each class strictly between X
+        and c is PROVEN inapplicable (cs_inapplicable), and c declares a definition the arguments are KNOWN to fit
+        (cs_def_fits), none of those an `override` (an override is no candidate: its virtual's class may decide) and
+        each one the call site surely sees: public, or internal / protected internal in the caller's own .csproj group
+        (C#'s member lookup keeps accessible members only, 12.5: a private / protected / private protected base
+        overload is skipped and a class further up binds, so such a c decides nothing). C# keeps only the candidates
+        of the most derived class that has an applicable one (spec 12.6.4.1): that is c, and every candidate of c the
+        arguments may fit is c's one node. The _Look of c's node, or None. The site is typed to it, never EXTRACTED,
+        and its group never REPLACEs (the "rival" hold) until a Roslyn-referenced fuzz shows no divergence."""
+        m = site.member
+        if X is None or key not in self.classes or self.classes[key].facts.kind == "interface":
+            return None
+        descs = self.cs_args_descs(rel, si, idx, site.argc)
+        if descs is None:
+            return None
+        entries = [e for lv in (self.mro(key) or ()) for e in lv]
+        if ("class", X.key) not in entries:
+            return None
+        ev = set()
+        for e in entries[entries.index(("class", X.key)):]:
+            if e[0] != "class":
+                return None                        # an external / unresolved base: its overloads are not read
+            c = self.classes.get(e[1])
+            if c is None or c.ambiguous or c.facts.dynamic:
+                return None
+            if c.facts.kind == "interface":
+                continue
+            ev.add(c.rel)
+            defs = self.member_defs(c, m, False)
+            if not defs or all(self.cs_inapplicable(c, mf, m, descs) for mf in defs):
+                continue
+            if c is X:
+                return None                        # the hit itself may apply
+            fit = [mf for mf in defs if self.cs_def_fits(c, mf, m, descs)]
+            if not fit:
+                return None
+            for mf in fit:
+                mods = self.cs_member(c, mf, m, "mods")
+                if not isinstance(mods, frozenset) or "override" in mods or "static" in mf.flags:
+                    return None
+                acc = mods & _CS_ACCESS
+                if acc != {"public"} and not (acc in ({"internal"}, {"protected", "internal"})
+                                              and self.cs_group_of(self.rel_of(c, mf)) == self.cs_group_of(rel)):
+                    return None                    # a member the call site may not see (C#'s member lookup keeps
+                    #                                accessible members only: another class's overload binds)
+            keys, by = self.method_nodes(c, m, fit)
+            if len(keys) != 1 or keys[0] not in self.file_of:
+                return None
+            if self.method_nodes(c, m, [mf for mf in defs if not self.cs_inapplicable(c, mf, m, descs)])[0] != keys:
+                return None                        # a candidate of c the arguments may fit lives in another node
+            return _Look("hit", (keys[0],), (by.get(keys[0]),), c, frozenset(ev | {self.file_of[keys[0]]}))
+        return None
 
     def cs_override_shadowed(self, key, m, X, argc, on_class) -> bool:
         """May a call that member lookup on class key bound to class X's m bind ANOTHER class's definition although
@@ -3955,13 +5967,13 @@ class _Linker:
         candidate: when every definition of m in X is an override, a definition of m of another signature in a
         class strictly between X and the class declaring that virtual, taking argc arguments, may be the one bound
         (Der7 : Mid7 : Base7, `override M7(int)` / `M7(double)` / `virtual M7(int)`: `_d.M7(5)` binds Mid7.M7)."""
-        mine, own = [], self.cs_subst(key, X.key) or {}
-        for mf in self.member_defs(X, m, on_class):
+        mine, own = [], self.cs_sigma_subst(key, self.cs_subst(key, X.key) or {})
+        for mf in self.cs_seen_defs(X, m, on_class):
             mods = self.cs_member(X, mf, m, "mods")
             if not isinstance(mods, frozenset) or "override" not in mods:
                 return False
             s = self.cs_member(X, mf, m, "mparams")
-            p = self._cs_sig_params(s)
+            p = self.cs_raw_sig(X, mf, m, s)
             if p is None:
                 return True
             mine.append((p, self.cs_sig_of(X, mf, m, s, own)))
@@ -3976,11 +5988,11 @@ class _Linker:
                 return True                        # an external / unread base: its overloads are not read
             if c.facts.kind == "interface":
                 continue
-            subst, declarer, rival = self.cs_subst(key, c.key) or {}, False, False
-            for mf in self.member_defs(c, m, on_class):
+            subst, declarer, rival = self.cs_sigma_subst(key, self.cs_subst(key, c.key) or {}), False, False
+            for mf in self.cs_seen_defs(c, m, on_class):
                 mods = self.cs_member(c, mf, m, "mods")
                 s = self.cs_member(c, mf, m, "mparams")
-                p = self._cs_sig_params(s)
+                p = self.cs_raw_sig(c, mf, m, s)
                 if not isinstance(mods, frozenset) or p is None:
                     return True
                 if self.cs_same_sig(p, self.cs_sig_of(c, mf, m, s, subst), mine):
@@ -4074,7 +6086,8 @@ class _Linker:
             return _UNK
         vals = []
         for key in sorted(base.keys):
-            look = self.lookup(key, m, on_class=base.kind == "cls")
+            access = self.cs_access(rel, si)
+            look = self.lookup(key, m, on_class=base.kind == "cls", access=access)
             if look.kind != "hit" or len(look.targets) != 1:
                 return _UNK
             if look.is_class:
@@ -4083,7 +6096,7 @@ class _Linker:
             mf = look.mfs[0]
             if mf is None or mf.returns is None:
                 return _UNK
-            if self.cs_rival_kind(rel, key, m, look, -1, base.kind == "cls", base.kind == "inst") == "rival":
+            if self.cs_rival_plain(rel, key, m, look, -1, base.kind == "cls", base.kind == "inst", access) == "rival":
                 return _UNK                        # C#: which overload runs (so its return type) is not known here
             t = self.eval_type(mf.returns, self.rel_of(look.owner, mf), look.owner.facts.scope, self_key=key,
                                depth=depth + 1, extra_shadow=look.owner.facts.type_params, ctx=look.owner.key)
@@ -4153,9 +6166,9 @@ class _Linker:
                 key = self.scope_class_key(rel, si)
                 sk = ff.scopes[si].self_kind
                 if key is not None and sk in ("inst", "class"):
-                    look = self.lookup(key, m, argc=site.argc)
+                    look = self.lookup(key, m, argc=site.argc, access=self.cs_access(rel, si))
                     base = _V("inst", {key}, ev={self.classes[key].rel})
-                    alt = self.static_import_verdict(rel, site, look)
+                    alt = self.static_import_verdict(rel, site, look, si)
                     if alt is not None:
                         return alt
                     ov = self.cs_overloads(rel, si, idx, site, key, look, sk == "class", False)
@@ -4175,7 +6188,7 @@ class _Linker:
             ff_s = self.facts.get(rel)
             static_ctx = (spec_k is not None and spec_k.static_split and ff_s is not None
                           and 0 <= si < len(ff_s.scopes) and ff_s.scopes[si].self_kind == "class")
-            look = self.lookup(key, m, skip=1, argc=site.argc, on_class=static_ctx)
+            look = self.lookup(key, m, skip=1, argc=site.argc, on_class=static_ctx, access=self.cs_access(rel, si))
             ov = self.cs_overloads(rel, si, idx, site, key, look, static_ctx, False)
             if ov == "unknown":
                 return _Verdict("unknown", why="overload", shape="S", recv_kind="SUPER")
@@ -4185,18 +6198,26 @@ class _Linker:
         shape = self._shape(r, v)
         if v.kind == "inst":
             keys = sorted(v.keys)
-            looks = [self.lookup(k, m, argc=site.argc) for k in keys]
+            access = self.cs_access(rel, si)
+            looks = [self.lookup(k, m, argc=site.argc, access=access) for k in keys]
             alt = self.extension_verdict(rel, site, v, looks, shape, r.kind)
             if alt is not None:
                 return alt
             ovs = [self.cs_overloads(rel, si, idx, site, k, lk, False, True) for k, lk in zip(keys, looks)]
+            if ovs == ["rival"]:                   # (g2) C# binds a base class's overload: typed to it, ADD only
+                g2 = self.memo.get(("csg2", rel, si, idx, keys[0]))
+                if isinstance(g2, _Look):
+                    vd = self._target_verdict([g2], v.but(weak=True), rel, shape, r.kind, line=site.line,
+                                              dispatch="sub" if v.decl else "")
+                    return vd._replace(why="rival") if vd.kind == "typed" else vd
+            ovs = ["unknown" if o == "rival" else o for o in ovs]
             if "unknown" in ovs:
                 return _Verdict("unknown", why="overload", shape=shape, recv_kind=r.kind)
             return self._target_verdict(looks, v.but(weak=True) if "weak" in ovs else v, rel, shape, r.kind,
                                         line=site.line, dispatch="sub" if v.decl else "")
         if v.kind == "cls":
             key = next(iter(v.keys))
-            look = self.lookup(key, m, argc=site.argc, on_class=True)
+            look = self.lookup(key, m, argc=site.argc, on_class=True, access=self.cs_access(rel, si))
             ov = self.cs_overloads(rel, si, idx, site, key, look, True, False)
             if ov == "unknown":
                 return _Verdict("unknown", why="overload", shape=shape, recv_kind=r.kind, recv_cls=key)
@@ -4238,7 +6259,8 @@ class _Linker:
             if m in sc.poisoned or m in sc.params or m in sc.locals:
                 return False
             s = sc.parent
-        return self.file_symbol(rel, m).kind == "unbound"
+        return self.file_symbol(rel, m, place=self.cs_place(rel, si)).kind == "unbound"   # C#: a bare call's name is
+        #                                            written with no type arguments (R30: arity 0, not unknown)
 
     def _lookup_stat(self, rel, name):
         spec = self.spec_of(rel)
@@ -4246,27 +6268,45 @@ class _Linker:
             st = self.stats["by_lang"].setdefault(spec.name, _lang_stats()).setdefault("lookup", {})
             st[name] = st.get(name, 0) + 1
 
-    def static_import_verdict(self, rel, site, look):
+    def static_import_verdict(self, rel, site, look, si=-1):
         """C# (LanguageSpec.lookup_rules using_static): a bare call the enclosing class chain does not hold (a
         fully-project chain without it: lookup why "open") is a static method of a `using static` type. Exactly one
         project method across the file's static imports -> typed, weak (INFERRED; shape M); several, or a static
-        import that is not a project class (it may hold the method) -> unknown. None: the rule does not apply."""
+        import that is not a project class (it may hold the method) -> unknown. None: the rule does not apply.
+        L2 (R29 applied to `using static`): only the directives in effect where the call stands count — the binder's
+        static_imports(rel, cls_idx) with the caller scope's class index (-1: top-level code) gives those of the
+        namespace declarations enclosing that class, the compilation unit's and the project's global ones (a block's
+        `using static` holds only inside that block); a binder without the class index: the file's every directive,
+        as before. And C#'s simple-name lookup walks the ENCLOSING types (their members, inherited ones included)
+        before any namespace declaration's directives, so a member of that name an outer class of the caller's class
+        holds or may hold (cs_outer_holds) makes the call unknown: the outer member may be what it binds."""
         spec = self.spec_of(rel)
         if spec is None or "using_static" not in spec.lookup_rules or look.kind != "unknown" or look.why != "open":
             return None
         fn = getattr(self.binder_of(rel), "static_imports", None)
+        ff = self.facts.get(rel)
+        cix = ff.scopes[si].cls if ff is not None and 0 <= si < len(ff.scopes) else None
         try:
-            imports = list(fn(rel) or ()) if callable(fn) else []
+            if not callable(fn):
+                imports = []
+            else:
+                try:
+                    imports = list(fn(rel, cix) or ())     # L2: the directives in effect at the caller's class
+                except TypeError:
+                    imports = list(fn(rel) or ())          # a binder without the class index (as before)
         except Exception:  # noqa: BLE001
             imports = [RES_UNKNOWN]
         if not imports:
             return None
+        if isinstance(cix, int) and self.cs_outer_holds(rel, cix, site.member):
+            return _Verdict("unknown", why="using static", shape="M", recv_kind="")   # L2: an outer type's member
         targets, ev = set(), set()
         for res in imports:
             v = self.res_value(rel, res, 1)
             if v.kind != "cls" or len(v.keys) != 1:
                 return _Verdict("unknown", why="using static", shape="M", recv_kind="")
-            lk = self.lookup(next(iter(v.keys)), site.member, argc=site.argc, on_class=True)
+            lk = self.lookup(next(iter(v.keys)), site.member, argc=site.argc, on_class=True,
+                             access=self.cs_access(rel, si))
             if lk.kind == "hit" and not lk.is_class:
                 targets.update(lk.targets)
                 ev |= set(lk.ev) | set(v.ev)
@@ -4276,6 +6316,42 @@ class _Linker:
             return _Verdict("unknown", why="using static", shape="M", recv_kind="") if targets else None
         self._lookup_stat(rel, "using_static")
         return _Verdict("typed", tuple(sorted(targets)), frozenset(ev), True, "M", recv_kind="")
+
+    def cs_outer_holds(self, rel, cls_idx, m) -> bool:
+        """L2: may a type ENCLOSING class cls_idx of rel (its outer class, that one's outer, ...) hold a member named m,
+        which C#'s simple-name lookup finds before any namespace declaration's `using static` (C# spec, simple names:
+        each enclosing type's member lookup comes first, inherited members included)? Yes for a field / property, a
+        method or a nested type of that name declared by the outer class (any part) or by a project class of its
+        base-class chain (an interface contributes no member a simple name reaches), for a chain the pass cannot read
+        (an outer type without a class key of its own, an ambiguous or dynamic class, no linearization), and for one
+        that is open for m (member_open: an external or unresolved base class that may carry it)."""
+        ff = self.facts.get(rel)
+        if ff is None or not 0 <= cls_idx < len(ff.classes):
+            return False
+        seen, o = set(), ff.classes[cls_idx].outer
+        while 0 <= o < len(ff.classes) and o not in seen:
+            seen.add(o)
+            cf = ff.classes[o]
+            if m in cf.fields or m in cf.methods:
+                return True
+            k = self.class_key.get((rel, o))
+            levels = self.mro(k) if k is not None and k in self.classes else None
+            if levels is None:
+                return True                        # an enclosing type the pass cannot read: it may hold m
+            for e in (e for lv in levels for e in lv):
+                if e[0] != "class":
+                    break
+                c = self.classes.get(e[1])
+                if c is None or c.ambiguous or c.facts.dynamic:
+                    return True
+                if c.facts.kind == "interface":
+                    continue
+                if m in c.facts.fields or m in c.facts.methods or self.cs_nested(c.key, m) is not None:
+                    return True
+            if self.member_open(k, m):
+                return True
+            o = cf.outer
+        return False
 
     def extension_verdict(self, rel, site, v, looks, shape, recv_kind):
         """C# (LanguageSpec.lookup_rules extensions): a member the receiver's fully-project chain does not hold (an
@@ -4619,6 +6695,8 @@ class _Linker:
                     self.cs_dispatch_stats(rel)["static_member"] += 1     # `IFactory.Make()`: an exact call
                 if virtual_ok and vd.kind == "typed":
                     vd = self.virtual_dispatch(rel, m, site, att, vd, iface_add, virt_hold, si=s)
+                if vd.kind == "typed" and vd.why == "rival":
+                    virt_hold.append("rival")      # (g2) a binding of a base class's overload: ADD only, never REPLACE
                 verdicts.append((vd, att))
             if _SEG_SPLIT.search(m):               # never an identifier: the general rule, tuple by tuple
                 prior = [i for ii in segs.values() for i in ii if i not in removed
@@ -4867,15 +6945,19 @@ class _Linker:
         known: a subclass is ambiguous, dynamic, unlinearizable or has no modifiers recorded, or a signature on the
         path cannot be told. `closed` (cs_closed_args, one receiver class): its concrete type arguments — a subclass
         whose every listing of the class has other concrete arguments is skipped (cs_args_exclude, invariant; the
-        count kept in memo ("virtx", ...))."""
+        count kept in memo ("virtx", ...)). R42: None too when a class that is not a known subclass, whose chain holds
+        an unresolved base (that base may be the receiver's class or a subclass of it), may override m
+        (cs_unres_override): `namespace App.Jobs { using System; class Impl : Base { override Al1 } }` leaves Base
+        unknown, and Impl.Al1 runs for a call through Base."""
         mk = ("virt", frozenset(keys), m, frozenset(targets), bool(caller_test), closed)
         if mk in self.memo:
             return self.memo[mk]
         out: "set | None" = set()
         skipped = 0
         for key in sorted(keys):
-            if key not in self.classes or self.classes[key].ambiguous:
-                out = None
+            if key not in self.classes or self.classes[key].ambiguous \
+                    or self.cs_unres_override(key, m, caller_test):
+                out = None                         # R42: a class with an unresolved base may override m unseen
                 break
             for s in self.descendants(key):
                 sc = self.classes.get(s)
@@ -5058,11 +7140,12 @@ class _Linker:
         for t in sorted(impls):
             add(t, grade)
             ds["implementers"] += 1
+        known = frozenset(orig.targets) | frozenset(impls)
         if "static" not in self.cfg.iface or self.cs_table(rel) is None \
-                or any(self.cs_iface_unresolved(k, m) for k in keys):
+                or any(self.cs_iface_unresolved(k, m, caller_test, known) for k in keys):
             return
         ds["known"] += 1
-        return frozenset(orig.targets) | frozenset(impls)
+        return known
 
     def cs_dispatch_stats(self, rel) -> dict:
         """by_lang[<rel's language>]["dispatch"] (interface dispatch counters), created with every key."""
@@ -5073,12 +7156,129 @@ class _Linker:
         ds.setdefault("known", 0)
         return ds
 
-    def cs_iface_unresolved(self, key, m) -> bool:
+    def cs_iface_unresolved(self, key, m, caller_test=True, known=None) -> bool:
         """May a project class of interface key's language implement it unseen: one that lists a base of the
         interface's own name the pass cannot resolve (an ambiguous using, an alias it does not hold), or a base it
         cannot read at all (`global::Ns.IPlugin`) while defining m itself? Then the interface's dispatch set is not
-        fully known."""
-        mk = ("ifunres", key, m)
+        fully known. R42: an unresolved base, whatever its spelling, may be ANY project class or interface — key, an
+        interface deriving from it, a class implementing it — so also when a class that is not one of key's known
+        descendants has an unresolved entry on its chain (cs_unres_chains; a test-file class only for a test caller,
+        as impl_reach counts implementers) and m is either defined on its known chain (its own implementation) or
+        defined, in a node outside the dispatch set `known` (the targets and every implementer impl_reach found), by
+        a project type one of its unresolved bases may bring (L1: the types of that base's name and the alias targets
+        of its name, with their chains; cs_unres_impl): that type's m then implements key for the class (`class
+        Impl : Base, IAli { }` in a namespace block whose `using System;` leaves both names unknown: Base.Al1 runs
+        for a call through IAli). L1: only a class one of whose unresolved bases may bring key counts
+        (cs_unres_cands)."""
+        mk = ("ifunres", key, m, bool(caller_test), known)
+        if mk not in self.memo:
+            self.memo[mk] = self.cs_iface_unres_named(key, m) or self.cs_unres_impl(key, m, caller_test, known)
+        return self.memo[mk]
+
+    def cs_unres_chains(self) -> dict:
+        """R42: {class key: (the project classes of its chain, in order), or None (no linearization)} for every class
+        of a language with the C# lookup rules (lookup_rules iface_dispatch) whose chain holds an UNRESOLVED entry
+        that may name a project type (an ("unres", name) base the pass cannot place: an alias, a qualified or a generic
+        name it cannot resolve; cs_unres_proj) or that cannot be linearized. Such a base may be ANY project class or
+        interface, the class in question too: it is never evidence of "unrelated", "external", "no implementer" or
+        "no override" — L1: which ones it may be (the types of its name and the alias targets of its name, with their
+        chains) is cs_unres_reach, read by cs_unres_cands. Built once."""
+        if "csunres" not in self.memo:
+            out: dict = {}
+            for k in sorted(self.classes):
+                ci = self.classes[k]
+                if ci.spec is None or "iface_dispatch" not in ci.spec.lookup_rules:
+                    continue
+                levels = self.mro(k)
+                if levels is None:
+                    out[k] = None
+                    continue
+                ents = [e for lv in levels for e in lv]
+                if any(e[0] == "unres" and self.cs_unres_proj(e[1]) for e in ents):
+                    out[k] = tuple(e[1] for e in ents if e[0] == "class")
+            self.memo["csunres"] = out
+        return self.memo["csunres"]
+
+    def cs_unres_cands(self, key, caller_test):
+        """R42: the classes of key's language family (never key, never an interface, never one of key's known
+        descendants: the dispatch rules read those) whose chain holds an unresolved entry (cs_unres_chains), each with
+        its chain's project classes (None: unknown); a test-file class only for a test caller. A list of (class key,
+        chain or None). L1: only a class one of whose unresolved bases may put key on its chain (cs_unres_reach: key is
+        one of the project types that base may be — those of its name and the targets of aliases of its name — or on
+        their chains; unknown candidates: any class): an unresolved base that can be neither key nor a type whose
+        chain holds key cannot make the class a subtype of key."""
+        ci = self.classes.get(key)
+        fam = ci.spec.family if ci is not None and ci.spec is not None else None
+        desc = set(self.descendants(key))
+        out = []
+        for k, chain in sorted(self.cs_unres_chains().items(), key=lambda kv: kv[0]):
+            c = self.classes.get(k)
+            if k == key or k in desc or c is None or c.spec is None or c.spec.family != fam \
+                    or c.facts.kind == "interface" or (not caller_test and self.test_file(c.rel, unknown=False)):
+                continue
+            reach = self.cs_unres_reach(k)
+            if reach is not None and key not in reach:
+                continue                           # L1: none of its unresolved bases can bring key
+            out.append((k, chain))
+        return out
+
+    def cs_unres_impl(self, key, m, caller_test, known) -> bool:
+        """R42 for interface dispatch (cs_iface_unresolved): may a class with an unresolved base implement interface
+        key's m unseen — m defined on its known chain (or a chain the pass cannot read), or m defined, in a node
+        outside `known` (None: any node counts), by a project type one of its unresolved bases may bring (L1,
+        cs_unres_reach: the types those bases may be and their chains; the implementation C# maps for the class comes
+        from its own chain, so no other project type can supply it; unknown candidates: any type of the family)?"""
+        cands = self.cs_unres_cands(key, caller_test)
+        if not cands:
+            return False
+        for _k, chain in cands:
+            if chain is None or any(c in self.classes and m in self.classes[c].facts.methods for c in chain):
+                return True
+        ci = self.classes.get(key)
+        fam = ci.spec.family if ci is not None and ci.spec is not None else None
+        pool: "set | None" = set()
+        for k, _chain in cands:
+            got = self.cs_unres_reach(k)
+            if got is None:
+                pool = None
+                break
+            pool |= got
+        for k in sorted(self.classes) if pool is None else sorted(pool):
+            c = self.classes.get(k)
+            if c is None or k == key or c.spec is None or c.spec.family != fam or not c.facts.methods.get(m):
+                continue
+            nodes = self.method_nodes(c, m)[0]
+            if nodes and (known is None or any(t not in known for t in nodes)):
+                return True                        # (a definition without a node has no tuple to lose)
+        return False
+
+    def cs_unres_override(self, key, m, caller_test, any_def=False) -> bool:
+        """R42 for virtual dispatch (virt_overrides, override_reach): may a class with an unresolved base override
+        class key's m unseen — a class of key's family that is not one of key's known descendants, whose chain holds
+        an unresolved entry (that base may be key or a subclass of it), with a definition of m on its known chain that
+        may run as an override: `override` with a body, or modifiers the pass cannot read (any_def: any definition,
+        for a reader without modifiers)? A chain the pass cannot read at all: yes. L1: only a class whose unresolved
+        base may be key or a type whose chain holds key (cs_unres_cands); an override in a type that base may be is
+        one in a known subclass of key, which virt_overrides reads itself."""
+        for _k, chain in self.cs_unres_cands(key, caller_test):
+            if chain is None:
+                return True
+            for c in chain:
+                ci = self.classes.get(c)
+                if ci is None or ci.ambiguous:
+                    return True
+                for mf in ci.facts.methods.get(m) or ():
+                    if any_def:
+                        return True
+                    mods = self.cs_member(ci, mf, m, "mods")
+                    if not isinstance(mods, frozenset) or ("override" in mods and "abstract" not in mf.flags):
+                        return True
+        return False
+
+    def cs_iface_unres_named(self, key, m) -> bool:
+        """cs_iface_unresolved's first rule (before R42): a class listing a base of the interface's own name that
+        does not resolve, or a base it cannot read at all while defining m itself."""
+        mk = ("ifunres0", key, m)
         if mk not in self.memo:
             if "unres_idx" not in self.memo:      # once per run: {base name: classes}, [classes with an unread base]
                 by_name: dict = {}
@@ -5105,8 +7305,10 @@ class _Linker:
         that implements it (transitively; never an interface), the definition of m that implements it — with the C#
         reader's modifiers (cs_impl_of): the member mapped by the most derived class that LISTS the interface (or an
         interface deriving from it) in its own base list, or the most derived `override` of that member in an
-        unbroken override chain; a `new` / non-virtual same-named method of a subclass that does not re-list the
-        interface is not one. Without modifiers: the first NON-abstract, non-static definition of m before `key` on
+        unbroken override chain; a class holding two constructions of the interface: its explicit implementations by
+        their type arguments, unknown otherwise; a `new` / non-virtual same-named method of a subclass that does not
+        re-list the interface is not one. Without modifiers: the first NON-abstract, non-static definition of m before
+        `key` on
         that class's chain. An explicit implementation is included. None when that cannot be known: a descendant is
         ambiguous, dynamic or unlinearizable, an external or unresolved entry comes first (an external base may
         implement m), or a concrete class has no definition (an unread part, a generated one). An abstract class
@@ -5139,7 +7341,7 @@ class _Linker:
                 skipped += 1
                 continue
             if self.cs_table(si.rel) is not None:
-                found = self.cs_impl_of(si, key, m, entries)
+                found = self.cs_impl_of(si, key, m, entries, closed)
             else:
                 found = None
                 for e in entries[:entries.index(("class", key))]:
@@ -5163,7 +7365,9 @@ class _Linker:
         return out
 
     def cs_lists(self, x, key) -> bool:
-        """Does class x's OWN base list name interface key, or an interface deriving from it?"""
+        """Does class x's OWN base list name interface key, or an interface deriving from it? Proven only: an
+        interface's chain is read up to its first external or unresolved entry (mro_class_keys); what that leaves
+        open is cs_may_relist's (R47)."""
         for b in self.bases(x):
             if b[0] != "class" or b[1] not in self.classes or self.classes[b[1]].facts.kind != "interface":
                 continue
@@ -5171,9 +7375,175 @@ class _Linker:
                 return True
         return False
 
-    def cs_impl_of(self, si, key, m, entries):
+    def cs_may_relist(self, x, key) -> bool:
+        """R42 / R47: may class x's OWN base list re-list interface key where cs_lists does not prove it? C# interface
+        re-implementation: a class that lists key, or an interface deriving from it, maps key's members anew from that
+        class up (`public new` members and explicit implementations included). R42: an unresolved base of x that may
+        be key or a type whose chain holds key (L1, cs_unres_may_reach). R47: an interface x lists that may derive
+        from key unseen (cs_relist_through). An external base never does: it is no project interface, and an external
+        assembly cannot reference this project's interface."""
+        for b in self.bases(x):
+            if b[0] == "unres" and self.cs_unres_may_reach(b[1], key):
+                return True                        # R42: that base may be key or a type whose chain holds key
+            if b[0] == "class" and b[1] in self.classes and self.classes[b[1]].facts.kind == "interface" \
+                    and self.cs_relist_through(b[1], key):
+                return True                        # R47: an interface x lists may derive from key unseen
+        return False
+
+    def cs_relist_through(self, ik, key) -> bool:
+        """R47: may interface ik derive from interface key where mro_class_keys (cs_lists) cannot tell? Its chain is
+        read whole, as mro linearizes it: every entry after an external or unresolved one is still a base of ik
+        (each class entry is a resolved base of an interface on ik's chain), so key there is listed (`IX :
+        IDisposable, IAli`: cs_lists stops at IDisposable); an unresolved entry may itself be key or a type whose
+        chain holds key (L1, cs_unres_may_reach: the project types of its name and the alias targets of its name,
+        with their chains; an unread '' entry: any), so it may list key; an external entry never reaches key (an
+        external assembly cannot reference this project); a chain the pass cannot linearize may hold anything. Under
+        L1 an unresolved entry that can reach nothing changes nothing."""
+        levels = self.mro(ik)
+        if levels is None:
+            return True
+        opaque = False
+        for e in (e for lv in levels for e in lv):
+            if e[0] != "class":
+                opaque = True
+                if e[0] == "unres" and self.cs_unres_may_reach(e[1], key):
+                    return True
+            elif opaque and e[1] == key:
+                return True
+        return False
+
+    def cs_explicit(self, ci, mf, m):
+        """Definition mf of member m of class ci as an explicit interface implementation (_cs explicit): its specifier
+        TypeRef (`void IRun.Run()` -> IRun), False (none: an ordinary member), None (unknown: two members of that name
+        on one line) or _NOINFO (the file's reader keeps no such table)."""
+        t = self.cs_table(self.rel_of(ci, mf))
+        if t is None or not isinstance(t.get("explicit"), dict):
+            return _NOINFO
+        k = (m, mf.line)
+        if k not in t["explicit"]:
+            return False
+        return t["explicit"][k] if _ok_typeref(t["explicit"][k]) else None
+
+    def cs_impl_candidate(self, x, mf, m, key, closed=None, open_closing=False):
+        """(d) / (e) C# interface mapping (spec: interface mapping, 18.6.5): may definition mf of m in class x
+        implement interface key's member m? (explicit?, True | False | None): an explicit implementation whose
+        specifier is key or an interface key derives from (the members a call through key may bind) -> (True, True);
+        of another interface (or a project class) -> (True, False); a specifier the pass cannot resolve -> (True,
+        None) when its last segment is the name of such an interface or its head an alias, else (True, False); an
+        ordinary member -> (False, True) only when PUBLIC (C# maps a member implicitly only then: a private / protected
+        / internal one, written or by default, implements nothing), (False, None) when its modifiers are unknown.
+        _NOINFO when the reader keeps no explicit table (every definition counts, as before). `closed` / `open_closing`:
+        cs_spec_closing, the specifier's type arguments against the construction called."""
+        ex = self.cs_explicit(x, mf, m)
+        if ex is _NOINFO:
+            return _NOINFO
+        if ex is None:
+            return (False, None)
+        if ex is False:
+            mods = self.cs_member(x, mf, m, "mods")
+            if not isinstance(mods, frozenset):
+                return (False, None)
+            return (False, "public" in mods)
+        fam = {key} | {k for k in self.mro_class_keys(key)
+                       if k in self.classes and self.classes[k].facts.kind == "interface"}
+        rel_d = self.rel_of(x, mf)
+        v = self.eval_type(ex, rel_d, -1, opaque=False, ctx=x.key)
+        if v.kind == "inst" and len(v.keys) == 1:
+            f = next(iter(v.keys))
+            if f not in fam:
+                return (True, False)
+            if f != key and any("static" not in d.flags for d in self.classes[key].facts.methods.get(m) or ()):
+                return (True, None)                # key redeclares m (`new`): which slot it implements is unclear
+            return (True, self.cs_spec_closing(ex, x, rel_d, f, key, closed, open_closing))
+        if v.kind == "ext":
+            return (True, False)
+        head = ex.args[0] if ex.kind == "generic" and ex.args else ex
+        parts = tuple(head.parts) if head.kind == "qualified" and head.parts else (head.name,)
+        ff = self.facts.get(rel_d)
+        if (ff is not None and parts[0] in ff.imports) or parts[0] in self.cs_group_tables(rel_d)[1]:
+            return (True, None)                    # an alias the pass cannot follow
+        names = {self.classes[k].facts.name for k in fam}
+        return (True, None) if parts[-1] in names else (True, False)
+
+    def cs_closing_open(self, s, key) -> bool:
+        """R7: does class s leave open which construction of generic interface key it holds: cs_subst fixes none, or
+        not every type parameter (two base-list paths with other type arguments)?"""
+        order = self.cs_tporder(key)
+        if not order:
+            return False
+        sub = self.cs_subst(s, key)
+        return sub is None or any(n not in sub for n in order)
+
+    def cs_spec_closing(self, ex, x, rel_d, f, key, closed, open_closing) -> "bool | None":
+        """R7: does explicit specifier ex (written in class x, in rel_d; interface f, key or an interface key derives
+        from) name the construction of key the call binds? Its type arguments against `closed` (cs_closed_args, the
+        receiver's, through key's base lists to f), each by _cs_tcmp: False in an invariant position: another
+        construction, it implements nothing here (a variant one: the receiver may hold it by conversion, so unknown);
+        True: this one. Unknown (no closing known, a type argument the pass cannot place): None when the class holds
+        two constructions (`open_closing`: which of them runs is unknown, ADD-only), else True: a class holding one
+        construction can only name that one (anything else does not compile: CS0540)."""
+        got = None
+        if ex.kind == "generic" and closed is not None:
+            order, korder, sub = self.cs_tporder(f), self.cs_tporder(key), self.cs_subst(key, f)
+            if order and korder and sub is not None and len(ex.args) - 1 == len(order) and len(closed) == len(korder):
+                table = {n: self.cs_desc_norm(d) for n, d in zip(korder, closed)}
+                variance = self.cs_variance(f)
+                got = True
+                for i, (name, a) in enumerate(zip(order, ex.args[1:])):
+                    have = self.cs_desc_norm(self.cs_type_desc(a, rel_d, -1, x.key))
+                    want = sub.get(name)
+                    if isinstance(want, tuple) and len(want) == 3 and want[:2] == ("tpv", key):
+                        want = table.get(want[2])
+                    r = _cs_tcmp(have, want) if have is not None and want is not None else None
+                    if r is False and not (i < len(variance) and variance[i]):
+                        return False
+                    if r is not True:
+                        got = None
+        if ex.kind != "generic":
+            got = True
+        return got if got is not None else (None if open_closing else True)
+
+    def cs_variance(self, key) -> tuple:
+        """Interface key's type parameters' variance (_cs variant): one word per parameter, "" invariant; () when the
+        reader kept none."""
+        for rel_k, idx in self.class_parts(key):
+            t = self.cs_table(rel_k)
+            got = t.get("variant", {}).get(idx) if t is not None and isinstance(t.get("variant"), dict) else None
+            if got:
+                return tuple(got)
+        return ()
+
+    def cs_hidden_elsewhere(self, chain, same, i, impl) -> bool:
+        """cs_impl_of: is the override chain from chain[i] up to the implementing class chain[impl] broken ONLY by
+        `internal` / `private protected` hiding definitions in another .csproj than chain[i]'s (another assembly may
+        not see them, so whether chain[i]'s override continues the implementing member's slot is unknown)?"""
+        unsure, gi = False, self.cs_group_of(chain[i].rel)
+        for k in range(i + 1, impl):
+            for mf, md in same.get(k, ()):
+                if "override" in md:
+                    continue
+                if (md & _CS_ACCESS) in ({"internal"}, {"private", "protected"}) \
+                        and self.cs_group_of(self.rel_of(chain[k], mf)) != gi:
+                    unsure = True
+                else:
+                    return False                   # a hiding definition every subclass sees: the chain is broken
+        return unsure
+
+    def cs_impl_of(self, si, key, m, entries, closed=None):
         """C# (iface_dispatch, with the reader's modifiers): the node(s) of the definition of m that class si runs for
-        interface key's member m — () for an abstract class with none, None when unknowable (impl_reach)."""
+        interface key's member m — () for an abstract class with none, None when unknowable (impl_reach). C#'s
+        interface mapping: from the most derived class that lists the interface up, the first class with an explicit
+        implementation of the member (cs_impl_candidate; it wins over that class's public member and nothing
+        overrides it) or a PUBLIC member of its signature; then the most derived `override` of that member in an
+        unbroken chain (a private definition in between neither breaks nor continues it). `closed` (cs_closed_args):
+        the construction called. A class holding two constructions of key (cs_closing_open): an explicit implementation
+        answers for its own construction (cs_spec_closing), a public member's construction is unknown (None). R42: a
+        class more derived than the first one listing key whose own base list holds an unresolved entry that may be
+        key or a type whose chain holds key (L1, cs_unres_may_reach) may re-list
+        key (C# re-implementation: the mapping then starts at that class, `public new` members included): None when
+        it or a class up to the listing one defines m. R47: so may one whose own base list holds an interface that
+        may derive from key where cs_lists cannot tell (cs_may_relist / cs_relist_through: key past an external or
+        unresolved entry of that interface's chain, or an unresolved entry there that may reach key)."""
         chain: list = []                           # si and its base classes before key, most derived first
         for e in entries[:entries.index(("class", key))]:
             if e[0] != "class":
@@ -5189,16 +7559,25 @@ class _Linker:
         j = next((i for i, x in enumerate(chain) if x is not None and self.cs_lists(x.key, key)), None)
         if j is None or None in chain[:j]:
             return None
+        r = next((i for i in range(j) if self.cs_may_relist(chain[i].key, key)), None)
+        if r is not None and any(defs[i] for i in range(r, j)):
+            return None                            # R42 / R47: a more derived class may re-list key
         islot = self.cs_iface_sigs(si.key, key, m)
         if islot is None:
             return None
+        open_closing = self.cs_closing_open(si.key, key)
         nodes: list = []
         for sig in islot:                          # each signature the interface declares m with
             same: dict = {}                        # chain index -> [(definition, modifiers)] of THAT signature
+            cand: dict = {}                        # ... -> [definition]: those that implement the member (public, or
+            expl: dict = {}                        # an explicit implementation of the call's interface: `expl`)
             for i, (x, d) in enumerate(zip(chain, defs)):
                 if x is None:
                     break
                 for mf in d:
+                    ck = self.cs_impl_candidate(x, mf, m, key, closed, open_closing)   # (d) / (e): _NOINFO without
+                    if ck is not _NOINFO and ck[0] and ck[1] is False:
+                        continue                   # an explicit implementation of another interface: no member here
                     c = self.cs_sig_cmp(self.cs_def_sig(x, mf, m, si.key), sig)
                     if c is None:
                         return None                # a definition the pass cannot place: the implementer unknown
@@ -5206,12 +7585,28 @@ class _Linker:
                         md = self.cs_member(x, mf, m, "mods")
                         if not isinstance(md, frozenset):
                             return None
-                        same.setdefault(i, []).append((mf, md))
-                if i >= j and i in same:
+                        if ck is _NOINFO:          # as before the table: every definition hides / implements
+                            same.setdefault(i, []).append((mf, md))
+                            cand.setdefault(i, []).append(mf)
+                            continue
+                        if ck[1] is None:
+                            return None            # an explicit specifier or modifiers the pass cannot read
+                        if ck[0]:                  # an explicit implementation: implements, never hides / overrides
+                            cand.setdefault(i, []).append(mf)
+                            expl.setdefault(i, []).append(mf)
+                            continue
+                        if open_closing:
+                            return None            # R7: which construction this member implements is unknown
+                        if not (md & _CS_ACCESS) <= {"private"}:
+                            same.setdefault(i, []).append((mf, md))   # a private one: no subclass sees it
+                        if ck[1]:
+                            cand.setdefault(i, []).append(mf)         # only a PUBLIC member maps implicitly
+                if i >= j and i in cand:
                     break                          # the implementing class: the bases above it are not read
-            # the interface mapping: from the most derived class listing the interface up, the first definition of
-            # the member's own signature (a same-named one of another signature implements nothing)
-            impl = next((i for i in range(j, len(chain)) if chain[i] is None or i in same), None)
+            # the interface mapping: from the most derived class listing the interface up, the first class with an
+            # explicit implementation or a public definition of the member's own signature (a same-named one of
+            # another signature, a non-public one, an explicit implementation of another interface implement nothing)
+            impl = next((i for i in range(j, len(chain)) if chain[i] is None or i in cand), None)
             if impl is None:
                 if si.facts.kind == "abstract":
                     continue
@@ -5223,11 +7618,16 @@ class _Linker:
                 return i in same and all("override" in md for _mf, md in same[i])
 
             pick = impl
-            for i in range(impl):                  # the most derived override of the implementing member's slot
-                if overrides(i) and all(k not in same or overrides(k) for k in range(i + 1, impl)):
-                    pick = i
+            for i in range(0 if impl in expl else impl):   # the most derived override of the implementing member's
+                if overrides(i) and all(k not in same or overrides(k) for k in range(i + 1, impl)):   # slot (an
+                    pick = i                                                    # explicit implementation has none)
                     break
-            body = [mf for mf, _md in same[pick] if "abstract" not in mf.flags]
+                if overrides(i) and self.cs_hidden_elsewhere(chain, same, i, impl):
+                    return None                    # a hiding member another assembly may not see: unknown
+            if pick == impl:                       # C# maps an explicit implementation before a public member
+                body = [mf for mf in (expl.get(impl) or cand[impl]) if "abstract" not in mf.flags]
+            else:
+                body = [mf for mf, _md in same[pick] if "abstract" not in mf.flags]
             if not body:
                 if si.facts.kind == "abstract":
                     continue
@@ -5263,17 +7663,53 @@ class _Linker:
         self.memo[mk] = out if out else None
         return self.memo[mk]
 
-    def cs_type_desc(self, t, rel, si, ctx):
-        """A written type argument as ("b", builtin) | ("c", class key) | None (a type parameter, a generic, an
-        external or unresolved type)."""
+    def cs_bcl_name(self, t, rel, si, ctx, akey):
+        """R20: a written name (`Int32`, `System.Int32`, a generic's head `Nullable`) as cs_sig_norm reads it at the
+        place it is written (the alias in effect, a project type of that name, its scope's usings): the normalised
+        type, or None. Its generic arity is not passed here (R30: unknown), so a project type of that name, of any
+        arity, makes it unknown: never read as System's."""
+        parts = (t.name,) if t.kind == "name" else tuple(t.parts or ()) if t.kind == "qualified" else ()
+        place = akey if akey is not None else (ctx if ctx is not None else self.scope_class_key(rel, si))
+        return self.cs_sig_norm(("n", parts), rel, place, None, scope=place, arity=None) \
+            if parts and place is not None else None
+
+    def cs_type_desc(self, t, rel, si, ctx, akey=None):
+        """A written type argument as ("b", builtin) | ("c", class key) | ("?", ("b", value keyword) | ("c", project
+        struct / enum)): (f) a Nullable<X> of a known value type, never X itself | None (a type parameter, a generic,
+        an external or unresolved type). A reference type's `?` (`string?`, `object?`, a project class / interface /
+        record class) is an annotation: the inner type's desc; a type parameter's `T?` or one of an unknown kind:
+        None. R20: `Nullable<X>` / `System.Nullable<X>` reads like `X?` and `Int32` / `System.Int32` like `int` when the
+        name is System's (cs_sig_norm): written under it, or unqualified where its scope reaches `System` first."""
         if t is None:
+            return None
+        if t.kind == "generic" and len(t.args) == 2 \
+                and _cs_is_nullable(self.cs_bcl_name(t.args[0], rel, si, ctx, akey)):
+            t = t_nullable(t.args[1])
+        if t.kind == "nullable":
+            inner = self.cs_type_desc(t.args[0], rel, si, ctx, akey) if t.args else None
+            if inner is None:
+                return None
+            if inner[0] == "b":
+                if inner[1] in _CS_VALUE_KW:
+                    return ("?", inner)
+                return inner if inner[1] in ("string", "object") else None
+            kinds = {self.classes[inner[1]].facts.kind} | {
+                self.facts[r].classes[i].kind for r, i in self.class_parts(inner[1])
+                if r in self.facts and 0 <= i < len(self.facts[r].classes)}
+            if kinds <= {"struct", "enum"}:
+                return ("?", inner)                # every part a struct / an enum: Nullable<X>
+            if kinds <= {"class", "abstract", "interface"}:
+                return inner                       # a reference type: the `?` is an annotation
             return None
         if t.kind == "builtin":
             return ("b", t.name)
         if t.kind not in ("name", "qualified"):
             return None
-        v = self.eval_type(t, rel, si, opaque=False, ctx=ctx)
-        return ("c", next(iter(v.keys))) if v.kind == "inst" and len(v.keys) == 1 else None
+        v = self.eval_type(t, rel, si, opaque=False, ctx=ctx, akey=akey)
+        if v.kind == "inst" and len(v.keys) == 1:
+            return ("c", next(iter(v.keys)))
+        n = self.cs_bcl_name(t, rel, si, ctx, akey)
+        return n if isinstance(n, tuple) and n[:1] == ("b",) and len(n) > 1 else None
 
     def cs_closed_args(self, rel, si, recv):
         """The receiver's declared generic interface type arguments (`IRepo<Order> _r` -> (("c", Order),)), each a
@@ -5293,11 +7729,14 @@ class _Linker:
         """Can two concrete type arguments a, b (cs_type_desc) never denote one constructed interface? Invariant: they
         differ. `out` / `in` (covariance / contravariance): also no reference conversion either way — two project
         classes with closed chains, neither on the other's; a predefined type other than object against another
-        type (a value type never varies; nothing derives from string)."""
+        type (a value type never varies; nothing derives from string); a Nullable<X> ("?": cs_type_desc) against any
+        other type (a value type: variance never converts it, so `IOut<int?>` is no `IOut<int>` nor `IOut<object>`)."""
         if a is None or b is None or a == b:
             return False
         if not variance:
             return True
+        if a[0] == "?" or b[0] == "?":
+            return True                            # (f) a != b and one is a Nullable<X>: no variant conversion
         if a[0] == "b" or b[0] == "b":
             return not any(x[0] == "b" and x[1] in ("object", "dynamic") for x in (a, b)) \
                 and all(x[0] != "b" or x[1] in _CS_KNOWN for x in (a, b))
@@ -5308,7 +7747,9 @@ class _Linker:
     def cs_args_exclude(self, s, key, closed, entries) -> bool:
         """Is implementer s never a run-time value of a receiver typed `key<closed>` — every base-list entry naming key
         along s's chain has, at some position, a concrete type argument the receiver's can never be
-        (cs_type_args_apart; a variant type parameter only where no reference conversion exists either)?"""
+        (cs_type_args_apart; a variant type parameter only where no reference conversion exists either)? Never when
+        s's chain holds an unresolved base that may be key<closed> or a type whose chain lists it (R42 / L1,
+        cs_unres_may_reach: key is one of the project types that base may be or on their chains)."""
         kc = self.classes.get(key)
         if kc is None:
             return False
@@ -5320,6 +7761,8 @@ class _Linker:
             variance = variance or tuple(t["variant"].get(idx, ()))
         listings = 0
         for e in entries:
+            if e[0] == "unres" and self.cs_unres_may_reach(e[1], key):
+                return False                       # R42: an unresolved base may list key<closed> itself
             if e[0] != "class" or e[1] == key:
                 continue
             c = self.classes.get(e[1])
@@ -5328,13 +7771,14 @@ class _Linker:
             for b in c.facts.bases:
                 head = b.args[0] if b.kind == "generic" and b.args else b
                 v = self.eval_type(head, self.rel_of(c, b), c.facts.scope, opaque=False,
-                                   extra_shadow=c.facts.type_params, ctx=self.outer_key(c.key))
+                                   arity=len(b.args) - 1 if head is not b else 0,
+                                   extra_shadow=c.facts.type_params, ctx=self.outer_key(c.key), akey=c.key)
                 if v.kind != "inst" or v.keys != frozenset({key}):
                     continue
                 listings += 1
                 if b.kind != "generic" or len(b.args) - 1 != len(closed):
                     return False
-                mine = [self.cs_type_desc(a, self.rel_of(c, b), c.facts.scope, self.outer_key(c.key))
+                mine = [self.cs_type_desc(a, self.rel_of(c, b), c.facts.scope, self.outer_key(c.key), c.key)
                         for a in b.args[1:]]
                 if not any(self.cs_type_args_apart(x, y, variance[i] if i < len(variance) else "")
                            for i, (x, y) in enumerate(zip(mine, closed))):
@@ -5347,7 +7791,9 @@ class _Linker:
         definer for a cooperative `super()`), or None when that cannot be known (then the group only ADDs). C#
         (virtual_dispatch, with the reader's modifiers): only the overrides virt_overrides finds (an `override` with
         a body in an unbroken chain from the receiver's class, test files included), so a REPLACE removes a tuple
-        to a hiding `new` method or to an override of another slot."""
+        to a hiding `new` method or to an override of another slot. R42 (C#): a class with an unresolved base that
+        may override m makes the reach unknown (virt_overrides; without the reader's modifiers: any definition of m,
+        cs_unres_override)."""
         out: set = set()
         for vd, _att in verdicts:
             if vd.kind != "typed" or not vd.dispatch:
@@ -5361,6 +7807,10 @@ class _Linker:
                     got = self.virt_overrides({key}, m, set(vd.targets), True)
                 else:
                     got = self.dispatch_reach(key, m, vd.dispatch, vd.on_class)
+                    if got is not None and vd.dispatch == "sub" and ci is not None and ci.spec is not None \
+                            and "virtual_dispatch" in ci.spec.lookup_rules \
+                            and self.cs_unres_override(key, m, True, any_def=True):
+                        got = None                 # R42 (C#, no modifiers read): a class with an unresolved base
                 if got is None:
                     return None
                 out |= got

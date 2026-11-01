@@ -1,0 +1,27 @@
+namespace Dk.Lib
+{
+    public class File
+    {
+        public void Touch() { }
+    }
+}
+
+namespace Dk
+{
+    public class DkCalls
+    {
+        public void Go(File f, Widget w)
+        {
+            f.Touch();
+            w.Spin();
+        }
+    }
+}
+
+namespace System.Windows.Forms
+{
+    public class Widget
+    {
+        public void Spin() { }
+    }
+}

@@ -140,10 +140,10 @@ Facts that shaped the protocol:
 
 ## Amendments before RC
 
-All dated 2026-10-28, before any DeepMap data for either C# corpus. Their source is the kit build and its independent
-check: the reference tool brought to §8.2, the scoring kit, the gates and a checker that probed each clause. None
-changes a criterion or a threshold. Each governs the protocol items it names. The harness gate locks this section's
-sha256 beside the block's before step 1.
+AC1 to AC18 are dated 2026-10-28, AC19 to AC30 2026-10-29 and AC31 to AC32 2026-10-31, all before any DeepMap data
+for either C# corpus. Their source is the kit build and its independent check: the reference tool brought to §8.2,
+the scoring kit, the gates and a checker that probed each clause. None changes a criterion or a threshold. Each
+governs the protocol items it names. The harness gate locks this section's sha256 beside the block's before step 1.
 
 - **AC1. Interface dispatch reaches the override that runs** (§8.2 `dispatch`, first bullet). When
   `T.FindImplementationForInterfaceMember` returns a virtual, abstract or override class member, the target is the
@@ -232,6 +232,155 @@ sha256 beside the block's before step 1.
   reference callers per spot. J2 (`TmdbClientManager.GetProfileUrl`) has none: all 11 of its sites pass TMDbLib
   types, which the contract does not reference. Step 3's substitution rule will therefore replace it mechanically.
   The spots and the rule are unchanged, and no DeepMap code has run on either corpus.
+- **AC19. Project order** (AC3, project references). "Dependency order, ties broken by byte order of the paths" is
+  the lexicographically smallest topological order: each step places the byte-smallest project whose references are
+  all placed. On both corpora no row depends on it; only the resolver block's reference lists change.
+- **AC20. Receivers, two readings fixed** (AC2). A type-parameter receiver whose constraint is another type parameter
+  is read as its effective base class (the class constraint reached through that chain), marked
+  `receiver_reading = inherited_class_constraint`; 0 sites on either corpus. `unmanaged` reads as `struct`.
+- **AC21. MSBuild fidelity** (AC3).
+  - Implicit usings also read `Directory.Build.targets`, which MSBuild imports after the project; the last
+    assignment wins. No corpus effect (eShop's sets no `ImplicitUsings`, jellyfin has none).
+  - `GenerateInternalsVisibleToAttributes` false turns off the `<InternalsVisibleTo Include>` route only, as in
+    MSBuild; neither corpus sets it.
+  - `$(AssemblyName)` in an item spec expands to the project's assembly name (the project file's name unless set),
+    which MSBuild assigns before its item pass. No corpus effect: every InternalsVisibleTo name in both corpora is
+    literal.
+  - The MAUI rule also removes a `.cs` file directly under `Platforms/` or under an unknown platform folder, as the
+    MAUI targets' `Platforms/**/*.cs` exclusion does.
+- **AC22. Partial alt lines in defstack** (AC4). The alt-line rule applies to defstack entries as well as defs, so a
+  caller inside a same-file partial implementation maps to its method node. No corpus effect.
+- **AC23. R3 on `self`** (§7, §8.7 R). R3 reads only the 4 multi_hop questions, which are on werkzeug, flask, click
+  and fastapi (N1 corpora). It is judged through N1 there. On `self` only R2 is measured live; R3 has no question to
+  read there, and that is not a failure to compute it.
+- **AC24. G4c's producing site** (§8.7 G4c). "a's site of that name binds statically to an interface member" means
+  a site of a whose dispatch targets include b, with `dispatch_rule` `interface`. compare_calls also reports the count
+  over any same-named site of a beside it; that count is never decisive.
+- **AC25. Abstract implementations on the sheet** (§8.6 A, the C# sheet instruction). The instruction gains one
+  sentence: "An implementation or override declared on an abstract class counts as reachable from the receiver's
+  declared type even when every concrete subclass overrides it." This is how §8.2's T-range counts it (`RepoBase.Save`
+  for `_r.Save()`).
+- **AC26. Unagreed pairs in the reference error rate** (AC11).
+  - A pair the reviewers did not agree on in any sample (a dispute or UNSURE) is outside the rate: neither judged nor
+    wrong.
+  - A pair agreed TRUE in one sample and FALSE in another counts once, as wrong, and is listed.
+  - A pair agreed in one sample and not in another is judged by the agreed one.
+- **AC27. The fallback stratum for a row without dispatch targets** (AC5, AC9). Its stratum membership is read from
+  the defs' `interface` alone, as AC5 says. A virtual, abstract or override static target with no override in the
+  corpus is outside the fallback stratum. No effect on the RC tree, which names `DEEPMAP_TYPED_CALLS_IFACE` (the
+  fallback is not drawn).
+- **AC28. VRC-cs languages** (AC16). The value must hold every language of the RC tree's `_TYPED_DEFAULT_LANGS` and
+  `csharp`; languages another decision flips in the same release (§8.10's union) are added, never removed.
+- **AC29. Where RESULTS_CS reads its numbers** (AC7, AC13, §8.7).
+  - C1 to C4 of the engine-parity gate come from the command's full log (`out/engine_parity_cs.log`).
+  - The kit hash registered in §1 is the snapshot's, whose PREREG_CS.md still reads `<to be filled>`; a re-check
+    hashes the snapshot, never the repository after §1 is filled.
+  - G5a's Linux-container run copies the RC snapshot, not the repository.
+  - Every threshold is compared on the integer inputs (good, audited, population, judged, wrong, hit, n) the kit's
+    outputs carry; the printed 4-decimal shares and bounds are display only.
+- **AC30. Disclosure, product changes since AC18.** The opt-in C# reader was revised in rounds checked against Roslyn
+  on fixtures only, all before any C# corpus data:
+  - `T x = new T()` and `T x = new()` never rebound are exact like `var x = new T()` (Roslyn's dispatch set lists the
+    overrides: a known divergence of the same kind as §7's).
+  - An interface call whose whole dispatch set is known replaces the engine's name match, so more engine tuples are
+    removed than under AC1 to AC18's product. A static interface member with a body is an exact call.
+  - Signatures are compared only as far as they are proven: an unfixed class type parameter is never the same type
+    as anything; `T?` reads by its constraint (an annotation, or `Nullable<T>` under `struct` / `unmanaged`);
+    `global using` aliases, `nint` / `IntPtr` and `int?` / `Nullable<int>` are one type; usings count only in the
+    namespace scope that declares them. A comparison that is not proven is unknown, and an unknown only adds links:
+    never a replacement, never a removed engine tuple.
+  - An override slot is broken only by a definition of the same signature, and a private middle method does not
+    break it. An override hit with a rival between it and its slot's declarer is unknown. Virtual dispatch skips a
+    subclass that closes the generic receiver class with other type arguments.
+  - §7's development figures (41,124 sites, 11,661 bound) describe an earlier tool state: the tool at AC18 gives
+    88,863 and 14,471 on jellyfin, and RESULTS_CS compares against neither.
+
+- **AC31. MSBuild fidelity, second step** (AC3, AC21). The reference reads the following as MSBuild 17.9 (SDK
+  8.0.202) does, each checked against real MSBuild on generated projects, none from either corpus:
+  - **Implicit usings** apply when the SDK's own condition `'$(ImplicitUsings)' == 'true' Or '$(ImplicitUsings)' ==
+    'enable'` holds under MSBuild's comparison: values unescaped, case ignored, and two boolean-like operands compared
+    as booleans (`yes`, `on` and `!false` read as true). This replaces AC3's "`enable` or `true`".
+  - **Conditions:** `Exists()` reads the corpus's git-tracked files (a path outside the corpus reads as false and is
+    noted); `==` and `!=` compare two boolean-like values as booleans; a `<Choose>` takes the `<When>` the property
+    pass decides.
+  - **Global properties:** the `-p:` switches of the nearest `Directory.Build.rsp` at or above the project.
+    `TreatAsLocalProperty` is honoured (the project's own from Directory.Build.props on).
+  - **SDKs:** an SDK named by an imported file (`<Project Sdk>` or `<Sdk Name>`) adds its Sdk.props usings. A project
+    that imports no Sdk.targets has no global usings; one that imports Sdk.targets alone keeps its own Using items but
+    gets no SDK list. `UseWPF` and `UseWindowsForms` add or remove their usings as the WindowsDesktop props do.
+  - **Using items:** `<Using Update>` and `Exclude` are applied; a spec is split on `;` before `%XX` is decoded; a
+    Remove, Update or Exclude spec follows Windows' trailing-period rule; an item type matches in any letter case.
+  - Not modelled, as `truth_roslyn/Program.cs`'s header lists: a wildcard `<Using Include>` or `<Import>`,
+    ItemDefinitionGroup metadata, items inside a `<Target>`, the custom and DirectoryBuild path hooks, environment
+    variables, property functions other than `Exists` and the two path functions, numeric comparison, SDK property
+    defaults (AssemblyName, RootNamespace), letter case on a case-sensitive file system, and `Configuration=Debug`
+    (the reference pins Release).
+  - Reason: a differential of the reference against real MSBuild on four generated corpora found these behaviours
+    read differently. After the change the two agree on 511 of 582 generated projects (233 of 267, 39 of 40, 37 of 43,
+    202 of 232); no project that agreed before disagrees now, and every remaining difference comes from the
+    not-modelled list.
+  - Corpus effect: not measured. This step ran the tool on neither corpus. Their reference truth is captured at the RC
+    with the tool as it stands then (§1's identity).
+  - Known residual, found after this step (2026-10-31) and left in the tool so that §1's identity does not move: a
+    `<Using Update>` whose spec ends in `/` or `\` (`<Using Update="N/" Static="true" />`, or with `Alias`) is applied
+    by the reference to the using `N`, while real MSBuild applies no such update. A project that writes one gets
+    different usings in the reference than in the build; no other reading changes.
+- **AC32. Disclosure, product changes since AC30.** The opt-in C# reader was revised in three more rounds, checked
+  against Roslyn on fixtures and, for its MSBuild reading, against real MSBuild on generated projects; none touched
+  either corpus. Each change makes a comparison or a binding unknown where it is not proven, and an unknown only adds
+  links: never a replacement, never a removed engine tuple.
+  - **Names and scopes:** a method's own generic arity and a `params` parameter are part of its signature; a type's
+    generic arity is part of its identity (`Result` and `Result<T>` are two types); usings and aliases apply only inside
+    the namespace declaration that writes them; a `using static` may supply nested types; a directive inside `#if` is
+    possible, never certain; a `file` type is seen in its own file only; a file the project's `<Compile Remove>` takes
+    out does not count for it; partial types merge per compiling project; a same-file class binds only from its own or
+    an enclosing namespace declaration; a `using`, `using static` or alias target written inside a namespace declaration
+    means what C# finds from that declaration's namespace outward (`global::` is absolute), and is unknown where the
+    reader cannot tell whether a nearer candidate exists; a `using static` holds only inside the declaration that writes
+    it and is not used for a bare call that a type enclosing the caller declares or inherits a member of that name.
+  - **What may hold external types:** a namespace counts as the project's own only when its first segment names a
+    project (an AssemblyName, a RootNamespace or a project file) and no package id shares it, so a tree with no project
+    file owns none and gets no typed links that depend on it. Inside a namespace external code may fill, a name not
+    found as a project member there is unknown. Past a namespace declaration's using of such a namespace, a project type
+    found further out is unknown (that using may import a type of the same name, which C# finds first); a project
+    namespace there still answers. Package ids (PackageReference, PackageVersion, GlobalPackageReference, Reference,
+    packages.config) count as evidence of external code.
+  - **Member lookup and interface mapping:** a member proven inaccessible at the call site gives way to the base's; an
+    explicit implementation is no member of its class; a class reaching one generic interface by two paths with
+    different type arguments leaves them unknown; a `ref readonly` parameter is never proven inapplicable; base-list
+    names go through the alias walk; `Nullable<int>` and `Int32` read as `int?` and `int`. An unresolved base may be any
+    project type of its simple name or the target of an alias of that name, with its own bases (a base the reader cannot
+    read, or a candidate it cannot read: any project type); where one could implement the interface, override the
+    method, supply the member or bring a rival overload, the dispatch set or the binding is unknown. The dispatch set is
+    also unknown where a class may re-implement the called interface through another interface it lists, one whose chain
+    holds such an unresolved base, and that class, or a class between it and the base class that lists the called
+    interface, declares the member. A generic, array, nullable, tuple or pointer type with a part the reader cannot
+    place is never proven different from another shape.
+  - **MSBuild reading** (build/csharp_msbuild.py): property values are kept verbatim; MSBuild's boolean-like comparison
+    is applied; a wildcard or path-like Remove, Exclude or Update, a `Directory.Build.rsp`, `TreatAsLocalProperty`, an
+    SDK named in an imported file, a condition on Configuration or Platform, a project-system file found only in another
+    letter case, and a `global::` prefix on a `<Using Include>` leave what they touch unread or possible, never certain;
+    specs are split on `;` before `%XX` is decoded; Directory.Packages.props is read at MSBuild's place;
+    `System.Net.Http` counts only when the framework is known not to be .NET Framework; a file another project compiles
+    through a link reads incomplete; and two complete readings of different projects compare only when neither project
+    has a package (none in the project, its imports or its readable ProjectReference closure, and no ProjectReference
+    the reader cannot read): equal package sets no longer suffice, since build and buildTransitive assets,
+    PrivateAssets, per-framework assets, package conditions, ReferenceOutputAssembly and the central-management switches
+    change what one package adds.
+  - **Residuals:** wrong results the reader can still give, older than these rounds and rare, are listed in
+    docs/known-limitations.md: a C# 12 primary-constructor parameter shadowed by a base member (CS9179); a less
+    accessible derived member read from outside; an explicit interface property read as a member; a `file` type giving
+    one alias text two meanings; a better non-virtual base overload beside a derived override (a weak link, nothing
+    removed); declarations in an inactive `#if` branch; a type, or a namespace, of a compilation the caller does not
+    reference; the types of a file that may not be compiled; `obj/` read when it is not gitignored; a `<Reference>`
+    written as a path; a package's targets that remove usings or switch ImplicitUsings off; a disabled `#if` region that
+    starts a verbatim or raw string; an `extern alias` read as a namespace; and a `.csproj.user` file, which MSBuild
+    imports after the project and the reader does not read (measured with SDK 8.0.202: a `<Using>`, a PackageReference,
+    ImplicitUsings or a `<Using Remove>` written there changes the generated global usings; the reference's own
+    evaluation does not read it either). Each can add a false typed link and, where its proof replaces, remove a true
+    engine tuple; D3-cs measures them as they stand.
+  - Effect: fewer proofs and more unknowns than at AC30 (recall), and no new kind of replacement. The assumptions that
+    remain are listed in docs/known-limitations.md ("2026-10: C# members and calls").
 
 <!-- PREREG-CS-PROTOCOL BEGIN (sha256 locked by tests/call_linking_harness_gates.py; never edited after the first RC run) -->
 ## 8. Measurement protocol (D3-cs)

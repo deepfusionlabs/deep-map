@@ -31,7 +31,9 @@ scores inexactly, or lets the protocol drift after data would decide wrongly, so
   D  the offline counts reproduce the frozen flask graph (330 CALLS / 26 AMBIGUOUS on 0.8.39; 329 / 26 on
      0.8.51; exact edge hash) — when the benchmark clone and an in-range engine are present, else SKIPPED
   E  compare_calls, delta, indegree_drift (+ the void rule), audit_sample (seeded, blind, Wilson), engdiff,
-     impact_offline, impact_spot, score_m (R1/R3), measure_self (R2), run_variant (round trip, matched state,
+     impact_offline, impact_spot, score_m (R1/R3), measure_self (R2; AC29: compare's exact fields from the integer
+     ranks beside the unchanged 4-decimal mrr_ok / r2_holds, --min-gain read as a decimal, the CLI's two lines and
+     --exact), run_variant (round trip, matched state,
      safety) and variants are exact on synthetic inputs; the S0 review round: census reads the owner stamp sync
      writes and both live captures judge it with owner_problem; the inert-variant VOID rule (offline_calls
      variant_void on the review's V0/VT pair, delta's VOID pair rule) and the cross-file EXTRACTED invariant
@@ -61,16 +63,18 @@ scores inexactly, or lets the protocol drift after data would decide wrongly, so
      else SKIPPED
   J  PREREG_CS.md (D3-cs): its protocol block (strictly between the one BEGIN and one END marker line, LF-joined
      plus a final LF — H's rule) sha256-locked before the first RC run; the "Amendments before RC" section above it,
-     sha256-locked too (the lines strictly between its heading line and the BEGIN line, the same joining: AC1-AC18),
+     sha256-locked too (the lines strictly between its heading line and the BEGIN line, the same joining: AC1-AC32),
      and its kit-facing rules equal to the kit's — AC13's engine-parity command == run_matrix.sh's cs_engine_parity
-     (its only caller), AC12's final spot list in every C# spot command of run_matrix.sh, G5a's gate list ==
+     (its only caller; AC29: its full log, stdout and stderr, to exactly $OUT/engine_parity_cs.log through run_log's
+     .partial-then-rename), AC12's final spot list in every C# spot command of run_matrix.sh, G5a's gate list ==
      run_matrix.sh's CS_G5A_GATES (each gate present), AC14's N3 gate (typed_calls_push_gates' section I), AC16's
      VRC-cs flag == variants.vrc_cs_flag; the §1 identity slots; the two C# corpora's SHAs, read-only sources and library prefixes (§8.2) == run_matrix.sh
      cs_corpus_row == §3 == the re-create commands == the engine-parity gate's CS_CORPORA, apart from the corpus_row
      table H reads; the audit seed and n; the 10 spots and 8 reserves in order (§8.3) == impact_spot.CS_SPOTS /
      CS_RESERVES / CS_IDS == §4, apart from SPOTS; the §8.4 variants == variants.CS_VARIANTS (ids, order, flags),
      its shapes == the product's typed_calls.SHAPES, apart from VARIANTS; RECEIVER_FORMS['cs'] (§8.5); the C# sheet
-     sentence (§8.6 A) == audit_sample.CS_SHEET_SENTENCE
+     sentence (§8.6 A's, then the one AC25 adds, both read from PREREG_CS.md) == audit_sample.CS_SHEET_SENTENCE; §8.2's
+     13 N corpora (read from its bullets, mapped onto corpus_row's ids) == run_matrix.sh's CS_N_CORPORA, in order
   K  the G5b flip guard (PREREG_CS §8.7): inactive while `csharp` is not in build/typed_calls._TYPED_DEFAULT_LANGS;
      active, benchmark/call_linking/cs/MANIFEST.sha256 must exist (`<sha256>  <path>` lines, paths inside cs/, in
      byte order, never a sheet.md), every listed file must match, and DECISION_CS.md must record the manifest's own
@@ -83,7 +87,12 @@ scores inexactly, or lets the protocol drift after data would decide wrongly, so
      look-alikes); the captured header's resolver.tool_sources_sha256 == truth_roslyn.sources_sha256() (an
      un-recaptured tool edit fails without .NET); every row carries `dispatch` with entries of exactly the defs entries' shape; the gate's own
      reading of the contract — forms, defstack, overloads, extension calls, interface and override dispatch,
-     test-file exclusion — and the adapter's derivations on synthetic raw rows; the kit scoring it (T_s / T_d, the
+     test-file exclusion — and the adapter's derivations on synthetic raw rows; the project evaluation Roslyn cannot
+     check (each MSBuild shape's usings == real MSBuild's Using items, recorded here: verbatim property values,
+     <Using Remove> wildcards, System.Net.Http on .NETFramework, Directory.Packages.props; each fix's pre-fix answer
+     as a mutant expect.json must refuse; UsingsBase unchanged; R41's shapes under Msb/ == the GlobalUsings.g.cs real
+     MSBuild writes, line for line, and per R41 rule the capture of the tool built with that rule reverted, which
+     expect.json must refuse; the WindowsDesktop lists as data); the kit scoring it (T_s / T_d, the
      §8.5 classification, G4c's interface fact, delta's dispatch-confirmed verdict and G2d). Live, only when .NET
      SDK 8.0.202, the 8.0.3 reference packs, the captured packages (Microsoft.CodeAnalysis 4.8.0 and its closure) in
      the local packages folder and the captured runtime are present: the tool re-run on the self-test corpus (from
@@ -96,22 +105,34 @@ scores inexactly, or lets the protocol drift after data would decide wrongly, so
      modes its effective block reports through the product
   N  the D3-cs rules on a synthetic C# corpus written from PREREG_CS §8.2 / §8.5 and AC5-AC16 (never from the kit's
      output): AC5's row fields (_static_iface reads `dispatch_rule`, else the defs' `interface`; truth_roslyn's
-     contract_problems and the refusing convert); T_s, T_d = dispatch MINUS T_s (a pair in both), the refuted test
-     over static AND dispatch targets (a site bound only by dispatch); G4c's EXTRACTED dispatch-only edges through an
-     interface vs a virtual static target; G2d from production and non-production callers; AC9's dispatch stratum
-     fallback (static_dispatchable, impl_fallback, its not-computable case); AC10 (a dispatch-confirmed removal is
-     audited exhaustively) and the reference's judged rows; exact_bounds' census and pool_scores' lower bound; AC11's
-     reference error rate (the union of an engine's two samples counted once, the exact 10% threshold, either engine,
-     conflicts, refusals, the CLI's exit codes); §8.3's substitution on both engines and AC12's final list (the
-     refusals); N2 on added / regraded / removed non-.cs edges and the case-insensitive `.cs` test; §8.4's C# VOID
-     rule; AC15's manifest writer (dry run, --write, refusals) accepted by K's guard; AC16's VRC-cs flags on temp
-     trees; §1 / AC7's kit hash (independent recomputation, the exclusions) and the reference tool identity
+     contract_problems and the refusing convert; defs that disagree: any interface def makes it true); T_s, T_d =
+     dispatch MINUS T_s (a pair in both), the refuted test over static AND dispatch targets (a site bound only by
+     dispatch); G4c's EXTRACTED dispatch-only edges through an interface vs a virtual static target, a pair produced
+     by an interface AND a virtual site (True wins, either order), a producing row breaking AC5 (not exact), and AC24's
+     never-decisive count over any same-named site beside it (a site resolved to nothing never counts; a def-less site
+     with `interface` dispatch does); G2d from production and non-production callers; AC9's
+     dispatch stratum fallback (static_dispatchable, impl_fallback, its not-computable case); AC10 (a
+     dispatch-confirmed removal is audited exhaustively) and the reference's judged rows; exact_bounds' census and
+     pool_scores' lower bound; AC29's integer reading at a rounding boundary (120 of 126: Wilson 0.8999983, displayed
+     0.9): exact_bounds' and removed_all_exact's full-precision lower_bound_exact, pool_scores' share_fraction /
+     lower_bound_exact from each corpus's integers, the resolver's void rule (wrong x 10 >= judged; 0 of 0 judged
+     voids nothing), score's printout of removed_all_exact's full-precision bound, removed_all unchanged byte for byte; AC11's reference error rate (the union of an engine's two samples counted once, the
+     exact 10% threshold, either engine, conflicts, refusals, the CLI's exit codes) and AC26's three readings (a pair
+     agreed in no sample is outside the rate; agreed in one sample, judged by it; TRUE in one and FALSE in the other,
+     wrong once and listed), cited in the docstring and the printout; §8.3's substitution on both engines (a failing
+     reserve passed over) and AC12's final list (the refusals, a changed `registered` list, an ad-hoc --symbols list on
+     a C# corpus; --one-node on a non-C# one); AC29 in impact_spot (`improved` on exact fractions, SATURATED only at
+     hit >= ref, 20001 reference callers); N2 on added / regraded / removed non-.cs edges and the case-insensitive
+     `.cs` test; §8.4's C# VOID rule; AC15's manifest writer (dry run, --write, refusals, byte order never case-folded)
+     accepted by K's guard; AC16's VRC-cs flags on temp trees; §1 / AC7's kit hash (independent recomputation, the
+     exclusions) and the reference tool identity
   O  run_matrix.sh's C# orchestration on a FAKE repository (the kit, a build/ copy and the engine-parity gate,
      committed in a temp dir, then a staged and an unstaged deletion, an edit, an untracked and an ignored file):
      AC7's self-snapshot (its index == the working tree's files, the deleted ones gone; made once, never touched) and
      guard (a C# phase from the working tree's script, with another build/, or without CL_SELF_RC is refused); the
-     dry-run plans: AC13's engine-parity command once as the rest phase's last command (skipped when the C# corpora are
-     narrowed), AC12's --final spot commands, AC11's refrate per corpus, AC15's manifest phase, G5a's gates under both
+     dry-run plans: AC13's engine-parity command once as the rest phase's last command, its full output into
+     <out>/engine_parity_cs.log (AC29; run_log itself run: stdout and stderr, the exit code, no .partial left; skipped
+     when the C# corpora are narrowed), AC12's --final spot commands, AC11's refrate per corpus, AC15's manifest phase, G5a's gates under both
      engines' Pythons plus the no-Neo4j suite, every phase checking the snapshot's RC identity first. Only when a bash
      that reads this checkout's paths (Git Bash on Windows) and git are present, else SKIPPED
 
@@ -139,6 +160,7 @@ import sys
 import tempfile
 import time
 import traceback
+from fractions import Fraction
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -184,8 +206,9 @@ KIT_MODULES_CS = ("truth_roslyn",)
 # one final LF), locked before the first RC run (PREREG_CS "Rules"; section J).
 PREREG_CS_PROTOCOL_SHA256 = "5cde7ab3812a372a67bef8ffa97a152eb357b1a7e97582837096d8d3bdb9cac7"
 # Its 'Amendments before RC' (the lines strictly between the `## Amendments before RC` heading line and the BEGIN
-# marker line, joined with LF, plus one final LF): AC1-AC18, dated 2026-10-28, locked beside the block (section J).
-PREREG_CS_AMENDMENTS_SHA256 = "3f1dee5bef588150ae5e983c8e6bf889ff95891cb7605de10f6c2bdc1fe74f00"
+# marker line, joined with LF, plus one final LF): AC1-AC18 dated 2026-10-28, AC19-AC30 dated 2026-10-29 and
+# AC31-AC32 dated 2026-10-31, locked beside the block (section J).
+PREREG_CS_AMENDMENTS_SHA256 = "f3111fbdfcf921e5fab4290eb45f82766cc4391705ec677b8fdd2345a2413797"
 CS_CORPUS_IDS = {"jellyfin": "jellyfin__jellyfin", "eShop": "dotnet__eShop"}
 CS_LANG = "csharp"
 # What the A scan of build/ and hooks/ reads (every text file the product could load or ship), and skips.
@@ -1435,6 +1458,111 @@ def gate_e_pool_cli(CC, s: dict, base: Path) -> None:
           and "VOID" in err_x, (rc_x, ex_x, err_x[-300:]))
 
 
+def _ms_scored(ranks) -> dict:
+    """A measure_self score (score()'s shape: the ALL/ALL metrics and the per-query integer ranks) of the ranks."""
+    return {"metrics": {"ALL/ALL": _ms_metrics(ranks)},
+            "per_query": [{"id": f"q{i:04d}", "rank": r} for i, r in enumerate(ranks)]}
+
+
+def _ms_metrics(ranks) -> dict:
+    """measure_self.metrics written out here (the 4-decimal display the closed decisions D3 / D1-py read)."""
+    n = len(ranks)
+    mrr = sum(1.0 / r for r in ranks if r is not None) / n
+    return {"n": n, "hit@1": round(sum(1 for r in ranks if r is not None and r <= 1) / n, 4),
+            "hit@5": round(sum(1 for r in ranks if r is not None and r <= 5) / n, 4),
+            "hit@15": round(sum(1 for r in ranks if r is not None and r <= 15) / n, 4), "MRR": round(mrr, 4)}
+
+
+def gate_e_measure_self_exact(MS, base: Path) -> None:
+    """AC29 for R2 (PREREG_CS §8.7 R, AC23, §8.10): measure_self.compare's exact fields beside the unchanged ones."""
+    # The review's counter-example (65 queries): q0 13 -> 14 and q1 15 -> 14, both inside the top 15, the rest equal.
+    # Exact MRRs (derived by hand): base (1/13 + 1/15 + 18 + 1/2) / 65 = 7271/25350, variant (2/14 + 18 + 1/2) / 65
+    # = 261/910 — the variant is LOWER, yet both display 0.2868, so the 4-decimal mrr_ok holds.
+    rest = [1] * 18 + [2] + [None] * 44
+    near_b, near_v = _ms_scored([13, 15] + rest), _ms_scored([14, 14] + rest)
+
+    def fields(c):
+        return (c.get("mrr_base"), c.get("mrr_variant"), c.get("mrr_ok"), c.get("r2_holds"), c.get("mrr_ok_exact"),
+                c.get("r2_holds_exact"), c.get("mrr_base_fraction"), c.get("mrr_variant_fraction"),
+                c.get("min_gain_fraction"))
+    try:
+        got = fields(MS.compare(near_b, near_v))
+    except Exception as exc:  # noqa: BLE001 — RED, never a crash of the section
+        got = f"{type(exc).__name__}: {exc}"
+    want = (0.2868, 0.2868, True, True, False, False, [7271, 25350], [261, 910], [0, 1])
+    check("AC29 (measure_self.compare, R2): beside the unchanged 4-decimal mrr_ok / r2_holds (closed decisions D3 and "
+          "D1-py read them) the exact fields come from the integer ranks — base 7271/25350 > variant 261/910 although "
+          "both display 0.2868: mrr_ok True (kept) but mrr_ok_exact False, r2_holds_exact False",
+          got == want, {"got": got, "want": want})
+
+    def agree():
+        out = []
+        sb = _ms_scored([1, 4] + [None] * 3)
+        for b, v, g in ((sb, sb, 0.0), (sb, _ms_scored([2, 4] + [None] * 3), 0.0),
+                        (sb, _ms_scored([1, 3] + [None] * 3), 0.0),
+                        # a higher MRR (1/5 > (2/15 + 1/2)/5) that loses 2 queries from the top 15: R2 fails both ways
+                        (_ms_scored([15, 15, 2] + [None] * 2), _ms_scored([None, None, 1] + [None] * 2), 0.0),
+                        # 1000 queries, the variant 17 more rank-1 hits: its MRR is the base's + 17/1000 EXACTLY, so
+                        # a min gain of 0.017 read as the decimal 17/1000 holds (as the binary float it would not)
+                        (_ms_scored([None] * 1000), _ms_scored([1] * 17 + [None] * 983), 0.017),
+                        (_ms_scored([None] * 1000), _ms_scored([1] * 16 + [None] * 984), 0.017)):
+            c = MS.compare(b, v, min_gain=g)
+            out.append((c["mrr_ok"], c.get("mrr_ok_exact"), c["r2_holds"], c.get("r2_holds_exact"),
+                        c.get("min_gain_fraction"), c["min_gain"]))
+        return out
+    try:
+        got2 = agree()
+    except Exception as exc:  # noqa: BLE001
+        got2 = f"{type(exc).__name__}: {exc}"
+    want2 = [(True, True, True, True, [0, 1], 0.0), (False, False, False, False, [0, 1], 0.0),
+             (True, True, True, True, [0, 1], 0.0), (True, True, False, False, [0, 1], 0.0),
+             (True, True, True, True, [17, 1000], 0.017),
+             (False, False, False, False, [17, 1000], 0.017)]
+    check("AC29 (measure_self.compare): where the rounded and the exact readings agree they agree — equal ranks hold, "
+          "a lower MRR fails, a higher holds, a higher one losing 2 queries from the top 15 fails R2 (r2_holds_exact "
+          "False with mrr_ok_exact True); --min-gain is read exactly from its decimal string (0.017 -> 17/1000: a "
+          "gain of exactly 17/1000 holds, 16/1000 fails); min_gain itself is returned unchanged",
+          got2 == want2, {"got": got2, "want": want2})
+    d = base / "ms_exact"
+    d.mkdir(parents=True, exist_ok=True)
+    pb, pv = d / "scored_V0.json", d / "scored_VX.json"
+    pb.write_text(json.dumps(near_b), encoding="utf-8")
+    pv.write_text(json.dumps(near_v), encoding="utf-8")
+    rc, out, err, exc = _cli(MS.main, ["compare", str(pb), str(pv)])
+    rc_x, out_x, _e, exc_x = _cli(MS.main, ["compare", str(pb), str(pv), "--exact"])
+    lines = out.splitlines()
+    check("AC29 (measure_self compare CLI): the old line is printed unchanged (R2 HOLDS on the 4-decimal MRRs, exit 0 "
+          "as before) and a second line prints the exact reading D3-cs uses (R2 exact FAILS, both fractions at full "
+          "precision); --exact makes the exit code follow r2_holds_exact (exit 1)",
+          exc is None and exc_x is None and rc == 0 and rc_x == 1 and len(lines) == 2
+          and lines[0] == "R2 HOLDS: MRR 0.2868 -> 0.2868 (min gain 0.0); hit@15 lost [] gained []"
+          and lines[1].startswith("R2 exact (AC29") and "FAILS" in lines[1] and "7271/25350" in lines[1]
+          and "261/910" in lines[1] and repr(7271 / 25350) in lines[1] and repr(261 / 910) in lines[1]
+          and out_x == out,
+          {"rc": rc, "rc_exact": rc_x, "out": out, "err": err[-300:], "exc": exc or exc_x})
+    # --min-gain as typed on the command line: the string branch of exact_decimal (a float read would make the gain
+    # 1224979098644775/72057594037927936, a hair above 17/1000, and an exact +17/1000 gain would FAIL)
+    pn, p17, p16 = d / "scored_none.json", d / "scored_17.json", d / "scored_16.json"
+    pn.write_text(json.dumps(_ms_scored([None] * 1000)), encoding="utf-8")
+    p17.write_text(json.dumps(_ms_scored([1] * 17 + [None] * 983)), encoding="utf-8")
+    p16.write_text(json.dumps(_ms_scored([1] * 16 + [None] * 984)), encoding="utf-8")
+    rc17, out17, err17, exc17 = _cli(MS.main, ["compare", str(pn), str(p17), "--min-gain=0.017", "--exact"])
+    rc16, out16, _e16, exc16 = _cli(MS.main, ["compare", str(pn), str(p16), "--min-gain=0.017", "--exact"])
+    try:
+        direct = (MS.exact_decimal("0.017"), MS.exact_decimal(" 0.017 "), MS.exact_decimal(0.017))
+    except Exception as exc:  # noqa: BLE001
+        direct = f"{type(exc).__name__}: {exc}"
+    l17 = out17.splitlines()
+    check("AC29 (measure_self compare CLI, --min-gain=0.017 --exact): the typed gain is read as the decimal 17/1000 "
+          "(never through a binary float), so an exact +17/1000 gain HOLDS (exit 0) and +16/1000 FAILS (exit 1); "
+          "exact_decimal reads '0.017', ' 0.017 ' and 0.017 all as 17/1000",
+          exc17 is None and exc16 is None and rc17 == 0 and rc16 == 1 and len(l17) == 2
+          and "HOLDS" in l17[1] and "min gain 17/1000" in l17[1] and "min gain 17/1000" in out16
+          and direct == (Fraction(17, 1000),) * 3,
+          {"rc17": rc17, "rc16": rc16, "out17": out17, "out16": out16, "err": err17[-300:], "direct": direct,
+           "exc": exc17 or exc16})
+
+
 def gate_e(mods: dict, base: Path) -> None:
     print("\n-- E: compare_calls / delta / drift / audit / engdiff / impact / score_m / measure_self / run_variant / "
           "variants are exact on synthetic inputs --")
@@ -1677,6 +1805,7 @@ def gate_e(mods: dict, base: Path) -> None:
     two_lost = MS.score(gt, raw(0, 0))
     check("measure_self R2: losing hit@15 on 2 queries fails (at most 1 allowed)",
           MS.compare(sb, two_lost)["hit15_net_drop"] == 2 and not MS.compare(sb, two_lost)["hit15_ok"])
+    gate_e_measure_self_exact(MS, base)
     # ---- run_variant ---------------------------------------------------------------------------------------------
     RV = mods["run_variant"]
     q = {"id": "q", "search": [{"name": "f", "file": "a.py", "line": 1, "score": 0.5}],
@@ -2617,11 +2746,31 @@ def gate_j_amendments(mods: dict, kit: Path, block: str, amend: str) -> None:
             f'--corpora --only {only} --py39 "$PY39" --py51 "$PY51"')
     elsewhere = [ln for ln in _sh_joined(rm).replace(body, "").splitlines()
                  if "typed_calls_engine_parity_gates.py" in ln and not ln.lstrip().startswith("#")]
-    check("run_matrix.sh runs the engine-parity gate's C# corpora EXACTLY as AC13 names it (cs_engine_parity: the "
-          "dry-run plan and the run, CALL_LINKING_CS_SOURCES = §8.2's read-only root, the snapshot's tests/), called "
-          "once from the rest phase, and from nowhere else",
-          len(calls) == 2 and all(c.endswith(want) or (want + " >") in c for c in calls) and not elsewhere
+    check("run_matrix.sh runs the engine-parity gate's C# corpora EXACTLY as AC13 names it (cs_engine_parity: one "
+          "command, the dry-run plan and the run alike through run_log, CALL_LINKING_CS_SOURCES = §8.2's read-only "
+          "root, the snapshot's tests/), called once from the rest phase, and from nowhere else",
+          len(calls) == 1 and all(c.endswith(want) for c in calls) and not elsewhere
           and len(re.findall(r"^\s*cs_engine_parity ;;", rm, re.M)) == 1, (calls, want, elsewhere))
+    rl = _sh_function(rm, "run_log")
+    rl_lines = [ln.strip() for ln in rl.splitlines() if ln.strip() and not ln.strip().startswith("#")]
+
+    def at(s):
+        return rl_lines.index(s) if s in rl_lines else -1
+    i_run = at('"$@" > "$f.partial" 2>&1; rc=$?')
+    i_rc = at('echo "[run_matrix] exit $rc" >> "$f.partial"')
+    i_mv = at('mv "$f.partial" "$f"')
+    i_dry = at("""if [ -n "$DRY" ]; then { printf '%q ' "$@"; printf '> %q 2>&1; mv %q %q\\n' "$f.partial" """
+               """"$f.partial" "$f"; } >&2; return 0; fi""")
+    check("AC29 (C1 to C4 come from the command's FULL log, out/engine_parity_cs.log): cs_engine_parity writes the "
+          "gate's stdout AND stderr to exactly \"$OUT/engine_parity_cs.log\" through run_log — `> <log>.partial 2>&1`, "
+          "the exit code appended, then renamed to <log> (a killed run never leaves a log that reads complete); a dry "
+          "run prints that same redirect; the present log is never re-run and the RESULT line is read from it",
+          re.search(r'^\s*local lg="\$OUT/engine_parity_cs\.log" rc$', body, re.M) is not None
+          and calls == ['run_log "$lg" ' + want]
+          and 'if [ -z "$DRY" ] && [ -f "$lg" ]; then' in body and "grep -h '^RESULT:' \"$lg\"" in body
+          and rl_lines[:1] == ['local f="$1" rc; shift'] and 0 <= i_dry < i_run < i_rc < i_mv
+          and rl_lines[i_mv + 1:] == ["return $rc"],
+          {"calls": calls, "run_log": rl_lines})
     sc = _sh_function(rm, "cs_score")
     spots = [ln.strip() for ln in sc.splitlines() if "impact_spot.py" in ln]
     check("AC12: every spot command run_matrix.sh runs on a C# corpus (cs_score) measures its FINAL list — "
@@ -2789,10 +2938,10 @@ def gate_j(mods: dict, kit: Path) -> None:
     amend, why_a = prereg_cs_amendments(pre)
     got_a = hashlib.sha256(amend.encode("utf-8")).hexdigest() if amend is not None else None
     check("PREREG_CS's 'Amendments before RC' (the lines strictly between its one `## Amendments before RC` heading "
-          "line and the BEGIN marker line, LF-joined plus a final LF) is the dated AC1-AC18 text verbatim (sha256 "
+          "line and the BEGIN marker line, LF-joined plus a final LF) is the dated AC1-AC32 text verbatim (sha256 "
           "locked beside the block's before step 1: an amendment governs the items it names, so it never moves after "
           "data either)", amend is not None and got_a == PREREG_CS_AMENDMENTS_SHA256
-          and [int(n) for n in re.findall(r"^- \*\*AC(\d+)\.", amend, re.M)] == list(range(1, 19)), why_a or got_a)
+          and [int(n) for n in re.findall(r"^- \*\*AC(\d+)\.", amend, re.M)] == list(range(1, 33)), why_a or got_a)
     amend = amend or ""
     gate_j_amendments(mods, kit, block, amend)
     sec1 = head.split("## 1.")[-1].split("## 2.")[0] if "## 1." in head else ""
@@ -2885,10 +3034,44 @@ def gate_j(mods: dict, kit: Path) -> None:
     AS = mods.get("audit_sample")
     m = re.search(r'\*\*The C# sheet adds one instruction, fixed now:\*\* "(.*?)"', block, re.S)
     sentence = " ".join(m.group(1).split()) if m else None
-    check("audit_sample.CS_SHEET_SENTENCE is PREREG_CS §8.6 A's C# sheet instruction, word for word",
-          AS is not None and sentence is not None
-          and " ".join(str(getattr(AS, "CS_SHEET_SENTENCE", "")).split()) == sentence,
-          (sentence, getattr(AS, "CS_SHEET_SENTENCE", None)))
+    # AC25: "The instruction gains one sentence: "..."" — read from AC25's own bullet (never a second copy here)
+    a25 = " ".join(amend.split("- **AC25.", 1)[-1].split("- **AC26.", 1)[0].split()) if "- **AC25." in amend else ""
+    m25 = re.search(r'The instruction gains one sentence: "(.*?)"', a25)
+    ac25 = m25.group(1) if m25 else None
+    want_sheet = f"{sentence} {ac25}" if sentence and ac25 else None
+    check("audit_sample.CS_SHEET_SENTENCE is PREREG_CS §8.6 A's C# sheet instruction followed by the one sentence AC25 "
+          "adds to it, both word for word (read from PREREG_CS.md: the block's instruction, AC25's quoted sentence)",
+          AS is not None and want_sheet is not None
+          and " ".join(str(getattr(AS, "CS_SHEET_SENTENCE", "")).split()) == want_sheet,
+          (want_sheet, getattr(AS, "CS_SHEET_SENTENCE", None)))
+    # §8.2's N corpora (MX23): the bullets name 13 corpora; each maps to ONE corpus_row id (a SHA by that SHA, a
+    # backticked id as itself, a short name by its '-'-separated words, all among the id's words); in that order they
+    # are run_matrix.sh's CS_N_CORPORA, and exactly corpus_row's corpora (PREREG.md §3's, which section H locks)
+    nsec = block.split("**The N corpora (non-C# identity).**", 1)[-1].split("**Retrieval ground truth.**", 1)[0] \
+        if "**The N corpora (non-C# identity).**" in block else ""
+    crow = {i: f.split("|")[0] for i, f in re.findall(r'^\s*([\w.\-]+)\)\s+echo "([^"]*)"', _sh_function(rm, "corpus_row"),
+                                                     re.M)}
+    derived, unmapped = [], []
+    for b in [ln[2:].strip().rstrip(";.") for ln in nsec.splitlines() if ln.startswith("- ")]:
+        sha, tick = re.search(r"\b[0-9a-f]{40}\b", b), _ticks(b)
+        if sha:
+            names, hits = [sha.group(0)], [[i for i, s in crow.items() if s == sha.group(0)]]
+        elif tick:
+            names, hits = tick, [[i for i in crow if i == t] for t in tick]
+        else:
+            inner = re.search(r"\(([^)]*)\)", b)
+            names = [x for x in re.split(r",\s*|\s+and\s+", inner.group(1) if inner else b) if x]
+            hits = [[i for i in crow if set(x.split("-")) <= set(re.split(r"[-_]+", i))] for x in names]
+        for x, h in zip(names, hits):
+            (derived.append(h[0]) if len(h) == 1 else unmapped.append((x, h)))
+    rmn = re.search(r'^CS_N_CORPORA="([^"]*)"', rm, re.M)
+    check("PREREG_CS §8.2's N corpora (its 13 bullets' corpora, in order: the five Python ones, stage0_build, zod, "
+          "nestjs-realworld, node-express-boilerplate, gin, httprouter, serde-json, self) == run_matrix.sh's "
+          "CS_N_CORPORA, and they are exactly corpus_row's corpora (PREREG.md §3's)",
+          "That is 13 corpora." in nsec and not unmapped and len(derived) == 13 and rmn is not None
+          and rmn.group(1).split() == derived and sorted(derived) == sorted(crow),
+          {"derived": derived, "unmapped": unmapped, "run_matrix": rmn.group(1).split() if rmn else None,
+           "corpus_row": sorted(crow)})
 
 
 # =====================================================================================================
@@ -3222,6 +3405,429 @@ CS_TEST_PROBES = ("tests/Ordering.UnitTests/Builders.cs", "src/Ordering.API/Appl
                   "src/Ordering.FunctionalTests/A.cs", "SRC/SHOP.INTEGRATIONTESTS/X.CS", "src/Shop.Tests.Helpers/X.cs",
                   "src/Shop.Testing/X.cs", "src/Shop.Tests", "src/Shop.Tests/", "Shop.Specs\\Steps\\X.cs",
                   "src/Shop.UnitTest/Sub/Deeper/X.cs", "src/.tests/X.cs", "src/Tests.Shop/X.cs")
+# The project evaluation, which a Roslyn check alone cannot see (the reference shared these defects with the product's
+# MSBuild reader): each self-test project's Using items as real MSBuild gave them (`dotnet msbuild <proj>
+# -getItem:Using -p:Configuration=Release -p:Platform=AnyCPU -p:TargetFramework=<first>`, SDK 8.0.202), not the tool.
+CS_MSB7 = ("System", "System.Collections.Generic", "System.IO", "System.Linq", "System.Net.Http", "System.Threading",
+           "System.Threading.Tasks")
+CS_MSB6 = tuple(x for x in CS_MSB7 if x != "System.Net.Http")
+CS_MSB_USINGS = {
+    "Ws/Ws.csproj": ("Ws.Lib",),
+    "Rm/Glob/RmGlob.csproj": ("Rm.Lib", "System", "System.Collections.Generic", "System.IO", "System.Net.Http"),
+    "Rm/Stars/RmStars.csproj": ("System",), "Rm/Dots/RmDots.csproj": (),
+    "NetFx/Main/NetFxMain.csproj": ("NetFx.Lib", "NetFx.Other") + CS_MSB6, "NetFx/Dotted/NetFxDotted.csproj": CS_MSB6,
+    "NetFx/Tfi/NetFxTfi.csproj": CS_MSB6, "NetFx/Core5/NetFxCore5.csproj": CS_MSB7,
+    "NetFx/Std/NetFxStd.csproj": CS_MSB7, "NetFx/Imp/NetFxImp.csproj": CS_MSB7,
+    "Pkg/On/PkgOn.csproj": ("Pkg.Lib",), "Pkg/Cpm/PkgCpm.csproj": ("Pkg.Lib",), "Pkg/Off/PkgOff.csproj": CS_MSB7,
+    "Pkg/Proj/PkgProj.csproj": ("Pkg.Lib",) + CS_MSB7, "Pkg/Twice/PkgTwice.csproj": ("Pkg.Lib",) + CS_MSB7,
+    "Pkg/Path/PkgPath.csproj": ("Pkg.Alt",) + CS_MSB7,
+}
+# Per fix: the rule a reverted tool breaks, its project, the header fields and usings the tool gave BEFORE the fix
+# (measured), and the site that binds only under the fix, to (file, line).
+CS_MSB_MUTANTS = (
+    ("a property value trimmed: a multi-line <ImplicitUsings> read as enable, a condition blind to the whitespace",
+     "Ws/Ws.csproj", {"implicit_usings": True}, CS_MSB7 + ("Ws.Other",),
+     ("Ws/WsCalls.cs", 20, "Tick"), ("Ws/WsCalls.cs", 5)),
+    ("<Using Remove> compared literally: no wildcard, the removed namespaces stay", "Rm/Glob/RmGlob.csproj", {},
+     CS_MSB7 + ("Rm.Lib",), ("Rm/Glob/RmCalls.cs", 15, "Tick"), ("Rm/Glob/RmCalls.cs", 5)),
+    ("System.Net.Http on .NETFramework, and TargetFrameworkIdentifier empty in item conditions",
+     "NetFx/Main/NetFxMain.csproj", {}, CS_MSB7 + ("NetFx.Lib",), ("NetFx/Main/NetFxCalls.cs", 20, "Send"),
+     ("NetFx/Main/NetFxCalls.cs", 5)),
+    ("Directory.Packages.props never evaluated", "Pkg/On/PkgOn.csproj",
+     {"implicit_usings": True, "read": ["Directory.Build.props", "Pkg/On/PkgOn.csproj"]}, CS_MSB7,
+     ("Pkg/On/PkgOnCalls.cs", 15, "Tick"), ("Pkg/On/PkgOnCalls.cs", 5)),
+)
+# R41's self-test projects (selftest/corpus/Msb/): the GlobalUsings.g.cs real MSBuild writes for each, line for
+# line (`dotnet msbuild <proj> -t:GenerateGlobalUsings -p:Configuration=Release -p:Platform=AnyCPU`, SDK 8.0.202;
+# no file at all without the target, MSB4057), sorted.
+CS_MSB_LINES = {
+    'Msb/Bool/BoolProj.csproj': (
+        'global using global::Bo.Bare;',
+        'global using global::Bo.Lib;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.IO;',
+        'global using global::System.Linq;',
+        'global using global::System.Net.Http;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System;',
+    ),
+    'Msb/Choose/ChooseProj.csproj': (
+        'global using global::Ch.Lib;',
+        'global using global::Ch.Prop;',
+    ),
+    'Msb/Desk/DeskProj.csproj': (
+        'global using global::Dk.Lib;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.Drawing;',
+        'global using global::System.Linq;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System.Threading;',
+        'global using global::System.Windows.Forms;',
+        'global using global::System;',
+    ),
+    'Msb/Dots/DotsProj.csproj': (
+        'global using global::Dt.Lib;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.IO;',
+        'global using global::System.Net.Http;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System;',
+    ),
+    'Msb/Esc/EscProj.csproj': (
+        'global using Eo = global::Es.Other;',
+        'global using global::Es.Lib;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.IO;',
+        'global using global::System.Linq;',
+        'global using global::System.Net.Http;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System;',
+    ),
+    'Msb/Exists/Proj/ExProj.csproj': (
+        'global using global::Ex.Dir;',
+        'global using global::Ex.Lib;',
+        'global using global::Ex.Shared;',
+    ),
+    'Msb/Lower/LowerProj.csproj': (
+        'global using global::Lw.Lib;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.IO;',
+        'global using global::System.Linq;',
+        'global using global::System.Net.Http;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System;',
+    ),
+    'Msb/NoSdk/Bare/NoSdkBare.csproj': (
+    ),
+    'Msb/NoSdk/PropsOnly/PropsOnly.csproj': (
+    ),
+    'Msb/Rsp/Proj/RspProj.csproj': (
+        'global using global::Rs.Lib;',
+        'global using global::Rs.Two;',
+    ),
+    'Msb/SdkImp/Attr/SdkAttr.csproj': (
+        'global using global::Microsoft.Extensions.Configuration;',
+        'global using global::Microsoft.Extensions.DependencyInjection;',
+        'global using global::Microsoft.Extensions.Hosting;',
+        'global using global::Microsoft.Extensions.Logging;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.IO;',
+        'global using global::System.Linq;',
+        'global using global::System.Net.Http;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System.Threading;',
+        'global using global::System;',
+    ),
+    'Msb/SdkImp/Elem/SdkElem.csproj': (
+        'global using global::Microsoft.AspNetCore.Builder;',
+        'global using global::Microsoft.AspNetCore.Hosting;',
+        'global using global::Microsoft.AspNetCore.Http;',
+        'global using global::Microsoft.AspNetCore.Routing;',
+        'global using global::Microsoft.Extensions.Configuration;',
+        'global using global::Microsoft.Extensions.DependencyInjection;',
+        'global using global::Microsoft.Extensions.Hosting;',
+        'global using global::Microsoft.Extensions.Logging;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.IO;',
+        'global using global::System.Linq;',
+        'global using global::System.Net.Http.Json;',
+        'global using global::System.Net.Http;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System.Threading;',
+        'global using global::System;',
+    ),
+    'Msb/TgtOnly/TgtOnly.csproj': (
+        'global using global::Tg.Lib;',
+    ),
+    'Msb/Tlp/Proj/TlpProj.csproj': (
+        'global using global::Tl.Lib;',
+    ),
+    'Msb/Update/UpProj.csproj': (
+        'global using Thr = global::System.Threading;',
+        'global using global::System.Collections.Generic;',
+        'global using global::System.IO;',
+        'global using global::System.Linq;',
+        'global using global::System.Net.Http;',
+        'global using global::System.Threading.Tasks;',
+        'global using global::System;',
+        'global using global::Up.Lib;',
+        'global using static global::System.Math;',
+    ),
+}
+# Per R41 rule: the capture the tool built with that ONE rule reverted wrote (a scratch copy of Program.cs, the
+# rule's RED evidence): the project's fields expect.json asserts, its global usings, the site, its target under
+# the fix, and the site as the reverted tool bound it (None: unmoved).
+CS_MSB_R41_MUTANTS = (
+    ('Exists() not evaluated (taken as false)',
+     'Msb/Exists/Proj/ExProj.csproj',
+     {'notes': ['Msb/Exists/Directory.Build.props: condition not evaluated (taken as false): '
+                "Exists('../../../../far.txt')",
+                "Msb/Exists/Directory.Build.props: condition not evaluated (taken as false): Exists('ExCalls.cs')",
+                "Msb/Exists/Directory.Build.props: condition not evaluated (taken as false): Exists('Gone.cs')",
+                "Msb/Exists/Directory.Build.props: condition not evaluated (taken as false): Exists('Gone.props')",
+                'Msb/Exists/Directory.Build.props: condition not evaluated (taken as false): '
+                "Exists('Proj/ExCalls.cs')",
+                'Msb/Exists/Directory.Build.props: condition not evaluated (taken as false): '
+                "Exists('Shared.props')"],
+      'read': ['Msb/Exists/Directory.Build.props', 'Msb/Exists/Proj/ExProj.csproj']},
+     (),
+     ('Msb/Exists/Proj/ExCalls.cs', 15, 'Tick'), ('Msb/Exists/Proj/ExCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('Exists() read from the project directory in every condition',
+     'Msb/Exists/Proj/ExProj.csproj',
+     {'notes': ['Msb/Exists/Directory.Build.props: Exists() of a path outside the corpus, not read (taken as '
+                'false): ../../../../far.txt'],
+      'read': ['Msb/Exists/Directory.Build.props', 'Msb/Exists/Proj/ExProj.csproj']},
+     ('global using global::Ex.Lib;',),
+     ('Msb/Exists/Proj/ExCalls.cs', 15, 'Tick'), ('Msb/Exists/Proj/ExCalls.cs', 5),
+     None),
+    ("== / != compared as strings; a lone operand true only when 'true'",
+     'Msb/Bool/BoolProj.csproj',
+     {'implicit_usings': False},
+     ('global using global::Bo.Never;',),
+     ('Msb/Bool/BoolCalls.cs', 15, 'Tick'), ('Msb/Bool/BoolCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('Directory.Build.rsp not read',
+     'Msb/Rsp/Proj/RspProj.csproj',
+     {'implicit_usings': True, 'read': ['Directory.Build.props', 'Msb/Rsp/Proj/RspProj.csproj']},
+     ('global using global::System.Collections.Generic;', 'global using global::System.IO;',
+      'global using global::System.Linq;', 'global using global::System.Net.Http;',
+      'global using global::System.Threading.Tasks;', 'global using global::System.Threading;',
+      'global using global::System;'),
+     ('Msb/Rsp/Proj/RspCalls.cs', 15, 'Tick'), ('Msb/Rsp/Proj/RspCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('TreatAsLocalProperty ignored',
+     'Msb/Tlp/Proj/TlpProj.csproj',
+     {},
+     (),
+     ('Msb/Tlp/Proj/TlpCalls.cs', 15, 'Tick'), ('Msb/Tlp/Proj/TlpCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ("the project's TreatAsLocalProperty held only from the project file on (after Directory.Build.props)",
+     'Msb/Tlp/Proj/TlpProj.csproj',
+     {},
+     (),
+     ('Msb/Tlp/Proj/TlpCalls.cs', 15, 'Tick'), ('Msb/Tlp/Proj/TlpCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('an SDK named by an imported file (<Project Sdk> in Directory.Build.props) not imported',
+     'Msb/SdkImp/Attr/SdkAttr.csproj',
+     {'sdk': ['Microsoft.NET.Sdk']},
+     ('global using global::System.Collections.Generic;', 'global using global::System.IO;',
+      'global using global::System.Linq;', 'global using global::System.Net.Http;',
+      'global using global::System.Threading.Tasks;', 'global using global::System.Threading;',
+      'global using global::System;'),
+     ('Msb/SdkImp/Attr/SdkAttrCalls.cs', 15, 'Spin'), ('Msb/SdkImp/Attr/SdkAttrCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('an SDK named by an imported file (<Sdk Name> in an imported .props) not imported',
+     'Msb/SdkImp/Elem/SdkElem.csproj',
+     {'sdk': ['Microsoft.NET.Sdk']},
+     ('global using global::System.Collections.Generic;', 'global using global::System.IO;',
+      'global using global::System.Linq;', 'global using global::System.Net.Http;',
+      'global using global::System.Threading.Tasks;', 'global using global::System.Threading;',
+      'global using global::System;'),
+     ('Msb/SdkImp/Elem/SdkElemCalls.cs', 15, 'Spin'), ('Msb/SdkImp/Elem/SdkElemCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('<Using Update> ignored',
+     'Msb/Update/UpProj.csproj',
+     {},
+     ('global using global::System.Collections.Generic;', 'global using global::System.IO;',
+      'global using global::System.Linq;', 'global using global::System.Math;',
+      'global using global::System.Net.Http;', 'global using global::System.Threading.Tasks;',
+      'global using global::System.Threading;', 'global using global::System;', 'global using global::Up.Lib;'),
+     ('Msb/Update/UpCalls.cs', 15, 'Tick'), ('Msb/Update/UpCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ("a <Using Include>'s Exclude ignored",
+     'Msb/Update/UpProj.csproj',
+     {},
+     ('global using Thr = global::System.Threading;', 'global using global::System.Collections.Generic;',
+      'global using global::System.IO;', 'global using global::System.Linq;',
+      'global using global::System.Net.Http;', 'global using global::System.Threading.Tasks;',
+      'global using global::System;', 'global using global::Up.Lib;', 'global using global::Up.Other;',
+      'global using static global::System.Math;'),
+     ('Msb/Update/UpCalls.cs', 15, 'Tick'), ('Msb/Update/UpCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('%XX not decoded (condition operands, identities, metadata)',
+     'Msb/Esc/EscProj.csproj',
+     {'implicit_usings': False},
+     ('global using E%6F = global::Es.Other;', 'global using global::Es%2ELib;'),
+     ('Msb/Esc/EscCalls.cs', 15, 'Tick'), ('Msb/Esc/EscCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ("%XX decoded BEFORE the ';' split (%3B splits one Remove into two)",
+     'Msb/Esc/EscProj.csproj',
+     {'implicit_usings': True},
+     ('global using Eo = global::Es.Other;', 'global using global::Es.Lib;',
+      'global using global::System.Collections.Generic;', 'global using global::System.Net.Http;',
+      'global using global::System.Threading.Tasks;', 'global using global::System;'),
+     ('Msb/Esc/EscCalls.cs', 15, 'Tick'), ('Msb/Esc/EscCalls.cs', 5),
+     None),
+    ("a Remove compared without Windows' trailing-period rule",
+     'Msb/Dots/DotsProj.csproj',
+     {},
+     ('global using global::Dt.Lib;', 'global using global::System.Collections.Generic;',
+      'global using global::System.IO;', 'global using global::System.Linq;',
+      'global using global::System.Net.Http;', 'global using global::System.Threading.Tasks;',
+      'global using global::System.Threading;', 'global using global::System;'),
+     ('Msb/Dots/DotsCalls.cs', 15, 'Tick'), ('Msb/Dots/DotsCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('a project with no SDK still writes its Using items',
+     'Msb/NoSdk/Bare/NoSdkBare.csproj',
+     {'notes': ["ImplicitUsings is on but no SDK's Sdk.props is imported: no SDK Using items"], 'sdk': []},
+     ('global using global::Nb.Other;',),
+     ('Msb/NoSdk/Bare/NbCalls.cs', 17, 'Tick'), ('Msb/NoSdk/Bare/NbCalls.cs', 7),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('Sdk.props without Sdk.targets still writes the usings',
+     'Msb/NoSdk/PropsOnly/PropsOnly.csproj',
+     {'notes': []},
+     ('global using global::Po.Other;', 'global using global::System.Collections.Generic;',
+      'global using global::System.IO;', 'global using global::System.Linq;',
+      'global using global::System.Net.Http;', 'global using global::System.Threading.Tasks;',
+      'global using global::System.Threading;', 'global using global::System;'),
+     ('Msb/NoSdk/PropsOnly/PoCalls.cs', 17, 'Tick'), ('Msb/NoSdk/PropsOnly/PoCalls.cs', 7),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('an Sdk.targets-only import adds the SDK list',
+     'Msb/TgtOnly/TgtOnly.csproj',
+     {'notes': []},
+     ('global using global::System.Collections.Generic;', 'global using global::System.IO;',
+      'global using global::System.Linq;', 'global using global::System.Net.Http;',
+      'global using global::System.Threading.Tasks;', 'global using global::System.Threading;',
+      'global using global::System;', 'global using global::Tg.Lib;'),
+     ('Msb/TgtOnly/TgCalls.cs', 15, 'Tick'), ('Msb/TgtOnly/TgCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('UseWPF / UseWindowsForms not read',
+     'Msb/Desk/DeskProj.csproj',
+     {},
+     ('global using global::Dk.Lib;', 'global using global::System.Collections.Generic;',
+      'global using global::System.IO;', 'global using global::System.Linq;',
+      'global using global::System.Net.Http;', 'global using global::System.Threading.Tasks;',
+      'global using global::System.Threading;', 'global using global::System;'),
+     ('Msb/Desk/DkCalls.cs', 15, 'Touch'), ('Msb/Desk/DkCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('an item type matched in its own letter case only (<using> ignored)',
+     'Msb/Lower/LowerProj.csproj',
+     {},
+     ('global using global::System.Collections.Generic;', 'global using global::System.IO;',
+      'global using global::System.Linq;', 'global using global::System.Net.Http;',
+      'global using global::System.Threading.Tasks;', 'global using global::System.Threading;',
+      'global using global::System;'),
+     ('Msb/Lower/LowerCalls.cs', 15, 'Tick'), ('Msb/Lower/LowerCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('<Choose> not evaluated',
+     'Msb/Choose/ChooseProj.csproj',
+     {},
+     (),
+     ('Msb/Choose/ChooseCalls.cs', 15, 'Tick'), ('Msb/Choose/ChooseCalls.cs', 5),
+     {'defs': [], 'dispatch': [], 'resolution': 'none'}),
+    ('a <When> decided with the final properties (the item pass)',
+     'Msb/Choose/ChooseProj.csproj',
+     {},
+     ('global using global::Ch.Late;', 'global using global::Ch.Prop;'),
+     ('Msb/Choose/ChooseCalls.cs', 15, 'Tick'), ('Msb/Choose/ChooseCalls.cs', 5),
+     {'defs': [{'alt_lines': [],
+                'body': True,
+                'file': 'Msb/Choose/ChooseCalls.cs',
+                'full_name': 'Ch.Late.Timer.Tick',
+                'interface': False,
+                'line': 24,
+                'name': 'Tick',
+                'type': 'function'}],
+      'dispatch': [],
+      'resolution': 'symbol'}),
+)
+
+
+def _cs_using_items(project: dict) -> list:
+    """A project's captured global usings as MSBuild's item identities."""
+    return sorted(re.sub(r"^global using (?:static )?(?:\w+ = )?global::|;$", "", x)
+                  for x in project.get("global_usings") or [])
+
+
+def gate_l_msbuild(TR, kit: Path, doc: dict) -> None:
+    """The self-test's MSBuild shapes against real MSBuild's answers, and per fix a mutant: the capture a reverted tool
+    would write, which selftest/expect.json must refuse (`selftest --check` then fails, without .NET). The same
+    reverts, built from a scratch copy of Program.cs, are the fixes' RED evidence."""
+    projects = {p.get("path"): p for p in (doc.get("resolver") or {}).get("projects") or []}
+    bad = {k: _cs_using_items(projects.get(k) or {}) for k, v in CS_MSB_USINGS.items()
+           if k not in projects or _cs_using_items(projects[k]) != sorted(v)}
+    check(f"the reference's global usings == real MSBuild's Using items on {len(CS_MSB_USINGS)} self-test projects "
+          f"(SDK 8.0.202): verbatim property values, <Using Remove> wildcards, System.Net.Http outside .NETFramework, "
+          f"Directory.Packages.props", not bad, bad)
+    for label, proj, fields, usings, site, target in CS_MSB_MUTANTS:
+        rows = _cs_rows(doc, *site)
+        check(f"{site[0]}:{site[1]} binds {target[0]}:{target[1]} only under the rule below",
+              len(rows) == 1 and _cs_locs(rows[0].get("defs")) == [list(target)], rows[:1])
+        mut = copy.deepcopy(doc)
+        p = next((x for x in mut["resolver"]["projects"] if x.get("path") == proj), None)
+        if p is None:
+            check(f"mutant ({label}): {proj} is in the capture", False)
+            continue
+        p.update(fields, global_usings=[f"global using global::{x};" for x in usings])
+        for r in _cs_rows(mut, *site):
+            r.update(resolution="none", defs=[], dispatch=[])
+        try:
+            with open(kit / "truth_roslyn" / "selftest" / "expect.json", encoding="utf-8") as fh:
+                probs = TR.expect_problems(mut, json.load(fh))
+        except Exception as exc:  # noqa: BLE001
+            probs = [repr(exc)]
+        on_project = [x for x in probs if proj in x]
+        on_site = [x for x in probs if x.startswith("fix ")]      # a site row names its `what`, not its file
+        check(f"mutant, the capture a tool without the rule writes ({label}): expect.json refuses it, on the "
+              f"project's evaluation and on the site, and on nothing else",
+              on_project and on_site and len(on_project) + len(on_site) == len(probs), probs[:6])
+    gate_l_msbuild_r41(TR, kit, doc, projects)
+    mt = re.search(r"\bstring\[\]\s+UsingsBase\s*=\s*\{(.*?)\};",
+                   (kit / "truth_roslyn" / "Program.cs").read_text(encoding="utf-8"), re.S)
+    got = tuple(re.findall(r'"([^"]*)"', mt.group(1))) if mt else None
+    check("Program.cs's UsingsBase still lists the SDK's seven namespaces, System.Net.Http among them: a drift lock "
+          "compares it with the product's list, and the .NETFramework rule filters it where it is read",
+          got == CS_MSB7, got)
+
+
+def gate_l_msbuild_r41(TR, kit: Path, doc: dict, projects: dict) -> None:
+    """R41's MSBuild shapes (selftest/corpus/Msb/): each project's global usings == the GlobalUsings.g.cs real MSBuild
+    writes for it, line for line (CS_MSB_LINES); per rule, the capture the tool built with that rule reverted wrote
+    (CS_MSB_R41_MUTANTS, measured: red evidence), which expect.json must refuse on the project and, where the revert
+    moves the site, on the site, and on nothing else; and the WindowsDesktop lists the tool reads, as data."""
+    bad = {k: sorted((projects.get(k) or {}).get("global_usings") or []) for k, v in CS_MSB_LINES.items()
+           if k not in projects or sorted(projects[k].get("global_usings") or []) != sorted(v)}
+    check(f"R41: the reference's global usings == the GlobalUsings.g.cs real MSBuild writes (`dotnet msbuild <proj> "
+          f"-t:GenerateGlobalUsings`, SDK 8.0.202; none without the target), line for line, on {len(CS_MSB_LINES)} "
+          f"self-test projects: Exists(), boolean-like ==, Directory.Build.rsp, TreatAsLocalProperty, an imported "
+          f"file's SDK, Using Update / Exclude, %XX after the ';' split, a trailing-period Remove, no SDK targets, "
+          f"Sdk.targets alone, UseWPF / UseWindowsForms, a lower-case item type, <Choose>", not bad, bad)
+    try:
+        with open(kit / "truth_roslyn" / "selftest" / "expect.json", encoding="utf-8") as fh:
+            expect = json.load(fh)
+    except Exception as exc:  # noqa: BLE001
+        check("R41: selftest/expect.json reads", False, repr(exc))
+        return
+    for label, proj, fields, lines, site, target, moved in CS_MSB_R41_MUTANTS:
+        rows = _cs_rows(doc, *site)
+        check(f"R41: {site[0]}:{site[1]} binds {target[0]}:{target[1]} (the fixed tool's capture)",
+              len(rows) == 1 and _cs_locs(rows[0].get("defs")) == [list(target)], rows[:1])
+        mut = copy.deepcopy(doc)
+        p = next((x for x in mut["resolver"]["projects"] if x.get("path") == proj), None)
+        if p is None:
+            check(f"R41 mutant ({label}): {proj} is in the capture", False)
+            continue
+        p.update(copy.deepcopy(fields), global_usings=list(lines))
+        for r in _cs_rows(mut, *site):
+            if moved is not None:
+                r.update(copy.deepcopy(moved))
+        probs = TR.expect_problems(mut, expect)
+        on_project = [x for x in probs if proj in x]
+        on_site = [x for x in probs if x.startswith("fix ")]
+        check(f"R41 mutant, the capture the tool with this rule reverted wrote ({label}): expect.json refuses it on "
+              f"the project's evaluation{' and on the site' if moved is not None else ''}, and on nothing else",
+              on_project and bool(on_site) == (moved is not None) and len(on_project) + len(on_site) == len(probs),
+              probs[:6])
+    text = (kit / "truth_roslyn" / "Program.cs").read_text(encoding="utf-8")
+    got = {}
+    for nm in ("WindowsFormsAddedUsings", "WpfRemovedUsings"):
+        mt = re.search(r"\bstring\[\]\s+" + nm + r"\s*=\s*\{(.*?)\};", text, re.S)
+        got[nm] = tuple(re.findall(r'"([^"]*)"', mt.group(1))) if mt else None
+    check("R41: Program.cs's WindowsDesktop lists are SDK 8.0.202's (Microsoft.NET.Sdk.WindowsDesktop.WindowsForms.props "
+          "adds System.Drawing and System.Windows.Forms, ...WPF.props removes System.IO and System.Net.Http)",
+          got == {"WindowsFormsAddedUsings": ("System.Drawing", "System.Windows.Forms"),
+                  "WpfRemovedUsings": ("System.IO", "System.Net.Http")}, got)
 
 
 def _cs_synthetic_dump(edges=()) -> dict:
@@ -3332,6 +3938,7 @@ def gate_l(mods: dict, kit: Path, base: Path) -> None:
     for label, cases in CS_CATEGORIES.items():
         bad = _cs_expect(doc, cases)
         check(f"{label} ({len(cases)} sites)", not bad, bad)
+    gate_l_msbuild(TR, kit, doc)
     # the adapter's derivations on synthetic raw rows (pure functions; the captured file is not involved)
     t = {"name": "Find", "full_name": "I.Find", "interface": True, "decls": [{"file": "src/I.cs", "line": 2,
                                                                              "alt_lines": [], "body": False}]}
@@ -3722,6 +4329,12 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
             + [C._static_iface(dict(rows[(12, "Get")], dispatch_rule="weird")),
                C._static_iface(dict(rows[(15, "Area")], defs=[dict(_ne(NF["circle"], 4, "Area"), interface="yes")]))],
             [True, False, False, False, True, None, None])
+    mixed = [_ne(NF["circle"], 4, "Area"), _ne(NF["irepo"], 3, "Get", True, False)]
+    _ncheck("AC5: a row without dispatch targets whose defs disagree (one an interface member, one not) binds "
+            "statically to an interface member, in either order: ANY def whose `interface` is true makes it true, "
+            "never only all of them (_static_iface; static_dispatchable reads it the same way)",
+            lambda: [f(dict(rows[(15, "Area")], defs=d)) for f in (C._static_iface, C.static_dispatchable)
+                     for d in (mixed, mixed[::-1])], [True, True, True, True])
     raw = {"file": "src/A.cs", "line": 3, "col": 4, "form": "name_attr", "name": "Find", "resolution": "symbol",
            "site_kind": "invocation", "target": {"name": "Find", "full_name": "I.Find", "interface": True,
                                                  "decls": [{"file": "src/I.cs", "line": 2, "body": False}]},
@@ -3781,6 +4394,76 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
             "member (BigOrder.Total's is the override rule): extracted_dispatch 3, through an interface 2, exact",
             g4c, (6, 6, 1, 4, 1, {"extracted_dispatch": 3, "extracted_dispatch_iface": 2, "exact": True},
                   [("run", "sG"), ("run", "sS")]))
+    itot = _ne("src/Shop/ITotal.cs", 3, "Total", True, False)      # an interface member with no graph node
+
+    def with_row(row, before16=False):
+        t2 = copy.deepcopy(T)
+        i16 = next(i for i, r in enumerate(t2["rows"]) if r["line"] == 16)
+        t2["rows"].insert(i16 if before16 else i16 + 1, row)
+        return t2
+
+    def g4c_both_sites():
+        out = []
+        for before in (False, True):      # the interface site after, then before, the virtual site of row 16
+            t2 = with_row(_nrow(NF["svc"], 17, "Service.Run", 10, "Total", [itot], [_ne(NF["big"], 3, "Total")],
+                                "interface"), before)
+            g = CC.score(t2, n_dump(ext))["g4c"]
+            out.append((C.truth_pairs_cs(t2, dump0["nodes"])["td_iface"].get(("run", "bT")),
+                        g["extracted_dispatch_iface"], g["exact"]))
+        return out
+    _ncheck("G4c (td_iface): a dispatch pair produced by BOTH a site bound statically to an interface member and a "
+            "virtual site (Run -> BigOrder.Total, the interface site after or before the virtual one) reads True — True "
+            "wins over False, the strict reading — so G4c counts it: 3 through an interface, exact", g4c_both_sites,
+            [(True, 3, True), (True, 3, True)])
+
+    def g4c_broken_rule():
+        t2 = copy.deepcopy(T)
+        for r in t2["rows"]:
+            if r["line"] == 16:
+                r["dispatch_rule"] = "virtual"          # not `interface` / `override`: the row breaks AC5
+        g = CC.score(t2, n_dump(ext))["g4c"]
+        return (g["extracted_dispatch"], g["extracted_dispatch_iface"], g["exact"], g["iface_unknown"])
+    _ncheck("G4c: an EXTRACTED dispatch-only edge whose producing row breaks AC5 (dispatch targets, a rule that is "
+            "neither interface nor override: Run -> BigOrder.Total) leaves the count NOT exact (exact False, "
+            "iface_unknown 1): the true count could be higher", g4c_broken_rule, (3, 2, False, 1))
+
+    def g4c_any_site():
+        out = []
+        for t2 in (T, with_row(_nrow(NF["svc"], 17, "Service.Run", 10, "Total", [itot], [], None))):
+            s = CC.score(t2, n_dump(ext))
+            g = s["g4c"]
+            text = CC.format_score(s)
+            line = next((ln for ln in text.splitlines() if ln.startswith("G4c:")), "")
+            out.append((g["extracted_dispatch_iface"], g.get("extracted_dispatch_iface_any_site"),
+                        g.get("any_site_decisive"),
+                        bool(re.search(r"any same-named site[^=]*=%d\b" % (g.get("extracted_dispatch_iface_any_site")
+                                                                         or -1), line)) and "never decisive" in line))
+        return out
+    _ncheck("AC24: beside G4c's decisive producing-site count compare_calls reports the count over ANY same-named site "
+            "of the caller (extracted_dispatch_iface_any_site, any_site_decisive False, printed on the G4c line): Run's "
+            "interface-bound `Total` site that produces nothing lifts it to 3 while the producing-site count stays 2 "
+            "(BigOrder.Total comes from the virtual site); without that site the two agree", g4c_any_site,
+            [(2, 2, False, True), (2, 3, False, True)])
+
+    def g4c_any_site_rows():
+        out = []
+        for row in (
+                # (a) a same-named site the reference resolved to nothing: no defs, no dispatch targets, no rule
+                #     (_static_iface None) — it binds to no interface member, so it never counts
+                _nrow(NF["svc"], 17, "Service.Run", 10, "Total", [], [], None),
+                # (b) a site bound statically to an interface member declared OUTSIDE the corpus (no def), with a
+                #     dispatch target (Order.Total, already a static pair of Run's, so no new T_d pair) and the rule
+                #     `interface` — it binds to an interface member, so it counts though it has no def
+                _nrow(NF["svc"], 17, "Service.Run", 10, "Total", [], [_ne(NF["order"], 3, "Total")], "interface")):
+            t2 = with_row(row)
+            g = CC.score(t2, n_dump(ext))["g4c"]
+            out.append((g["extracted_dispatch_iface"], g.get("extracted_dispatch_iface_any_site"),
+                        ("run", "Total") in C.truth_pairs_cs(t2, dump0["nodes"])["iface_sites"]))
+        return out
+    _ncheck("AC24 (iface_sites): a same-named site with no defs and no dispatch target (resolution none) is NOT an "
+            "interface-bound site (the any-site count stays 2); a site with no def whose dispatch targets come by the "
+            "`interface` rule (an external interface's member) IS one (the any-site count rises to 3); the decisive "
+            "producing-site count stays 2 in both", g4c_any_site_rows, [(2, 2, False), (2, 3, True)])
 
     # ---- delta: G2d (K4's M16) ----------------------------------------------------------------------------------
     def g2d():
@@ -3865,6 +4548,151 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
             "census at its exact share, else Wilson), over the total population; summed-row Wilson beside it, never "
             "decisive", pooled, (100, round((10 + 90 * 0.95) / 100, 4), round((10 + 90 * lb_b) / 100, 4), False))
 
+    # ---- AC29: every threshold on the integer inputs; the 4-decimal fields are display only -----------------------
+    # 120 of 126: Wilson's lower bound is 0.8999983..., printed (4 decimals) as 0.9 — at the 90% threshold the display
+    # passes and the exact bound does not. A full-precision value is compared to 1e-12 (relative): far finer than the
+    # 4-decimal display, independent of the order a sum is taken in.
+    w120 = C.wilson(120, 126)[1]
+
+    def close(got, want):
+        return isinstance(got, float) and abs(got - want) <= 1e-12 * max(1.0, abs(want))
+
+    def audit_key(label, bucket, good, bad, population, verdict=None):
+        rows_ = {f"{label}{i}": {"caller": f"a{i}", "callee": f"b{i}", "verdict": verdict, "buckets": [bucket]}
+                 for i in range(good + bad)}
+        want = "FALSE" if bucket in ("removed", "removed_confirmed") else "TRUE"
+        other = "TRUE" if want == "FALSE" else "FALSE"
+        sheet = {f"{label}{i}": (want if i < good else other) for i in range(good + bad)}
+        key = {"label": label, "rows": rows_, "bucket_sizes": {bucket: population}, "sampled": {bucket: good + bad}}
+        if bucket in ("removed", "removed_confirmed"):
+            key["strata"] = {"removed": {"population": population, "sampled": good + bad},
+                             "removed_confirmed": {"population": 0, "sampled": 0}}
+        return key, [sheet, dict(sheet)]
+
+    def exact_at_boundary():
+        out = {}
+        for tag, pop, lb in (("sampled 126 of 1000", 1000, w120), ("census 126 of 126", 126, 120 / 126)):
+            e = AS.score(*audit_key("x_g39_", "added", 120, 6, pop))["exact"]["added"]
+            out[tag] = (e["lower_bound"], close(e.get("lower_bound_exact"), lb), close(e.get("share_exact"), 120 / 126),
+                        e["good"], e["audited"], e.get("lower_bound_exact", 1) < 0.9, e.get("share_fraction"),
+                        e.get("lower_bound_fraction"))
+        return out
+    _ncheck("AC29 (exact_bounds): a stratum sampled below its population carries its Wilson lower bound at FULL "
+            "precision from the integers (lower_bound_exact 0.8999983 < 0.9: the threshold fails) beside the 4-decimal "
+            "display (lower_bound 0.9); a census carries its exact share 120/126 (share_fraction, and lower_bound_fraction "
+            "for the census only: a Wilson bound is irrational); good / audited are the integer inputs",
+            exact_at_boundary, {"sampled 126 of 1000": (0.9, True, True, 120, 126, True, [20, 21], None),
+                                "census 126 of 126": (round(120 / 126, 4), True, True, 120, 126, False, [20, 21],
+                                                      [20, 21])})
+
+    def removed_exact_at_boundary():
+        r = AS.score(*audit_key("x_g39_", "removed", 120, 6, 1000))["removed_all_exact"]
+        return (r["lower_bound"], close(r.get("lower_bound_exact"), w120), r.get("lower_bound_exact", 1) < 0.9,
+                close(r.get("share_exact"), 120 / 126), close((r["strata"].get("removed") or {}).get("lb_exact"), w120),
+                r.get("share_fraction"), r.get("lower_bound_fraction"))
+    _ncheck("AC29 (removed_all_exact): its population-weighted lower bound is computed from the integers at full "
+            "precision (the sampled stratum's Wilson bound 0.8999983, never the rounded 0.9 score() prints): "
+            "lower_bound_exact < 0.9 beside the display lower_bound 0.9; share_fraction exact (20/21)",
+            removed_exact_at_boundary, (0.9, True, True, True, True, [20, 21], None))
+
+    def old_removed_all(buckets, st):      # the closed decisions' removed_all, written out here (PREREG_CS reading 2)
+        num = den = num_lb = 0.0
+        parts = {}
+        for b in ("removed", "removed_confirmed"):
+            e = buckets.get(b)
+            pop = int(((st.get(b) or {}).get("population")) or 0)
+            if not e or not e.get("n") or pop <= 0:
+                continue
+            share = e["false"] / e["n"]
+            lb = share if b == "removed_confirmed" else (e.get("wilson_lb") or 0.0)
+            num, num_lb, den = num + pop * share, num_lb + pop * lb, den + pop
+            parts[b] = {"population": pop, "audited": e["n"], "false": e["false"], "share": round(share, 4),
+                        "lb_used": round(lb, 4)}
+        if not den:
+            return {"population": 0, "share": None, "lower_bound": None, "strata": parts}
+        return {"population": int(den), "share": round(num / den, 4), "lower_bound": round(num_lb / den, 4),
+                "strata": parts}
+
+    def removed_all_unchanged():
+        out = []
+        # (1 of 4 sampled from 1000: removed_all reads 0.0466 from the rounded Wilson bound 0.0456; the unrounded
+        # bound would give 0.0465 — a removed_all moved to full precision changes a closed decision's number)
+        for good, bad, pop in ((120, 6, 1000), (10, 0, 10), (3, 4, 40), (1, 3, 1000)):
+            key, sheets = audit_key("x_g39_", "removed", good, bad, pop)
+            key["rows"]["c0"] = {"caller": "c", "callee": "d", "verdict": "confirmed", "buckets": ["removed_confirmed"]}
+            key["strata"]["removed_confirmed"] = {"population": 1, "sampled": 1}
+            for s in sheets:
+                s["c0"] = "FALSE"
+            res = AS.score(key, sheets)
+            out.append(res["removed_all"] == old_removed_all(res["buckets"], key["strata"]))
+        return out
+    _ncheck("PREREG_CS reading 2: removed_all keeps its old computation byte for byte (the sampled stratum at the "
+            "Wilson bound score() rounds, the exhaustive one at its share), so the closed decisions recompute "
+            "identically", removed_all_unchanged, [True, True, True, True])
+
+    pool_share = (1000 * Fraction(120, 126) + 10 * Fraction(10, 10)) / 1010
+    pool_lb = (1000 * w120 + 10 * 1.0) / 1010
+
+    def pooled_exact():
+        a = AS.score(*audit_key("a_g39_", "added", 120, 6, 1000))
+        b = AS.score(*audit_key("b_g39_", "added", 10, 0, 10))
+        r = AS.pool_scores([("a", a), ("b", b)], "added")
+        c = AS.score(*audit_key("c_g39_", "added", 120, 6, 126))           # a census: every part of r2 is one
+        r2 = AS.pool_scores([("b", b), ("c", c)], "added")
+        return (r.get("share_fraction"), close(r.get("share_exact"), float(pool_share)),
+                close(r.get("lower_bound_exact"), pool_lb), r["lower_bound"],
+                [(p.get("good"), p.get("audited"), p.get("sampled")) for p in r["parts"]], r.get("lower_bound_fraction"),
+                (r2.get("share_fraction"), r2.get("lower_bound_fraction")))
+    _ncheck("AC29 (pool_scores): the pooled share and lower bound are computed from each corpus's integers (good, "
+            "audited, population, sampled) at full precision — share_fraction the exact rational, lower_bound_exact "
+            "from the unrounded Wilson bound of 120/126 and the census 10/10 — never from a part's 4-decimal fields; "
+            "the parts carry the integers; with every part a census the pooled bound is exact too (lower_bound_fraction "
+            "65/68 = (10 + 120) / 136)", pooled_exact,
+            ([pool_share.numerator, pool_share.denominator], True, True, round(pool_lb, 4),
+             [(120, 126, 126), (10, 10, 10)], None, ([65, 68], [65, 68])))
+
+    def voids_integers():
+        out = []
+        for wrong, judged in ((1, 10), (1, 11), (2000, 20001), (0, 5), (0, 0)):
+            rows_ = {f"r{i}": {"caller": f"a{i}", "callee": f"b{i}", "verdict": "confirmed", "buckets": ["added"]}
+                     for i in range(judged)}
+            sheet = {f"r{i}": ("FALSE" if i < wrong else "TRUE") for i in range(judged)}
+            for i in range(3):            # rows the reference did not judge (unverified): never judged, never wrong
+                rows_[f"u{i}"] = {"caller": f"u{i}", "callee": f"w{i}", "verdict": "unverified", "buckets": ["added"]}
+                sheet[f"u{i}"] = "FALSE"
+            r = AS.score({"label": "v_g39", "rows": rows_}, [sheet, dict(sheet)])["resolver"]
+            out.append((r["judged"], r["wrong"], r["error_rate"], r["voids_g_deltas"]))
+        return out
+    _ncheck("AC29 (score's resolver): the reference error rate voids the corpus's G deltas when wrong x 10 >= judged, "
+            "compared on the integers: 1 of 10 voids; 1 of 11 does not; 2000 of 20001 does not although its display "
+            "error_rate reads 0.1; 0 wrong of 0 judged (only unverified rows) has no rate and voids nothing",
+            voids_integers,
+            [(10, 1, 0.1, True), (11, 1, 0.0909, False), (20001, 2000, 0.1, False), (5, 0, 0.0, False),
+             (0, 0, None, False)])
+
+    def score_cli_full_precision():
+        key, sheets = audit_key("x_g39_", "removed", 120, 6, 1000)
+        d = nb / "score_cli_ac29"
+        d.mkdir(parents=True, exist_ok=True)
+        _write(d / "key.json", json.dumps(key))
+        _sheet_csv(d / "s1.csv", sheets[0])
+        _sheet_csv(d / "s2.csv", sheets[1])
+        rc, out, _err, exc = _cli(AS.main, ["score", f"--key={d / 'key.json'}", f"--sheet={d / 's1.csv'}",
+                                            f"--sheet={d / 's2.csv'}", f"--json={d / 'score.json'}"])
+        res = json.loads((d / "score.json").read_text(encoding="utf-8")) if (d / "score.json").is_file() else {}
+        rx = res.get("removed_all_exact") or {}
+        ex = (res.get("exact") or {}).get("removed") or {}
+        rxl = [ln for ln in out.splitlines() if ln.startswith("removed_all_exact")]
+        bl = [ln for ln in out.splitlines() if ln.strip().startswith("removed ") and "population=" in ln]
+        tail = "; full precision (AC29: what a threshold reads) "
+        return (rc, exc, close(rx.get("lower_bound_exact"), w120), rx.get("lower_bound"),
+                len(rxl) == 1 and rxl[0].endswith(tail + repr(rx.get("lower_bound_exact")))
+                and f"(lower bound {rx.get('lower_bound')})" in rxl[0],
+                len(bl) == 1 and bl[0].endswith(tail + repr(ex.get("lower_bound_exact"))))
+    _ncheck("AC29 (audit_sample score's printout): the removed_all_exact line prints its lower_bound_exact at FULL "
+            "precision (0.8999983..., what a threshold reads) beside the rounded display (0.9), like the per-bucket "
+            "exact lines", score_cli_full_precision, (0, None, True, 0.9, True, True))
+
     # ---- AC11: the reference error rate per corpus x engine (union of the main and dispatch samples) -------------
     def sample(label, pairs_, wrong=(), verdict="confirmed", flip=None):
         rows_ = {f"{label}-{i}": {"caller": a, "callee": b, "verdict": verdict, "buckets": ["added"]}
@@ -3903,6 +4731,44 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
         return (g["judged"], g["wrong"], len(g["conflicts"]))
     _ncheck("AC11: a pair agreed TRUE in one sample and FALSE in the other counts ONCE, as wrong (the strict reading), "
             "and is listed", conflict, (13, 1, 1))
+
+    # AC26's three readings: rows of (pair, reference verdict, (reviewer 1, reviewer 2)) per sample
+    def votes(label, rows_):
+        key = {"label": label, "rows": {f"{label}-{i}": {"caller": p[0], "callee": p[1], "verdict": v,
+                                                         "buckets": ["added"]} for i, (p, v, _vv) in enumerate(rows_)}}
+        return (key, [{f"{label}-{i}": vv[j] for i, (_p, _v, vv) in enumerate(rows_)} for j in (0, 1)], label)
+    ok10 = [(p, "confirmed", ("TRUE", "TRUE")) for p in P10]
+    disputed, half_f, half_t, split = ("d1", "e1"), ("h1", "k1"), ("h2", "k2"), ("s1", "x1")
+    ac26_main = ok10 + [(disputed, "confirmed", ("TRUE", "FALSE")), (half_f, "confirmed", ("FALSE", "FALSE")),
+                        (half_t, "confirmed", ("UNSURE", "TRUE")), (split, "refuted", ("TRUE", "TRUE"))]
+    ac26_impl = [(disputed, "confirmed", ("UNSURE", "UNSURE")), (half_f, "confirmed", ("TRUE", "UNSURE")),
+                 (half_t, "confirmed", ("TRUE", "TRUE")), (split, "refuted", ("FALSE", "FALSE"))]
+    ac26_samples = [votes("c_g39", ac26_main), votes("c_g39_impl", ac26_impl), votes("c_g51", ok10),
+                    votes("c_g51_impl", ok10[:3])]
+
+    def ac26():
+        g = AS.reference_error_rate(ac26_samples)["engines"]["g39"]
+        return (g["judged"], g["wrong"], sorted((x["caller"], x["callee"]) for x in g["conflicts"]),
+                sorted((x["caller"], x["callee"]) for x in g["wrong_rows"]))
+    _ncheck("AC26: a pair the reviewers agreed on in NO sample (a dispute in one, UNSURE in the other) is outside the "
+            "rate, neither judged nor wrong; a pair agreed in one sample and not in the other is judged by the agreed one "
+            "(FALSE on a confirmed pair: wrong; TRUE: right); a pair agreed TRUE in one and FALSE in the other counts "
+            "once, as wrong, and is listed: 13 judged, 2 wrong", ac26,
+            (13, 2, [split], sorted([half_f, split])))
+
+    def ac26_cited():
+        dirs = []
+        for key, sheets, label in ac26_samples:
+            d = nb / "refrate_ac26" / label
+            _write(d / "key.json", json.dumps(key))
+            for i, s in enumerate(sheets, 1):
+                _sheet_csv(d / f"sheet_r{i}.csv", s)
+            dirs.append(f"--dir={d}")
+        rc, out, _err, exc = _cli(AS.main, ["refrate"] + dirs)
+        return {"docstring": "AC26" in (AS.reference_error_rate.__doc__ or ""), "rc": (rc, exc),
+                "printout": "AC26" in out and "2/13" in out}
+    _ncheck("AC26 is cited where the rule lives: reference_error_rate's docstring and `refrate`'s printout (2 wrong of "
+            "13 judged on that sample set)", ac26_cited, {"docstring": True, "rc": (0, None), "printout": True})
 
     def refusals():
         out = []
@@ -3944,15 +4810,18 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
     # ---- AC12 + §8.3: the spot substitution on both engines, and the FINAL list (K4's M24) ------------------------
     es = "dotnet__eShop"
 
-    def spot_fixture():
-        syms = list(IS.CS_SPOTS[es]) + [IS.CS_RESERVES[es][0]]
+    def spot_fixture(n_reserves=1, no_ref=()):
+        """The corpus's spots then its first n_reserves reserves, each a target node with one caller (a reference row
+        and a dump edge); a symbol whose index is in no_ref gets no reference row (no hop-1 caller)."""
+        syms = list(IS.CS_SPOTS[es]) + list(IS.CS_RESERVES[es][:n_reserves])
         nodes, rows_, edges = [], [], []
         for i, sym in enumerate(syms):
             name, _, f = sym.partition("@")
             cf = f"src/Caller{i}/C{i}.cs"
             nodes += [(f"t{i}", "Method", name, f, 10), (f"c{i}", "Method", f"C{i}.Call", cf, 3)]
-            rows_.append(_nrow(cf, 5, f"C{i}.Call", 3, name.split(".")[-1], [_ne(f, 10, name.split(".")[-1])], [],
-                               None))
+            if i not in no_ref:
+                rows_.append(_nrow(cf, 5, f"C{i}.Call", 3, name.split(".")[-1], [_ne(f, 10, name.split(".")[-1])], [],
+                                   None))
             edges.append((f"c{i}", f"t{i}", "INFERRED"))
         return syms, {"schema": "call-linking/truth/1", "resolver": {}, "rows": rows_}, nodes, edges
 
@@ -3967,6 +4836,15 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
             "(E-r1) in its place; the others stay", substitution,
             (True, [IS.CS_SPOTS[es][0]], ["g51"]))
 
+    def failing_reserve():
+        syms, t, nodes, edges = spot_fixture(n_reserves=2, no_ref=(5,))      # E-r1 has no reference caller
+        r = IS.substitute(t, {"g39": n_dump([], nodes), "g51": n_dump([edges[0]], nodes)}, es)
+        return (r["final"] == [syms[6]] + syms[1:5], (r["substitutions"] or [{}])[0].get("replacement") == syms[6],
+                syms[5] in r["final"], sorted(r["checks"].get(syms[5], {}).get("g39", {}).get("problems") or []))
+    _ncheck("§8.3: a reserve that fails the checks is never used — E-r1 (no hop-1 caller) is passed over and E-r2, the "
+            "first reserve that passes on both engines, replaces the SATURATED spot", failing_reserve,
+            (True, True, False, ["the reference gives it no hop-1 caller"]))
+
     def final_list():
         syms, t, nodes, edges = spot_fixture()
         d = nb / "spots"
@@ -3980,7 +4858,8 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
         for tag, f in (("ok", final), ("other corpus", dict(final, corpus="jellyfin__jellyfin")),
                        ("a stray symbol", dict(final, final=final["final"] + ["Nope.X@src/x.cs"])),
                        ("one engine", dict(final, engines=["g39"])),
-                       ("a repeat", dict(final, final=final["final"] + [syms[1]]))):
+                       ("a repeat", dict(final, final=final["final"] + [syms[1]])),
+                       ("a changed registered list", dict(final, registered=list(IS.CS_SPOTS[es])[::-1]))):
             fps[tag] = d / f"final_{len(fps)}.json"
             _write(fps[tag], json.dumps(f))
         js = d / "out.json"
@@ -3990,16 +4869,96 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
                "--corpus of another corpus": _cli(IS.main, base_args + ["--corpus=jellyfin__jellyfin",
                                                                         f"--final={fps['ok']}"])[0],
                "--symbols with --final": _cli(IS.main, base_args + [f"--final={fps['ok']}", "--symbols=A.b"])[0]}
-        for tag in ("other corpus", "a stray symbol", "one engine", "a repeat"):
+        for tag in ("other corpus", "a stray symbol", "one engine", "a repeat", "a changed registered list"):
             rcs[tag] = _cli(IS.main, base_args + [f"--final={fps[tag]}"])[0]
         measured = [r["symbol"] for r in json.loads(js.read_text(encoding="utf-8"))[0]["spots"]] if js.is_file() else None
         return rcs, measured == final["final"]
     _ncheck("AC12: impact_spot on a C# --corpus measures its FINAL list (--final=<id>/spots_final.json): without "
             "--final it refuses (exit 2); with it, exactly that list in its order (a reserve included); a final list "
             "of another corpus, holding a symbol `substitute` cannot write, settled on one engine, repeating a symbol, "
-            "or given with --symbols is refused (exit 2)", final_list,
+            "whose `registered` list is not the corpus's CS_SPOTS, or given with --symbols is refused (exit 2)",
+            final_list,
             ({"no --final": 2, "--final": 0, "--corpus of another corpus": 2, "--symbols with --final": 2,
-              "other corpus": 2, "a stray symbol": 2, "one engine": 2, "a repeat": 2}, True))
+              "other corpus": 2, "a stray symbol": 2, "one engine": 2, "a repeat": 2, "a changed registered list": 2},
+             True))
+
+    def ac12_symbols():
+        syms, t, nodes, edges = spot_fixture()
+        d = nb / "spots_symbols"
+        tp, dp, bp, js = d / "truth.json", d / "dump.json", d / "base.json", d / "nonc.json"
+        _write(tp, json.dumps(t))
+        _write(dp, json.dumps(n_dump(edges, nodes)))
+        _write(bp, json.dumps(n_dump([], nodes)))
+        args, sym = [f"--truth={tp}", str(dp), f"--base={bp}"], f"--symbols={syms[1]}"
+
+        def refused(res):     # the AC12 refusal, told apart from the usage text (which also mentions AC12)
+            rc, _o, err, exc = res
+            return (rc, exc is None and "[impact_spot] REFUSED" in err and "AC12" in err and es in err
+                    and "usage:" not in err)
+        usage = _cli(IS.main, args + ["--corpus=no_such_corpus"])     # no spot list at all: the usage path
+        nonc = _cli(IS.main, args + ["--corpus=pallets__werkzeug", sym, "--one-node", f"--json={js}"])
+        rows_ = json.loads(js.read_text(encoding="utf-8"))[0]["spots"] if js.is_file() else []
+        return {"no --symbols": refused(_cli(IS.main, args + [f"--corpus={es}"])),
+                "--symbols": refused(_cli(IS.main, args + [f"--corpus={es}", sym])),
+                "usage": (usage[0], "usage:" in usage[2], "[impact_spot] REFUSED" in usage[2]),
+                "--one-node --symbols on a non-C# corpus": (nonc[0], [(r["symbol"], r.get("one_node")) for r in rows_])}
+    _ncheck("AC12: a C# --corpus without --final is REFUSED with or without an ad-hoc --symbols list (exit 2, the AC12 "
+            "message naming the corpus — never the usage text); a non-C# corpus still measures an ad-hoc --symbols "
+            "list, --one-node included", ac12_symbols,
+            {"no --symbols": (2, True), "--symbols": (2, True), "usage": (2, True, False),
+             "--one-node --symbols on a non-C# corpus": (0, [(spot_fixture()[0][1], True)])})
+
+    # ---- AC29: impact_spot compares hop-1 recall on the integers (hit, ref); its 4-decimal fields are display ------
+    def big_spot(d, hits):
+        """A Python-shaped corpus: target T.M (t.py) with 20001 reference callers (c.py lines 1..20001); a dump whose
+        first `hits` callers have the edge."""
+        nodes = [("tM", "Method", "T.M", "t.py", 1)] + [(f"c{i}", "Function", f"c{i}", "c.py", i + 1)
+                                                         for i in range(20001)]
+        p = d / f"dump_{hits}.json"
+        if not p.is_file():
+            _write(p, json.dumps(n_dump([(f"c{i}", "tM", "INFERRED") for i in range(hits)], nodes)))
+        tp = d / "truth.json"
+        if not tp.is_file():
+            _write(tp, json.dumps({"schema": "call-linking/truth/1", "resolver": {}, "rows": [
+                {"file": "c.py", "line": i + 1, "col": 0, "form": "name_attr", "name": "M",
+                 "defstack": [[f"c{i}", i + 1, []]], "defs": [_d("t.py", 1, "function", "M")]} for i in range(20001)]}))
+        return tp, p
+
+    def spot_integers():
+        d = nb / "spots_int"
+        tp, b10000 = big_spot(d, 10000)
+        _tp, v10001 = big_spot(d, 10001)
+        _tp, s20000 = big_spot(d, 20000)
+        _tp, f20001 = big_spot(d, 20001)
+        out = {}
+        for tag, var, base_ in (("10001 vs 10000 of 20001", v10001, b10000), ("20000 of 20001 at the base", s20000,
+                                                                               s20000),
+                                ("20001 of 20001 at the base", f20001, f20001)):
+            js = d / f"out_{len(out)}.json"
+            rc = _cli(IS.main, [f"--truth={tp}", "--symbols=T.M@t.py", str(var), f"--base={base_}", f"--json={js}"])[0]
+            r = json.loads(js.read_text(encoding="utf-8"))[0]["spots"][0] if js.is_file() else {}
+            out[tag] = (rc, r.get("recall"), r.get("base_recall"), r.get("improved"), r.get("saturated"))
+        truth = json.loads(tp.read_text(encoding="utf-8"))
+        out["spot_problems at 20000 / 20001"] = [IS.spot_problems(truth, json.loads(p.read_text(encoding="utf-8")),
+                                                                  "T.M@t.py")[1] for p in (s20000, f20001)]
+        return out
+    _ncheck("AC29 (impact_spot): `improved` compares hit / ref exactly (10001 of 20001 over 10000 of 20001 improves "
+            "although both display 0.5); SATURATED needs hit >= ref (20000 of 20001 displays 1.0 and can still improve; "
+            "20001 of 20001 is saturated, exit 1), in main and in spot_problems' substitution check", spot_integers,
+            {"10001 vs 10000 of 20001": (0, 0.5, 0.5, True, False),
+             "20000 of 20001 at the base": (0, 1.0, 1.0, False, False),
+             "20001 of 20001 at the base": (1, 1.0, 1.0, False, True),
+             "spot_problems at 20000 / 20001": [[], ["SATURATED: its V0 hop-1 recall is already 1"]]})
+
+    def recall_or_0(r):      # today's reading of a spot without reference callers: `recall or 0`
+        return Fraction(r["hit"], r["ref"]) if r["ref"] else Fraction(0)
+    imp_cases = [({"hit": 1, "ref": 3}, {"hit": 0, "ref": 3}), ({"hit": 0, "ref": 0}, {"hit": 0, "ref": 0}),
+                 ({"hit": 1, "ref": 3}, {"hit": 0, "ref": 0}), ({"hit": 0, "ref": 0}, {"hit": 1, "ref": 2}),
+                 ({"hit": 2, "ref": 4}, {"hit": 1, "ref": 2}), ({"hit": 3, "ref": 4}, {"hit": 2, "ref": 3}),
+                 ({"hit": 0, "ref": 5}, {"hit": 0, "ref": 0})]
+    _ncheck("AC29 (impact_spot.improved): hop-1 recall strictly above the base's, read as exact fractions hit / ref, a "
+            "spot without reference callers reading 0 exactly as `recall or 0` did (no reference caller never improves)",
+            lambda: [IS.improved(r, b) for r, b in imp_cases], [recall_or_0(r) > recall_or_0(b) for r, b in imp_cases])
 
     # ---- N2 and the `.cs` test, case-insensitive (K4's M18, M23) -------------------------------------------------
     base_e = [("gen", "sG", "INFERRED"), ("leg", "sG", "AMBIGUOUS"), ("run", "iG", "INFERRED")]
@@ -4105,6 +5064,16 @@ def gate_n(mods: dict, kit: Path, base: Path, build: Path = None) -> None:
             "(exit 1)", manifest_refusals,
             {"a sheet.md": (2, False), "a dump": (2, False), "a truth": (2, False), "a wrong .gitattributes": (2, False),
              "changed after the manifest": (1, True), "a folder not named cs": (2, False)})
+
+    def manifest_order():
+        cs = nb / "g5b_order" / "cs"
+        for rel in ("a.json", "B.json", "sub/b.csv", "sub/Z.csv", "_x.log"):
+            _write(cs / rel, "{}\n")
+        text, probs = C.g5b_manifest(cs, {".gitattributes": C.G5B_GITATTRIBUTES.encode("ascii")})
+        return [ln.split("  ", 1)[1] for ln in text.splitlines()], probs
+    _ncheck("AC15: the manifest lists its paths in byte order of their UTF-8 bytes, never case-folded: `.gitattributes`, "
+            "`B.json` before `_x.log` before `a.json`, `sub/Z.csv` before `sub/b.csv`", manifest_order,
+            ([".gitattributes", "B.json", "_x.log", "a.json", "sub/Z.csv", "sub/b.csv"], []))
 
     # ---- AC16: VRC-cs = every default language plus csharp -------------------------------------------------------
     def vrc():
@@ -4336,20 +5305,46 @@ def gate_o(kit: Path, base: Path) -> None:
     print(f"     (dry-run plans, seconds per phase: {secs})")
     rest = _o_plan(plans["rest"][2])
     hits = [i for i, ln in enumerate(rest) if "typed_calls_engine_parity_gates.py" in ln]
+    lg13 = f"{_posix(o / 'k')}/out/engine_parity_cs.log"      # AC29: C1 to C4 are read from this FULL log
     want13 = (f"env CALL_LINKING_CS_SOURCES={_posix(o / 'no_sources')} {_posix(sys.executable)} {_posix(snap)}/tests/"
               f"typed_calls_engine_parity_gates.py --corpora --only jellyfin__jellyfin,dotnet__eShop --py39 "
-              f"{_posix(sys.executable)} --py51 py51-placeholder")
+              f"{_posix(sys.executable)} --py51 py51-placeholder > {lg13}.partial 2>&1; mv {lg13}.partial {lg13}")
     others = {ph: [ln for ln in _o_plan(plans[ph][2]) if "typed_calls_engine_parity_gates.py --corpora" in ln]
               for ph in plans if ph != "rest"}
     narrowed = _o_bash(rm_snap, dict(dry, CL_PHASE="rest", CL_CS_CORPORA="dotnet__eShop", **narrow))
     check("O: AC13 — the rest phase runs the snapshot's engine-parity gate's C# corpora mode exactly as AC13 names it, "
-          "once, as its last command; no other phase runs that mode (the gates phase runs the gate itself, G5a); "
-          "narrowing the C# corpora (CL_CS_CORPORA) skips it",
+          "once, as its last command, its stdout AND stderr into <out>/engine_parity_cs.log.partial, then renamed to "
+          "<out>/engine_parity_cs.log (AC29: C1 to C4 come from that full log); no other phase runs that mode (the "
+          "gates phase runs the gate itself, G5a); narrowing the C# corpora (CL_CS_CORPORA) skips it",
           plans["rest"][0] == 0 and len(hits) == 1 and rest[hits[0]] == want13 and hits[0] == len(rest) - 1
           and not any(others.values()) and narrowed[0] == 0
           and "typed_calls_engine_parity_gates" not in narrowed[2],
           {"rc": plans["rest"][0], "got": [rest[i] for i in hits], "want": want13, "last": rest[-1:],
            "others": {k: v for k, v in others.items() if v}, "narrowed": (narrowed[0], narrowed[1][-200:])})
+    run_log_def = _sh_function(script.read_text(encoding="utf-8"), "run_log")
+    lgd = o / "run_log"
+    lgd.mkdir(parents=True, exist_ok=True)
+    outs = {}
+    for tag, dry_v in (("run", ""), ("dry", "1")):
+        lp = lgd / f"{tag}.log"
+        prog = ("run_log() {" + run_log_def + "\n}\n" + f"DRY={shlex.quote(dry_v)}\n"
+                + "run_log \"$1\" bash -c 'echo to-stdout; echo to-stderr >&2; exit 3'\necho \"rc=$?\"\n")
+        try:
+            p = subprocess.run(["bash", "-c", prog, "_", _posix(lp)], capture_output=True, text=True, encoding="utf-8",
+                               errors="replace", timeout=120)
+            outs[tag] = (p.returncode, p.stdout, p.stderr, lp.read_text(encoding="utf-8") if lp.is_file() else None,
+                         Path(str(lp) + ".partial").exists())
+        except (OSError, subprocess.SubprocessError) as exc:
+            outs[tag] = (None, "", repr(exc), None, None)
+    r_run, r_dry = outs["run"], outs["dry"]
+    check("O: AC29 — run_log (cs_engine_parity's writer) puts the command's stdout AND stderr in the log, appends the "
+          "exit code, leaves no .partial and returns the command's exit code; a dry run prints the redirect and writes "
+          "nothing",
+          bool(run_log_def) and r_run[1].strip() == "rc=3" and r_run[3] == "to-stdout\nto-stderr\n[run_matrix] exit 3\n"
+          and r_run[4] is False and r_dry[1].strip() == "rc=0" and r_dry[3] is None and r_dry[4] is False
+          and _o_plan(r_dry[2]) == [f"bash -c echo to-stdout; echo to-stderr >&2; exit 3 > {_posix(lgd / 'dry.log')}"
+                                    f".partial 2>&1; mv {_posix(lgd / 'dry.log')}.partial {_posix(lgd / 'dry.log')}"],
+          {"run": r_run, "dry": r_dry})
     spot = [ln for ln in rest if "impact_spot.py" in ln]
     check("O: AC12 — every spot command of the rest phase measures the corpus's FINAL list (--corpus=<id> "
           "--final=<out>/<id>/spots_final.json); the spots phase writes it with `substitute` over both engines' V0 "

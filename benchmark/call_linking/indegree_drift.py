@@ -50,6 +50,7 @@ def drift(base, variant, top=20) -> dict:
     def q(p):
         return ratios[min(len(ratios) - 1, int(p * len(ratios)))] if ratios else None
 
+    # AC29 record: a 4-decimal ratio (rounding only adds candidates: strict); closed D3 shares it; can't fire in D3-cs
     cands = [x for x in rows if x["ratio"] >= VOID_RATIO]
     return {"n_nodes": len(nv), "n_changed": len(rows), "up": sum(1 for x in rows if x["in_variant"] > x["in_base"]),
             "down": sum(1 for x in rows if x["in_variant"] < x["in_base"]),

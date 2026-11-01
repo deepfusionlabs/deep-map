@@ -1,0 +1,6833 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_cs_gates.TREES['closeu'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_cs_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "lib_helpers3",
+    "source_file": "src/Qe/Lib/Helpers3.cs",
+    "source_location": "L1",
+    "target": "lib_helpers3_qe_lib",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "lib_helpers3",
+    "source_file": "src/Qe/Lib/Helpers3.cs",
+    "source_location": "L3",
+    "target": "lib_helpers3_helperse3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "lib_helpers3_helperse3",
+    "source_file": "src/Qe/Lib/Helpers3.cs",
+    "source_location": "L5",
+    "target": "lib_helpers3_helperse3_rune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qe_qe",
+    "source_file": "src/Qe/Qe.csproj",
+    "target": "src_qe_qe_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qe_qe",
+    "source_file": "src/Qe/Qe.csproj",
+    "target": "src_qe_qe_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qe_util_helpers_cs_util_helpers",
+    "source_file": "src/Qe/Util/Helpers.cs",
+    "source_location": "L1",
+    "target": "util_helpers_qe_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qe_util_helpers_cs_util_helpers",
+    "source_file": "src/Qe/Util/Helpers.cs",
+    "source_location": "L3",
+    "target": "util_helpers_helperse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "util_helpers_helperse",
+    "source_file": "src/Qe/Util/Helpers.cs",
+    "source_location": "L5",
+    "target": "util_helpers_helperse_rune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_plain",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L1",
+    "target": "helperse3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_plain",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L3",
+    "target": "web_plain_qe",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_plain",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L5",
+    "target": "helperse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_plain",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L7",
+    "target": "web_plain_usere2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_plain_usere2",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L9",
+    "target": "web_plain_usere2_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_plain",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L16",
+    "target": "web_plain_qe_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_plain",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L18",
+    "target": "web_plain_plaine",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_plain_plaine",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L20",
+    "target": "web_plain_plaine_go3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qe_web_user_cs_web_user",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L1",
+    "target": "web_user_qe",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qe_web_user_cs_web_user",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L3",
+    "target": "helperse",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qe_web_user_cs_web_user",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L5",
+    "target": "web_user_usere",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_usere",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L7",
+    "target": "web_user_usere_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qe_web_user_cs_web_user",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L14",
+    "target": "web_user_qe_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qe_web_user_cs_web_user",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L16",
+    "target": "web_user_outere",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_outere",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L18",
+    "target": "web_user_outere_rune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qe_web_user_cs_web_user",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L22",
+    "target": "web_user_innere",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_innere",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L24",
+    "target": "web_user_innere_go2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_user_usere_go",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L9",
+    "target": "web_user_outere_rune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_user_innere_go2",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L26",
+    "target": "web_user_outere_rune",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qg_api_user_cs_api_user",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L1",
+    "target": "api_user_qg_kg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qg_api_user_cs_api_user",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L3",
+    "target": "src_qg_api_user_cs_api_user_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qg_api_user_cs_api_user_order",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L5",
+    "target": "api_user_order_saveg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qg_api_user_cs_api_user",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L11",
+    "target": "api_user_qg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qg_api_user_cs_api_user",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L13",
+    "target": "kg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qg_api_user_cs_api_user",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L15",
+    "target": "api_user_userg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "api_user_userg",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L17",
+    "target": "src_qg_api_user_cs_api_user_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "api_user_userg",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L24",
+    "target": "api_user_userg_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "api_user_userg_go",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L26",
+    "target": "api_user_order_saveg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qg_qg",
+    "source_file": "src/Qg/Qg.csproj",
+    "target": "src_qg_qg_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qg_qg",
+    "source_file": "src/Qg/Qg.csproj",
+    "target": "src_qg_qg_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qg_shared_order_cs_shared_order",
+    "source_file": "src/Qg/Shared/Order.cs",
+    "source_location": "L1",
+    "target": "shared_order_kg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qg_shared_order_cs_shared_order",
+    "source_file": "src/Qg/Shared/Order.cs",
+    "source_location": "L3",
+    "target": "src_qg_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qg_shared_order_cs_shared_order_order",
+    "source_file": "src/Qg/Shared/Order.cs",
+    "source_location": "L5",
+    "target": "shared_order_order_saveg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qh_api_user_cs_api_user",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L1",
+    "target": "api_user_qh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qh_api_user_cs_api_user",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L3",
+    "target": "kh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qh_api_user_cs_api_user",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L5",
+    "target": "api_user_userh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "api_user_userh",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L7",
+    "target": "src_qh_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "api_user_userh",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L14",
+    "target": "api_user_userh_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "kh_order",
+    "source_file": "src/Qh/Kh/Order.cs",
+    "source_location": "L1",
+    "target": "kh_order_qh_kh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "kh_order",
+    "source_file": "src/Qh/Kh/Order.cs",
+    "source_location": "L3",
+    "target": "kh_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "kh_order_order",
+    "source_file": "src/Qh/Kh/Order.cs",
+    "source_location": "L5",
+    "target": "kh_order_order_saveh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qh_qh",
+    "source_file": "src/Qh/Qh.csproj",
+    "target": "src_qh_qh_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qh_qh",
+    "source_file": "src/Qh/Qh.csproj",
+    "target": "src_qh_qh_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qh_shared_order_cs_shared_order",
+    "source_file": "src/Qh/Shared/Order.cs",
+    "source_location": "L1",
+    "target": "shared_order_kh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qh_shared_order_cs_shared_order",
+    "source_file": "src/Qh/Shared/Order.cs",
+    "source_location": "L3",
+    "target": "src_qh_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qh_shared_order_cs_shared_order_order",
+    "source_file": "src/Qh/Shared/Order.cs",
+    "source_location": "L5",
+    "target": "shared_order_order_saveh",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qi_api_user_cs_api_user",
+    "source_file": "src/Qi/Api/User.cs",
+    "source_location": "L3",
+    "target": "ki",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qi_api_user_cs_api_user",
+    "source_file": "src/Qi/Api/User.cs",
+    "source_location": "L5",
+    "target": "api_user_useri",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "api_user_useri",
+    "source_file": "src/Qi/Api/User.cs",
+    "source_location": "L7",
+    "target": "src_qi_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "api_user_useri",
+    "source_file": "src/Qi/Api/User.cs",
+    "source_location": "L14",
+    "target": "api_user_useri_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ki_order",
+    "source_file": "src/Qi/Ki/Order.cs",
+    "source_location": "L1",
+    "target": "ki_order_qi_ki",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ki_order",
+    "source_file": "src/Qi/Ki/Order.cs",
+    "source_location": "L3",
+    "target": "ki_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ki_order_order",
+    "source_file": "src/Qi/Ki/Order.cs",
+    "source_location": "L5",
+    "target": "ki_order_order_savei",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qi_qi",
+    "source_file": "src/Qi/Qi.csproj",
+    "target": "src_qi_qi_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qi_qi",
+    "source_file": "src/Qi/Qi.csproj",
+    "target": "src_qi_qi_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qi_shared_order_cs_shared_order",
+    "source_file": "src/Qi/Shared/Order.cs",
+    "source_location": "L1",
+    "target": "shared_order_ki",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qi_shared_order_cs_shared_order",
+    "source_file": "src/Qi/Shared/Order.cs",
+    "source_location": "L3",
+    "target": "src_qi_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qi_shared_order_cs_shared_order_order",
+    "source_file": "src/Qi/Shared/Order.cs",
+    "source_location": "L5",
+    "target": "shared_order_order_savei",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_irunj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L1",
+    "target": "a_irunj_qj_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "a_irunj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L3",
+    "target": "kj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_irunj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L5",
+    "target": "a_irunj_irunj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_irunj_irunj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L7",
+    "target": "a_irunj_irunj_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_irunj_irunj_run",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L7",
+    "target": "src_qj_a_irunj_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_irunj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L10",
+    "target": "a_irunj_runbasej",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_irunj_runbasej",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L12",
+    "target": "a_irunj_runbasej_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_irunj_runbasej_run",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L12",
+    "target": "src_qj_a_irunj_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_irunj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L17",
+    "target": "a_irunj_runuserj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "a_irunj_runuserj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L19",
+    "target": "a_irunj_irunj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_irunj_runuserj",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L26",
+    "target": "a_irunj_runuserj_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_irunj_runuserj_go",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L26",
+    "target": "src_qj_a_irunj_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "a_irunj_runuserj_go",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L28",
+    "target": "a_irunj_runbasej_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qj_a_kj_timer_cs_kj_timer",
+    "source_file": "src/Qj/A/Kj/Timer.cs",
+    "source_location": "L1",
+    "target": "kj_timer_qj_a_kj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qj_a_kj_timer_cs_kj_timer",
+    "source_file": "src/Qj/A/Kj/Timer.cs",
+    "source_location": "L3",
+    "target": "src_qj_a_kj_timer_cs_kj_timer_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "b_implj",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L1",
+    "target": "b_implj_qj_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "b_implj",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L3",
+    "target": "kj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "b_implj",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L5",
+    "target": "b_implj_implj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "b_implj_implj",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L5",
+    "target": "a_irunj_runbasej",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "b_implj_implj",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L5",
+    "target": "a_irunj_irunj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "b_implj_implj",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L7",
+    "target": "b_implj_implj_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "b_implj_implj_run",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L7",
+    "target": "src_qj_b_implj_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qj_b_kj_timer_cs_kj_timer",
+    "source_file": "src/Qj/B/Kj/Timer.cs",
+    "source_location": "L1",
+    "target": "kj_timer_qj_b_kj",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qj_b_kj_timer_cs_kj_timer",
+    "source_file": "src/Qj/B/Kj/Timer.cs",
+    "source_location": "L3",
+    "target": "src_qj_b_kj_timer_cs_kj_timer_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qj_qj",
+    "source_file": "src/Qj/Qj.csproj",
+    "target": "src_qj_qj_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qj_qj",
+    "source_file": "src/Qj/Qj.csproj",
+    "target": "src_qj_qj_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qk_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L3",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qk_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L5",
+    "target": "carts_carthandler_carthandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "carts_carthandler_carthandler",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L5",
+    "target": "orders_ihandler_handlerbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "carts_carthandler_carthandler",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L5",
+    "target": "orders_ihandler_ihandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_carthandler_carthandler",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "carts_carthandler_carthandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "carts_carthandler_carthandler_handle",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "src_qk_carts_carthandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qk_carts_models_item_cs_models_item",
+    "source_file": "src/Qk/Carts/Models/Item.cs",
+    "source_location": "L3",
+    "target": "src_qk_carts_models_item_cs_models_item_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qk_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L3",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qk_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L5",
+    "target": "orders_ihandler_ihandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_ihandler",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler_ihandler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_ihandler_handle",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L7",
+    "target": "src_qk_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qk_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L10",
+    "target": "orders_ihandler_handlerbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_handlerbase",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L12",
+    "target": "orders_ihandler_handlerbase_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_handlerbase_handle",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L12",
+    "target": "src_qk_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qk_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L17",
+    "target": "orders_ihandler_caller",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "orders_ihandler_caller",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L19",
+    "target": "orders_ihandler_ihandler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_caller",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L26",
+    "target": "orders_ihandler_caller_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_caller_go",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L26",
+    "target": "src_qk_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "orders_ihandler_caller_go",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L28",
+    "target": "orders_ihandler_handlerbase_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "orders_ihandler2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L3",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_ihandler2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L5",
+    "target": "orders_ihandler2_ihandler2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler2_ihandler2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler2_ihandler2_handle2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler2_ihandler2_handle2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L7",
+    "target": "src_qk_orders_ihandler2_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_ihandler2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L10",
+    "target": "orders_ihandler2_handlerbase2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler2_handlerbase2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L12",
+    "target": "orders_ihandler2_handlerbase2_handle2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler2_handlerbase2_handle2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L12",
+    "target": "src_qk_orders_ihandler2_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "orders_ihandler2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L17",
+    "target": "orders_ihandler2_caller2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "orders_ihandler2_caller2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L19",
+    "target": "orders_ihandler2_ihandler2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler2_caller2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L26",
+    "target": "orders_ihandler2_caller2_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler2_caller2_go",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L26",
+    "target": "src_qk_orders_ihandler2_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "orders_ihandler2_caller2_go",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L28",
+    "target": "orders_ihandler2_handlerbase2_handle2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qk_orders_models_item_cs_models_item",
+    "source_file": "src/Qk/Orders/Models/Item.cs",
+    "source_location": "L3",
+    "target": "src_qk_orders_models_item_cs_models_item_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "sub_orderhandler2",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L3",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sub_orderhandler2",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L5",
+    "target": "sub_orderhandler2_orderhandler2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "sub_orderhandler2_orderhandler2",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L5",
+    "target": "orders_ihandler2_handlerbase2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "sub_orderhandler2_orderhandler2",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L5",
+    "target": "orders_ihandler2_ihandler2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sub_orderhandler2_orderhandler2",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L7",
+    "target": "sub_orderhandler2_orderhandler2_handle2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sub_orderhandler2_orderhandler2_handle2",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L7",
+    "target": "src_qk_orders_sub_orderhandler2_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qk_qk",
+    "source_file": "src/Qk/Qk.csproj",
+    "target": "src_qk_qk_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qk_qk",
+    "source_file": "src/Qk/Qk.csproj",
+    "target": "src_qk_qk_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ql_api_user_cs_api_user",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L1",
+    "target": "api_user_kl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ql_api_user_cs_api_user",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L3",
+    "target": "src_ql_api_user_cs_api_user_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_ql_api_user_cs_api_user_order",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L5",
+    "target": "api_user_order_savel",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ql_api_user_cs_api_user",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L11",
+    "target": "api_user_ql",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_ql_api_user_cs_api_user",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L13",
+    "target": "src_ql_api_user_cs_ord",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_ql_api_user_cs_api_user",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L15",
+    "target": "api_user_userl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "api_user_userl",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L17",
+    "target": "src_ql_api_user_cs_ord",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "api_user_userl",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L24",
+    "target": "api_user_userl_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "api_user_userl_go",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L26",
+    "target": "api_user_order_savel",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "kl_order",
+    "source_file": "src/Ql/Kl/Order.cs",
+    "source_location": "L1",
+    "target": "kl_order_ql_kl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "kl_order",
+    "source_file": "src/Ql/Kl/Order.cs",
+    "source_location": "L3",
+    "target": "kl_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "kl_order_order",
+    "source_file": "src/Ql/Kl/Order.cs",
+    "source_location": "L5",
+    "target": "kl_order_order_savel",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ql_ql",
+    "source_file": "src/Ql/Ql.csproj",
+    "target": "src_ql_ql_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ql_ql",
+    "source_file": "src/Ql/Ql.csproj",
+    "target": "src_ql_ql_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qm_api_user_cs_api_user",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L1",
+    "target": "api_user_qm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qm_api_user_cs_api_user",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L3",
+    "target": "src_qm_api_user_cs_ord",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qm_api_user_cs_api_user",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L5",
+    "target": "api_user_userm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "api_user_userm",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L7",
+    "target": "src_qm_api_user_cs_ord",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "api_user_userm",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L14",
+    "target": "api_user_userm_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "km_order",
+    "source_file": "src/Qm/Km/Order.cs",
+    "source_location": "L1",
+    "target": "km_order_qm_km",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "km_order",
+    "source_file": "src/Qm/Km/Order.cs",
+    "source_location": "L3",
+    "target": "km_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "km_order_order",
+    "source_file": "src/Qm/Km/Order.cs",
+    "source_location": "L5",
+    "target": "km_order_order_savem",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qm_qm",
+    "source_file": "src/Qm/Qm.csproj",
+    "target": "src_qm_qm_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qm_qm",
+    "source_file": "src/Qm/Qm.csproj",
+    "target": "src_qm_qm_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qm_shared_order_cs_shared_order",
+    "source_file": "src/Qm/Shared/Order.cs",
+    "source_location": "L1",
+    "target": "shared_order_km",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qm_shared_order_cs_shared_order",
+    "source_file": "src/Qm/Shared/Order.cs",
+    "source_location": "L3",
+    "target": "src_qm_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qm_shared_order_cs_shared_order_order",
+    "source_file": "src/Qm/Shared/Order.cs",
+    "source_location": "L5",
+    "target": "shared_order_order_savem",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qo_api_user_cs_api_user",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L1",
+    "target": "ko",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qo_api_user_cs_api_user",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L3",
+    "target": "api_user_ko",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qo_api_user_cs_api_user",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L5",
+    "target": "src_qo_api_user_cs_api_user_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qo_api_user_cs_api_user_order",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L7",
+    "target": "api_user_order_saveo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qo_api_user_cs_api_user",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L13",
+    "target": "api_user_qo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qo_api_user_cs_api_user",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L15",
+    "target": "api_user_usero",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "api_user_usero",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L17",
+    "target": "src_qo_api_user_cs_api_user_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "api_user_usero",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L24",
+    "target": "api_user_usero_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "api_user_usero_go",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L26",
+    "target": "api_user_order_saveo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ko_order",
+    "source_file": "src/Qo/Ko/Order.cs",
+    "source_location": "L1",
+    "target": "ko_order_qo_ko",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ko_order",
+    "source_file": "src/Qo/Ko/Order.cs",
+    "source_location": "L3",
+    "target": "ko_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ko_order_order",
+    "source_file": "src/Qo/Ko/Order.cs",
+    "source_location": "L5",
+    "target": "ko_order_order_saveo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qo_qo",
+    "source_file": "src/Qo/Qo.csproj",
+    "target": "src_qo_qo_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qo_qo",
+    "source_file": "src/Qo/Qo.csproj",
+    "target": "src_qo_qo_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "a_qpa",
+    "source_file": "src/Qp/A/QpA.csproj",
+    "target": "src_qp_a_qpa_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "a_qpa",
+    "source_file": "src/Qp/A/QpA.csproj",
+    "target": "src_qp_a_qpa_csproj_nuget_pk_build",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "a_qpa",
+    "source_file": "src/Qp/A/QpA.csproj",
+    "target": "src_qp_a_qpa_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "a_tickq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L1",
+    "target": "generic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_tickq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L5",
+    "target": "a_tickq1_itickq1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_tickq1_itickq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L7",
+    "target": "a_tickq1_itickq1_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_tickq1_itickq1_tick",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L7",
+    "target": "src_qp_a_tickq1_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_tickq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L10",
+    "target": "a_tickq1_tickbaseq1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_tickq1_tickbaseq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L12",
+    "target": "a_tickq1_tickbaseq1_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_tickq1_tickbaseq1_tick",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L12",
+    "target": "src_qp_a_tickq1_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_tickq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L17",
+    "target": "a_tickq1_tickuserq1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "a_tickq1_tickuserq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L19",
+    "target": "a_tickq1_itickq1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_tickq1_tickuserq1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L21",
+    "target": "a_tickq1_tickuserq1_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_tickq1_tickuserq1_go",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L21",
+    "target": "src_qp_a_tickq1_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "a_tickq1_tickuserq1_go",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L23",
+    "target": "a_tickq1_tickbaseq1_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qp_a_vendor_glob_cs_vendor_glob",
+    "source_file": "src/Qp/A/vendor/Glob.cs",
+    "source_location": "L1",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "b_qpb",
+    "source_file": "src/Qp/B/QpB.csproj",
+    "target": "src_qp_b_qpb_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "b_qpb",
+    "source_file": "src/Qp/B/QpB.csproj",
+    "target": "c_qpc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "b_qpb",
+    "source_file": "src/Qp/B/QpB.csproj",
+    "target": "a_qpa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "b_qpb",
+    "source_file": "src/Qp/B/QpB.csproj",
+    "target": "src_qp_b_qpb_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "b_tickerq1",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L1",
+    "target": "generic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "b_tickerq1",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L2",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "b_tickerq1",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L6",
+    "target": "b_tickerq1_tickerq1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "b_tickerq1_tickerq1",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L6",
+    "target": "a_tickq1_tickbaseq1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "b_tickerq1_tickerq1",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L6",
+    "target": "a_tickq1_itickq1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "b_tickerq1_tickerq1",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L8",
+    "target": "b_tickerq1_tickerq1_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "b_tickerq1_tickerq1_tick",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L8",
+    "target": "src_qp_b_tickerq1_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "c_c",
+    "source_file": "src/Qp/C/C.cs",
+    "source_location": "L3",
+    "target": "c_c_unused",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "c_qpc",
+    "source_file": "src/Qp/C/QpC.csproj",
+    "target": "src_qp_c_qpc_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "c_qpc",
+    "source_file": "src/Qp/C/QpC.csproj",
+    "target": "src_qp_c_qpc_csproj_nuget_pk_build",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "c_qpc",
+    "source_file": "src/Qp/C/QpC.csproj",
+    "target": "src_qp_c_qpc_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qp_c_vendor_glob_cs_vendor_glob",
+    "source_file": "src/Qp/C/vendor/Glob.cs",
+    "source_location": "L1",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "a_qqa",
+    "source_file": "src/Qq/A/QqA.csproj",
+    "target": "src_qq_a_qqa_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "a_qqa",
+    "source_file": "src/Qq/A/QqA.csproj",
+    "target": "src_qq_a_qqa_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "a_tickq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_tickq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L5",
+    "target": "a_tickq2_itickq2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_tickq2_itickq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L7",
+    "target": "a_tickq2_itickq2_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_tickq2_itickq2_tick",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L7",
+    "target": "src_qq_a_tickq2_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_tickq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L10",
+    "target": "a_tickq2_tickbaseq2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_tickq2_tickbaseq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L12",
+    "target": "a_tickq2_tickbaseq2_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_tickq2_tickbaseq2_tick",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L12",
+    "target": "src_qq_a_tickq2_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "a_tickq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L17",
+    "target": "a_tickq2_tickuserq2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "a_tickq2_tickuserq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L19",
+    "target": "a_tickq2_itickq2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "a_tickq2_tickuserq2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L21",
+    "target": "a_tickq2_tickuserq2_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "a_tickq2_tickuserq2_go",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L21",
+    "target": "src_qq_a_tickq2_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "a_tickq2_tickuserq2_go",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L23",
+    "target": "a_tickq2_tickbaseq2_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "b_qqb",
+    "source_file": "src/Qq/B/QqB.csproj",
+    "target": "src_qq_b_qqb_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "b_qqb",
+    "source_file": "src/Qq/B/QqB.csproj",
+    "target": "a_qqa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "b_qqb",
+    "source_file": "src/Qq/B/QqB.csproj",
+    "target": "src_qq_b_qqb_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "b_tickerq2",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L1",
+    "target": "generic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "b_tickerq2",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L2",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "b_tickerq2",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L6",
+    "target": "b_tickerq2_tickerq2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "b_tickerq2_tickerq2",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L6",
+    "target": "a_tickq2_tickbaseq2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "b_tickerq2_tickerq2",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L6",
+    "target": "a_tickq2_itickq2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "b_tickerq2_tickerq2",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L8",
+    "target": "b_tickerq2_tickerq2_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "b_tickerq2_tickerq2_tick",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L8",
+    "target": "src_qq_b_tickerq2_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qr_qr",
+    "source_file": "src/Qr/Qr.csproj",
+    "target": "src_qr_qr_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qr_qr",
+    "source_file": "src/Qr/Qr.csproj",
+    "target": "src_qr_qr_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qr_shared_order_cs_shared_order",
+    "source_file": "src/Qr/Shared/Order.cs",
+    "source_location": "L1",
+    "target": "shared_order_kq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qr_shared_order_cs_shared_order",
+    "source_file": "src/Qr/Shared/Order.cs",
+    "source_location": "L3",
+    "target": "src_qr_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qr_shared_order_cs_shared_order_order",
+    "source_file": "src/Qr/Shared/Order.cs",
+    "source_location": "L5",
+    "target": "shared_order_order_saver",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qr_tools_use_cs_tools_use",
+    "source_file": "src/Qr/Tools/Use.cs",
+    "source_location": "L1",
+    "target": "tools_use_qr_tools",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qr_tools_use_cs_tools_use",
+    "source_file": "src/Qr/Tools/Use.cs",
+    "source_location": "L3",
+    "target": "src_qr_tools_use_cs_tools_use_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qr_web_user_cs_web_user",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L1",
+    "target": "web_user_qr_web",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qr_web_user_cs_web_user",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L3",
+    "target": "kq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qr_web_user_cs_web_user",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L5",
+    "target": "web_user_userr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "web_user_userr",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L7",
+    "target": "src_qr_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_userr",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L14",
+    "target": "web_user_userr_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qs_qs",
+    "source_file": "src/Qs/Qs.csproj",
+    "target": "src_qs_qs_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qs_qs",
+    "source_file": "src/Qs/Qs.csproj",
+    "target": "src_qs_qs_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shared_helpers",
+    "source_file": "src/Qs/Shared/Helpers.cs",
+    "source_location": "L1",
+    "target": "shared_helpers_us",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "shared_helpers",
+    "source_file": "src/Qs/Shared/Helpers.cs",
+    "source_location": "L3",
+    "target": "shared_helpers_helperss",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "shared_helpers_helperss",
+    "source_file": "src/Qs/Shared/Helpers.cs",
+    "source_location": "L5",
+    "target": "shared_helpers_helperss_runs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "us_helpers",
+    "source_file": "src/Qs/Us/Helpers.cs",
+    "source_location": "L1",
+    "target": "us_helpers_qs_us",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "us_helpers",
+    "source_file": "src/Qs/Us/Helpers.cs",
+    "source_location": "L3",
+    "target": "us_helpers_helperss",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "us_helpers_helperss",
+    "source_file": "src/Qs/Us/Helpers.cs",
+    "source_location": "L5",
+    "target": "us_helpers_helperss_runs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qs_web_user_cs_web_user",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L1",
+    "target": "web_user_qs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qs_web_user_cs_web_user",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L3",
+    "target": "helperss",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qs_web_user_cs_web_user",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L5",
+    "target": "web_user_users",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_users",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L7",
+    "target": "web_user_users_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qt_qt",
+    "source_file": "src/Qt/Qt.csproj",
+    "target": "src_qt_qt_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qt_qt",
+    "source_file": "src/Qt/Qt.csproj",
+    "target": "src_qt_qt_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qt_util_helpers_cs_util_helpers",
+    "source_file": "src/Qt/Util/Helpers.cs",
+    "source_location": "L1",
+    "target": "util_helpers_qt_util",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qt_util_helpers_cs_util_helpers",
+    "source_file": "src/Qt/Util/Helpers.cs",
+    "source_location": "L3",
+    "target": "util_helpers_helperst",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "util_helpers_helperst",
+    "source_file": "src/Qt/Util/Helpers.cs",
+    "source_location": "L5",
+    "target": "util_helpers_helperst_runt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_field",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L1",
+    "target": "web_field_qt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_field",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L3",
+    "target": "helperst",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_field",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L5",
+    "target": "web_field_outert4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "web_field_outert4",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L7",
+    "target": "action",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_field",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L9",
+    "target": "web_field_innert4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_field_innert4",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L11",
+    "target": "web_field_innert4_go5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_inherited",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L1",
+    "target": "web_inherited_qt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_inherited",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L3",
+    "target": "helperst",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_inherited",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L5",
+    "target": "web_inherited_outerbaset",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_inherited_outerbaset",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L7",
+    "target": "web_inherited_outerbaset_runt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_inherited",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L12",
+    "target": "web_inherited_outert3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "web_inherited_outert3",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L12",
+    "target": "web_inherited_outerbaset",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_inherited",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L14",
+    "target": "web_inherited_innert3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_inherited_innert3",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L16",
+    "target": "web_inherited_innert3_go4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_inherited_innert3_go4",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L18",
+    "target": "web_inherited_outerbaset_runt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_nested",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L1",
+    "target": "web_nested_qt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "web_nested",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L3",
+    "target": "helperst",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_nested",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L5",
+    "target": "web_nested_outert2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "web_nested",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L7",
+    "target": "web_nested_innert2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_nested_innert2",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L9",
+    "target": "web_nested_innert2_go3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qt_web_user_cs_web_user",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L1",
+    "target": "web_user_qt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qt_web_user_cs_web_user",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L3",
+    "target": "helperst",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qt_web_user_cs_web_user",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L5",
+    "target": "web_user_usert",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_usert",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L7",
+    "target": "web_user_usert_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qt_web_user_cs_web_user",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L13",
+    "target": "web_user_outert",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_outert",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L15",
+    "target": "web_user_outert_runt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qt_web_user_cs_web_user",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L19",
+    "target": "web_user_innert",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_innert",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L21",
+    "target": "web_user_innert_go2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_user_usert_go",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L9",
+    "target": "web_user_outert_runt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "web_user_innert_go2",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L23",
+    "target": "web_user_outert_runt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qu_qu",
+    "source_file": "src/Qu/Qu.csproj",
+    "target": "src_qu_qu_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qu_qu",
+    "source_file": "src/Qu/Qu.csproj",
+    "target": "src_qu_qu_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qu_user",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L1",
+    "target": "qu_user_ku",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qu_user",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L3",
+    "target": "qu_user_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qu_user_order",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L5",
+    "target": "qu_user_order_saveu",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qu_user",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L11",
+    "target": "qu_user_xu",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qu_user",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L13",
+    "target": "ku",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qu_user",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L15",
+    "target": "qu_user_useru",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qu_user_useru",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L17",
+    "target": "qu_user_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qu_user_useru",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L24",
+    "target": "qu_user_useru_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qu_user_useru_go",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L26",
+    "target": "qu_user_order_saveu",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qv_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L1",
+    "target": "lv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L3",
+    "target": "carts_carthandler_qv_carts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qv_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L5",
+    "target": "ev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "carts_carthandler_carthandlerv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "carts_carthandler_carthandlerv",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler_handlerbasev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "carts_carthandler_carthandlerv",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler_ihandlerv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_carthandler_carthandlerv",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L9",
+    "target": "carts_carthandler_carthandlerv_handlev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "carts_carthandler_carthandlerv_handlev",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L9",
+    "target": "src_qv_carts_carthandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ev_marker",
+    "source_file": "src/Qv/Orders/Ev/Marker.cs",
+    "source_location": "L1",
+    "target": "ev_marker_qv_orders_ev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ev_marker",
+    "source_file": "src/Qv/Orders/Ev/Marker.cs",
+    "source_location": "L3",
+    "target": "ev_marker_marker",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qv_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L1",
+    "target": "lv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L3",
+    "target": "orders_ihandler_qv_orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qv_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L5",
+    "target": "ev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler_ihandlerv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_ihandlerv",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L9",
+    "target": "orders_ihandler_ihandlerv_handlev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_ihandlerv_handlev",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L9",
+    "target": "src_qv_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L12",
+    "target": "orders_ihandler_handlerbasev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_handlerbasev",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L14",
+    "target": "orders_ihandler_handlerbasev_handlev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_handlerbasev_handlev",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L14",
+    "target": "src_qv_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L19",
+    "target": "orders_ihandler_callerv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "orders_ihandler_callerv",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L21",
+    "target": "orders_ihandler_ihandlerv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_callerv",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L28",
+    "target": "orders_ihandler_callerv_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_callerv_go",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L28",
+    "target": "src_qv_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "orders_ihandler_callerv_go",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L30",
+    "target": "orders_ihandler_handlerbasev_handlev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qv_qv",
+    "source_file": "src/Qv/Qv.csproj",
+    "target": "src_qv_qv_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qv_qv",
+    "source_file": "src/Qv/Qv.csproj",
+    "target": "src_qv_qv_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_vendor_ext_cs_vendor_ext",
+    "source_file": "src/Qv/vendor/Ext.cs",
+    "source_location": "L1",
+    "target": "vendor_ext_ev",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_vendor_ext_cs_vendor_ext",
+    "source_file": "src/Qv/vendor/Ext.cs",
+    "source_location": "L3",
+    "target": "src_qv_vendor_ext_cs_vendor_ext_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qv_vendor_ext_cs_vendor_ext",
+    "source_file": "src/Qv/vendor/Ext.cs",
+    "source_location": "L8",
+    "target": "vendor_ext_lv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qw_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L1",
+    "target": "lw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L3",
+    "target": "carts_carthandler_qw_carts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qw_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L5",
+    "target": "ew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_carts_carthandler_cs_carts_carthandler",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "carts_carthandler_carthandlerw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "carts_carthandler_carthandlerw",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler_handlerbasew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "carts_carthandler_carthandlerw",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler_ihandlerw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "carts_carthandler_carthandlerw",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L9",
+    "target": "carts_carthandler_carthandlerw_handlew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "carts_carthandler_carthandlerw_handlew",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L9",
+    "target": "src_qw_carts_carthandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qw_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L1",
+    "target": "lw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L3",
+    "target": "orders_ihandler_qw_orders",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qw_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L5",
+    "target": "ew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L7",
+    "target": "orders_ihandler_ihandlerw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_ihandlerw",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L9",
+    "target": "orders_ihandler_ihandlerw_handlew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_ihandlerw_handlew",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L9",
+    "target": "src_qw_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L12",
+    "target": "orders_ihandler_handlerbasew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_handlerbasew",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L14",
+    "target": "orders_ihandler_handlerbasew_handlew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_handlerbasew_handlew",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L14",
+    "target": "src_qw_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_orders_ihandler_cs_orders_ihandler",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L19",
+    "target": "orders_ihandler_callerw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "orders_ihandler_callerw",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L21",
+    "target": "orders_ihandler_ihandlerw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "orders_ihandler_callerw",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L28",
+    "target": "orders_ihandler_callerw_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "orders_ihandler_callerw_go",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L28",
+    "target": "src_qw_orders_ihandler_cs_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "orders_ihandler_callerw_go",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L30",
+    "target": "orders_ihandler_handlerbasew_handlew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qw_qw",
+    "source_file": "src/Qw/Qw.csproj",
+    "target": "src_qw_qw_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qw_qw",
+    "source_file": "src/Qw/Qw.csproj",
+    "target": "src_qw_qw_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_vendor_ext_cs_vendor_ext",
+    "source_file": "src/Qw/vendor/Ext.cs",
+    "source_location": "L1",
+    "target": "vendor_ext_ew",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_vendor_ext_cs_vendor_ext",
+    "source_file": "src/Qw/vendor/Ext.cs",
+    "source_location": "L3",
+    "target": "src_qw_vendor_ext_cs_vendor_ext_item",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qw_vendor_ext_cs_vendor_ext",
+    "source_file": "src/Qw/vendor/Ext.cs",
+    "source_location": "L8",
+    "target": "vendor_ext_lw",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_kx_order_cs_kx_order",
+    "source_file": "src/Qx/Kx/Order.cs",
+    "source_location": "L1",
+    "target": "kx_order_qx_kx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_kx_order_cs_kx_order",
+    "source_file": "src/Qx/Kx/Order.cs",
+    "source_location": "L3",
+    "target": "src_qx_kx_order_cs_kx_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qx_kx_order_cs_kx_order_order",
+    "source_file": "src/Qx/Kx/Order.cs",
+    "source_location": "L5",
+    "target": "src_qx_kx_order_cs_kx_order_order_savex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qx_qx",
+    "source_file": "src/Qx/Qx.csproj",
+    "target": "src_qx_qx_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qx_qx",
+    "source_file": "src/Qx/Qx.csproj",
+    "target": "src_qx_qx_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_shared_order_cs_shared_order",
+    "source_file": "src/Qx/Shared/Order.cs",
+    "source_location": "L1",
+    "target": "shared_order_kx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_shared_order_cs_shared_order",
+    "source_file": "src/Qx/Shared/Order.cs",
+    "source_location": "L3",
+    "target": "src_qx_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qx_shared_order_cs_shared_order_order",
+    "source_file": "src/Qx/Shared/Order.cs",
+    "source_location": "L5",
+    "target": "shared_order_order_savex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_web_kx_order_cs_kx_order",
+    "source_file": "src/Qx/Web/Kx/Order.cs",
+    "source_location": "L1",
+    "target": "kx_order_qx_web_kx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_web_kx_order_cs_kx_order",
+    "source_file": "src/Qx/Web/Kx/Order.cs",
+    "source_location": "L3",
+    "target": "src_qx_web_kx_order_cs_kx_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qx_web_kx_order_cs_kx_order_order",
+    "source_file": "src/Qx/Web/Kx/Order.cs",
+    "source_location": "L5",
+    "target": "src_qx_web_kx_order_cs_kx_order_order_savex",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_web_user_cs_web_user",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L1",
+    "target": "web_user_qx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_web_user_cs_web_user",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L3",
+    "target": "web_user_web",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qx_web_user_cs_web_user",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L5",
+    "target": "kx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qx_web_user_cs_web_user",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L7",
+    "target": "web_user_userx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "web_user_userx",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L9",
+    "target": "src_qx_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_userx",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L16",
+    "target": "web_user_userx_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "other_helpers",
+    "source_file": "src/Qy/Other/Helpers.cs",
+    "source_location": "L1",
+    "target": "other_helpers_oy_uy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "other_helpers",
+    "source_file": "src/Qy/Other/Helpers.cs",
+    "source_location": "L3",
+    "target": "other_helpers_helpersy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "other_helpers_helpersy",
+    "source_file": "src/Qy/Other/Helpers.cs",
+    "source_location": "L5",
+    "target": "other_helpers_helpersy_runy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qy_qy",
+    "source_file": "src/Qy/Qy.csproj",
+    "target": "src_qy_qy_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qy_qy",
+    "source_file": "src/Qy/Qy.csproj",
+    "target": "src_qy_qy_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qy_web_user_cs_web_user",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L1",
+    "target": "web_user_oy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qy_web_user_cs_web_user",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L3",
+    "target": "web_user_markery",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qy_web_user_cs_web_user",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L8",
+    "target": "web_user_qy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qy_web_user_cs_web_user",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L10",
+    "target": "helpersy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qy_web_user_cs_web_user",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L12",
+    "target": "web_user_usery",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_usery",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L14",
+    "target": "web_user_usery_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "vendor_util",
+    "source_file": "src/Qy/vendor/Util.cs",
+    "source_location": "L1",
+    "target": "vendor_util_uy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "vendor_util",
+    "source_file": "src/Qy/vendor/Util.cs",
+    "source_location": "L3",
+    "target": "vendor_util_helpersy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "vendor_util_helpersy",
+    "source_file": "src/Qy/vendor/Util.cs",
+    "source_location": "L5",
+    "target": "vendor_util_helpersy_runy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qz_qz",
+    "source_file": "src/Qz/Qz.csproj",
+    "target": "src_qz_qz_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qz_qz",
+    "source_file": "src/Qz/Qz.csproj",
+    "target": "src_qz_qz_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qz_shared_order_cs_shared_order",
+    "source_file": "src/Qz/Shared/Order.cs",
+    "source_location": "L1",
+    "target": "shared_order_kz",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qz_shared_order_cs_shared_order",
+    "source_file": "src/Qz/Shared/Order.cs",
+    "source_location": "L3",
+    "target": "src_qz_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "src_qz_shared_order_cs_shared_order_order",
+    "source_file": "src/Qz/Shared/Order.cs",
+    "source_location": "L5",
+    "target": "shared_order_order_savez",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qz_tools_use_cs_tools_use",
+    "source_file": "src/Qz/Tools/Use.cs",
+    "source_location": "L1",
+    "target": "legacy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qz_tools_use_cs_tools_use",
+    "source_file": "src/Qz/Tools/Use.cs",
+    "source_location": "L3",
+    "target": "tools_use_qz_tools",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qz_tools_use_cs_tools_use",
+    "source_file": "src/Qz/Tools/Use.cs",
+    "source_location": "L5",
+    "target": "src_qz_tools_use_cs_tools_use_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "src_qz_tools_use_cs_tools_use_use",
+    "source_file": "src/Qz/Tools/Use.cs",
+    "source_location": "L7",
+    "target": "vendor_legacy_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qz_web_user_cs_web_user",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L1",
+    "target": "web_user_qz_web",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "src_qz_web_user_cs_web_user",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L3",
+    "target": "kz",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "src_qz_web_user_cs_web_user",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L5",
+    "target": "web_user_userz",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "web_user_userz",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L7",
+    "target": "src_qz_shared_order_cs_shared_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "web_user_userz",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L14",
+    "target": "web_user_userz_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "vendor_legacy",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L1",
+    "target": "vendor_legacy_qz_legacy",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "vendor_legacy",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L3",
+    "target": "vendor_legacy_thing",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "vendor_legacy",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L8",
+    "target": "vendor_legacy_qz_kz",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "vendor_legacy",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L10",
+    "target": "vendor_legacy_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "vendor_legacy_order",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L12",
+    "target": "vendor_legacy_order_savez",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_helpers3",
+    "label": "Helpers3.cs",
+    "source_file": "src/Qe/Lib/Helpers3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_helpers3_qe_lib",
+    "label": "Qe.Lib",
+    "source_file": "src/Qe/Lib/Helpers3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_helpers3_helperse3",
+    "label": "HelpersE3",
+    "source_file": "src/Qe/Lib/Helpers3.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "lib_helpers3_helperse3_rune",
+    "label": ".RunE()",
+    "source_file": "src/Qe/Lib/Helpers3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qe_qe",
+    "label": "Qe.csproj",
+    "source_file": "src/Qe/Qe.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qe_qe_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qe/Qe.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qe_qe_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qe/Qe.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qe_util_helpers_cs_util_helpers",
+    "label": "Helpers.cs",
+    "source_file": "src/Qe/Util/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util_helpers_qe_util",
+    "label": "Qe.Util",
+    "source_file": "src/Qe/Util/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util_helpers_helperse",
+    "label": "HelpersE",
+    "source_file": "src/Qe/Util/Helpers.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util_helpers_helperse_rune",
+    "label": ".RunE()",
+    "source_file": "src/Qe/Util/Helpers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_plain",
+    "label": "Plain.cs",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_plain_qe",
+    "label": "Qe",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_plain_usere2",
+    "label": "UserE2",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_plain_usere2_go",
+    "label": ".Go()",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_plain_qe_other",
+    "label": "Qe.Other",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_plain_plaine",
+    "label": "PlainE",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_plain_plaine_go3",
+    "label": ".Go3()",
+    "source_file": "src/Qe/Web/Plain.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qe_web_user_cs_web_user",
+    "label": "User.cs",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qe",
+    "label": "Qe",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_usere",
+    "label": "UserE",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_usere_go",
+    "label": ".Go()",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qe_other",
+    "label": "Qe.Other",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_outere",
+    "label": "OuterE",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_outere_rune",
+    "label": ".RunE()",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_innere",
+    "label": "InnerE",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_innere_go2",
+    "label": ".Go2()",
+    "source_file": "src/Qe/Web/User.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qg_api_user_cs_api_user",
+    "label": "User.cs",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_qg_kg",
+    "label": "Qg.Kg",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qg_api_user_cs_api_user_order",
+    "label": "Order",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_order_saveg",
+    "label": ".SaveG()",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_qg",
+    "label": "Qg",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userg",
+    "label": "UserG",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userg_go",
+    "label": ".Go()",
+    "source_file": "src/Qg/Api/User.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qg_qg",
+    "label": "Qg.csproj",
+    "source_file": "src/Qg/Qg.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qg_qg_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qg/Qg.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qg_qg_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qg/Qg.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qg_shared_order_cs_shared_order",
+    "label": "Order.cs",
+    "source_file": "src/Qg/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_kg",
+    "label": "Kg",
+    "source_file": "src/Qg/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qg_shared_order_cs_shared_order_order",
+    "label": "Order",
+    "source_file": "src/Qg/Shared/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_order_saveg",
+    "label": ".SaveG()",
+    "source_file": "src/Qg/Shared/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qh_api_user_cs_api_user",
+    "label": "User.cs",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_qh",
+    "label": "Qh",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userh",
+    "label": "UserH",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userh_go",
+    "label": ".Go()",
+    "source_file": "src/Qh/Api/User.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kh_order",
+    "label": "Order.cs",
+    "source_file": "src/Qh/Kh/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kh_order_qh_kh",
+    "label": "Qh.Kh",
+    "source_file": "src/Qh/Kh/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kh_order_order",
+    "label": "Order",
+    "source_file": "src/Qh/Kh/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kh_order_order_saveh",
+    "label": ".SaveH()",
+    "source_file": "src/Qh/Kh/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qh_qh",
+    "label": "Qh.csproj",
+    "source_file": "src/Qh/Qh.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qh_qh_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qh/Qh.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qh_qh_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qh/Qh.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qh_shared_order_cs_shared_order",
+    "label": "Order.cs",
+    "source_file": "src/Qh/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_kh",
+    "label": "Kh",
+    "source_file": "src/Qh/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qh_shared_order_cs_shared_order_order",
+    "label": "Order",
+    "source_file": "src/Qh/Shared/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_order_saveh",
+    "label": ".SaveH()",
+    "source_file": "src/Qh/Shared/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qi_api_user_cs_api_user",
+    "label": "User.cs",
+    "source_file": "src/Qi/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_useri",
+    "label": "UserI",
+    "source_file": "src/Qi/Api/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_useri_go",
+    "label": ".Go()",
+    "source_file": "src/Qi/Api/User.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ki_order",
+    "label": "Order.cs",
+    "source_file": "src/Qi/Ki/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ki_order_qi_ki",
+    "label": "Qi.Ki",
+    "source_file": "src/Qi/Ki/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ki_order_order",
+    "label": "Order",
+    "source_file": "src/Qi/Ki/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ki_order_order_savei",
+    "label": ".SaveI()",
+    "source_file": "src/Qi/Ki/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qi_qi",
+    "label": "Qi.csproj",
+    "source_file": "src/Qi/Qi.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qi_qi_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qi/Qi.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qi_qi_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qi/Qi.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qi_shared_order_cs_shared_order",
+    "label": "Order.cs",
+    "source_file": "src/Qi/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_ki",
+    "label": "Ki",
+    "source_file": "src/Qi/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qi_shared_order_cs_shared_order_order",
+    "label": "Order",
+    "source_file": "src/Qi/Shared/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_order_savei",
+    "label": ".SaveI()",
+    "source_file": "src/Qi/Shared/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj",
+    "label": "IRunJ.cs",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj_qj_a",
+    "label": "Qj.A",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj_irunj",
+    "label": "IRunJ",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj_irunj_run",
+    "label": ".Run()",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qj_a_irunj_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qj/A/IRunJ.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj_runbasej",
+    "label": "RunBaseJ",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj_runbasej_run",
+    "label": ".Run()",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj_runuserj",
+    "label": "RunUserJ",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_irunj_runuserj_go",
+    "label": ".Go()",
+    "source_file": "src/Qj/A/IRunJ.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qj_a_kj_timer_cs_kj_timer",
+    "label": "Timer.cs",
+    "source_file": "src/Qj/A/Kj/Timer.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kj_timer_qj_a_kj",
+    "label": "Qj.A.Kj",
+    "source_file": "src/Qj/A/Kj/Timer.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qj_a_kj_timer_cs_kj_timer_timer",
+    "label": "Timer",
+    "source_file": "src/Qj/A/Kj/Timer.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_implj",
+    "label": "ImplJ.cs",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_implj_qj_b",
+    "label": "Qj.B",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_implj_implj",
+    "label": "ImplJ",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_implj_implj_run",
+    "label": ".Run()",
+    "source_file": "src/Qj/B/ImplJ.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qj_b_implj_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qj/B/ImplJ.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qj_b_kj_timer_cs_kj_timer",
+    "label": "Timer.cs",
+    "source_file": "src/Qj/B/Kj/Timer.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kj_timer_qj_b_kj",
+    "label": "Qj.B.Kj",
+    "source_file": "src/Qj/B/Kj/Timer.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qj_b_kj_timer_cs_kj_timer_timer",
+    "label": "Timer",
+    "source_file": "src/Qj/B/Kj/Timer.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qj_qj",
+    "label": "Qj.csproj",
+    "source_file": "src/Qj/Qj.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qj_qj_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qj/Qj.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qj_qj_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qj/Qj.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_carts_carthandler_cs_carts_carthandler",
+    "label": "CartHandler.cs",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_carthandler",
+    "label": "CartHandler",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_carthandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Qk/Carts/CartHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_carts_carthandler_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qk/Carts/CartHandler.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_carts_models_item_cs_models_item",
+    "label": "Item.cs",
+    "source_file": "src/Qk/Carts/Models/Item.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_carts_models_item_cs_models_item_item",
+    "label": "Item",
+    "source_file": "src/Qk/Carts/Models/Item.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_orders_ihandler_cs_orders_ihandler",
+    "label": "IHandler.cs",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_ihandler",
+    "label": "IHandler",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_ihandler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_orders_ihandler_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qk/Orders/IHandler.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_handlerbase",
+    "label": "HandlerBase",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_handlerbase_handle",
+    "label": ".Handle()",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_caller",
+    "label": "Caller",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_caller_go",
+    "label": ".Go()",
+    "source_file": "src/Qk/Orders/IHandler.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler2",
+    "label": "IHandler2.cs",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler2_ihandler2",
+    "label": "IHandler2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler2_ihandler2_handle2",
+    "label": ".Handle2()",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_orders_ihandler2_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qk/Orders/IHandler2.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler2_handlerbase2",
+    "label": "HandlerBase2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler2_handlerbase2_handle2",
+    "label": ".Handle2()",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler2_caller2",
+    "label": "Caller2",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler2_caller2_go",
+    "label": ".Go()",
+    "source_file": "src/Qk/Orders/IHandler2.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_orders_models_item_cs_models_item",
+    "label": "Item.cs",
+    "source_file": "src/Qk/Orders/Models/Item.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_orders_models_item_cs_models_item_item",
+    "label": "Item",
+    "source_file": "src/Qk/Orders/Models/Item.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sub_orderhandler2",
+    "label": "OrderHandler2.cs",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sub_orderhandler2_orderhandler2",
+    "label": "OrderHandler2",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sub_orderhandler2_orderhandler2_handle2",
+    "label": ".Handle2()",
+    "source_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qk_orders_sub_orderhandler2_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qk/Orders/Sub/OrderHandler2.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qk_qk",
+    "label": "Qk.csproj",
+    "source_file": "src/Qk/Qk.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qk_qk_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qk/Qk.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qk_qk_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qk/Qk.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ql_api_user_cs_api_user",
+    "label": "User.cs",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_kl",
+    "label": "Kl",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ql_api_user_cs_api_user_order",
+    "label": "Order",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_order_savel",
+    "label": ".SaveL()",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_ql",
+    "label": "Ql",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userl",
+    "label": "UserL",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ql_api_user_cs_ord",
+    "label": "Ord",
+    "origin_file": "src/Ql/Api/User.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userl_go",
+    "label": ".Go()",
+    "source_file": "src/Ql/Api/User.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kl_order",
+    "label": "Order.cs",
+    "source_file": "src/Ql/Kl/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kl_order_ql_kl",
+    "label": "Ql.Kl",
+    "source_file": "src/Ql/Kl/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kl_order_order",
+    "label": "Order",
+    "source_file": "src/Ql/Kl/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kl_order_order_savel",
+    "label": ".SaveL()",
+    "source_file": "src/Ql/Kl/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ql_ql",
+    "label": "Ql.csproj",
+    "source_file": "src/Ql/Ql.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ql_ql_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Ql/Ql.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ql_ql_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Ql/Ql.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qm_api_user_cs_api_user",
+    "label": "User.cs",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_qm",
+    "label": "Qm",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userm",
+    "label": "UserM",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qm_api_user_cs_ord",
+    "label": "Ord",
+    "origin_file": "src/Qm/Api/User.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_userm_go",
+    "label": ".Go()",
+    "source_file": "src/Qm/Api/User.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "km_order",
+    "label": "Order.cs",
+    "source_file": "src/Qm/Km/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "km_order_qm_km",
+    "label": "Qm.Km",
+    "source_file": "src/Qm/Km/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "km_order_order",
+    "label": "Order",
+    "source_file": "src/Qm/Km/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "km_order_order_savem",
+    "label": ".SaveM()",
+    "source_file": "src/Qm/Km/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qm_qm",
+    "label": "Qm.csproj",
+    "source_file": "src/Qm/Qm.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qm_qm_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qm/Qm.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qm_qm_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qm/Qm.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qm_shared_order_cs_shared_order",
+    "label": "Order.cs",
+    "source_file": "src/Qm/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_km",
+    "label": "Km",
+    "source_file": "src/Qm/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qm_shared_order_cs_shared_order_order",
+    "label": "Order",
+    "source_file": "src/Qm/Shared/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_order_savem",
+    "label": ".SaveM()",
+    "source_file": "src/Qm/Shared/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qo_api_user_cs_api_user",
+    "label": "User.cs",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_ko",
+    "label": "Ko",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qo_api_user_cs_api_user_order",
+    "label": "Order",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_order_saveo",
+    "label": ".SaveO()",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_qo",
+    "label": "Qo",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_usero",
+    "label": "UserO",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "api_user_usero_go",
+    "label": ".Go()",
+    "source_file": "src/Qo/Api/User.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ko_order",
+    "label": "Order.cs",
+    "source_file": "src/Qo/Ko/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ko_order_qo_ko",
+    "label": "Qo.Ko",
+    "source_file": "src/Qo/Ko/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ko_order_order",
+    "label": "Order",
+    "source_file": "src/Qo/Ko/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ko_order_order_saveo",
+    "label": ".SaveO()",
+    "source_file": "src/Qo/Ko/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qo_qo",
+    "label": "Qo.csproj",
+    "source_file": "src/Qo/Qo.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qo_qo_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qo/Qo.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qo_qo_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qo/Qo.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_qpa",
+    "label": "QpA.csproj",
+    "source_file": "src/Qp/A/QpA.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qp_a_qpa_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qp/A/QpA.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qp_a_qpa_csproj_nuget_pk_build",
+    "label": "Pk.Build (1.0.0)",
+    "source_file": "src/Qp/A/QpA.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qp_a_qpa_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qp/A/QpA.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq1",
+    "label": "TickQ1.cs",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq1_itickq1",
+    "label": "ITickQ1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq1_itickq1_tick",
+    "label": ".Tick()",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qp_a_tickq1_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qp/A/TickQ1.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq1_tickbaseq1",
+    "label": "TickBaseQ1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq1_tickbaseq1_tick",
+    "label": ".Tick()",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq1_tickuserq1",
+    "label": "TickUserQ1",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq1_tickuserq1_go",
+    "label": ".Go()",
+    "source_file": "src/Qp/A/TickQ1.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qp_a_vendor_glob_cs_vendor_glob",
+    "label": "Glob.cs",
+    "source_file": "src/Qp/A/vendor/Glob.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_qpb",
+    "label": "QpB.csproj",
+    "source_file": "src/Qp/B/QpB.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qp_b_qpb_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qp/B/QpB.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "c_qpc",
+    "label": "QpC.csproj",
+    "source_file": "src/Qp/C/QpC.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qp_b_qpb_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qp/B/QpB.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_tickerq1",
+    "label": "TickerQ1.cs",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_tickerq1_tickerq1",
+    "label": "TickerQ1",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_tickerq1_tickerq1_tick",
+    "label": ".Tick()",
+    "source_file": "src/Qp/B/TickerQ1.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qp_b_tickerq1_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qp/B/TickerQ1.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "c_c",
+    "label": "C.cs",
+    "source_file": "src/Qp/C/C.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "c_c_unused",
+    "label": "Unused",
+    "source_file": "src/Qp/C/C.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qp_c_qpc_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qp/C/QpC.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qp_c_qpc_csproj_nuget_pk_build",
+    "label": "Pk.Build (1.0.0)",
+    "source_file": "src/Qp/C/QpC.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qp_c_qpc_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qp/C/QpC.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qp_c_vendor_glob_cs_vendor_glob",
+    "label": "Glob.cs",
+    "source_file": "src/Qp/C/vendor/Glob.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_qqa",
+    "label": "QqA.csproj",
+    "source_file": "src/Qq/A/QqA.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qq_a_qqa_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qq/A/QqA.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qq_a_qqa_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qq/A/QqA.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq2",
+    "label": "TickQ2.cs",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq2_itickq2",
+    "label": "ITickQ2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq2_itickq2_tick",
+    "label": ".Tick()",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qq_a_tickq2_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qq/A/TickQ2.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq2_tickbaseq2",
+    "label": "TickBaseQ2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq2_tickbaseq2_tick",
+    "label": ".Tick()",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq2_tickuserq2",
+    "label": "TickUserQ2",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a_tickq2_tickuserq2_go",
+    "label": ".Go()",
+    "source_file": "src/Qq/A/TickQ2.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_qqb",
+    "label": "QqB.csproj",
+    "source_file": "src/Qq/B/QqB.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qq_b_qqb_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qq/B/QqB.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qq_b_qqb_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qq/B/QqB.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_tickerq2",
+    "label": "TickerQ2.cs",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_tickerq2_tickerq2",
+    "label": "TickerQ2",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_tickerq2_tickerq2_tick",
+    "label": ".Tick()",
+    "source_file": "src/Qq/B/TickerQ2.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qq_b_tickerq2_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qq/B/TickerQ2.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qr_qr",
+    "label": "Qr.csproj",
+    "source_file": "src/Qr/Qr.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qr_qr_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qr/Qr.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qr_qr_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qr/Qr.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qr_shared_order_cs_shared_order",
+    "label": "Order.cs",
+    "source_file": "src/Qr/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_kq",
+    "label": "Kq",
+    "source_file": "src/Qr/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qr_shared_order_cs_shared_order_order",
+    "label": "Order",
+    "source_file": "src/Qr/Shared/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_order_saver",
+    "label": ".SaveR()",
+    "source_file": "src/Qr/Shared/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qr_tools_use_cs_tools_use",
+    "label": "Use.cs",
+    "source_file": "src/Qr/Tools/Use.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_use_qr_tools",
+    "label": "Qr.Tools",
+    "source_file": "src/Qr/Tools/Use.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qr_tools_use_cs_tools_use_use",
+    "label": "Use",
+    "source_file": "src/Qr/Tools/Use.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qr_web_user_cs_web_user",
+    "label": "User.cs",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qr_web",
+    "label": "Qr.Web",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_userr",
+    "label": "UserR",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_userr_go",
+    "label": ".Go()",
+    "source_file": "src/Qr/Web/User.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qs_qs",
+    "label": "Qs.csproj",
+    "source_file": "src/Qs/Qs.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qs_qs_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qs/Qs.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qs_qs_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qs/Qs.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_helpers",
+    "label": "Helpers.cs",
+    "source_file": "src/Qs/Shared/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_helpers_us",
+    "label": "Us",
+    "source_file": "src/Qs/Shared/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_helpers_helperss",
+    "label": "HelpersS",
+    "source_file": "src/Qs/Shared/Helpers.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_helpers_helperss_runs",
+    "label": ".RunS()",
+    "source_file": "src/Qs/Shared/Helpers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "us_helpers",
+    "label": "Helpers.cs",
+    "source_file": "src/Qs/Us/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "us_helpers_qs_us",
+    "label": "Qs.Us",
+    "source_file": "src/Qs/Us/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "us_helpers_helperss",
+    "label": "HelpersS",
+    "source_file": "src/Qs/Us/Helpers.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "us_helpers_helperss_runs",
+    "label": ".RunS()",
+    "source_file": "src/Qs/Us/Helpers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qs_web_user_cs_web_user",
+    "label": "User.cs",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qs",
+    "label": "Qs",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_users",
+    "label": "UserS",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_users_go",
+    "label": ".Go()",
+    "source_file": "src/Qs/Web/User.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qt_qt",
+    "label": "Qt.csproj",
+    "source_file": "src/Qt/Qt.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qt_qt_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qt/Qt.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qt_qt_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qt/Qt.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qt_util_helpers_cs_util_helpers",
+    "label": "Helpers.cs",
+    "source_file": "src/Qt/Util/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util_helpers_qt_util",
+    "label": "Qt.Util",
+    "source_file": "src/Qt/Util/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util_helpers_helperst",
+    "label": "HelpersT",
+    "source_file": "src/Qt/Util/Helpers.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "util_helpers_helperst_runt",
+    "label": ".RunT()",
+    "source_file": "src/Qt/Util/Helpers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_field",
+    "label": "Field.cs",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_field_qt",
+    "label": "Qt",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_field_outert4",
+    "label": "OuterT4",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "action",
+    "label": "Action",
+    "origin_file": "src/Qt/Web/Field.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_field_innert4",
+    "label": "InnerT4",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_field_innert4_go5",
+    "label": ".Go5()",
+    "source_file": "src/Qt/Web/Field.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_inherited",
+    "label": "Inherited.cs",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_inherited_qt",
+    "label": "Qt",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_inherited_outerbaset",
+    "label": "OuterBaseT",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_inherited_outerbaset_runt",
+    "label": ".RunT()",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_inherited_outert3",
+    "label": "OuterT3",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_inherited_innert3",
+    "label": "InnerT3",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_inherited_innert3_go4",
+    "label": ".Go4()",
+    "source_file": "src/Qt/Web/Inherited.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_nested",
+    "label": "Nested.cs",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_nested_qt",
+    "label": "Qt",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_nested_outert2",
+    "label": "OuterT2",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_nested_innert2",
+    "label": "InnerT2",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_nested_innert2_go3",
+    "label": ".Go3()",
+    "source_file": "src/Qt/Web/Nested.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qt_web_user_cs_web_user",
+    "label": "User.cs",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qt",
+    "label": "Qt",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_usert",
+    "label": "UserT",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_usert_go",
+    "label": ".Go()",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_outert",
+    "label": "OuterT",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_outert_runt",
+    "label": ".RunT()",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_innert",
+    "label": "InnerT",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_innert_go2",
+    "label": ".Go2()",
+    "source_file": "src/Qt/Web/User.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_qu",
+    "label": "Qu.csproj",
+    "source_file": "src/Qu/Qu.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qu_qu_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qu/Qu.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qu_qu_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qu/Qu.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_user",
+    "label": "User.cs",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_user_ku",
+    "label": "Ku",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_user_order",
+    "label": "Order",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_user_order_saveu",
+    "label": ".SaveU()",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_user_xu",
+    "label": "Xu",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_user_useru",
+    "label": "UserU",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qu_user_useru_go",
+    "label": ".Go()",
+    "source_file": "src/Qu/User.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qv_carts_carthandler_cs_carts_carthandler",
+    "label": "CartHandler.cs",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_qv_carts",
+    "label": "Qv.Carts",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_carthandlerv",
+    "label": "CartHandlerV",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_carthandlerv_handlev",
+    "label": ".HandleV()",
+    "source_file": "src/Qv/Carts/CartHandler.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qv_carts_carthandler_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qv/Carts/CartHandler.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ev_marker",
+    "label": "Marker.cs",
+    "source_file": "src/Qv/Orders/Ev/Marker.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ev_marker_qv_orders_ev",
+    "label": "Qv.Orders.Ev",
+    "source_file": "src/Qv/Orders/Ev/Marker.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ev_marker_marker",
+    "label": "Marker",
+    "source_file": "src/Qv/Orders/Ev/Marker.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qv_orders_ihandler_cs_orders_ihandler",
+    "label": "IHandler.cs",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_qv_orders",
+    "label": "Qv.Orders",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_ihandlerv",
+    "label": "IHandlerV",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_ihandlerv_handlev",
+    "label": ".HandleV()",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qv_orders_ihandler_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qv/Orders/IHandler.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_handlerbasev",
+    "label": "HandlerBaseV",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_handlerbasev_handlev",
+    "label": ".HandleV()",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_callerv",
+    "label": "CallerV",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_callerv_go",
+    "label": ".Go()",
+    "source_file": "src/Qv/Orders/IHandler.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qv_qv",
+    "label": "Qv.csproj",
+    "source_file": "src/Qv/Qv.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qv_qv_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qv/Qv.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qv_qv_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qv/Qv.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qv_vendor_ext_cs_vendor_ext",
+    "label": "Ext.cs",
+    "source_file": "src/Qv/vendor/Ext.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_ext_ev",
+    "label": "Ev",
+    "source_file": "src/Qv/vendor/Ext.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qv_vendor_ext_cs_vendor_ext_item",
+    "label": "Item",
+    "source_file": "src/Qv/vendor/Ext.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_ext_lv",
+    "label": "Lv",
+    "source_file": "src/Qv/vendor/Ext.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qw_carts_carthandler_cs_carts_carthandler",
+    "label": "CartHandler.cs",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_qw_carts",
+    "label": "Qw.Carts",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_carthandlerw",
+    "label": "CartHandlerW",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "carts_carthandler_carthandlerw_handlew",
+    "label": ".HandleW()",
+    "source_file": "src/Qw/Carts/CartHandler.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qw_carts_carthandler_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qw/Carts/CartHandler.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qw_orders_ihandler_cs_orders_ihandler",
+    "label": "IHandler.cs",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_qw_orders",
+    "label": "Qw.Orders",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_ihandlerw",
+    "label": "IHandlerW",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_ihandlerw_handlew",
+    "label": ".HandleW()",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qw_orders_ihandler_cs_item",
+    "label": "Item",
+    "origin_file": "src/Qw/Orders/IHandler.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_handlerbasew",
+    "label": "HandlerBaseW",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_handlerbasew_handlew",
+    "label": ".HandleW()",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_callerw",
+    "label": "CallerW",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "orders_ihandler_callerw_go",
+    "label": ".Go()",
+    "source_file": "src/Qw/Orders/IHandler.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qw_qw",
+    "label": "Qw.csproj",
+    "source_file": "src/Qw/Qw.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qw_qw_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qw/Qw.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qw_qw_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qw/Qw.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qw_vendor_ext_cs_vendor_ext",
+    "label": "Ext.cs",
+    "source_file": "src/Qw/vendor/Ext.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_ext_ew",
+    "label": "Ew",
+    "source_file": "src/Qw/vendor/Ext.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qw_vendor_ext_cs_vendor_ext_item",
+    "label": "Item",
+    "source_file": "src/Qw/vendor/Ext.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_ext_lw",
+    "label": "Lw",
+    "source_file": "src/Qw/vendor/Ext.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_kx_order_cs_kx_order",
+    "label": "Order.cs",
+    "source_file": "src/Qx/Kx/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kx_order_qx_kx",
+    "label": "Qx.Kx",
+    "source_file": "src/Qx/Kx/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_kx_order_cs_kx_order_order",
+    "label": "Order",
+    "source_file": "src/Qx/Kx/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_kx_order_cs_kx_order_order_savex",
+    "label": ".SaveX()",
+    "source_file": "src/Qx/Kx/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qx_qx",
+    "label": "Qx.csproj",
+    "source_file": "src/Qx/Qx.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qx_qx_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qx/Qx.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qx_qx_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qx/Qx.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_shared_order_cs_shared_order",
+    "label": "Order.cs",
+    "source_file": "src/Qx/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_kx",
+    "label": "Kx",
+    "source_file": "src/Qx/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_shared_order_cs_shared_order_order",
+    "label": "Order",
+    "source_file": "src/Qx/Shared/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_order_savex",
+    "label": ".SaveX()",
+    "source_file": "src/Qx/Shared/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_web_kx_order_cs_kx_order",
+    "label": "Order.cs",
+    "source_file": "src/Qx/Web/Kx/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "kx_order_qx_web_kx",
+    "label": "Qx.Web.Kx",
+    "source_file": "src/Qx/Web/Kx/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_web_kx_order_cs_kx_order_order",
+    "label": "Order",
+    "source_file": "src/Qx/Web/Kx/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_web_kx_order_cs_kx_order_order_savex",
+    "label": ".SaveX()",
+    "source_file": "src/Qx/Web/Kx/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qx_web_user_cs_web_user",
+    "label": "User.cs",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qx",
+    "label": "Qx",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_web",
+    "label": "Web",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_userx",
+    "label": "UserX",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_userx_go",
+    "label": ".Go()",
+    "source_file": "src/Qx/Web/User.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "other_helpers",
+    "label": "Helpers.cs",
+    "source_file": "src/Qy/Other/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "other_helpers_oy_uy",
+    "label": "Oy.Uy",
+    "source_file": "src/Qy/Other/Helpers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "other_helpers_helpersy",
+    "label": "HelpersY",
+    "source_file": "src/Qy/Other/Helpers.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "other_helpers_helpersy_runy",
+    "label": ".RunY()",
+    "source_file": "src/Qy/Other/Helpers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qy_qy",
+    "label": "Qy.csproj",
+    "source_file": "src/Qy/Qy.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qy_qy_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qy/Qy.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qy_qy_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qy/Qy.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qy_web_user_cs_web_user",
+    "label": "User.cs",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_oy",
+    "label": "Oy",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_markery",
+    "label": "MarkerY",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qy",
+    "label": "Qy",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_usery",
+    "label": "UserY",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_usery_go",
+    "label": ".Go()",
+    "source_file": "src/Qy/Web/User.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_util",
+    "label": "Util.cs",
+    "source_file": "src/Qy/vendor/Util.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_util_uy",
+    "label": "Uy",
+    "source_file": "src/Qy/vendor/Util.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_util_helpersy",
+    "label": "HelpersY",
+    "source_file": "src/Qy/vendor/Util.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_util_helpersy_runy",
+    "label": ".RunY()",
+    "source_file": "src/Qy/vendor/Util.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qz_qz",
+    "label": "Qz.csproj",
+    "source_file": "src/Qz/Qz.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qz_qz_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qz/Qz.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qz_qz_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qz/Qz.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qz_shared_order_cs_shared_order",
+    "label": "Order.cs",
+    "source_file": "src/Qz/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_kz",
+    "label": "Kz",
+    "source_file": "src/Qz/Shared/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qz_shared_order_cs_shared_order_order",
+    "label": "Order",
+    "source_file": "src/Qz/Shared/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_order_order_savez",
+    "label": ".SaveZ()",
+    "source_file": "src/Qz/Shared/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qz_tools_use_cs_tools_use",
+    "label": "Use.cs",
+    "source_file": "src/Qz/Tools/Use.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tools_use_qz_tools",
+    "label": "Qz.Tools",
+    "source_file": "src/Qz/Tools/Use.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qz_tools_use_cs_tools_use_use",
+    "label": "Use",
+    "source_file": "src/Qz/Tools/Use.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qz_web_user_cs_web_user",
+    "label": "User.cs",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_qz_web",
+    "label": "Qz.Web",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_userz",
+    "label": "UserZ",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "web_user_userz_go",
+    "label": ".Go()",
+    "source_file": "src/Qz/Web/User.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_legacy",
+    "label": "Legacy.cs",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_legacy_qz_legacy",
+    "label": "Qz.Legacy",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_legacy_thing",
+    "label": "Thing",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_legacy_qz_kz",
+    "label": "Qz.Kz",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_legacy_order",
+    "label": "Order",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "vendor_legacy_order_savez",
+    "label": ".SaveZ()",
+    "source_file": "src/Qz/vendor/Legacy.cs",
+    "source_location": "L12"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "cb6e065a90b23889bc6292522cd9aec0f92333e1a7d2fdfbd477ff436658b63d"
+}

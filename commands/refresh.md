@@ -81,6 +81,11 @@ How to read the outcome:
 - **A refused prune** (its wipe guard: an unusually large deletion, or an extractor downgrade): re-run
   the first command block above, in the background, with `--force-prune` added after `--stale-cleanup`,
   but only when those deletions are expected (e.g. a big refactor).
+- **"stale-cleanup SKIPPED: ... no repo-root marker"**, or a `DEGRADED` verdict with "STALE NODES KEPT"
+  naming `no-root-marker`: a third kind of refused prune, and `--force-prune` cannot override it. Without
+  a root marker (`.git`, `pyproject.toml`, `package.json`, ...) DeepMap cannot tell this folder is the
+  whole project. Run the refresh from the repository root; if this folder is the whole project, add a
+  `.deepmap-root` file to it and run the first command block above again.
 - **"no DeepMap Neo4j instance of its own" / an unreadable port registry**: the refresh refuses rather
   than write into another project's graph; run `/deep-map:setup` in this project.
 - **"REFUSING: this Neo4j holds project X"** (with no `NEO4J_URI` set): the Neo4j this project is

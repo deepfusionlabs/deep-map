@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <Choose>
+    <When Condition="'$(ChLate)' == 'yes'">
+      <ItemGroup>
+        <Using Include="Ch.Late" />
+      </ItemGroup>
+    </When>
+    <When Condition="'$(Configuration)' == 'Release'">
+      <PropertyGroup>
+        <ChPicked>release</ChPicked>
+      </PropertyGroup>
+      <ItemGroup>
+        <Using Include="Ch.Lib" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Using Include="Ch.Other" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <PropertyGroup>
+    <ChLate>yes</ChLate>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Ch.Prop" Condition="'$(ChPicked)' == 'release'" />
+  </ItemGroup>
+</Project>

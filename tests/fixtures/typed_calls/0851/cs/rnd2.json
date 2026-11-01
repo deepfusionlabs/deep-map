@@ -5231,6 +5231,129 @@
    },
    {
     "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "sg3_aliases3",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sg3_aliases3",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L5",
+    "target": "sg3_aliases3_a13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sg3_aliases3_a13",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L7",
+    "target": "sg3_aliases3_a13_run13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sg3_aliases3_a13_run13",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L7",
+    "target": "src_sg3_aliases3_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sg3_aliases3",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L12",
+    "target": "sg3_aliases3_b13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "sg3_aliases3_b13",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L12",
+    "target": "sg3_aliases3_a13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sg3_aliases3_b13",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L14",
+    "target": "sg3_aliases3_b13_run13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sg3_aliases3_b13_run13",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L14",
+    "target": "tk3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sg3_aliases3",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L19",
+    "target": "sg3_aliases3_alias3user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "sg3_aliases3_alias3user",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L21",
+    "target": "sg3_aliases3_a13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sg3_aliases3_alias3user",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L23",
+    "target": "sg3_aliases3_alias3user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sg3_aliases3_alias3user_go",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L23",
+    "target": "src_sg3_aliases3_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "sg3_aliases3_alias3user_go",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L25",
+    "target": "sg3_aliases3_b13_run13",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
     "relation": "references",
     "source": "sg3_sg3",
     "source_file": "src/Sg3/Sg3.csproj",
@@ -7950,6 +8073,80 @@
    {
     "_origin": "ast",
     "file_type": "code",
+    "id": "sg3_aliases3",
+    "label": "Aliases3.cs",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sg3_aliases3_a13",
+    "label": "A13",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sg3_aliases3_a13_run13",
+    "label": ".Run13()",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_sg3_aliases3_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "origin_file": "src/Sg3/Aliases3.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sg3_aliases3_b13",
+    "label": "B13",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sg3_aliases3_b13_run13",
+    "label": ".Run13()",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tk3",
+    "label": "Tk3",
+    "origin_file": "src/Sg3/Aliases3.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sg3_aliases3_alias3user",
+    "label": "Alias3User",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sg3_aliases3_alias3user_go",
+    "label": ".Go()",
+    "source_file": "src/Sg3/Aliases3.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
     "id": "sg3_sg3",
     "label": "Sg3.csproj",
     "source_file": "src/Sg3/Sg3.csproj",
@@ -7966,5 +8163,5 @@
   ],
   "output_tokens": 0
  },
- "tree_sha256": "69f7dd8c7f0ec9db9b39d14fe707a28d5df8ba32fb71a681ed139bc24ade8bb0"
+ "tree_sha256": "4e0e0d602336ebebd0df710fbf65bb656408c957f1a772964d9c124373837923"
 }

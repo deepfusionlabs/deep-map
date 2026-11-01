@@ -1,0 +1,18 @@
+namespace Microsoft.AspNetCore.Routing
+{
+    public class Gadget
+    {
+        public void Spin() { }
+    }
+}
+
+namespace Se
+{
+    public class SeCalls
+    {
+        public void Go(Gadget g)
+        {
+            g.Spin();
+        }
+    }
+}

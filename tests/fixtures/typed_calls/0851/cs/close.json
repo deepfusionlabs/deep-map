@@ -1,0 +1,8088 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.51) of tests/typed_calls_cs_gates.TREES['close'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_cs_gates.py --capture` under this engine.",
+ "engine": "0.8.51",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qa_qa",
+    "source_file": "src/Qa/Qa.csproj",
+    "target": "src_qa_qa_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qa_qa",
+    "source_file": "src/Qa/Qa.csproj",
+    "target": "src_qa_qa_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qa_s07",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L1",
+    "target": "aliasr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qa_s07",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L5",
+    "target": "qa_s07_iali7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qa_s07_iali7",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L7",
+    "target": "qa_s07_iali7_al7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qa_s07",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L10",
+    "target": "qa_s07_aliimpl7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qa_s07_aliimpl7",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L10",
+    "target": "qa_s07_iali7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qa_s07_aliimpl7",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L12",
+    "target": "qa_s07_aliimpl7_al7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qa_s07",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L17",
+    "target": "qa_s07_u07",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qa_s07_u07",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L19",
+    "target": "qa_s07_iali7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qa_s07_u07",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L26",
+    "target": "qa_s07_u07_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qa_s07_u07_go",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L28",
+    "target": "qa_s07_aliimpl7_al7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qa_s07b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L1",
+    "target": "aliasq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qa_s07b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L5",
+    "target": "qa_s07b_iali7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qa_s07b_iali7b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L7",
+    "target": "qa_s07b_iali7b_al7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qa_s07b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L10",
+    "target": "qa_s07b_aliimpl7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qa_s07b_aliimpl7b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L10",
+    "target": "qa_s07b_iali7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qa_s07b_aliimpl7b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L12",
+    "target": "qa_s07b_aliimpl7b_al7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qa_s07b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L17",
+    "target": "qa_s07b_u07b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qa_s07b_u07b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L19",
+    "target": "qa_s07b_iali7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qa_s07b_u07b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L26",
+    "target": "qa_s07b_u07b_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qa_s07b_u07b_go",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L28",
+    "target": "qa_s07b_aliimpl7b_al7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L1",
+    "target": "qb_all4_qb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L3",
+    "target": "qb_all4_iali4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4_iali4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L5",
+    "target": "qb_all4_iali4_al4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L8",
+    "target": "qb_all4_base4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qb_all4_base4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L8",
+    "target": "qb_all4_iali4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4_base4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L10",
+    "target": "qb_all4_base4_al4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L16",
+    "target": "qb_all4_qb_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qb_all4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L18",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L20",
+    "target": "qb_all4_impl4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qb_all4_impl4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L20",
+    "target": "qb_all4_base4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4_impl4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L22",
+    "target": "qb_all4_impl4_al4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L30",
+    "target": "qb_all4_user4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qb_all4_user4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L32",
+    "target": "qb_all4_iali4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4_user4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L39",
+    "target": "qb_all4_user4_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qb_all4_user4_go",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L41",
+    "target": "qb_all4_impl4_al4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L1",
+    "target": "qb_all4p_qb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L3",
+    "target": "qb_all4p_iali4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4p_iali4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L5",
+    "target": "qb_all4p_iali4p_al4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L8",
+    "target": "qb_all4p_base4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qb_all4p_base4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L8",
+    "target": "qb_all4p_iali4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4p_base4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L10",
+    "target": "qb_all4p_base4p_al4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L16",
+    "target": "qb_all4p_qb_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L18",
+    "target": "qb_all4p_impl4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qb_all4p_impl4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L18",
+    "target": "qb_all4p_base4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4p_impl4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L20",
+    "target": "qb_all4p_impl4p_al4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qb_all4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L28",
+    "target": "qb_all4p_user4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qb_all4p_user4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L30",
+    "target": "qb_all4p_iali4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qb_all4p_user4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L37",
+    "target": "qb_all4p_user4p_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qb_all4p_user4p_go",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L39",
+    "target": "qb_all4p_impl4p_al4p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qb_qb",
+    "source_file": "src/Qb/Qb.csproj",
+    "target": "src_qb_qb_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qb_qb",
+    "source_file": "src/Qb/Qb.csproj",
+    "target": "src_qb_qb_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L1",
+    "target": "qc_all6_qc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L3",
+    "target": "qc_all6_base6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_all6_base6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L5",
+    "target": "qc_all6_base6_al6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L11",
+    "target": "qc_all6_qc_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qc_all6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L13",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L15",
+    "target": "qc_all6_impl6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qc_all6_impl6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L15",
+    "target": "qc_all6_base6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_all6_impl6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L17",
+    "target": "qc_all6_impl6_al6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L25",
+    "target": "qc_all6_user6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qc_all6_user6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L27",
+    "target": "qc_all6_base6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_all6_user6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L34",
+    "target": "qc_all6_user6_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qc_all6_user6_go",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L36",
+    "target": "qc_all6_impl6_al6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L1",
+    "target": "qc_all6p_qc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L3",
+    "target": "qc_all6p_base6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_all6p_base6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L5",
+    "target": "qc_all6p_base6p_al6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L11",
+    "target": "qc_all6p_qc_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L13",
+    "target": "qc_all6p_impl6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qc_all6p_impl6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L13",
+    "target": "qc_all6p_base6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_all6p_impl6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L15",
+    "target": "qc_all6p_impl6p_al6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_all6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L23",
+    "target": "qc_all6p_user6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qc_all6p_user6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L25",
+    "target": "qc_all6p_base6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_all6p_user6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L32",
+    "target": "qc_all6p_user6p_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qc_all6p_user6p_go",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L34",
+    "target": "qc_all6p_impl6p_al6p",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allg",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L1",
+    "target": "qc_allg_qc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allg",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L3",
+    "target": "qc_allg_baseg6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_allg_baseg6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L5",
+    "target": "qc_allg_baseg6_alg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qc_allg_baseg6_alg",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L5",
+    "target": "src_qc_allg_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allg",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L11",
+    "target": "qc_allg_qc_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qc_allg",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L13",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allg",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L15",
+    "target": "qc_allg_implg6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qc_allg_implg6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L15",
+    "target": "qc_allg_baseg6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_allg_implg6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L17",
+    "target": "qc_allg_implg6_alg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allg",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L25",
+    "target": "qc_allg_userg6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qc_allg_userg6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L27",
+    "target": "qc_allg_baseg6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_allg_userg6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L34",
+    "target": "qc_allg_userg6_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qc_allg_userg6_go",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L36",
+    "target": "qc_allg_implg6_alg",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allq",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L1",
+    "target": "qc_allq_xq6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allq",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L3",
+    "target": "qc_allq_baseq6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_allq_baseq6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L5",
+    "target": "qc_allq_baseq6_alq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allq",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L10",
+    "target": "qc_allq_userq6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qc_allq_userq6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L12",
+    "target": "qc_allq_baseq6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_allq_userq6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L19",
+    "target": "qc_allq_userq6_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allq",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L26",
+    "target": "qc_allq_xr6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qc_allq",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L28",
+    "target": "qc_allq_implq6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qc_allq_implq6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L28",
+    "target": "qc_allq_baseq6",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qc_allq_implq6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L30",
+    "target": "qc_allq_implq6_alq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qc_allq_userq6_go",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L21",
+    "target": "qc_allq_implq6_alq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qc_qc",
+    "source_file": "src/Qc/Qc.csproj",
+    "target": "src_qc_qc_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qc_qc",
+    "source_file": "src/Qc/Qc.csproj",
+    "target": "src_qc_qc_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_a1",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L1",
+    "target": "aliasra",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L5",
+    "target": "qd_a1_ordera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L9",
+    "target": "qd_a1_carta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L13",
+    "target": "qd_a1_irepoa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a1_irepoa",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L15",
+    "target": "qd_a1_irepoa_savea",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1_irepoa_savea",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L15",
+    "target": "src_qd_a1_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L18",
+    "target": "qd_a1_both",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_a1_both",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L18",
+    "target": "qd_a1_irepoa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "qd_a1_both",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L18",
+    "target": "qd_a1_carta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_a1_both",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L18",
+    "target": "aliasra",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a1_both",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L20",
+    "target": "qd_a1_both_savea",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1_both_savea",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L20",
+    "target": "qd_a1_carta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1_both_savea",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L24",
+    "target": "qd_a1_ordera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L29",
+    "target": "qd_a1_ua",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_a1_ua",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L31",
+    "target": "qd_a1_irepoa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a1_ua",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L38",
+    "target": "qd_a1_ua_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1_ua_go",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L38",
+    "target": "qd_a1_ordera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_a1_ua_go",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L40",
+    "target": "qd_a1_both_savea",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_a1b",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L1",
+    "target": "aliasra",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1b",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L5",
+    "target": "qd_a1b_ordera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1b",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L9",
+    "target": "qd_a1b_carta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1b",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L13",
+    "target": "qd_a1b_irepoa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a1b_irepoa",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L15",
+    "target": "qd_a1b_irepoa_saveab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1b_irepoa_saveab",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L15",
+    "target": "src_qd_a1b_cs_t",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1b",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L18",
+    "target": "qd_a1b_bothb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_a1b_bothb",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L18",
+    "target": "qd_a1b_irepoa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "generic_arg",
+    "relation": "references",
+    "source": "qd_a1b_bothb",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L18",
+    "target": "qd_a1b_carta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_a1b_bothb",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L18",
+    "target": "aliasra",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a1b_bothb",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L20",
+    "target": "qd_a1b_bothb_saveab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1b_bothb_saveab",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L20",
+    "target": "qd_a1b_carta",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1b_bothb_saveab",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L24",
+    "target": "qd_a1b_ordera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a1b",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L29",
+    "target": "qd_a1b_uab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_a1b_uab",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L31",
+    "target": "qd_a1b_irepoa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a1b_uab",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L38",
+    "target": "qd_a1b_uab_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qd_a1b_uab_go",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L38",
+    "target": "qd_a1b_ordera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_a1b_uab_go",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L40",
+    "target": "qd_a1b_bothb_saveab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L1",
+    "target": "a1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L3",
+    "target": "qd_a2_xda2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L5",
+    "target": "qd_a2_ialia",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a2_ialia",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L7",
+    "target": "qd_a2_ialia_ala",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L10",
+    "target": "qd_a2_basea",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a2_basea",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L12",
+    "target": "qd_a2_basea_ala",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L18",
+    "target": "qd_a2_xda2_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L20",
+    "target": "a2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L22",
+    "target": "qd_a2_impla",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_a2_impla",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L22",
+    "target": "qd_a2_basea",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_a2_impla",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L22",
+    "target": "a2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L29",
+    "target": "qd_a2_usera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_a2_usera",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L31",
+    "target": "qd_a2_ialia",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a2_usera",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L38",
+    "target": "qd_a2_usera_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_a2_usera_go",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L40",
+    "target": "qd_a2_basea_ala",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L1",
+    "target": "a1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L3",
+    "target": "qd_a2b_qd_a2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L5",
+    "target": "qd_a2b_ialiab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a2b_ialiab",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L7",
+    "target": "qd_a2b_ialiab_alab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L10",
+    "target": "qd_a2b_baseab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a2b_baseab",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L12",
+    "target": "qd_a2b_baseab_alab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L18",
+    "target": "qd_a2b_qd_a2_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L20",
+    "target": "a2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L22",
+    "target": "qd_a2b_implab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_a2b_implab",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L22",
+    "target": "qd_a2b_baseab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_a2b_implab",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L22",
+    "target": "a2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_a2b",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L29",
+    "target": "qd_a2b_userab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_a2b_userab",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L31",
+    "target": "qd_a2b_ialiab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_a2b_userab",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L38",
+    "target": "qd_a2b_userab_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_a2b_userab_go",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L40",
+    "target": "qd_a2b_baseab_alab",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L1",
+    "target": "qd_c1_qd_c1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L3",
+    "target": "qd_c1_ialic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1_ialic",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L5",
+    "target": "qd_c1_ialic_alc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L8",
+    "target": "qd_c1_midc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_c1_midc",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L8",
+    "target": "qd_c1_ialic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1_midc",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L10",
+    "target": "qd_c1_midc_alc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L15",
+    "target": "qd_c1_basec",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_c1_basec",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L15",
+    "target": "qd_c1_midc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L20",
+    "target": "qd_c1_qd_c1_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L22",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L24",
+    "target": "qd_c1_implc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_c1_implc",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L24",
+    "target": "qd_c1_basec",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1_implc",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L26",
+    "target": "qd_c1_implc_alc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L34",
+    "target": "qd_c1_userc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_c1_userc",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L36",
+    "target": "qd_c1_ialic",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1_userc",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L43",
+    "target": "qd_c1_userc_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L49",
+    "target": "qd_c1_usercv",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_c1_usercv",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L51",
+    "target": "qd_c1_midc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1_usercv",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L58",
+    "target": "qd_c1_usercv_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_c1_userc_go",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L45",
+    "target": "qd_c1_implc_alc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_c1_usercv_go",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L60",
+    "target": "qd_c1_implc_alc",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L1",
+    "target": "qd_c1b_qd_c1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L3",
+    "target": "qd_c1b_ialicb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1b_ialicb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L5",
+    "target": "qd_c1b_ialicb_alcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L8",
+    "target": "qd_c1b_midcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_c1b_midcb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L8",
+    "target": "qd_c1b_ialicb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1b_midcb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L10",
+    "target": "qd_c1b_midcb_alcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L15",
+    "target": "qd_c1b_basecb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_c1b_basecb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L15",
+    "target": "qd_c1b_midcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L20",
+    "target": "qd_c1b_qd_c1b_jobs",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L23",
+    "target": "qd_c1b_implcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_c1b_implcb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L23",
+    "target": "qd_c1b_basecb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1b_implcb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L25",
+    "target": "qd_c1b_implcb_alcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L33",
+    "target": "qd_c1b_usercb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_c1b_usercb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L35",
+    "target": "qd_c1b_ialicb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1b_usercb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L42",
+    "target": "qd_c1b_usercb_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_c1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L48",
+    "target": "qd_c1b_usercvb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_c1b_usercvb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L50",
+    "target": "qd_c1b_midcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_c1b_usercvb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L57",
+    "target": "qd_c1b_usercvb_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_c1b_usercb_go",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L44",
+    "target": "qd_c1b_implcb_alcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_c1b_usercvb_go",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L59",
+    "target": "qd_c1b_implcb_alcb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_m1",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L1",
+    "target": "ibasealiasm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L5",
+    "target": "qd_m1_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_m1_helper",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L7",
+    "target": "qd_m1_helper_runm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L12",
+    "target": "qd_m1_helperx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_m1_helperx",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L14",
+    "target": "qd_m1_helperx_runm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L19",
+    "target": "qd_m1_baseclsm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L24",
+    "target": "qd_m1_ctlm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_m1_ctlm",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L24",
+    "target": "qd_m1_baseclsm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_m1_ctlm",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L26",
+    "target": "qd_m1_ctlm_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_m1_ctlm_get",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L28",
+    "target": "qd_m1_helperx_runm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_m1b",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L1",
+    "target": "ibasealiasm",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1b",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L5",
+    "target": "qd_m1b_helper",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_m1b_helper",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L7",
+    "target": "qd_m1b_helper_runmb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1b",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L12",
+    "target": "qd_m1b_helperx",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_m1b_helperx",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L14",
+    "target": "qd_m1b_helperx_runmb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1b",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L19",
+    "target": "qd_m1b_baseclsmb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_m1b",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L24",
+    "target": "qd_m1b_ctlmb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_m1b_ctlmb",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L24",
+    "target": "qd_m1b_baseclsmb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_m1b_ctlmb",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L26",
+    "target": "qd_m1b_ctlmb_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_m1b_ctlmb_get",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L28",
+    "target": "qd_m1b_helperx_runmb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_mk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L1",
+    "target": "ibasealiask",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L5",
+    "target": "qd_mk_helperk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_mk_helperk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L7",
+    "target": "qd_mk_helperk_runk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L12",
+    "target": "qd_mk_helperxk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_mk_helperxk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L14",
+    "target": "qd_mk_helperxk_runk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L19",
+    "target": "qd_mk_ihostk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L24",
+    "target": "qd_mk_ctlk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_mk_ctlk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L24",
+    "target": "qd_mk_ihostk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_mk_ctlk",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L26",
+    "target": "qd_mk_ctlk_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_mk_ctlk_get",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L28",
+    "target": "qd_mk_helperxk_runk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_mkb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L1",
+    "target": "ibasealiask",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mkb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L5",
+    "target": "qd_mkb_helperk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_mkb_helperk",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L7",
+    "target": "qd_mkb_helperk_runkb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mkb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L12",
+    "target": "qd_mkb_helperxk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_mkb_helperxk",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L14",
+    "target": "qd_mkb_helperxk_runkb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mkb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L19",
+    "target": "qd_mkb_ihostkb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_mkb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L24",
+    "target": "qd_mkb_ctlkb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_mkb_ctlkb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L24",
+    "target": "qd_mkb_ihostkb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_mkb_ctlkb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L26",
+    "target": "qd_mkb_ctlkb_get",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_mkb_ctlkb_get",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L28",
+    "target": "qd_mkb_helperxk_runkb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qd_qd",
+    "source_file": "src/Qd/Qd.csproj",
+    "target": "src_qd_qd_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qd_qd",
+    "source_file": "src/Qd/Qd.csproj",
+    "target": "src_qd_qd_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_r1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L1",
+    "target": "aliasr1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L5",
+    "target": "qd_r1_iali1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1_iali1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L7",
+    "target": "qd_r1_iali1_alr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L10",
+    "target": "qd_r1_base1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_r1_base1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L10",
+    "target": "qd_r1_iali1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1_base1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L12",
+    "target": "qd_r1_base1_alr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L17",
+    "target": "qd_r1_mid1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_r1_mid1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L17",
+    "target": "qd_r1_base1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_r1_mid1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L17",
+    "target": "qd_r1_iali1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1_mid1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L19",
+    "target": "qd_r1_mid1_alr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L24",
+    "target": "qd_r1_u1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_r1_u1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L26",
+    "target": "qd_r1_iali1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1_u1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L33",
+    "target": "qd_r1_u1_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_r1_u1_go",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L35",
+    "target": "qd_r1_mid1_alr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_r1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L1",
+    "target": "aliasr1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L5",
+    "target": "qd_r1b_iali1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1b_iali1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L7",
+    "target": "qd_r1b_iali1b_alrb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L10",
+    "target": "qd_r1b_base1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qd_r1b_base1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L10",
+    "target": "qd_r1b_iali1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1b_base1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L12",
+    "target": "qd_r1b_base1b_alrb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L17",
+    "target": "qd_r1b_mid1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_r1b_mid1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L17",
+    "target": "qd_r1b_base1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_r1b_mid1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L17",
+    "target": "qd_r1b_iali1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1b_mid1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L19",
+    "target": "qd_r1b_mid1b_alrb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_r1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L24",
+    "target": "qd_r1b_u1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_r1b_u1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L26",
+    "target": "qd_r1b_iali1b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_r1b_u1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L33",
+    "target": "qd_r1b_u1b_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_r1b_u1b_go",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L35",
+    "target": "qd_r1b_mid1b_alrb",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_s8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L1",
+    "target": "aliasr8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L5",
+    "target": "qd_s8_iali8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s8_iali8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L7",
+    "target": "qd_s8_iali8_al8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L10",
+    "target": "qd_s8_base8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s8_base8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L12",
+    "target": "qd_s8_base8_al8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L17",
+    "target": "qd_s8_impl8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s8_impl8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L17",
+    "target": "qd_s8_base8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s8_impl8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L17",
+    "target": "qd_s8_iali8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L21",
+    "target": "qd_s8_u08",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_s8_u08",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L23",
+    "target": "qd_s8_iali8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s8_u08",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L30",
+    "target": "qd_s8_u08_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_s8_u08_go",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L32",
+    "target": "qd_s8_base8_al8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_s8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L1",
+    "target": "aliasr8",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L5",
+    "target": "qd_s8b_iali8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s8b_iali8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L7",
+    "target": "qd_s8b_iali8b_al8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L10",
+    "target": "qd_s8b_base8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s8b_base8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L12",
+    "target": "qd_s8b_base8b_al8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L17",
+    "target": "qd_s8b_impl8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s8b_impl8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L17",
+    "target": "qd_s8b_base8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s8b_impl8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L17",
+    "target": "qd_s8b_iali8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L21",
+    "target": "qd_s8b_u08b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_s8b_u08b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L23",
+    "target": "qd_s8b_iali8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s8b_u08b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L30",
+    "target": "qd_s8b_u08b_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_s8b_u08b_go",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L32",
+    "target": "qd_s8b_base8b_al8b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_s9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L1",
+    "target": "aliasb9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_s9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L2",
+    "target": "aliasr9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L6",
+    "target": "qd_s9_iali9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s9_iali9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L8",
+    "target": "qd_s9_iali9_al9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L11",
+    "target": "qd_s9_base9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s9_base9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L13",
+    "target": "qd_s9_base9_al9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L18",
+    "target": "qd_s9_impl9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s9_impl9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L18",
+    "target": "qd_s9_base9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s9_impl9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L18",
+    "target": "qd_s9_iali9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L22",
+    "target": "qd_s9_u09",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_s9_u09",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L24",
+    "target": "qd_s9_iali9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s9_u09",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L31",
+    "target": "qd_s9_u09_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_s9_u09_go",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L33",
+    "target": "qd_s9_base9_al9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_s9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L1",
+    "target": "aliasb9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qd_s9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L2",
+    "target": "aliasr9",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L6",
+    "target": "qd_s9b_iali9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s9b_iali9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L8",
+    "target": "qd_s9b_iali9b_al9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L11",
+    "target": "qd_s9b_base9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s9b_base9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L13",
+    "target": "qd_s9b_base9b_al9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L18",
+    "target": "qd_s9b_impl9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s9b_impl9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L18",
+    "target": "qd_s9b_base9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qd_s9b_impl9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L18",
+    "target": "qd_s9b_iali9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qd_s9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L22",
+    "target": "qd_s9b_u09b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qd_s9b_u09b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L24",
+    "target": "qd_s9b_iali9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qd_s9b_u09b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L31",
+    "target": "qd_s9b_u09b_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qd_s9b_u09b_go",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L33",
+    "target": "qd_s9b_base9b_al9b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L1",
+    "target": "qf_base_xe3a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qf_base",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L3",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L5",
+    "target": "qf_base_tbasee3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qf_base_tbasee3",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L7",
+    "target": "qf_base_tbasee3_arme3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qf_base_tbasee3_arme3",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L7",
+    "target": "src_qf_base_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L13",
+    "target": "qf_base_xe3b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L15",
+    "target": "qf_base_tusere3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qf_base_tusere3",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L17",
+    "target": "qf_der_tdere3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qf_base_tusere3",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L24",
+    "target": "qf_base_tusere3_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qf_base_tusere3_go",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L24",
+    "target": "src_qf_base_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qf_base_tusere3_go",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L26",
+    "target": "qf_base_tbasee3_arme3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L1",
+    "target": "qf_base4_qf_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L3",
+    "target": "qf_base4_tbasee4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qf_base4_tbasee4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L5",
+    "target": "qf_base4_tbasee4_other",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L11",
+    "target": "qf_base4_qf_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_base4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L13",
+    "target": "qf_base4_tusere4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qf_base4_tusere4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L15",
+    "target": "qf_der4_tdere4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qf_base4_tusere4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L22",
+    "target": "qf_base4_tusere4_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qf_base4_tusere4_go",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L22",
+    "target": "src_qf_base4_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_der",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L1",
+    "target": "qf_der_xe3b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qf_der",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L3",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_der",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L5",
+    "target": "qf_der_tdere3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qf_der_tdere3",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L5",
+    "target": "qf_base_tbasee3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qf_der_tdere3",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L7",
+    "target": "qf_der_tdere3_arme3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qf_der_tdere3_arme3",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L7",
+    "target": "src_qf_der_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_der4",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L1",
+    "target": "qf_der4_qf_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qf_der4",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L3",
+    "target": "qf_der4_tdere4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qf_der4_tdere4",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L3",
+    "target": "qf_base4_tbasee4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qf_der4_tdere4",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L5",
+    "target": "qf_der4_tdere4_arme4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qf_der4_tdere4_arme4",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L5",
+    "target": "src_qf_der4_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qf_qf",
+    "source_file": "src/Qf/Qf.csproj",
+    "target": "src_qf_qf_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qf_qf",
+    "source_file": "src/Qf/Qf.csproj",
+    "target": "src_qf_qf_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qn_qn",
+    "source_file": "src/Qn/Qn.csproj",
+    "target": "src_qn_qn_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qn_qn",
+    "source_file": "src/Qn/Qn.csproj",
+    "target": "src_qn_qn_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qn_s5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L1",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qn_s5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L5",
+    "target": "qn_s5_a5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_a5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L7",
+    "target": "qn_s5_a5_run5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_a5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L11",
+    "target": "qn_s5_a5_open5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_a5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L15",
+    "target": "qn_s5_a5_pick5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_a5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L19",
+    "target": "qn_s5_a5_arr5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qn_s5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L24",
+    "target": "qn_s5_b5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qn_s5_b5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L24",
+    "target": "qn_s5_a5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_b5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L26",
+    "target": "qn_s5_b5_run5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qn_s5_b5_run5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L26",
+    "target": "intptr",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_b5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L30",
+    "target": "qn_s5_b5_open5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qn_s5_b5_open5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L30",
+    "target": "src_qn_s5_cs_nullable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_b5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L34",
+    "target": "qn_s5_b5_pick5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qn_s5_b5_pick5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L34",
+    "target": "valuetuple",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_b5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L38",
+    "target": "qn_s5_b5_arr5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qn_s5_b5_arr5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L38",
+    "target": "src_qn_s5_cs_nullable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qn_s5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L43",
+    "target": "qn_s5_s5user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qn_s5_s5user",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L45",
+    "target": "qn_s5_a5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_s5user",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L52",
+    "target": "qn_s5_s5user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_s5user",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L57",
+    "target": "qn_s5_s5user_go2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_s5user",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L62",
+    "target": "qn_s5_s5user_go3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5_s5user",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L67",
+    "target": "qn_s5_s5user_go4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qn_s5_s5user_go",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L54",
+    "target": "qn_s5_b5_run5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qn_s5_s5user_go2",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L59",
+    "target": "qn_s5_b5_open5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qn_s5_s5user_go3",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L64",
+    "target": "qn_s5_b5_pick5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qn_s5_s5user_go4",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L69",
+    "target": "qn_s5_b5_arr5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qn_s5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L1",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qn_s5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L5",
+    "target": "qn_s5b_a5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5b_a5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L7",
+    "target": "qn_s5b_a5b_open5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5b_a5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L11",
+    "target": "qn_s5b_a5b_arr5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qn_s5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L16",
+    "target": "qn_s5b_b5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qn_s5b_b5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L16",
+    "target": "qn_s5b_a5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5b_b5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L18",
+    "target": "qn_s5b_b5b_open5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qn_s5b_b5b_open5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L18",
+    "target": "src_qn_s5b_cs_nullable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5b_b5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L22",
+    "target": "qn_s5b_b5b_arr5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "qn_s5b_b5b_arr5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L22",
+    "target": "src_qn_s5b_cs_nullable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qn_s5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L27",
+    "target": "qn_s5b_s5buser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qn_s5b_s5buser",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L29",
+    "target": "qn_s5b_a5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5b_s5buser",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L36",
+    "target": "qn_s5b_s5buser_go2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qn_s5b_s5buser",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L41",
+    "target": "qn_s5b_s5buser_go4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qn_s5b_s5buser_go2",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L38",
+    "target": "qn_s5b_b5b_open5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qn_s5b_s5buser_go4",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L43",
+    "target": "qn_s5b_b5b_arr5b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qri_qri",
+    "source_file": "src/Qri/Qri.csproj",
+    "target": "src_qri_qri_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "qri_qri",
+    "source_file": "src/Qri/Qri.csproj",
+    "target": "src_qri_qri_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qri_r2",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L1",
+    "target": "iali47aalias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r2",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L5",
+    "target": "qri_r2_iali47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r2_iali47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L7",
+    "target": "qri_r2_iali47a_al47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r2",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L10",
+    "target": "qri_r2_base47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r2_base47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L10",
+    "target": "qri_r2_iali47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r2_base47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L12",
+    "target": "qri_r2_base47a_al47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r2",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L17",
+    "target": "qri_r2_ix47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r2_ix47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L17",
+    "target": "qri_r2_iali47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r2",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L21",
+    "target": "qri_r2_sub47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qri_r2_sub47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L21",
+    "target": "qri_r2_base47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r2_sub47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L21",
+    "target": "qri_r2_ix47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r2_sub47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L23",
+    "target": "qri_r2_sub47a_al47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r2",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L28",
+    "target": "qri_r2_user47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qri_r2_user47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L30",
+    "target": "qri_r2_iali47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r2_user47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L37",
+    "target": "qri_r2_user47a_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qri_r2_user47a_go",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L39",
+    "target": "qri_r2_sub47a_al47a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L1",
+    "target": "qri_r3_qri",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L3",
+    "target": "qri_r3_iali47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3_iali47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L5",
+    "target": "qri_r3_iali47b_al47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L8",
+    "target": "qri_r3_ialichild47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3_ialichild47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L8",
+    "target": "qri_r3_iali47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L12",
+    "target": "qri_r3_base47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3_base47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L12",
+    "target": "qri_r3_iali47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3_base47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L14",
+    "target": "qri_r3_base47b_al47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L19",
+    "target": "qri_r3_user47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qri_r3_user47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L21",
+    "target": "qri_r3_iali47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3_user47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L28",
+    "target": "qri_r3_user47b_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L35",
+    "target": "qri_r3_qri_contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L37",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L39",
+    "target": "qri_r3_ix47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3_ix47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L39",
+    "target": "qri_r3_ialichild47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L46",
+    "target": "qri_r3_sub47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qri_r3_sub47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L46",
+    "target": "qri_r3_base47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3_sub47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L46",
+    "target": "qri_r3_ix47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3_sub47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L48",
+    "target": "qri_r3_sub47b_al47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qri_r3_user47b_go",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L30",
+    "target": "qri_r3_sub47b_al47b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L1",
+    "target": "qri_r3p_qri",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L3",
+    "target": "qri_r3p_iali47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3p_iali47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L5",
+    "target": "qri_r3p_iali47e_al47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L8",
+    "target": "qri_r3p_ialichild47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3p_ialichild47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L8",
+    "target": "qri_r3p_iali47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L12",
+    "target": "qri_r3p_base47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3p_base47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L12",
+    "target": "qri_r3p_iali47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3p_base47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L14",
+    "target": "qri_r3p_base47e_al47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L19",
+    "target": "qri_r3p_user47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qri_r3p_user47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L21",
+    "target": "qri_r3p_iali47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3p_user47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L28",
+    "target": "qri_r3p_user47e_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L35",
+    "target": "qri_r3p_qri_contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L37",
+    "target": "qri_r3p_ix47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3p_ix47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L37",
+    "target": "qri_r3p_ialichild47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_r3p",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L44",
+    "target": "qri_r3p_sub47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qri_r3p_sub47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L44",
+    "target": "qri_r3p_base47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_r3p_sub47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L44",
+    "target": "qri_r3p_ix47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_r3p_sub47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L46",
+    "target": "qri_r3p_sub47e_al47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qri_r3p_user47e_go",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L30",
+    "target": "qri_r3p_sub47e_al47e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qri_x0",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L1",
+    "target": "iunk47galias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x0",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L5",
+    "target": "qri_x0_iali47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x0_iali47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L7",
+    "target": "qri_x0_iali47g_al47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x0",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L10",
+    "target": "qri_x0_iunk47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x0",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L14",
+    "target": "qri_x0_base47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x0_base47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L14",
+    "target": "qri_x0_iali47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x0_base47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L16",
+    "target": "qri_x0_base47g_al47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x0",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L21",
+    "target": "qri_x0_ix47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x0_ix47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L21",
+    "target": "qri_x0_iunk47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x0",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L25",
+    "target": "qri_x0_sub47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qri_x0_sub47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L25",
+    "target": "qri_x0_base47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x0_sub47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L25",
+    "target": "qri_x0_ix47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x0_sub47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L27",
+    "target": "qri_x0_sub47g_al47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x0",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L32",
+    "target": "qri_x0_user47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qri_x0_user47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L34",
+    "target": "qri_x0_iali47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x0_user47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L41",
+    "target": "qri_x0_user47g_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qri_x0_user47g_go",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L43",
+    "target": "qri_x0_sub47g_al47g",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qri_x1",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L1",
+    "target": "iunk47dalias",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x1",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L5",
+    "target": "qri_x1_iali47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x1_iali47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L7",
+    "target": "qri_x1_iali47d_al47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x1",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L10",
+    "target": "qri_x1_iunk47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x1",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L14",
+    "target": "qri_x1_base47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x1_base47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L14",
+    "target": "qri_x1_iali47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x1_base47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L16",
+    "target": "qri_x1_base47d_al47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x1",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L21",
+    "target": "qri_x1_ix47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x1_ix47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L21",
+    "target": "qri_x1_iunk47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x1_ix47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L21",
+    "target": "qri_x1_iali47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x1",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L25",
+    "target": "qri_x1_sub47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qri_x1_sub47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L25",
+    "target": "qri_x1_base47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x1_sub47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L25",
+    "target": "qri_x1_ix47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x1_sub47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L27",
+    "target": "qri_x1_sub47d_al47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x1",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L32",
+    "target": "qri_x1_user47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qri_x1_user47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L34",
+    "target": "qri_x1_iali47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x1_user47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L41",
+    "target": "qri_x1_user47d_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qri_x1_user47d_go",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L43",
+    "target": "qri_x1_sub47d_al47d",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qri_x2",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L1",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L5",
+    "target": "qri_x2_iali47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2_iali47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L7",
+    "target": "qri_x2_iali47c_al47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L10",
+    "target": "qri_x2_base47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2_base47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L10",
+    "target": "qri_x2_iali47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2_base47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L12",
+    "target": "qri_x2_base47c_al47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L17",
+    "target": "qri_x2_ix47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2_ix47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L17",
+    "target": "idisposable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2_ix47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L17",
+    "target": "qri_x2_iali47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L21",
+    "target": "qri_x2_sub47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qri_x2_sub47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L21",
+    "target": "qri_x2_base47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2_sub47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L21",
+    "target": "qri_x2_ix47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2_sub47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L23",
+    "target": "qri_x2_sub47c_al47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2_sub47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L27",
+    "target": "qri_x2_sub47c_dispose",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L32",
+    "target": "qri_x2_user47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qri_x2_user47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L34",
+    "target": "qri_x2_iali47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2_user47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L41",
+    "target": "qri_x2_user47c_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qri_x2_user47c_go",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L43",
+    "target": "qri_x2_sub47c_al47c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "qri_x2p",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L1",
+    "target": "system",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2p",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L5",
+    "target": "qri_x2p_iali47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2p_iali47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L7",
+    "target": "qri_x2p_iali47f_al47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2p",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L10",
+    "target": "qri_x2p_base47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2p_base47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L10",
+    "target": "qri_x2p_iali47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2p_base47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L12",
+    "target": "qri_x2p_base47f_al47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2p",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L17",
+    "target": "qri_x2p_ix47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2p_ix47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L17",
+    "target": "qri_x2p_iali47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2p_ix47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L17",
+    "target": "idisposable",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2p",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L21",
+    "target": "qri_x2p_sub47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "qri_x2p_sub47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L21",
+    "target": "qri_x2p_base47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "qri_x2p_sub47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L21",
+    "target": "qri_x2p_ix47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2p_sub47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L23",
+    "target": "qri_x2p_sub47f_al47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2p_sub47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L27",
+    "target": "qri_x2p_sub47f_dispose",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "qri_x2p",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L32",
+    "target": "qri_x2p_user47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "qri_x2p_user47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L34",
+    "target": "qri_x2p_iali47f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "qri_x2p_user47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L41",
+    "target": "qri_x2p_user47f_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "qri_x2p_user47f_go",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L43",
+    "target": "qri_x2p_sub47f_al47f",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_qa",
+    "label": "Qa.csproj",
+    "source_file": "src/Qa/Qa.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qa_qa_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qa/Qa.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qa_qa_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qa/Qa.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07",
+    "label": "S07.cs",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07_iali7",
+    "label": "IAli7",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07_iali7_al7",
+    "label": ".Al7()",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07_aliimpl7",
+    "label": "AliImpl7",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "aliasr",
+    "label": "AliasR",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07_aliimpl7_al7",
+    "label": ".Al7()",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07_u07",
+    "label": "U07",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07_u07_go",
+    "label": ".Go()",
+    "source_file": "src/Qa/S07.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07b",
+    "label": "S07b.cs",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07b_iali7b",
+    "label": "IAli7b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07b_iali7b_al7b",
+    "label": ".Al7b()",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07b_aliimpl7b",
+    "label": "AliImpl7b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "aliasq",
+    "label": "AliasQ",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07b_aliimpl7b_al7b",
+    "label": ".Al7b()",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07b_u07b",
+    "label": "U07b",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qa_s07b_u07b_go",
+    "label": ".Go()",
+    "source_file": "src/Qa/S07b.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4",
+    "label": "All4.cs",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_qb",
+    "label": "Qb",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_iali4",
+    "label": "IAli4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_iali4_al4",
+    "label": ".Al4()",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_base4",
+    "label": "Base4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_base4_al4",
+    "label": ".Al4()",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_qb_jobs",
+    "label": "Qb.Jobs",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_impl4",
+    "label": "Impl4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_impl4_al4",
+    "label": ".Al4()",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_user4",
+    "label": "User4",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4_user4_go",
+    "label": ".Go()",
+    "source_file": "src/Qb/All4.cs",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p",
+    "label": "All4p.cs",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_qb",
+    "label": "Qb",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_iali4p",
+    "label": "IAli4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_iali4p_al4p",
+    "label": ".Al4p()",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_base4p",
+    "label": "Base4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_base4p_al4p",
+    "label": ".Al4p()",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_qb_jobs",
+    "label": "Qb.Jobs",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_impl4p",
+    "label": "Impl4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_impl4p_al4p",
+    "label": ".Al4p()",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_user4p",
+    "label": "User4p",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_all4p_user4p_go",
+    "label": ".Go()",
+    "source_file": "src/Qb/All4p.cs",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qb_qb",
+    "label": "Qb.csproj",
+    "source_file": "src/Qb/Qb.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qb_qb_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qb/Qb.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qb_qb_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qb/Qb.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6",
+    "label": "All6.cs",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_qc",
+    "label": "Qc",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_base6",
+    "label": "Base6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_base6_al6",
+    "label": ".Al6()",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_qc_jobs",
+    "label": "Qc.Jobs",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_impl6",
+    "label": "Impl6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_impl6_al6",
+    "label": ".Al6()",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_user6",
+    "label": "User6",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6_user6_go",
+    "label": ".Go()",
+    "source_file": "src/Qc/All6.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p",
+    "label": "All6p.cs",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_qc",
+    "label": "Qc",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_base6p",
+    "label": "Base6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_base6p_al6p",
+    "label": ".Al6p()",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_qc_jobs",
+    "label": "Qc.Jobs",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_impl6p",
+    "label": "Impl6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_impl6p_al6p",
+    "label": ".Al6p()",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_user6p",
+    "label": "User6p",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_all6p_user6p_go",
+    "label": ".Go()",
+    "source_file": "src/Qc/All6p.cs",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg",
+    "label": "AllG.cs",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_qc",
+    "label": "Qc",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_baseg6",
+    "label": "BaseG6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_baseg6_alg",
+    "label": ".AlG()",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qc_allg_cs_t",
+    "label": "T",
+    "origin_file": "src/Qc/AllG.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_qc_jobs",
+    "label": "Qc.Jobs",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_implg6",
+    "label": "ImplG6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_implg6_alg",
+    "label": ".AlG()",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_userg6",
+    "label": "UserG6",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allg_userg6_go",
+    "label": ".Go()",
+    "source_file": "src/Qc/AllG.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq",
+    "label": "AllQ.cs",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_xq6",
+    "label": "Xq6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_baseq6",
+    "label": "BaseQ6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_baseq6_alq",
+    "label": ".AlQ()",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_userq6",
+    "label": "UserQ6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_userq6_go",
+    "label": ".Go()",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_xr6",
+    "label": "Xr6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_implq6",
+    "label": "ImplQ6",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_allq_implq6_alq",
+    "label": ".AlQ()",
+    "source_file": "src/Qc/AllQ.cs",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qc_qc",
+    "label": "Qc.csproj",
+    "source_file": "src/Qc/Qc.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qc_qc_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qc/Qc.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qc_qc_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qc/Qc.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1",
+    "label": "A1.cs",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_ordera",
+    "label": "OrderA",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_carta",
+    "label": "CartA",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_irepoa",
+    "label": "IRepoA",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_irepoa_savea",
+    "label": ".SaveA()",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qd_a1_cs_t",
+    "label": "T",
+    "origin_file": "src/Qd/A1.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_both",
+    "label": "Both",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "aliasra",
+    "label": "AliasRA",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_both_savea",
+    "label": ".SaveA()",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_ua",
+    "label": "UA",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1_ua_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/A1.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b",
+    "label": "A1b.cs",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_ordera",
+    "label": "OrderA",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_carta",
+    "label": "CartA",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_irepoa",
+    "label": "IRepoA",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_irepoa_saveab",
+    "label": ".SaveAb()",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qd_a1b_cs_t",
+    "label": "T",
+    "origin_file": "src/Qd/A1b.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_bothb",
+    "label": "Bothb",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_bothb_saveab",
+    "label": ".SaveAb()",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_uab",
+    "label": "UAb",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a1b_uab_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/A1b.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2",
+    "label": "A2.cs",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_xda2",
+    "label": "Xda2",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_ialia",
+    "label": "IAliA",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_ialia_ala",
+    "label": ".AlA()",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_basea",
+    "label": "BaseA",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_basea_ala",
+    "label": ".AlA()",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_xda2_jobs",
+    "label": "Xda2.Jobs",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_impla",
+    "label": "ImplA",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "a2",
+    "label": "A2",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_usera",
+    "label": "UserA",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2_usera_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/A2.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b",
+    "label": "A2b.cs",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_qd_a2",
+    "label": "Qd.A2",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_ialiab",
+    "label": "IAliAb",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_ialiab_alab",
+    "label": ".AlAb()",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_baseab",
+    "label": "BaseAb",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_baseab_alab",
+    "label": ".AlAb()",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_qd_a2_jobs",
+    "label": "Qd.A2.Jobs",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_implab",
+    "label": "ImplAb",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_userab",
+    "label": "UserAb",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_a2b_userab_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/A2b.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1",
+    "label": "C1.cs",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_qd_c1",
+    "label": "Qd.C1",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_ialic",
+    "label": "IAliC",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_ialic_alc",
+    "label": ".AlC()",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_midc",
+    "label": "MidC",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_midc_alc",
+    "label": ".AlC()",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_basec",
+    "label": "BaseC",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_qd_c1_jobs",
+    "label": "Qd.C1.Jobs",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_implc",
+    "label": "ImplC",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_implc_alc",
+    "label": ".AlC()",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_userc",
+    "label": "UserC",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_userc_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_usercv",
+    "label": "UserCv",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L49"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1_usercv_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/C1.cs",
+    "source_location": "L58"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b",
+    "label": "C1b.cs",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_qd_c1b",
+    "label": "Qd.C1b",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_ialicb",
+    "label": "IAliCb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_ialicb_alcb",
+    "label": ".AlCb()",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_midcb",
+    "label": "MidCb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_midcb_alcb",
+    "label": ".AlCb()",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_basecb",
+    "label": "BaseCb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_qd_c1b_jobs",
+    "label": "Qd.C1b.Jobs",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_implcb",
+    "label": "ImplCb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_implcb_alcb",
+    "label": ".AlCb()",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_usercb",
+    "label": "UserCb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_usercb_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L42"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_usercvb",
+    "label": "UserCvb",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_c1b_usercvb_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/C1b.cs",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1",
+    "label": "M1.cs",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1_helper",
+    "label": "Helper",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1_helper_runm",
+    "label": ".RunM()",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1_helperx",
+    "label": "HelperX",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1_helperx_runm",
+    "label": ".RunM()",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1_baseclsm",
+    "label": "BaseClsM",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1_ctlm",
+    "label": "CtlM",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ibasealiasm",
+    "label": "IBaseAliasM",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1_ctlm_get",
+    "label": ".Get()",
+    "source_file": "src/Qd/M1.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b",
+    "label": "M1b.cs",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b_helper",
+    "label": "Helper",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b_helper_runmb",
+    "label": ".RunMb()",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b_helperx",
+    "label": "HelperX",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b_helperx_runmb",
+    "label": ".RunMb()",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b_baseclsmb",
+    "label": "BaseClsMb",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b_ctlmb",
+    "label": "CtlMb",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_m1b_ctlmb_get",
+    "label": ".Get()",
+    "source_file": "src/Qd/M1b.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk",
+    "label": "MK.cs",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk_helperk",
+    "label": "HelperK",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk_helperk_runk",
+    "label": ".RunK()",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk_helperxk",
+    "label": "HelperXK",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk_helperxk_runk",
+    "label": ".RunK()",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk_ihostk",
+    "label": "IHostK",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk_ctlk",
+    "label": "CtlK",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ibasealiask",
+    "label": "IBaseAliasK",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mk_ctlk_get",
+    "label": ".Get()",
+    "source_file": "src/Qd/MK.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb",
+    "label": "MKb.cs",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb_helperk",
+    "label": "HelperK",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb_helperk_runkb",
+    "label": ".RunKb()",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb_helperxk",
+    "label": "HelperXK",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb_helperxk_runkb",
+    "label": ".RunKb()",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb_ihostkb",
+    "label": "IHostKb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb_ctlkb",
+    "label": "CtlKb",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_mkb_ctlkb_get",
+    "label": ".Get()",
+    "source_file": "src/Qd/MKb.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_qd",
+    "label": "Qd.csproj",
+    "source_file": "src/Qd/Qd.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qd_qd_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qd/Qd.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qd_qd_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qd/Qd.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1",
+    "label": "R1.cs",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_iali1",
+    "label": "IAli1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_iali1_alr",
+    "label": ".AlR()",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_base1",
+    "label": "Base1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_base1_alr",
+    "label": ".AlR()",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_mid1",
+    "label": "Mid1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "aliasr1",
+    "label": "AliasR1",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_mid1_alr",
+    "label": ".AlR()",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_u1",
+    "label": "U1",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1_u1_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/R1.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b",
+    "label": "R1b.cs",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_iali1b",
+    "label": "IAli1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_iali1b_alrb",
+    "label": ".AlRb()",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_base1b",
+    "label": "Base1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_base1b_alrb",
+    "label": ".AlRb()",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_mid1b",
+    "label": "Mid1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_mid1b_alrb",
+    "label": ".AlRb()",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_u1b",
+    "label": "U1b",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_r1b_u1b_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/R1b.cs",
+    "source_location": "L33"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8",
+    "label": "S8.cs",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8_iali8",
+    "label": "IAli8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8_iali8_al8",
+    "label": ".Al8()",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8_base8",
+    "label": "Base8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8_base8_al8",
+    "label": ".Al8()",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8_impl8",
+    "label": "Impl8",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "aliasr8",
+    "label": "AliasR8",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8_u08",
+    "label": "U08",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8_u08_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/S8.cs",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b",
+    "label": "S8b.cs",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b_iali8b",
+    "label": "IAli8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b_iali8b_al8b",
+    "label": ".Al8b()",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b_base8b",
+    "label": "Base8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b_base8b_al8b",
+    "label": ".Al8b()",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b_impl8b",
+    "label": "Impl8b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b_u08b",
+    "label": "U08b",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s8b_u08b_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/S8b.cs",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9",
+    "label": "S9.cs",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9_iali9",
+    "label": "IAli9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9_iali9_al9",
+    "label": ".Al9()",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9_base9",
+    "label": "Base9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9_base9_al9",
+    "label": ".Al9()",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9_impl9",
+    "label": "Impl9",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "aliasb9",
+    "label": "AliasB9",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "aliasr9",
+    "label": "AliasR9",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9_u09",
+    "label": "U09",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9_u09_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/S9.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b",
+    "label": "S9b.cs",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b_iali9b",
+    "label": "IAli9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b_iali9b_al9b",
+    "label": ".Al9b()",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b_base9b",
+    "label": "Base9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b_base9b_al9b",
+    "label": ".Al9b()",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b_impl9b",
+    "label": "Impl9b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b_u09b",
+    "label": "U09b",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qd_s9b_u09b_go",
+    "label": ".Go()",
+    "source_file": "src/Qd/S9b.cs",
+    "source_location": "L31"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base",
+    "label": "Base.cs",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base_xe3a",
+    "label": "Xe3a",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base_tbasee3",
+    "label": "TBaseE3",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base_tbasee3_arme3",
+    "label": ".ArmE3()",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qf_base_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qf/Base.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base_xe3b",
+    "label": "Xe3b",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base_tusere3",
+    "label": "TUserE3",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base_tusere3_go",
+    "label": ".Go()",
+    "source_file": "src/Qf/Base.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base4",
+    "label": "Base4.cs",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base4_qf_a",
+    "label": "Qf.A",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base4_tbasee4",
+    "label": "TBaseE4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base4_tbasee4_other",
+    "label": ".Other()",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base4_qf_b",
+    "label": "Qf.B",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base4_tusere4",
+    "label": "TUserE4",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L13"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_base4_tusere4_go",
+    "label": ".Go()",
+    "source_file": "src/Qf/Base4.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qf_base4_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qf/Base4.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der",
+    "label": "Der.cs",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der_xe3b",
+    "label": "Xe3b",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der_tdere3",
+    "label": "TDerE3",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der_tdere3_arme3",
+    "label": ".ArmE3()",
+    "source_file": "src/Qf/Der.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qf_der_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qf/Der.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der4",
+    "label": "Der4.cs",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der4_qf_b",
+    "label": "Qf.B",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der4_tdere4",
+    "label": "TDerE4",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_der4_tdere4_arme4",
+    "label": ".ArmE4()",
+    "source_file": "src/Qf/Der4.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qf_der4_cs_timer",
+    "label": "Timer",
+    "origin_file": "src/Qf/Der4.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qf_qf",
+    "label": "Qf.csproj",
+    "source_file": "src/Qf/Qf.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qf_qf_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qf/Qf.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qf_qf_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qf/Qf.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_qn",
+    "label": "Qn.csproj",
+    "source_file": "src/Qn/Qn.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qn_qn_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qn/Qn.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qn_qn_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qn/Qn.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5",
+    "label": "S5.cs",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_a5",
+    "label": "A5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_a5_run5",
+    "label": ".Run5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_a5_open5",
+    "label": ".Open5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_a5_pick5",
+    "label": ".Pick5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L15"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_a5_arr5",
+    "label": ".Arr5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_b5",
+    "label": "B5",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_b5_run5",
+    "label": ".Run5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L26"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "intptr",
+    "label": "IntPtr",
+    "origin_file": "src/Qn/S5.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_b5_open5",
+    "label": ".Open5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L30"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qn_s5_cs_nullable",
+    "label": "Nullable",
+    "origin_file": "src/Qn/S5.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_b5_pick5",
+    "label": ".Pick5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "valuetuple",
+    "label": "ValueTuple",
+    "origin_file": "src/Qn/S5.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_b5_arr5",
+    "label": ".Arr5()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L38"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_s5user",
+    "label": "S5User",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L43"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_s5user_go",
+    "label": ".Go()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L52"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_s5user_go2",
+    "label": ".Go2()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L57"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_s5user_go3",
+    "label": ".Go3()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L62"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5_s5user_go4",
+    "label": ".Go4()",
+    "source_file": "src/Qn/S5.cs",
+    "source_location": "L67"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b",
+    "label": "S5b.cs",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_a5b",
+    "label": "A5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_a5b_open5b",
+    "label": ".Open5b()",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_a5b_arr5b",
+    "label": ".Arr5b()",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_b5b",
+    "label": "B5b",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_b5b_open5b",
+    "label": ".Open5b()",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_qn_s5b_cs_nullable",
+    "label": "Nullable",
+    "origin_file": "src/Qn/S5b.cs",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_b5b_arr5b",
+    "label": ".Arr5b()",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_s5buser",
+    "label": "S5bUser",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_s5buser_go2",
+    "label": ".Go2()",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qn_s5b_s5buser_go4",
+    "label": ".Go4()",
+    "source_file": "src/Qn/S5b.cs",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_qri",
+    "label": "Qri.csproj",
+    "source_file": "src/Qri/Qri.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qri_qri_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Qri/Qri.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_qri_qri_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Qri/Qri.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2",
+    "label": "R2.cs",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_iali47a",
+    "label": "IAli47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_iali47a_al47a",
+    "label": ".Al47a()",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_base47a",
+    "label": "Base47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_base47a_al47a",
+    "label": ".Al47a()",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_ix47a",
+    "label": "IX47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iali47aalias",
+    "label": "IAli47aAlias",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_sub47a",
+    "label": "Sub47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_sub47a_al47a",
+    "label": ".Al47a()",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_user47a",
+    "label": "User47a",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r2_user47a_go",
+    "label": ".Go()",
+    "source_file": "src/Qri/R2.cs",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3",
+    "label": "R3.cs",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_qri",
+    "label": "Qri",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_iali47b",
+    "label": "IAli47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_iali47b_al47b",
+    "label": ".Al47b()",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_ialichild47b",
+    "label": "IAliChild47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_base47b",
+    "label": "Base47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_base47b_al47b",
+    "label": ".Al47b()",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_user47b",
+    "label": "User47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_user47b_go",
+    "label": ".Go()",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_qri_contracts",
+    "label": "Qri.Contracts",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_ix47b",
+    "label": "IX47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L39"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_sub47b",
+    "label": "Sub47b",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L46"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3_sub47b_al47b",
+    "label": ".Al47b()",
+    "source_file": "src/Qri/R3.cs",
+    "source_location": "L48"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p",
+    "label": "R3p.cs",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_qri",
+    "label": "Qri",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_iali47e",
+    "label": "IAli47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_iali47e_al47e",
+    "label": ".Al47e()",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_ialichild47e",
+    "label": "IAliChild47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_base47e",
+    "label": "Base47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_base47e_al47e",
+    "label": ".Al47e()",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_user47e",
+    "label": "User47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_user47e_go",
+    "label": ".Go()",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L28"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_qri_contracts",
+    "label": "Qri.Contracts",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L35"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_ix47e",
+    "label": "IX47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L37"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_sub47e",
+    "label": "Sub47e",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L44"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_r3p_sub47e_al47e",
+    "label": ".Al47e()",
+    "source_file": "src/Qri/R3p.cs",
+    "source_location": "L46"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0",
+    "label": "X0.cs",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_iali47g",
+    "label": "IAli47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_iali47g_al47g",
+    "label": ".Al47g()",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_iunk47g",
+    "label": "IUnk47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_base47g",
+    "label": "Base47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_base47g_al47g",
+    "label": ".Al47g()",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_ix47g",
+    "label": "IX47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iunk47galias",
+    "label": "IUnk47gAlias",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_sub47g",
+    "label": "Sub47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_sub47g_al47g",
+    "label": ".Al47g()",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_user47g",
+    "label": "User47g",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x0_user47g_go",
+    "label": ".Go()",
+    "source_file": "src/Qri/X0.cs",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1",
+    "label": "X1.cs",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_iali47d",
+    "label": "IAli47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_iali47d_al47d",
+    "label": ".Al47d()",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_iunk47d",
+    "label": "IUnk47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_base47d",
+    "label": "Base47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_base47d_al47d",
+    "label": ".Al47d()",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_ix47d",
+    "label": "IX47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iunk47dalias",
+    "label": "IUnk47dAlias",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_sub47d",
+    "label": "Sub47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L25"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_sub47d_al47d",
+    "label": ".Al47d()",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_user47d",
+    "label": "User47d",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x1_user47d_go",
+    "label": ".Go()",
+    "source_file": "src/Qri/X1.cs",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2",
+    "label": "X2.cs",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_iali47c",
+    "label": "IAli47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_iali47c_al47c",
+    "label": ".Al47c()",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_base47c",
+    "label": "Base47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_base47c_al47c",
+    "label": ".Al47c()",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_ix47c",
+    "label": "IX47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "idisposable",
+    "label": "IDisposable",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_sub47c",
+    "label": "Sub47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_sub47c_al47c",
+    "label": ".Al47c()",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_sub47c_dispose",
+    "label": ".Dispose()",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_user47c",
+    "label": "User47c",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2_user47c_go",
+    "label": ".Go()",
+    "source_file": "src/Qri/X2.cs",
+    "source_location": "L41"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p",
+    "label": "X2p.cs",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_iali47f",
+    "label": "IAli47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_iali47f_al47f",
+    "label": ".Al47f()",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_base47f",
+    "label": "Base47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_base47f_al47f",
+    "label": ".Al47f()",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_ix47f",
+    "label": "IX47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_sub47f",
+    "label": "Sub47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_sub47f_al47f",
+    "label": ".Al47f()",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L23"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_sub47f_dispose",
+    "label": ".Dispose()",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_user47f",
+    "label": "User47f",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L32"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "qri_x2p_user47f_go",
+    "label": ".Go()",
+    "source_file": "src/Qri/X2p.cs",
+    "source_location": "L41"
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "2cdcfe2ece63845583026077664b6aefd66689411027ff1a82155540d430b6fe"
+}

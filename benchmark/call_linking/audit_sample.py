@@ -24,10 +24,13 @@ score:  joins the key with two (or more) filled sheets. Per bucket, with Wilson 
           number. A key without `strata` (an older sample) gets removed_all = null.
         and the reference resolver's error rate on the rows it judged (confirmed / refuted): >= 10% voids that
         corpus's G confirmed/refuted deltas, and the audit decides (design §8.4 A). This is ONE sample's figure
-        (unchanged, so the closed decisions recompute identically); D3-cs judges a corpus by `refrate` (AC11).
+        (`voids_g_deltas` compares wrong x 10 >= judged on the integers, PREREG_CS AC29 — the former float comparison
+        agrees with it at every count below 10**15, so the closed decisions recompute identically); D3-cs judges a
+        corpus by `refrate` (AC11).
 
 D3-cs (PREREG_CS §8.6 A), with a dispatch truth (truth_roslyn.py) or a C# caller:
-  sample  the sheet adds CS_SHEET_SENTENCE (verbatim) to its instructions, and a C# caller's call-site lines also
+  sample  the sheet adds CS_SHEET_SENTENCE (§8.6 A's instruction, then the one sentence AC25 adds, verbatim) to its
+          instructions, and a C# caller's call-site lines also
           match `M<...>(` (type arguments) beside `M(` and `?.M(`; a removed edge the reference confirms by dispatch
           (verdict dispatch-confirmed) joins the exhaustive stratum like a confirmed one (AC10: "every removed edge the
           reference confirms" includes the dispatch-confirmed ones). The dispatch stratum (AC9; G3b) is the same
@@ -44,17 +47,27 @@ D3-cs (PREREG_CS §8.6 A), with a dispatch truth (truth_roslyn.py) or a C# calle
           that bound per bucket (population from key.json); `EXTRACTED_split`: the EXTRACTED bucket split into rows
           new to the variant and rows already EXTRACTED in the base (G4b: the latter are not typed edges). The
           reference's judged rows include dispatch-confirmed (predicting TRUE).
+          AC29: every threshold is compared on the integers the score carries (each bucket's n / true / false; `exact`'s
+          good / audited / population / sampled; the resolver's judged / wrong). `exact` and `removed_all_exact` also
+          carry the share and lower bound computed from them at full precision — `share_exact`, `lower_bound_exact`,
+          `share_fraction` (the exact rational, [numerator, denominator]) and `lower_bound_fraction` (when the bound
+          is rational: every stratum a census; a Wilson bound is irrational, compare `lower_bound_exact`); every
+          4-decimal field (`share`, `lower_bound`, `wilson_lb`, `error_rate`, ...) is display only.
   pool    the population-weighted precision of a bucket over several corpora (G3a / G3b "pooled per family": both
           C# corpora on one engine): each corpus's population times its share, and times its lower bound (exact
-          share for a census, else Wilson), over the total population; Wilson 95% on the summed rows beside it,
-          never decisive.
+          share for a census, else Wilson), over the total population — each recomputed from that corpus's integers
+          (good, audited, population, sampled; AC29), never from its 4-decimal fields: `share_fraction`, `share_exact`,
+          `lower_bound_exact` (and `lower_bound_fraction` when every part is a census) beside the rounded display;
+          Wilson 95% on the summed rows beside it, never decisive.
   refrate the reference error rate of ONE corpus (PREREG_CS §8.6 A as AC11 fixes it): per engine, over the UNION of
           that engine's main sample (label <id>_<eng>) and dispatch-stratum sample (<id>_<eng>_impl), a (caller,
           callee) pair audited in both counted once; the rows the reference judged confirmed, dispatch-confirmed or
           refuted, wrong when the agreed audit verdict contradicts it (confirmed / dispatch-confirmed predict TRUE,
-          refuted FALSE; a pair the reviewers agreed TRUE in one sample and FALSE in the other counts once, as wrong:
-          the strict reading). The corpus is unreliable when EITHER engine's rate is 10% or more; reliable only when
-          both engines' main and dispatch-stratum samples are given and both rates are below 10%.
+          refuted FALSE). AC26's readings of a pair's samples: agreed in none (a dispute or UNSURE) -> outside the
+          rate, neither judged nor wrong; agreed in one and not in another -> judged by the agreed one; agreed TRUE in
+          one and FALSE in another -> counted once, as wrong, and listed. The corpus is unreliable when EITHER engine's
+          rate is 10% or more; reliable only when both engines' main and dispatch-stratum samples are given and both
+          rates are below 10%.
 
 usage:
   python audit_sample.py sample --corpus=<root> --base=<V0.json> --variant=<VX.json> [--truth=<truth.json>]
@@ -77,6 +90,7 @@ import os
 import random
 import re
 import sys
+from fractions import Fraction
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -90,12 +104,15 @@ BLIND_FORBIDDEN = ("added", "removed", "demoted", "promoted", "EXTRACTED", "INFE
                    "refuted", "unverified", "DEEPMAP_", "variant", "bucket")
 MAX_SPAN = 300
 MAX_SITES = 6
-# PREREG_CS §8.6 A: "The C# sheet adds one instruction, fixed now" — verbatim, one line of the sheet.
+# PREREG_CS §8.6 A: "The C# sheet adds one instruction, fixed now" — verbatim, one line of the sheet — followed by the
+# one sentence AC25 adds to it ("The instruction gains one sentence"), verbatim.
 CS_SHEET_SENTENCE = ("C#: the member the compiler binds the call to is TRUE, an interface or abstract member included. "
                      "A call through an interface or a virtual or abstract member is also TRUE for a definition with a "
                      "body, declared in this corpus, that it can run at run time: an implementation or override "
                      "reachable from the receiver's declared type. A definition declared only in test code is FALSE "
-                     "for a caller outside test code.")
+                     "for a caller outside test code. An implementation or override declared on an abstract class "
+                     "counts as reachable from the receiver's declared type even when every concrete subclass "
+                     "overrides it.")
 # The verdicts that mean "the reference confirms the edge": a static pair, or (dispatch truth) a dispatch pair.
 CONFIRMING = ("confirmed", C.DISPATCH_CONFIRMED)
 
@@ -406,7 +423,9 @@ def score(key: dict, sheets: list) -> dict:
     rate = res_wrong / res_judged if res_judged else None
     out["resolver"] = {"judged": res_judged, "wrong": res_wrong,
                        "error_rate": None if rate is None else round(rate, 4),
-                       "voids_g_deltas": rate is not None and rate >= 0.10}
+                       # AC29: wrong / judged >= 10% compared on the integers, as reference_error_rate compares it
+                       # (error_rate is display only)
+                       "voids_g_deltas": bool(res_judged) and res_wrong * 10 >= res_judged}
     return out
 
 
@@ -445,21 +464,42 @@ def _sampled(b: str, key: dict) -> "int | None":
     return int(v) if isinstance(v, int) else None
 
 
+def _share_and_lb(good: int, audited: int, census: bool) -> tuple:
+    """(share, lower bound) of `good` of `audited` rows at full precision, from the integers (PREREG_CS AC29): the share
+    good / audited, and for the lower bound that same share for a census, else the Wilson 95% lower bound of (good,
+    audited) unrounded; (None, None) with nothing audited."""
+    if not audited:
+        return None, None
+    share = good / audited
+    return share, (share if census else C.wilson(good, audited)[1])
+
+
+def _fraction(fr) -> "list | None":
+    """A Fraction as the JSON pair [numerator, denominator] (None stays None)."""
+    return None if fr is None else [fr.numerator, fr.denominator]
+
+
 def exact_bounds(buckets: dict, key: dict) -> dict:
     """Per bucket, the G3 lower bound of PREREG_CS §8.6 A for one stratum: its exact share when it was audited in full
     (sampled == population: a census), else its Wilson 95% lower bound; with the population (key.json) a pool weights
     it by. The share is the bucket's measure (precision; for the removal strata the correct-removal share). A bucket
-    whose population key.json does not record gets population None."""
+    whose population key.json does not record gets population None.
+    AC29: both are computed from the integers (good, audited, population, sampled), never from score()'s rounded
+    `wilson_lb`: `share_exact` / `lower_bound_exact` at full precision, `share_fraction` (and `lower_bound_fraction`
+    for a census) exact; `share` / `lower_bound` are those rounded to 4 decimals, for display."""
     out = {}
     for b, e in sorted(buckets.items()):
         pop, smp = _population(b, key), _sampled(b, key)
-        good = e["false"] if b in ("removed", "removed_confirmed") else e["true"]
-        share = good / e["n"] if e.get("n") else None
+        good = int(e["false"] if b in ("removed", "removed_confirmed") else e["true"])
+        n = int(e.get("n") or 0)
         census = pop is not None and smp is not None and smp >= pop
-        lb = share if census else e.get("wilson_lb")
+        share, lb = _share_and_lb(good, n, census)
+        frac = Fraction(good, n) if n else None
         out[b] = {"population": pop, "sampled": smp, "audited": e.get("n"), "good": good,
                   "share": None if share is None else round(share, 4),
-                  "lower_bound": None if lb is None else round(lb, 4), "census": census}
+                  "lower_bound": None if lb is None else round(lb, 4), "census": census,
+                  "share_exact": share, "lower_bound_exact": lb, "share_fraction": _fraction(frac),
+                  "lower_bound_fraction": _fraction(frac) if census else None}
     return out
 
 
@@ -492,10 +532,14 @@ def removed_all_exact(buckets: dict, st) -> "dict | None":
     """PREREG_CS §8.6 A / reading 2 (G3c): removed_all with each stratum's lower bound taken as its EXACT share when
     it was audited in full (sampled == population, a census: no sampling error) and its Wilson 95% lower bound when
     it was sampled below its population. removed_all keeps its old computation (the sampled stratum always at its
-    Wilson bound), so the closed decisions recompute identically. None without strata."""
+    Wilson bound), so the closed decisions recompute identically. None without strata.
+    AC29: every share and bound is computed from the integers (each stratum's audited / false / population / sampled)
+    at full precision — the Wilson bound of (false, audited) unrounded, never score()'s 4-decimal `wilson_lb`:
+    `share_exact`, `lower_bound_exact`, `share_fraction`, and `lower_bound_fraction` when every stratum is a census;
+    `share` / `lower_bound` / `lb_used` are display only."""
     if not isinstance(st, dict):
         return None
-    num = den = num_lb = 0.0
+    num, num_lb, lb_frac, den, rational = Fraction(0), 0.0, Fraction(0), 0, True
     parts = {}
     for b in ("removed", "removed_confirmed"):
         e = buckets.get(b)
@@ -503,18 +547,23 @@ def removed_all_exact(buckets: dict, st) -> "dict | None":
         pop = int(s.get("population") or 0)
         if not e or not e.get("n") or pop <= 0:
             continue
-        share = e["false"] / e["n"]
-        census = int(s.get("sampled") or 0) >= pop
-        lb = share if census else (e.get("wilson_lb") or 0.0)
-        num += pop * share
+        good, n, smp = int(e["false"]), int(e["n"]), int(s.get("sampled") or 0)
+        census = smp >= pop
+        share, lb = _share_and_lb(good, n, census)
+        num += pop * Fraction(good, n)
         num_lb += pop * lb
+        if census:
+            lb_frac += pop * Fraction(good, n)
+        rational = rational and census
         den += pop
-        parts[b] = {"population": pop, "sampled": int(s.get("sampled") or 0), "audited": e["n"], "false": e["false"],
-                    "share": round(share, 4), "lb_used": round(lb, 4), "census": census}
+        parts[b] = {"population": pop, "sampled": smp, "audited": e["n"], "false": e["false"],
+                    "share": round(share, 4), "lb_used": round(lb, 4), "census": census, "lb_exact": lb}
     if not den:
-        return {"population": 0, "share": None, "lower_bound": None, "strata": parts}
-    return {"population": int(den), "share": round(num / den, 4), "lower_bound": round(num_lb / den, 4),
-            "strata": parts}
+        return {"population": 0, "share": None, "lower_bound": None, "share_exact": None, "lower_bound_exact": None,
+                "share_fraction": None, "lower_bound_fraction": None, "strata": parts}
+    return {"population": den, "share": round(float(num / den), 4), "lower_bound": round(num_lb / den, 4),
+            "share_exact": float(num / den), "lower_bound_exact": num_lb / den, "share_fraction": _fraction(num / den),
+            "lower_bound_fraction": _fraction(lb_frac / den) if rational else None, "strata": parts}
 
 
 def pool_scores(named: list, bucket: str = "added") -> dict:
@@ -522,8 +571,12 @@ def pool_scores(named: list, bucket: str = "added") -> dict:
     scores' `exact` entries for `bucket`, the population-weighted share and lower bound — each corpus's population
     times its share / its lower bound (exact share for a census, Wilson LB otherwise), over the total population —
     and, beside it and never decisive, Wilson 95% on the summed audited rows. A score without a population for the
-    bucket cannot be pooled (KeyError); a corpus with nothing in the bucket contributes nothing."""
-    parts, num, num_lb, den, good, n = [], 0.0, 0.0, 0, 0, 0
+    bucket cannot be pooled (KeyError); a corpus with nothing in the bucket contributes nothing.
+    AC29: each corpus's share and lower bound are recomputed here from its integers (good, audited, population, and
+    sampled: a census when sampled >= population), at full precision — never from its 4-decimal `share` /
+    `lower_bound` — giving `share_fraction` (exact), `share_exact`, `lower_bound_exact`, and `lower_bound_fraction`
+    when every part is a census; `share` / `lower_bound` are display only. The parts carry the integers."""
+    parts, num, num_lb, lb_frac, den, good, n, rational = [], Fraction(0), 0.0, Fraction(0), 0, 0, 0, True
     for path, s in named:
         e = (s.get("exact") or {}).get(bucket)
         if e is None:
@@ -531,19 +584,29 @@ def pool_scores(named: list, bucket: str = "added") -> dict:
             continue
         if e.get("population") is None:
             raise KeyError(f"{path}: the {bucket} bucket has no population (an older key.json): it cannot be weighted")
-        pop = int(e["population"])
+        pop, aud, g, smp = int(e["population"]), int(e.get("audited") or 0), int(e.get("good") or 0), e.get("sampled")
+        census = (int(smp) >= pop) if isinstance(smp, int) else bool(e.get("census"))
         parts.append({"score": path, "label": s.get("label"), "population": pop, "audited": e.get("audited"),
-                      "share": e.get("share"), "lower_bound": e.get("lower_bound"), "census": e.get("census")})
-        if pop <= 0 or not e.get("audited"):
+                      "good": e.get("good"), "sampled": smp, "share": e.get("share"),
+                      "lower_bound": e.get("lower_bound"), "census": census})
+        if pop <= 0 or not aud:
             continue
-        num += pop * (e["good"] / e["audited"])
-        num_lb += pop * float(e["lower_bound"] or 0.0)
+        _share, lb = _share_and_lb(g, aud, census)
+        num += pop * Fraction(g, aud)
+        num_lb += pop * lb
+        if census:
+            lb_frac += pop * Fraction(g, aud)
+        rational = rational and census
         den += pop
-        good += int(e["good"])
-        n += int(e["audited"])
+        good += g
+        n += aud
     p, lo, hi = C.wilson(good, n)
     return {"bucket": bucket, "population": den,
-            "share": round(num / den, 4) if den else None, "lower_bound": round(num_lb / den, 4) if den else None,
+            "share": round(float(num / den), 4) if den else None,
+            "lower_bound": round(num_lb / den, 4) if den else None,
+            "share_exact": float(num / den) if den else None, "share_fraction": _fraction(num / den) if den else None,
+            "lower_bound_exact": num_lb / den if den else None,
+            "lower_bound_fraction": _fraction(lb_frac / den) if den and rational else None,
             "summed_rows": {"audited": n, "good": good, "share": None if p is None else round(p, 4),
                             "wilson_lb": None if lo is None else round(lo, 4),
                             "wilson_ub": None if hi is None else round(hi, 4), "decisive": False},
@@ -567,8 +630,10 @@ def reference_error_rate(samples: list) -> dict:
     once. A pair is judged when the reference judged it (key verdict confirmed, dispatch-confirmed or refuted) and the
     reviewers agreed on TRUE or FALSE in at least one of its samples (score's rule: a dispute or an UNSURE is neither);
     it is wrong when the agreed verdict contradicts the reference (confirmed / dispatch-confirmed predict TRUE, refuted
-    FALSE). A pair agreed TRUE in one sample and FALSE in the other counts once, as wrong (the strict reading:
-    either way one audit contradicts the reference), and is listed in `conflicts`. The engine's rate is wrong /
+    FALSE). PREREG_CS AC26 fixes the three readings this applies: a pair the reviewers agreed on in NO sample (a
+    dispute or an UNSURE in each) is outside the rate, neither judged nor wrong; a pair agreed in one sample and not
+    in another is judged by the agreed one; a pair agreed TRUE in one sample and FALSE in another counts once, as
+    wrong (either way one audit contradicts the reference), and is listed in `conflicts`. The engine's rate is wrong /
     judged; the corpus is unreliable when EITHER engine's rate is >= 10% (`unreliable` True), reliable only when both
     engines have both samples, judged rows and rates below 10% (False), else not computable exactly (None, `why`).
     Raises ValueError for samples that cannot be one corpus's (an unknown label, two corpora, a sample given twice,
@@ -681,6 +746,8 @@ def cmd_refrate(opts, dirs) -> int:
                  if v["conflicts"] else ""))
     print(f"{res['corpus']}: reference {'UNRELIABLE' if res['unreliable'] else 'reliable' if res['unreliable'] is False else 'NOT COMPUTABLE'}"
           f" — {res['why']}")
+    print("   (AC26: a pair agreed in no sample is outside the rate; one agreed in one sample is judged by it; one agreed "
+          "TRUE in one sample and FALSE in another counts once, as wrong)")
     if opts.get("--json"):
         C.write_json(opts["--json"], res)
     return 3 if res["unreliable"] is None else 0
@@ -699,10 +766,12 @@ def cmd_score(opts, sheets) -> int:
     rx = res.get("removed_all_exact")
     if rx is not None:
         print(f"removed_all_exact (a census at its exact share) share={rx['share']} (lower bound {rx['lower_bound']}) "
-              f"over {rx['population']} removals")
+              f"over {rx['population']} removals; full precision (AC29: what a threshold reads) "
+              f"{rx['lower_bound_exact']!r}")
     for b, e in (res.get("exact") or {}).items():
-        print(f"   {b:18s} population={e['population']} audited={e['audited']} share={e['share']} lower bound "
-              f"{e['lower_bound']}" + (" (census: exact)" if e["census"] else " (Wilson 95%)"))
+        print(f"   {b:18s} population={e['population']} audited={e['audited']} good={e['good']} share={e['share']} "
+              f"lower bound {e['lower_bound']}" + (" (census: exact)" if e["census"] else " (Wilson 95%)")
+              + f"; full precision (AC29: what a threshold reads) {e['lower_bound_exact']!r}")
     xs = res.get("EXTRACTED_split") or {}
     if (xs.get("typed") or {}).get("n") or (xs.get("in_base") or {}).get("n"):
         print(f"EXTRACTED rows new to the variant: {xs['typed']}; already EXTRACTED in the base: {xs['in_base']}")
@@ -739,7 +808,8 @@ def cmd_pool(opts, scores) -> int:
     print(f"pooled {res['bucket']} over {len(named)} score(s), population {res['population']}: share={res['share']} "
           f"lower bound {res['lower_bound']} (population-weighted); summed rows {res['summed_rows']['good']}/"
           f"{res['summed_rows']['audited']} Wilson 95% {res['summed_rows']['wilson_lb']}..{res['summed_rows']['wilson_ub']}"
-          f" (never decisive)")
+          f" (never decisive); full precision (AC29): share {res['share_fraction']}, lower bound "
+          f"{res['lower_bound_exact']!r}")
     if opts.get("--json"):
         C.write_json(opts["--json"], res)
     return 0

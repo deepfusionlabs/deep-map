@@ -766,6 +766,18 @@ _CSHARP_FAMILY = "dotnet"
 # tests/impact_csharp_honesty_gates.py locks it to the real list.
 _DOTNET_EXTS_MIRROR = frozenset({"cs", "vb", "fs", "fsx", "razor", "cshtml"})
 _COUNT_EXTS = "collect(DISTINCT toLower(last(split(coalesce(callee.source_file, ''), '.')))) AS exts"
+# How many matched symbols are C# COMPUTED PROPERTIES, in the same round trip: when that is every match, the C# note
+# is property-shaped (reading a property is never a link) instead of naming calls (`_service.M()`, `Helper.M()`).
+# The proof that a node is one (each conjunct needed): graphify_extract's C# member step is the only producer of a
+# node keyed `<file id>@<its name>:L<its start_line>` (_supp_key) whose summary ends ": property" -- engine ids are
+# [\w]+, ast and recognizer keys use `::`; the other _supp_key producers write ": function" / ": class" (TS/JS),
+# ": method" (Rust trait members, C# constructors and 0.8.39 owner methods) -- and its properties are :Method nodes
+# of a .cs file. A summary that enrich or DEEPMAP_MERGE_SUMMARIES rewrote no longer ends so: the node then reads as
+# not proven a property, and the answer keeps the method wording (unknown keeps today's note, never the reverse).
+_COUNT_PROPS = ("count(CASE WHEN callee:Method AND callee.body_summary ENDS WITH ': property' "
+                "AND toLower(coalesce(callee.source_file, '')) ENDS WITH '.cs' "
+                "AND callee.key ENDS WITH ('@' + callee.name + ':L' + toString(callee.start_line)) "
+                "THEN 1 END) AS props")
 # What sync records on the :_DeepMapMeta singleton: the typed-call languages that actually ran (absent = an older
 # graph, read as "not linked") and, beside them, whether that pass ran narrowed (typed_call_narrowed: true when
 # DEEPMAP_TYPED_CALLS_SHAPES / DEEPMAP_TYPED_CALLS_IFACE selected fewer than all shapes / modes; absent = unknown,
@@ -776,7 +788,15 @@ _TYPED_LANGS_CYPHER = "MATCH (m:_DeepMapMeta) RETURN m.typed_call_langs AS l, m.
 def _count_symbol_matches_langs(session, name: str, name_rx) -> "tuple[int | None, set | None]":
     """(_count_symbol_matches' count, the language families of the matched symbols' files): one query. The
     families are None when the answer carries no extensions (unknown, so no language-specific note)."""
-    rec = _first(session.run(_timed(session, _CALLEE_MATCH + "RETURN count(callee) AS matched, " + _COUNT_EXTS),
+    return _count_symbol_matches_info(session, name, name_rx)[:2]
+
+
+def _count_symbol_matches_info(session, name: str, name_rx) -> "tuple[int | None, set | None, int | None]":
+    """(count, language families, how many matches are proven C# computed properties: _COUNT_PROPS) from ONE query.
+    The property count is None when the answer does not carry it (an older double) or it is not a count: unknown,
+    so the notes keep their method wording."""
+    rec = _first(session.run(_timed(session, _CALLEE_MATCH + "RETURN count(callee) AS matched, " + _COUNT_EXTS
+                                    + ", " + _COUNT_PROPS),
                              name=name, name_rx=name_rx))
     try:
         matched = int(rec["matched"])
@@ -786,7 +806,21 @@ def _count_symbol_matches_langs(session, name: str, name_rx) -> "tuple[int | Non
         exts = rec["exts"]
     except Exception:  # noqa: BLE001 — a record without the extensions (an older double): unknown language
         exts = None
-    return matched, _ext_families(exts)
+    try:
+        props = rec["props"]
+        props = props if type(props) is int and props >= 0 else None
+    except Exception:  # noqa: BLE001 — a record without the column (an older double): unknown
+        props = None
+    return matched, _ext_families(exts), props
+
+
+def _all_properties(matched, langs, props) -> bool:
+    """True only when the answer is C# alone and EVERY matched symbol is a proven C# computed property (_COUNT_PROPS
+    counted each one): the notes then say what is true of a property (a read of it is never a link) instead of
+    naming calls. False for an unknown count, a partial one (a name that is a property in one type and a method in
+    another keeps the method wording, which also says that reading a property is never a link) or no match."""
+    return (_csharp_mode(langs) == "only" and type(matched) is int and matched > 0
+            and type(props) is int and props == matched)
 
 
 def _ext_families(exts) -> "set | None":
@@ -1024,6 +1058,17 @@ _EMPTY_TAIL = (" That is NOT proof nothing uses it: calls through a receiver or 
 # recorded typed_call_narrowed = true (DEEPMAP_TYPED_CALLS_SHAPES / DEEPMAP_TYPED_CALLS_IFACE narrowed).
 # Every C# note, untyped and typed, says "reading a property is never a link" in those words, never with {m}: the
 # queried name is usually a method, and "reading a property (x.<method>)" read as if the method were a property.
+# The _CS_PROP_* notes replace them only when EVERY match is a proven C# computed property (_all_properties /
+# _COUNT_PROPS): those keep the same words and add a read of {m} as the example, since {m} then IS a property. They
+# serve untyped and typed graphs alike (the opt-in reader never links a read, and treats a property called as
+# unknown), and take no _CS_NARROWED tail: they list no call shapes, so nothing more is unlinked than they say.
+_CS_PROP_EMPTY = (" That is NOT proof nothing uses it: {m} is a C# property, and reading a property is never a link "
+                  "in this graph (by default or with the opt-in C# reader), so the code that reads it, as in "
+                  "_service.{m} or order.{m}, is not listed here. Grep for {m} or read the code before treating it "
+                  "as unused.")
+_CS_PROP_ROWS = ("For C#, these dependents are a lower bound: {m} is a C# property, and reading a property is never "
+                 "a link in this graph, so the code that reads it, as in _service.{m}, is not listed. Grep for {m} "
+                 "to find the rest.")
 _CS_EMPTY = (" That is NOT proof nothing uses it: for C#, this graph links only calls inside the same file and bare "
              "calls to a name no other symbol shares. A call from another file through a receiver (a field, "
              "parameter or local, as in _service.{m}()) or a type name (Helper.{m}()) is never resolved, calls made "
@@ -1068,18 +1113,24 @@ def _last_segment(symbol: str) -> str:
 
 
 def _impact_rows(rows, symbol: str, limit: int, matched, max_hops, notes=(), shape=None, langs=None,
-                 typed_langs=None, typed_narrowed=False) -> ImpactRows:
+                 typed_langs=None, typed_narrowed=False, props_only=False) -> ImpactRows:
     """Dedupe (the Cypher already DISTINCTs; this is the safety net), trim the one look-ahead row to
     `limit`, and attach the notes that keep a short, empty or partial answer honest. `shape` is the name the
     method caveat judges (the resolved symbol of a module-qualified name; default `symbol`). `langs` (the matched
     symbols' language families; None = unknown), `typed_langs` (the typed-call languages sync recorded) and
-    `typed_narrowed` (sync recorded that pass as narrowed; only an exact True counts) decide the C# wording; an
-    unknown or C#-free answer gets exactly the notes it always did."""
+    `typed_narrowed` (sync recorded that pass as narrowed; only an exact True counts) decide the C# wording;
+    `props_only` (only an exact True counts: _all_properties proved every match a C# computed property) makes a
+    C#-only answer's note property-shaped; an unknown or C#-free answer gets exactly the notes it always did."""
     rows = _dedup_impact_rows([_with_call_line(r) for r in rows])
     notes = list(notes)
     cs = _csharp_mode(langs)
     linked = bool(typed_langs) and "csharp" in typed_langs
     tail = _CS_NARROWED if linked and typed_narrowed is True else ""   # appended to the typed note only
+    if cs == "only" and props_only is True:   # a proven property: the property notes, untyped and typed alike
+        empty_cs, rows_cs, tail = _CS_PROP_EMPTY, _CS_PROP_ROWS, ""
+    else:
+        empty_cs = _CS_EMPTY_TYPED if linked else _CS_EMPTY
+        rows_cs = _CS_ROWS_TYPED if linked else _CS_ROWS
     m = _last_segment(symbol)
     truncated = len(rows) > limit
     if truncated:
@@ -1090,13 +1141,13 @@ def _impact_rows(rows, symbol: str, limit: int, matched, max_hops, notes=(), sha
         found = (f"{symbol!r} is in the graph ({_plural(matched, 'matching symbol')}) but no dependents "
                  "were found." if matched else f"No dependents of {symbol!r} were found.")
         if cs == "only":            # still the ONE note of an empty answer
-            notes.append(found + (_CS_EMPTY_TYPED if linked else _CS_EMPTY).replace("{m}", m) + tail)
+            notes.append(found + empty_cs.replace("{m}", m) + tail)
         else:
             notes.append(found + _EMPTY_TAIL + ((_CS_MIXED_EMPTY_TYPED if linked else _CS_MIXED_EMPTY)
                                                 .replace("{m}", m) + tail if cs == "mixed" else ""))
     if rows:
         if cs == "only":            # every C# answer is a lower bound, method-shaped or not: it replaces the caveat
-            notes.append((_CS_ROWS_TYPED if linked else _CS_ROWS).replace("{m}", m) + tail)
+            notes.append(rows_cs.replace("{m}", m) + tail)
         else:
             if _method_shaped(symbol if shape is None else shape, rows):
                 notes.append(_METHOD_CAVEAT)   # a NON-empty answer can be partial too (Context.Next: 2 of 4 callers)
@@ -1201,7 +1252,8 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
     Returns an ImpactRows (a list) whose `notes` keep a short or empty answer honest: not in the graph
     vs. in the graph with no resolved dependents, truncated at `limit`, or walked at reduced depth; for a C#
     match they also say which C# calls this graph does not link (worded by the recorded typed-call languages and,
-    from the same meta read, whether that typed pass ran narrowed)."""
+    from the same meta read, whether that typed pass ran narrowed), or, when the count query proved every match a
+    C# computed property, that reading a property is never a link."""
     types, max_hops = _resolve_impact_params(edge_types, max_hops)
     # What was explicitly asked for (an unknown profile / edge type is named, never silently ignored).
     requested, notes = _impact_request(edge_types)
@@ -1215,9 +1267,10 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
     matched, reduced_from = None, None
     langs, typed_langs = None, None   # the matched symbols' language families; the recorded typed-call languages
     typed_narrowed = False            # sync recorded that typed pass as narrowed (SHAPES / IFACE)
+    props = None                      # how many matches are proven C# computed properties (None: unknown)
     try:
         with driver.session() as s:
-            matched, langs = _count_symbol_matches_langs(s, name, name_rx)
+            matched, langs, props = _count_symbol_matches_info(s, name, name_rx)
             if matched == 0:
                 # A QUALIFIED name with no direct match may be module-qualified (`provision.is_bolt_up`): read
                 # it as <symbol> in that module's file before calling it absent. A bare name skips this.
@@ -1226,6 +1279,7 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
                     name, name_rx, file_rx = reading["name"], reading["name_rx"], reading["file_rx"]
                     matched = reading["matched"]
                     langs = _file_families(reading.get("files"))
+                    props = None      # that reading counts no properties: unknown, the method wording
                     notes.append(_module_reading_note(shown, reading))
             if matched == 0:   # not in the graph: say so, and skip the (expensive) walk entirely
                 return ImpactRows([], matched=0, max_hops=max_hops, notes=notes + [
@@ -1279,13 +1333,14 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
         return _impact_rows(one_hop, shown, limit, matched, 1, notes + [
             f"The multi-hop walk was unavailable ({why}); showing direct :CALLS callers (1 hop) only."],
             shape=None if file_rx is None else name, langs=langs, typed_langs=typed_langs,
-            typed_narrowed=typed_narrowed)
+            typed_narrowed=typed_narrowed, props_only=_all_properties(matched, langs, props))
     if reduced_from is not None:
         notes.append(f"The {reduced_from}-hop walk exhausted Neo4j's transaction memory{_shared(matched)}, "
                      "so only direct (1-hop) dependents are shown — query a qualified Class.method name "
                      "for a deeper walk.")
     return _impact_rows(rows, shown, limit, matched, max_hops, notes, shape=None if file_rx is None else name,
-                        langs=langs, typed_langs=typed_langs, typed_narrowed=typed_narrowed)
+                        langs=langs, typed_langs=typed_langs, typed_narrowed=typed_narrowed,
+                        props_only=_all_properties(matched, langs, props))
 
 
 def _shared(matched) -> str:

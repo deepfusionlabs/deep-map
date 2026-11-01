@@ -23,10 +23,11 @@ usage: python impact_spot.py --truth=<truth.json> (--symbols=a,b@f | --corpus=<i
        --base: also report on how many symbols the hop-1 recall improved over the base (the D3-G1 count).
        --final: the spot list a `substitute` run settled (its `final`), for the C# corpus it names. PREREG_CS AC12: a
                 C# corpus is measured on that FINAL list only — `--corpus=<C# id>` without --final is refused (exit
-                2), and a --final whose corpus differs from --corpus, that `substitute` cannot have written, or given
-                with --symbols is refused too; the list is measured exactly as settled (fewer than five spots when
-                the reserves ran out; with --base the G1c count is printed).
-       --one-node: the exactly-one-node check for an ad-hoc --symbols list (always on for a C# corpus).
+                2), with or without an ad-hoc --symbols list, and a --final whose corpus differs from --corpus, that
+                `substitute` cannot have written, or given with --symbols is refused too; the list is measured exactly
+                as settled (fewer than five spots when the reserves ran out; with --base the G1c count is printed).
+       --one-node: the exactly-one-node check for an ad-hoc --symbols list of a non-C# corpus (always on for a C#
+                corpus's final list).
    python impact_spot.py substitute --truth=<truth.json> --corpus=<C# id> --base39=<V0 g39> --base51=<V0 g51>
        [--json=out.json]
        PREREG_CS §8.3's substitution rule (step 3 of §8.1: V0 dumps and the truth only). A spot is replaced when, on
@@ -34,6 +35,10 @@ usage: python impact_spot.py --truth=<truth.json> (--symbols=a,b@f | --corpus=<i
        recall is already 1 (SATURATED); its replacement is the first reserve of the corpus, in order, that passes
        the same three checks on both engines. Writes the final list and every check with its V0 numbers; a corpus
        that runs out of reserves keeps fewer spots (reported, exit 0).
+
+PREREG_CS AC29: every comparison reads the integers a row carries (`hit`, `ref`; with --base `base_hit`,
+`base_ref`), never the 4-decimal `recall` / `precision`, which are display only: a spot "improves" when hit / ref is
+strictly above the base's as exact fractions (`improved`), and it is SATURATED only when hit >= ref.
 
 A spot whose base (V0) hop-1 recall is already 1, or that has no reference caller, can never "improve": it is
 SATURATED. PREREG §4 requires every registered spot's V0 recall to be below 1 (the D3-G1 "3 of 5" must be a
@@ -129,21 +134,32 @@ def spot(ref, dump, symbol) -> dict:
 
 
 def saturated(base_row) -> bool:
-    """A spot that cannot improve over its base: no reference caller, or base hop-1 recall already 1."""
-    return not base_row.get("ref") or (base_row.get("recall") is not None and base_row["recall"] >= 1.0)
+    """A spot that cannot improve over its base: no reference caller, or base hop-1 recall already 1 — every
+    reference caller hit, compared on the integers (PREREG_CS AC29: never the rounded `recall`, which reads 1.0 for
+    20000 of 20001)."""
+    return not base_row.get("ref") or int(base_row["hit"]) >= int(base_row["ref"])
+
+
+def improved(row, base_row) -> bool:
+    """The spot's hop-1 recall is strictly above the base's (D3-G1 / G1c), compared exactly on the integers (PREREG_CS
+    AC29): hit / ref > base hit / base ref as fractions, cross-multiplied, never the 4-decimal `recall` (10000 and 10001
+    of 20001 both read 0.5). A row without reference callers reads 0, exactly as the former `recall or 0` did."""
+    rh, rr = (int(row["hit"]), int(row["ref"])) if row.get("ref") else (0, 1)
+    bh, br = (int(base_row["hit"]), int(base_row["ref"])) if base_row.get("ref") else (0, 1)
+    return rh * br > bh * rr
 
 
 def spot_problems(truth, base, symbol) -> tuple:
     """(the spot's row on `base`, its problems): PREREG_CS §8.3's three substitution checks on one V0 dump —
     `Name@file` maps to exactly one graph node; the reference gives it a hop-1 caller; its V0 hop-1 recall is below 1
-    (else SATURATED). An empty list passes."""
+    (else SATURATED: every reference caller hit, hit >= ref on the integers, AC29). An empty list passes."""
     r = spot(C.truth_as_dump(truth, base), base, symbol)
     why = []
     if r["targets"] != 1:
         why.append(f"maps to {r['targets']} graph nodes, not exactly one")
     if not r["ref"]:
         why.append("the reference gives it no hop-1 caller")
-    elif r["recall"] is not None and r["recall"] >= 1.0:
+    elif r["hit"] >= r["ref"]:
         why.append("SATURATED: its V0 hop-1 recall is already 1")
     return r, why
 
@@ -257,10 +273,12 @@ def main(argv=None) -> int:
             print(f"[impact_spot] REFUSED --final={opts['--final']}: {why}", file=sys.stderr)
             return 2
         corpus = final["corpus"]
-    elif corpus in CS_SPOTS and not opts.get("--symbols"):
+    elif corpus in CS_SPOTS:
+        # AC12: "measures the corpus's FINAL spot list from step 3" — never the registered list, nor an ad-hoc
+        # --symbols list measured under a C# corpus's name
         print(f"[impact_spot] REFUSED: {corpus} is a C# corpus: PREREG_CS AC12 measures its FINAL spot list from step "
               f"3 — give --final=<{corpus}>/spots_final.json (the output of `impact_spot.py substitute`), never the "
-              f"registered list", file=sys.stderr)
+              f"registered list" + (" nor an ad-hoc --symbols list" if opts.get("--symbols") else ""), file=sys.stderr)
         return 2
     syms = [s for s in (opts.get("--symbols") or "").split(",") if s]
     if not syms:   # a settled list is used as it is (never topped up from the registered one)
@@ -284,7 +302,7 @@ def main(argv=None) -> int:
                 r["base_recall"] = b["recall"]
                 r["base_hit"], r["base_ref"] = b["hit"], b["ref"]
                 r["saturated"] = saturated(b)
-                r["improved"] = (r["recall"] or 0) > (b["recall"] or 0)
+                r["improved"] = improved(r, b)
                 if one_node:
                     r["base_targets"] = b["targets"]
             if one_node:

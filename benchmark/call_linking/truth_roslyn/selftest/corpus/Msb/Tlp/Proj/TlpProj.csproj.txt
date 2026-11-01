@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk" TreatAsLocalProperty="Configuration">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Tl.Lib" Condition="'$(Configuration)' == 'Debug'" />
+    <Using Include="Tl.Plat" Condition="'$(Platform)' == 'x64'" />
+  </ItemGroup>
+</Project>

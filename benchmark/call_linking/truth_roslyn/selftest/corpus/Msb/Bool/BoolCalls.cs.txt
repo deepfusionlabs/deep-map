@@ -1,0 +1,28 @@
+namespace Bo.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Bo
+{
+    public class BoCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Bo.Bare
+{
+    public class Marker { }
+}
+
+namespace Bo.Never
+{
+    public class Marker { }
+}

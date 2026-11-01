@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Up.Lib;Up.Other" Exclude="./Up.Other" />
+    <Using Update="./System.Threading" Alias="Thr" />
+    <Using Include="System.Math" />
+    <Using Update="System.Math" Static="true" />
+  </ItemGroup>
+</Project>

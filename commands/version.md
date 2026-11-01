@@ -6,7 +6,7 @@ Report the running DeepMap version: fast, no analysis. Do exactly this, then sto
 
 1. State the **loaded** version verbatim. This line ships inside the plugin markdown that is actually loaded in your session, so it is the source of truth for "what is running right now":
 
-   **DeepMap v0.6.1** <!-- deepmap:loaded-version -->
+   **DeepMap v0.6.2** <!-- deepmap:loaded-version -->
 
 2. Read the **installed** version, the one a new session loads (best-effort; skip what isn't there):
    - the `deep-map@<marketplace>` entry of `installed_plugins.json` under `${CLAUDE_CONFIG_DIR:-~/.claude}/plugins/` → its `version`. Each key maps to an array of installs, one per scope: take a `local`, then a `project` entry whose `projectPath` is this project (or its git root), else the `user` entry;

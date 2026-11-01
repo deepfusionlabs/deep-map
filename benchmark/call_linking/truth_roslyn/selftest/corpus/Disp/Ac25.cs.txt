@@ -1,0 +1,62 @@
+namespace Disp;
+
+public interface IRepoA
+{
+    void Save();
+}
+
+public abstract class RepoBaseA : IRepoA
+{
+    public virtual void Save()
+    {
+    }
+}
+
+public class SqlRepoA : RepoBaseA
+{
+    public override void Save()
+    {
+    }
+}
+
+public class MemRepoA : RepoBaseA
+{
+    public override void Save()
+    {
+    }
+}
+
+public interface IRepoB
+{
+    void Save();
+}
+
+public abstract class RepoBaseB : IRepoB
+{
+    public abstract void Save();
+}
+
+public abstract class MidRepoB : RepoBaseB
+{
+    public override void Save()
+    {
+    }
+}
+
+public class LeafRepoB : MidRepoB
+{
+    public override void Save()
+    {
+    }
+}
+
+public class Ac25Calls
+{
+    public void ViaInterface(IRepoA r) => r.Save();
+
+    public void ViaBase(RepoBaseA r) => r.Save();
+
+    public void ViaInterfaceB(IRepoB r) => r.Save();
+
+    public void ViaBaseB(RepoBaseB r) => r.Save();
+}

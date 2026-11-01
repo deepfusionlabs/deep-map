@@ -4,6 +4,30 @@ All notable changes to DeepMap are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and versions are 0.x: DeepMap is an early release, and features
 may change between versions.
 
+## [0.6.2] - 2026-11-01
+
+A sounder opt-in C# call linker and two fixes. With the opt-in linkers off, the graph and the ranking are unchanged.
+
+### Changed
+- **C# and .NET project files count as source for the background refresh.** `.csproj`, `.props`, `.targets`,
+  `.projitems`, `packages.config` and `Directory.Build.rsp` changes now trigger a refresh. A C# repository gets one
+  extra refresh after this upgrade; it changes the graph only when the C# linker is on.
+- **The opt-in C# call linker (`DEEPMAP_TYPED_CALLS=csharp`) only replaces a name-matched link when it can prove the
+  call's target.** When it cannot, it adds its typed link beside the name-matched ones and removes nothing. It now
+  reads the global usings a .NET project gets from MSBuild (`ImplicitUsings`, `<Using>` items,
+  `Directory.Build.props` and `.targets`, `Directory.Packages.props`), resolves a `using` inside a namespace the way
+  C# does, and stays unsure about base types and packages it cannot read. Each typed link was checked against the
+  C# compiler's own answers on hundreds of small test projects. The remaining known gaps are listed in
+  `docs/known-limitations.md`. The linker stays off by default until it passes its own checks, set in advance.
+
+### Fixed
+- **A refused stale-node cleanup is recorded.** When `--stale-cleanup` is refused because the folder has no repository
+  root marker, or because extraction found nothing, the reason is now saved with the sync result, and the graph is
+  reported as degraded only when it provably still holds nodes the run did not extract. `/deep-map:refresh` explains
+  what to do.
+- **C# impact on a property.** When every match is a C# computed property, `deepmap_impact` says that reading a
+  property is never a link and shows a read as the example, instead of call-shaped examples.
+
 ## [0.6.1] - 2026-10-29
 
 ### Fixed

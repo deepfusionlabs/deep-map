@@ -1,0 +1,23 @@
+namespace Ws.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Ws.Other
+{
+    public class Marker { }
+}
+
+namespace Ws
+{
+    public class WsCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}

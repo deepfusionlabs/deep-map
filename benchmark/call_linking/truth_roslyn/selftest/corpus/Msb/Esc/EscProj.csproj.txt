@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>%65nable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Es%2ELib" />
+    <Using Include="Es.Other" Alias="E%6F" />
+    <Using Remove="System%2EThreading" />
+    <Using Remove="System.IO%3BSystem.Linq" />
+  </ItemGroup>
+</Project>

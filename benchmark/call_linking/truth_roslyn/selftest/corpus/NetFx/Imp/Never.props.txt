@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Using Include="NetFx.Never" />
+  </ItemGroup>
+</Project>

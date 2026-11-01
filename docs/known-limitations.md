@@ -236,8 +236,12 @@ project then uses that endpoint, and `status` / `doctor` report `isolation: OPER
   committed. **Workaround:** run `git rm -r --cached graphify-out .deepmap` once.
 - **Non-git projects.** `--stale-cleanup` needs a project-root marker (`.git`, `pyproject.toml`, `package.json`,
   `go.mod`, `Cargo.toml` and others), because the prune deletes graph-wide; a Delphi tree has no fixed-name
-  marker. Provenance falls back to a content hash, and the git post-commit hook needs git.
-  **Workaround:** add an empty `.deepmap-root` file at the project root.
+  marker. Provenance falls back to a content hash, and the git post-commit hook needs git. A stale-cleanup refused
+  for a missing marker is recorded (`stale_cleanup_skipped: "no-root-marker"` in `.deepmap/sync_last.json` and
+  `.deepmap/graph_build.json`); the verdict is DEGRADED ("STALE NODES KEPT") only when the graph holds more nodes
+  than the sync pushed, and otherwise the sync says the stale-cleanup did not run.
+  **Workaround:** run from the repository root, or add an empty `.deepmap-root` file at the project root;
+  `--force-prune` cannot override this refusal.
 - **Incremental extraction is opt-in and `ast`-only.** `DEEPMAP_INCREMENTAL_SYNC=1` skips re-parsing unchanged files
   on the `ast` path and builds the same graph. graphify runs as one whole-tree process, so with it every sync
   extracts the whole tree, and the push to Neo4j is always a full push.
@@ -284,7 +288,8 @@ project then uses that endpoint, and `status` / `doctor` report `isolation: OPER
   default change (`benchmark/call_linking/PREREG.md`, `DECISION.md`).
   - `DEEPMAP_PRECISE_CALLS=1` (or per language family, `python,js`) keeps the engine's resolved target and removes
     most `AMBIGUOUS` links. Its receiver rule judges Python, Go, Rust and JS/TS callers only, `:Class` targets are
-    not judged, and it drops a true call that the file also makes through a renamed import.
+    not judged, and it drops a true call that the file also makes through a renamed import. On a virtual or
+    interface call, the target it keeps is one method that can run, not necessarily the only one.
   - `DEEPMAP_GRAPHIFY_CALLS_PLUS=1` (Python) recovers `module.f()`, `alias.f()`, module-level and nested-closure
     calls, skipping test callers unless `DEEPMAP_GRAPHIFY_CALLS_PLUS_TESTS=1` (callers in `examples/` and `docs/`
     count as production code). A def the engine merged has its calls attributed to the enclosing `:Module`.
@@ -363,22 +368,38 @@ background refresh skips (`recipe:settings`) a session whose value differs from 
   overloaded callers, methods holding `#if`, a type's other constructors, overloads chosen by argument type, more
   than 4 implementations, property reads). When the graph was built with `DEEPMAP_TYPED_CALLS_SHAPES` or
   `DEEPMAP_TYPED_CALLS_IFACE` narrowing the reader, the note adds that more C# calls are unlinked than it lists. The
-  full list is the reader's entry below.
+  full list is the reader's entry below. When every match is a computed property, the note says instead that
+  reading a property is never a link, with or without the reader, so the code that reads it is not listed (a
+  property whose summary was enriched, or a name that is also a method elsewhere, keeps the call wording).
 - **MediatR `Send` to `Handle` is not linked,** with or without the reader, so a handler dispatched through a
   mediator has no callers in the graph. **Workaround:** grep the request type to find who sends it.
 - **Opt-in: the C# typed-receiver reader.** Name `csharp` in `DEEPMAP_TYPED_CALLS` (for example
-  `python,typescript,javascript,csharp`; `=1` selects Python, TypeScript and JavaScript only), then
-  `/deep-map:refresh`. It reads `.cs` files only and types each receiver from the caller's own source: a field,
-  property or primary-constructor parameter by its declared type, a parameter, a local, `this.` and `base.` (into
-  another part of a partial class, or a base class in another file), `x?.M()`, `M<T>()`, a static `Type.M()`,
-  `using static` and extension methods. It links the calls inside a computed property's accessors and inside the
-  one constructor that has a node. A local binds only inside its own block, and a type name means a nested type of
-  the enclosing class, its base classes in the project or an outer class before a namespace-level type, as in C#.
+  `python,typescript,javascript,csharp`; `=1` selects Python, TypeScript and JavaScript only), then `/deep-map:refresh`.
+  It types each receiver from the caller's own `.cs` source (MSBuild's project files decide a file's usings, see below):
+  a field, property or primary-constructor parameter by its declared type, a parameter, a local, `this.` and `base.`
+  (into another part of a partial class, or a base class in another file), `x?.M()`, `M<T>()`, a static `Type.M()`,
+  `using static` and extension methods. It links the calls inside a computed property's accessors and inside the one
+  constructor that has a node. It follows C# name lookup where that decides the target: a local binds only inside its
+  own block; a type name means a nested type of the enclosing class, its base classes in the project or an outer class
+  before a namespace-level type; a `using X = ...` alias holds only inside its own namespace declaration and loses to a
+  nearer namespace's member or using; a namespace block's usings apply inside that block only, and a `using` or alias
+  written there names what C# finds from that block's namespace outward (`global::` is absolute); a block's `using
+  static` holds inside that block only, and a bare call is not typed through it when a type enclosing the caller
+  declares or inherits a member of that name, since C# looks there first, or when `using static` directives at two
+  levels both supply the name; a type's generic arity is part of its name (`Result` and `Result<T>` are two types); a
+  `file` class is seen in its own file only; and a method proven inaccessible at the call site, or an explicit interface
+  implementation, gives way to the base's method. `InternalsVisibleTo` counts wherever MSBuild and the compiler read it
+  (the project's C# files and the files it links in, its project files, `Directory.Build.*` and
+  `Directory.Packages.props`); where the reader cannot be sure, the method stays the target.
   - **Interface dispatch:** a call through an interface links the interface member (`INFERRED`) plus the
     implementations in the project: one `INFERRED`, 2 to 4 `AMBIGUOUS` each, more than 4 none. An implementation is
-    the method the class runs for that member (a `new` method of the same name in a subclass that does not list the
-    interface again is not one); a static interface member has none (one with a body is an exact call); and a
-    receiver typed `IRepo<Order>` skips a class that implements only `IRepo<User>`.
+    the method the class runs for that member, by C#'s mapping rules: a `new` method of the same name in a subclass
+    that does not list the interface again is not one, an explicit implementation wins inside its class and nothing
+    overrides it, and a member that is not public never implements implicitly. A static interface member has none
+    (one with a body is an exact call). A receiver typed `IRepo<Order>` skips a class that implements only
+    `IRepo<User>`, and `Box<int?>` skips `: Box<int>` (`Nullable<int>` reads as `int?`, `Int32` as `int`). A class
+    that reaches one generic interface by two paths with different type arguments is unknown: the links are added and
+    nothing is replaced.
   - **Virtual dispatch:** a call of a virtual, abstract or override method (not sealed) through a typed receiver or
     `this` links the method it names (`INFERRED`, never `EXTRACTED`) plus the overrides with a body in project
     subclasses, counted the same way. `base.M()`, `new T().M()`, a `var x = new T()` / `T x = new()` local never
@@ -393,21 +414,113 @@ background refresh skips (`recipe:settings`) a session whose value differs from 
     overrides only; `static,impl` = both; `0` / `false` / `no` / `off` = neither. Unknown words are ignored (and
     listed as `unknown_iface` in `.deepmap/graph_build.json`); a value that names no mode selects both.
 
-  Its gaps: more than 4 implementations or overrides link the named member only; a call whose method has a rival
-  overload the compiler may pick instead (a base-class method of that name and argument count, or an extension
-  method) is linked only when the argument types are plain to read (literals, values declared with a built-in type,
-  project class instances), and never `EXTRACTED`; parameter types count as one type, or as two, only when that is
-  proven, and anything unproven leaves the call's typed links added beside the engine's match, never replacing it
-  (so a call may stay untyped, but no true link is removed); the usings MSBuild adds implicitly (`ImplicitUsings`,
-  `<Using>` items) are not read, so when an interface and its implementation put their usings at different levels
-  (top of file vs inside the namespace) a parameter type can read as unknown and only the interface member is
-  linked; the receiver's own generic arguments are not substituted; calls in a type's other constructors and in Razor files
-  (`.razor`, `.cshtml`) are not linked; callers in tests, examples or docs get corrections only unless
-  `DEEPMAP_TYPED_CALLS_TESTS=1` / `DEEPMAP_TYPED_CALLS_NONPROD=1`; `dynamic`, reflection, delegates and a mediator
-  are not followed; an overloaded caller is never typed; the result of `await`, a cast or `as` is untyped, and so is
-  a static field read from a static method; an external base class's members, overloads and nested types are not
-  read. It stays off by default until its own pre-registered decision, measured against Roslyn, passes; with it
-  unset the graph is identical to a build without it.
+  Its gaps:
+  - **Unproven means added, never replaced.** Parameter types count as one type, or as two, only when that is proven (a
+    method's own generic arity and a `params` parameter are part of its signature). Anything unproven leaves the call's
+    typed links added beside the engine's match: a call may stay untyped, and only a proof replaces a link. An alias or
+    a name the reader cannot follow is unknown even against itself, and so is a generic, array or nullable type whose
+    name the reader cannot place.
+  - **More than 4** implementations or overrides link the named member only.
+  - **Overloads.** A call whose method has a rival overload the compiler may pick instead (a base-class method of
+    that name and argument count, or an extension method) is linked only when the argument types are plain to read
+    (literals, values declared with a built-in type, project class instances), and never `EXTRACTED`. The receiver's
+    generic arguments count here (`Repo<Order> _r; _r.Save(o)` reads `Save(T)` as `Save(Order)`), but not for override
+    slots or interface mappings. When every overload up to a base class is proven not to apply and the base has one
+    the arguments fit, the call links that one, as `INFERRED` and always beside the engine's match, never replacing
+    it. Nothing is proven for `null`, a lambda, a method group, a `params` element, a numeric literal, `dynamic`, a
+    `ref readonly` parameter or a type with a conversion operator; those calls stay as they were.
+  - **External type names** are compared the way C# looks them up: each enclosing namespace, its usings, and last the
+    file's usings with the project's global ones and what MSBuild adds. A namespace may hold external types when its
+    first segment is `System`, `Microsoft`, the first segment of a package a project file names, or a first segment no
+    project is named after (no project's AssemblyName, RootNamespace or file name starts with it), even if the project
+    declares types in it. That costs recall on purpose, and only the interface member is linked, nothing removed:
+    - in `namespace Microsoft.Extensions.Logging.Custom`, or under `Acme.*` with a package `Acme.Core`, an unqualified
+      name the project does not declare there is unknown (a short built-in list of framework types still decides at
+      its own namespace);
+    - in a tree with no `.csproj`, or one whose project files are named after something other than its namespaces,
+      nothing that rests on a namespace is proven;
+    - with usings inside the namespace block (StyleCop's SA1200 style), a block that imports such a namespace
+      (`namespace App.Jobs { using System.Timers; ... }`) makes a project type of an enclosing namespace (`App.Timer`)
+      unknown there, since the import may hold a type of that name, which C# would pick first;
+    - a `using`, `using static` or alias inside a namespace block whose meaning the reader cannot settle (a nearer
+      namespace external code may fill, or a `using static` whose first segment is not surely a top-level namespace such
+      as `System` or `Microsoft`) leaves the names it could supply unknown;
+    - a `using static` at a level of its own, a `using` inside `#if`, a class in a file its own project removes, and a
+      partial class part that two projects compile stay unknown.
+
+    Not seen: a package whose namespaces do not start with its id's first segment, a package only another package
+    pulls in, an external type in the global namespace, a project `delegate` type, and compiled source the reader does
+    not see (vendored code in a skipped directory, generated code, a source generator's output) that declares a
+    namespace the project also declares, when no package id names it. A qualified name such as `Acme.Core.Order` is
+    read as the project's even past a block's using of external code (it compiles otherwise only if that code nests
+    the whole name). There a wrong match could replace a true link.
+  - **A base the reader cannot resolve** (an alias it cannot follow, a qualified or generic name) may be any project
+    type of that name, or the target of an alias of that name, with its own bases. Where such a type could implement the
+    interface, override the method, supply the member a bare name reaches or add a rival overload, the call keeps the
+    engine's match and its typed links are only added, or it stays untyped. The same goes for a class that lists an
+    interface whose own base the reader cannot resolve, when that base could lead to the interface being called: the
+    class may implement that interface again, so if it, or a class between it and the base class that implements the
+    interface, declares the method, the call keeps the engine's match. A base the reader cannot read at all (a
+    `global::`-qualified one), or one that may be a type the reader cannot read (two same-named types in one file, a
+    partial class it cannot merge), lets the class derive from any project type: then no interface call in the
+    repository whose member another project type also defines replaces the engine's match, and neither does a virtual
+    call whose method that class may override. The reader assumes that an external base named like an interface
+    (`IThing`) is one, so it brings no member a bare name could reach.
+  - **What MSBuild adds** is read per `.csproj`, only with this reader on: the project, the nearest
+    `Directory.Build.props`, `Directory.Packages.props` and `Directory.Build.targets`, plain `<Import>`s,
+    `ImplicitUsings`, `<Using>` items, simple conditions (two boolean-like values compared as booleans, as MSBuild
+    does), the implicit-using lists of the `Microsoft.NET.Sdk` family, package ids (`PackageReference` and its siblings,
+    `packages.config`), `<Compile Include>` links and `<Compile Remove>` items. Two projects' readings are compared only
+    when neither uses a package (in its project file, its imports or the projects it references): a package can add or
+    remove usings unseen, even when two projects use the same ones. A `GlobalPackageReference` gives every project a
+    package. Whatever it cannot read makes that project's reading incomplete, and the names it would decide stay
+    unknown: another SDK (Aspire, MSTest, a workload), MAUI, Windows Forms or WPF, a computed, missing or out-of-tree
+    `<Import>`, a `Custom*` import hook, `Exists()` or a property function in a condition, an environment or SDK-defined
+    property, a wildcard in a `<Using>`, a `<Using>` inside a `<Target>`, a Remove, Exclude or Update written as a path,
+    a `global::` prefix on a `<Using Include>`, a `Directory.Build.rsp`, `TreatAsLocalProperty`, an SDK named in an
+    imported file, a `Directory.Build.*` file found only in another letter case, and two projects in one directory. A
+    condition on `$(Configuration)` or `$(Platform)` counts as possible, never certain, since `dotnet build` builds
+    Debug by default. A file in no project's directory reads incomplete too when the tree holds any `.csproj`, and so
+    does a file another project also compiles through a link; such a file counts as certain only what every project
+    compiling it gives. A `global using` in a file a project links in, or a link to a file that is not in the tree
+    (generated, or outside it), leaves that project's reading incomplete. A `<Compile Include>` the reader cannot place
+    counts as reaching everywhere: the other projects' files then keep their links added, never replaced. Never read:
+    global usings a NuGet package's own `build/` props add (xunit-style), a project's default `**/*.cs` glob reaching a
+    project nested under it, and project references.
+  - **Other limits.** Calls in a type's other constructors and in Razor files (`.razor`, `.cshtml`) are not linked;
+    callers in tests, examples or docs get corrections only unless `DEEPMAP_TYPED_CALLS_TESTS=1` /
+    `DEEPMAP_TYPED_CALLS_NONPROD=1`; `dynamic`, reflection, delegates and a mediator are not followed; an overloaded
+    caller is never typed; the result of `await`, a cast or `as` is untyped, and so is a static field read from a
+    static method; an external base class's members, overloads and nested types are not read.
+  - **Wrong links it can still give (rare).** Each of these can add a wrong link and, where that wrong proof replaces
+    the engine's match, remove a right one:
+    - a C# 12 primary-constructor parameter hidden by a base member of the same name (compiler warning CS9179);
+    - a derived class's less accessible member read from outside, where C# picks the base's;
+    - an explicit interface property read as a member of its class;
+    - a C# 11 `file` type that gives one alias text two meanings;
+    - types and members declared inside an inactive `#if` branch, read as present;
+    - a type from a project the caller does not reference, or from a `.cs` file in no project (a docs snippet), hiding
+      an imported type; a namespace only such code declares counts as existing too;
+    - a type in a file the build may not compile;
+    - `obj/` read as source when it is not gitignored;
+    - a `<Reference>` written as a path;
+    - a package's `.targets` that removes usings or turns `ImplicitUsings` off;
+    - a disabled `#if` region that starts a verbatim or raw string, which hides the rest of the file;
+    - a `.csproj.user` file (Visual Studio's per-user project file), which MSBuild reads and the reader does not.
+      Measured with the .NET 8 SDK: a `<Using>`, a package, an `ImplicitUsings` setting or a `<Using Remove>` written
+      there changed the build's global usings, so the reader can miss a using, treat a project whose only package is
+      listed there as one without packages, or count a removed using as certain;
+    - an `extern alias` read as a namespace.
+
+    A better non-virtual base overload beside a derived override of another overload can add a wrong weak link, with
+    nothing removed. A verbatim identifier (`@event`) in a namespace name only costs links. A base the reader cannot
+    resolve also counts as possibly implementing an interface when a project type of its name implements it with other
+    type arguments (`IRepo<Cart>` where the call is on `IRepo<Order>`), although the other thing it could be, a type
+    from outside the project, cannot implement this project's interfaces at all; such a call keeps the engine's match
+    where a tighter rule could replace it. It adds no wrong link of its own.
+
+  It stays off by default until its own pre-registered decision, measured against Roslyn, passes; with it unset the
+  graph is identical to a build without it.
 - **Records and structs on graphify 0.8.39.** On 0.8.39, records, record structs, structs and enums have no class
   node; DeepMap adds one per type name and file and names their methods `Owner.method`, as 0.8.51 does by itself.
   Two same-named methods in one file that 0.8.39 merged get separate nodes, but the calls inside the second stay
@@ -794,10 +907,16 @@ auto-sync line. Limits:
   the shell's environment, which can differ from Claude Code's.
 - **What "is the graph current?" covers:** source files, `.gitignore` / `.graphifyignore`, the TypeScript and
   JavaScript project files (tsconfig / jsconfig, package.json, nest-cli / angular / workspace / project.json,
-  `next.config.*`), a root marker, submodules and nested repositories. Not covered: a tsconfig `extends` target with
-  another name, files git ignores through an anchored pattern that the `ast` fallback still reads, submodules set to
-  `ignore=dirty|all`, and, outside git, the `build/`, `dist/`, `bin/` directories graphify skips. It never refreshes
-  during a git rebase, merge, cherry-pick, revert or bisect.
+  `next.config.*`), the MSBuild files the C# reader reads (`.csproj`, `.props`, `.targets`, `.projitems`,
+  `packages.config`, `Directory.Build.rsp`), a root marker, submodules and nested repositories. The MSBuild names count
+  with the reader on or off, so a repository holding such files gets one extra refresh after an upgrade and one on each
+  change to them; with the reader off, that refresh leaves the graph as it was. Not covered: a tsconfig `extends` target
+  with another name, an MSBuild `<Import>` of a file with another extension (read at each sync, but a change to it alone
+  starts no refresh), files git ignores through an anchored pattern that the `ast` fallback still reads, submodules set
+  to `ignore=dirty|all`, and, outside git, the `build/`, `dist/`, `bin/` directories graphify skips. The note after an
+  edit and the `status` / `doctor` staleness line count source files only, so they do not mention an uncommitted edit to
+  one of these project files; the next refresh sees it. It never refreshes during a git rebase, merge, cherry-pick,
+  revert or bisect.
 - **What the agent is told.** The session-start note announces a refresh only when one will run; later notes arrive
   on the next Grep, Glob or deepmap tool call, each fact once per session. A session that started while auto-sync
   was off gets none.

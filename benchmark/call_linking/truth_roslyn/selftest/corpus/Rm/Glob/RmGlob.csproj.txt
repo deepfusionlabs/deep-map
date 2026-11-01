@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Rm.Lib" />
+    <Using Remove="system.THREAD*" />
+    <Using Remove="System.Lin?" />
+    <Using Remove="Collections*;System.Net*Htt" />
+  </ItemGroup>
+</Project>

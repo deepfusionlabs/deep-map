@@ -156,8 +156,9 @@ import sync as S               # noqa: E402
 # repository's build/ first on sys.path while they run, so a module first imported then would come from there (a
 # --root run would silently measure the wrong code). section A checks where each one came from.
 PIPELINE_MODULES = ("graphify_extract", "sync", "edge_resolve", "typescript_edges", "language_recognizers",
-                    "typed_calls", "receiver_facts_py", "receiver_facts_ts", "py_import_resolver") + (
-    ("receiver_facts_csharp",) if (BUILD / "receiver_facts_csharp.py").is_file() else ())   # the C# corpora's reader
+                    "typed_calls", "receiver_facts_py", "receiver_facts_ts", "py_import_resolver") + tuple(
+    m for m in ("receiver_facts_csharp", "csharp_msbuild")                    # the C# corpora's reader and its MSBuild
+    if (BUILD / f"{m}.py").is_file())                                         # reading: the reader imports it late
 _PRELOAD_ERRORS = {}
 for _name in PIPELINE_MODULES:
     try:

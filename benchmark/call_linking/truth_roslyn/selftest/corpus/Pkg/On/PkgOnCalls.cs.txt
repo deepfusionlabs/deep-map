@@ -1,0 +1,18 @@
+namespace Pkg.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Pkg.On
+{
+    public class PkgOnCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}

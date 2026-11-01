@@ -1,0 +1,5661 @@
+{
+ "_about": "REAL `graphify update --no-cluster` output (graphify 0.8.39) of tests/typed_calls_cs_gates.TREES['usings'], written by extract_with_report (absolute paths made root-relative; map_graph reads none of them); re-capture with `python tests/typed_calls_cs_gates.py --capture` under this engine.",
+ "engine": "0.8.39",
+ "graph": {
+  "input_tokens": 0,
+  "links": [
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "b_repo",
+    "source_file": "src/Ba/B/Repo.cs",
+    "source_location": "L3",
+    "target": "b_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "b_repo_repo",
+    "source_file": "src/Ba/B/Repo.cs",
+    "source_location": "L5",
+    "target": "b_repo_repo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ba_ba",
+    "source_file": "src/Ba/Ba.csproj",
+    "target": "src_ba_ba_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L1",
+    "target": "ba_blocks_ba_a",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ba_blocks",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L3",
+    "target": "src_ba_blocks_cs_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L5",
+    "target": "ba_blocks_ua",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ba_blocks_ua",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L7",
+    "target": "src_ba_blocks_cs_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ba_blocks_ua",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L9",
+    "target": "ba_blocks_ua_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L16",
+    "target": "ba_blocks_ba_b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L18",
+    "target": "ba_blocks_ub",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ba_blocks_ub",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L20",
+    "target": "src_ba_blocks_cs_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ba_blocks_ub",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L22",
+    "target": "ba_blocks_ub_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ba_blocks2",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L1",
+    "target": "data2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks2",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L3",
+    "target": "ba_blocks2_ba_e",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ba_blocks2",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L5",
+    "target": "src_ba_blocks2_cs_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks2",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L7",
+    "target": "ba_blocks2_ue",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ba_blocks2_ue",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L9",
+    "target": "src_ba_blocks2_cs_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ba_blocks2_ue",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L11",
+    "target": "ba_blocks2_ue_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks2",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L18",
+    "target": "ba_blocks2_ba_f",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ba_blocks2",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L20",
+    "target": "ba_blocks2_uf",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ba_blocks2_uf",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L22",
+    "target": "src_ba_blocks2_cs_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ba_blocks2_uf",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L24",
+    "target": "ba_blocks2_uf_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "c_inner",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L1",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "c_inner",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L3",
+    "target": "c_inner_ba_c",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "c_inner",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L5",
+    "target": "src_ba_c_inner_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "c_inner",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L7",
+    "target": "c_inner_inneruser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "c_inner_inneruser",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L9",
+    "target": "src_ba_c_inner_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "c_inner_inneruser",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L11",
+    "target": "c_inner_inneruser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "data2_repo",
+    "source_file": "src/Ba/Data2/Repo.cs",
+    "source_location": "L3",
+    "target": "data2_repo_repo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "data2_repo_repo",
+    "source_file": "src/Ba/Data2/Repo.cs",
+    "source_location": "L5",
+    "target": "data2_repo_repo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "data_sqlrepo",
+    "source_file": "src/Ba/Data/SqlRepo.cs",
+    "source_location": "L3",
+    "target": "data_sqlrepo_sqlrepo",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "data_sqlrepo_sqlrepo",
+    "source_file": "src/Ba/Data/SqlRepo.cs",
+    "source_location": "L5",
+    "target": "data_sqlrepo_sqlrepo_save",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ba_globalusings",
+    "source_file": "src/Ba/GlobalUsings.cs",
+    "source_location": "L1",
+    "target": "tok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "legacy_order",
+    "source_file": "src/Ba/Legacy/Order.cs",
+    "source_location": "L3",
+    "target": "legacy_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "legacy_order_order",
+    "source_file": "src/Ba/Legacy/Order.cs",
+    "source_location": "L5",
+    "target": "legacy_order_order_ship",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "models_order",
+    "source_file": "src/Ba/Models/Order.cs",
+    "source_location": "L3",
+    "target": "models_order_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "models_order_order",
+    "source_file": "src/Ba/Models/Order.cs",
+    "source_location": "L5",
+    "target": "models_order_order_ship",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "sig_a5",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sig_a5",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L5",
+    "target": "sig_a5_a5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sig_a5_a5",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L7",
+    "target": "sig_a5_a5_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sig_a5_a5_run",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L7",
+    "target": "src_ba_sig_a5_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sig_a5",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L12",
+    "target": "sig_a5_a5x",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sig_a5_a5x",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L14",
+    "target": "sig_a5_a5x_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sig_a5_a5x_run",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L14",
+    "target": "src_ba_sig_a5_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sig_a5",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L19",
+    "target": "sig_a5_siguser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "sig_a5_siguser",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L21",
+    "target": "sig_a5_a5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "sig_a5_siguser",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L22",
+    "target": "sig_a5_a5x",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sig_a5_siguser",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L24",
+    "target": "sig_a5_siguser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sig_a5_siguser_go",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L24",
+    "target": "src_ba_sig_a5_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sig_a5_siguser",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L29",
+    "target": "sig_a5_siguser_gox",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sig_a5_siguser_gox",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L29",
+    "target": "src_ba_sig_a5_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "sig_a5_siguser_go",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L26",
+    "target": "sig_a5_a5x_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "sig_a5_siguser_gox",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L31",
+    "target": "sig_a5_a5x_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sig_b5",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L1",
+    "target": "sig_b5_ba_sig",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "sig_b5",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L3",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sig_b5",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L5",
+    "target": "sig_b5_b5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "sig_b5_b5",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L5",
+    "target": "sig_a5_a5",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sig_b5_b5",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L7",
+    "target": "sig_b5_b5_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sig_b5_b5_run",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L7",
+    "target": "src_ba_sig_b5_cs_tok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sig_b5x",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L1",
+    "target": "sig_b5x_ba_sig",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "sig_b5x",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L3",
+    "target": "stuff",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "sig_b5x",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L5",
+    "target": "sig_b5x_b5x",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "sig_b5x_b5x",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L5",
+    "target": "sig_a5_a5x",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "sig_b5x_b5x",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L7",
+    "target": "sig_b5x_b5x_run",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "sig_b5x_b5x_run",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L7",
+    "target": "src_ba_sig_b5x_cs_tok",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_orderuser",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L1",
+    "target": "src_ba_use_orderuser_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_orderuser",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L3",
+    "target": "use_orderuser_ba_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_orderuser",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L5",
+    "target": "models",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_orderuser",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L7",
+    "target": "use_orderuser_orderuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_orderuser_orderuser",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L9",
+    "target": "src_ba_use_orderuser_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_orderuser_orderuser",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L11",
+    "target": "use_orderuser_orderuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_orderuser2",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L1",
+    "target": "src_ba_use_orderuser2_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_orderuser2",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L3",
+    "target": "use_orderuser2_ba_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_orderuser2",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L5",
+    "target": "use_orderuser2_orderuser2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_orderuser2_orderuser2",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L7",
+    "target": "src_ba_use_orderuser2_cs_order",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_orderuser2_orderuser2",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L9",
+    "target": "use_orderuser2_orderuser2_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "shared_aliases",
+    "source_file": "src/Shared/Aliases.cs",
+    "source_location": "L1",
+    "target": "tk4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "shared_aliases",
+    "source_file": "src/Shared/Aliases.cs",
+    "source_location": "L2",
+    "target": "i4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_iput",
+    "source_file": "src/Ua/Contracts/IPut.cs",
+    "source_location": "L3",
+    "target": "contracts_iput_iput",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_iput_iput",
+    "source_file": "src/Ua/Contracts/IPut.cs",
+    "source_location": "L5",
+    "target": "contracts_iput_iput_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_iput_iput_put",
+    "source_file": "src/Ua/Contracts/IPut.cs",
+    "source_location": "L5",
+    "target": "src_ua_contracts_iput_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_iput3",
+    "source_file": "src/Ua/Contracts/IPut3.cs",
+    "source_location": "L3",
+    "target": "contracts_iput3_iput3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_iput3_iput3",
+    "source_file": "src/Ua/Contracts/IPut3.cs",
+    "source_location": "L5",
+    "target": "contracts_iput3_iput3_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_iput3_iput3_put",
+    "source_file": "src/Ua/Contracts/IPut3.cs",
+    "source_location": "L5",
+    "target": "src_ua_contracts_iput3_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "contracts_iputa",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_iputa",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L5",
+    "target": "contracts_iputa_iputa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_iputa_iputa",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L7",
+    "target": "contracts_iputa_iputa_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_iputa_iputa_put",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L7",
+    "target": "src_ua_contracts_iputa_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl3_putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl3_putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L3",
+    "target": "impl3_putter3_ua_impl3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl3_putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L5",
+    "target": "tokens",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl3_putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L6",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl3_putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L8",
+    "target": "impl3_putter3_putter3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "impl3_putter3_putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L8",
+    "target": "iput3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "impl3_putter3_putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L10",
+    "target": "impl3_putter3_putter3_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "impl3_putter3_putter3_put",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L10",
+    "target": "src_ua_impl3_putter3_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_putter",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L1",
+    "target": "impl_putter_ua_impl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_putter",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L3",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_putter",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L4",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_putter",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L6",
+    "target": "impl_putter_putter",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "impl_putter_putter",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L6",
+    "target": "iput",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "impl_putter_putter",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L8",
+    "target": "impl_putter_putter_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "impl_putter_putter_put",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L8",
+    "target": "src_ua_impl_putter_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_puttera",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_puttera",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L2",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_puttera",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L6",
+    "target": "impl_puttera_puttera",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "impl_puttera_puttera",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L6",
+    "target": "iputa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "impl_puttera_puttera",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L8",
+    "target": "impl_puttera_puttera_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "impl_puttera_puttera_put",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L8",
+    "target": "src_ua_impl_puttera_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ua_ua",
+    "source_file": "src/Ua/Ua.csproj",
+    "target": "src_ua_ua_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ua_ua",
+    "source_file": "src/Ua/Ua.csproj",
+    "target": "src_ua_ua_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L1",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L5",
+    "target": "use_putuser_putuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_putuser_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L7",
+    "target": "src_ua_use_putuser_cs_iput",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_putuser_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L8",
+    "target": "src_ua_use_putuser_cs_iputa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_putuser_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L9",
+    "target": "src_ua_use_putuser_cs_iput3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_putuser_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L11",
+    "target": "use_putuser_putuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "use_putuser_putuser_go",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L11",
+    "target": "src_ua_use_putuser_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_putuser_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L16",
+    "target": "use_putuser_putuser_goa",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "use_putuser_putuser_goa",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L16",
+    "target": "src_ua_use_putuser_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_putuser_putuser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L21",
+    "target": "use_putuser_putuser_go3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "use_putuser_putuser_go3",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L21",
+    "target": "src_ua_use_putuser_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sink",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L1",
+    "target": "text",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_sink",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L5",
+    "target": "uc_sink_ilogsink",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sink_ilogsink",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L7",
+    "target": "uc_sink_ilogsink_write",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sink_ilogsink_write",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L7",
+    "target": "src_uc_sink_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sink3",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L1",
+    "target": "text",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_sink3",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L5",
+    "target": "uc_sink3_ilogsink3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sink3_ilogsink3",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L7",
+    "target": "uc_sink3_ilogsink3_write",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sink3_ilogsink3_write",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L7",
+    "target": "src_uc_sink3_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sink3impl",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L1",
+    "target": "logging",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sink3impl",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L2",
+    "target": "custom",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_sink3impl",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L6",
+    "target": "uc_sink3impl_sink3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "uc_sink3impl_sink3",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L6",
+    "target": "ilogsink3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sink3impl_sink3",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L8",
+    "target": "uc_sink3impl_sink3_write",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sink3impl_sink3_write",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L8",
+    "target": "src_uc_sink3impl_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sink3b",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L1",
+    "target": "logging",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_sink3b",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L5",
+    "target": "uc_sink3b_ilogsink3b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sink3b_ilogsink3b",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L7",
+    "target": "uc_sink3b_ilogsink3b_write",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sink3b_ilogsink3b_write",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L7",
+    "target": "src_uc_sink3b_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sink3bimpl",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L1",
+    "target": "logging",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sink3bimpl",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L2",
+    "target": "custom",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_sink3bimpl",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L6",
+    "target": "uc_sink3bimpl_sink3b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "uc_sink3bimpl_sink3b",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L6",
+    "target": "ilogsink3b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sink3bimpl_sink3b",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L8",
+    "target": "uc_sink3bimpl_sink3b_write",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sink3bimpl_sink3b_write",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L8",
+    "target": "src_uc_sink3bimpl_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sinkimpl",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L1",
+    "target": "logging",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_sinkimpl",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L5",
+    "target": "uc_sinkimpl_sink",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "uc_sinkimpl_sink",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L5",
+    "target": "ilogsink",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sinkimpl_sink",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L7",
+    "target": "uc_sinkimpl_sink_write",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sinkimpl_sink_write",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L7",
+    "target": "src_uc_sinkimpl_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L1",
+    "target": "logging",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L5",
+    "target": "uc_sinkuser_sinkuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "uc_sinkuser_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L7",
+    "target": "src_uc_sinkuser_cs_ilogsink",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "uc_sinkuser_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L8",
+    "target": "src_uc_sinkuser_cs_ilogsink3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "uc_sinkuser_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L9",
+    "target": "src_uc_sinkuser_cs_ilogsink3b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sinkuser_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L11",
+    "target": "uc_sinkuser_sinkuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sinkuser_sinkuser_go",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L11",
+    "target": "src_uc_sinkuser_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sinkuser_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L16",
+    "target": "uc_sinkuser_sinkuser_go3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sinkuser_sinkuser_go3",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L16",
+    "target": "src_uc_sinkuser_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_sinkuser_sinkuser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L21",
+    "target": "uc_sinkuser_sinkuser_go3b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_sinkuser_sinkuser_go3b",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L21",
+    "target": "src_uc_sinkuser_cs_ilogger",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_timed",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_timed",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L2",
+    "target": "custom",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_timed",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L6",
+    "target": "uc_timed_timed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "uc_timed_timed",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L6",
+    "target": "uc_timers_timedbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "uc_timed_timed",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L6",
+    "target": "uc_timers_itimed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_timed_timed",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L8",
+    "target": "uc_timed_timed_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_timed_timed_use",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L8",
+    "target": "src_uc_timed_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "uc_timers",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_timers",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L5",
+    "target": "uc_timers_itimed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_timers_itimed",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L7",
+    "target": "uc_timers_itimed_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_timers_itimed_use",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L7",
+    "target": "src_uc_timers_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_timers",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L10",
+    "target": "uc_timers_timedbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_timers_timedbase",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L12",
+    "target": "uc_timers_timedbase_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_timers_timedbase_use",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L12",
+    "target": "src_uc_timers_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uc_timers",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L17",
+    "target": "uc_timers_timeduser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "uc_timers_timeduser",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L19",
+    "target": "uc_timers_itimed",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uc_timers_timeduser",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L21",
+    "target": "uc_timers_timeduser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uc_timers_timeduser_go",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L21",
+    "target": "src_uc_timers_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "uc_timers_timeduser_go",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L23",
+    "target": "uc_timers_timedbase_use",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "uc_uc",
+    "source_file": "src/Uc/Uc.csproj",
+    "target": "src_uc_uc_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ul_slots",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ul_slots",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L5",
+    "target": "ul_slots_a14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_a14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L7",
+    "target": "ul_slots_a14_run14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ul_slots_a14_run14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L7",
+    "target": "src_ul_slots_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_a14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L11",
+    "target": "ul_slots_a14_num14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ul_slots",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L16",
+    "target": "ul_slots_b14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "ul_slots_b14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L16",
+    "target": "ul_slots_a14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_b14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L18",
+    "target": "ul_slots_b14_run14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ul_slots_b14_run14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L18",
+    "target": "tk4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_b14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L22",
+    "target": "ul_slots_b14_num14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ul_slots_b14_num14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L22",
+    "target": "i4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ul_slots",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L27",
+    "target": "ul_slots_iov16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_iov16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L29",
+    "target": "ul_slots_iov16_put16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_iov16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L31",
+    "target": "ul_slots_iov16_put16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ul_slots_iov16_put16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L31",
+    "target": "tk4",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ul_slots",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L34",
+    "target": "ul_slots_impl16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "ul_slots_impl16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L34",
+    "target": "ul_slots_iov16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_impl16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L36",
+    "target": "ul_slots_impl16_put16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_impl16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L40",
+    "target": "ul_slots_impl16_put16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ul_slots_impl16_put16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L40",
+    "target": "src_ul_slots_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ul_slots",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L45",
+    "target": "ul_slots_linkuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ul_slots_linkuser",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L47",
+    "target": "ul_slots_a14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ul_slots_linkuser",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L48",
+    "target": "ul_slots_iov16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_linkuser",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L50",
+    "target": "ul_slots_linkuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ul_slots_linkuser_go",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L50",
+    "target": "src_ul_slots_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_linkuser",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L55",
+    "target": "ul_slots_linkuser_go2",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ul_slots_linkuser",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L60",
+    "target": "ul_slots_linkuser_go3",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ul_slots_linkuser_go",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L52",
+    "target": "ul_slots_b14_run14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ul_slots_linkuser_go2",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L57",
+    "target": "ul_slots_b14_num14",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ul_slots_linkuser_go3",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L62",
+    "target": "ul_slots_impl16_put16",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ul_ul",
+    "source_file": "src/Ul/Ul.csproj",
+    "target": "src_ul_ul_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "contracts_ihandle",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L1",
+    "target": "configuration",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_ihandle",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L5",
+    "target": "contracts_ihandle_ihandle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_ihandle_ihandle",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L7",
+    "target": "contracts_ihandle_ihandle_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_ihandle_ihandle_handle",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L7",
+    "target": "src_um_contracts_ihandle_cs_iconfiguration",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_handler",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L1",
+    "target": "impl_handler_um_impl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_handler",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L3",
+    "target": "configuration",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_handler",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L4",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_handler",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L6",
+    "target": "impl_handler_handler",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "impl_handler_handler",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L6",
+    "target": "ihandle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "impl_handler_handler",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L8",
+    "target": "impl_handler_handler_handle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "impl_handler_handler_handle",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L8",
+    "target": "src_um_impl_handler_cs_iconfiguration",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "um_um",
+    "source_file": "src/Um/Um.csproj",
+    "target": "src_um_um_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_handleuser",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L1",
+    "target": "configuration",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_handleuser",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L2",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_handleuser",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L6",
+    "target": "use_handleuser_handleuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_handleuser_handleuser",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L8",
+    "target": "src_um_use_handleuser_cs_ihandle",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_handleuser_handleuser",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L10",
+    "target": "use_handleuser_handleuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "use_handleuser_handleuser_go",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L10",
+    "target": "src_um_use_handleuser_cs_iconfiguration",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "un_remticker",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L3",
+    "target": "un_remticker_remticker",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "un_remticker_remticker",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L3",
+    "target": "ur_irem_rembase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "un_remticker_remticker",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L3",
+    "target": "ur_irem_irem",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "un_remticker_remticker",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L5",
+    "target": "un_remticker_remticker_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "un_remticker_remticker_tick",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L5",
+    "target": "src_un_remticker_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "un_ticker7",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L3",
+    "target": "un_ticker7_ticker7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "un_ticker7_ticker7",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L3",
+    "target": "contracts_itick7_tick7base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "un_ticker7_ticker7",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L3",
+    "target": "contracts_itick7_itick7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "un_ticker7_ticker7",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L5",
+    "target": "un_ticker7_ticker7_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "un_ticker7_ticker7_tick",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L5",
+    "target": "src_un_ticker7_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "un_un",
+    "source_file": "src/Un/Un.csproj",
+    "target": "src_un_un_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "un_un",
+    "source_file": "src/Un/Un.csproj",
+    "target": "ur_ur",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "un_un",
+    "source_file": "src/Un/Un.csproj",
+    "target": "upt_upt",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "un_un",
+    "source_file": "src/Un/Un.csproj",
+    "target": "src_un_un_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_iput7",
+    "source_file": "src/Up/Contracts/IPut7.cs",
+    "source_location": "L3",
+    "target": "contracts_iput7_iput7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_iput7_iput7",
+    "source_file": "src/Up/Contracts/IPut7.cs",
+    "source_location": "L5",
+    "target": "contracts_iput7_iput7_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_iput7_iput7_put",
+    "source_file": "src/Up/Contracts/IPut7.cs",
+    "source_location": "L5",
+    "target": "src_up_contracts_iput7_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_putter7",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L1",
+    "target": "impl_putter7_up_impl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_putter7",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L3",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_putter7",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L4",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_putter7",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L6",
+    "target": "impl_putter7_putter7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "impl_putter7_putter7",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L6",
+    "target": "iput7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "impl_putter7_putter7",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L8",
+    "target": "impl_putter7_putter7_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "impl_putter7_putter7_put",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L8",
+    "target": "src_up_impl_putter7_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "up_up",
+    "source_file": "src/Up/Up.csproj",
+    "target": "src_up_up_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "up_up",
+    "source_file": "src/Up/Up.csproj",
+    "target": "src_up_up_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_put7user",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L1",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_put7user",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L5",
+    "target": "use_put7user_put7user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_put7user_put7user",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L7",
+    "target": "src_up_use_put7user_cs_iput7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_put7user_put7user",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L9",
+    "target": "use_put7user_put7user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "use_put7user_put7user_go",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L9",
+    "target": "src_up_use_put7user_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "contracts_iput7b",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_iput7b",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L5",
+    "target": "contracts_iput7b_iput7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_iput7b_iput7b",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L7",
+    "target": "contracts_iput7b_iput7b_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_iput7b_iput7b_put",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L7",
+    "target": "src_upt_contracts_iput7b_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "contracts_itick7",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L1",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_itick7",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L5",
+    "target": "contracts_itick7_itick7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_itick7_itick7",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L7",
+    "target": "contracts_itick7_itick7_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_itick7_itick7_tick",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L7",
+    "target": "src_upt_contracts_itick7_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_itick7",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L10",
+    "target": "contracts_itick7_tick7base",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_itick7_tick7base",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L12",
+    "target": "contracts_itick7_tick7base_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_itick7_tick7base_tick",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L12",
+    "target": "src_upt_contracts_itick7_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "contracts_itick7",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L17",
+    "target": "contracts_itick7_tick7user",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "contracts_itick7_tick7user",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L19",
+    "target": "contracts_itick7_itick7",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "contracts_itick7_tick7user",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L21",
+    "target": "contracts_itick7_tick7user_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "contracts_itick7_tick7user_go",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L21",
+    "target": "src_upt_contracts_itick7_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "contracts_itick7_tick7user_go",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L23",
+    "target": "contracts_itick7_tick7base_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_putter7b",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L1",
+    "target": "impl_putter7b_upt_impl",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_putter7b",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L3",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "impl_putter7b",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L4",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "impl_putter7b",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L6",
+    "target": "impl_putter7b_putter7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "impl_putter7b_putter7b",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L6",
+    "target": "iput7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "impl_putter7b_putter7b",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L8",
+    "target": "impl_putter7b_putter7b_put",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "impl_putter7b_putter7b_put",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L8",
+    "target": "src_upt_impl_putter7b_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "upt_upt",
+    "source_file": "src/Upt/Upt.csproj",
+    "target": "src_upt_upt_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "upt_upt",
+    "source_file": "src/Upt/Upt.csproj",
+    "target": "src_upt_upt_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_put7buser",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L1",
+    "target": "threading",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "use_put7buser",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L2",
+    "target": "contracts",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "use_put7buser",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L6",
+    "target": "use_put7buser_put7buser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "use_put7buser_put7buser",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L8",
+    "target": "src_upt_use_put7buser_cs_iput7b",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "use_put7buser_put7buser",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L10",
+    "target": "use_put7buser_put7buser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "use_put7buser_put7buser_go",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L10",
+    "target": "src_upt_use_put7buser_cs_cancellationtoken",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "uq_tickerq",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L3",
+    "target": "uq_tickerq_tickerq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "uq_tickerq_tickerq",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L3",
+    "target": "ut1_itickq_tickbaseq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "uq_tickerq_tickerq",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L3",
+    "target": "ut1_itickq_itickq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "uq_tickerq_tickerq",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L5",
+    "target": "uq_tickerq_tickerq_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "uq_tickerq_tickerq_tick",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L5",
+    "target": "src_uq_tickerq_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "uq_uq",
+    "source_file": "src/Uq/Uq.csproj",
+    "target": "src_uq_uq_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "uq_uq",
+    "source_file": "src/Uq/Uq.csproj",
+    "target": "ut1_ut1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "uq_uq",
+    "source_file": "src/Uq/Uq.csproj",
+    "target": "src_uq_uq_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ur_irem",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L1",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ur_irem",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L5",
+    "target": "ur_irem_irem",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ur_irem_irem",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L7",
+    "target": "ur_irem_irem_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ur_irem_irem_tick",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L7",
+    "target": "src_ur_irem_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ur_irem",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L10",
+    "target": "ur_irem_rembase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ur_irem_rembase",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L12",
+    "target": "ur_irem_rembase_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ur_irem_rembase_tick",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L12",
+    "target": "src_ur_irem_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ur_irem",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L17",
+    "target": "ur_irem_remuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ur_irem_remuser",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L19",
+    "target": "ur_irem_irem",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ur_irem_remuser",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L21",
+    "target": "ur_irem_remuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ur_irem_remuser_go",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L21",
+    "target": "src_ur_irem_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ur_irem_remuser_go",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L23",
+    "target": "ur_irem_rembase_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ur_ur",
+    "source_file": "src/Ur/Ur.csproj",
+    "target": "src_ur_ur_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ur_ur",
+    "source_file": "src/Ur/Ur.csproj",
+    "target": "src_ur_ur_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ut1_itick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L1",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ut1_itick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L5",
+    "target": "ut1_itick_itick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ut1_itick_itick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L7",
+    "target": "ut1_itick_itick_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ut1_itick_itick_tick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L7",
+    "target": "src_ut1_itick_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ut1_itick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L10",
+    "target": "ut1_itick_tickbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ut1_itick_tickbase",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L12",
+    "target": "ut1_itick_tickbase_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ut1_itick_tickbase_tick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L12",
+    "target": "src_ut1_itick_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ut1_itick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L17",
+    "target": "ut1_itick_tickuser",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ut1_itick_tickuser",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L19",
+    "target": "ut1_itick_itick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ut1_itick_tickuser",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L21",
+    "target": "ut1_itick_tickuser_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ut1_itick_tickuser_go",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L21",
+    "target": "src_ut1_itick_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ut1_itick_tickuser_go",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L23",
+    "target": "ut1_itick_tickbase_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "import",
+    "relation": "imports",
+    "source": "ut1_itickq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L1",
+    "target": "timers",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ut1_itickq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L5",
+    "target": "ut1_itickq_itickq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ut1_itickq_itickq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L7",
+    "target": "ut1_itickq_itickq_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ut1_itickq_itickq_tick",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L7",
+    "target": "src_ut1_itickq_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ut1_itickq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L10",
+    "target": "ut1_itickq_tickbaseq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ut1_itickq_tickbaseq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L12",
+    "target": "ut1_itickq_tickbaseq_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ut1_itickq_tickbaseq_tick",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L12",
+    "target": "src_ut1_itickq_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ut1_itickq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L17",
+    "target": "ut1_itickq_tickuserq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "field",
+    "relation": "references",
+    "source": "ut1_itickq_tickuserq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L19",
+    "target": "ut1_itickq_itickq",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ut1_itickq_tickuserq",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L21",
+    "target": "ut1_itickq_tickuserq_go",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ut1_itickq_tickuserq_go",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L21",
+    "target": "src_ut1_itickq_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "call",
+    "relation": "calls",
+    "source": "ut1_itickq_tickuserq_go",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L23",
+    "target": "ut1_itickq_tickbaseq_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ut1_ut1",
+    "source_file": "src/Ut1/Ut1.csproj",
+    "target": "src_ut1_ut1_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "contains",
+    "source": "ut2_ticker",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L3",
+    "target": "ut2_ticker_ticker",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "inherits",
+    "source": "ut2_ticker_ticker",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L3",
+    "target": "ut1_itick_tickbase",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "implements",
+    "source": "ut2_ticker_ticker",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L3",
+    "target": "ut1_itick_itick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "method",
+    "source": "ut2_ticker_ticker",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L5",
+    "target": "ut2_ticker_ticker_tick",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "context": "parameter_type",
+    "relation": "references",
+    "source": "ut2_ticker_ticker_tick",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L5",
+    "target": "src_ut2_ticker_cs_timer",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ut2_ut2",
+    "source_file": "src/Ut2/Ut2.csproj",
+    "target": "src_ut2_ut2_csproj_framework_net8_0",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "imports",
+    "source": "ut2_ut2",
+    "source_file": "src/Ut2/Ut2.csproj",
+    "target": "ut1_ut1",
+    "weight": 1.0
+   },
+   {
+    "confidence": "EXTRACTED",
+    "relation": "references",
+    "source": "ut2_ut2",
+    "source_file": "src/Ut2/Ut2.csproj",
+    "target": "src_ut2_ut2_csproj_sdk_microsoft_net_sdk",
+    "weight": 1.0
+   }
+  ],
+  "nodes": [
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_repo",
+    "label": "Repo.cs",
+    "source_file": "src/Ba/B/Repo.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_repo_repo",
+    "label": "Repo",
+    "source_file": "src/Ba/B/Repo.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "b_repo_repo_save",
+    "label": ".Save()",
+    "source_file": "src/Ba/B/Repo.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_ba",
+    "label": "Ba.csproj",
+    "source_file": "src/Ba/Ba.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ba_ba_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Ba/Ba.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks",
+    "label": "Blocks.cs",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks_ba_a",
+    "label": "Ba.A",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks_ua",
+    "label": "UA",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_blocks_cs_repo",
+    "label": "Repo",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks_ua_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks_ba_b",
+    "label": "Ba.B",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks_ub",
+    "label": "UB",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks_ub_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/Blocks.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks2",
+    "label": "Blocks2.cs",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks2_ba_e",
+    "label": "Ba.E",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks2_ue",
+    "label": "UE",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_blocks2_cs_repo",
+    "label": "Repo",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks2_ue_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks2_ba_f",
+    "label": "Ba.F",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks2_uf",
+    "label": "UF",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L20"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_blocks2_uf_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/Blocks2.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "c_inner",
+    "label": "Inner.cs",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "c_inner_ba_c",
+    "label": "Ba.C",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "c_inner_inneruser",
+    "label": "InnerUser",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_c_inner_cs_order",
+    "label": "Order",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "c_inner_inneruser_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/C/Inner.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "data2_repo",
+    "label": "Repo.cs",
+    "source_file": "src/Ba/Data2/Repo.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "data2_repo_repo",
+    "label": "Repo",
+    "source_file": "src/Ba/Data2/Repo.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "data2_repo_repo_save",
+    "label": ".Save()",
+    "source_file": "src/Ba/Data2/Repo.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "data_sqlrepo",
+    "label": "SqlRepo.cs",
+    "source_file": "src/Ba/Data/SqlRepo.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "data_sqlrepo_sqlrepo",
+    "label": "SqlRepo",
+    "source_file": "src/Ba/Data/SqlRepo.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "data_sqlrepo_sqlrepo_save",
+    "label": ".Save()",
+    "source_file": "src/Ba/Data/SqlRepo.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ba_globalusings",
+    "label": "GlobalUsings.cs",
+    "source_file": "src/Ba/GlobalUsings.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_order",
+    "label": "Order.cs",
+    "source_file": "src/Ba/Legacy/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_order_order",
+    "label": "Order",
+    "source_file": "src/Ba/Legacy/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "legacy_order_order_ship",
+    "label": ".Ship()",
+    "source_file": "src/Ba/Legacy/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order",
+    "label": "Order.cs",
+    "source_file": "src/Ba/Models/Order.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order",
+    "label": "Order",
+    "source_file": "src/Ba/Models/Order.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "models_order_order_ship",
+    "label": ".Ship()",
+    "source_file": "src/Ba/Models/Order.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5",
+    "label": "A5.cs",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5_a5",
+    "label": "A5",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5_a5_run",
+    "label": ".Run()",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_sig_a5_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5_a5x",
+    "label": "A5x",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5_a5x_run",
+    "label": ".Run()",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L14"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5_siguser",
+    "label": "SigUser",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L19"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5_siguser_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L24"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_a5_siguser_gox",
+    "label": ".GoX()",
+    "source_file": "src/Ba/Sig/A5.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5",
+    "label": "B5.cs",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5_ba_sig",
+    "label": "Ba.Sig",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5_b5",
+    "label": "B5",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5_b5_run",
+    "label": ".Run()",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_sig_b5_cs_tok",
+    "label": "Tok",
+    "source_file": "src/Ba/Sig/B5.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5x",
+    "label": "B5x.cs",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5x_ba_sig",
+    "label": "Ba.Sig",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5x_b5x",
+    "label": "B5x",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "sig_b5x_b5x_run",
+    "label": ".Run()",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_sig_b5x_cs_tok",
+    "label": "Tok",
+    "source_file": "src/Ba/Sig/B5x.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser",
+    "label": "OrderUser.cs",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser_ba_use",
+    "label": "Ba.Use",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser_orderuser",
+    "label": "OrderUser",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_use_orderuser_cs_order",
+    "label": "Order",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser_orderuser_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/Use/OrderUser.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser2",
+    "label": "OrderUser2.cs",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser2_ba_use",
+    "label": "Ba.Use",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser2_orderuser2",
+    "label": "OrderUser2",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ba_use_orderuser2_cs_order",
+    "label": "Order",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_orderuser2_orderuser2_go",
+    "label": ".Go()",
+    "source_file": "src/Ba/Use/OrderUser2.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "shared_aliases",
+    "label": "Aliases.cs",
+    "source_file": "src/Shared/Aliases.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput",
+    "label": "IPut.cs",
+    "source_file": "src/Ua/Contracts/IPut.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput_iput",
+    "label": "IPut",
+    "source_file": "src/Ua/Contracts/IPut.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput_iput_put",
+    "label": ".Put()",
+    "source_file": "src/Ua/Contracts/IPut.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_contracts_iput_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ua/Contracts/IPut.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput3",
+    "label": "IPut3.cs",
+    "source_file": "src/Ua/Contracts/IPut3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput3_iput3",
+    "label": "IPut3",
+    "source_file": "src/Ua/Contracts/IPut3.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput3_iput3_put",
+    "label": ".Put()",
+    "source_file": "src/Ua/Contracts/IPut3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_contracts_iput3_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ua/Contracts/IPut3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iputa",
+    "label": "IPutA.cs",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iputa_iputa",
+    "label": "IPutA",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iputa_iputa_put",
+    "label": ".Put()",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_contracts_iputa_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ua/Contracts/IPutA.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl3_putter3",
+    "label": "Putter3.cs",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl3_putter3_ua_impl3",
+    "label": "Ua.Impl3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl3_putter3_putter3",
+    "label": "Putter3",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iput3",
+    "label": "IPut3",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl3_putter3_putter3_put",
+    "label": ".Put()",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_impl3_putter3_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ua/Impl3/Putter3.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter",
+    "label": "Putter.cs",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter_ua_impl",
+    "label": "Ua.Impl",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter_putter",
+    "label": "Putter",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iput",
+    "label": "IPut",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter_putter_put",
+    "label": ".Put()",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_impl_putter_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ua/Impl/Putter.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_puttera",
+    "label": "PutterA.cs",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_puttera_puttera",
+    "label": "PutterA",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iputa",
+    "label": "IPutA",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_puttera_puttera_put",
+    "label": ".Put()",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_impl_puttera_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ua/Impl/PutterA.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ua_ua",
+    "label": "Ua.csproj",
+    "source_file": "src/Ua/Ua.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ua_ua_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Ua/Ua.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ua_ua_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Ua/Ua.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_putuser",
+    "label": "PutUser.cs",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_putuser_putuser",
+    "label": "PutUser",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_use_putuser_cs_iput",
+    "label": "IPut",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_use_putuser_cs_iputa",
+    "label": "IPutA",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_use_putuser_cs_iput3",
+    "label": "IPut3",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_putuser_putuser_go",
+    "label": ".Go()",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ua_use_putuser_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_putuser_putuser_goa",
+    "label": ".GoA()",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_putuser_putuser_go3",
+    "label": ".Go3()",
+    "source_file": "src/Ua/Use/PutUser.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink",
+    "label": "Sink.cs",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink_ilogsink",
+    "label": "ILogSink",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink_ilogsink_write",
+    "label": ".Write()",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sink_cs_ilogger",
+    "label": "ILogger",
+    "source_file": "src/Uc/Sink.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3",
+    "label": "Sink3.cs",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3_ilogsink3",
+    "label": "ILogSink3",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3_ilogsink3_write",
+    "label": ".Write()",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sink3_cs_ilogger",
+    "label": "ILogger",
+    "source_file": "src/Uc/Sink3.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3impl",
+    "label": "Sink3Impl.cs",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3impl_sink3",
+    "label": "Sink3",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ilogsink3",
+    "label": "ILogSink3",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3impl_sink3_write",
+    "label": ".Write()",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sink3impl_cs_ilogger",
+    "label": "ILogger",
+    "source_file": "src/Uc/Sink3Impl.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3b",
+    "label": "Sink3b.cs",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3b_ilogsink3b",
+    "label": "ILogSink3b",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3b_ilogsink3b_write",
+    "label": ".Write()",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sink3b_cs_ilogger",
+    "label": "ILogger",
+    "source_file": "src/Uc/Sink3b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3bimpl",
+    "label": "Sink3bImpl.cs",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3bimpl_sink3b",
+    "label": "Sink3b",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ilogsink3b",
+    "label": "ILogSink3b",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sink3bimpl_sink3b_write",
+    "label": ".Write()",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sink3bimpl_cs_ilogger",
+    "label": "ILogger",
+    "source_file": "src/Uc/Sink3bImpl.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkimpl",
+    "label": "SinkImpl.cs",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkimpl_sink",
+    "label": "Sink",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ilogsink",
+    "label": "ILogSink",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkimpl_sink_write",
+    "label": ".Write()",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sinkimpl_cs_ilogger",
+    "label": "ILogger",
+    "source_file": "src/Uc/SinkImpl.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkuser",
+    "label": "SinkUser.cs",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkuser_sinkuser",
+    "label": "SinkUser",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sinkuser_cs_ilogsink",
+    "label": "ILogSink",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sinkuser_cs_ilogsink3",
+    "label": "ILogSink3",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sinkuser_cs_ilogsink3b",
+    "label": "ILogSink3b",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkuser_sinkuser_go",
+    "label": ".Go()",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_sinkuser_cs_ilogger",
+    "label": "ILogger",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkuser_sinkuser_go3",
+    "label": ".Go3()",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_sinkuser_sinkuser_go3b",
+    "label": ".Go3b()",
+    "source_file": "src/Uc/SinkUser.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timed",
+    "label": "Timed.cs",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timed_timed",
+    "label": "Timed",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timed_timed_use",
+    "label": ".Use()",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_timed_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Uc/Timed.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timers",
+    "label": "Timers.cs",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timers_itimed",
+    "label": "ITimed",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timers_itimed_use",
+    "label": ".Use()",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uc_timers_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timers_timedbase",
+    "label": "TimedBase",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timers_timedbase_use",
+    "label": ".Use()",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timers_timeduser",
+    "label": "TimedUser",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_timers_timeduser_go",
+    "label": ".Go()",
+    "source_file": "src/Uc/Timers.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uc_uc",
+    "label": "Uc.csproj",
+    "source_file": "src/Uc/Uc.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_uc_uc_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Uc/Uc.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots",
+    "label": "Slots.cs",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_a14",
+    "label": "A14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_a14_run14",
+    "label": ".Run14()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ul_slots_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_a14_num14",
+    "label": ".Num14()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L11"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_b14",
+    "label": "B14",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L16"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_b14_run14",
+    "label": ".Run14()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "tk4",
+    "label": "Tk4",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L18"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_b14_num14",
+    "label": ".Num14()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "i4",
+    "label": "I4",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L22"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_iov16",
+    "label": "IOv16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L27"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_iov16_put16",
+    "label": ".Put16()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L29"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_impl16",
+    "label": "Impl16",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L34"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_impl16_put16",
+    "label": ".Put16()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L36"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_linkuser",
+    "label": "LinkUser",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L45"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_linkuser_go",
+    "label": ".Go()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L50"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_linkuser_go2",
+    "label": ".Go2()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L55"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_slots_linkuser_go3",
+    "label": ".Go3()",
+    "source_file": "src/Ul/Slots.cs",
+    "source_location": "L60"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ul_ul",
+    "label": "Ul.csproj",
+    "source_file": "src/Ul/Ul.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ul_ul_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Ul/Ul.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_ihandle",
+    "label": "IHandle.cs",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_ihandle_ihandle",
+    "label": "IHandle",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_ihandle_ihandle_handle",
+    "label": ".Handle()",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_um_contracts_ihandle_cs_iconfiguration",
+    "label": "IConfiguration",
+    "source_file": "src/Um/Contracts/IHandle.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_handler",
+    "label": "Handler.cs",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_handler_um_impl",
+    "label": "Um.Impl",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_handler_handler",
+    "label": "Handler",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ihandle",
+    "label": "IHandle",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_handler_handler_handle",
+    "label": ".Handle()",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_um_impl_handler_cs_iconfiguration",
+    "label": "IConfiguration",
+    "source_file": "src/Um/Impl/Handler.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "um_um",
+    "label": "Um.csproj",
+    "source_file": "src/Um/Um.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_um_um_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Um/Um.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_handleuser",
+    "label": "HandleUser.cs",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_handleuser_handleuser",
+    "label": "HandleUser",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_um_use_handleuser_cs_ihandle",
+    "label": "IHandle",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_handleuser_handleuser_go",
+    "label": ".Go()",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_um_use_handleuser_cs_iconfiguration",
+    "label": "IConfiguration",
+    "source_file": "src/Um/Use/HandleUser.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "un_remticker",
+    "label": "RemTicker.cs",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "un_remticker_remticker",
+    "label": "RemTicker",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "un_remticker_remticker_tick",
+    "label": ".Tick()",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_un_remticker_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Un/RemTicker.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "un_ticker7",
+    "label": "Ticker7.cs",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "un_ticker7_ticker7",
+    "label": "Ticker7",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "un_ticker7_ticker7_tick",
+    "label": ".Tick()",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_un_ticker7_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Un/Ticker7.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "un_un",
+    "label": "Un.csproj",
+    "source_file": "src/Un/Un.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_un_un_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Un/Un.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_ur",
+    "label": "Ur.csproj",
+    "source_file": "src/Ur/Ur.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "upt_upt",
+    "label": "Upt.csproj",
+    "source_file": "src/Upt/Upt.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_un_un_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Un/Un.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput7",
+    "label": "IPut7.cs",
+    "source_file": "src/Up/Contracts/IPut7.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput7_iput7",
+    "label": "IPut7",
+    "source_file": "src/Up/Contracts/IPut7.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput7_iput7_put",
+    "label": ".Put()",
+    "source_file": "src/Up/Contracts/IPut7.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_up_contracts_iput7_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Up/Contracts/IPut7.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7",
+    "label": "Putter7.cs",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7_up_impl",
+    "label": "Up.Impl",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7_putter7",
+    "label": "Putter7",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iput7",
+    "label": "IPut7",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7_putter7_put",
+    "label": ".Put()",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_up_impl_putter7_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Up/Impl/Putter7.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "up_up",
+    "label": "Up.csproj",
+    "source_file": "src/Up/Up.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_up_up_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Up/Up.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_up_up_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Up/Up.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_put7user",
+    "label": "Put7User.cs",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_put7user_put7user",
+    "label": "Put7User",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_up_use_put7user_cs_iput7",
+    "label": "IPut7",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_put7user_put7user_go",
+    "label": ".Go()",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_up_use_put7user_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Up/Use/Put7User.cs",
+    "source_location": "L9"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput7b",
+    "label": "IPut7b.cs",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput7b_iput7b",
+    "label": "IPut7b",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_iput7b_iput7b_put",
+    "label": ".Put()",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_upt_contracts_iput7b_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Upt/Contracts/IPut7b.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_itick7",
+    "label": "ITick7.cs",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_itick7_itick7",
+    "label": "ITick7",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_itick7_itick7_tick",
+    "label": ".Tick()",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_upt_contracts_itick7_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_itick7_tick7base",
+    "label": "Tick7Base",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_itick7_tick7base_tick",
+    "label": ".Tick()",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_itick7_tick7user",
+    "label": "Tick7User",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "contracts_itick7_tick7user_go",
+    "label": ".Go()",
+    "source_file": "src/Upt/Contracts/ITick7.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7b",
+    "label": "Putter7b.cs",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7b_upt_impl",
+    "label": "Upt.Impl",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7b_putter7b",
+    "label": "Putter7b",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "iput7b",
+    "label": "IPut7b",
+    "source_file": "",
+    "source_location": ""
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "impl_putter7b_putter7b_put",
+    "label": ".Put()",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_upt_impl_putter7b_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Upt/Impl/Putter7b.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "upt_upt",
+    "label": "Upt.csproj",
+    "source_file": "src/Upt/Upt.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_upt_upt_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Upt/Upt.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_upt_upt_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Upt/Upt.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_put7buser",
+    "label": "Put7bUser.cs",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_put7buser_put7buser",
+    "label": "Put7bUser",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L6"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_upt_use_put7buser_cs_iput7b",
+    "label": "IPut7b",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L8"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "use_put7buser_put7buser_go",
+    "label": ".Go()",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_upt_use_put7buser_cs_cancellationtoken",
+    "label": "CancellationToken",
+    "source_file": "src/Upt/Use/Put7bUser.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uq_tickerq",
+    "label": "TickerQ.cs",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uq_tickerq_tickerq",
+    "label": "TickerQ",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uq_tickerq_tickerq_tick",
+    "label": ".Tick()",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_uq_tickerq_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Uq/TickerQ.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "uq_uq",
+    "label": "Uq.csproj",
+    "source_file": "src/Uq/Uq.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_uq_uq_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Uq/Uq.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_ut1",
+    "label": "Ut1.csproj",
+    "source_file": "src/Ut1/Ut1.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_uq_uq_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Uq/Uq.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_irem",
+    "label": "IRem.cs",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_irem_irem",
+    "label": "IRem",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_irem_irem_tick",
+    "label": ".Tick()",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ur_irem_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_irem_rembase",
+    "label": "RemBase",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_irem_rembase_tick",
+    "label": ".Tick()",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_irem_remuser",
+    "label": "RemUser",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_irem_remuser_go",
+    "label": ".Go()",
+    "source_file": "src/Ur/IRem.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ur_ur",
+    "label": "Ur.csproj",
+    "source_file": "src/Ur/Ur.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ur_ur_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Ur/Ur.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ur_ur_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Ur/Ur.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itick",
+    "label": "ITick.cs",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itick_itick",
+    "label": "ITick",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itick_itick_tick",
+    "label": ".Tick()",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ut1_itick_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itick_tickbase",
+    "label": "TickBase",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itick_tickbase_tick",
+    "label": ".Tick()",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itick_tickuser",
+    "label": "TickUser",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itick_tickuser_go",
+    "label": ".Go()",
+    "source_file": "src/Ut1/ITick.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itickq",
+    "label": "ITickQ.cs",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itickq_itickq",
+    "label": "ITickQ",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itickq_itickq_tick",
+    "label": ".Tick()",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ut1_itickq_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L7"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itickq_tickbaseq",
+    "label": "TickBaseQ",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L10"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itickq_tickbaseq_tick",
+    "label": ".Tick()",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L12"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itickq_tickuserq",
+    "label": "TickUserQ",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L17"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_itickq_tickuserq_go",
+    "label": ".Go()",
+    "source_file": "src/Ut1/ITickQ.cs",
+    "source_location": "L21"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_ut1",
+    "label": "Ut1.csproj",
+    "source_file": "src/Ut1/Ut1.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ut1_ut1_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Ut1/Ut1.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut2_ticker",
+    "label": "Ticker.cs",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L1"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut2_ticker_ticker",
+    "label": "Ticker",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L3"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut2_ticker_ticker_tick",
+    "label": ".Tick()",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "src_ut2_ticker_cs_timer",
+    "label": "Timer",
+    "source_file": "src/Ut2/Ticker.cs",
+    "source_location": "L5"
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut2_ut2",
+    "label": "Ut2.csproj",
+    "source_file": "src/Ut2/Ut2.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ut2_ut2_csproj_framework_net8_0",
+    "label": "net8.0",
+    "source_file": "src/Ut2/Ut2.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "code",
+    "id": "ut1_ut1",
+    "label": "Ut1.csproj",
+    "source_file": "src/Ut1/Ut1.csproj",
+    "source_location": null
+   },
+   {
+    "_origin": "ast",
+    "file_type": "concept",
+    "id": "src_ut2_ut2_csproj_sdk_microsoft_net_sdk",
+    "label": "Microsoft.NET.Sdk",
+    "source_file": "src/Ut2/Ut2.csproj",
+    "source_location": null
+   }
+  ],
+  "output_tokens": 0
+ },
+ "tree_sha256": "2984cba1a4d485c14a3eeb38d21f0683043d0bcc16444b9a4abb8ef3347e9a32"
+}

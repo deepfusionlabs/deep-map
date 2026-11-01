@@ -1,0 +1,4 @@
+# dotnet build / dotnet msbuild read the nearest Directory.Build.rsp: global properties
+-p:ImplicitUsings=disable
+/p:RsFlag=on;RsTwo=2
+-property:Configuration=Debug

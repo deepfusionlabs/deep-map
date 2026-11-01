@@ -650,6 +650,9 @@ def truth_pairs_cs(truth, nodes, prefixes=None) -> dict:
       td_iface      {pair in Td: True | False | None}: whether a site that produced the dispatch pair binds statically
                     to an interface member (G4c, read through AC5's fields by _static_iface: the producing row's
                     `dispatch_rule`; True wins over False, None when no producing site says);
+      iface_sites   {(caller, last name)} with at least one site of that name binding statically to an interface member
+                    (_static_iface True: the row's `dispatch_rule` interface, else a def's `interface`), whether or not
+                    that site produced any pair — AC24's count "over any same-named site of a", never decisive;
       stats         truth_pairs' counters (identical on the same rows) plus dispatch_sites (rows with a non-empty
                     `dispatch`), dispatch_defs (entries), dispatch_unmapped (such rows none of whose dispatch
                     entries maps to a node), dispatch_static_external (such rows without a static def: an interface
@@ -660,7 +663,7 @@ def truth_pairs_cs(truth, nodes, prefixes=None) -> dict:
     loc = GraphLocator(nodes)
     Ts, Dall = defaultdict(set), defaultdict(set)
     by_cn, by_s = defaultdict(set), defaultdict(set)
-    iface = {}
+    iface, iface_sites = {}, set()
     stats = Counter()
     for r in truth.get("rows") or []:
         if not in_prefixes(r.get("file"), prefixes):
@@ -671,6 +674,8 @@ def truth_pairs_cs(truth, nodes, prefixes=None) -> dict:
             stats["caller_unmapped"] += 1
             continue
         ck, nm = caller["key"], last_segment(r.get("name"))
+        if _static_iface(r) is True:
+            iface_sites.add((ck, nm))
         disp = r.get("dispatch") or []
         if not r.get("defs"):
             stats["unresolved_or_external"] += 1
@@ -702,7 +707,7 @@ def truth_pairs_cs(truth, nodes, prefixes=None) -> dict:
                                                    (None if None in (prev, si) else False))
     Td = {p: f for p, f in Dall.items() if p not in Ts}
     return {"Ts": Ts, "Td": Td, "by_cn": by_cn, "by_cn_static": by_s,
-            "td_iface": {p: iface.get(p) for p in Td}, "stats": stats}
+            "td_iface": {p: iface.get(p) for p in Td}, "iface_sites": iface_sites, "stats": stats}
 
 
 def classify_pair_cs(pair, Ts, Td, by_cn, name_of) -> str:

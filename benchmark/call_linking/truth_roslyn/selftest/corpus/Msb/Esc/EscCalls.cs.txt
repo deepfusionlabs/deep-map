@@ -1,0 +1,23 @@
+namespace Es.Lib
+{
+    public class Timer
+    {
+        public void Tick() { }
+    }
+}
+
+namespace Es
+{
+    public class EsCalls
+    {
+        public void Go(Timer t)
+        {
+            t.Tick();
+        }
+    }
+}
+
+namespace Es.Other
+{
+    public class Marker { }
+}

@@ -56,6 +56,16 @@ build/sync.py).
      untracked file inside it, an untracked nested repository -> different, and the dirty check sees them; a
      vendored submodule -> equal; non-git: .deepmap-root and tsconfig.json count; every *.json / next.config.*
      file name a recognizer module reads is a graph input (drift lock).
+  L3 MSBuild inputs (the C# reader, build/csharp_msbuild.py): a .csproj, Directory.Build.props / .targets, an imported
+     .props / .targets / .projitems and a packages.config move the fingerprint and read as dirty, uncommitted and
+     committed, flags off too (the rule is unconditional, as tsconfig.json's is), in any letter case; auto_sync's
+     freshness turns stale on a project-file-only commit; an unrelated file (a .sln, Web.config, nuget.config, a
+     .user file, generated obj/ and bin/ outside git) moves nothing, and a tree with no project file keeps the value
+     it had. Drift lock: every file-name literal in the MSBuild reader and every file read_group opens on a recorded
+     tree is a graph input; the lock is shown failing on a name the rule does not know.
+  M  commands/refresh.md names the third refused prune (the reason `no-root-marker`, a word sync.py really records):
+     run from the repository root or add .deepmap-root, and --force-prune cannot override it. (No commands/ in the
+     tree under test is a failure.)
 
 Hermetic: temp projects, a temp DEEPMAP_HOME, NEO4J_URI on a closed loopback port nothing dials (every driver is a
 fake), no network, never ~/.deepmap. Git runs only inside the temp repos this gate creates.
@@ -1596,6 +1606,259 @@ def gate_l2_inputs(S, build: Path, base: Path) -> None:
           and not S._affects_graph("node_modules/x/package.json", set(), exts))
 
 
+# The MSBuild reader's file-name literals: anything spelled like a project-system file, a whole name or a bare suffix
+# (the extension in lower case, so a namespace such as System.Net.Http.Json stays out).
+_MSB_FILE_LITERAL = (r"^(?:[A-Za-z0-9_][\w.-]*)?\.(?:csproj|props|targets|projitems|config|proj|shproj|sln|slnx|nuspec"
+                     r"|msbuild|rsp|json|xml)$")
+
+
+def _msbuild_literals(texts) -> dict:
+    """{name: {module}} for every string literal in `texts` ({module: source}) spelled like a project-system file."""
+    import re
+    pat = re.compile(_MSB_FILE_LITERAL)
+    out: dict = {}
+    for mod, text in texts.items():
+        for n in ast.walk(ast.parse(text)):
+            if isinstance(n, ast.Constant) and isinstance(n.value, str) and pat.match(n.value):
+                out.setdefault(n.value, set()).add(mod)
+    return out
+
+
+def _msbuild_tree() -> dict:
+    """A .NET tree in memory: the files MSBuild evaluates for src/App, and bait the reader must not start reading
+    without the rule learning it (a read of one fails the lock)."""
+    proj = """<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/common.props" />
+  <Import Project="../Shared/Shared.projitems" Label="Shared" />
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup><PackageReference Include="Acme.Core" Version="1.0.0" /><Using Include="Acme.Core" /></ItemGroup>
+  <Import Project="../../build/common.targets" />
+</Project>
+"""
+    empty = "<Project></Project>\n"
+    return {"src/App/App.csproj": proj, "Directory.Build.props": empty, "Directory.Build.targets": empty,
+            "Directory.Packages.props": '<Project><ItemGroup><PackageVersion Include="Acme.Core" Version="1.0.0" />'
+                                        "</ItemGroup></Project>\n",
+            "build/common.props": empty, "build/common.targets": empty, "src/Shared/Shared.projitems": empty,
+            "src/App/packages.config": '<packages><package id="Acme.Old" version="1.0" /></packages>\n',
+            # bait: no part of the reader reads these today
+            "global.json": "{}\n", "nuget.config": "<configuration />\n", ".editorconfig": "root = true\n",
+            "App.sln": "\n", "src/App/App.csproj.user": empty, "src/App/app.config": "<configuration />\n",
+            "src/App/Properties/launchSettings.json": "{}\n", "src/App/obj/project.assets.json": "{}\n"}
+
+
+def _msbuild_opened(M, tree: dict) -> list:
+    """The files read_group opens for src/App on `tree`, through its own read / listdir seams."""
+    opened: list = []
+
+    def read(rel):
+        rel = str(rel)
+        opened.append(rel)
+        got = tree.get(rel)
+        return None if got is None else got.encode("utf-8")
+
+    def listdir(rel_dir):
+        d = str(rel_dir or "").strip("/")
+        pre = d + "/" if d else ""
+        return sorted({k[len(pre):] for k in tree if k.startswith(pre) and "/" not in k[len(pre):]})
+
+    M.read_group("deepmap-gate-in-memory-root", "src/App", read=read, listdir=listdir)
+    return sorted(set(opened))
+
+
+def _msbuild_not_inputs(S, build: Path, extra=None) -> tuple:
+    """(names, not inputs): the literal side of the drift lock over the reader's sources (+ `extra`, {module: source})."""
+    texts = {}
+    for name in ("csharp_msbuild.py", "receiver_facts_csharp.py"):
+        if (build / name).is_file():
+            texts[name] = (build / name).read_text(encoding="utf-8")
+    texts.update(extra or {})
+    names = _msbuild_literals(texts)
+    exts = S._graph_input_exts()
+    return names, sorted(n for n in names if not S._affects_graph(n, set(), exts))
+
+
+def gate_l3_msbuild_inputs(S, build: Path, base: Path) -> None:
+    print("\n-- L3: MSBuild project files are graph inputs (the C# reader reads them) --")
+    fp_fn = getattr(S, "source_fingerprint", None)
+    if not callable(fp_fn) or not _GIT:
+        check("L3: sync.source_fingerprint exists and git is available", False)
+        return
+
+    def fpv(root):
+        return fp_fn(root).get("value")
+
+    empty = "<Project></Project>\n"
+    inputs = {"src/App/App.csproj": '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><ImplicitUsings>enable'
+                                    "</ImplicitUsings></PropertyGroup></Project>\n",
+              "Directory.Build.props": empty, "Directory.Build.targets": empty, "Directory.Packages.props": empty,
+              "build/common.props": empty, "build/common.targets": empty, "src/App/packages.config": "<packages />\n",
+              "src/Shared/Shared.projitems": empty}
+    repo = _init_repo(base / "l3_git")
+    for rel, text in inputs.items():
+        (repo / rel).parent.mkdir(parents=True, exist_ok=True)
+        (repo / rel).write_text(text, encoding="utf-8")
+    (repo / "src" / "App" / "Program.cs").write_text("class P { static void Main() { } }\n", encoding="utf-8")
+    (repo / "README.md").write_text("# app\n", encoding="utf-8")
+    _commit_all(repo, "init")
+    v0 = fpv(repo)
+    check("L3: setup: a C# repository has a fingerprint", isinstance(v0, str), v0)
+    # each kind of input moves the fingerprint by itself; together they read as dirty, each one named
+    for rel in ("src/App/App.csproj", "Directory.Build.props", "build/common.targets", "src/App/packages.config",
+                "src/Shared/Shared.projitems"):
+        (repo / rel).write_text(inputs[rel] + "<!-- a -->\n", encoding="utf-8")
+        v1 = fpv(repo)
+        check(f"L3: an uncommitted edit of {rel} moves the fingerprint", v1 not in (None, v0), v1)
+        (repo / rel).write_text(inputs[rel], encoding="utf-8")
+    for rel, text in inputs.items():
+        (repo / rel).write_text(text + "<!-- a -->\n", encoding="utf-8")
+    d = S._git_worktree_changes(repo)
+    check(f"L3: uncommitted edits of all {len(inputs)} inputs read as dirty, each one named",
+          d[0] is True and d[2] == len(inputs) and set(inputs) <= set(d[1]), d)
+    for rel, text in inputs.items():
+        (repo / rel).write_text(text, encoding="utf-8")
+    d = S._git_worktree_changes(repo)
+    check("L3: ... undone: the fingerprint is back, the tree clean", fpv(repo) == v0 and d[0] is False, d)
+    # a commit that touches only a project file, as the auto-sync freshness check sees it
+    was = v0
+    try:
+        import auto_sync as AS
+    except Exception as exc:  # noqa: BLE001
+        AS = None
+        check("L3: build/auto_sync.py imports", False, f"{type(exc).__name__}: {exc}")
+    for rel, edit in (("src/App/App.csproj", inputs["src/App/App.csproj"].replace("enable", "disable")),
+                      ("Directory.Build.props", '<Project><ItemGroup><Using Include="A.B" Alias="Tk" /></ItemGroup>'
+                                                "</Project>\n"),
+                      ("build/common.targets", '<Project><ItemGroup><Using Remove="System.Linq" /></ItemGroup>'
+                                               "</Project>\n"),
+                      ("src/App/packages.config", '<packages><package id="Acme.Core" version="1.0" /></packages>\n')):
+        head = _git(repo, "rev-parse", "HEAD").stdout.strip()
+        (repo / rel).write_text(edit, encoding="utf-8")
+        _commit_all(repo, rel)
+        f = AS.freshness(repo, {"source_fingerprint": was, "built_at_sha": head}) if AS is not None else {}
+        now = f.get("fingerprint")
+        check(f"L3: a commit that changes only {rel} -> different, and auto_sync.freshness reads the graph as stale",
+              now not in (None, was) and f.get("state") == "stale", f)
+        was = now or was
+    # added, deleted, spelled in another letter case
+    (repo / "src" / "Lib").mkdir()
+    (repo / "src" / "Lib" / "Lib.CsProj").write_text(empty, encoding="utf-8")
+    d = S._git_worktree_changes(repo)
+    check("L3: an untracked Lib.CsProj (any letter case) moves it and reads as dirty",
+          fpv(repo) not in (None, was) and d[0] is True and "src/Lib/Lib.CsProj" in d[1], d)
+    (repo / "src" / "Lib" / "Lib.CsProj").unlink()
+    (repo / "Directory.Build.targets").unlink()
+    check("L3: a deleted project file moves it", fpv(repo) not in (None, was))
+    _commit_all(repo, "no targets")
+    # not inputs
+    was = fpv(repo)
+    for rel in ("App.sln", "src/App/Web.config", "nuget.config", "src/App/App.csproj.user", "global.json",
+                "src/App/appsettings.json", "docs/notes.md", "src/App/App.csproj.bak"):
+        (repo / rel).parent.mkdir(parents=True, exist_ok=True)
+        (repo / rel).write_text("x\n", encoding="utf-8")
+    d = S._git_worktree_changes(repo)
+    check("L3: unrelated files (.sln, Web.config, nuget.config, .user, global.json, appsettings, docs) move nothing",
+          fpv(repo) == was and d[0] is False, d)
+    _commit_all(repo, "unrelated")
+    check("L3: ... and committed: a docs-and-settings commit -> equal", fpv(repo) == was)
+    for rel in ("vendor/lib/Lib.csproj", "node_modules/dep/Directory.Build.props"):
+        (repo / rel).parent.mkdir(parents=True, exist_ok=True)
+        (repo / rel).write_text(empty, encoding="utf-8")
+    d = S._git_worktree_changes(repo)
+    check("L3: a project file under vendor/ or node_modules/ -> equal (the vendor filter)",
+          fpv(repo) == was and d[0] is False, d)
+    # unconditional: the rule reads no knob
+    with _env(DEEPMAP_TYPED_CALLS="csharp"):
+        on = fpv(repo)
+    check("L3: the fingerprint is the same with DEEPMAP_TYPED_CALLS=csharp (one rule, flags off too)", on == was, on)
+    # a tree with no project file: its fingerprint does not change at all
+    plain = _init_repo(base / "l3_plain")
+    (plain / "a.py").write_text("def a():\n    return 1\n", encoding="utf-8")
+    (plain / "notes.txt").write_text("x\n", encoding="utf-8")
+    _commit_all(plain, "init")
+    blob = _git(plain, "ls-files", "-s", "a.py").stdout.split()[1]
+    check("L3: a repository with no project file keeps its value (no extra refresh for it)",
+          fpv(plain) == S._fingerprint_value({"a.py": blob}), blob)
+    # outside git
+    ng = base / "l3_fs"
+    (ng / "src" / "obj").mkdir(parents=True)
+    (ng / "src" / "bin").mkdir()
+    (ng / "src" / "A.cs").write_text("class A { }\n", encoding="utf-8")
+    (ng / "src" / "A.csproj").write_text(empty, encoding="utf-8")
+    n0 = fpv(ng)
+    (ng / "src" / "A.csproj").write_text("<Project><!-- a --></Project>\n", encoding="utf-8")
+    n1 = fpv(ng)
+    check("L3: non-git: a .csproj edit -> different", None not in (n0, n1) and n1 != n0, (n0, n1))
+    (ng / "src" / "obj" / "A.csproj.nuget.g.props").write_text(empty, encoding="utf-8")
+    (ng / "src" / "bin" / "A.targets").write_text(empty, encoding="utf-8")
+    check("L3: non-git: what a build generates under obj/ and bin/ -> equal", fpv(ng) == n1, n1)
+    # the rule's own truth table, in a subdirectory and in another letter case
+    exts = S._graph_input_exts()
+    table = {"a/b/App.csproj": True, "DIRECTORY.BUILD.PROPS": True, "a/Directory.Build.targets": True,
+             "a/PACKAGES.CONFIG": True, "a/Shared.projitems": True, "a/x.props": True, "a/x.targets": True,
+             "a/Directory.Build.rsp": True, "DIRECTORY.BUILD.RSP": True, "a/x.rsp": False,
+             "a/Web.config": False, "a/app.config": False, "a/x.sln": False, "a/x.csproj.user": False,
+             "a/x.vbproj": False, "a/xprops": False}
+    wrong = {k: v for k, v in table.items() if S._affects_graph(k, set(), exts) is not v}
+    wrong.update({k: True for k in inputs if not S._fingerprint_input(k, set(), exts)})
+    check("L3: the rule's truth table (names, letter case, what stays out; every input of this tree)", not wrong, wrong)
+    # the drift lock, part 1: every file-name literal in the reader
+    names, bad = _msbuild_not_inputs(S, build)
+    must = {"directory.build.props", "directory.build.targets", ".csproj"}
+    check(f"L3: drift lock: the reader's {len(names)} file-name literals are found (it must not go blind)",
+          must <= {n.lower() for n in names}, sorted(names))
+    check(f"L3: drift lock: every file name the MSBuild reader spells ({len(names)}) is a graph input",
+          not bad, {"not inputs": {b: sorted(names[b]) for b in bad}, "all": sorted(names)})
+    # part 2: what it really opens, whatever its source spells
+    tree = _msbuild_tree()
+    try:
+        import csharp_msbuild as M
+    except Exception as exc:  # noqa: BLE001
+        check("L3: build/csharp_msbuild.py imports", False, f"{type(exc).__name__}: {exc}")
+        return
+    check("L3: setup: csharp_msbuild was loaded from the tree under test",
+          Path(M.__file__).resolve().parent == build.resolve(), M.__file__)
+    opened = _msbuild_opened(M, tree)
+    seen = {"src/App/App.csproj", "Directory.Build.props", "Directory.Build.targets", "Directory.Packages.props",
+            "build/common.props", "build/common.targets", "src/Shared/Shared.projitems", "src/App/packages.config"}
+    check("L3: drift lock: read_group opens the project, Directory.*, its imports and packages.config (a real reading)",
+          seen <= set(opened), sorted(seen - set(opened)))
+    bad_opened = sorted(r for r in opened if not S._affects_graph(r, set(), exts))
+    check(f"L3: drift lock: every file read_group opens ({len(opened)}) is a graph input", not bad_opened,
+          {"not inputs": bad_opened, "opened": opened})
+    # the lock's teeth: on a name the rule does not know it fails, by either road
+    _, bad_x = _msbuild_not_inputs(S, build, {"synthetic.py": 'PIN = "global.json"\nCFG = "nuget.config"\n'})
+    check("L3: drift lock teeth: a new name in the reader's source that is no graph input is reported",
+          {"global.json", "nuget.config"} <= set(bad_x), bad_x)
+    orig = S._is_graph_config
+    try:
+        S._is_graph_config = lambda name: False
+        _, bad_y = _msbuild_not_inputs(S, build)
+        lost = sorted(r for r in opened if not S._affects_graph(r, set(), exts))
+    finally:
+        S._is_graph_config = orig
+    check("L3: drift lock teeth: with the rule blind to these names both sides of the lock fail",
+          len(bad_y) >= 3 and set(seen) <= set(lost), (bad_y, lost))
+
+
+def gate_m_refresh_doc(tree: Path, build: Path) -> None:
+    print("\n-- M: /deep-map:refresh names the refused prune --force-prune cannot override --")
+    doc = tree / "commands" / "refresh.md"
+    text = doc.read_text(encoding="utf-8") if doc.is_file() else ""
+    bullets = text.split("\n- ")
+    hit = [b for b in bullets if "no-root-marker" in b]
+    b = " ".join(hit[0].split()) if hit else ""
+    check("M: sync.py really records the reason the doc names",
+          '"no-root-marker"' in (build / "sync.py").read_text(encoding="utf-8"))
+    check("M: refresh.md has one bullet for the no-root-marker refusal", len(hit) == 1, len(hit))
+    check("M: ... its remedy: run from the repository root, or add .deepmap-root",
+          "repository root" in b and "`.deepmap-root`" in b, b)
+    check("M: ... and --force-prune cannot override it", "`--force-prune` cannot override" in b, b)
+    wipe = [x for x in bullets if x.startswith("**A refused prune**")]
+    check("M: the wipe-guard bullet keeps its own remedy (--force-prune), and does not claim this refusal",
+          len(wipe) == 1 and "--force-prune" in wipe[0] and "no-root-marker" not in wipe[0], wipe)
+
+
 def main() -> int:
     for s in (sys.stdout, sys.stderr):
         try:
@@ -1626,7 +1889,8 @@ def main() -> int:
                 check("setup: build/sync_status.py imports", False, f"{type(exc).__name__}: {exc}")
             gates = [(gate_b_exit_paths, (S, base)), (gate_c_running, (S, base)), (gate_e_manifest, (S, ST, base)),
                      (gate_f_recipe, (S, ST, base)), (gate_f2_route_source, (S, build, base)),
-                     (gate_j_git_env, (S, base)), (gate_l_fingerprint, (S, base)), (gate_l2_inputs, (S, build, base))]
+                     (gate_j_git_env, (S, base)), (gate_l_fingerprint, (S, base)), (gate_l2_inputs, (S, build, base)),
+                     (gate_l3_msbuild_inputs, (S, build, base)), (gate_m_refresh_doc, (tree, build))]
             if ST is not None:
                 gates = [(gate_a_atomic, (ST, base))] + gates + [
                     (gate_d_record_failures, (S, ST, base)), (gate_g_drift, (ST, build)), (gate_h_tables, (ST,)),

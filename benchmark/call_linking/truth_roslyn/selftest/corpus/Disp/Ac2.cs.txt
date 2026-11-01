@@ -35,4 +35,6 @@ public class Ac2Calls
     public int Via<T, U>(T t) where T : U where U : Vd => t.Go();
 
     public int Top<T>(T t) where T : Va => t.Go();
+
+    public void U<T>(T t) where T : unmanaged => t.ToString();
 }

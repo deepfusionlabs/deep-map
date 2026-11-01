@@ -78,10 +78,13 @@ _LONG_GATE_TIMEOUT_S = {"tests/code_restart_agreement_r10_gates.py": 900,
                         "tests/typed_calls_engine_parity_gates.py": 600,
                         # ~55 s idle, 114-165 s at 100% CPU (sync() runs, a real-engine section, 26 mutants)
                         "tests/sync_relabel_twin_gates.py": 600,
-                        # C# typed reader: real-engine sections on both captures, ~30 s alone
-                        "tests/typed_calls_cs_gates.py": 900,
-                        # 38-40 s alone, 136-148 s beside 3 lanes
-                        "tests/typed_calls_cs_fuzz_gates.py": 600,
+                        # C# typed reader: real-engine sections on both captures plus 246 mutants, each a full
+                        # re-run: 706-709 s on a Windows box beside two other gate lists (2026-10-31)
+                        "tests/typed_calls_cs_gates.py": 1800,
+                        # 67-202 s alone on a loaded Windows box (2026-10-30), 189-195 s beside 3 lanes (2026-10-31)
+                        "tests/typed_calls_cs_fuzz_gates.py": 900,
+                        # real git repos and sync() runs: 148-348 s alone on a loaded Windows box (2026-10-30)
+                        "tests/sync_status_gates.py": 900,
                         "tests/map_graph_call_lines_gates.py": 600}
 
 

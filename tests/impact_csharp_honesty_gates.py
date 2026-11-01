@@ -32,8 +32,17 @@ queried name, so a method answer read as if the method were a property ("reading
 (x.CreateShoppingCartAsync) is never a link"). Every C# note, untyped and typed, empty, with rows and mixed, now
 states the fact without the queried name: "reading a property is never a link" (gate_property_clause).
 
+A PROPERTY TARGET (2026-10-30): `deepmap_impact ShoppingCartDto.ItemsCalculatedPrice` (a computed property, the
+:Method node graphify_extract's C# member step adds with summary "...: property") got the call-shaped note
+(`_service.ItemsCalculatedPrice()`, `Helper.ItemsCalculatedPrice()`). The same count query now also counts the
+matches that are PROVEN computed properties (`AS props`: a .cs :Method keyed `<file id>@<name>:L<line>` whose summary
+ends ": property"); when that is every match of a C#-only answer, the note says that reading a property is never a
+link, so its readers are not listed (untyped and typed alike, no narrowed tail). An unknown or partial count keeps
+the method wording (gate_property_target); the predicate's conjuncts pick exactly the property nodes map_graph makes
+from the captured C# trees, on both engines' captures (gate_property_producer).
+
 Hermetic: scripted fake drivers (no Neo4j, no network, no spend), a temp DEEPMAP_HOME for the CLI relay.
-Usage: python tests/impact_csharp_honesty_gates.py
+Usage: python tests/impact_csharp_honesty_gates.py [--root <tree holding build/>]
 """
 from __future__ import annotations
 
@@ -48,7 +57,7 @@ import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-BUILD = REPO / "build"
+BUILD = REPO / "build"          # main() points it at --root's build/ (the tree under test)
 
 _PASS = 0
 _FAIL = 0
@@ -158,6 +167,16 @@ TYPED_MUST = ("receiver", "awaited value", "a cast", "untyped lambda parameter",
 # The property fact, in the same words in every C# note: never with the queried name, which may be a method.
 PROPERTY_CLAUSE = "reading a property is never a link"
 CS_NOTE_TEXTS = (CS_EMPTY, CS_ROWS, MIXED_EMPTY, MIXED_ROWS) + TYPED_TEXTS
+# A target whose every match is a proven C# computed property: what is true of a property (nobody's read of it is
+# a link, by default or with the opt-in reader), with a READ of it as the example, never a call (`{m}()`).
+PROP_EMPTY = (" That is NOT proof nothing uses it: {m} is a C# property, and reading a property is never a link in "
+              "this graph (by default or with the opt-in C# reader), so the code that reads it, as in _service.{m} "
+              "or order.{m}, is not listed here. Grep for {m} or read the code before treating it as unused.")
+PROP_ROWS = ("For C#, these dependents are a lower bound: {m} is a C# property, and reading a property is never a "
+             "link in this graph, so the code that reads it, as in _service.{m}, is not listed. Grep for {m} to "
+             "find the rest.")
+PROP_TEXTS = (PROP_EMPTY, PROP_ROWS)
+PROP_SYM, PROP_M = "ShoppingCartDto.ItemsCalculatedPrice", "ItemsCalculatedPrice"
 
 
 def _f(text, m=SYM):
@@ -221,16 +240,18 @@ class _Session:
             rec = {"matched": d.matched}
             if d.exts is not _MISSING:
                 rec["exts"] = d.exts
+            if d.props is not _MISSING:          # the proven-property count (absent: an older double)
+                rec["props"] = d.props
             return _Result([rec])
         return _Result([])
 
 
 class _Driver:
     def __init__(self, walk_rows=(), callers_rows=(), present=("CALLS",), matched=2, exts=_MISSING, meta=_MISSING,
-                 meta_error=None, walk_errors=None, module=None, narrowed=_MISSING):
+                 meta_error=None, walk_errors=None, module=None, narrowed=_MISSING, props=_MISSING):
         self.walk_rows, self.callers_rows, self.present = list(walk_rows), list(callers_rows), present
         self.matched, self.exts, self.meta, self.meta_error = matched, exts, meta, meta_error
-        self.narrowed = narrowed
+        self.narrowed, self.props = narrowed, props
         self.walk_errors, self.module, self.log = dict(walk_errors or {}), module, []
 
     def session(self, **kw):
@@ -747,14 +768,157 @@ def gate_cli_relay(R) -> None:
             check("a Python function answer prints no note (unchanged)", rc == 0 and "Note:" not in out, out[-300:])
 
 
+def gate_property_target(R) -> None:
+    print("\n-- a C# computed-property target: the note says a read is never a link, never names a call --")
+    from neo4j.exceptions import ClientError
+    drv = _Driver(exts=["cs"], props=2)
+    _impact(R, drv, PROP_SYM)
+    counts = drv.queries("AS matched")
+    q = " ".join((counts or [""])[0].split())
+    check("the property count rides in the ONE count query ('AS props', beside 'AS matched' and 'AS exts')",
+          len(counts) == 1 and "AS props" in q and "RETURN count(callee) AS matched" in q and "AS exts" in q,
+          q[-400:])
+    conj = ("callee:Method", "callee.body_summary ENDS WITH ': property'",
+            "toLower(coalesce(callee.source_file, '')) ENDS WITH '.cs'",
+            "callee.key ENDS WITH ('@' + callee.name + ':L' + toString(callee.start_line))")
+    check("...counting only :Method nodes of a .cs file whose summary ends ': property' and whose key is "
+          "<file id>@<their name>:L<their start line> (the C# member step's _supp_key)",
+          all(c in q for c in conj), [c for c in conj if c not in q])
+
+    want = _found(PROP_SYM, 2) + _f(PROP_EMPTY, PROP_M)
+    rows = _impact(R, _Driver(exts=["cs"], props=2), PROP_SYM)
+    pos = _notes(rows) == [want]
+    n = " ".join(_notes(rows))
+    check("every match a proven C# property, zero rows -> exactly ONE note: the property note", pos, _notes(rows))
+    check("...it names no call: no '{m}()', no 'Helper.', no 'call sites'; a READ is its example (_service.{m})",
+          bool(n) and f"{PROP_M}(" not in n and "Helper." not in n and "call sites" not in n
+          and f"as in _service.{PROP_M} or order.{PROP_M}," in n and n.count(PROPERTY_CLAUSE) == 1, n)
+    real = (getattr(R, "_CS_PROP_EMPTY", None), getattr(R, "_CS_PROP_ROWS", None))
+    check("build/retrieval.py's property templates are the contract texts, each with the property fact once, no "
+          "call ('{m}('), no em dash, no self.m()",
+          real == PROP_TEXTS and all(t.count(PROPERTY_CLAUSE) == 1 and "{m}(" not in t and "—" not in t
+                                     and "self." not in t for t in PROP_TEXTS), [str(t)[:60] for t in real])
+    for kw, what in (({"meta": ["csharp"]}, "typed linking ran"),
+                     ({"meta": ["csharp"], "narrowed": True}, "typed linking ran narrowed")):
+        rows = _impact(R, _Driver(exts=["cs"], props=2, **kw), PROP_SYM)
+        check(f"{what}: the same property note (the reader never links a read), no typed call list, no narrowed "
+              f"sentence", _notes(rows) == [want], _notes(rows))
+    prow = _row("CartView.Render", callee=PROP_SYM, file="src/Views/CartView.cs")
+    rows = _impact(R, _Driver(walk_rows=[prow], exts=["cs"], matched=1, props=1), PROP_SYM)
+    check("a proven property WITH rows -> the property lower-bound note alone (no method caveat, no call list)",
+          _notes(rows) == [_f(PROP_ROWS, PROP_M)], _notes(rows))
+    crow = {"caller": "CartView.Render", "caller_type": "Method", "file": "src/Views/CartView.cs", "line": 9,
+            "confidence": "INFERRED", "callee": PROP_SYM}
+    rows = _impact(R, _Driver(callers_rows=[crow], exts=["cs"], props=2,
+                              walk_errors={3: ClientError("variable-length not supported (fake)")}), PROP_SYM)
+    n = _notes(rows)
+    check("the 1-hop fallback keeps the property note after its own", len(n) == 2 and "1 hop" in n[0]
+          and n[1] == _f(PROP_ROWS, PROP_M), n)
+
+    # Not proven every match a property: today's wording, beside the proven count that switches it (pos).
+    old = [_found(PROP_SYM, 2) + _f(CS_EMPTY, PROP_M)]
+    for props, what in ((1, "1 of the 2 matches (a property in one type, a method in another)"), (0, "0"),
+                        (3, "3, more than matched"), (None, "null"), (True, "a bool"), ("2", "a string"),
+                        (-2, "negative"), (_MISSING, "absent (an older double)")):
+        rows = _impact(R, _Driver(exts=["cs"], props=props), PROP_SYM)
+        check(f"props {what} -> today's C# note (only a count equal to the matches switches it)",
+              pos and _notes(rows) == old, _notes(rows))
+    generic = _found(PROP_SYM, 2) + GENERIC_TAIL
+    rows = _impact(R, _Driver(exts=["cs", "ts"], props=2), PROP_SYM)
+    check("C# + TypeScript with every match counted -> the mixed wording (the property notes are for C# alone)",
+          pos and _notes(rows) == [generic + MIXED_EMPTY], _notes(rows))
+    rows = _impact(R, _Driver(exts=["py"], props=2), PROP_SYM)
+    check("a Python answer with a count -> the generic note, unchanged", pos and _notes(rows) == [generic],
+          _notes(rows))
+    rows = _impact(R, _Driver(exts=["cs"], props=0, matched=0, module=["src/Dto/ShoppingCartDto.cs"]), PROP_SYM)
+    n = _notes(rows)
+    check("a module-qualified reading (its count holds no property count) -> today's C# note, never the property one",
+          pos and any(x.endswith(_f(CS_EMPTY, PROP_M)) for x in n) and not any("is a C# property" in x for x in n), n)
+
+    with _env(**{k: None for k in _ENV_KEYS}):
+        S = _load("deepmap_search_server", f"dm_search_server_cs_prop_{time.monotonic_ns()}")
+    ret = R.DeepMapRetriever.__new__(R.DeepMapRetriever)
+    S._get_retriever = lambda: ret
+    S._touch_last_used = lambda: None
+    ret.driver = _Driver(exts=["cs"], props=2)
+    with _env(**{k: None for k in _ENV_KEYS}):
+        out = S.deepmap_impact(PROP_SYM)
+    check("MCP: deepmap_impact on the property relays exactly [{note: the property note}]",
+          out == [{"note": want}], str(out))
+
+
+def _props_pick(q: str):
+    """retrieval._COUNT_PROPS's conjuncts evaluated on a mapped node, or None when the query text does not hold
+    all four (so the mirror never judges a predicate the product does not run)."""
+    q = " ".join(str(q or "").split())
+    if not all(c in q for c in ("callee:Method", "callee.body_summary ENDS WITH ': property'",
+                                "toLower(coalesce(callee.source_file, '')) ENDS WITH '.cs'",
+                                "callee.key ENDS WITH ('@' + callee.name + ':L' + toString(callee.start_line))")):
+        return None
+
+    def pick(n) -> bool:
+        return (n.get("label") == "Method" and str(n.get("body_summary") or "").endswith(": property")
+                and str(n.get("source_file") or "").lower().endswith(".cs")
+                and str(n.get("key") or "").endswith(f"@{n.get('name')}:L{n.get('start_line')}"))
+    return pick
+
+
+def gate_property_producer(R) -> None:
+    print("\n-- _COUNT_PROPS picks exactly the C# member step's property nodes (map_graph on both engines' captures) --")
+    pick = _props_pick(getattr(R, "_COUNT_PROPS", ""))
+    saved_path = list(sys.path)
+    try:
+        sys.path.insert(0, str(REPO / "tests"))
+        import csharp_members_gates as CM      # its captured C# trees and its own map_graph helper (read-only)
+    finally:
+        sys.path[:] = saved_path
+    try:
+        root = CM.src_root()
+        want = {(name, sf, line) for _lbl, name, sf, line, _s in CM._members()
+                if len(name.split(".")) == 2 and name.split(".")[0] != name.split(".")[1]}
+        ctors = {(name, sf, line) for _lbl, name, sf, line, _s in CM._members()} - want
+        for ver, b in CM.BUCKETS.items():
+            graph = CM.graph_of(b)
+            if graph is None:
+                check(f"{ver}: the captured C# tree {CM.fixture_path(b).name} exists", False)
+                continue
+            nodes = CM.mapped(CM.GX, graph, root, {})[0]
+            got = {(n["name"], n["source_file"], n["start_line"]) for n in nodes if pick and pick(n)}
+            check(f"{ver}: the count's predicate picks exactly the {len(want)} computed properties (none of the "
+                  f"{len(ctors)} constructors, no engine node)", pick is not None and got == want and len(want) >= 10,
+                  {"missing": sorted(want - got), "extra": sorted(got - want)})
+            eng = [n for n in nodes if n.get("label") == "Method" and "@" not in str(n.get("key"))
+                   and str(n.get("source_file")).lower().endswith(".cs")]
+            forged = [dict(n, body_summary=f"{n['body_summary']}: property") for n in eng]
+            check(f"{ver}: an ENGINE C# method whose doc summary ended ': property' is not picked (the key test)",
+                  pick is not None and bool(eng) and not any(pick(n) for n in forged), len(eng))
+            props = [n for n in nodes if pick and pick(n)]
+            rewritten = [dict(n, body_summary="Sums the line totals of the cart.") for n in props]
+            check(f"{ver}: a property whose summary enrich rewrote is not proven one (today's wording, never the "
+                  f"reverse)", pick is not None and bool(props) and not any(pick(n) for n in rewritten), len(props))
+    finally:
+        CM.cleanup()
+
+
 def main() -> int:
+    global BUILD
     for s in (sys.stdout, sys.stderr):
         try:
             s.reconfigure(encoding="utf-8")
         except Exception:
             pass
+    argv = sys.argv[1:]
+    if "--root" in argv:
+        i = argv.index("--root")
+        tree = argv[i + 1] if i + 1 < len(argv) else ""
+        if not tree or not (Path(tree) / "build").is_dir():
+            print(f"usage: python tests/impact_csharp_honesty_gates.py [--root <tree holding build/>] (got {tree!r})",
+                  file=sys.stderr)
+            return 2
+        BUILD = Path(tree).resolve() / "build"
     print("=" * 72)
-    print("DeepMap — C#-aware impact notes (exts in the count query, typed_call_langs, MCP + CLI relay; no Neo4j)")
+    print("DeepMap — C#-aware impact notes (exts in the count query, typed_call_langs, MCP + CLI relay; no Neo4j)"
+          f" (build: {BUILD})")
     print("=" * 72)
     if str(BUILD) not in sys.path:
         sys.path.insert(0, str(BUILD))
@@ -762,7 +926,8 @@ def main() -> int:
         R = _load("retrieval", f"dm_retrieval_cs_honesty_{time.monotonic_ns()}")
     for gate in (gate_count_query, gate_csharp_only, gate_symbol_segment, gate_typed_meta, gate_typed_claims,
                  gate_typed_narrowed, gate_property_clause, gate_mixed, gate_degrade_paths, gate_timed,
-                 gate_family_source, gate_mcp_relay, gate_cli_relay):
+                 gate_family_source, gate_mcp_relay, gate_cli_relay, gate_property_target,
+                 gate_property_producer):
         try:
             gate(R)
         except Exception as exc:  # noqa: BLE001 — a crashing gate is RED, not a crashed suite
