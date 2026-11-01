@@ -66,15 +66,16 @@ def _load(name: str, base: Path):
     return m
 
 
-def _provision(root: Path) -> None:
+def _provision(root: Path, **extra) -> None:
     """Write the canonical 'a graph was built here' marker so the hook treats root as a DeepMap project.
     It carries a READY verdict (what every sync persists today): since the 2026-09 fix the nudge is
     verdict-gated like the notify hook — a FAILED / legacy / DEGRADED graph gets no steer (locked in
-    tests/hook_reliability_gates.py)."""
+    tests/hook_reliability_gates.py). `extra` adds / overrides manifest fields."""
     d = root / ".deepmap"
     d.mkdir(parents=True, exist_ok=True)
-    (d / "graph_build.json").write_text(json.dumps({"nodes": 1, "calls_edges": 0, "verdict": "READY"}),
-                                        encoding="utf-8")
+    manifest = {"nodes": 1, "calls_edges": 0, "verdict": "READY"}
+    manifest.update(extra)
+    (d / "graph_build.json").write_text(json.dumps(manifest), encoding="utf-8")
 
 
 def _run(root: Path, payload=None, raw=None, extra_env=None):
@@ -229,6 +230,92 @@ def gate_helper_units(S) -> None:
         check("bump: missing session_id buckets together (1,2)", (n1, n2) == (1, 2), str((n1, n2)))
 
 
+# 0.6.3: .sql / .dm files whose engine parser is not installed no longer count for coverage (verdict.py), so such a
+# repo reads READY; the manifest's coverage.parser_missing names them, and the Grep/Glob reminder must carry the one
+# sentence (deepmap_hook_state.parser_missing_note) that they are NOT indexed, or the agent trusts an empty result.
+_PM_SQL = {".sql": {"files": 12, "package": "tree-sitter-sql"}}
+_PM_TWO = {".sql": {"files": 12, "package": "tree-sitter-sql"}, ".dm": {"files": 6, "package": "tree-sitter-dm"}}
+
+
+def _ac(p) -> str:
+    return ((_emit(p.stdout) or {}).get("hookSpecificOutput") or {}).get("additionalContext", "")
+
+
+def _nudge_once(tag: str, **manifest) -> tuple:
+    """(first call, second call) of the hook for a fresh root provisioned with `manifest`, one session."""
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        _provision(root, **manifest)
+        pay = {"cwd": str(root), "session_id": f"pm-{tag}", "tool_name": "Grep", "tool_input": {"pattern": "x"}}
+        return _run(root, pay), _run(root, pay)
+
+
+def gate_parser_missing(S) -> None:
+    print("\n-- coverage.parser_missing -> the reminder says those files are NOT indexed (once per session) --")
+    NU = _load("deepmap_presearch_nudge", HOOKS)
+    fn = getattr(NU._hs, "parser_missing_note", None) if getattr(NU, "_hs", None) is not None else None
+    check("deepmap_hook_state.parser_missing_note exists", callable(fn) and callable(
+        getattr(S, "parser_missing_note", None)))
+    if not callable(fn):
+        fn = lambda data: ""  # noqa: E731 (the hook checks below still run and show what the agent is told)
+    note = fn({"coverage": {"parser_missing": _PM_SQL}})
+    check("(the sentence names 12 .sql files and Grep/Read)",
+          "12 .sql file(s)" in note and "Grep/Read" in note and "not indexed, not absent" in note, note)
+
+    p0, _ = _nudge_once("base")
+    check("READY without the block -> the reminder is exactly NUDGE_TEXT (unchanged)",
+          p0.returncode == 0 and _ac(p0) == NU.NUDGE_TEXT, repr(_ac(p0)[-200:]))
+    p1, p1b = _nudge_once("sql", coverage={"languages": {}, "parser_missing": _PM_SQL})
+    check("READY + parser_missing -> NUDGE_TEXT + the sentence (12 .sql named)",
+          p1.returncode == 0 and _ac(p1) == NU.NUDGE_TEXT + note and "12 .sql file(s)" in _ac(p1),
+          repr(_ac(p1)[-300:]))
+    check("...a valid PreToolUse envelope with no permission decision", _fires_ok(p1), p1.stdout[:200])
+    check("...still once per session (the 2nd Grep is silent)",
+          p1b.returncode == 0 and p1b.stdout.strip() == "", repr(p1b.stdout[:160]))
+    for i, blk in enumerate(({"parser_missing": "x"}, {"parser_missing": {".sql": {"files": "12"}}},
+                             {"parser_missing": {}}, "not a dict", {"parser_missing": {".sql": {"files": True}}})):
+        p, _ = _nudge_once(f"bad{i}", coverage=blk)
+        check(f"READY + malformed block {blk!r} -> exit 0, today's reminder, no sentence",
+              p.returncode == 0 and _ac(p) == NU.NUDGE_TEXT, repr(_ac(p)[-200:]))
+
+    _go = "LOW COVERAGE for Go — 40 files on disk but only 0 extracted node(s); Go is invisible."
+    two = fn({"coverage": {"parser_missing": _PM_TWO}})
+    p2, _ = _nudge_once("deg", verdict="DEGRADED", reasons=[_go], coverage={"parser_missing": _PM_TWO})
+    p3, _ = _nudge_once("deg0", verdict="DEGRADED", reasons=[_go])
+    check("DEGRADED coverage + parser_missing -> the coverage reminder (Go gap) AND the sentence (both suffixes)",
+          p2.returncode == 0 and "40 files" in _ac(p2) and "12 .sql file(s)" in _ac(p2)
+          and "6 .dm file(s)" in _ac(p2) and _ac(p2) == _ac(p3) + two, repr(_ac(p2)[-300:]))
+    p4, _ = _nudge_once("silent", verdict="DEGRADED", reasons=["VECTOR SEARCH DISABLED"],
+                        coverage={"parser_missing": _PM_SQL})
+    check("DEGRADED without a coverage reason + parser_missing -> still silent (never a reason to steer)",
+          p4.returncode == 0 and p4.stdout.strip() == "", repr(p4.stdout[:160]))
+
+    # The heal-recovered follow-up (notify said 'down', this session's heal then succeeded) is said INSTEAD of the
+    # reminder, so it must carry the sentence too. In-process, with the session record / heal status stubbed.
+    import time as _time
+    H = NU._hs
+    names = ("read_session_health", "write_session_health", "file_sig", "_read_json_dict", "heal_problem")
+    saved = {n: getattr(H, n) for n in names}
+    texts = {}
+    try:
+        H.write_session_health = lambda *a, **k: True
+        H.file_sig = lambda path: (int(_time.time() * 1e9), 7)
+        H._read_json_dict = lambda path: {"neo4j_ok": True, "mcp_ok": True}
+        H.heal_problem = lambda root: None
+        for key, data in (("with", {"verdict": "READY", "coverage": {"parser_missing": _PM_SQL}}),
+                          ("without", {"verdict": "READY"})):
+            H.read_session_health = lambda root, sid: {"start": _time.time() - 1, "told": "down",
+                                                        "heal_path": "heal-x.json", "seen": (1, 1)}
+            texts[key] = NU._followup(Path("."), {"session_id": "pm-follow"}, data) or ""
+    finally:
+        for n, f in saved.items():
+            setattr(H, n, f)
+    check("(fixture: the recovered follow-up fires)", "available again" in texts.get("without", ""), str(texts))
+    check("heal-recovered follow-up + parser_missing -> the follow-up AND the sentence",
+          texts.get("with") == texts.get("without", "") + note and "12 .sql file(s)" in texts.get("with", ""),
+          repr(texts.get("with", "")[-300:]))
+
+
 def main() -> int:
     for s in (sys.stdout, sys.stderr):
         try:
@@ -253,6 +340,7 @@ def main() -> int:
     gate_optout()
     gate_malformed_stdin()
     gate_helper_units(S)
+    gate_parser_missing(S)
 
     print("\n" + "=" * 68)
     total = _PASS + _FAIL

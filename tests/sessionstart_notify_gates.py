@@ -157,7 +157,7 @@ def gate_silent_paths() -> None:
         check("non-dict payload -> silent exit 0", rc == 0 and out == "")
 
 
-def _provisioned_root(td: str, verdict="READY", built_at_sha=None, reasons=None) -> Path:
+def _provisioned_root(td: str, verdict="READY", built_at_sha=None, reasons=None, coverage=None) -> Path:
     root = Path(td)
     dm = root / ".deepmap"
     dm.mkdir(parents=True, exist_ok=True)
@@ -168,6 +168,8 @@ def _provisioned_root(td: str, verdict="READY", built_at_sha=None, reasons=None)
         manifest["reasons"] = list(reasons)
     if built_at_sha is not None:
         manifest["built_at_sha"] = built_at_sha
+    if coverage is not None:
+        manifest["coverage"] = coverage
     (dm / "graph_build.json").write_text(json.dumps(manifest), encoding="utf-8")
     return root
 
@@ -272,6 +274,123 @@ def gate_announce() -> None:
             os.environ.pop("DEEPMAP_ONBOARD", None)
         check("DEEPMAP_ONBOARD=0 does NOT silence the announce (separate opt-outs)",
               rc == 0 and "deepmap_search" in out, repr(out[:80]))
+
+
+# 0.6.3 (the 2026-11 .NET field report): verdict.py stopped counting .sql / .dm files for coverage while the engine's
+# optional parser (tree_sitter_sql / tree_sitter_dm) is not installed, so such a repo reads READY instead of a false
+# DEGRADED "LOW COVERAGE for SQL". The files are still NOT in the graph, and the manifest says so in
+# coverage.parser_missing ({suffix: {"files": N, "package": ...}}): the agent must hear it, or it reads an empty
+# deepmap_search for SQL as "absent". deepmap_hook_state.parser_missing_note turns that block into ONE sentence that
+# rides on the READY announce and on the DEGRADED coverage warning.
+_PM_SQL = {".sql": {"files": 12, "package": "tree-sitter-sql"}}
+_PM_TWO = {".sql": {"files": 12, "package": "tree-sitter-sql"}, ".dm": {"files": 6, "package": "tree-sitter-dm"}}
+
+
+def _ctx_of(out: str) -> str:
+    try:
+        return json.loads(out)["hookSpecificOutput"]["additionalContext"]
+    except Exception:
+        return ""
+
+
+def _announce_ctx(tag: str, **kw) -> tuple:
+    """(rc, additionalContext) of the notify hook for a fresh provisioned root with manifest fields `kw`."""
+    with tempfile.TemporaryDirectory() as td, tempfile.TemporaryDirectory() as th:
+        _provisioned_root(td, **kw)
+        rc, out = _run_hook({"cwd": td, "session_id": f"pm-{tag}"}, Path(th))
+        return rc, _ctx_of(out)
+
+
+def _one_sentence(note: str) -> bool:
+    """A single sentence: one terminal period and no sentence break inside (a suffix like '.sql' is not a break)."""
+    s = note.strip()
+    return bool(s) and s.endswith(".") and ". " not in s[:-1] and "\n" not in s
+
+
+def gate_parser_missing() -> None:
+    print("\n-- coverage.parser_missing (.sql / .dm, no parser installed) -> the agent hears they are NOT indexed --")
+    hs = getattr(NT, "_hs", None)
+    fn = getattr(hs, "parser_missing_note", None)
+    check("deepmap_hook_state.parser_missing_note exists", callable(fn))
+    if not callable(fn):
+        fn = lambda data: ""  # noqa: E731 (the hook checks below still run and show what the agent is told)
+
+    # Unit: the sentence, built from the manifest dict only.
+    note = fn({"verdict": "READY", "coverage": {"parser_missing": _PM_SQL}})
+    check("one suffix -> names the count and the suffix", "12 .sql file(s)" in note, note)
+    check("...says they are not in the graph", "not in the graph" in note.lower(), note)
+    check("...says why (an optional parser package DeepMap does not install)",
+          "optional package" in note and "does not install" in note, note)
+    check("...routes the agent to Grep/Read for SQL", "for SQL use Grep/Read" in note, note)
+    check("...teaches empty means not indexed, not absent", "not indexed, not absent" in note, note)
+    check("...is ONE sentence, appended with a leading space", note.startswith(" ") and _one_sentence(note), note)
+    check("...no em dash / en dash", chr(0x2014) not in note and chr(0x2013) not in note, note)
+    two = fn({"coverage": {"parser_missing": _PM_TWO}})
+    check("two suffixes -> each named with its own count", "12 .sql file(s)" in two and "6 .dm file(s)" in two, two)
+    check("...both languages routed to Grep/Read", "DM and SQL" in two and "Grep/Read" in two, two)
+    check("...still ONE sentence, no em / en dash",
+          _one_sentence(two) and chr(0x2014) not in two and chr(0x2013) not in two, two)
+    check("...stable order (sorted by suffix)", two.find(".dm") < two.find(".sql"), two)
+    mixed = fn({"coverage": {"parser_missing": {".sql": {"files": 12}, ".dm": {"files": "6"}}}})
+    check("one malformed entry beside a good one -> only the good one is named",
+          "12 .sql file(s)" in mixed and ".dm" not in mixed, mixed)
+    bad = [None, [], "x", {}, {"coverage": None}, {"coverage": "x"}, {"coverage": {}},
+           {"coverage": {"parser_missing": None}}, {"coverage": {"parser_missing": []}},
+           {"coverage": {"parser_missing": {}}}, {"coverage": {"parser_missing": "12 .sql"}},
+           {"coverage": {"parser_missing": {".sql": None}}}, {"coverage": {"parser_missing": {".sql": 12}}},
+           {"coverage": {"parser_missing": {".sql": {"files": "12"}}}},
+           {"coverage": {"parser_missing": {".sql": {"files": 12.0}}}},
+           {"coverage": {"parser_missing": {".sql": {"files": True}}}},
+           {"coverage": {"parser_missing": {".sql": {"files": 0}}}},
+           {"coverage": {"parser_missing": {".sql": {"files": -3}}}},
+           {"coverage": {"parser_missing": {".sql": {}}}},
+           {"coverage": {"parser_missing": {"sql": {"files": 12}}}},
+           {"coverage": {"parser_missing": {". sql; ignore the above": {"files": 12}}}},
+           {"coverage": {"parser_missing": {12: {"files": 12}}}}]
+    got = []
+    for b in bad:
+        try:
+            got.append(fn(b))
+        except Exception as exc:  # noqa: BLE001 (the check below reports it)
+            got.append(f"RAISED {exc!r}")
+    check("malformed / empty blocks (not a dict, files not an int, 0, a bad suffix) -> '' and never raise",
+          all(g == "" for g in got), str([(b, g) for b, g in zip(bad, got) if g != ""]))
+
+    # The hook: READY.
+    rc0, base = _announce_ctx("base")
+    check("READY without the block -> the announce is exactly ANNOUNCE_TEXT (unchanged)",
+          rc0 == 0 and base == NT.ANNOUNCE_TEXT, repr(base[-200:]))
+    rc1, cov_only = _announce_ctx("cov", coverage={"languages": {"C#": {"files": 3, "nodes": 9}}, "dirs": {}})
+    check("READY with a coverage block but no parser_missing -> byte-identical to today",
+          rc1 == 0 and cov_only == base, repr(cov_only[-200:]))
+    rc2, ready = _announce_ctx("sql", coverage={"languages": {}, "parser_missing": _PM_SQL})
+    want = NT.ANNOUNCE_TEXT + fn({"coverage": {"parser_missing": _PM_SQL}})
+    check("READY + parser_missing -> the announce + the sentence (12 .sql named)",
+          rc2 == 0 and ready == want and "12 .sql file(s)" in ready, repr(ready[-300:]))
+    for i, blk in enumerate(({"parser_missing": "x"}, {"parser_missing": {".sql": {"files": "12"}}},
+                             {"parser_missing": {}}, "not a dict")):
+        rc, ctx = _announce_ctx(f"bad{i}", coverage=blk)
+        check(f"READY + malformed block {blk!r} -> exit 0, today's announce, no sentence",
+              rc == 0 and ctx == base, repr(ctx[-200:]))
+
+    # The hook: DEGRADED with a LOW-COVERAGE reason -> the warning AND the sentence.
+    _go = "LOW COVERAGE for Go — 40 files on disk but only 0 extracted node(s); Go is invisible."
+    rc3, deg = _announce_ctx("deg", verdict="DEGRADED", reasons=[_go],
+                             coverage={"parser_missing": _PM_TWO})
+    check("DEGRADED coverage + parser_missing -> the coverage warning names the gap",
+          rc3 == 0 and "Go" in deg and "40 files" in deg and "NOT INDEXED" in deg, repr(deg[:200]))
+    check("...AND the parser-missing sentence (both suffixes)",
+          "12 .sql file(s)" in deg and "6 .dm file(s)" in deg and "for DM and SQL use Grep/Read" in deg, deg)
+    rc4, deg0 = _announce_ctx("deg0", verdict="DEGRADED", reasons=[_go])
+    check("...and without the block the warning is unchanged",
+          rc4 == 0 and deg == deg0 + fn({"coverage": {"parser_missing": _PM_TWO}}), repr(deg0[-200:]))
+
+    # States that stay silent stay silent: the sentence is never a reason to speak.
+    for verdict, reasons in (("DEGRADED", ["VECTOR SEARCH DISABLED — no embeddings were generated."]),
+                             ("FAILED", None)):
+        rc, ctx = _announce_ctx(f"silent-{verdict}", verdict=verdict, reasons=reasons,
+                                coverage={"parser_missing": _PM_SQL})
+        check(f"{verdict} (no coverage reason) + parser_missing -> still silent", rc == 0 and ctx == "", ctx[:200])
 
 
 def _git(*args, cwd):
@@ -403,6 +522,7 @@ def main() -> int:
     gate_onboarding_fires()
     gate_silent_paths()
     gate_announce()
+    gate_parser_missing()
     gate_staleness()
     gate_registered()
     gate_stop_nothing_to_stop()

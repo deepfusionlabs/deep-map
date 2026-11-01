@@ -101,6 +101,10 @@ def run(label, argv, expect_zero=True):
     # Auto-sync off for every gate (M12): a gate that runs a SessionStart hook for real must never spawn DeepMap's
     # background refresh. The auto-sync gates set DEEPMAP_AUTO_SYNC per case themselves.
     env = dict(os.environ, PYTHONIOENCODING="utf-8", DEEPMAP_AUTO_SYNC="0")
+    # The machine's JAVA_HOME out of every gate but the live suites (0.6.3): the Java preflight reads it first now,
+    # and CI runners set it, so a gate's answer would depend on the host's JDK. The Java gates set it per case.
+    if not (argv and Path(str(argv[0])).name.startswith("live_")):
+        env.pop("JAVA_HOME", None)
     try:
         p = subprocess.run([PY, *map(str, argv)], cwd=str(ROOT), env=env,
                            capture_output=True, text=True, encoding="utf-8", errors="replace",
@@ -923,6 +927,15 @@ def main():
         ("test_rule_mirror_gates", "test-rule mirrors: every fallback copy of sync._is_test_path (enrich, "
                                    "graphify_extract, typescript_edges, verdict) equals the rule, and the verdict "
                                    "under DEEPMAP_EXCLUDE_TESTS drops what THE rule drops (.NET test projects)"),
+        # Field report (2026-11-01, Windows): Java 19 first on PATH, JAVA_HOME advice that could not pass; SQL DEGRADED
+        ("java_select_gates", "Java preflight off macOS: a usable JAVA_HOME is what is checked (what Neo4j runs); "
+                              "an unusable JAVA_HOME or PATH java (missing / unsupported / broken) falls back to the "
+                              "PATH java's JDK or an installed JDK 21 / 17 (Windows registry + install folders, Linux "
+                              "/usr/lib/jvm, SDKMAN) handed to Neo4j as JAVA_HOME; refused only when none is found; "
+                              "a working PATH java unchanged; macOS unchanged"),
+        ("sql_parser_census_gates", "verdict census: .sql / .dm files are not counted when the engine's optional "
+                                    "parser (tree_sitter_sql / tree_sitter_dm) is not installed, so no false LOW "
+                                    "COVERAGE DEGRADED; counted exactly as before when it is"),
     ):
         # No exists() guard: a registered gate that has gone missing must turn the run RED, not vanish.
         results.append((_name, run(_desc, [f"tests/{_name}.py"])))

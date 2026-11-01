@@ -66,6 +66,17 @@ _SOURCE_EXTS = {
     # has no parser for them) would otherwise hide behind a repo's well-extracted .cpp files.
     ".cu": "CUDA", ".cuh": "CUDA", ".metal": "Metal",
 }
+# Census suffixes whose engine parser is an OPTIONAL package (graphifyy's extras) DeepMap does not install.
+# Without the module graphify returns {"nodes": [], "error": "<module> not installed"} for every such file (no
+# per-file warning line, so not a failed file either): the files can never reach the graph, and counting them
+# made a healthy graph read "LOW COVERAGE for SQL" on every sync (the 2026-11 .NET field report, 12 .sql files).
+# While the module is not importable (_uncounted_exts) every census counter leaves those files out and coverage
+# names them in "parser_missing" (informational, never a reason); with it installed they count as before.
+# _SOURCE_EXTS keeps both entries: the drift locks in tests/delphi_pascal_gates.py read the static map.
+# (Pascal is not here: graphify parses it without tree_sitter_pascal.) Locked by tests/sql_parser_census_gates.py.
+_OPTIONAL_PARSERS = {".sql": "tree_sitter_sql", ".dm": "tree_sitter_dm"}
+# {module: importable?}, filled once per process by _parser_present.
+_PARSER_PRESENT: dict = {}
 # ".erb" is its OWN census language (NOT folded into Ruby): the Ruby recognizer emits ONE searchable
 # :Module view node per .erb, so an ERB density is ~1.0 — folding it into the Ruby bucket would dilute
 # the model-layer signal and could invent a false Ruby DEGRADED (F9).
@@ -136,6 +147,10 @@ _LONG_PATH_WALK_LIMIT = 5000
 # picked up (once) by build_coverage so the tree is not walked twice. Only ever filled on Windows with
 # LongPathsEnabled=0.
 _CENSUS_PROBLEMS: dict = {}
+# {resolved root: {suffix: files}} — the census files the last extension_census walk left uncounted because their
+# engine parser is not installed (_uncounted_exts), picked up (once) by build_coverage so the tree is not walked
+# twice.
+_CENSUS_UNCOUNTED: dict = {}
 
 
 # {resolved root: frozenset(node keys)} — the nodes the EXTRACTION ENGINE produced for the root's last
@@ -184,6 +199,40 @@ def _engine_exts() -> set:
         return {str(e).lower() for e in gx.SOURCE_CODE_EXTS} if gx is not None else set(_SOURCE_EXTS)
     except Exception:
         return set(_SOURCE_EXTS)
+
+
+def _parser_present(module: str) -> bool:
+    """True iff the engine's optional parser `module` is importable in this Python: importlib.util.find_spec,
+    asked once per process (the engine runs under this same interpreter). Only a spec probe: nothing is
+    imported. A probe that raises counts as importable, so the census keeps counting those files as it always
+    did. Never raises."""
+    try:
+        if module not in _PARSER_PRESENT:
+            try:
+                found = importlib.util.find_spec(module) is not None
+            except Exception:  # noqa: BLE001 — an unanswerable probe keeps today's census
+                found = True
+            _PARSER_PRESENT[module] = found
+        return bool(_PARSER_PRESENT[module])
+    except Exception:
+        return True
+
+
+def _uncounted_exts() -> frozenset:
+    """The census suffixes left out of every coverage count: those of _OPTIONAL_PARSERS whose parser module is
+    not installed here. Never raises (an empty set on any problem: count everything, as before)."""
+    try:
+        return frozenset(e for e, mod in _OPTIONAL_PARSERS.items() if not _parser_present(mod))
+    except Exception:
+        return frozenset()
+
+
+def _parser_package(ext: str) -> str:
+    """The pip name of the parser `ext` needs ('tree_sitter_sql' -> 'tree-sitter-sql'), '' if none. Never raises."""
+    try:
+        return str(_OPTIONAL_PARSERS.get(str(ext).lower()) or "").replace("_", "-")
+    except Exception:
+        return ""
 
 
 def _long_paths_enabled() -> bool:
@@ -296,7 +345,7 @@ def _rule_says(rule, part: str, parent) -> bool:
         return bool(rule(part))
 
 
-def _walk_source(base: Path, rule, limit: int, problems: dict | None = None):
+def _walk_source(base: Path, rule, limit: int, problems: dict | None = None, uncounted: dict | None = None):
     """Yield (path, language) for census-source files under `base`, at most `limit` of them. Ignored
     directories (by `rule`, on names BELOW `base`) are pruned, never descended — a virtualenv or a
     node_modules tree costs nothing. Minified/bundle suffixes and macOS metadata (a `__MACOSX/` or `.AppleDouble/`
@@ -304,8 +353,11 @@ def _walk_source(base: Path, rule, limit: int, problems: dict | None = None):
     containing directory, as the engine's walker passes it. With `problems` ({"dirs": [], "files": []}),
     a directory that could not be listed because its path reached the Windows limit, and a source file
     whose path did, are recorded there instead of vanishing silently (they are never yielded — they can
-    not be read). Never raises."""
+    not be read). A file whose engine parser is not installed (_uncounted_exts: .sql / .dm without their
+    optional package) is never yielded either; with `uncounted` ({suffix: files}) it is tallied there.
+    Never raises."""
     n = 0
+    skip = _uncounted_exts()
     onerror = None
     if problems is not None:
         def onerror(e):  # noqa: E306
@@ -323,6 +375,10 @@ def _walk_source(base: Path, rule, limit: int, problems: dict | None = None):
                 dot = name.rfind(".")
                 lang = _SOURCE_EXTS.get(name[dot:].lower()) if dot >= 0 else None
                 if not lang or name.lower().endswith(_VENDOR_FILE_SUFFIXES) or _is_macos_metadata(name):
+                    continue
+                if skip and name[dot:].lower() in skip:
+                    if uncounted is not None:
+                        uncounted[name[dot:].lower()] = uncounted.get(name[dot:].lower(), 0) + 1
                     continue
                 p = Path(dirpath) / name
                 if problems is not None and len(os.path.abspath(str(p))) >= _MAX_PATH:
@@ -342,10 +398,12 @@ def _walk_source(base: Path, rule, limit: int, problems: dict | None = None):
 def _walk_long(dirpath: str, rule, limit: int):
     """Census-source files below a directory the normal walk could not list (its path reached the Windows
     limit): walked through the extended-length `\\\\?\\` form, which ignores the limit, honouring the same
-    ignore rule. Yields plain (unprefixed) path strings. Never raises."""
+    ignore rule (and, like _walk_source, leaving out a suffix whose engine parser is not installed). Yields
+    plain (unprefixed) path strings. Never raises."""
     bs = chr(92)
     prefix = bs + bs + "?" + bs
     n = 0
+    skip = _uncounted_exts()
     try:
         start = os.path.abspath(dirpath)
         if start.startswith(bs + bs):                 # UNC: \\server\share -> \\?\UNC\server\share
@@ -362,7 +420,7 @@ def _walk_long(dirpath: str, rule, limit: int):
                 dot = name.rfind(".")
                 if dot < 0 or name[dot:].lower() not in _SOURCE_EXTS or name.lower().endswith(_VENDOR_FILE_SUFFIXES):
                     continue
-                if _is_macos_metadata(name):
+                if _is_macos_metadata(name) or name[dot:].lower() in skip:
                     continue
                 n += 1
                 yield os.path.join(plain, name)
@@ -455,6 +513,20 @@ def _without_test_files(files, is_test) -> list:
     return kept
 
 
+def _without_uncounted(files, skip, tally: dict) -> list:
+    """`files` (root-relative paths) minus those whose suffix is in `skip` (_uncounted_exts: the engine cannot
+    parse them here, so they are not missing source), each one dropped tallied in `tally` ({suffix: files}).
+    Never raises (a file whose suffix cannot be read is kept)."""
+    kept = []
+    for f in files or []:
+        e = _ext_of(str(f))
+        if e and e in skip:
+            tally[e] = tally.get(e, 0) + 1
+        else:
+            kept.append(f)
+    return kept
+
+
 def _skipped_source_dirs(root) -> dict:
     """graphify_extract.skipped_source_dirs(root) — {engine-skipped dir: [git-tracked source files]} — minus,
     when DEEPMAP_EXCLUDE_TESTS drops them on purpose, every file THE test rule names (a dir left with none is not
@@ -502,11 +574,24 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
     engine skips by directory name and DeepMap cannot re-include (graphify_extract.unindexed_source_dirs:
     tracked source under an env-family dir or dist/ that is not a virtualenv; any engine-skipped dir of
     a NON-git tree) — and "long_paths" {"files", "examples"} — source past the Windows MAX_PATH limit on
-    a machine that cannot read it (_long_path_findings)."""
+    a machine that cannot read it (_long_path_findings).
+
+    Files whose engine parser is an optional package that is not installed (_uncounted_exts: .sql without
+    tree_sitter_sql, .dm without tree_sitter_dm) count nowhere above: the census walk leaves them out, and so do
+    the conventional dirs, skipped_dirs, unindexed_dirs and long_paths. They are reported instead as
+    "parser_missing" {suffix: {"files", "package"}} (only when non-empty; informational, never a reason)."""
     try:
         census = census if census is not None else extension_census(root, limit=limit)
+        skip_exts = _uncounted_exts()
+        uncounted: dict = {}
+        walked = _CENSUS_UNCOUNTED.pop(_root_key(root), None)
         skipped = _skipped_source_dirs(root)
         unindexed = _unindexed_source_dirs(root)
+        if skip_exts:
+            skipped = {d: kept for d, fs in skipped.items()
+                       for kept in [_without_uncounted(fs, skip_exts, uncounted)] if kept}
+            unindexed = {d: {**u, "files": kept} for d, u in unindexed.items()
+                         for kept in [_without_uncounted(u.get("files"), skip_exts, uncounted)] if kept}
         rule = _dir_ignore_rule()
         engine_exts = _engine_exts()
         registered = _ENGINE_KEYS.pop(_root_key(root), None)
@@ -579,6 +664,17 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
         long_paths = _long_path_findings(root, rule, limit)
         if long_paths:
             out["long_paths"] = long_paths
+        if skip_exts:
+            if walked is None:                  # a census this process did not walk: count them once
+                walked = {}
+                for _ in _walk_source(Path(root), rule, limit, None, walked):
+                    pass
+            for e, n in (walked or {}).items():
+                uncounted[e] = uncounted.get(e, 0) + int(n)
+            missing = {e: {"files": int(n), "package": _parser_package(e)}
+                       for e, n in sorted(uncounted.items()) if int(n) > 0}
+            if missing:
+                out["parser_missing"] = missing
         return out
     except Exception:
         return {"languages": {}, "dirs": {}}
@@ -882,9 +978,60 @@ def format_coverage(coverage) -> list:
         if int(lp.get("files") or 0):
             lines.append(f"{int(lp['files'])} source file(s) past the Windows 260-char path limit "
                          f"(unreadable with LongPathsEnabled=0)")
+        for ext, n, pkg in _parser_missing_entries(coverage):
+            lang = _SOURCE_EXTS.get(ext, ext)
+            lines.append(f"{lang}: {n} {ext} file(s) not in the graph (not counted for coverage): the extraction "
+                         f"engine parses {ext} only with the optional package {pkg}, which DeepMap does not install")
     except Exception:
         return []
     return lines
+
+
+def _parser_missing_entries(coverage) -> list:
+    """[(suffix, files, package)] from a build_coverage() dict's "parser_missing" block, well-formed entries only,
+    sorted by suffix. [] for anything malformed. Never raises."""
+    out: list = []
+    try:
+        pm = coverage.get("parser_missing") if isinstance(coverage, dict) else None
+        for ext, c in (pm.items() if isinstance(pm, dict) else ()):
+            try:
+                e, n = str(ext).lower(), int((c or {}).get("files") or 0)
+                pkg = str((c or {}).get("package") or _parser_package(e) or "")
+            except Exception:  # noqa: BLE001 — one bad entry never hides the others
+                continue
+            if e.startswith(".") and n > 0 and pkg:
+                out.append((e, n, pkg))
+    except Exception:
+        return []
+    return sorted(out)
+
+
+def _unseen_source_files(coverage) -> int:
+    """How many source files a build_coverage() dict names OUTSIDE the census: "skipped_dirs", "unindexed_dirs",
+    "long_paths" and "unparsed" (code the census cannot see, so an empty census does not mean no code). Each
+    malformed entry counts 0. Never raises."""
+    total = 0
+
+    def _n(c) -> int:
+        try:
+            return max(0, int((c or {}).get("files") or 0)) if isinstance(c, dict) else 0
+        except Exception:  # noqa: BLE001 — one bad entry never hides the others
+            return 0
+
+    try:
+        cov = coverage if isinstance(coverage, dict) else {}
+        for key in ("skipped_dirs", "unindexed_dirs"):
+            block = cov.get(key)
+            for c in (block.values() if isinstance(block, dict) else ()):
+                total += _n(c)
+        total += _n(cov.get("long_paths"))
+        up = cov.get("unparsed")
+        exts = up.get("exts") if isinstance(up, dict) else None
+        for c in (exts.values() if isinstance(exts, dict) else ()):
+            total += _n(c)
+    except Exception:
+        return total
+    return total
 
 
 def ml_stack_ok() -> bool:
@@ -899,13 +1046,19 @@ def ml_stack_ok() -> bool:
 
 def extension_census(root, *, limit: int = 20000) -> dict:
     """Count source files by human language under `root`, honoring the ignore set. Bounded (`limit`
-    files scanned) so a huge tree can't stall setup. Returns {language: count}. Never raises."""
+    files scanned) so a huge tree can't stall setup. Returns {language: count}. A suffix whose engine parser
+    is not installed (_uncounted_exts) is not counted; how many such files the walk saw is kept for
+    build_coverage's "parser_missing" block. Never raises."""
     counts: dict = {}
     try:
         # Windows with LongPathsEnabled=0 only: note what the walk cannot read, for build_coverage.
         probs = {"dirs": [], "files": []} if (os.name == "nt" and not _long_paths_enabled()) else None
-        for _p, lang in _walk_source(Path(root), _dir_ignore_rule(), limit, probs):
+        uncounted: dict = {}
+        for _p, lang in _walk_source(Path(root), _dir_ignore_rule(), limit, probs, uncounted):
             counts[lang] = counts.get(lang, 0) + 1
+        if len(_CENSUS_UNCOUNTED) > 32:                     # never grows without bound in a long process
+            _CENSUS_UNCOUNTED.clear()
+        _CENSUS_UNCOUNTED[_root_key(root)] = uncounted
         if probs is not None:
             if len(_CENSUS_PROBLEMS) > 32:                 # never grows without bound in a long process
                 _CENSUS_PROBLEMS.clear()
@@ -974,7 +1127,9 @@ def classify(*, neo4j_ok: bool, n_nodes: int, n_embedded: int, census: dict | No
     - coverage       : optional build_coverage() output; a dead conventional dir (app/models/ with
                        files but ~no nodes), a ~unextracted language or (on the graphify engine) an
                        engine-skipped dir whose tracked source never arrived DEGRADES with a named
-                       reason — plenty of nodes overall must not mask a blind layer.
+                       reason — plenty of nodes overall must not mask a blind layer. Its "parser_missing"
+                       block (files the engine has no installed parser for) never degrades; it only names
+                       them when they are all the source there is.
     - extraction     : optional sync._rebuild_code `.info` — {"requested", "fallback_reason",
                        "engine_error", "maxpath", "failed_files", "failed_examples"}. Lets the verdict
                        say "fell back automatically" (with graphify's cause) instead of blaming a
@@ -997,6 +1152,18 @@ def classify(*, neo4j_ok: bool, n_nodes: int, n_embedded: int, census: dict | No
 
     if n_nodes == 0:
         if not langs:
+            unparsable = _parser_missing_entries(coverage)
+            if unparsable and not _unseen_source_files(coverage):
+                # The census left these out (their engine parser is not installed): "no source found, is this the
+                # right path?" would send the user looking for a problem that is not there. Only when coverage
+                # names no other source the census cannot see (an engine-skipped dir, a path past MAX_PATH, a
+                # suffix only a later engine parses): then these are NOT the only source, and the reason below
+                # stands as before.
+                found = " and ".join(f"{n} {e}" for e, n, _p in unparsable)
+                pkgs = ", ".join(p for _e, _n, p in unparsable)
+                return FAILED, [f"0 code nodes: the only source files found are {found} file(s), and the "
+                                f"extraction engine parses them only with an optional package DeepMap does not "
+                                f"install ({pkgs}), so there is nothing to search."]
             return FAILED, ["0 code nodes: no supported source files were found under the target "
                             "directory — is this the right path?"]
         if forced_ast and py == 0 and other:

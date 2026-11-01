@@ -25,9 +25,11 @@ Now:
      bin/java is named as such.
   D  macOS, nothing usable registered: the newest registered JDK's version is named, with the Temurin 21 remedy; a
      version manager's shim on PATH (no JDK home to hand Neo4j) keeps the old rule.
-  L  locked shapes (KL-mistake:008): Windows / Linux keep the old rule and its exact messages (the timeout WARNING
-     included), run plain `java -version` only, never ask /usr/libexec/java_home or look for Homebrew kegs, and add no
-     JAVA_HOME to Neo4j's environment; the gates' stub of _java_version still drives _java_preflight_problems.
+  L  locked shapes (KL-mistake:008): Windows / Linux run plain `java -version` only, never ask /usr/libexec/java_home
+     or look for Homebrew kegs, keep the timeout WARNING exactly, and add no JAVA_HOME to Neo4j's environment when no
+     installed 17 / 21 was found; their exact words when nothing is found (java_select_gates owns the off-macOS rule,
+     its search for an installed JDK included); the gates' stub of _java_version still drives
+     _java_preflight_problems.
   T  a slow /usr/libexec/java_home: retried with a longer budget (10 s, then 60 s, like `java -version`); still no
      answer: a WARNING that the installed JDKs could not be listed and setup continues (#81/#107: a slow probe is never
      read as missing) — never "no JDK ... can find", never "no 17 / 21 registered"; it is not asked again; a PATH or
@@ -277,7 +279,9 @@ class _Mac:
                     shutil=_delegate(P.shutil, which=self.which),
                     _is_macos=lambda: mac, _MACOS_JAVA_HOME_TOOL=tool,
                     _macos_has_java_home_tool=lambda: tool == TOOL,
-                    _MACOS_BREW_PREFIXES=self.brew_prefixes())   # never this machine's own Homebrew
+                    _MACOS_BREW_PREFIXES=self.brew_prefixes(),   # never this machine's own Homebrew
+                    _java_install_candidates=lambda: [],   # nor its installed JDKs (the off-macOS search)
+                    _java_registry_pick=lambda: None)      # nor its JavaSoft registry (Windows)
 
     def exes(self) -> list:
         return [c["argv"][0] for c in self.calls]
@@ -495,27 +499,54 @@ def gate_d_unsupported(td: Path) -> None:
 
 
 # --------------------------------------------------------------------------------------------------- L
-_OLD_MISSING = ("no Java on PATH. Neo4j 5.26 needs a JDK/JRE 17 or 21 — install Temurin 21 "
-                "(https://adoptium.net/temurin/releases/?version=21) and reopen the shell. (The Neo4j Community "
-                "download does not bundle a JRE.)", "no Java on PATH")
+_WINGET = ("winget install -e --id EclipseAdoptium.Temurin.21.JDK --source winget --accept-source-agreements "
+           "--accept-package-agreements")
+_ADOPTIUM = "https://adoptium.net/temurin/releases/?version=21"
+
+
+def _install(win: bool) -> str:
+    """The off-macOS install remedy (java_select_gates owns its exact words); <DEEPMAP_HOME> is where an unpacked
+    archive is looked for."""
+    where = f"unpacked so its jdk-21 folder sits directly in {P.deepmap_home()}"
+    if win:
+        return (f"install Temurin 21 (`{_WINGET}`, or the .msi from {_ADOPTIUM}; a .zip from there works too, "
+                f"{where})")
+    return ("install Java 21 (Debian / Ubuntu: `sudo apt install openjdk-21-jre-headless`, on Debian 12 "
+            "`openjdk-17-jre-headless`; Fedora / RHEL: `sudo dnf install java-21-openjdk-headless`; or Temurin 21's "
+            f".tar.gz from {_ADOPTIUM}, {where})")
+
+
+_FINDS_IT = "then re-run /deep-map:setup (DeepMap finds it there itself; no PATH or JAVA_HOME change is needed)"
+
+
+def _missing(win: bool) -> tuple:
+    """The off-macOS words for no java on PATH and no JDK 17 / 21 installed (Windows: winget; else apt / dnf)."""
+    return (f"no Java on PATH, and no JDK 17 or 21 was found in the usual install folders. Neo4j 5.26 needs a JDK/JRE "
+            f"17 or 21: {_install(win)}, {_FINDS_IT}. The Neo4j Community download does not bundle a JRE.",
+            "no Java on PATH")
 
 
 def gate_l_locked(td: Path) -> None:
-    print("\n-- L: Windows / Linux keep the old rule, its exact messages, and Neo4j's environment --")
+    print("\n-- L: Windows / Linux: the PATH rule's exact messages, and Neo4j's environment --")
     check("L0 _is_macos() is sys.platform == 'darwin' on this machine",
           callable(getattr(P, "_is_macos", None)) and P._is_macos() == (sys.platform == "darwin"))
     for plat_label in ("Linux", "Windows"):
         mac = _Mac(td / f"l1-{plat_label}", (25, 21))
-        res, out, exc, chosen = _preflight(mac, is_mac=False, JAVA_HOME=None)
-        check(f"L1 {plat_label}: `java` on PATH is checked as before — Java 25 refused with the old exact text",
-              res == [(f"Java 25 found ('openjdk version \"25.0.4\" 2024-07-16 LTS'), but Neo4j 5.26 needs 17 "
-                       "or 21. Install Temurin 21, or point JAVA_HOME at a 17/21 JDK, then reopen the shell.",
-                       "Java 25 unsupported (needs 17/21)")], res)
+        win = plat_label == "Windows"
+        with _Patch(P, is_windows=lambda w=win: w):
+            res, out, exc, chosen = _preflight(mac, is_mac=False, JAVA_HOME=None)
+        install = _install(win)[:1].upper() + _install(win)[1:]
+        check(f"L1 {plat_label}: `java` on PATH is checked as before: Java 25 (no 17 / 21 installed) refused with "
+              "the exact text: where it was found, nothing installed, the install command, re-run setup",
+              res == [(f"Java 25 found at {STUB} ('openjdk version \"25.0.4\" 2024-07-16 LTS'), but Neo4j 5.26 needs "
+                       "17 or 21, and no JDK 17 or 21 was found in the usual install folders. "
+                       f"{install}, {_FINDS_IT}.", "Java 25 unsupported (needs 17/21)")], res)
         check(f"L2 {plat_label}: /usr/libexec/java_home is never asked", TOOL not in mac.exes(), mac.exes())
     mac = _Mac(td / "l3", ())
     mac.which_ret = None
     res, out, exc, chosen = _preflight(mac, is_mac=False, JAVA_HOME=None)
-    check("L3 not macOS, no java on PATH: the old 'no Java on PATH' text, exactly", res == [_OLD_MISSING], res)
+    check("L3 not macOS, no java on PATH, none installed: the 'no Java on PATH' text, exactly",
+          res == [_missing(P.is_windows())], res)
     mac = _Mac(td / "l4", (21,), broken={21})
     res, out, exc, chosen = _preflight(mac, is_mac=False, JAVA_HOME=None)
     t = _text(res)
@@ -526,7 +557,7 @@ def gate_l_locked(td: Path) -> None:
     res, out, exc, chosen = _preflight(mac, is_mac=False, JAVA_HOME=None)
     check("L5 not macOS, a java that only timed out: [] + the WARNING, as before", res == [] and "WARNING" in out, out)
     check("L5b ...its exact text", "[provision] WARNING: `/usr/bin/java -version` timed out (no answer within 15s, nor on "
-          "a 60s retry) — Java IS on PATH, the machine is probably under heavy load; continuing. If Neo4j then fails "
+          "a 60s retry). Java IS on PATH, the machine is probably under heavy load; continuing. If Neo4j then fails "
           "to start, check `java -version`." in out, out)
     calls = [c["argv"] for c in mac.calls]
     check("L5c ...and `java -version` is all that ran (no -XshowSettings, no java_home, no Homebrew look-up)",
@@ -535,17 +566,19 @@ def gate_l_locked(td: Path) -> None:
     mac.add_keg("opt-homebrew", "openjdk@21", 21)
     mac.which_ret = None
     res, out, exc, chosen = _preflight(mac, is_mac=False, JAVA_HOME=None)
-    check("L5d not macOS, no java on PATH but a Homebrew-shaped keg: still the old 'no Java on PATH', nothing run",
-          res == [_OLD_MISSING] and mac.calls == [] and chosen is None, (res, mac.calls))
+    check("L5d not macOS, no java on PATH but a Homebrew-shaped keg: still 'no Java on PATH', nothing run",
+          res == [_missing(P.is_windows())] and mac.calls == [] and chosen is None, (res, mac.calls))
 
     mac = _Mac(td / "l6", (25, 21))
     j25 = dict(mac.jdks)[25]
     start_env, admin_env, _rr = _launch_envs(mac, td / "l6", is_mac=False, JAVA_HOME=None)
-    check("L6 not macOS: no JAVA_HOME is added to Neo4j's environment (start and neo4j-admin)",
+    check("L6 not macOS, no 17 / 21 installed to hand over: no JAVA_HOME is added to Neo4j's environment (start "
+          "and neo4j-admin)",
           start_env is not None and "JAVA_HOME" not in start_env and admin_env is not None
           and "JAVA_HOME" not in admin_env, (_jh(start_env), _jh(admin_env)))
     start_env, admin_env, _rr = _launch_envs(mac, td / "l7", is_mac=False, JAVA_HOME=j25)
-    check("L7 not macOS, JAVA_HOME set: passed through to Neo4j unchanged", _same(_jh(start_env), j25)
+    check("L7 not macOS, JAVA_HOME set (a 25) and no 17 / 21 to use instead: passed through to Neo4j unchanged "
+          "(java_select_gates owns the pass-over that replaces it when one is found)", _same(_jh(start_env), j25)
           and _same(_jh(admin_env), j25), (_jh(start_env), _jh(admin_env)))
 
     with _Patch(P, _java_version=lambda: (21, 'openjdk version "21.0.1"'), _is_macos=lambda: True):
@@ -556,8 +589,8 @@ def gate_l_locked(td: Path) -> None:
         return None
     with _Patch(P, _java_version=fake_missing, _is_macos=lambda: False):
         r2, *_ = _quiet(P._java_preflight_problems)
-    check("L8 a stubbed _java_version still drives the rule (21 -> []; missing off macOS -> the old text)",
-          r1 == [] and r2 == [_OLD_MISSING], (r1, r2))
+    check("L8 a stubbed _java_version still drives the rule (21 -> []; missing off macOS -> its text)",
+          r1 == [] and r2 == [_missing(P.is_windows())], (r1, r2))
 
 
 # --------------------------------------------------------------------------------------------------- T
@@ -745,6 +778,7 @@ def gate_s_siblings_on_a_mac(td: Path) -> None:
     runner_jdk = td / "runner-jdk"   # CI's macOS runners set JAVA_HOME; a Mac user often does not
     (runner_jdk / "bin").mkdir(parents=True)
     (runner_jdk / "bin" / "java").write_bytes(b"")
+    (runner_jdk / "bin" / "java.exe").write_bytes(b"")   # JAVA_HOME's java on a Windows host
     no_brew = (str(td / "no-opt-homebrew"), str(td / "no-usr-local"))
     real_which = shutil.which
     n = 0

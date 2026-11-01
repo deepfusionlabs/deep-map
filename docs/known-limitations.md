@@ -42,6 +42,23 @@ a `DEGRADED` verdict names the gap.
   Process start stamps have 1 s resolution, and the `KERN_PROCARGS2` argument reader is unit-tested only. On an
   8 GB Mac the background refresh's memory floor (3 GiB free) will often skip a refresh with `low-memory`. macOS
   metadata (AppleDouble `._<name>` files, `__MACOSX/`, `.AppleDouble/`) is never treated as source.
+- **Java on Windows and Linux.** Neo4j needs Java 17 or 21, and setup checks the Java Neo4j will run: a `JAVA_HOME`
+  you set, otherwise the `java` on PATH. When that one is missing, another version or does not run, setup starts
+  Neo4j with a JDK 17 or 21 it finds instead: for a `JAVA_HOME`, first the JDK of the `java` on PATH; then an
+  installed JDK 21 or 17 (the Windows registry and the usual install folders, `/usr/lib/jvm`, `/usr/lib64/jvm`,
+  SDKMAN, or a JDK unpacked into `<DEEPMAP_HOME>`). This is covered by automated tests with simulated installs; it
+  has not yet run on a real machine with an unsupported Java first on PATH or in `JAVA_HOME`. Limits:
+  - When setup passes over a `JAVA_HOME` you set, your `JAVA_HOME` is not changed: only Neo4j gets the other JDK,
+    and setup prints a note each time. To make it permanent, point `JAVA_HOME` at a JDK 17 or 21 (or unset it)
+    where it is set (system settings or your shell profile), then restart Claude Code: a running session keeps the
+    value it started with. Setup refuses only when it finds no 17 or 21.
+  - A JDK installed anywhere else is not found. **Workaround:** set `JAVA_HOME` to it, or unpack it into
+    `<DEEPMAP_HOME>`.
+  - On Windows, with `JAVA_HOME` unset and a 17 or 21 on PATH, Neo4j reads the Java registry entry before PATH. When
+    that entry names a removed JDK or another version, setup hands Neo4j the PATH Java instead, but in a few cases
+    (the PATH `java` is a launcher outside a JDK and no installed 17 or 21 answers in time) Neo4j may still run the
+    registry's JDK. **Workaround:** set `JAVA_HOME` to a JDK 17 or 21.
+  - On Linux and macOS, a `JAVACMD` in the environment overrides the Java DeepMap hands Neo4j.
 - **Python 3.10 or later.** Tested on 3.10 to 3.13. When `python` is a Python 3.7 to 3.9, the hooks still start
   under it (and `python3` never gets their input), but that Python is not supported.
 - **Windows: a Neo4j password containing `& | ^ < > %` is refused.** `cmd.exe` re-reads those characters in
@@ -245,6 +262,12 @@ project then uses that endpoint, and `status` / `doctor` report `isolation: OPER
 - **Incremental extraction is opt-in and `ast`-only.** `DEEPMAP_INCREMENTAL_SYNC=1` skips re-parsing unchanged files
   on the `ast` path and builds the same graph. graphify runs as one whole-tree process, so with it every sync
   extracts the whole tree, and the push to Neo4j is always a full push.
+- **SQL (`.sql`) and DreamMaker (`.dm`) files are not parsed.** The engine reads them only with optional parser
+  packages that DeepMap does not install, so `deepmap_search`, `deepmap_impact` and `deepmap_cypher` never return a
+  table, view, stored procedure or other SQL object. These files are not counted for coverage, so they never make the
+  verdict `DEGRADED`; `/deep-map:status` and `/deep-map:doctor` list them on a line of their own. The session-start
+  note and the reminder before the session's first Grep or Glob name them and tell the agent to use Grep or Read
+  there. **Workaround:** use Grep for SQL.
 - **The verdict can only flag what it can see.** A language whose files are on disk but not in the graph makes the
   verdict `DEGRADED` with a `LOW COVERAGE` reason, and the session-start note tells the agent that an empty result
   in that layer means not indexed, not absent. **Workaround:** check the per-language `N files, M nodes` table in

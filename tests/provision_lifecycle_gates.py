@@ -653,7 +653,18 @@ def gate_java_timeout_not_missing() -> None:
     def _fail(*a, **k):
         return types.SimpleNamespace(returncode=1, stdout="",
                                      stderr="Error: Could not reserve enough space for object heap")
-    with _Sandbox(), _Patch(P, _port_in_use=lambda h, p: False, _disk_free_gb=lambda path: 100.0), \
+    # hermetic since 0.6.3, which reads JAVA_HOME first and searches the installed JDKs: neither from this machine
+    saved_jh = os.environ.pop("JAVA_HOME", None)
+    try:
+        _gate_java_timeout_body(_timeout, _fail)
+    finally:
+        if saved_jh is not None:
+            os.environ["JAVA_HOME"] = saved_jh
+
+
+def _gate_java_timeout_body(_timeout, _fail) -> None:
+    with _Sandbox(), _Patch(P, _port_in_use=lambda h, p: False, _disk_free_gb=lambda path: 100.0,
+                            _java_install_candidates=lambda: [], _java_registry_pick=lambda: None), \
             _Patch(shutil, which=lambda name: "C:/jdk/bin/java.exe"):
         with _Patch(P, subprocess=types.SimpleNamespace(run=_timeout, TimeoutExpired=subprocess.TimeoutExpired)):
             ok, out = _captured(P.preflight, "5.26.0")

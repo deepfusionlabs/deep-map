@@ -55,6 +55,14 @@ the five `*_edges.py` recognizers: ruby_rails, csharp, java, go, typescript; `en
   edge type must also be named in `deepmap_cypher`'s description (`tests/cypher_tool_gates.py`).
   — `build/framework_edges.py:77-89`; `build/language_recognizers.py:110-115`; `build/retrieval.py:567-570`;
   `build/deepmap_search_server.py:531-548`
+- Adding a source extension takes up to six coordinated edits (root `CLAUDE.md`). The ones gates compare here:
+  `graphify_extract.SOURCE_CODE_EXTS` or `EXCLUDED_BY_DESIGN_EXTS` (every suffix the engine parses), a census
+  language in `verdict._SOURCE_EXTS`, and, when the engine parses it only with an optional grammar package DeepMap
+  does not install (`.sql`, `.dm` today), its module in `verdict._OPTIONAL_PARSERS`
+  (`tests/sql_parser_census_gates.py` section E2 reads the engine's extras on both ends of the pinned range). While
+  that module is missing, coverage leaves those files out and the manifest lists them under
+  `coverage.parser_missing`, which `status` / `doctor` print and the hooks name to the agent. See
+  `build/graphify_extract.py:139`, `:157`; `build/verdict.py:40`, `:77`, `:204-230`
 - `/deep-map:setup`'s own environment (`deps_bootstrap.py`, stdlib only) runs only from the `__main__` blocks of
   `provision.py` and `deepmap_cli.py`, never on import, so in-process callers and hermetic gates never trigger it.
   Remedies for a package the running Python lacks come from ONE rule, `deps_bootstrap.setup_remedy` (doctor, verdict,

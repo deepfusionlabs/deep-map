@@ -10,6 +10,7 @@
 #       hex, sometimes with a one-letter prefix;
 #     - two 40-hex constants in two named gates (a synthetic key and public git commit pins of benchmark corpora);
 #     - one graphify node id ("pkg2_matcher") in one captured fixture.
+#     - synthetic C# interface names ("Lb.Api.IRunS1") in the C# typed-calls gate's source fixtures.
 # Every test rule below is limited to the generic-api-key rule AND a path AND the exact value shape, so a real
 # credential (any other rule, or any other shape, or any other file) is still reported.
 # Requires gitleaks >= 8.25 ([[allowlists]] with targetRules / condition). CI runs 8.30.1.
@@ -65,4 +66,17 @@ paths = [
 regexTarget = "secret"
 regexes = [
   '''^pkg2_matcher$''',
+]
+
+# 5. Synthetic C# interface names in the C# typed-calls gate's source fixtures ("class X : Lb.Api.RunBaseS1, Lb.Api.IRunS1").
+[[allowlists]]
+description = "synthetic C# interface names in tests/typed_calls_cs_gates.py source fixtures"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = [
+  '''(^|/)tests/typed_calls_cs_gates\.py$''',
+]
+regexTarget = "secret"
+regexes = [
+  '''^[A-Z][a-z]\.Api\.IRun[A-Z][0-9]$''',
 ]

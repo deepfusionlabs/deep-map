@@ -5,6 +5,7 @@ real `java`, no network, no download — every dependency is stubbed."""
 from __future__ import annotations
 
 import io
+import os
 import sys
 import types
 from contextlib import redirect_stderr
@@ -36,6 +37,14 @@ def gate_java_version() -> None:
     # the PATH `java -version` rule of every OS but macOS (a Mac has its own rule: macos_java_intel_gates), so the
     # host's platform is pinned — on a Mac _java_version would otherwise ask /usr/libexec/java_home
     saved_mac = getattr(P, "_is_macos", None)
+    # off macOS a PATH java that is missing / unsupported / broken makes the rule look for an installed 17 / 21
+    # (provision._java_install_candidates): never this machine's own registry, Program Files or /usr/lib/jvm
+    saved_find = (P._java_install_candidates, P._java_registry_pick)
+    P._java_install_candidates = lambda: []
+    P._java_registry_pick = lambda: None   # nor its JavaSoft registry (Windows, a PATH java that is a 17 / 21)
+    # the PATH rule is what is parsed here, so JAVA_HOME is unset for the gate: off macOS a JAVA_HOME the host (a CI
+    # runner, a stale user value) sets is judged first, and would make this gate depend on the machine
+    saved_jh = os.environ.pop("JAVA_HOME", None)
 
     def stub(which_ret, stderr):
         P.shutil.which = lambda name: which_ret
@@ -55,6 +64,9 @@ def gate_java_version() -> None:
         check("unparseable -> None", P._java_version() is None)
     finally:
         P.shutil.which, P.subprocess = saved_which, saved_sub
+        P._java_install_candidates, P._java_registry_pick = saved_find
+        if saved_jh is not None:
+            os.environ["JAVA_HOME"] = saved_jh
         if saved_mac is None:
             del P._is_macos
         else:

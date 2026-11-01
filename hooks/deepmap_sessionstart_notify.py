@@ -643,7 +643,9 @@ def _announce(root, payload) -> None:
     <root>/.deepmap/session_health.json, so the pre-search nudge can report a later outcome that
     contradicts it (a failure after READY, a recovery after 'not reachable') — once.
     The READY / COVERAGE messages gain the reconnect-via-/mcp note when this project's MCP servers are
-    down at session start (see _server_note). Never raises."""
+    down at session start (see _server_note), and end with deepmap_hook_state.parser_missing_note: the files the
+    graph lacks because the engine's optional parser for them is not installed (.sql / .dm; they do not count for
+    coverage, so they never DEGRADE the verdict, but the agent must still hear they are not indexed). Never raises."""
     if not _hs.feature_enabled(ENV_ANNOUNCE_OPTOUT):
         return
     sid = payload.get("session_id")
@@ -702,7 +704,7 @@ def _announce(root, payload) -> None:
             suffix, auto_told = _auto_suffix(fs, auto), ("stale" if fs.get("kind") == "stale" else "edited")
         else:
             suffix = _staleness_suffix(root, data, fs)
-        text = ANNOUNCE_TEXT + suffix + note + _hs.stale_kept_note(data)
+        text = ANNOUNCE_TEXT + suffix + note + _hs.stale_kept_note(data) + _hs.parser_missing_note(data)
     elif gaps:
         told = "coverage"
         note, note_kind = _server_note_kind(root, data, down=down, outcome=outcome)
@@ -711,7 +713,7 @@ def _announce(root, payload) -> None:
         else:
             suffix = _staleness_suffix(root, data, fs)
         text = (COVERAGE_TEXT.format(gaps="\n".join(f"  - {g}" for g in gaps)) + suffix + note
-                + _hs.stale_kept_note(data))
+                + _hs.stale_kept_note(data) + _hs.parser_missing_note(data))
     else:
         told, text = "stale", caution
         auto_told = "caution" if auto is not None else None

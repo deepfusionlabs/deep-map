@@ -220,6 +220,55 @@ def coverage_gaps(data) -> list:
     return out[:3]
 
 
+# 0.6.3: verdict.py leaves out of coverage the files whose engine parser is an optional package that was not installed
+# (.sql without tree_sitter_sql, .dm without tree_sitter_dm), so such a repo no longer reads a false DEGRADED; sync
+# records them in the manifest as coverage.parser_missing {suffix: {"files": N, "package": ...}}. They are still NOT in
+# the graph, so the READY announce, the coverage warning and the Grep/Glob reminder carry this one sentence.
+PARSER_MISSING_NOTE = (
+    " Not in the graph: {files} (the extraction engine's {langs} {parsers} DeepMap does not install); for {langs} "
+    "use Grep/Read, and an empty deepmap_search/deepmap_impact result there means not indexed, not absent."
+)
+_PARSER_SUFFIX_RE = re.compile(r"\.[a-z0-9_+-]{1,15}")
+_PARSER_MISSING_MAX = 5
+
+
+def _and_join(items) -> str:
+    """'a', 'a and b', 'a, b and c'. Never raises."""
+    try:
+        items = [str(i) for i in items]
+        return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+    except Exception:
+        return ""
+
+
+def parser_missing_note(data) -> str:
+    """PARSER_MISSING_NOTE for the manifest's coverage.parser_missing block (the files the last sync could not put in
+    the graph because the engine's parser for their suffix is not installed), or "" when there is no such block or
+    it is malformed. Reads only what sync stamped into the manifest: never imports verdict and never probes for the
+    parser (a hook may run under another Python than the sync did). Each entry must be a short lower-case suffix
+    ('.sql') with a positive integer `files`; any other entry is skipped. Never raises."""
+    try:
+        cov = data.get("coverage") if isinstance(data, dict) else None
+        block = cov.get("parser_missing") if isinstance(cov, dict) else None
+        if not isinstance(block, dict):
+            return ""
+        found = []
+        for ext, entry in block.items():
+            n = entry.get("files") if isinstance(entry, dict) else None
+            if (isinstance(ext, str) and _PARSER_SUFFIX_RE.fullmatch(ext) and isinstance(n, int)
+                    and not isinstance(n, bool) and n > 0):
+                found.append((ext, n))
+        found = sorted(found)[:_PARSER_MISSING_MAX]
+        if not found:
+            return ""
+        return PARSER_MISSING_NOTE.format(
+            files=_and_join(f"{n} {e} file(s)" for e, n in found),
+            langs=_and_join(e[1:].upper() for e, _n in found),
+            parsers="parser is an optional package" if len(found) == 1 else "parsers are optional packages")
+    except Exception:
+        return ""
+
+
 def _registry():
     """build/port_registry, or None. Stdlib-only (its one lazy import is never reached from here)."""
     try:

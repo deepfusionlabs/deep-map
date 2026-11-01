@@ -33,7 +33,10 @@ otherwise the same.
 
 **DeepMap's Python packages need no installer.** When the `python` here lacks them, or holds one outside
 the version range DeepMap supports, setup never installs into it. It first checks Java (17 or 21) and free
-disk, failing in seconds with a `PREFLIGHT FAILED` line, then creates DeepMap's own virtual environment at
+disk, failing in seconds with a `PREFLIGHT FAILED` line. On Windows and Linux, when `JAVA_HOME` or the `java`
+on PATH is missing or another version, setup uses a JDK 17 or 21 it finds installed (it refuses only when
+there is none); when it passes over a `JAVA_HOME`, it prints a `NOTE:` line: relay it to the user, since it
+says how to make the choice permanent. Then it creates DeepMap's own virtual environment at
 `<DEEPMAP_HOME>/venv` (`~/.deepmap/venv`), installs the packages there (PyTorch's CPU build included),
 downloads the embedding model, runs a self-check and continues under that environment. Its progress lines
 are numbered (`[1/7] creating DeepMap's virtual environment ...`); that first run downloads about 1 GB, and

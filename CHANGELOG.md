@@ -4,6 +4,28 @@ All notable changes to DeepMap are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and versions are 0.x: DeepMap is an early release, and features
 may change between versions.
 
+## [0.6.3] - 2026-11-01
+
+Two setup fixes from a Windows .NET user report. The graph and the ranking are unchanged.
+
+### Fixed
+- **Setup finds an installed Java 21 or 17 on Windows and Linux.** Neo4j needs Java 17 or 21. Setup used to check
+  only the `java` on PATH, so with Java 19 first on PATH it refused although a JDK 21 was installed. Now, when
+  `JAVA_HOME` or the `java` on PATH names another version, no Java, or a Java that does not run, setup starts Neo4j
+  with a JDK 17 or 21 it finds instead: one on PATH, or one installed in the Windows registry and the usual install
+  folders, `/usr/lib/jvm`, `/usr/lib64/jvm`, SDKMAN, or unpacked into DeepMap's home folder (`~/.deepmap`). Your own
+  `JAVA_HOME` is not changed: when setup passes it over, it prints a note on how to make the choice permanent. On
+  Windows, when the Java registry entry Neo4j reads first names another version, setup now hands Neo4j the 17 or 21
+  it checked (one exception is listed in `docs/known-limitations.md`). Setup refuses only when it finds no 17 or 21,
+  and then says what to install. macOS is unchanged.
+- **Repositories with `.sql` files no longer read DEGRADED.** The engine parses SQL (and DreamMaker `.dm`) only with
+  an optional package that DeepMap does not install, so those files are not in the graph, yet they were counted for
+  coverage, and a healthy graph read "LOW COVERAGE for SQL". They are no longer counted. `/deep-map:status` and
+  `/deep-map:doctor` list them on a line of their own, and Claude is told at the start of a session (and before its
+  first Grep or Glob) that they are not in the graph, so it reads SQL with Grep. SQL is still not parsed. If your
+  graph already reads DEGRADED for this reason, run `/deep-map:refresh` once after updating: the background refresh
+  skips a project whose source files did not change.
+
 ## [0.6.2] - 2026-11-01
 
 A sounder opt-in C# call linker and two fixes. With the opt-in linkers off, the graph and the ranking are unchanged.

@@ -230,8 +230,9 @@ search can find logic that lives in a property getter; auto-properties, indexers
 
 Three steps, all inside Claude Code. No terminal, no API key, no Docker.
 
-Needs Claude Code, Python 3.10+ (as `python` or `python3`) and Java 17 or 21 (for Neo4j). Tested on Windows 11 and
-Linux. Macs with Apple silicon aren't verified yet, and Intel Macs aren't supported.
+Needs Claude Code, Python 3.10+ (as `python` or `python3`) and Java 17 or 21 (for Neo4j; on Windows and Linux,
+setup finds an installed JDK 17 or 21 itself, even when another Java comes first). Tested on Windows 11 and Linux.
+Macs with Apple silicon aren't verified yet, and Intel Macs aren't supported.
 
 1. **Add the plugin** from its public GitHub repository, `deepfusionlabs/deep-map`. In the Claude Code CLI:
 

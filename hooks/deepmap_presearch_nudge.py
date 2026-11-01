@@ -37,7 +37,9 @@ Discipline (mirrors hooks/deepmap_access_hook.py — a hook must never harm the 
     tool-result hook, and silenced with it by DEEPMAP_FRESHNESS_NOTE=0 — and, while a refresh runs (or one announced
     to this session has not ended), the reminder's freshness note becomes AUTO_RUNNING_NOTE. One text per call: the
     heal follow-up first, then the auto-sync follow-up, then the reminder (which the auto-sync follow-up does not use
-    up). STALE_KEPT_NOTE rides on the reminder whenever the manifest records stale_kept > 0.
+    up). STALE_KEPT_NOTE rides on the reminder whenever the manifest records stale_kept > 0, and so does
+    deepmap_hook_state.parser_missing_note (also on the heal-recovered follow-up) whenever the manifest's
+    coverage.parser_missing names files the graph lacks because the engine's optional parser is not installed.
   * ROOT-AWARE — a Grep from a subdirectory uses the manifest of the root the project was synced at
     (deepmap_hook_state.project_root: the outermost one up to the git work tree's top).
   * THROTTLED — the reminder fires AT MOST ONCE PER SESSION (keyed on the payload's session_id), so it
@@ -274,6 +276,7 @@ def _followup(root, payload, data):
             if gaps:
                 text += (f" Its graph still does NOT cover: {'; '.join(gaps)} — keep using Grep/Glob/Read "
                          "there (an empty result means not indexed, not absent).")
+            text += _hs.parser_missing_note(data)   # said instead of the reminder, so it carries that sentence too
         rec["resolved"], rec["seen"] = True, sig
         _hs.write_session_health(root, sid, rec)
         return text
@@ -330,7 +333,7 @@ def main() -> int:
             return 0  # the session's deepmap tools are ANOTHER project's servers (ROUND-7 I4)
         auto_on = _hs.autosync_on(root, payload)
         note = AUTO_RUNNING_NOTE if auto_on and _auto_running(root, payload) else _freshness_note(root, data)
-        _hs.emit("PreToolUse", text + note + _hs.stale_kept_note(data))
+        _hs.emit("PreToolUse", text + note + _hs.stale_kept_note(data) + _hs.parser_missing_note(data))
     except Exception:
         # A reminder hook must never surface an error to the tool flow.
         return 0

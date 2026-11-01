@@ -1020,7 +1020,7 @@ def set_initial_password(version: str, password: str, project_key: str | None = 
     env = dict(os.environ)
     if project_key is not None:
         env["NEO4J_CONF"] = str(paths(version, project_key)["conf_dir"])
-    _neo4j_java_env(env)   # macOS: neo4j-admin runs the JDK `neo4j console` will (no-op elsewhere)
+    _neo4j_java_env(env)   # neo4j-admin runs the JDK `neo4j console` will (the preflight's choice, when it made one)
     try:
         out = subprocess.run(cmd, capture_output=True, text=True,
                              encoding="utf-8", errors="replace", timeout=120, env=env)
@@ -1868,8 +1868,10 @@ def start_neo4j(version: str, project_key: str | None = None) -> int:
 
     Detached so it survives the provisioning process exit; output is redirected to the (per-instance)
     console log. Per-instance: NEO4J_CONF points the launcher at THIS project's conf dir (own data/ports);
-    the child inherits it on both Windows (cmd->neo4j.bat) and POSIX (U4). macOS with no JAVA_HOME set: JAVA_HOME is
-    the JDK the Java preflight passed (_neo4j_java_env), never one Neo4j's launcher picks by its own rule.
+    the child inherits it on both Windows (cmd->neo4j.bat) and POSIX (U4). Every OS: when the Java preflight chose a
+    JDK for Neo4j (macOS with no JAVA_HOME set; elsewhere a usable 17 / 21 chosen because the PATH java, the JavaSoft
+    registry entry or the JAVA_HOME the user set names none), JAVA_HOME is that JDK (_neo4j_java_env), never one Neo4j's
+    launcher picks by its own rule; otherwise the environment is passed on unchanged.
 
     Where the launcher is recorded differs per OS (ROUND-7 I4):
       * Windows — console mode writes NO pid file (its bootloader asks the service manager instead), so the
@@ -1905,7 +1907,7 @@ def start_neo4j(version: str, project_key: str | None = None) -> int:
     env = dict(os.environ)
     if project_key is not None:
         env["NEO4J_CONF"] = str(p["conf_dir"])
-    _neo4j_java_env(env)   # macOS: the JDK the Java preflight passed, as JAVA_HOME (no-op elsewhere)
+    _neo4j_java_env(env)   # the JDK the Java preflight chose, as JAVA_HOME (when it chose one; else env unchanged)
     try:   # close the parent's fd even if Popen raises (the child keeps its own dup'd fd; no leak)
         if is_windows():
             proc = subprocess.Popen(["cmd.exe", "/c", str(neo4j), "console"],
@@ -2601,11 +2603,51 @@ _JAVA_OK_MAJORS = (17, 21)   # Neo4j 5.26 LTS supported Java majors
 
 _JAVA_DIAG: str | None = None   # why the LAST _java_version() returned None (see there)
 _JAVA_PROBED_HOME: str | None = None   # the java.home the last _probe_java(props=True) read (None: none named)
-# macOS only: the JDK home the last _java_version() chose for Neo4j (None: nothing to hand over — another OS, a
-# JAVA_HOME the user set, no usable JDK). start_neo4j / set_initial_password pass it as JAVA_HOME (_neo4j_java_env);
-# _JAVA_CHECKED says whether _java_version ran in this process at all.
+# the JDK home the last _java_version() chose for Neo4j (None: nothing to hand over: a usable JAVA_HOME the user set, a
+# PATH java that is a 17 / 21, no usable JDK). macOS: its own rule (_macos_java_version); every other OS: a usable JDK
+# chosen because the java JAVA_HOME names (_java_pass_over) or the PATH java is missing, unsupported or broken, or
+# (Windows) because the JavaSoft registry entry Neo4j would take first is not a usable 17 / 21 (_other_java_version).
+# start_neo4j / set_initial_password pass it as JAVA_HOME (_neo4j_java_env); _JAVA_CHECKED says whether _java_version
+# ran in this process at all.
 _NEO4J_JAVA_HOME: str | None = None
 _JAVA_CHECKED = False
+# every OS but macOS: where the java the last _java_version() judged came from ("javahome": JAVA_HOME's, "path": the
+# PATH java, "found": an installed JDK the search pinned; None: not known, e.g. a gate's stub of _java_version) and its
+# path, for the preflight's words (_other_java_problems).
+_JAVA_SOURCE: str | None = None
+_JAVA_EXE: str | None = None
+# every OS but macOS: the JAVA_HOME value the last _java_version() passed over, exactly as it was set (its java
+# missing, unsupported or broken, and a usable JDK chosen instead: _java_pass_over), and the preflight's one NOTE line
+# about it; None: nothing passed over. _neo4j_java_env replaces exactly this value with _NEO4J_JAVA_HOME.
+_JAVA_PASSED_OVER: str | None = None
+_JAVA_PASSED_NOTE: str | None = None
+_JAVA_NOTES_SHOWN: set = set()   # the NOTE lines this process printed: an identical one is never printed twice
+
+# Every OS but macOS, a PATH java that is missing, unsupported or broken: where an installed JDK 17 / 21 is looked for
+# (_java_install_candidates). Windows: every JavaHome under these HKLM keys (Oracle's installer writes them, other
+# vendors' MSIs on request; Neo4j's launcher reads the same keys), then each child of these vendor folders under
+# %ProgramFiles% / %ProgramW6432% (Temurin, Oracle, Microsoft, Azul Zulu, Corretto, Liberica, Semeru, an OpenJDK zip).
+# Every other OS: each child of these folders (distro packages, Temurin's repo, SDKMAN).
+# Everywhere: <DEEPMAP_HOME>/jdk*.
+_WIN_JAVASOFT_KEYS = (r"SOFTWARE\JavaSoft\JDK", r"SOFTWARE\JavaSoft\JRE")
+_WIN_JDK_VENDOR_DIRS = ("Eclipse Adoptium", "Java", "Microsoft", "Zulu", "Amazon Corretto", "BellSoft", "Semeru",
+                        "OpenJDK")
+_POSIX_JVM_DIRS = ("/usr/lib/jvm", "/usr/lib64/jvm", "~/.sdkman/candidates/java")
+_JAVA_FIND_MAX_PROBES = 4   # `java -version` runs one search may make (a candidate that only timed out ends it)
+_JDK_32BIT_ARCHS = ("x86", "i386", "i486", "i586", "i686")   # a `release` OS_ARCH whose JVM Neo4j's heap does not fit
+_JAVA_MAJOR_RE = re.compile(r"(?<![\d.])(?:1\.)?(\d{1,2})(?!\d)")
+_JAVA_NOT_FOUND = "no JDK 17 or 21 was found in the usual install folders"
+# winget as Claude Code's shell runs it (no console to answer a prompt): the exact id, the winget source only (never
+# the msstore source's first-use agreement), agreements accepted. Its Temurin MSI sets PATH, JAVA_HOME and the JavaSoft
+# keys.
+_JAVA_WINGET = ("winget install -e --id EclipseAdoptium.Temurin.21.JDK --source winget --accept-source-agreements "
+                "--accept-package-agreements")
+_JAVA_ADOPTIUM = "https://adoptium.net/temurin/releases/?version=21"
+# where a JAVA_HOME change is made so that it lasts (a running Claude Code and its heal keep the value they started
+# with)
+_JAVA_HOME_WHERE_WIN = "Settings > System > About > Advanced system settings > Environment Variables"
+_JAVA_HOME_WHERE_POSIX = "your shell profile, e.g. ~/.profile, or /etc/environment"
+_JAVA_HOME_SPACE = "with a space at its start or end"   # a pasted JAVA_HOME: the JDK is there, the value is not
 
 _MACOS_JAVA_STUB = "/usr/bin/java"               # Apple's stub: $JAVA_HOME's java, else the newest registered JDK
 _MACOS_JAVA_HOME_TOOL = "/usr/libexec/java_home"  # lists the JDKs registered under /Library/Java/JavaVirtualMachines
@@ -2631,33 +2673,34 @@ def _macos_has_java_home_tool() -> bool:
 def _java_version():
     """(major:int, first_line:str) of the Java Neo4j will run, or None if it is missing/broken/unparseable.
     `java -version` prints to STDERR. Parses 'openjdk version "17.0.9"', '"21"', legacy '"1.8.0_x"'.
-    Every OS but macOS: the default `java` on PATH. macOS: see _macos_java_version (the PATH `java` there is Apple's
-    stub, and the JDK chosen is the one start_neo4j hands Neo4j).
+    macOS: see _macos_java_version (the PATH `java` there is Apple's stub). Every other OS: see _other_java_version
+    (JAVA_HOME's java when it is set, else the PATH java, else an installed JDK 21 / 17 found in the usual places,
+    at most _JAVA_FIND_MAX_PROBES of them run; a JAVA_HOME whose java is missing, unsupported or broken is passed over
+    for a usable JDK when there is one: _java_pass_over). A JDK chosen for Neo4j is the one start_neo4j hands it.
 
     WHY it returned None is left in _JAVA_DIAG — "missing" | "timeout: ..." | "failed: ..." |
-    "unparseable: ..." (macOS also "javahome: ...") — so preflight never tells a user to install a Java that IS on PATH
-    (2026-09 #81/#107: on a loaded box `java -version` took >15s and was reported as "no Java on PATH"). A
-    timeout is retried once with a longer budget before it counts."""
-    global _JAVA_DIAG, _NEO4J_JAVA_HOME, _JAVA_CHECKED
+    "unparseable: ..." | "javahome: ..." (JAVA_HOME names no java) — so preflight never tells a user to install a Java
+    that IS on PATH (2026-09 #81/#107: on a loaded box `java -version` took >15s and was reported as "no Java on
+    PATH"). A timeout is retried once with a longer budget before it counts."""
+    global _JAVA_DIAG, _NEO4J_JAVA_HOME, _JAVA_CHECKED, _JAVA_SOURCE, _JAVA_EXE, _JAVA_PASSED_OVER, _JAVA_PASSED_NOTE
     _JAVA_DIAG = None
     _NEO4J_JAVA_HOME = None
     _JAVA_CHECKED = True
+    _JAVA_SOURCE = _JAVA_EXE = None
+    _JAVA_PASSED_OVER = _JAVA_PASSED_NOTE = None
     if _is_macos():
         return _macos_java_version()
-    exe = shutil.which("java")
-    if not exe:
-        _JAVA_DIAG = "missing"
-        return None
-    return _probe_java(exe)
+    return _other_java_version()
 
 
 def _probe_java(exe: str, *, props: bool = False):
     """`exe -version` -> (major, first_line), or None with _JAVA_DIAG saying why (see _java_version). On macOS the
     stub's "no Java runtime" answer is "missing": nothing is installed, nothing on PATH is broken.
-    props (macOS, a `java` whose JDK home its path does not show — a version manager's shim): `exe
-    -XshowSettings:properties -version` instead, still ONE process. The JDK then also prints its properties (indented
-    `key = value` lines) before the version lines: its own java.home goes into _JAVA_PROBED_HOME (when that home holds
-    bin/java), and the version is read from the unindented lines only (first_line is the version line)."""
+    props (a `java` whose JDK home its path does not show: a version manager's shim on macOS, a launcher or shim off
+    macOS in _java_pass_over): `exe -XshowSettings:properties -version` instead, still ONE process. The JDK then also
+    prints its properties (indented `key = value` lines) before the version lines: its own java.home goes into
+    _JAVA_PROBED_HOME (when that home holds bin/java; off macOS also bin\\java.exe on Windows, _java_exe_in), and the
+    version is read from the unindented lines only (first_line is the version line)."""
     global _JAVA_DIAG, _JAVA_PROBED_HOME
     _JAVA_DIAG = None
     _JAVA_PROBED_HOME = None
@@ -2688,7 +2731,8 @@ def _probe_java(exe: str, *, props: bool = False):
                 break
         hm = re.search(r"^\s+java\.home = (.+?)\s*$", out, re.M)
         home = hm.group(1) if hm else ""
-        if home and os.path.isfile(os.path.join(home, "bin", "java")):
+        if home and (os.path.isfile(os.path.join(home, "bin", "java"))
+                     or (not _is_macos() and os.path.isfile(_java_exe_in(home)))):
             _JAVA_PROBED_HOME = home
     else:
         m = re.search(version_re, out)
@@ -2870,15 +2914,438 @@ def _macos_java_version():
     return None
 
 
-def _neo4j_java_env(env: dict) -> dict:
-    """`env` for a Neo4j process (`neo4j console`, neo4j-admin). macOS with JAVA_HOME unset: JAVA_HOME = the JDK home
-    the Java preflight passed (_NEO4J_JAVA_HOME; the preflight's rule runs here first when this process has not run
-    it), so Neo4j's launcher runs exactly that JDK instead of choosing one by its own macOS rule. Every other OS, a
-    JAVA_HOME the user set, or no JDK chosen: `env` unchanged. Never raises."""
+def _other_java_version():
+    """_java_version on every OS but macOS. Neo4j 5.26's launcher (Windows: neo4j.bat's Get-Java; POSIX: bin/neo4j)
+    runs <JAVA_HOME>/bin/java when JAVA_HOME is set, with no fall-back when it is not there; else, on Windows, a JDK the
+    JavaSoft registry names; else the PATH java. So:
+      * JAVA_HOME set: its bin/java (bin\\java.exe on Windows) is checked, what Neo4j runs. The path is built from the
+        value exactly as set, as Neo4j's launcher builds it (a trailing space a pasted value kept is no JDK there, and
+        is named). A 17 / 21 there, or one whose -version only TIMED OUT: that verdict, nothing pinned, Neo4j runs it.
+        Missing ("javahome: ..."), unsupported or broken: _java_pass_over hands Neo4j a usable JDK instead when there
+        is one (the PATH java's own home, else an installed 21 / 17), else that verdict (the preflight refuses it,
+        naming JAVA_HOME).
+      * else the PATH java, as always. A 17 / 21, or one whose -version only TIMED OUT: that verdict (one `java
+        -version`). Nothing is pinned, so Neo4j is started with its environment unchanged, except on Windows when the
+        JavaSoft registry entry Neo4j's launcher takes before PATH names no java or not a 17 / 21
+        (_win_registry_override).
+      * else (no java on PATH, or one that is unsupported or does not run): the first installed JDK 21, then 17, that
+        _find_installed_jdk confirms (at most _JAVA_FIND_MAX_PROBES runs). Its home goes into _NEO4J_JAVA_HOME and
+        Neo4j is started with exactly that JAVA_HOME (_neo4j_java_env): the JDK this check passed is the JDK Neo4j
+        runs (on Windows a JavaSoft registry entry, an Oracle 19 say, would otherwise win over it). None found: the
+        PATH java's verdict (unsupported, broken, or "missing").
+    Where the judged java came from is left in _JAVA_SOURCE / _JAVA_EXE (the preflight's words)."""
+    global _JAVA_DIAG, _NEO4J_JAVA_HOME, _JAVA_SOURCE, _JAVA_EXE
+    raw = os.environ.get("JAVA_HOME") or ""
+    if raw.strip():
+        exe = _java_exe_in(raw)
+        _JAVA_SOURCE, _JAVA_EXE = "javahome", exe
+        if not os.path.isfile(exe):
+            space = raw != raw.strip() and os.path.isfile(_java_exe_in(raw.strip()))
+            if space:
+                _JAVA_DIAG = (f'javahome: JAVA_HOME is set to "{raw}", {_JAVA_HOME_SPACE} that Neo4j\'s launcher '
+                              f'keeps, so "{exe}" does not exist')
+            else:
+                _JAVA_DIAG = f"javahome: JAVA_HOME is set to {raw}, but {exe} does not exist"
+            return _java_pass_over(raw, exe, None, space=space)
+        res = _probe_java(exe)
+        timed_out = res is None and (_JAVA_DIAG or "").startswith("timeout")
+        if timed_out or (res is not None and res[0] in _JAVA_OK_MAJORS):
+            return res
+        return _java_pass_over(raw, exe, res)
+    exe = shutil.which("java")
+    _JAVA_SOURCE, _JAVA_EXE = "path", exe
+    res = _probe_java(exe) if exe else None
+    if not exe:
+        _JAVA_DIAG = "missing"
+    elif (res is not None and res[0] in _JAVA_OK_MAJORS) or (res is None and (_JAVA_DIAG or "").startswith("timeout")):
+        if res is not None and is_windows():
+            home, found = _win_registry_override(exe)
+            if found:   # an installed JDK, confirmed by its own -version: that is what Neo4j will run
+                _NEO4J_JAVA_HOME, res, _JAVA_DIAG = found
+                _JAVA_SOURCE, _JAVA_EXE = "found", _java_exe_in(_NEO4J_JAVA_HOME)
+            elif home:  # the PATH java's own JDK home: the java this check just ran
+                _NEO4J_JAVA_HOME = home
+        return res
+    path_diag = _JAVA_DIAG
+    found = _find_installed_jdk(skip=exe)
+    if found:
+        home, res, diag = found
+        _JAVA_DIAG, _NEO4J_JAVA_HOME = diag, home
+        _JAVA_SOURCE, _JAVA_EXE = "found", _java_exe_in(home)
+        return res
+    _JAVA_DIAG = path_diag
+    return res
+
+
+def _java_pass_over(raw: str, jh_exe: str, jh_res, *, space: bool = False):
+    """_other_java_version, JAVA_HOME set and its java (jh_exe) missing, unsupported (jh_res) or broken: the
+    PASS-OVER. A JAVA_HOME whose -version only TIMED OUT never comes here (it warns and proceeds, as before). Up to
+    0.6.2 such a machine passed when its PATH java was a 17 / 21 (Neo4j then ran JAVA_HOME's JDK with a warning);
+    refusing it would also leave every SessionStart heal refusing and Neo4j down. So a usable JDK is chosen instead:
+    (1) the PATH java's JDK: its home is <home>/bin/java(.exe) once links are resolved (_java_own_home; asked plain
+    -version), else, for a launcher or shim, the java.home its JVM names in the same single run
+    (-XshowSettings:properties); taken when its -version says 17 / 21, or (its own home only) when that -version only
+    TIMED OUT and the home's `release` file or name says 17, 21 or nothing (the search's rule); never a 32-bit JDK
+    (_jdk_home_facts); else (2) the first installed JDK 21, then 17, that _find_installed_jdk confirms (one whose
+    -version only timed out ends the search and is taken: its rule). JAVA_HOME's java and the PATH java never run
+    twice. A choice: _NEO4J_JAVA_HOME is its home (source "found"), the JAVA_HOME value exactly as set goes into
+    _JAVA_PASSED_OVER and the preflight's NOTE into _JAVA_PASSED_NOTE, and that JDK's result is returned; Neo4j is then
+    started with that home in place of exactly that JAVA_HOME value (_neo4j_java_env), and the user's JAVA_HOME itself
+    is unchanged. Nothing found: JAVA_HOME's own verdict (jh_res, its diagnosis and source), which the preflight refuses
+    naming JAVA_HOME (_other_java_problems), exactly as before. `space`: the value only carries a space at its start
+    or end (named in the NOTE; "remove that space" is the advice only when the JDK without it is a 17 / 21:
+    _java_home_space_only). Never raises."""
+    global _JAVA_DIAG, _NEO4J_JAVA_HOME, _JAVA_SOURCE, _JAVA_EXE, _JAVA_PASSED_OVER, _JAVA_PASSED_NOTE
+    jh_diag = _JAVA_DIAG
+    choice = None
     try:
-        if not _is_macos() or str(env.get("JAVA_HOME") or "").strip():
+        def same(a, b):
+            return os.path.normcase(os.path.realpath(a)) == os.path.normcase(os.path.realpath(b))
+        judged = [jh_exe] if os.path.isfile(jh_exe) else []   # a java that is not there never ran
+        path_exe = shutil.which("java")
+        if path_exe and not any(same(path_exe, j) for j in judged):
+            judged.append(path_exe)
+            home = _java_own_home(path_exe)
+            res = _probe_java(path_exe, props=not home)   # a launcher / shim: its JVM names its home in the same run
+            diag = _JAVA_DIAG
+            own = bool(home)
+            if not home and _JAVA_PROBED_HOME and os.path.isfile(_java_exe_in(_JAVA_PROBED_HOME)):
+                home = _JAVA_PROBED_HOME
+            major, x86 = _jdk_home_facts(home) if home else (None, True)
+            if not x86 and res is not None and res[0] in _JAVA_OK_MAJORS:
+                choice = home, res, diag
+            elif (not x86 and own and res is None and (diag or "").startswith("timeout")
+                  and major in (21, 17, None)):
+                choice = home, None, diag
+        if choice is None:
+            choice = _find_installed_jdk(skip=judged)
+    except Exception:
+        choice = None
+    if not choice:
+        _JAVA_DIAG = jh_diag   # the probes above left theirs; _JAVA_SOURCE / _JAVA_EXE still name JAVA_HOME's java
+        return jh_res
+    home, res, diag = choice
+    verdict = "cannot use"
+    if jh_res is not None:   # a Java that runs: Neo4j 5.26 may still start on it, with its own warning
+        what, verdict = f"Java {jh_res[0]} at {jh_exe}", "does not support"
+    elif space:
+        what = f'no java ("{jh_exe}" does not exist: the value has a space at its start or end)'
+    elif not os.path.isfile(jh_exe):
+        what = f"no java ({jh_exe} does not exist)"
+    else:
+        what = f"a java that does not run ({jh_exe})"
+    jdk = f"the JDK {res[0]}" if res is not None else "the JDK"
+    if space and _java_home_space_only(raw):
+        fix = "remove that space from JAVA_HOME"
+    else:
+        fix = "point JAVA_HOME at a JDK 17 or 21, or unset it"
+    _JAVA_DIAG, _NEO4J_JAVA_HOME = diag, home
+    _JAVA_SOURCE, _JAVA_EXE = "found", _java_exe_in(home)
+    _JAVA_PASSED_OVER = raw
+    _JAVA_PASSED_NOTE = (f"[provision] NOTE: JAVA_HOME names {what}, which Neo4j 5.26 {verdict}; DeepMap starts "
+                         f"Neo4j with {jdk} at {home} instead (only in Neo4j's own environment; your JAVA_HOME is "
+                         f"unchanged). To make this permanent, {fix}.")
+    return res
+
+
+def _jdk_home_facts(home: str):
+    """(major, x86) of a JDK home, nothing run: major is what its `release` file says (JAVA_VERSION), else what its
+    folder name says, else None (_java_install_candidates' rule); x86 is True for a 32-bit JDK (`release` OS_ARCH in
+    _JDK_32BIT_ARCHS: Neo4j's heap does not fit). Never raises."""
+    try:
+        version, arch = _jdk_release(home)
+        major = _java_major_of(version) if version else None
+        if major is None:
+            major = _java_major_of(os.path.basename(os.path.normpath(home)))
+        return major, (arch or "").strip().lower() in _JDK_32BIT_ARCHS
+    except Exception:
+        return None, False
+
+
+def _java_home_space_only(raw: str) -> bool:
+    """True when the JAVA_HOME value `raw` carries a space at its start or end and the value without it is a 64-bit
+    JDK whose `release` file or folder name says 17 or 21 (_jdk_home_facts; nothing run): removing the space is then
+    the whole fix. False otherwise (no such space, no java there, another or unknown major: the advice is to point
+    JAVA_HOME at a 17 / 21). Never raises."""
+    try:
+        home = raw.strip()
+        if not home or raw == home or not os.path.isfile(_java_exe_in(home)):
+            return False
+        major, x86 = _jdk_home_facts(home)
+        return major in _JAVA_OK_MAJORS and not x86
+    except Exception:
+        return False
+
+
+def _java_own_home(exe: str):
+    """The JDK home whose launcher `exe` is: <home>/bin/java(.exe) (_java_exe_in) once links are resolved; None for a
+    launcher outside any JDK home (Oracle's javapath copy, a scoop or version-manager shim). File checks only, no
+    process. Never raises."""
+    try:
+        home = os.path.dirname(os.path.dirname(os.path.realpath(exe)))
+        own = _java_exe_in(home)
+        if os.path.isfile(own) and os.path.normcase(os.path.realpath(own)) == os.path.normcase(os.path.realpath(exe)):
+            return home
+    except Exception:
+        pass
+    return None
+
+
+def _win_registry_override(path_exe: str):
+    """Windows, JAVA_HOME unset, the PATH java a 17 / 21 (_other_java_version): (home, found) to hand Neo4j, so that it
+    runs the Java this check passed. Neo4j's Get-Java takes the JavaSoft registry's pick (_java_registry_pick) BEFORE
+    the PATH java, with no fall-back. No pick, a pick that IS the PATH java, or one whose JDK is a 17 / 21 (its
+    `release` file, else its key name): Neo4j runs a supported Java, so (None, None): nothing handed over, Neo4j's
+    environment as it always was (no process, a registry read and a file read). A pick that names no java (a JDK
+    uninstalled since: Neo4j would not start) or another major (an Oracle 19 left registered: Neo4j would run it):
+    the PATH java's own JDK home when the PATH java is <home>\\bin\\java.exe once links are resolved, (home, None),
+    still no process; else (a launcher outside any JDK: a scoop shim, a javapath copy) the first installed 21 / 17
+    _find_installed_jdk confirms, (home, (home, result, diag)); none: (None, None), as before. Never raises."""
+    global _JAVA_DIAG
+    saved = _JAVA_DIAG
+    try:
+        pick = _java_registry_pick()
+        if not pick:
+            return None, None
+        key, home = pick
+        path_real = os.path.normcase(os.path.realpath(path_exe))
+        pick_exe = _java_exe_in(home)
+        if os.path.isfile(pick_exe):
+            if os.path.normcase(os.path.realpath(pick_exe)) == path_real:
+                return None, None
+            version, _arch = _jdk_release(home)
+            major = _java_major_of(version) if version else None
+            if major is None:
+                major = _java_major_of(key)
+            if major is None or major in _JAVA_OK_MAJORS:
+                return None, None
+        own = _java_own_home(path_exe)
+        if own:
+            return own, None
+        found = _find_installed_jdk(skip=path_exe)
+        if found and found[1] is not None:
+            return found[0], found
+    except Exception:
+        pass
+    finally:
+        _JAVA_DIAG = saved
+    return None, None
+
+
+def _java_exe_in(home: str) -> str:
+    """<home>/bin/java (bin\\java.exe on Windows): the file Neo4j's launcher runs for JAVA_HOME = home."""
+    return os.path.join(home, "bin", "java.exe" if is_windows() else "java")
+
+
+def _java_major_of(text):
+    """The Java major a version string or a JDK folder / registry key name carries ('21.0.1', '1.8.0_402' -> 8,
+    'jdk-21.0.5.11-hotspot', 'java-21-openjdk-amd64', 'zulu-21', 'jdk21.0.5_11', '21.0.4-tem'), or None."""
+    m = _JAVA_MAJOR_RE.search(str(text or ""))
+    return int(m.group(1)) if m else None
+
+
+def _jdk_release(home: str):
+    """(JAVA_VERSION, OS_ARCH) from the `release` file at a JDK's root (every JDK 9+ ships one), each None when absent.
+    A file read, no process. Never raises."""
+    try:
+        with open(os.path.join(home, "release"), encoding="utf-8", errors="replace") as fh:
+            text = fh.read(16384)
+    except Exception:
+        return None, None
+    ver = re.search(r'^JAVA_VERSION="([^"\r\n]*)"', text, re.M)
+    arch = re.search(r'^OS_ARCH="([^"\r\n]*)"', text, re.M)
+    return (ver.group(1) if ver else None), (arch.group(1) if arch else None)
+
+
+def _java_registry_homes() -> list:
+    """Windows: [(version key name, JavaHome)] of EVERY version subkey (not only CurrentVersion) under HKLM
+    _WIN_JAVASOFT_KEYS, in the 64-bit registry view, then the 32-bit one. Read with winreg (no process); [] on another
+    OS, with no such key or on any error. Never raises."""
+    out: list = []
+    try:
+        import winreg
+    except Exception:
+        return out
+    for view in (getattr(winreg, "KEY_WOW64_64KEY", 0), getattr(winreg, "KEY_WOW64_32KEY", 0)):
+        for path in _WIN_JAVASOFT_KEYS:
+            try:
+                with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path, 0, winreg.KEY_READ | view) as key:
+                    for i in range(256):
+                        try:
+                            name = winreg.EnumKey(key, i)
+                        except OSError:
+                            break
+                        try:
+                            with winreg.OpenKey(key, name, 0, winreg.KEY_READ | view) as sub:
+                                home, _typ = winreg.QueryValueEx(sub, "JavaHome")
+                        except OSError:
+                            continue
+                        if isinstance(home, str) and home.strip():
+                            out.append((name, home.strip()))
+            except Exception:
+                continue
+    return out
+
+
+def _java_registry_pick():
+    """Windows: (CurrentVersion, JavaHome) of the JavaSoft registry entry Neo4j 5.26's launcher (Get-Java) runs when
+    JAVA_HOME is unset, or None (no such entry: it then runs the PATH java). Get-Java's own order and rules: HKLM
+    JavaSoft\\JDK, then \\JRE, in the 64-bit view, then the same two in the 32-bit view (Wow6432Node); in each, the
+    CurrentVersion value names a subkey whose JavaHome is taken; a missing value or subkey, or an empty JavaHome, moves
+    on to the next key; the first JavaHome found wins, as it is (whether a java is there is not checked: Neo4j does
+    not fall back). Read with winreg (no process); None on another OS or on any error. Never raises."""
+    try:
+        import winreg
+    except Exception:
+        return None
+    for view in (getattr(winreg, "KEY_WOW64_64KEY", 0), getattr(winreg, "KEY_WOW64_32KEY", 0)):
+        for path in _WIN_JAVASOFT_KEYS:
+            try:
+                with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path, 0, winreg.KEY_READ | view) as key:
+                    cur, _typ = winreg.QueryValueEx(key, "CurrentVersion")
+                    cur = str(cur or "")
+                    if not cur:
+                        continue
+                    with winreg.OpenKey(key, cur, 0, winreg.KEY_READ | view) as sub:
+                        home, _typ = winreg.QueryValueEx(sub, "JavaHome")
+                home = home if isinstance(home, str) else ""
+                if home:
+                    return cur, home
+            except Exception:
+                continue
+    return None
+
+
+def _jdk_dirs_in(root: str, prefix: str = "") -> list:
+    """The sub-folders of `root` whose name starts with `prefix` (any case), newest version first (a natural sort:
+    jdk-21.0.13 before jdk-21.0.5). [] when `root` is missing or unreadable. Never raises."""
+    try:
+        names = [n for n in os.listdir(root) if n.lower().startswith(prefix.lower())]
+    except Exception:
+        return []
+
+    def natural(name):   # isdecimal, not isdigit: int() refuses a superscript '²' that isdigit() takes
+        return [(0, int(t), "") if t.isdecimal() else (1, 0, t.lower()) for t in re.split(r"(\d+)", name)]
+    try:
+        names = sorted(names, key=natural, reverse=True)
+    except Exception:
+        names = sorted(names, reverse=True)
+    out = []
+    for name in names:
+        path = os.path.join(root, name)
+        try:
+            if os.path.isdir(path):
+                out.append(path)
+        except Exception:
+            continue
+    return out
+
+
+def _java_install_candidates() -> list:
+    """[(major or None, home)]: the JDKs installed in the usual places, in search order, each holding the java Neo4j's
+    launcher would run (_java_exe_in) and listed once (symlinks resolved). major is what the JDK's own `release` file
+    says (JAVA_VERSION), else what its registry key or folder name says, else None; a 32-bit JDK (`release` OS_ARCH x86)
+    is left out. Windows: every JavaHome under HKLM JavaSoft\\JDK / \\JRE in both registry views
+    (_java_registry_homes), then each child of _WIN_JDK_VENDOR_DIRS under %ProgramFiles% / %ProgramW6432%, then a
+    per-user Temurin under %LOCALAPPDATA%\\Programs\\Eclipse Adoptium. Every other OS: each child of _POSIX_JVM_DIRS.
+    Everywhere last: <DEEPMAP_HOME>/jdk* (a JDK unpacked there by hand). Only the registry and the file system are read,
+    no process. Never raises."""
+    out: list = []
+    seen: set = set()
+
+    def add(home, name=None):
+        try:
+            home = str(home or "").strip()
+            if not home or not os.path.isfile(_java_exe_in(home)):
+                return   # nothing Neo4j could run there (a registry entry left by an uninstalled JDK, a stray folder)
+            key = os.path.normcase(os.path.realpath(home))
+            if key in seen:
+                return
+            seen.add(key)
+            version, arch = _jdk_release(home)
+            if (arch or "").strip().lower() in _JDK_32BIT_ARCHS:
+                return
+            major = _java_major_of(version) if version else None
+            if major is None:
+                major = _java_major_of(name or os.path.basename(os.path.normpath(home)))
+            out.append((major, home))
+        except Exception:
+            return
+
+    try:
+        if is_windows():
+            for name, home in _java_registry_homes():
+                add(home, name)
+            roots = []
+            for var in ("ProgramFiles", "ProgramW6432"):
+                base = (os.environ.get(var) or "").strip()
+                if base:
+                    roots += [os.path.join(base, vendor) for vendor in _WIN_JDK_VENDOR_DIRS]
+            local = (os.environ.get("LOCALAPPDATA") or "").strip()
+            if local:
+                roots.append(os.path.join(local, "Programs", "Eclipse Adoptium"))
+        else:
+            roots = [os.path.expanduser(d) for d in _POSIX_JVM_DIRS]
+        for root in roots:
+            for home in _jdk_dirs_in(root):
+                add(home)
+        for home in _jdk_dirs_in(str(deepmap_home()), "jdk"):
+            add(home)
+    except Exception:
+        pass
+    return out
+
+
+def _find_installed_jdk(skip: str | None = None):
+    """(home, result, diag) of the first installed JDK 21, then 17, whose own -version confirms it; None when there is
+    none. The candidates (_java_install_candidates) are ranked by what their `release` file or name says, so no process
+    runs for a JDK that is neither 17 nor 21; one whose version nothing names is tried after them. At most
+    _JAVA_FIND_MAX_PROBES candidates are run (each `java -version` with _probe_java's 15 s + 60 s retry budget), and one
+    whose -version only TIMED OUT ends the search too (as on macOS: preflight warns and proceeds with it), so the worst
+    case is one timed-out probe after a few fast failures. `skip`: the java (or list of javas) already judged (the PATH
+    one; JAVA_HOME's), never run twice. Never raises."""
+    try:
+        ranked = sorted((c for c in _java_install_candidates() if c[0] in (21, 17, None)),
+                        key=lambda c: {21: 0, 17: 1}.get(c[0], 2))
+        skips = [skip] if isinstance(skip, str) else list(skip or ())
+        skip_keys = {os.path.normcase(os.path.realpath(s)) for s in skips if s}
+        probes = 0
+        for _major, home in ranked:
+            if probes >= _JAVA_FIND_MAX_PROBES:
+                break
+            exe = _java_exe_in(home)
+            if os.path.normcase(os.path.realpath(exe)) in skip_keys:
+                continue
+            probes += 1
+            res = _probe_java(exe)
+            diag = _JAVA_DIAG
+            if (res is not None and res[0] in _JAVA_OK_MAJORS) or (res is None and (diag or "").startswith("timeout")):
+                return home, res, diag
+    except Exception:
+        pass
+    return None
+
+
+def _neo4j_java_env(env: dict) -> dict:
+    """`env` for a Neo4j process (`neo4j console`, neo4j-admin). JAVA_HOME unset: JAVA_HOME = the JDK home the Java
+    preflight chose (_NEO4J_JAVA_HOME), so Neo4j's launcher runs exactly that JDK instead of choosing one by its own
+    rule (macOS: the newest registered JDK; Windows: a JavaSoft registry entry before PATH). Off macOS a home is chosen
+    only when the PATH java is missing, unsupported or broken and an installed 17 / 21 was found, or (Windows) when the
+    registry entry Neo4j would take is not a usable 17 / 21 (_win_registry_override); a machine whose PATH java is a
+    17 / 21 and whose registry agrees starts Neo4j with its environment unchanged. JAVA_HOME set: kept, except the one
+    value the preflight passed over (_java_pass_over: its java missing, unsupported or broken, a usable JDK chosen),
+    which is replaced with the chosen home only when `env` holds EXACTLY that value (a JAVA_HOME that is a usable
+    17 / 21, or any other value, is never touched; the user's own environment is not changed). macOS runs the
+    preflight's rule here first when this process has not run it; off macOS every Neo4j start already runs the
+    preflight first in the same process (_ensure_neo4j, _upgrade_neo4j; a gate locks it), so a process that has not run
+    it starts Neo4j as it always did. No JDK chosen: `env` unchanged. Never raises."""
+    try:
+        cur = env.get("JAVA_HOME")
+        if str(cur or "").strip():
+            if _NEO4J_JAVA_HOME and _JAVA_PASSED_OVER is not None and cur == _JAVA_PASSED_OVER:
+                env["JAVA_HOME"] = _NEO4J_JAVA_HOME
             return env
-        if not _JAVA_CHECKED:
+        if not _JAVA_CHECKED and _is_macos():
             _java_version()
         if _NEO4J_JAVA_HOME:
             env["JAVA_HOME"] = _NEO4J_JAVA_HOME
@@ -2910,12 +3377,19 @@ def _java_preflight_problems() -> list:
     """preflight's Java rule: [(message, short form)] for a missing, broken or unsupported Java; [] for Java 17 / 21,
     and for a `java -version` that only TIMED OUT (a loaded machine — the WARNING is printed here). Shared with the
     environment bootstrap, which checks Java before its downloads (deps_bootstrap). macOS has its own wording: a JDK is
-    installed (Temurin through Homebrew) rather than put on PATH, and JAVA_HOME is named only when the user set it."""
-    global _JAVA_DIAG
+    installed (Temurin through Homebrew) rather than put on PATH, and JAVA_HOME is named only when the user set it.
+    Every other OS: _other_java_problems; a JAVA_HOME passed over for a usable JDK (_java_pass_over) is no problem: its
+    one NOTE line is printed here, once per process (_JAVA_NOTES_SHOWN: setup may run this up to three times)."""
+    global _JAVA_DIAG, _JAVA_SOURCE, _JAVA_EXE, _JAVA_PASSED_OVER, _JAVA_PASSED_NOTE
     _JAVA_DIAG = None
+    _JAVA_SOURCE = _JAVA_EXE = None
+    _JAVA_PASSED_OVER = _JAVA_PASSED_NOTE = None
     jv = _java_version()
     diag = _JAVA_DIAG or "missing"
     mac = _is_macos()
+    if not mac and _JAVA_PASSED_NOTE and _JAVA_PASSED_NOTE not in _JAVA_NOTES_SHOWN:
+        _JAVA_NOTES_SHOWN.add(_JAVA_PASSED_NOTE)   # once per process: setup may judge Java up to three times
+        print(_JAVA_PASSED_NOTE, file=sys.stderr)
     if jv is None and diag.startswith("timeout") and mac and _MACOS_JAVA_HOME_TOOL in diag:
         # java_home itself did not answer: which JDKs are installed is unknown — never "no Java", never "unsupported"
         print(f"[provision] WARNING: {diag.split(': ', 1)[-1]} — the machine is probably under heavy load; continuing "
@@ -2923,27 +3397,112 @@ def _java_preflight_problems() -> list:
               "Neo4j 5.26 needs a JDK 17 or 21.", file=sys.stderr)
         return []
     if jv is None and diag.startswith("timeout"):
-        print(f"[provision] WARNING: {diag.split(': ', 1)[-1]} — Java IS {'installed' if mac else 'on PATH'}, the "
+        where = "installed" if mac or _JAVA_SOURCE in ("javahome", "found") else "on PATH"
+        print(f"[provision] WARNING: {diag.split(': ', 1)[-1]}. Java IS {where}, the "
               "machine is probably under heavy load; continuing. If Neo4j then fails to start, check `java -version`.",
               file=sys.stderr)
         return []
-    if mac:
-        mp = _macos_java_problems(jv, diag)
-        if mp is not None:
-            return mp
-    if jv is None and diag != "missing":
+    if not mac:
+        return _other_java_problems(jv, diag)
+    mp = _macos_java_problems(jv, diag)
+    if mp is not None:
+        return mp
+    if jv is None:   # macOS, a JDK that is found but does not run (missing / unsupported are worded above)
         return [(f"Java was found, but {diag.split(': ', 1)[-1]}. Neo4j 5.26 needs a WORKING JDK/JRE 17 or "
                  "21 — fix that Java (or point JAVA_HOME / PATH at a Temurin 21) and re-run.",
                  "java -version failed")]
-    if jv is None:
-        return [("no Java on PATH. Neo4j 5.26 needs a JDK/JRE 17 or 21 — "
-                 "install Temurin 21 (https://adoptium.net/temurin/releases/?version=21) and reopen the "
-                 "shell. (The Neo4j Community download does not bundle a JRE.)", "no Java on PATH")]
-    if jv[0] not in _JAVA_OK_MAJORS:
-        return [(f"Java {jv[0]} found ({jv[1]!r}), but Neo4j 5.26 needs 17 "
-                 "or 21. Install Temurin 21, or point JAVA_HOME at a 17/21 JDK, then reopen the shell.",
-                 f"Java {jv[0]} unsupported (needs 17/21)")]
     return []
+
+
+def _other_java_problems(jv, diag: str) -> list:
+    """_java_preflight_problems' messages on every OS but macOS. The short forms are those of old ("no Java on PATH",
+    "Java N unsupported (needs 17/21)", "java -version failed"; plus macOS's "JAVA_HOME has no bin/java"), and every
+    remedy works under _other_java_version's rule: a JAVA_HOME the user set is named (_java_home_remedy: point it at a
+    17 / 21 or unset it, durably, then restart Claude Code); otherwise no JDK 17 / 21 was found where DeepMap looks, so
+    the remedy is to install one (_java_install_text: winget / apt / dnf, or an archive unpacked where DeepMap looks),
+    which the next /deep-map:setup finds by itself."""
+    from_jh = _JAVA_SOURCE == "javahome"
+    install = _java_install_text()
+    finds_it = "then re-run /deep-map:setup (DeepMap finds it there itself; no PATH or JAVA_HOME change is needed)"
+    tail = diag.split(": ", 1)[-1]
+    if jv is None and diag.startswith("javahome"):
+        space = _JAVA_HOME_SPACE in diag and _java_home_space_only(os.environ.get("JAVA_HOME") or "")
+        remedy = _java_home_remedy(_JAVA_EXE, space=space)
+        return [(f"{tail}. Neo4j runs the java JAVA_HOME names, so it would not start. {remedy}",
+                 "JAVA_HOME has no bin/java")]
+    if jv is None and diag != "missing":
+        if from_jh:
+            return [(f"Java was found, but {tail}. That is the java JAVA_HOME names, which Neo4j runs, and Neo4j 5.26 "
+                     f"needs a WORKING JDK/JRE 17 or 21. {_java_home_remedy(_JAVA_EXE)}", "java -version failed")]
+        return [(f"Java was found, but {tail}. Neo4j 5.26 needs a WORKING JDK/JRE 17 or 21, and {_JAVA_NOT_FOUND}. "
+                 f"Fix that Java or {install}, {finds_it}.", "java -version failed")]
+    if jv is None:
+        return [(f"no Java on PATH, and {_JAVA_NOT_FOUND}. Neo4j 5.26 needs a JDK/JRE 17 or 21: {install}, "
+                 f"{finds_it}. The Neo4j Community download does not bundle a JRE.", "no Java on PATH")]
+    if jv[0] not in _JAVA_OK_MAJORS:
+        short = f"Java {jv[0]} unsupported (needs 17/21)"
+        found = f"Java {jv[0]} found" + (f" at {_JAVA_EXE}" if _JAVA_EXE else "") + f" ({jv[1]!r})"
+        if from_jh:
+            return [(f"{found}, the java JAVA_HOME names, which Neo4j runs; Neo4j 5.26 needs 17 or 21. "
+                     f"{_java_home_remedy(_JAVA_EXE)}",
+                     short)]
+        return [(f"{found}, but Neo4j 5.26 needs 17 or 21, and {_JAVA_NOT_FOUND}. {install[:1].upper()}{install[1:]}, "
+                 f"{finds_it}.", short)]
+    return []
+
+
+def _java_install_text() -> str:
+    """The install remedy off macOS (lower-case, to follow "...: " or "Fix that Java or "): Temurin 21 through winget on
+    Windows (or its .msi), apt / dnf elsewhere; on both, the adoptium.net archive unpacked so its jdk-21 folder sits in
+    <DEEPMAP_HOME>, the one place an unpacked JDK is looked for (_java_install_candidates). Each lands where the next
+    /deep-map:setup finds it with no PATH or JAVA_HOME change. Never raises."""
+    try:
+        home = str(deepmap_home())
+    except Exception:
+        home = "~/.deepmap"
+    where = f"unpacked so its jdk-21 folder sits directly in {home}"
+    if is_windows():
+        return (f"install Temurin 21 (`{_JAVA_WINGET}`, or the .msi from {_JAVA_ADOPTIUM}; a .zip from there works "
+                f"too, {where})")
+    return ("install Java 21 (Debian / Ubuntu: `sudo apt install openjdk-21-jre-headless`, on Debian 12 "
+            "`openjdk-17-jre-headless`; Fedora / RHEL: `sudo dnf install java-21-openjdk-headless`; or Temurin 21's "
+            f".tar.gz from {_JAVA_ADOPTIUM}, {where})")
+
+
+def _java_home_remedy(skip_exe, *, space: bool = False) -> str:
+    """The remedy when the java JAVA_HOME names is missing, unsupported or broken (off macOS). Point JAVA_HOME at a 17 /
+    21, naming one that is installed (_java_install_candidates: its `release` file or name, nothing run; `skip_exe`,
+    JAVA_HOME's own java, is never named), or say none was found and give the install command first; or unset it.
+    `space`: the value only carries a space Neo4j's launcher keeps and the JDK without it is a 17 / 21
+    (_java_home_space_only): remove it. Then how the change reaches DeepMap: made where JAVA_HOME is set, not for one
+    command, and Claude Code restarted, since a running Claude Code and the SessionStart heal it starts keep the
+    JAVA_HOME they started with (a value set for one command passes that setup and leaves every later heal refusing).
+    Never raises."""
+    hint = None
+    if not space:
+        try:
+            skip = os.path.normcase(os.path.realpath(skip_exe)) if skip_exe else None
+            found = [(m, h) for m, h in _java_install_candidates() if m in _JAVA_OK_MAJORS
+                     and os.path.normcase(os.path.realpath(_java_exe_in(h))) != skip]
+            found.sort(key=lambda c: -c[0])   # 21 before 17, in search order within a major
+            hint = found[0] if found else None
+        except Exception:
+            hint = None
+    if space:
+        target = "Remove that space from JAVA_HOME."
+    elif hint:
+        target = (f"Point JAVA_HOME at a JDK 17 or 21 (a JDK {hint[0]} is installed at {hint[1]}), or unset it "
+                  "(DeepMap then finds an installed 17 / 21 itself).")
+    else:
+        target = ("Point JAVA_HOME at a JDK 17 or 21, or unset it (DeepMap then finds an installed 17 / 21 itself); "
+                  f"{_JAVA_NOT_FOUND}, so first {_java_install_text()}.")
+    if is_windows():
+        where, restart = _JAVA_HOME_WHERE_WIN, "restart Claude Code (and VS Code, when it runs there)"
+    else:
+        where, restart = _JAVA_HOME_WHERE_POSIX, "restart Claude Code from a new terminal"
+    return (f"{target} Change it where it is set ({where}), not for one command only: a running Claude Code, and the "
+            f"SessionStart heal it starts, keep the JAVA_HOME they started with, so {restart}, then re-run "
+            "/deep-map:setup.")
 
 
 def _macos_java_problems(jv, diag: str):
