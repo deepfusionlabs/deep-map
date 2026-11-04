@@ -21,7 +21,7 @@ extraction gates but not yet a retrieval proof. The table below is the source of
 | Language | Extensions | Gated | Retrieval-proven |
 |---|---|---|---|
 | Python | `.py` | ✅ | ✅ |
-| JavaScript | `.js .jsx .mjs .cjs` | ✅ | — |
+| JavaScript | `.js .jsx .mjs` (`.cjs`: framework wiring only; the engine does not parse it) | ✅ | — |
 | TypeScript | `.ts .tsx` | ✅ | ✅ |
 | Go | `.go` | ✅ | ✅ |
 | Rust | `.rs` | ✅ | ✅ |

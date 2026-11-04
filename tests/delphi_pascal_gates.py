@@ -263,6 +263,26 @@ def gate_census_covers_extractor() -> None:
           f"raise a LOW-COVERAGE reason (this is the exact defect the field report hit)")
 
 
+def gate_decided_lists() -> None:
+    print("\n-- H. the 2026-11 lists are decided cases of the allowlist, never a third way to drop a language --")
+    import sql_reader
+    allowed = set(G.SOURCE_CODE_EXTS)
+    excluded = set(getattr(G, "EXCLUDED_BY_DESIGN_EXTS", ()) or ())
+    unparsed = set(getattr(G, "ENGINE_UNPARSED_EXTS", ()) or ())
+    optional = dict(getattr(G, "OPTIONAL_PARSERS", {}) or {})
+    check("DeepMap's own reader's suffixes (sql_reader.EXTS) are allowed and are the census language SQL",
+          set(sql_reader.EXTS) <= allowed and all(V._SOURCE_EXTS.get(e) == "SQL" for e in sql_reader.EXTS),
+          sql_reader.EXTS)
+    check("ENGINE_UNPARSED_EXTS and OPTIONAL_PARSERS name allowed suffixes only (never an excluded one)",
+          bool(unparsed) and unparsed | set(optional) <= allowed and not ((unparsed | set(optional)) & excluded),
+          sorted((unparsed | set(optional)) - allowed))
+    check("not_parsed_here() names allowed suffixes only", set(G.not_parsed_here()) <= allowed,
+          sorted(set(G.not_parsed_here()) - allowed))
+    check("engine_parseable_exts() is a subset of the allowlist and keeps the Delphi family",
+          set(G.engine_parseable_exts()) <= allowed
+          and {".pas", ".pp", ".dpr", ".dpk", ".lpr", ".inc"} <= set(G.engine_parseable_exts()))
+
+
 def main() -> int:
     print("=" * 78)
     print("DELPHI / OBJECT PASCAL GATES — extractor allowlist + verdict honesty (no Neo4j)")
@@ -274,6 +294,7 @@ def main() -> int:
     gate_verdict_not_ready_when_delphi_invisible()
     gate_no_silent_engine_drift()
     gate_census_covers_extractor()
+    gate_decided_lists()
     print("\n" + "=" * 78)
     total = _PASS + _FAIL
     print(f"RESULT: {'GREEN' if not _FAIL else 'RED'} — {_PASS}/{total} checks passed.")

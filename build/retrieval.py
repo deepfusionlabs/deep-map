@@ -778,6 +778,13 @@ _COUNT_PROPS = ("count(CASE WHEN callee:Method AND callee.body_summary ENDS WITH
                 "AND toLower(coalesce(callee.source_file, '')) ENDS WITH '.cs' "
                 "AND callee.key ENDS WITH ('@' + callee.name + ':L' + toString(callee.start_line)) "
                 "THEN 1 END) AS props")
+# How many matched symbols live in a .sql file, in the same round trip (the 2026-11 SQL design, section 5.4). SQL nodes
+# are declarations only (no SQL node has an edge; DeepMap's reader marks them call_by_name False), so the C# notes are
+# chosen over the NON-SQL families (a DB-first repo's table `Customer` never turns the C# class `Customer`'s answer into
+# a "mixed" one) and a SQL match gets a note saying nothing links its users. edge_resolve._FAMILY_EXTS["sql"] is the
+# family; tests/sql_impact_notes_gates.py locks the suffix to it.
+_SQL_FAMILY = "sql"
+_COUNT_SQL = "count(CASE WHEN toLower(coalesce(callee.source_file, '')) ENDS WITH '.sql' THEN 1 END) AS sqlm"
 # What sync records on the :_DeepMapMeta singleton: the typed-call languages that actually ran (absent = an older
 # graph, read as "not linked") and, beside them, whether that pass ran narrowed (typed_call_narrowed: true when
 # DEEPMAP_TYPED_CALLS_SHAPES / DEEPMAP_TYPED_CALLS_IFACE selected fewer than all shapes / modes; absent = unknown,
@@ -791,12 +798,14 @@ def _count_symbol_matches_langs(session, name: str, name_rx) -> "tuple[int | Non
     return _count_symbol_matches_info(session, name, name_rx)[:2]
 
 
-def _count_symbol_matches_info(session, name: str, name_rx) -> "tuple[int | None, set | None, int | None]":
-    """(count, language families, how many matches are proven C# computed properties: _COUNT_PROPS) from ONE query.
-    The property count is None when the answer does not carry it (an older double) or it is not a count: unknown,
-    so the notes keep their method wording."""
+def _count_symbol_matches_info(session, name: str,
+                               name_rx) -> "tuple[int | None, set | None, int | None, int | None]":
+    """(count, language families, how many matches are proven C# computed properties: _COUNT_PROPS, how many matches
+    live in a .sql file: _COUNT_SQL) from ONE query. The property and SQL counts are None when the answer does not
+    carry them (an older double) or they are not counts: unknown, so the notes keep their method wording and make no
+    SQL claim."""
     rec = _first(session.run(_timed(session, _CALLEE_MATCH + "RETURN count(callee) AS matched, " + _COUNT_EXTS
-                                    + ", " + _COUNT_PROPS),
+                                    + ", " + _COUNT_PROPS + ", " + _COUNT_SQL),
                              name=name, name_rx=name_rx))
     try:
         matched = int(rec["matched"])
@@ -811,16 +820,55 @@ def _count_symbol_matches_info(session, name: str, name_rx) -> "tuple[int | None
         props = props if type(props) is int and props >= 0 else None
     except Exception:  # noqa: BLE001 — a record without the column (an older double): unknown
         props = None
-    return matched, _ext_families(exts), props
+    try:
+        sqlm = rec["sqlm"]
+        sqlm = sqlm if type(sqlm) is int and sqlm >= 0 else None
+    except Exception:  # noqa: BLE001 - a record without the column (an older double): unknown
+        sqlm = None
+    return matched, _ext_families(exts), props, sqlm
 
 
-def _all_properties(matched, langs, props) -> bool:
+def _sql_matches(matched, langs, sqlm) -> "int | None":
+    """How many matched symbols live in .sql files when that is KNOWN and positive (a count from _COUNT_SQL, at most
+    `matched`, beside a family set holding "sql"), else None: no SQL claim, and the notes are exactly what they were
+    before SQL was counted (an older double, an unknown language, an inconsistent count)."""
+    if (type(sqlm) is int and type(matched) is int and 0 < sqlm <= matched and isinstance(langs, set)
+            and _SQL_FAMILY in langs):
+        return sqlm
+    return None
+
+
+def _without_sql(langs, sql_matches):
+    """The families the C# notes are chosen over: `langs` minus "sql" when the SQL matches are known (_sql_matches),
+    else `langs` unchanged."""
+    return langs - {_SQL_FAMILY} if sql_matches is not None and isinstance(langs, set) else langs
+
+
+def _module_sql_count(matched, langs, files) -> "int | None":
+    """The SQL count of a module-qualified reading (its count query returns at most 4 distinct files, no SQL count):
+    `matched` when every file is a .sql file, 0 when none is, and None when they mix or the list may be cut (4
+    files)."""
+    try:
+        if type(matched) is not int or not isinstance(langs, set) or len(list(files or [])) >= 4:
+            return None
+        if langs == {_SQL_FAMILY}:
+            return matched
+        return 0 if _SQL_FAMILY not in langs else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _all_properties(matched, langs, props, sqlm=None) -> bool:
     """True only when the answer is C# alone and EVERY matched symbol is a proven C# computed property (_COUNT_PROPS
     counted each one): the notes then say what is true of a property (a read of it is never a link) instead of
     naming calls. False for an unknown count, a partial one (a name that is a property in one type and a method in
-    another keeps the method wording, which also says that reading a property is never a link) or no match."""
-    return (_csharp_mode(langs) == "only" and type(matched) is int and matched > 0
-            and type(props) is int and props == matched)
+    another keeps the method wording, which also says that reading a property is never a link) or no match. Matches
+    in .sql files (`sqlm`, when _sql_matches knows them) are not C# symbols: the rule then reads the non-SQL families
+    and compares the property count with the non-SQL matches (props == matched - sqlm)."""
+    k = _sql_matches(matched, langs, sqlm)
+    rest = matched - k if k is not None else matched
+    return (_csharp_mode(_without_sql(langs, k)) == "only" and type(matched) is int and type(rest) is int
+            and rest > 0 and type(props) is int and props == rest)
 
 
 def _ext_families(exts) -> "set | None":
@@ -1102,6 +1150,35 @@ _CS_MIXED_ROWS_TYPED = ("Some matches are C# symbols, and their dependents are a
                         " Grep for {m} to find the rest.")
 _CS_NARROWED = (" This graph was built with DEEPMAP_TYPED_CALLS_SHAPES or DEEPMAP_TYPED_CALLS_IFACE narrowed, so more "
                 "C# calls are unlinked than listed here.")
+# The SQL notes ({m} as above; the 2026-11 SQL design, section 5.4). A SQL node (a .sql file's :Module, or a table,
+# view, type, package, procedure, function or trigger declared in one) has no edge in this graph: nothing links who
+# reads, writes or executes it. _SQL_EMPTY is the ONE note of an empty answer whose every match lives in a .sql file
+# (_sql_empty fills {head} and {its} from the count); _sql_sentence is the one sentence a mixed answer adds (to that
+# note, or as its own note beside rows).
+_SQL_EMPTY = (" That is NOT proof nothing uses it: {head}, and this graph holds SQL files, tables, "
+              "views, procedures, functions and triggers as declarations only: it does not link who reads, writes or "
+              "executes them (other SQL, C# or other data-access code, ORM mappings), and SQL kept outside .sql files "
+              "(scripts saved as .txt, SQL strings in code) is not in the graph. Grep for {m} to find {its} users.")
+
+
+def _sql_empty(k: int, m: str) -> str:
+    """_SQL_EMPTY for `k` matches that all live in .sql files, its head agreeing with the count as _sql_sentence's
+    does: "{m} comes from a .sql file" and "its users" for one, "all {k} matches come from .sql files" and "their
+    users" for more. {m} is filled last, so a symbol's own text is never read as a placeholder."""
+    head, its = ("{m} comes from a .sql file", "its") if k == 1 else (f"all {k} matches come from .sql files", "their")
+    return _SQL_EMPTY.replace("{head}", head).replace("{its}", its).replace("{m}", m)
+
+
+def _sql_sentence(k: int, matched, m: str) -> str:
+    """The sentence for `k` of `matched` matches that live in .sql files: nothing links their readers, writers or
+    executors; Grep for {m}. No leading space (the caller adds one when it appends it to a note)."""
+    if k == matched:
+        head = f"{m} comes from a .sql file" if k == 1 else f"All {k} matches come from .sql files"
+    else:
+        head = "1 of the matches comes from a .sql file" if k == 1 else f"{k} of the matches come from .sql files"
+    it, its = ("it", "its") if k == 1 else ("them", "their")
+    return (f"{head}: nothing in this graph links who reads, writes or executes {it}; Grep for {m} to find {its} "
+            "users.")
 
 
 def _last_segment(symbol: str) -> str:
@@ -1113,17 +1190,24 @@ def _last_segment(symbol: str) -> str:
 
 
 def _impact_rows(rows, symbol: str, limit: int, matched, max_hops, notes=(), shape=None, langs=None,
-                 typed_langs=None, typed_narrowed=False, props_only=False) -> ImpactRows:
+                 typed_langs=None, typed_narrowed=False, props_only=False, sql_matches=None) -> ImpactRows:
     """Dedupe (the Cypher already DISTINCTs; this is the safety net), trim the one look-ahead row to
     `limit`, and attach the notes that keep a short, empty or partial answer honest. `shape` is the name the
     method caveat judges (the resolved symbol of a module-qualified name; default `symbol`). `langs` (the matched
     symbols' language families; None = unknown), `typed_langs` (the typed-call languages sync recorded) and
     `typed_narrowed` (sync recorded that pass as narrowed; only an exact True counts) decide the C# wording;
     `props_only` (only an exact True counts: _all_properties proved every match a C# computed property) makes a
-    C#-only answer's note property-shaped; an unknown or C#-free answer gets exactly the notes it always did."""
+    C#-only answer's note property-shaped; an unknown or C#-free answer gets exactly the notes it always did.
+    `sql_matches` (how many matches live in .sql files; used only when _sql_matches confirms it against `matched` and
+    `langs`) chooses the C# wording over the non-SQL families, and adds the SQL note: _sql_empty as the ONE note of an
+    empty answer whose every match is SQL, else _sql_sentence (appended to the empty-answer note, or its own note
+    beside rows). None, or a count it cannot confirm, leaves every note exactly as it was."""
     rows = _dedup_impact_rows([_with_call_line(r) for r in rows])
     notes = list(notes)
-    cs = _csharp_mode(langs)
+    k = _sql_matches(matched, langs, sql_matches)
+    rest = _without_sql(langs, k)
+    sql_only = k is not None and not rest and k == matched     # every match lives in a .sql file
+    cs = _csharp_mode(rest)
     linked = bool(typed_langs) and "csharp" in typed_langs
     tail = _CS_NARROWED if linked and typed_narrowed is True else ""   # appended to the typed note only
     if cs == "only" and props_only is True:   # a proven property: the property notes, untyped and typed alike
@@ -1140,19 +1224,26 @@ def _impact_rows(rows, symbol: str, limit: int, matched, max_hops, notes=(), sha
     elif not rows:
         found = (f"{symbol!r} is in the graph ({_plural(matched, 'matching symbol')}) but no dependents "
                  "were found." if matched else f"No dependents of {symbol!r} were found.")
-        if cs == "only":            # still the ONE note of an empty answer
-            notes.append(found + empty_cs.replace("{m}", m) + tail)
+        sql = "" if k is None else " " + _sql_sentence(k, matched, m)
+        if sql_only:                # every match is SQL: what the graph holds for SQL is the ONE note
+            notes.append(found + _sql_empty(k, m))
+        elif cs == "only":          # still the ONE note of an empty answer
+            notes.append(found + empty_cs.replace("{m}", m) + tail + sql)
         else:
             notes.append(found + _EMPTY_TAIL + ((_CS_MIXED_EMPTY_TYPED if linked else _CS_MIXED_EMPTY)
-                                                .replace("{m}", m) + tail if cs == "mixed" else ""))
+                                                .replace("{m}", m) + tail if cs == "mixed" else "") + sql)
     if rows:
-        if cs == "only":            # every C# answer is a lower bound, method-shaped or not: it replaces the caveat
+        if sql_only:                # a SQL answer's dependents are no readers / writers / executors: no call caveat
+            pass
+        elif cs == "only":          # every C# answer is a lower bound, method-shaped or not: it replaces the caveat
             notes.append(rows_cs.replace("{m}", m) + tail)
         else:
             if _method_shaped(symbol if shape is None else shape, rows):
                 notes.append(_METHOD_CAVEAT)   # a NON-empty answer can be partial too (Context.Next: 2 of 4 callers)
             if cs == "mixed":
                 notes.append((_CS_MIXED_ROWS_TYPED if linked else _CS_MIXED_ROWS).replace("{m}", m) + tail)
+        if k is not None:           # its own note beside rows: nothing links the SQL matches' users
+            notes.append(_sql_sentence(k, matched, m))
     return ImpactRows(rows, matched=matched, truncated=truncated, max_hops=max_hops, notes=notes)
 
 
@@ -1253,7 +1344,9 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
     vs. in the graph with no resolved dependents, truncated at `limit`, or walked at reduced depth; for a C#
     match they also say which C# calls this graph does not link (worded by the recorded typed-call languages and,
     from the same meta read, whether that typed pass ran narrowed), or, when the count query proved every match a
-    C# computed property, that reading a property is never a link."""
+    C# computed property, that reading a property is never a link. Matches in .sql files (counted by the same query)
+    do not change the C# wording, and get a note of their own: SQL is held as declarations only, so nothing links
+    who reads, writes or executes them."""
     types, max_hops = _resolve_impact_params(edge_types, max_hops)
     # What was explicitly asked for (an unknown profile / edge type is named, never silently ignored).
     requested, notes = _impact_request(edge_types)
@@ -1268,9 +1361,10 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
     langs, typed_langs = None, None   # the matched symbols' language families; the recorded typed-call languages
     typed_narrowed = False            # sync recorded that typed pass as narrowed (SHAPES / IFACE)
     props = None                      # how many matches are proven C# computed properties (None: unknown)
+    sqlm = None                       # how many matches live in .sql files (None: unknown)
     try:
         with driver.session() as s:
-            matched, langs, props = _count_symbol_matches_info(s, name, name_rx)
+            matched, langs, props, sqlm = _count_symbol_matches_info(s, name, name_rx)
             if matched == 0:
                 # A QUALIFIED name with no direct match may be module-qualified (`provision.is_bolt_up`): read
                 # it as <symbol> in that module's file before calling it absent. A bare name skips this.
@@ -1280,13 +1374,15 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
                     matched = reading["matched"]
                     langs = _file_families(reading.get("files"))
                     props = None      # that reading counts no properties: unknown, the method wording
+                    sqlm = _module_sql_count(matched, langs, reading.get("files"))
                     notes.append(_module_reading_note(shown, reading))
             if matched == 0:   # not in the graph: say so, and skip the (expensive) walk entirely
                 return ImpactRows([], matched=0, max_hops=max_hops, notes=notes + [
                     f"{shown!r} is not in the graph (no indexed symbol has that name) — check the spelling "
                     "or try the bare method name; if its language or directory is not indexed, search "
                     "the source with Grep instead." + _suggestions(s, name)])
-            if _csharp_mode(langs) is not None:   # one timed read, only when a C# symbol matched
+            # one timed read, only when a C# symbol matched (chosen over the non-SQL families, like the notes)
+            if _csharp_mode(_without_sql(langs, _sql_matches(matched, langs, sqlm))) is not None:
                 typed_langs, typed_narrowed = _typed_call_meta(s)
             present = _present_rel_types(s)
             if present is not None:
@@ -1333,14 +1429,14 @@ def query_impact(driver, symbol: str, limit: int = 30, edge_types=None, max_hops
         return _impact_rows(one_hop, shown, limit, matched, 1, notes + [
             f"The multi-hop walk was unavailable ({why}); showing direct :CALLS callers (1 hop) only."],
             shape=None if file_rx is None else name, langs=langs, typed_langs=typed_langs,
-            typed_narrowed=typed_narrowed, props_only=_all_properties(matched, langs, props))
+            typed_narrowed=typed_narrowed, props_only=_all_properties(matched, langs, props, sqlm), sql_matches=sqlm)
     if reduced_from is not None:
         notes.append(f"The {reduced_from}-hop walk exhausted Neo4j's transaction memory{_shared(matched)}, "
                      "so only direct (1-hop) dependents are shown — query a qualified Class.method name "
                      "for a deeper walk.")
     return _impact_rows(rows, shown, limit, matched, max_hops, notes, shape=None if file_rx is None else name,
                         langs=langs, typed_langs=typed_langs, typed_narrowed=typed_narrowed,
-                        props_only=_all_properties(matched, langs, props))
+                        props_only=_all_properties(matched, langs, props, sqlm), sql_matches=sqlm)
 
 
 def _shared(matched) -> str:

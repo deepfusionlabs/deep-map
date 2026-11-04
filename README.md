@@ -14,6 +14,8 @@ confidence label on every link.
 
 RAG is retrieval-augmented generation: Claude looks up your code before it reasons and answers.
 
+**Full walkthrough, examples and FAQ → [deepfusionlabs.ai/deepmap](https://deepfusionlabs.ai/deepmap)**
+
 > DeepMap is an early release, and features may change. [`CHANGELOG.md`](CHANGELOG.md) lists what changed.
 
 **[Install](#install)** · [How it works](#how-it-works) · [Known limits](#known-limits)

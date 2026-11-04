@@ -69,6 +69,8 @@ _LONG_GATE_TIMEOUT_S = {"tests/code_restart_agreement_r10_gates.py": 900,
                         # typed-receiver call linking: real-engine sections + captures of both engines; measured
                         # 35-160 s on a loaded Windows box
                         "tests/typed_calls_py_gates.py": 600,
+                        # SQL reader: ~120 s idle, mostly section F's timing shapes (min of 3, up to 3 retries)
+                        "tests/sql_reader_gates.py": 900,
                         "tests/typed_calls_push_gates.py": 600,
                         "tests/calls_family_filter_gates.py": 600,
                         "tests/typed_calls_shapes_gates.py": 600,
@@ -933,9 +935,31 @@ def main():
                               "PATH java's JDK or an installed JDK 21 / 17 (Windows registry + install folders, Linux "
                               "/usr/lib/jvm, SDKMAN) handed to Neo4j as JAVA_HOME; refused only when none is found; "
                               "a working PATH java unchanged; macOS unchanged"),
-        ("sql_parser_census_gates", "verdict census: .sql / .dm files are not counted when the engine's optional "
-                                    "parser (tree_sitter_sql / tree_sitter_dm) is not installed, so no false LOW "
-                                    "COVERAGE DEGRADED; counted exactly as before when it is"),
+        ("unparsed_census_gates", "verdict census: a suffix this install cannot turn into nodes (.sql while the SQL "
+                                  "reader is off and no engine grammar, .dm without its grammar, .pyi .cjs .pl .pm "
+                                  ".r) is left out of every coverage count and named with its cause; "
+                                  "not_parsed_here() locked to the engine's optional extras; no false DEGRADED"),
+        # SQL declarations (design .ai/design/2026-11/sql; the reader is opt-in: DEEPMAP_SQL_DECLARATIONS)
+        ("sql_reader_gates", "SQL declaration reader: T-SQL / PostgreSQL / MySQL / SQLite / Oracle shapes, nested "
+                             "batches run from strings, stub-then-ALTER, the negative shapes, names, facts, summaries, "
+                             "node dicts (call_by_name False), cache, never raises, linear time on large inputs; the "
+                             "wiring: the file rule, the supplement after the engine, the zero-node rule, the "
+                             "verdict judged by files read, the default-OFF switch and graph identity with it off"),
+        ("graph_rev_gates", "graph revision: sync_status.GRAPH_REV / graph_rev_due (scope; a missing field reads as "
+                            "0; GRAPH_REV is 1: revision 1 covers the not-parsed census); build_recipe records graph_rev; auto_sync.freshness says "
+                            "graph-rev once per revision (an older writer after the rebuild is a recorded skip); "
+                            "status_line names it; the hooks' fresh proof is unchanged"),
+        ("sql_impact_notes_gates", "deepmap_impact on SQL matches: the declarations-only note on a SQL target or a "
+                                   "mixed result, and the C# notes mode chosen over the non-SQL families (a "
+                                   "same-named SQL table never changes them); impact path only, ranking untouched"),
+        # The from-scratch install sanity test (.ai/design/2026-11/sanity; .github/workflows/sanity.yml runs it live)
+        ("live_e2e_gates", "install sanity harness (live_e2e / live_claude / live_e2e_fixture), hermetic: the "
+                           "stream-json parser on recorded sessions, the installed command text read as bytes "
+                           "(CRLF), the CI-only opt-in guard, the secret scan, report merge, fixture answers; "
+                           "no network, Neo4j or CLI"),
+        ("sql_prereg_gates", "G-SQL pre-registration: benchmark/sql_reader/PREREG.md protocol + thresholds "
+                             "hash-locked, the kit parses, imports only the standard library at module level, "
+                             "never writes inside the repository; no .sql file under the kit"),
     ):
         # No exists() guard: a registered gate that has gone missing must turn the run RED, not vanish.
         results.append((_name, run(_desc, [f"tests/{_name}.py"])))

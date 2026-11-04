@@ -298,14 +298,15 @@ AUTO_TOOK = "; its last sync took about {took}"
 # status line, because the failure it prevents is a reasoning error, not a missing fact: without it an
 # agent reads an empty deepmap_search result as "this code does not exist" and answers confidently
 # from nothing. It deliberately steers AWAY from the graph for the named layers (the opposite of
-# ANNOUNCE_TEXT) and names the one command that fixes it, so the user never has to know any of this.
+# ANNOUNCE_TEXT) and names the command that shows what each gap needs (doctor) before the refresh: several gaps are
+# not fixed by a refresh alone (a missing parser, a switched-off reader, a long path).
 COVERAGE_TEXT = (
     "DeepMap graph coverage WARNING for this project — part of the codebase is NOT in the graph:\n"
     "{gaps}\n"
     "For code in those areas, an EMPTY deepmap_search/deepmap_impact result means NOT INDEXED, not "
     "'does not exist' — do not conclude the code is absent, and do not cite a file:line you did not "
-    "read. Use Grep/Glob/Read there instead. The rest of the graph is still trustworthy. To fix the "
-    "gap, run /deep-map:refresh (or /deep-map:doctor for the full per-language coverage table)."
+    "read. Use Grep/Glob/Read there instead. The rest of the graph is still trustworthy. "
+    "/deep-map:doctor shows what each gap needs; once that is fixed, /deep-map:refresh re-reads the code."
 )
 
 
@@ -643,9 +644,11 @@ def _announce(root, payload) -> None:
     <root>/.deepmap/session_health.json, so the pre-search nudge can report a later outcome that
     contradicts it (a failure after READY, a recovery after 'not reachable') — once.
     The READY / COVERAGE messages gain the reconnect-via-/mcp note when this project's MCP servers are
-    down at session start (see _server_note), and end with deepmap_hook_state.parser_missing_note: the files the
-    graph lacks because the engine's optional parser for them is not installed (.sql / .dm; they do not count for
-    coverage, so they never DEGRADE the verdict, but the agent must still hear they are not indexed). Never raises."""
+    down at session start (see _server_note), and end with deepmap_hook_state.not_parsed_note: the source files the
+    graph lacks because this install cannot parse their suffix (coverage.not_parsed, with the cause: an optional
+    parser package, no supported parser, DeepMap's SQL reader off) or DeepMap's SQL reader did not read them
+    (coverage.sql); they do not count for coverage, so they never DEGRADE the verdict, but the agent must still hear
+    they are not indexed (a 0.6.3 manifest's coverage.parser_missing keeps its own sentence). Never raises."""
     if not _hs.feature_enabled(ENV_ANNOUNCE_OPTOUT):
         return
     sid = payload.get("session_id")
@@ -704,7 +707,7 @@ def _announce(root, payload) -> None:
             suffix, auto_told = _auto_suffix(fs, auto), ("stale" if fs.get("kind") == "stale" else "edited")
         else:
             suffix = _staleness_suffix(root, data, fs)
-        text = ANNOUNCE_TEXT + suffix + note + _hs.stale_kept_note(data) + _hs.parser_missing_note(data)
+        text = ANNOUNCE_TEXT + suffix + note + _hs.stale_kept_note(data) + _hs.not_parsed_note(data)
     elif gaps:
         told = "coverage"
         note, note_kind = _server_note_kind(root, data, down=down, outcome=outcome)
@@ -713,7 +716,7 @@ def _announce(root, payload) -> None:
         else:
             suffix = _staleness_suffix(root, data, fs)
         text = (COVERAGE_TEXT.format(gaps="\n".join(f"  - {g}" for g in gaps)) + suffix + note
-                + _hs.stale_kept_note(data) + _hs.parser_missing_note(data))
+                + _hs.stale_kept_note(data) + _hs.not_parsed_note(data))
     else:
         told, text = "stale", caution
         auto_told = "caution" if auto is not None else None

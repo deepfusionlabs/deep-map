@@ -507,7 +507,11 @@ class Case:
                               "extractor_requested": "auto", "engine": "graphify", "graphify_version": "0.8.39",
                               "embed_model": self.w.model_name, "embed_model_revision": "rev1", "env": {},
                               "route": {"source": "registry", "uri": "bolt://127.0.0.1:17689"},
-                              "deepmap_home": os.path.realpath(str(self.home))}}
+                              "deepmap_home": os.path.realpath(str(self.home)),
+                              # what make_build_recipe records (the graph revision of the code in use: the REAL
+                              # sync_status's in M, none for the fake): a graph this code built is never due for one
+                              # (tests/graph_rev_gates.py locks the due cases)
+                              "graph_rev": getattr(self.ST, "GRAPH_REV", 0)}}
         for k, v in over.items():
             if k.startswith("recipe_"):
                 m["build_recipe"][k[len("recipe_"):]] = v

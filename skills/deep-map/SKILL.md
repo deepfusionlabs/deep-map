@@ -127,8 +127,11 @@ entry point, grep/read to trace the details.
   use Grep/Read for it, say plainly that DeepMap doesn't cover it, and suggest `/deep-map:refresh`.
   A `DEGRADED` verdict names the affected layer in its reasons. Treat coverage as part of the answer:
   "DeepMap indexes X but not Y, so I checked Y by reading" is a correct, honest response.
-  The SessionStart note also names file types that are not in the graph at all (for example SQL when its
-  parser is not installed); for those use Grep/Read.
+  The SessionStart note and the first Grep/Glob reminder also name source files that are not in the graph at
+  all, with the reason (for example `.r` or `.pl` files no supported parser reads, or `.sql` files while
+  DeepMap's SQL reader is off); for those use Grep/Read. SQL objects are declarations only, and SQL outside
+  `.sql` files (`.txt` scripts, SQL strings in code, SQL built at run time) is not in the graph: Grep for a
+  table or procedure's users and for schema changes kept elsewhere.
 - **A "background refresh is running" note means answers still come from the previous build.** DeepMap refreshes
   the graph by itself in the background when a session starts; until a later DeepMap note says it finished, code
   changed since the last build may be missing and, while it writes, results may briefly mix old and new code.

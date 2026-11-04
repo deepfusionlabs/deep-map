@@ -1,8 +1,9 @@
 # build — Agent Context (nested; the root CLAUDE.md also applies)
 
-The DeepMap product: 44 modules here + `hooks/` (~72.8k lines). The five call-linking modules (`typed_calls.py`,
-`receiver_facts_py.py`, `receiver_facts_ts.py`, `receiver_facts_csharp.py`, `py_import_resolver.py`; ~11.1k lines)
-belong to S3 sync.
+The DeepMap product: 46 modules here + `hooks/` (~83.4k lines). The call-linking modules (`typed_calls.py`,
+`receiver_facts_py.py`, `receiver_facts_ts.py`, `receiver_facts_csharp.py` with its `csharp_msbuild.py`,
+`py_import_resolver.py`; ~17.5k lines) belong to S3 sync and `sql_reader.py` (DeepMap's own `.sql` reader, ~1.4k
+lines) to S4.
 The modules fall into seven slices:
 S1 provision (`provision.py`, `deps_bootstrap.py`) · S2 routing + MCP (`port_registry.py`, `_mcp_transport.py`, `mcp_bounds.py`, the two
 servers, `cypher_readonly.py`) · S3 sync (`sync.py`, `sync_status.py`, `auto_sync.py`, `extract_cache.py`, `indexes.py`,
@@ -57,12 +58,64 @@ the five `*_edges.py` recognizers: ruby_rails, csharp, java, go, typescript; `en
   `build/deepmap_search_server.py:531-548`
 - Adding a source extension takes up to six coordinated edits (root `CLAUDE.md`). The ones gates compare here:
   `graphify_extract.SOURCE_CODE_EXTS` or `EXCLUDED_BY_DESIGN_EXTS` (every suffix the engine parses), a census
-  language in `verdict._SOURCE_EXTS`, and, when the engine parses it only with an optional grammar package DeepMap
-  does not install (`.sql`, `.dm` today), its module in `verdict._OPTIONAL_PARSERS`
-  (`tests/sql_parser_census_gates.py` section E2 reads the engine's extras on both ends of the pinned range). While
-  that module is missing, coverage leaves those files out and the manifest lists them under
-  `coverage.parser_missing`, which `status` / `doctor` print and the hooks name to the agent. See
-  `build/graphify_extract.py:139`, `:157`; `build/verdict.py:40`, `:77`, `:204-230`
+  language in `verdict._SOURCE_EXTS`, and exactly one way this install turns it into nodes: an in-range engine
+  dispatches it; or its grammar module goes in `graphify_extract.OPTIONAL_PARSERS` (the engine parses it only with an
+  optional package DeepMap does not install: `.sql`, `.dm`); or it goes in `ENGINE_UNPARSED_EXTS` (no in-range engine
+  parses it: `.pyi .cjs .pl .pm .r`); or in `ENGINE_EXT_SINCE` (only a later in-range engine does); or DeepMap reads
+  it itself (`sql_reader.EXTS`). `tests/unparsed_census_gates.py` E2 locks `OPTIONAL_PARSERS` to the engine's extras
+  and E3 locks every suffix to exactly one of these cases, on both engine ends; `tests/delphi_pascal_gates.py` F-H
+  lock the lists against each other. `not_parsed_here()` is THE rule for which suffixes are uncounted and why
+  (`package`, `unusable`, `no-parser`, and `off` for `.sql` while the reader is off and no engine grammar is usable):
+  the verdict leaves them out of every coverage count (`verdict._uncounted_exts`), writes the manifest's
+  `coverage.not_parsed`, prints one doctor / status line each, and the hooks relay them from the manifest alone
+  (`deepmap_hook_state.not_parsed_gaps`; its `_GAP_LANGS` mirrors `_SOURCE_EXTS`' names, locked by
+  `tests/sessionstart_notify_gates.py`). `engine_parseable_exts()` is what is left, for the zero-node rule. The
+  grammar probe (`find_spec`, then `tree_sitter.Language(mod.language())`) runs once per process in `_parser_state`;
+  never probe a grammar anywhere else. See `build/graphify_extract.py:152`, `:170`, `:4280`, `:4401-4410`, `:4497`,
+  `:4529`; `build/verdict.py:40`, `:213`, `:1122`; `hooks/deepmap_hook_state.py:286`, `:357`
+- `sql_reader.py` (stdlib + `summarize.humanize`, no engine import; I/O only in `read_file` and `Cache`) is DeepMap's
+  own `.sql` reader. Only `graphify_extract._sql_supplement` runs it, AFTER the engine and only while
+  `sql_reader_enabled()` (`DEEPMAP_SQL_DECLARATIONS`; default `SQL_DECLARATIONS_DEFAULT`, False until the G-SQL
+  decision in `benchmark/sql_reader/` passes; it moves together with `sync_status._DEFAULT_OFF_KNOBS` /
+  `_DEFAULT_ON_KNOBS`, locked by `tests/sql_reader_gates.py` L; read the switch only through that function, which
+  reads it as sync_status reads a knob with that default). Its nodes: `sql:<rel>` (one `:Module` per file) and
+  `sql:<rel>#<kind>:<qualified lower>` (`:Class` / `:Function`): keys with no line, so a line shift never re-keys,
+  and `:` / `/` keep them apart from engine ids, `::` keys and `_supp_key`. Every one carries `call_by_name: False`
+  (private, never pushed; `edge_resolve` and the typed-edge Resolver never bind it) and no call or import: SQL edges
+  need their own decision record. With the switch off, and for a tree with no `.sql` file, `_sql_supplement` returns
+  the very same objects (byte identity; sections G and I). Its file rule is `sql_source_files` (`git ls-files` in a
+  work tree, every `.gitignore` / `.graphifyignore` level outside one, the engine's sensitive-file rule,
+  `verdict._dir_ignore_rule`), the same on both engine ends: never call `detect._load_graphifyignore`, which differs
+  between 0.8.39 and 0.8.51. The cache is `<graphify_out_dir(root)>/sqlcache/<sha256[:32]>-r<READER_REV>.json`
+  (SqlFacts by content, `read` results only, unused entries pruned one exact name at a time): bump `READER_REV` with
+  any change to `parse()` / `file_nodes()` output (still 1: no reader has shipped). The zero-node rule fails a result
+  of reader nodes only when `_first_engine_source` finds a file the engine would have read, so `auto` still falls
+  back for a C# repo whose engine produced nothing. With the reader on and the engine's grammar importable,
+  `extract_with_report` sets `DEEPMAP_ENGINE_DROP_EXTS` (`INTERNAL_ENV`) so the case shim drops `.sql` from the
+  engine's table at import time, BEFORE the odd-case aliasing; every other tree keeps the byte-identical
+  `-m graphify` command. Its rules beyond the design text (the GRANT privilege-list rule, `TYPE BODY`, GO decides
+  T-SQL first, dialect hints read on code only, COPY rows are data, DO blocks are read, q-quotes, placeholder schemas,
+  stop words only for a bare one-part name, mysqldump view placeholders, concatenated names counted, never declared)
+  are each locked by a case in its gate's sections A / B; a heuristic change needs its must-not-match shapes too
+  (KL-mistake:008). See `build/sql_reader.py:73-77`, `:1262`, `:1343`, `:1414`; `build/graphify_extract.py:4406-4431`,
+  `:5043`, `:5246`, `:5368`; `build/graphify_case_shim.py:104`, `:166`; `build/sync.py:6724-6727`
+- `sync_status.GRAPH_REV` numbers changes to what DeepMap builds from UNCHANGED sources, which the source fingerprint
+  cannot see. Raise it by one, with a scope, in the change that alters the default graph or the coverage verdict for
+  existing graphs: `GRAPH_REV_SCOPE[r](manifest)` decides from the manifest alone whether revision r changes that
+  graph (never a mass rebuild), and `GRAPH_REV_CHANGES[r]` says what changed in plain words (status, doctor and the
+  runner's log quote it). Never lower it or reuse a number; an entry above `GRAPH_REV` is pre-registered and inert.
+  `make_build_recipe` records it as `build_recipe.graph_rev` (absent or malformed reads as 0). `graph_rev_due` is THE
+  rule (never raises; a raising scope means not due), read by `auto_sync.freshness` (stale `graph-rev` where the
+  sources say fresh), `auto_sync.status_line` and `deepmap_cli._graph_rev_line` (status; doctor prints it before its
+  coverage table). The background refresh rebuilds once per revision: a graph-rev pass that ends `synced` records
+  `.deepmap/autosync.json` `graph_rev_rebuilt {rev, finished_epoch}` (lock holder only), and a graph due again for a
+  revision already rebuilt (an older DeepMap rewrote the manifest, e.g. a stale post-commit hook) is the recorded skip
+  `skipped:graph-rev-again` (rc 4, no backoff, deliberately not in `_REPEATING_SKIPS`), never a rebuild per commit; a
+  second runner that finds the lock held queues no re-run for a graph-rev-only staleness. Revision 1 (the not-parsed
+  census) is live; the G-SQL flip needs revision 2, scoped to "the tree holds `.sql` files". A gate fixture whose
+  manifest has neither `build_recipe.graph_rev` nor a coverage block reads as due (revision 1 covers "unknown"): give
+  it `"graph_rev": GRAPH_REV`. See `build/sync_status.py:946-1060`, `:1085`; `build/auto_sync.py:118`, `:242`,
+  `:1294`, `:1321`, `:1628`, `:2078`, `:2380`; `build/deepmap_cli.py:969`; `tests/graph_rev_gates.py`
 - `/deep-map:setup`'s own environment (`deps_bootstrap.py`, stdlib only) runs only from the `__main__` blocks of
   `provision.py` and `deepmap_cli.py`, never on import, so in-process callers and hermetic gates never trigger it.
   Remedies for a package the running Python lacks come from ONE rule, `deps_bootstrap.setup_remedy` (doctor, verdict,

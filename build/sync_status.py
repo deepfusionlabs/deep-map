@@ -15,6 +15,9 @@ ONE module answers these questions for every consumer (KL-architecture:002) — 
                                                             exactly one set — tests/sync_status_gates.py locks it),
                                                             canonical_env_value / recipe_env / recipe_conflicts /
                                                             replay_env, make_build_recipe
+  * is a graph older than what this code builds from the   GRAPH_REV (recorded by make_build_recipe as
+    same sources?                                           build_recipe.graph_rev), GRAPH_REV_SCOPE, graph_rev_due
+                                                            (THE rule auto_sync.freshness reads), graph_rev_note
   * is the embedding model fully cached?                   model_cache_state (a stdlib file check; never imports
                                                             huggingface_hub, never downloads)
   * the OS lock primitive and the atomic JSON writer       os_lock / try_lock / release_lock, atomic_write_json
@@ -143,7 +146,10 @@ _DEFAULT_OFF_KNOBS = (     # on iff the value is an ON-word (the readers' `in {"
     # typed-receiver call linking (typed_calls._config: `in _TRUE`) and the D0 cross-family filter
     # (sync._calls_family_filter_enabled, while sync._CALLS_FAMILY_FILTER_DEFAULT is off — tests/
     # calls_family_filter_gates.py locks the two together)
-    "DEEPMAP_TYPED_CALLS_TESTS", "DEEPMAP_TYPED_CALLS_NONPROD", "DEEPMAP_CALLS_FAMILY_FILTER")
+    "DEEPMAP_TYPED_CALLS_TESTS", "DEEPMAP_TYPED_CALLS_NONPROD", "DEEPMAP_CALLS_FAMILY_FILTER",
+    # DeepMap's own SQL reader (graphify_extract.sql_reader_enabled), while graphify_extract.SQL_DECLARATIONS_DEFAULT
+    # is off: it moves to _DEFAULT_ON_KNOBS with that constant (tests/sql_reader_gates.py L locks the pair)
+    "DEEPMAP_SQL_DECLARATIONS")
 _DEFAULT_ON_KNOBS = (      # off iff the value is an OFF-word (the readers' `not in {"0","false","no","off"}`)
     "DEEPMAP_CASE_INSENSITIVE_EXT", "DEEPMAP_RESCUE_SKIPPED_DIRS", "DEEPMAP_FALSE_CALL_FILTER",
     "DEEPMAP_SELF_CALL_REBIND", "DEEPMAP_CLEAN_OWNER_NAMES", "DEEPMAP_RESOLVED_IMPORTS",
@@ -192,7 +198,7 @@ NON_SHAPING_ENV = frozenset({
     "DEEPMAP_GRAPHIFY_TIMEOUT", "DEEPMAP_INCREMENTAL_SYNC", "DEEPMAP_AUTO_SYNC", "DEEPMAP_AUTO_SYNC_MAX_S",
     "DEEPMAP_AUTO_SYNC_PRUNE", "DEEPMAP_HOOKS", "DEEPMAP_HEAL"})
 INTERNAL_ENV = frozenset({"DEEPMAP_CASE_ALIASES", "DEEPMAP_RESCUE_DIRS",   # recomputed per run by graphify_extract
-                          "DEEPMAP_SKIP_MACOS_METADATA"})
+                          "DEEPMAP_SKIP_MACOS_METADATA", "DEEPMAP_ENGINE_DROP_EXTS"})
 ROUTE_ENV = frozenset({"DEEPMAP_HOME"})                                     # recorded as build_recipe.deepmap_home
 
 _EMBED_THREADS_LIMIT = 64
@@ -920,6 +926,137 @@ def model_cache_state(env=None) -> dict:
         return {"complete": False, "revision": None, "path": None, "missing": ["unreadable"]}
 
 
+# ---- graph revision (the 2026-11 SQL design, section 5.5) ------------------------------------------------------------
+# A graph revision numbers a change to what DeepMap builds from UNCHANGED sources: a release that changes the default
+# graph or the coverage census. The source fingerprint cannot see one, so without it a tree whose sources did not
+# change keeps the graph and the verdict an older DeepMap built (0.6.3's SQL census fix never reached such a tree: its
+# old "LOW COVERAGE for SQL" DEGRADED stayed). make_build_recipe records GRAPH_REV in every manifest
+# (build_recipe.graph_rev); graph_rev_due is THE rule for "this graph is older than a revision that changes it", and
+# auto_sync.freshness reports such a graph stale ("graph-rev"), so DeepMap's background refresh rebuilds it once.
+#
+# A manifest without the field (every graph built before graph revisions existed, 0.6.3's included) reads as revision
+# 0. A release that changes what DeepMap builds raises GRAPH_REV by one, with a scope: GRAPH_REV_SCOPE[r](manifest)
+# says from the manifest alone (no git, no Neo4j) whether revision r changes that graph, so every other graph is never
+# rebuilt for it (no mass rebuild), and GRAPH_REV_CHANGES[r] says what changed, in plain words (status / doctor and the
+# runner's log quote it). An entry above GRAPH_REV is pre-registered and inert until GRAPH_REV reaches it. Never lower
+# GRAPH_REV or reuse a number: a graph a newer DeepMap built records a higher revision and is never due here.
+# GRAPH_REV is 1: revision 1 (below) ships with the census rule it describes (graphify_extract.not_parsed_here, the
+# coverage "not_parsed" block the hooks relay, DeepMap's SQL reader behind DEEPMAP_SQL_DECLARATIONS), so a graph it
+# covers is rebuilt once and every graph this code writes records 1. Locked by tests/graph_rev_gates.py.
+GRAPH_REV = 1
+GRAPH_REV_FIELD = "graph_rev"          # where make_build_recipe records it: manifest["build_recipe"]["graph_rev"]
+
+# Revision 1: the census of languages this install cannot parse (left out of coverage and named with their cause in
+# coverage "not_parsed", which the hooks relay to the agent) and DeepMap's own SQL reader (the design's sections 5.1-7;
+# the reader stays off by default, so with it off the graph itself is unchanged and the verdict and the relay are what
+# change). It changes graphs whose census counts the languages of .sql / .dm / .pl .pm / .r (verdict._SOURCE_EXTS's
+# names), graphs whose coverage names files no parser read (0.6.3's "parser_missing"), and graphs whose persisted
+# reasons blame those or Python / JavaScript (the .pyi / .cjs files the census stops counting: the false-DEGRADED
+# class).
+_REV1_LANGUAGES = frozenset({"SQL", "DM", "Perl", "R"})
+_REV1_REASON_LANGUAGES = _REV1_LANGUAGES | {"Python", "JavaScript"}
+_LOW_COVERAGE_FOR = "LOW COVERAGE for "
+_REASON_HEAD_ENDS = (" \u2014", " \u2013", " - ", ";", " (")     # where a reason's language list ends
+
+
+def _count(value) -> int:
+    """A file count read leniently: a whole number, a float or digits as text; 0 for anything else (a bool too)."""
+    if isinstance(value, bool):
+        return 0
+    try:
+        return int(value)
+    except (TypeError, ValueError, OverflowError):
+        return 0
+
+
+def _reason_languages(reason) -> list:
+    """The census languages a persisted "LOW COVERAGE for <A>[, <B> ...] <dash> ..." reason names (the head
+    verdict._coverage_reasons writes for a sparse or unparsed layer: the text up to the first dash, ";" or " ("), whole
+    names only; [] for any other reason. Never raises."""
+    if not isinstance(reason, str) or not reason.startswith(_LOW_COVERAGE_FOR):
+        return []
+    head = reason[len(_LOW_COVERAGE_FOR):]
+    cut = min((i for i in (head.find(e) for e in _REASON_HEAD_ENDS) if i >= 0), default=len(head))
+    return [name.strip() for name in head[:cut].split(",") if name.strip()]
+
+
+def _rev1_applies(manifest) -> bool:
+    """Revision 1's scope: True for a graph whose manifest has no coverage block (unknown: rebuilt once), whose census
+    counted SQL, DM, Perl or R files, whose coverage names files no parser read ("parser_missing", "not_parsed"), or
+    whose persisted reasons say "LOW COVERAGE for " SQL, DM, Perl, R, Python or JavaScript. A SQL-free, warning-free
+    graph is never rebuilt for it. May raise on a malformed manifest (graph_rev_due catches)."""
+    cov = manifest.get("coverage")
+    if not isinstance(cov, dict):
+        return True
+    langs = cov.get("languages")
+    if isinstance(langs, dict) and any(isinstance(langs.get(name), dict) and _count(langs[name].get("files")) > 0
+                                       for name in _REV1_LANGUAGES):
+        return True
+    if cov.get("parser_missing") or cov.get("not_parsed"):
+        return True
+    reasons = manifest.get("reasons")
+    return isinstance(reasons, list) and any(_REV1_REASON_LANGUAGES.intersection(_reason_languages(r))
+                                             for r in reasons)
+
+
+GRAPH_REV_SCOPE: dict = {1: _rev1_applies}
+GRAPH_REV_CHANGES: dict = {
+    1: "the coverage census now leaves out, and names with their cause, the SQL and other files this install cannot "
+       "parse",
+}
+
+
+def recorded_graph_rev(manifest) -> int:
+    """The graph revision `manifest` records (build_recipe.graph_rev) when it is a whole number >= 0 (an integral JSON
+    float too); 0 when it is absent (a graph built before graph revisions existed) or malformed (a bool, negative,
+    text, a fraction, no build_recipe object): the oldest, so the scopes decide. Never raises."""
+    try:
+        recipe = manifest.get("build_recipe") if isinstance(manifest, dict) else None
+        value = recipe.get(GRAPH_REV_FIELD) if isinstance(recipe, dict) else None
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or value != value or value < 0:
+            return 0
+        return int(value) if int(value) == value else 0
+    except Exception:  # noqa: BLE001
+        return 0
+
+
+def graph_rev_due(manifest):
+    """THE rule: the highest graph revision in (recorded_graph_rev(manifest), GRAPH_REV] whose scope covers the graph
+    `manifest` describes (GRAPH_REV_SCOPE[r](manifest) true), else None: none does, `manifest` is not a manifest, or
+    anything fails (never a rebuild on a guess). A revision without a scope covers nothing; a graph a newer DeepMap
+    built (a higher recorded revision) is never due. auto_sync.freshness reads it (a due graph is rebuilt once by the
+    background refresh), and so does what status / doctor say. Never raises."""
+    try:
+        if not isinstance(manifest, dict):
+            return None
+        for rev in range(int(GRAPH_REV), recorded_graph_rev(manifest), -1):
+            scope = GRAPH_REV_SCOPE.get(rev)
+            if callable(scope) and scope(manifest):
+                return rev
+        return None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def graph_rev_note(manifest):
+    """"this graph was built by an older DeepMap (graph revision R, this code G: <what changed>)" for a graph
+    graph_rev_due finds due (what changed: GRAPH_REV_CHANGES of every covering revision above the recorded one, oldest
+    first), else None. The words only: the caller says what rebuilds it. Never raises."""
+    try:
+        if graph_rev_due(manifest) is None:
+            return None
+        rec = recorded_graph_rev(manifest)
+        changes = []
+        for rev in range(rec + 1, int(GRAPH_REV) + 1):
+            scope, words = GRAPH_REV_SCOPE.get(rev), GRAPH_REV_CHANGES.get(rev)
+            if callable(scope) and words and scope(manifest):
+                changes.append(str(words))
+        what = "; ".join(changes) or "what DeepMap builds from the same sources changed"
+        return f"this graph was built by an older DeepMap (graph revision {rec}, this code {GRAPH_REV}: {what})"
+    except Exception:  # noqa: BLE001
+        return None
+
+
 # ---- build_recipe ---------------------------------------------------------------------------------------------------------
 def strip_userinfo(uri):
     """`uri` without any user:password@ part (never recorded or compared). None stays None. Never raises."""
@@ -948,8 +1085,9 @@ def _home_realpath(env) -> str | None:
 def make_build_recipe(*, engine: str, extraction, route_source, neo4j_uri, code_version, env=None) -> dict:
     """The manifest's build_recipe (spec §2.6.5): how this graph was built — the DeepMap version, the Python X.Y,
     the requested and resolved extractor, the graphify version, the embedding model and its cached snapshot, the
-    non-default graph-shaping knobs, the route (source + URI without userinfo) and realpath(DEEPMAP_HOME). Never a
-    password. Never raises."""
+    non-default graph-shaping knobs, the route (source + URI without userinfo), realpath(DEEPMAP_HOME) and the graph
+    revision of this code (graph_rev = GRAPH_REV, read at call time: what graph_rev_due compares). Never a password.
+    Never raises."""
     e = os.environ if env is None else env
     info = extraction if isinstance(extraction, dict) else {}
     try:
@@ -972,6 +1110,7 @@ def make_build_recipe(*, engine: str, extraction, route_source, neo4j_uri, code_
         "env": recipe_env(e),
         "route": {"source": (str(route_source) if route_source else None), "uri": strip_userinfo(neo4j_uri)},
         "deepmap_home": _home_realpath(e),
+        GRAPH_REV_FIELD: int(GRAPH_REV),
     }
 
 

@@ -966,6 +966,21 @@ def _manifest_coverage_lines(root) -> list:
         return []
 
 
+def _graph_rev_line(root):
+    """The graph-revision line for status / doctor (the 2026-11 SQL design, section 5.5): when the last sync's manifest
+    describes a graph an older DeepMap built and a later graph revision changes it (sync_status.graph_rev_note, THE
+    rule auto_sync.freshness reads too), "<note>; the coverage below is that build's, and /deep-map:refresh rebuilds
+    it now", else None. Printed BEFORE the coverage table whatever auto-sync's state, so a stale persisted reason that
+    points at /deep-map:doctor never loops back to itself. File-only (no Neo4j, no git). Never raises."""
+    try:
+        note = _load("sync_status").graph_rev_note(_read_manifest(root))
+        if not note:
+            return None
+        return f"{note}; the coverage below is that build's, and /deep-map:refresh rebuilds it now"
+    except Exception:
+        return None
+
+
 def _git_pre() -> list:
     """`-c core.longpaths=true` on Windows, [] elsewhere — put before `-C <root>` in every git probe the CLI runs
     (ROUND-8 J6; the same flag as port_registry.git_longpaths_args). Git for Windows refuses a path past MAX_PATH
@@ -1815,6 +1830,9 @@ def cmd_status(args):
         print(f"auto-sync: {_as_text}" if _as_level == "OK" else f"auto-sync: [{_as_level}] {_as_text}")
     except Exception:
         pass
+    _rev = _graph_rev_line(root)   # a graph an older DeepMap built (file-only): before the census and the coverage
+    if _rev:
+        print(f"graph revision: {_rev}")
     def _census():
         drv = _driver()
         try:                              # close the driver even if a query/connect raises
@@ -3371,6 +3389,11 @@ def cmd_doctor(args):
     # sync must WARN and feed the verdict with its own reasons (it used to print "[OK] ... DEGRADED"
     # and then "verdict: READY"). Best-effort, no Neo4j needed. Reasons a LIVE probe above already
     # re-checked (embeddings when Neo4j answered; MCP servers) are not repeated from the manifest.
+    # A graph an older DeepMap built, which a later graph revision changes, is named FIRST (informational: never the
+    # verdict or the exit code), so the coverage and the reasons below read as that build's.
+    _rev = _graph_rev_line(root)
+    if _rev:
+        line("WARN", "graph revision", _rev)
     try:
         cov_lines = _manifest_coverage_lines(root)
         if cov_lines:

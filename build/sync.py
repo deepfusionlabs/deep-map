@@ -406,11 +406,13 @@ class _Extraction(tuple):
     "maxpath", "rescued_dirs", "rescue_dropped", "graphify_out", "self_call_rebind",
     "self_calls_rebound", "graphify_version", "rescue_blocked", "resolved_imports", "imports_resolved",
     "imports_by_name", "calls_filtered", "imports_bare_resolved", "supplemental_nodes",
-    "overloads_moved", "file_ids_split", "calls_plus", "timed_out", "timeout_s"} (keys absent when empty —
+    "overloads_moved", "file_ids_split", "calls_plus", "timed_out", "timeout_s", "sql"} (keys absent when empty —
     "calls_filtered" .. "calls_plus" are the round-7 engine-output corrections, see
     graphify_extract._ROUND7_COUNTERS; `timed_out` + `timeout_s` (round 11) when graphify was stopped by its
-    time budget, so the downgrade refusal names the budget, not a broken install; `engine_error` only for a
-    failed forced-graphify run,
+    time budget, so the downgrade refusal names the budget, not a broken install; `sql` = DeepMap's SQL reader's
+    report (graphify_extract._sql_supplement; only when graphify's graph is the one kept: the verdict judges SQL by
+    the files it read, and its nodes are in `nodes`, so _note_engine_nodes counts them as extraction);
+    `engine_error` only for a failed forced-graphify run,
     where there is no fallback; `rescue_blocked` = the engine-skipped dirs NOT re-included because the
     installed graphify is outside graphify_extract.SUPPORTED_GRAPHIFY_SPEC; the three import keys only
     when the graphify graph is the one kept — `imports_resolved` imports bind by the engine-resolved node
@@ -467,7 +469,9 @@ def _rebuild_code(workspace_root: Path):
                                                 "supplemental_nodes", "overloads_moved", "file_ids_split",
                                                 "calls_plus",
                                                 # round 11 (M1): the engine ran out of its time budget
-                                                "timed_out", "timeout_s") if report.get(k)})
+                                                "timed_out", "timeout_s",
+                                                # 2026-11: DeepMap's SQL reader's report (verdict.build_coverage)
+                                                "sql") if report.get(k)})
         if "self_call_rebind" in report:            # G5: whether the self-call correction ran (opt-out)
             info["self_call_rebind"] = bool(report["self_call_rebind"])
         if res is not None:
@@ -502,7 +506,7 @@ def _rebuild_code(workspace_root: Path):
         # while graphify was installed and had crashed, and the verdict then blamed a "forced" ast.
         info["fallback_reason"] = cause
         for k in ("self_call_rebind", "self_calls_rebound", "calls_filtered", "imports_bare_resolved",
-                  "supplemental_nodes", "overloads_moved", "file_ids_split", "calls_plus"):
+                  "supplemental_nodes", "overloads_moved", "file_ids_split", "calls_plus", "sql"):
             info.pop(k, None)                                  # graphify's graph is not the one kept
         print(f"[deepmap sync] graphify failed ({cause}) — falling back automatically to the "
               f"Python-only ast extractor; non-Python source will be missing from the graph",
@@ -6717,7 +6721,10 @@ def _sync_pass(root: Path, neo4j_uri: str, *, cleanup_stale: bool, switch_projec
         try:
             import verdict as _verdict
             _census = _verdict.extension_census(root)
-            _cov = _verdict.build_coverage(root, nodes, census=_census)
+            # DeepMap's SQL reader's report (`extraction["sql"]`), when there is one, goes to the verdict: SQL is then
+            # judged by the files it read. Without one the call is exactly what it always was.
+            _sqlkw = {"extraction": extraction} if isinstance(extraction, dict) and extraction.get("sql") else {}
+            _cov = _verdict.build_coverage(root, nodes, census=_census, **_sqlkw)
             _v, _rs = _verdict.classify(
                 neo4j_ok=True, n_nodes=n_pushed, n_embedded=n_emb_total,
                 census=_census,

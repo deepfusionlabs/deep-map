@@ -14,6 +14,10 @@ Locks:
   C. C6  `status` prints the auto-sync line BEFORE the Neo4j census (shows with the instance down), "[WARN] " for a
          WARN level, nothing when the module fails; `doctor` prints it as one informational line that never changes
          the verdict or the exit code.
+  C3. design 5.5  a graph built before a graph revision that covers it (sync_status.graph_rev_note): `status` prints
+         "graph revision: <note>; ... /deep-map:refresh rebuilds it now" after the auto-sync line and before the
+         Neo4j census, `doctor` one WARN line BEFORE its coverage table, whatever auto-sync's state; nothing for a graph
+         this code built; never the verdict or the exit code; a sync_status that cannot load -> no line.
   D. C6/H3  _staleness_line judges "edited after the build" against the build's source capture
          (edits_seen_through_utc) when recorded — an edit made while the sync ran is not in the graph — and against
          built_at_utc for a manifest that predates it (unchanged).
@@ -356,6 +360,104 @@ def gate_c_doctor(work: Path) -> None:
           "last run failed: x (test stub)" not in out.split("[deepmap] verdict:", 1)[-1], out[-400:])
 
 
+# ========================================================================== C3: the graph-revision line (design 5.5)
+_DUE_COVERAGE = {"languages": {"C#": {"files": 20, "nodes": 900}}, "dirs": {},
+                 "parser_missing": {".sql": {"files": 12, "package": "tree-sitter-sql"}}}   # what 0.6.3 wrote
+
+
+def _rev_manifest(root: Path, rev=None) -> None:
+    """A 0.6.3-shaped manifest (SQL named in parser_missing, READY); `rev` recorded as build_recipe.graph_rev."""
+    d = root / ".deepmap"
+    d.mkdir(parents=True, exist_ok=True)
+    data = {"nodes": 7, "calls_edges": 3, "embedded": 7, "verdict": "READY", "reasons": [], "extractor": "graphify",
+            "coverage": _DUE_COVERAGE, "build_recipe": {"schema": 1, "env": {}}}
+    if rev is not None:
+        data["build_recipe"]["graph_rev"] = rev
+    (d / "graph_build.json").write_text(json.dumps(data), encoding="utf-8")
+
+
+def gate_c3_graph_rev(work: Path) -> None:
+    print("\n-- C3. status / doctor name a graph built before a graph revision, before the coverage table --")
+    sys.path.insert(0, str(REPO / "build"))
+    ST = _load_module(REPO / "build" / "sync_status.py", f"dm_w6_st_{time.time_ns()}")
+    rev = getattr(ST, "GRAPH_REV", None)
+    check("(sync_status.GRAPH_REV is 1: revision 1 ships, so a 0.6.3 SQL graph is due)", rev == 1, rev)
+    note = ST.graph_rev_note({"coverage": _DUE_COVERAGE, "build_recipe": {"schema": 1}}) or ""
+    want = f"graph revision: {note}; the coverage below is that build's, and /deep-map:refresh rebuilds it now"
+
+    class _Down(Exception):
+        pass
+
+    def down(*a, **k):
+        raise _Down("instance down (test)")
+
+    def status_out(proj: Path, **env) -> str:
+        C = _cli()
+        C._read_retry = down
+        out = io.StringIO()
+        saved = {k: os.environ.get(k) for k in env}
+        os.environ.update(env)
+        try:
+            stub = _Recorder(C, {"auto_sync": _auto_sync_stub()}) if not env else contextlib.nullcontext()
+            with _chdir(proj), stub, contextlib.redirect_stdout(out), contextlib.redirect_stderr(io.StringIO()):
+                try:
+                    C.cmd_status(argparse.Namespace())
+                except _Down:
+                    pass
+        finally:
+            for k, v in saved.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+        return out.getvalue()
+
+    due, fresh = work / "rev_due", work / "rev_fresh"
+    _rev_manifest(due)
+    _rev_manifest(fresh, rev=rev)
+    stub_line = "auto-sync: " + _auto_sync_stub().status_line(None)[1]
+    lines = status_out(due).splitlines()
+    check("status, due: the graph-revision line names both revisions and /deep-map:refresh",
+          bool(note) and want in lines and "graph revision 0, this code 1" in want, lines[-6:])
+    check("...printed after the auto-sync line and before the Neo4j census (shows with the instance down)",
+          want in lines and stub_line in lines and lines.index(stub_line) < lines.index(want), lines[-6:])
+    lines = status_out(fresh).splitlines()
+    check("status, a graph this code built (graph_rev 1): no graph-revision line",
+          not any(ln.startswith("graph revision") for ln in lines), lines[-6:])
+    lines = status_out(due, DEEPMAP_AUTO_SYNC="0").splitlines()
+    check("status, due with auto-sync off: the line still prints (whatever auto-sync's state)", want in lines,
+          lines[-6:])
+    check("...beside the REAL auto_sync status_line, which names it too",
+          any(ln.startswith("auto-sync: off (DEEPMAP_AUTO_SYNC=0)") and "graph revision 0" in ln for ln in lines),
+          lines[-6:])
+
+    H = _load_module(REPO / "tests" / "cli_project_honesty_gates.py", f"dm_w6_honesty_rev_{time.time_ns()}")
+    runs = {}
+    for name, proj in (("due", due), ("fresh", fresh)):
+        C = _cli()
+        with _Recorder(C, {"auto_sync": _auto_sync_stub()}):
+            runs[name] = H._run_doctor(C, driver=H._OkDriver(), provision=H._fake_provision({8787, 8788}, []),
+                                       cwd=proj)
+    rc, out = runs["due"]
+    lines = [ln.strip() for ln in out.splitlines()]
+    wd = f"[WARN] graph revision {chr(0x2014)} {want[len('graph revision: '):]}"
+    cov = next((i for i, ln in enumerate(lines) if "coverage (last sync)" in ln), -1)
+    check("doctor, due: '[WARN] graph revision <dash> ...' (the same words)", wd in lines,
+          [ln for ln in lines if "graph revision" in ln] or out[-400:])
+    check("...printed BEFORE the coverage table (a stale 'LOW COVERAGE ... /deep-map:doctor' never loops back)",
+          wd in lines and 0 <= lines.index(wd) < cov, (lines.index(wd) if wd in lines else None, cov))
+    rc2, out2 = runs["fresh"]
+    check("doctor, a graph this code built: no graph-revision line", "[WARN] graph revision" not in out2,
+          [ln for ln in out2.splitlines() if "graph revision" in ln])
+    check("doctor: the same verdict and exit code due or not (informational only)",
+          (rc, H._verdict_of(out)) == (rc2, H._verdict_of(out2)) and H._verdict_of(out), ((rc, H._verdict_of(out)),
+                                                                                          (rc2, H._verdict_of(out2))))
+    C = _cli()
+    with _Recorder(C, {"sync_status": RuntimeError("no sync_status")}):
+        line = C._graph_rev_line(due) if hasattr(C, "_graph_rev_line") else "missing"
+    check("a sync_status that cannot load -> no line, no exception", line is None, line)
+
+
 # ============================================================================================= D — _staleness_line (H3)
 def _utc(ts: float) -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ts))
@@ -587,7 +689,8 @@ def main() -> int:
     work = _tmp("dmw6w-")
     try:
         for g in (gate_a_parser, lambda: gate_b_dispatch(work), lambda: gate_b_end_to_end(work, home),
-                  lambda: gate_c_status(work), lambda: gate_c_doctor(work), lambda: gate_d_staleness(work),
+                  lambda: gate_c_status(work), lambda: gate_c_doctor(work), lambda: gate_c3_graph_rev(work),
+                  lambda: gate_d_staleness(work),
                   gate_e_hibernate, gate_f_run_all_env):
             try:
                 g()

@@ -31,7 +31,13 @@ its own environment, flags and verdict (sync_status.UnattendedControl).
                     no setup blocker, packages, pause / backoff, the build recipe (settings, DeepMap version, Python
                     X.Y, DEEPMAP_HOME, route — the recorded ENDPOINT, however it was named; an operator NEO4J_URI with
                     no route recorded is never followed —, embedding model, engine, graphify version).
-  R9  freshness     freshness(): the source fingerprint sync recorded vs now (git-busy / unknown skip).
+  R9  freshness     freshness(): the source fingerprint sync recorded vs now (git-busy / unknown skip); unchanged
+                    sources but a graph due for a graph revision (sync_status.graph_rev_due: a release changed what
+                    DeepMap builds from the same sources, and its scope covers this graph) is stale "graph-rev": rebuilt
+                    once, the rebuild records the current revision (last_run.graph_rev names it; autosync.json
+                    graph_rev_rebuilt keeps it). ONCE per revision: a graph due again for a revision already rebuilt
+                    for (an older DeepMap rewrote it since, e.g. an older install's git post-commit hook) is a recorded
+                    skip, graph-rev-again, never a rebuild on every commit.
   R10 budget        the wall time of the last sync that did NOT run in the background (_limit_wall: a below-normal
                     pass on a loaded machine never raises it) vs DEEPMAP_AUTO_SYNC_MAX_S; without one, a project with
                     more than LEGACY_FILE_LIMIT engine source files skips ("needs-timing").
@@ -109,6 +115,7 @@ MEM_FLOOR_MAX = 6 * 1024 ** 3
 # above the floor, so it does not re-sync the whole graph only to postpone them again under the same pressure.
 EMBED_HEADROOM = 1536 * 1024 ** 2
 STATE_FILE = "autosync.json"
+GRAPH_REV_REBUILT = "graph_rev_rebuilt"   # autosync.json: {"rev", "finished_epoch"} of the last one-time rebuild
 LOCK_FILE = "autosync.lock"
 RERUN_FILE = "sync.rerun"                 # == sync._RERUN_REQUEST (the re-run queue, under <root>/.deepmap/)
 SLOT_FILE = "autosync-slot.lock"          # under <DEEPMAP_HOME>/run/
@@ -205,6 +212,9 @@ _WHY = {
                         "writes to a database it cannot prove is this project's)", "setup"),
     "setup-blocked": ("this project's DeepMap setup is blocked ({detail})", "setup"),
     "busy-enrich": ("a deepmap enrich run holds this project's sync lock", "refresh"),
+    "graph-rev-again": ("{writer} rewrote this graph after the background refresh's one-time rebuild for graph "
+                        "revision {rev}, so that refresh does not rebuild it again (often an older install's git "
+                        "post-commit hook still runs that version: /deep-map:setup names a stale one)", "setup"),
     "user-request": ("a re-run that a sync the user started queued is waiting, and a background refresh never runs one "
                      "(it carries that sync's own settings and prune)", "refresh"),
     "unowned": ("this project's database holds a graph with no recorded owner, and a background refresh never adopts a "
@@ -229,6 +239,7 @@ _WARN_PREFIXES = ("failed", "not-pushed", "unreachable")
 # "refreshing now". user-request also ends once its request left the queue (.deepmap/sync.rerun gone: a sync the user
 # started claimed it). Transient ones (low-memory, machine-busy, git-busy, unknown, busy-enrich) are not here;
 # settings, older code, too slow, pause, backoff and a remote database are checked by precheck directly.
+# graph-rev-again is not here either: it holds only while the sources are unchanged, which precheck cannot see.
 _REPEATING_SKIPS = ("needs-timing", "no-own-instance", "packages-missing", "model-missing", "setup-blocked",
                     "foreign-owner", "unowned", "user-request", "recipe:python", "recipe:home", "recipe:route",
                     "recipe:model", "recipe:engine", "recipe:engine-version")
@@ -1257,11 +1268,63 @@ def precheck(root, *, trigger: str = "session-start", source=None, head=None, en
                 "limit_took_s": out.get("limit_took_s"), "enabled_source": out.get("enabled_source")}
 
 
+def _graph_rev_due(manifest):
+    """sync_status.graph_rev_due(manifest), THE rule: the graph revision a rebuild of this graph is due for (a release
+    changed what DeepMap builds from the same sources, and the revision's scope covers this graph), or None: none is,
+    or the rule cannot be loaded or fails (never a rebuild on a guess). Never raises."""
+    try:
+        fn = getattr(_load_status(), "graph_rev_due", None)
+        rev = fn(manifest) if callable(fn) else None
+        return rev if isinstance(rev, int) and not isinstance(rev, bool) and rev > 0 else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _graph_rev_note(manifest):
+    """sync_status.graph_rev_note(manifest): "this graph was built by an older DeepMap (graph revision R, this code G:
+    <what changed>)" for a due graph, else None. Never raises."""
+    try:
+        fn = getattr(_load_status(), "graph_rev_note", None)
+        note = fn(manifest) if callable(fn) else None
+        return str(note) if note else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _rebuilt_already(state, manifest):
+    """ONCE per revision: the graph revision `manifest` is due for (_graph_rev_due) when this project's background
+    refresh already made its one-time rebuild for it, or for a newer one (autosync.json graph_rev_rebuilt.rev), else
+    None. Such a manifest was rewritten since by a sync that records an older revision, i.e. an OLDER DeepMap: an older
+    install's git post-commit hook names that install's plugin folder, so it keeps running its version after a plugin
+    update, and rebuilding after it would repeat on every commit. Never raises."""
+    try:
+        due = _graph_rev_due(manifest)
+        rec = state.get(GRAPH_REV_REBUILT) if isinstance(state, dict) else None
+        done = rec.get("rev") if isinstance(rec, dict) else None
+        if due is None or isinstance(done, bool) or not isinstance(done, int) or done < due:
+            return None
+        return due
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _again_kw(manifest, rev) -> dict:
+    """The words of the graph-rev-again skip for `manifest`: who rewrote it (the DeepMap version it records) and the
+    revision. Never raises."""
+    try:
+        v = _recipe(manifest).get("deepmap_version") or (manifest or {}).get("deepmap_version")
+    except Exception:  # noqa: BLE001
+        v = None
+    return {"writer": f"an older DeepMap ({_clip(v, 20)})" if v else "an older DeepMap", "rev": rev}
+
+
 def freshness(root, manifest=None) -> dict:
     """Is the graph at `root` current with its sources? {"state": "fresh"|"stale"|"git-busy"|"unknown", "why",
     "head", "fingerprint", "kind"} — sync.source_fingerprint (now) against the fingerprint sync recorded when it
-    captured the sources; a legacy manifest without one falls back to HEAD / dirty / the non-git content hash.
-    Imports sync. Never raises (a failure is "unknown")."""
+    captured the sources; a legacy manifest without one falls back to HEAD / dirty / the non-git content hash. Where
+    the sources say fresh, a graph older than a graph revision that covers it (sync_status.graph_rev_due: a release
+    changed what DeepMap builds from the same sources) is "stale" with why "graph-rev", so the refresh rebuilds it
+    once (the rebuild records the current revision). Imports sync. Never raises (a failure is "unknown")."""
     root = Path(root)
     if manifest is None:
         manifest = _read_manifest(root) or {}
@@ -1269,6 +1332,9 @@ def freshness(root, manifest=None) -> dict:
 
     def out(state, why):
         return {"state": state, "why": why, "head": head, "fingerprint": fp_value, "kind": kind}
+
+    def fresh():
+        return out("stale", "graph-rev") if _graph_rev_due(manifest) is not None else out("fresh", None)
 
     try:
         sync = _load_sync()
@@ -1284,7 +1350,7 @@ def freshness(root, manifest=None) -> dict:
         recorded = manifest.get("source_fingerprint")
         if recorded:
             if str(recorded) == str(fp_value):
-                return out("fresh", None)
+                return fresh()
             built = str(manifest.get("built_at_sha") or "").lower() or None
             return out("stale", "head-moved" if (head or None) != built else "sources-changed")
         # a legacy manifest (written before the fingerprint existed)
@@ -1300,11 +1366,11 @@ def freshness(root, manifest=None) -> dict:
                 return out("stale", "sources-changed")
             if now_dirty is None:
                 return out("unknown", "git-error")
-            return out("fresh", None)
+            return fresh()
         content = sync._fs_content_hash(root)
         if content is None or content != manifest.get("built_at_content_hash"):
             return out("stale", "sources-changed")
-        return out("fresh", None)
+        return fresh()
     except Exception as exc:  # noqa: BLE001
         _log(f"[deepmap auto-sync] freshness check failed: {type(exc).__name__}: {exc}")
         return out("unknown", "error")
@@ -1382,6 +1448,7 @@ class _Runner:
         self.veto = None
         self.attended = None          # R15: the wall of the manifest a sync that did NOT run in the background wrote
         self.bg_ident = None          # R15: the identity of the manifest this run's background pass wrote
+        self.rev_done = None          # R15: the graph revision a pass of this run rebuilt for (it ended synced)
         self._wlock = threading.Lock()
         self._done = False
 
@@ -1468,6 +1535,11 @@ class _Runner:
             state["attended_wall"] = self.attended
         if self.bg_ident is not None:
             state["background_manifest"] = self.bg_ident
+        if self.rev_done is not None:              # the one-time rebuild, kept for _rebuilt_already (once per revision)
+            prev = state.get(GRAPH_REV_REBUILT) if isinstance(state.get(GRAPH_REV_REBUILT), dict) else {}
+            done = prev.get("rev")
+            done = done if isinstance(done, int) and not isinstance(done, bool) else 0
+            state[GRAPH_REV_REBUILT] = {"rev": max(done, self.rev_done), "finished_epoch": now}
         state["schema"] = SCHEMA
         state["current"] = None
         state["last_run"] = {
@@ -1483,6 +1555,8 @@ class _Runner:
             "took_s": f.get("took_s") if f.get("took_s") is not None else _num(self.manifest.get("sync_wall_s")),
             "why_code": f.get("why_code"),
         }
+        if f.get("graph_rev") is not None:          # only a pass that rebuilt for a graph revision carries it
+            state["last_run"]["graph_rev"] = f.get("graph_rev")
         self.state = state
         self._save()
 
@@ -1557,12 +1631,18 @@ class _Runner:
         once more (_take_over — sync's own skipper does the same, Y3): the holder may have released it meanwhile, or
         made its one look at sync.rerun already. (handle, None) when this run took the lock over — it continues as
         the holder from R7, and its sync claims the request — else (None, 0): "coalesced", nothing recorded
-        (autosync.json has one writer, the holder)."""
+        (autosync.json has one writer, the holder). A graph that is stale only for a graph revision (sources
+        unchanged) queues nothing: the holder reads the same manifest with the same rule and rebuilds it (a queued
+        re-run would make it sync a second time), and a holder that ends without that leaves the graph due for the
+        next session start, which finds it again."""
         why = "another background refresh of this project is running"
         try:
             sync = _load_sync()
             F = freshness(self.root, _read_manifest(self.root) or self.manifest)
-            if F.get("state") == "stale":
+            if F.get("state") == "stale" and F.get("why") == "graph-rev":
+                why += (" (sources unchanged; the graph revision this graph is due for is that refresh's to rebuild: "
+                        "nothing queued)")
+            elif F.get("state") == "stale":
                 ok = _queue_rerun(sync, self.root, self.policy, self.trigger)
                 handle = self._take_over(lock_path)
                 if handle is not None:
@@ -1800,17 +1880,27 @@ class _Runner:
             if end.outcome == "synced" and not extra and self._rerun_pending():
                 extra = True
                 _log("[deepmap auto-sync] a re-run was queued while it synced — syncing once more")
+                rev = end.fields.get("graph_rev")
                 end = self._r15()
+                if rev is not None and end.outcome == "synced" and end.fields.get("graph_rev") is None:
+                    end.fields["graph_rev"] = rev           # the run's first pass made the one-time rebuild
             raise end
 
     def _r9(self) -> dict:
-        self.F = F = freshness(self.root, _read_manifest(self.root) or self.manifest)
+        """R9: freshness; git busy / unknown are recorded skips, and so is a graph due again for a graph revision this
+        project's background refresh already rebuilt for (_rebuilt_already: once per revision)."""
+        m = _read_manifest(self.root) or self.manifest
+        self.F = F = freshness(self.root, m)
         self.F_at = _now()
         if F["state"] == "git-busy":
             op = str(F.get("why") or "").split(":", 1)[-1]
             raise _skip("git-busy", op=_GIT_OPS.get(op, op or "operation"))
         if F["state"] == "unknown":
             raise _skip("unknown:truncated" if F.get("why") == "truncated" else "unknown", outcome="skipped:unknown")
+        if F["state"] == "stale" and F.get("why") == "graph-rev":
+            rev = _rebuilt_already(self.state, m)
+            if rev is not None:
+                raise _skip("graph-rev-again", **_again_kw(m, rev))
         return F
 
     def _r10(self) -> None:
@@ -1950,6 +2040,7 @@ class _Runner:
         if not _accepts(sync.sync, "prune_policy", "unattended"):
             return _End("failed:error", 1, effects=["+1"], suggest="refresh",
                         reason="this DeepMap build's sync cannot run a background refresh (it predates auto-sync)")
+        rev = self._graph_rev_pass()
         self._set_current("syncing")
         self.veto = None
         before = _read_manifest(self.root)
@@ -1977,7 +2068,28 @@ class _Runner:
             except Exception:  # noqa: BLE001
                 pass
             self._note_written(before, t0)
-        return self._map(ok)
+        end = self._map(ok)
+        if rev is not None:
+            end.fields["graph_rev"] = rev           # last_run.graph_rev: what this pass rebuilt for
+            if end.outcome == "synced":
+                self.rev_done = max(self.rev_done or 0, rev)
+        return end
+
+    def _graph_rev_pass(self):
+        """The graph revision this pass rebuilds for, said once in the log: the sources did not change (freshness
+        "graph-rev") and the manifest is still due for it (sync_status.graph_rev_due). None for any other pass, and
+        for R16's extra pass once the first one recorded the current revision. Never raises."""
+        try:
+            if (self.F or {}).get("why") != "graph-rev":
+                return None
+            m = _read_manifest(self.root) or self.manifest
+            rev = _graph_rev_due(m)
+            if rev is not None:
+                note = _graph_rev_note(m) or f"this graph was built before graph revision {rev}"
+                _log(f"[deepmap auto-sync] the sources did not change, but {note}; rebuilding it once")
+            return rev
+        except Exception:  # noqa: BLE001
+            return None
 
     def _note_written(self, before, t0) -> None:
         """After this run's sync returned: when it rewrote the manifest — another identity, captured inside this call
@@ -2235,45 +2347,62 @@ def _live(st, rec):
         return None
 
 
+def _off_text(root, e):
+    """status_line's (level, text) when auto-sync is off for `root` (a switch, or DEEPMAP_HOOKS off: the session-start
+    refresh never starts), else None."""
+    on, src = enabled(root, "status", e)
+    if not on:
+        if src == "env":
+            return "OK", f"off ({ENV_AUTO_SYNC}={str(e.get(ENV_AUTO_SYNC, '')).strip()})"
+        if src == "instance":
+            raw = _instance_raw(root)
+            value = raw.get("enabled") if isinstance(raw, dict) else raw
+            shown = "auto_sync.enabled" if isinstance(raw, dict) else "auto_sync"
+            if _switch_word(value) == "bad":
+                return "WARN", (f"off (.deepmap/instance.json {shown}={_clip(json.dumps(value), 60)} is not "
+                                f"understood, so DeepMap reads it as off — `python build/auto_sync.py enable` "
+                                f"removes it)")
+            return "OK", (f"off (.deepmap/instance.json {shown}=false)" if shown == "auto_sync"
+                          else "off (.deepmap/instance.json auto_sync.enabled=false)")
+        if src == "machine":
+            state, path = _machine_switch(e)
+            if state == "bad":
+                return "WARN", (f"off (machine switch {path} is not understood, so DeepMap reads it as off; write "
+                                f'{{"enabled": false}} there to keep it off, or delete the file)')
+            return "OK", f"off (machine switch {path})"
+        return "OK", f"off ({src})"
+    if _env_off(e, ENV_HOOKS):
+        return "OK", (f"off ({ENV_HOOKS}={str(e.get(ENV_HOOKS, '')).strip()} — every DeepMap hook is off, so "
+                      f"the session-start refresh never starts)")
+    return None
+
+
 def status_line(root, env=None) -> tuple:
     """(level "OK" | "WARN", text) — the auto-sync line of `deepmap status` / `doctor` (spec §2.10.6). Informational;
     never raises. Off -> why; running -> since when and what it does; paused -> WARN. Otherwise it asks
     precheck(root, trigger="status", announce=True) what the next session start would do: a refusal (too-slow,
     recipe:settings, recipe:older-code, remote-database, backoff, a recorded skip that repeats, ...) is a WARN "on —
     but the next session start will not refresh: <reason>"; a cooldown is not one. Else the last run (WARN when it
-    failed, was not pushed or found the database down)."""
+    failed, was not pushed or found the database down; a pass that rebuilt for a graph revision says so). A graph
+    due for a graph revision (sync_status.graph_rev_note) gets one more sentence after any of these, the off texts
+    too: what changed, and what rebuilds it: the next background refresh, once (this one, while it runs); else
+    /deep-map:refresh (auto-sync off, a next session start that will not refresh, or the one-time rebuild already
+    made: _rebuilt_already, the runner's once rule); the level is never changed by it."""
     e = os.environ if env is None else env
     try:
-        on, src = enabled(root, "status", e)
-        if not on:
-            if src == "env":
-                return "OK", f"off ({ENV_AUTO_SYNC}={str(e.get(ENV_AUTO_SYNC, '')).strip()})"
-            if src == "instance":
-                raw = _instance_raw(root)
-                value = raw.get("enabled") if isinstance(raw, dict) else raw
-                shown = "auto_sync.enabled" if isinstance(raw, dict) else "auto_sync"
-                if _switch_word(value) == "bad":
-                    return "WARN", (f"off (.deepmap/instance.json {shown}={_clip(json.dumps(value), 60)} is not "
-                                    f"understood, so DeepMap reads it as off — `python build/auto_sync.py enable` "
-                                    f"removes it)")
-                return "OK", (f"off (.deepmap/instance.json {shown}=false)" if shown == "auto_sync"
-                              else "off (.deepmap/instance.json auto_sync.enabled=false)")
-            if src == "machine":
-                state, path = _machine_switch(e)
-                if state == "bad":
-                    return "WARN", (f"off (machine switch {path} is not understood, so DeepMap reads it as off; write "
-                                    f'{{"enabled": false}} there to keep it off, or delete the file)')
-                return "OK", f"off (machine switch {path})"
-            return "OK", f"off ({src})"
-        if _env_off(e, ENV_HOOKS):
-            return "OK", (f"off ({ENV_HOOKS}={str(e.get(ENV_HOOKS, '')).strip()} — every DeepMap hook is off, so "
-                          f"the session-start refresh never starts)")
+        manifest = _read_manifest(root)
+        rev_note = _graph_rev_note(manifest) if manifest else None     # None unless due for a graph revision
+        by_refresh = f"; {rev_note}, and /deep-map:refresh rebuilds it" if rev_note else ""
+        off = _off_text(root, e)
+        if off is not None:
+            return off[0], off[1] + by_refresh
         try:
             st = _load_status()
         except Exception:  # noqa: BLE001
             st = None
         state = read_state(root)
         now = _now()
+        again = _rebuilt_already(state, manifest) if rev_note else None
         cur = state.get("current") if isinstance(state.get("current"), dict) else None
         if cur and _live(st, cur) is True:
             phase = cur.get("state") or "checking"
@@ -2284,8 +2413,10 @@ def status_line(root, env=None) -> tuple:
                         phase = h.get("phase") or phase
                 except Exception:  # noqa: BLE001
                     pass
-            return "OK", (f"on — running since {_utc_fmt(cur.get('started_epoch'), '%H:%M')} UTC "
-                          f"({_phase_text(phase)})")
+            running = f"on — running since {_utc_fmt(cur.get('started_epoch'), '%H:%M')} UTC ({_phase_text(phase)})"
+            if rev_note and again is None:
+                return "OK", running + f"; {rev_note}, which this refresh rebuilds"
+            return "OK", running + by_refresh
         try:
             last_sync = st.read_last(root) if st is not None else None
         except Exception:  # noqa: BLE001
@@ -2299,7 +2430,7 @@ def status_line(root, env=None) -> tuple:
                 n = int(_num(state.get("consecutive_failures")) or PAUSE_AFTER_FAILURES)
                 why = (f"the last {n} background refreshes did not complete (latest: "
                        f"{_clip(p.get('detail') or 'unknown', 160)})")
-            return "WARN", f"paused — {why}; a successful /deep-map:refresh resumes it"
+            return "WARN", f"paused — {why}; a successful /deep-map:refresh resumes it" + by_refresh
         lr = state.get("last_run") if isinstance(state.get("last_run"), dict) else None
         # what the next session start would do (precheck with announce: the repeat rule too); a refusal is a WARN
         pc = precheck(root, trigger="status", env=e, now=now, announce=True)
@@ -2317,20 +2448,29 @@ def status_line(root, env=None) -> tuple:
             text = f"on — but the next session start will not refresh: {pc.get('reason') or code}"
             if pc.get("suggest"):
                 text += f"; suggested: /deep-map:{pc.get('suggest')}"
-            return "WARN", text
+            return "WARN", text + by_refresh
+        once = f"; {rev_note}, so DeepMap's next background refresh rebuilds it once" if rev_note else ""
+        if again is not None:                      # the one-time rebuild was made: never promise it again
+            once = by_refresh
+            if not lr or lr.get("outcome") != "skipped:graph-rev-again":     # that skip's reason says why already
+                why = _why("graph-rev-again", **_again_kw(manifest, again))[0]
+                once = f"; {rev_note}; {why}; /deep-map:refresh rebuilds it"
         if not lr:
-            return "OK", "on — no background refresh has run yet (it runs when a Claude Code session starts)"
+            return "OK", "on — no background refresh has run yet (it runs when a Claude Code session starts)" + once
         outcome = str(lr.get("outcome") or "?")
         parts = [f"{lr.get('trigger') or 'session-start'}, {outcome}"]
         if _num(lr.get("wall_s")) is not None:
             parts.append(human_duration(lr.get("wall_s")))
         if lr.get("verdict"):
             parts.append(f"verdict {lr.get('verdict')}")
+        grev = lr.get("graph_rev")
+        if outcome == "synced" and isinstance(grev, int) and not isinstance(grev, bool) and grev > 0:
+            parts.append(f"a one-time rebuild for graph revision {grev}")
         text = f"on — last run {_utc_fmt(lr.get('finished_epoch'), '%Y-%m-%d %H:%M')} UTC: " + ", ".join(parts)
         if lr.get("reason") and outcome not in ("synced", "fresh", "covered", "queued"):
             text += f"; {lr.get('reason')}"
         level = "WARN" if outcome.startswith(_WARN_PREFIXES) else "OK"
-        return level, text
+        return level, text + once
     except Exception as exc:  # noqa: BLE001
         return "WARN", f"could not read the auto-sync state ({type(exc).__name__})"
 

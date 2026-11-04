@@ -108,8 +108,8 @@ name internal fix rounds. Keep them: they tie a check to the defect it locks.
   (`build/graphify_extract.py`), and every extracted one needs a census language in `_SOURCE_EXTS`
   (`build/verdict.py`). Otherwise a language is silently dropped, or can never raise LOW COVERAGE. One the engine
   parses only with an optional grammar package DeepMap does not install (`.sql`, `.dm`) also needs its module in
-  `verdict._OPTIONAL_PARSERS` (`tests/sql_parser_census_gates.py` locks it to the engine), or it raises a false LOW
-  COVERAGE.
+  `graphify_extract.OPTIONAL_PARSERS`, and one no supported engine parses goes in `ENGINE_UNPARSED_EXTS`
+  (`tests/unparsed_census_gates.py` locks both to the engine), or it raises a false LOW COVERAGE.
 - The verdict counts ENGINE nodes only, through `verdict.note_engine_nodes`; a caller that skips it counts
   framework-reader shells as extraction.
 - A new edge type touches five lists that gates compare: `ALLOWED_EDGE_TYPES` (`build/framework_edges.py`), each

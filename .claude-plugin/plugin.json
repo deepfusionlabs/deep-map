@@ -1,6 +1,6 @@
 {
   "name": "deep-map",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Graph + Vector + FTS code search for Claude Code: a per-project code graph in a local Neo4j database, intent-summary embeddings and fuzzy full-text search, fused into one ranked list, with a file:line on every result and a confidence label on every link. MIT, 100% local.",
   "author": {
     "name": "Deep Fusion Labs"

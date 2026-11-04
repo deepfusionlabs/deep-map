@@ -4,6 +4,36 @@ All notable changes to DeepMap are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and versions are 0.x: DeepMap is an early release, and features
 may change between versions.
 
+## [0.7.0] - 2026-11-02
+
+SQL, and honest coverage for files DeepMap cannot read. With the new SQL reader off (the default), the graph is the
+same as in 0.6.3: what changes is what the coverage check reports and what Claude is told. The ranking is unchanged,
+and there is no new dependency.
+
+### Added
+- **An opt-in SQL reader.** Set `DEEPMAP_SQL_DECLARATIONS=1` and run `/deep-map:refresh`, and DeepMap reads `.sql`
+  files itself. Each file becomes a module; each table, view and type a class; each procedure, function and trigger
+  a function, with a short summary of what it declares, reads and writes, so search finds them. It reads SQL Server
+  (`GO` batches, bracketed names, objects created through `EXEC` or `sp_executesql`), PostgreSQL, MySQL, SQLite and
+  Oracle. It adds no SQL links yet, so impact analysis cannot list who uses a table, and says so. It stays off by
+  default until it passes a measurement on real SQL code that we registered before measuring.
+- **SQL in impact answers.** When the symbol you ask about comes from a `.sql` file, an empty answer says the graph
+  holds SQL as declarations only, and points to Grep for its users.
+
+### Changed
+- **Files DeepMap cannot read are named, not counted.** R, Perl, Python stub (`.pyi`) and CommonJS (`.cjs`) files,
+  DreamMaker (`.dm`) files without their optional parser, and `.sql` files while the SQL reader is off no longer
+  count for coverage. `/deep-map:status` and `/deep-map:doctor` list them with the reason, and Claude is told at the
+  start of a session (and before its first Grep or Glob) that they are not in the graph, so it reads them with Grep.
+- **One background rebuild after updating.** A graph this release judges differently (for example a repository with
+  SQL, R or Perl files that read DEGRADED) is rebuilt once in the background at the next session start, so there is
+  no need to run `/deep-map:refresh` by hand after updating. Other graphs are left alone.
+- **The README links the product page**, deepfusionlabs.ai/deepmap.
+
+### Fixed
+- **No false DEGRADED from R or Perl files**, and Python stubs or CommonJS files no longer make Python or JavaScript
+  coverage look low.
+
 ## [0.6.3] - 2026-11-01
 
 Two setup fixes from a Windows .NET user report. The graph and the ranking are unchanged.

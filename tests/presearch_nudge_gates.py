@@ -251,11 +251,11 @@ def _nudge_once(tag: str, **manifest) -> tuple:
 
 
 def gate_parser_missing(S) -> None:
-    print("\n-- coverage.parser_missing -> the reminder says those files are NOT indexed (once per session) --")
+    print("\n-- a 0.6.3 manifest (coverage.parser_missing) -> the reminder says those files are NOT indexed --")
     NU = _load("deepmap_presearch_nudge", HOOKS)
-    fn = getattr(NU._hs, "parser_missing_note", None) if getattr(NU, "_hs", None) is not None else None
-    check("deepmap_hook_state.parser_missing_note exists", callable(fn) and callable(
-        getattr(S, "parser_missing_note", None)))
+    fn = getattr(NU._hs, "not_parsed_note", None) if getattr(NU, "_hs", None) is not None else None
+    check("deepmap_hook_state.not_parsed_note exists (the 0.6.3 and the graph revision 1 shapes)",
+          callable(fn) and callable(getattr(S, "not_parsed_note", None)))
     if not callable(fn):
         fn = lambda data: ""  # noqa: E731 (the hook checks below still run and show what the agent is told)
     note = fn({"coverage": {"parser_missing": _PM_SQL}})
@@ -316,6 +316,78 @@ def gate_parser_missing(S) -> None:
           repr(texts.get("with", "")[-300:]))
 
 
+# Graph revision 1 (the 2026-11 SQL design, section 7): coverage.not_parsed names every suffix this install cannot turn
+# into nodes with its cause, and coverage.sql the .sql files DeepMap's SQL reader did not read. The reminder carries the
+# same note as the SessionStart announce (deepmap_hook_state.not_parsed_note), where 0.6.3 put its sentence. Expected
+# texts written out here, independently of the hook.
+_NP = {".r": {"files": 300, "cause": "no-parser", "package": None, "detail": ""},
+       ".sql": {"files": 12, "cause": "off", "package": "tree-sitter-sql", "detail": "default"}}
+_NP_NOTE = (" NOT in the graph: R: 300 .r file(s) (no supported parser); SQL: 12 .sql file(s) (DeepMap's SQL reader "
+            "is off by default). For that code use Grep/Glob/Read (an empty deepmap_search/deepmap_impact result there "
+            "means not indexed, not absent).")
+_SQL_READ = {"read": 12, "declarations": 40, "too_large": 0, "budget": 0, "slow": 0, "unreadable": 0,
+             "unread_examples": {}, "dynamic_unread": 0,
+             "ignored": {"gitignore": 0, "graphifyignore": 0, "sensitive": 0, "examples": {}}}
+
+
+def gate_not_parsed(S) -> None:
+    print("\n-- coverage.not_parsed / coverage.sql (graph revision 1) -> the reminder names what is NOT indexed --")
+    NU = _load("deepmap_presearch_nudge", HOOKS)
+    fn = getattr(S, "not_parsed_note", None)
+    check("deepmap_hook_state.not_parsed_note exists", callable(fn))
+    if not callable(fn):
+        fn = lambda data: ""  # noqa: E731 (the hook checks below still run and show what the agent is told)
+    check("(the note, written out independently)", fn({"coverage": {"not_parsed": _NP}}) == _NP_NOTE,
+          fn({"coverage": {"not_parsed": _NP}}))
+    p0, _ = _nudge_once("np-base")
+    p1, p1b = _nudge_once("np", coverage={"languages": {}, "not_parsed": _NP})
+    check("READY + not_parsed -> NUDGE_TEXT + the note (R and SQL named)",
+          p1.returncode == 0 and _ac(p1) == NU.NUDGE_TEXT + _NP_NOTE, repr(_ac(p1)[-300:]))
+    check("...a valid PreToolUse envelope, once per session", _fires_ok(p1) and p1b.stdout.strip() == "",
+          repr(p1b.stdout[:160]))
+    p2, _ = _nudge_once("np-read", coverage={"languages": {"SQL": {"files": 12, "nodes": 52}}, "sql": _SQL_READ})
+    check("READY with DeepMap's SQL reader on and every .sql file read -> exactly NUDGE_TEXT (nothing about SQL)",
+          p2.returncode == 0 and _ac(p2) == _ac(p0) == NU.NUDGE_TEXT, repr(_ac(p2)[-200:]))
+    p3, _ = _nudge_once("np-big", coverage={"sql": dict(_SQL_READ, too_large=3)})
+    check("READY + 3 .sql files too large to read -> named",
+          p3.returncode == 0 and "SQL: the declarations in 3 .sql file(s) (too large to read)" in _ac(p3),
+          repr(_ac(p3)[-300:]))
+    p4, _ = _nudge_once("np-bad", coverage={"not_parsed": {".r": {"files": "300"}}, "sql": "x"})
+    check("READY + a malformed block -> exit 0, exactly NUDGE_TEXT", p4.returncode == 0 and _ac(p4) == NU.NUDGE_TEXT,
+          repr(_ac(p4)[-200:]))
+    _go = "LOW COVERAGE for Go \u2014 40 files on disk but only 0 extracted node(s); Go is invisible."
+    p5, _ = _nudge_once("np-deg", verdict="DEGRADED", reasons=[_go], coverage={"not_parsed": _NP})
+    p6, _ = _nudge_once("np-deg0", verdict="DEGRADED", reasons=[_go])
+    check("DEGRADED coverage + not_parsed -> the coverage reminder (Go gap) AND the note",
+          p5.returncode == 0 and "40 files" in _ac(p5) and _ac(p5) == _ac(p6) + _NP_NOTE, repr(_ac(p5)[-300:]))
+    p7, _ = _nudge_once("np-silent", verdict="DEGRADED", reasons=["VECTOR SEARCH DISABLED"],
+                        coverage={"not_parsed": _NP})
+    check("DEGRADED without a coverage reason + not_parsed -> still silent (never a reason to steer)",
+          p7.returncode == 0 and p7.stdout.strip() == "", repr(p7.stdout[:160]))
+    # The heal-recovered follow-up is said INSTEAD of the reminder, so it carries the note too.
+    import time as _time
+    H = NU._hs
+    names = ("read_session_health", "write_session_health", "file_sig", "_read_json_dict", "heal_problem")
+    saved = {n: getattr(H, n) for n in names}
+    texts = {}
+    try:
+        H.write_session_health = lambda *a, **k: True
+        H.file_sig = lambda path: (int(_time.time() * 1e9), 7)
+        H._read_json_dict = lambda path: {"neo4j_ok": True, "mcp_ok": True}
+        H.heal_problem = lambda root: None
+        for key, data in (("with", {"verdict": "READY", "coverage": {"not_parsed": _NP}}),
+                          ("without", {"verdict": "READY"})):
+            H.read_session_health = lambda root, sid: {"start": _time.time() - 1, "told": "down",
+                                                        "heal_path": "heal-x.json", "seen": (1, 1)}
+            texts[key] = NU._followup(Path("."), {"session_id": "np-follow"}, data) or ""
+    finally:
+        for n, f in saved.items():
+            setattr(H, n, f)
+    check("heal-recovered follow-up + not_parsed -> the follow-up AND the note",
+          "available again" in texts.get("without", "") and texts.get("with") == texts.get("without", "") + _NP_NOTE,
+          repr(texts.get("with", "")[-300:]))
+
+
 def main() -> int:
     for s in (sys.stdout, sys.stderr):
         try:
@@ -341,6 +413,7 @@ def main() -> int:
     gate_malformed_stdin()
     gate_helper_units(S)
     gate_parser_missing(S)
+    gate_not_parsed(S)
 
     print("\n" + "=" * 68)
     total = _PASS + _FAIL

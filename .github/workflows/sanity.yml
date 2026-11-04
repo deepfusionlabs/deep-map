@@ -1,0 +1,537 @@
+name: sanity
+
+# Install sanity: DeepMap from nothing, the way a user gets it, then proof that it works. MANUAL ONLY: start it from
+# the Actions tab (sanity -> Run workflow) or with `gh workflow run sanity.yml -f ref=main`. It never runs on push,
+# pull_request or a schedule. Standard GitHub-hosted runners are free on a public repository; on a private one the
+# minutes are billed (both legs, about 1.50 USD at the 2026 Linux and Windows rates).
+#
+# Every leg installs the PUBLISHED plugin the real way, `claude plugin marketplace add deepfusionlabs/deep-map#<ref>`
+# and `plugin install`, with a pinned Claude Code from its native installer. tests/live_e2e.py (run from this
+# workflow's own checkout) then drives the INSTALLED files: the commands/setup.md and doctor.md bash blocks, the
+# hooks.json command lines and tests/mcp_http_smoketest.py. Every Claude Code session is an unauthenticated
+# `claude -p` that costs 0 USD. No secret is used: a session that shows a cost or an API key fails the run.
+# tests/live_e2e.py's docstring lists the checks. This workflow runs them on project A (synthetic): install, the $0
+# sessions before and after setup, setup, the MCP tools, the hooks, stop + heal, and uninstall.
+#
+# Jobs:
+#  * resolve: checks the inputs, fetches the ref from the plugin repository and records the commit and plugin.json
+#    version the legs must install.
+#  * linux: ubuntu-latest.
+#  * windows-field: windows-latest made like a user's machine before anything installs: LongPathsEnabled=0 and no
+#    git core.longpaths, Defender real-time scanning on without the C:\ and D:\ exclusions, no Java on PATH,
+#    JAVA_HOME at a Java 8 (else 11 or 25), a JDK 21 in the per-user Temurin folder, and a project path with a space
+#    and a non-ASCII letter (the harness default). The runner image ships the opposite of each; what this job
+#    cannot put back the report marks NOT COVERED instead of failing.
+#  * summary: one check-by-job table of both reports in the run summary.
+# Each leg writes its report to its job summary and uploads report.json, report.md and the logs (secret-scanned and
+# redacted by the harness, then checked for key-shaped text once more) as sanity-<job>, kept 3 days.
+# Exit: a leg fails on any FAIL and on any PASS AFTER RETRY (a setup that needed its one transport-error retry).
+# Guard: the jobs run only in DeepFusionLabs' own repositories, never in a fork.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Ref of deepfusionlabs/deep-map to install: a branch, a tag or a full commit sha"
+        type: string
+        default: main
+      cli_version:
+        description: "Claude Code version to install (exact, as `claude --version` prints it)"
+        type: string
+        default: "2.1.317"
+      legs:
+        description: "Which legs to run"
+        type: choice
+        options: [both, linux, windows-field]
+        default: both
+
+permissions:
+  contents: read
+
+# `shell: bash` gives every step `bash --noprofile --norc -eo pipefail {0}` (Git Bash on Windows). The Windows steps
+# that need Windows PowerShell 5.1, the shell a user's machine has, say `shell: powershell`.
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: sanity-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PLUGIN_REPO: deepfusionlabs/deep-map
+  DISABLE_AUTOUPDATER: "1"
+
+jobs:
+  resolve:
+    if: contains(fromJSON('["deepfusionlabs/deep-map", "deepfusionlabs/deep-map"]'), github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {}
+    outputs:
+      ref: ${{ steps.r.outputs.ref }}
+      sha: ${{ steps.r.outputs.sha }}
+      version: ${{ steps.r.outputs.version }}
+      cli: ${{ steps.r.outputs.cli }}
+    steps:
+      # The inputs reach the scripts only through env and are checked before use. The commit and version come from
+      # this independent fetch, never from the clone Claude Code makes, so the legs can check what they installed.
+      - name: Check the inputs and resolve the ref
+        id: r
+        env:
+          REF: ${{ inputs.ref }}
+          CLI_VERSION: ${{ inputs.cli_version }}
+        run: |
+          if ! [[ "$REF" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$ ]] || ! git check-ref-format --allow-onelevel "$REF"
+          then
+            echo "::error::The ref input is not a branch, tag or full commit sha this workflow accepts."
+            exit 1
+          fi
+          if ! [[ "$CLI_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::The cli_version input must be an exact version such as 2.1.317."
+            exit 1
+          fi
+          work="$RUNNER_TEMP/plugin-ref"
+          git init -q "$work"
+          if ! GIT_TERMINAL_PROMPT=0 git -C "$work" fetch -q --depth 1 "https://github.com/$PLUGIN_REPO.git" "$REF"
+          then
+            echo "::error::The ref was not found in $PLUGIN_REPO (or the fetch failed; see above)."
+            exit 1
+          fi
+          sha="$(git -C "$work" rev-parse 'FETCH_HEAD^{commit}')"
+          version="$(git -C "$work" show FETCH_HEAD:.claude-plugin/plugin.json \
+            | python3 -c 'import json, sys; print(json.load(sys.stdin)["version"])')"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.+-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::.claude-plugin/plugin.json at the ref holds no usable version."
+            exit 1
+          fi
+          { echo "ref=$REF"; echo "sha=$sha"; echo "version=$version"; echo "cli=$CLI_VERSION"; } >> "$GITHUB_OUTPUT"
+          echo "Installing $PLUGIN_REPO#$REF: commit $sha, plugin $version, Claude Code $CLI_VERSION" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+  linux:
+    needs: resolve
+    if: >-
+      contains(fromJSON('["deepfusionlabs/deep-map", "deepfusionlabs/deep-map"]'), github.repository)
+      && inputs.legs != 'windows-field'
+    runs-on: ubuntu-latest
+    timeout-minutes: 130
+    env:
+      REF: ${{ needs.resolve.outputs.ref }}
+      SHA: ${{ needs.resolve.outputs.sha }}
+      VERSION: ${{ needs.resolve.outputs.version }}
+      CLI: ${{ needs.resolve.outputs.cli }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The harness is standard library only and nothing is installed into this Python: setup builds DeepMap's own
+      # environment (~/.deepmap/venv), as it does on a user's machine.
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Install Claude Code (pinned, native installer)
+        timeout-minutes: 10
+        run: |
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/claude-install.sh" https://claude.ai/install.sh
+          echo "installer sha256 $(sha256sum "$RUNNER_TEMP/claude-install.sh" | cut -d' ' -f1)"
+          bash "$RUNNER_TEMP/claude-install.sh" "$CLI"
+          bin="$HOME/.local/bin/claude"
+          if [ ! -x "$bin" ]; then echo "::error::No Claude Code at ~/.local/bin/claude after the install."; exit 1; fi
+          v="$("$bin" --version)"
+          echo "claude --version: $v"
+          case "$v" in
+            "$CLI "*) ;;
+            *) echo "::error::Claude Code $CLI was asked for; another version answered."; exit 1 ;;
+          esac
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "CLAUDE_BIN=$bin" >> "$GITHUB_ENV"
+
+      # Exit 0: every check held (NOT COVERED and SKIP allowed); 1: a FAIL or a PASS AFTER RETRY; 2: refused.
+      # Its output is printed with workflow commands off, so no logged line can act as one.
+      - name: Install sanity (tests/live_e2e.py)
+        timeout-minutes: 100
+        env:
+          CI: "true"
+          DEEPMAP_LIVE_TEST: "1"
+          NEO4J_PASSWORD: deepmap
+        run: |
+          tok="$(python -c 'import uuid; print(uuid.uuid4().hex)')"
+          echo "::stop-commands::$tok"
+          rc=0
+          python tests/live_e2e.py --claude "$CLAUDE_BIN" --claude-version "$CLI" --repo "$PLUGIN_REPO" --ref "$REF" \
+            --expect-version "$VERSION" --expect-sha "$SHA" --profile linux --job linux --setup-timeout 3600 \
+            --report "$RUNNER_TEMP/sanity" || rc=$?
+          echo "::$tok::"
+          exit "$rc"
+
+      # Uninstalls whatever a cut-off main step left running; does nothing when that step already uninstalled.
+      - name: Clean up after a cut-off run
+        if: always()
+        timeout-minutes: 20
+        env:
+          CI: "true"
+          DEEPMAP_LIVE_TEST: "1"
+          NEO4J_PASSWORD: deepmap
+        run: |
+          args=(--only cleanup --resume "$RUNNER_TEMP/sanity" --report "$RUNNER_TEMP/sanity" --repo "$PLUGIN_REPO"
+                --ref "$REF" --claude-version "$CLI" --profile linux --job linux)
+          if [ -n "${CLAUDE_BIN:-}" ]; then args+=(--claude "$CLAUDE_BIN"); fi
+          tok="$(python -c 'import uuid; print(uuid.uuid4().hex)')"
+          echo "::stop-commands::$tok"
+          rc=0
+          python tests/live_e2e.py "${args[@]}" || rc=$?
+          echo "::$tok::"
+          exit "$rc"
+
+      - name: No key-shaped text in the upload
+        if: always()
+        timeout-minutes: 5
+        run: |
+          d="$RUNNER_TEMP/sanity"
+          if [ ! -d "$d" ]; then exit 0; fi
+          hits="$(grep -rlE 'sk-ant-[A-Za-z0-9_-]{20,}' "$d" || true)"
+          if [ -n "$hits" ]; then
+            echo "::error::Key-shaped text found; these files are left out of the upload:"
+            printf '%s\n' "$hits"
+            printf '%s\n' "$hits" | while IFS= read -r f; do rm -f -- "$f"; done
+            exit 1
+          fi
+          echo "No key-shaped text in $d."
+
+      - name: Keep the report and logs
+        if: always()
+        timeout-minutes: 10
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sanity-linux
+          path: ${{ runner.temp }}/sanity
+          include-hidden-files: true
+          retention-days: 3
+          if-no-files-found: warn
+
+  windows-field:
+    needs: resolve
+    if: >-
+      contains(fromJSON('["deepfusionlabs/deep-map", "deepfusionlabs/deep-map"]'), github.repository)
+      && inputs.legs != 'linux'
+    runs-on: windows-latest
+    timeout-minutes: 180
+    env:
+      REF: ${{ needs.resolve.outputs.ref }}
+      SHA: ${{ needs.resolve.outputs.sha }}
+      VERSION: ${{ needs.resolve.outputs.version }}
+      CLI: ${{ needs.resolve.outputs.cli }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The Python a user installed; the harness is standard library only and nothing is installed into it.
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      # Before anything installs. Each change is tried, then read back into field-prep.log (uploaded with the
+      # report); the harness verifies the result itself and reports NOT COVERED for what did not take. The image
+      # sets LongPathsEnabled=1, turns Defender real-time scanning off with C:\ and D:\ excluded, and puts a JDK 17
+      # on PATH and in JAVA_HOME. Java leaves PATH in the harness steps below (GITHUB_PATH can only add).
+      - name: Make the runner like a user's Windows
+        shell: powershell
+        timeout-minutes: 15
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $log = Join-Path $env:RUNNER_TEMP 'sanity\field-prep.log'
+          New-Item -ItemType Directory -Force -Path (Split-Path $log) | Out-Null
+          function Note([string]$s) { Write-Host $s; [IO.File]::AppendAllText($log, "$s`n") }
+          function Step([string]$what, [scriptblock]$do) {
+            try { & $do; Note "done: $what" } catch { Note "NOT DONE: $what ($($_.Exception.Message))" }
+          }
+          $fs = 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem'
+          Note "before: LongPathsEnabled=$((Get-ItemProperty -Path $fs).LongPathsEnabled)"
+          Step 'LongPathsEnabled=0' {
+            Set-ItemProperty -Path $fs -Name LongPathsEnabled -Value 0 -Type DWord -ErrorAction Stop }
+          Note "after: LongPathsEnabled=$((Get-ItemProperty -Path $fs).LongPathsEnabled)"
+          Note "before: git core.longpaths=$(@(git config --show-origin --get-all core.longpaths) -join '; ')"
+          foreach ($line in @(git config --show-origin --get-all core.longpaths)) {   # every file that sets it
+            if ($line -match '^file:(.+?)\t') {
+              git config --file ($Matches[1] -replace '^"|"$', '') --unset-all core.longpaths 2>$null }
+          }
+          Note "after: git core.longpaths=$(@(git config --show-origin --get-all core.longpaths) -join '; ')"
+          Note "git core.autocrlf=$(@(git config --show-origin --get-all core.autocrlf) -join '; ')"
+
+          $pol = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender'
+          Step 'remove the policy values that turn Defender scanning off' {
+            Remove-ItemProperty -Path $pol -Name DisableAntiSpyware, DisableAntiVirus -ErrorAction SilentlyContinue
+            Remove-ItemProperty -Path "$pol\Real-Time Protection" -ErrorAction SilentlyContinue `
+              -Name DisableRealtimeMonitoring, DisableBehaviorMonitoring, DisableIOAVProtection, DisableScriptScanning
+            Remove-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Advanced Threat Protection' `
+              -Name ForceDefenderPassiveMode -ErrorAction SilentlyContinue }
+          Step 'WinDefend service running' {
+            if ((Get-Service -Name WinDefend -ErrorAction Stop).Status -ne 'Running') {
+              Start-Service -Name WinDefend -ErrorAction Stop } }
+          Step 'Defender real-time, behaviour, download and script scanning on' {
+            Set-MpPreference -DisableRealtimeMonitoring $false -DisableBehaviorMonitoring $false `
+              -DisableIOAVProtection $false -DisableScriptScanning $false -ErrorAction Stop }
+          Step 'remove the C:\ and D:\ exclusions' {
+            Remove-MpPreference -ExclusionPath 'C:\', 'D:\' -ErrorAction Stop }
+          Start-Sleep -Seconds 10
+          try {
+            $st = Get-MpComputerStatus -ErrorAction Stop
+            $pr = Get-MpPreference -ErrorAction Stop
+            Note ("after: Defender AMRunningMode=$($st.AMRunningMode) RealTimeProtectionEnabled=" +
+                  "$($st.RealTimeProtectionEnabled) IsTamperProtected=$($st.IsTamperProtected) " +
+                  "ExclusionPath=$(@($pr.ExclusionPath) -join ', ')")
+          } catch { Note "after: Defender status unreadable ($($_.Exception.Message))" }
+
+          Note "before: JAVA_HOME=$env:JAVA_HOME"
+          Note ("before: java on PATH=" + (@(Get-Command java -All -ErrorAction SilentlyContinue |
+                ForEach-Object { $_.Source }) -join ', '))
+          Note "registry JavaSoft keys: $(Test-Path 'HKLM:\SOFTWARE\JavaSoft')"
+          $cache = $null
+          if ($env:RUNNER_TOOL_CACHE) { $cache = Join-Path $env:RUNNER_TOOL_CACHE 'Java_*_jdk' }
+          $decoy = $null
+          foreach ($v in 'JAVA_HOME_8_X64', 'JAVA_HOME_11_X64', 'JAVA_HOME_25_X64') {
+            $h = [Environment]::GetEnvironmentVariable($v)
+            if ($h -and (Test-Path -LiteralPath (Join-Path $h 'bin\java.exe'))) { $decoy = $h; break }
+          }
+          if (-not $decoy -and $cache) {
+            $decoy = Get-ChildItem -Path "$cache\*\x64" -Directory -ErrorAction SilentlyContinue |
+              Where-Object { $_.Parent.Name -notmatch '^(17|21)\.' } |
+              Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'bin\java.exe') } |
+              Select-Object -First 1 -ExpandProperty FullName
+          }
+          if ($decoy) {
+            $rel = Get-Content -LiteralPath (Join-Path $decoy 'release') -ErrorAction SilentlyContinue |
+              Select-String -Pattern '^JAVA_VERSION='
+            Note "JAVA_HOME for the harness: $decoy ($rel)"
+            [IO.File]::AppendAllText($env:GITHUB_ENV, "JAVA_HOME=$decoy`n")
+          } else {
+            Note 'NOT DONE: no Java 8, 11 or 25 on this image; JAVA_HOME is left empty'
+            [IO.File]::AppendAllText($env:GITHUB_ENV, "JAVA_HOME=`n")
+          }
+          $j21 = $env:JAVA_HOME_21_X64
+          if (-not ($j21 -and (Test-Path -LiteralPath (Join-Path $j21 'bin\java.exe'))) -and $cache) {
+            $j21 = Get-ChildItem -Path "$cache\21.*\x64" -Directory -ErrorAction SilentlyContinue |
+              Select-Object -First 1 -ExpandProperty FullName
+          }
+          if ($j21) {
+            $ver = Split-Path -Leaf (Split-Path -Parent $j21)
+            if ($ver -notmatch '^21') { $ver = '21' }
+            $name = 'jdk-' + ($ver -replace '-', '.') + '-hotspot'
+            $dest = Join-Path $env:LOCALAPPDATA "Programs\Eclipse Adoptium\$name"
+            Step "copy the JDK 21 to $dest" {
+              New-Item -ItemType Directory -Force -Path (Split-Path $dest) | Out-Null
+              Copy-Item -LiteralPath $j21 -Destination $dest -Recurse -Force -ErrorAction Stop }
+          } else {
+            Note 'NOT DONE: no JDK 21 on this image to put in the per-user Temurin folder'
+          }
+          exit 0
+
+      - name: Install Claude Code (pinned, native installer)
+        shell: powershell
+        timeout-minutes: 10
+        run: |
+          # The installer runs under PowerShell's default 'Continue', as it does for a user; every outcome that
+          # matters is checked below and fails the step by `throw`.
+          $ErrorActionPreference = 'Continue'
+          $ProgressPreference = 'SilentlyContinue'
+          $inst = Join-Path $env:RUNNER_TEMP 'claude-install.ps1'
+          Invoke-WebRequest -UseBasicParsing -Uri 'https://claude.ai/install.ps1' -OutFile $inst -ErrorAction Stop
+          Write-Host ('installer sha256 ' + (Get-FileHash -Algorithm SHA256 -LiteralPath $inst).Hash)
+          & $inst $env:CLI
+          $bin = Join-Path $env:USERPROFILE '.local\bin\claude.exe'
+          if (-not (Test-Path -LiteralPath $bin)) { throw "No Claude Code at $bin after the install." }
+          $v = (& $bin --version | Out-String).Trim()
+          Write-Host "claude --version: $v"
+          if (-not $v.StartsWith("$env:CLI ")) { throw "Claude Code $env:CLI was asked for; another version answered." }
+          [IO.File]::AppendAllText($env:GITHUB_PATH, (Split-Path $bin) + "`n")
+          [IO.File]::AppendAllText($env:GITHUB_ENV, "CLAUDE_BIN=$bin`n")
+          exit 0
+
+      # Exit 0: every check held (NOT COVERED and SKIP allowed); 1: a FAIL or a PASS AFTER RETRY; 2: refused.
+      # A user's PATH holds no Java: every directory with a java.exe leaves PATH here, for the harness and all it
+      # starts. Its output is printed with workflow commands off, so no logged line can act as one.
+      - name: Install sanity (tests/live_e2e.py)
+        shell: powershell
+        timeout-minutes: 140
+        env:
+          CI: "true"
+          DEEPMAP_LIVE_TEST: "1"
+          NEO4J_PASSWORD: deepmap
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $env:PATH = (($env:PATH -split ';') | Where-Object {
+            try { $_ -and -not [IO.File]::Exists([IO.Path]::Combine($_, 'java.exe')) } catch { $true } }) -join ';'
+          Write-Host ('java on PATH: ' + (@(Get-Command java -All -ErrorAction SilentlyContinue |
+            ForEach-Object { $_.Source }) -join ', '))
+          Write-Host "JAVA_HOME: $env:JAVA_HOME"
+          $a = @('tests/live_e2e.py', '--claude', $env:CLAUDE_BIN, '--claude-version', $env:CLI,
+                 '--repo', $env:PLUGIN_REPO, '--ref', $env:REF, '--expect-version', $env:VERSION,
+                 '--expect-sha', $env:SHA, '--profile', 'windows-field', '--job', 'windows-field',
+                 '--setup-timeout', '5400', '--report', (Join-Path $env:RUNNER_TEMP 'sanity'))
+          $tok = [guid]::NewGuid().ToString('N')
+          Write-Host "::stop-commands::$tok"
+          $global:LASTEXITCODE = 2   # stays 2 (a failure) if python cannot even start
+          & python @a
+          $rc = $global:LASTEXITCODE
+          Write-Host "::${tok}::"
+          exit $rc
+
+      # Uninstalls whatever a cut-off main step left running; does nothing when that step already uninstalled.
+      - name: Clean up after a cut-off run
+        if: always()
+        shell: powershell
+        timeout-minutes: 20
+        env:
+          CI: "true"
+          DEEPMAP_LIVE_TEST: "1"
+          NEO4J_PASSWORD: deepmap
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $env:PATH = (($env:PATH -split ';') | Where-Object {
+            try { $_ -and -not [IO.File]::Exists([IO.Path]::Combine($_, 'java.exe')) } catch { $true } }) -join ';'
+          $report = Join-Path $env:RUNNER_TEMP 'sanity'
+          $a = @('tests/live_e2e.py', '--only', 'cleanup', '--resume', $report, '--report', $report,
+                 '--repo', $env:PLUGIN_REPO, '--ref', $env:REF, '--claude-version', $env:CLI,
+                 '--profile', 'windows-field', '--job', 'windows-field')
+          if ($env:CLAUDE_BIN) { $a += @('--claude', $env:CLAUDE_BIN) }
+          $tok = [guid]::NewGuid().ToString('N')
+          Write-Host "::stop-commands::$tok"
+          $global:LASTEXITCODE = 2   # stays 2 (a failure) if python cannot even start
+          & python @a
+          $rc = $global:LASTEXITCODE
+          Write-Host "::${tok}::"
+          exit $rc
+
+      - name: No key-shaped text in the upload
+        if: always()
+        timeout-minutes: 5
+        run: |
+          d="$RUNNER_TEMP/sanity"
+          if [ ! -d "$d" ]; then exit 0; fi
+          hits="$(grep -rlE 'sk-ant-[A-Za-z0-9_-]{20,}' "$d" || true)"
+          if [ -n "$hits" ]; then
+            echo "::error::Key-shaped text found; these files are left out of the upload:"
+            printf '%s\n' "$hits"
+            printf '%s\n' "$hits" | while IFS= read -r f; do rm -f -- "$f"; done
+            exit 1
+          fi
+          echo "No key-shaped text in $d."
+
+      - name: Keep the report and logs
+        if: always()
+        timeout-minutes: 10
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sanity-windows-field
+          path: ${{ runner.temp }}/sanity
+          include-hidden-files: true
+          retention-days: 3
+          if-no-files-found: warn
+
+  summary:
+    needs: [resolve, linux, windows-field]
+    if: >-
+      always()
+      && contains(fromJSON('["deepfusionlabs/deep-map", "deepfusionlabs/deep-map"]'), github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {}
+    steps:
+      - name: Fetch the reports
+        continue-on-error: true
+        timeout-minutes: 5
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: sanity-*
+          path: ${{ runner.temp }}/reports
+
+      - name: One table of every check, by job
+        env:
+          REPORTS: ${{ runner.temp }}/reports
+          REF: ${{ needs.resolve.outputs.ref }}
+          SHA: ${{ needs.resolve.outputs.sha }}
+          VERSION: ${{ needs.resolve.outputs.version }}
+          CLI: ${{ needs.resolve.outputs.cli }}
+          LINUX_RESULT: ${{ needs.linux.result }}
+          WINDOWS_RESULT: ${{ needs.windows-field.result }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+
+          root = pathlib.Path(os.environ["REPORTS"])
+          env = os.environ
+          legs = [("linux", env.get("LINUX_RESULT", "")), ("windows-field", env.get("WINDOWS_RESULT", ""))]
+          label = {"pass": "PASS", "fail": "FAIL", "skip": "SKIP", "not-covered": "NOT COVERED",
+                   "pass-after-retry": "PASS AFTER RETRY"}
+
+
+          def esc(s):
+              return str("" if s is None else s).replace("|", "\\|").replace("\r", " ").replace("\n", " ")
+
+
+          reports, order, cells = {}, [], {}
+          for leg, _ in legs:
+              try:
+                  reports[leg] = json.loads((root / f"sanity-{leg}" / "report.json").read_text(encoding="utf-8"))
+              except (OSError, ValueError):
+                  reports[leg] = None
+              for r in (reports[leg] or {}).get("results") or []:
+                  status = r.get("status")
+                  if status == "info":
+                      continue
+                  key = (str(r.get("phase") or ""), str(r.get("id") or ""))
+                  if key not in cells:
+                      order.append(key)
+                      cells[key] = {}
+                  cell = label.get(status, str(status).upper())
+                  cells[key][leg] = "predicted FAIL" if status == "fail" and r.get("predicted") else cell
+
+
+          def phase_rank(key):
+              head = key[0].split(" ", 1)[0]
+              return int(head) if head.isdigit() else 99
+
+
+          order.sort(key=phase_rank)   # stable: inside a phase, the order the checks first appeared in
+
+          md = ["## DeepMap install sanity: every job", "",
+                f"{env.get('PLUGIN_REPO', '')}#{env.get('REF', '')} at {env.get('SHA', '')[:12]}, "
+                f"plugin {env.get('VERSION', '')}, Claude Code {env.get('CLI', '')}", "",
+                "| Job | Job result | Report exit | Minutes | Pass | Fail | Pass after retry | Not covered | Skip |",
+                "|---|---|---|---|---|---|---|---|---|"]
+          for leg, result in legs:
+              rep = reports[leg]
+              if rep is None:
+                  md.append(f"| {leg} | {esc(result)} | no report | | | | | | |")
+                  continue
+              c, m = rep.get("counts") or {}, rep.get("meta") or {}
+              nums = " | ".join(str(c.get(k, 0)) for k in ("pass", "fail", "pass-after-retry", "not-covered", "skip"))
+              md.append(f"| {leg} | {esc(result)} | {esc(rep.get('exit_code'))} | {esc(m.get('minutes'))} | {nums} |")
+          names = [leg for leg, _ in legs]
+          head = ["| Phase | Check | " + " | ".join(names) + " |", "|---|---|" + "---|" * len(names)]
+
+
+          def row(k):
+              return f"| {esc(k[0])} | {esc(k[1])} | " + " | ".join(cells[k].get(n, "") for n in names) + " |"
+
+
+          attention = [k for k in order if any(v != "PASS" for v in cells[k].values())]
+          md += ["", "### Checks that did not pass in every job that ran them", ""]
+          md += (head + [row(k) for k in attention]) if attention else ["None."]
+          md += ["", "<details><summary>Every check, by job</summary>", ""] + head + [row(k) for k in order]
+          md += ["", "</details>", "",
+                 "A blank cell: that job has no such check (it belongs to the other OS, or its phase did not run). "
+                 "Each job's own report, with the recorded values and what this run does not prove, is in its job "
+                 "summary and in its artifact (sanity-linux, sanity-windows-field)."]
+          with open(env["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as fh:
+              fh.write("\n".join(md) + "\n")
+          print("\n".join(md))
+          PY

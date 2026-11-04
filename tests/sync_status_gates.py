@@ -663,6 +663,10 @@ def gate_f_recipe(S, ST, base: Path) -> None:
           r.get("embed_model_revision") == "rev-from-seam" and bool(r.get("embed_model")), r)
     check("F: engine / extractor_requested / version recorded", r.get("engine") == "graphify"
           and r.get("extractor_requested") == "auto" and r.get("deepmap_version") == S._CODE_VERSION, r)
+    check("F: the graph revision of this code is recorded (graph_rev == sync_status.GRAPH_REV, a whole number >= 1: "
+          "revision 1, the census of languages this install cannot parse, ships with it)",
+          r.get("graph_rev") == getattr(ST, "GRAPH_REV", None) and type(r.get("graph_rev")) is int
+          and r.get("graph_rev") >= 1, (r.get("graph_rev"), getattr(ST, "GRAPH_REV", None)))
     text = path.read_text(encoding="utf-8") if path.exists() else ""
     check("F: neither the NEO4J_PASSWORD value nor the URI's password appears in the manifest",
           bool(text) and _SECRET_PW not in text and _SECRET_URI_PW not in text, text[:200])

@@ -70,6 +70,19 @@ kept and added as :Method nodes that a NAME never binds (`call_by_name: False`, 
 on graphify 0.8.39 a record / struct / enum also gets the :Class owner 0.8.51 gives it, one per engine id of a name in
 a file (_cs_type_owners, _cs_members). No call inside them is read.
 
+SQL (2026-11; DEEPMAP_SQL_DECLARATIONS, default OFF until the pre-registered G-SQL decision passes): the engine's
+optional SQL grammar finds no objects in SQL Server scripts, so DeepMap reads .sql itself, AFTER the engine and from
+the source alone (_sql_supplement, build/sql_reader.py): engine nodes from .sql files are dropped and each .sql file
+becomes a :Module, each table / view / type / package a :Class, each procedure / function / trigger a :Function, all
+with deterministic summaries, `call_by_name: False` and no call or import. Which files it reads is DeepMap's own rule
+(sql_source_files: git ls-files in a work tree, every .gitignore / .graphifyignore level outside one, the engine's
+sensitive-file rule, the census's directory rule), the same on every engine end; results are cached per content under
+graphify_out_dir(root)/sqlcache. With the switch off, and for every tree without .sql files, the result is the
+engine's, byte for byte. When the engine's optional SQL grammar is installed, the case shim takes .sql out of its
+parser table (DEEPMAP_ENGINE_DROP_EXTS). not_parsed_here() is the one rule for the suffixes this install cannot turn
+into nodes (an optional grammar not installed or not loadable, .sql while the reader is off, ENGINE_UNPARSED_EXTS),
+with their causes; the verdict leaves them out of every coverage count and names them.
+
 Multi-language: this mapper is validated end-to-end on real captured `graphify update --no-cluster`
 graphs for Python, TypeScript, JavaScript, Go, Rust, Java, Ruby, and C#
 (tests/graphify_multilang_gates.py). The one cross-language junk source graphify emits is the
@@ -4376,6 +4389,155 @@ def upgradeable_unparsed_exts(version=None) -> dict:
         return {}
 
 
+# --- what this install cannot turn into nodes, and DeepMap's own SQL reader (2026-11) ------------------------------
+# graphify parses .sql with tree_sitter_sql and .dm with tree_sitter_dm, both in graphifyy's optional extras, which
+# DeepMap does not install: without them the engine returns {"nodes": [], "error": "... not installed"} for every such
+# file (no per-file warning line, so not a failed file either). No graphify release DeepMap supports dispatches
+# ENGINE_UNPARSED_EXTS at all. Counting such files as source made a healthy graph read "LOW COVERAGE" on every sync
+# (the 2026-11 .NET field report: 12 .sql files). not_parsed_here() is THE rule for them, with each one's cause (the
+# verdict's census and doctor read it: KL-architecture:002); engine_parseable_exts() is what is left, for the
+# zero-node rule. Locked by tests/unparsed_census_gates.py (E2: OPTIONAL_PARSERS against the engine's metadata and
+# extractors; E3: ENGINE_UNPARSED_EXTS = SOURCE_CODE_EXTS minus every in-range dispatch table minus sql_reader.EXTS).
+OPTIONAL_PARSERS = {".sql": "tree_sitter_sql", ".dm": "tree_sitter_dm"}
+ENGINE_UNPARSED_EXTS = frozenset({".pyi", ".cjs", ".pl", ".pm", ".r"})
+# DeepMap reads .sql itself (build/sql_reader.py, after the engine: _sql_supplement) while this is on. It stays off
+# until the pre-registered real-corpus decision G-SQL passes (benchmark/sql_reader/DECISION.md); it moves together with
+# sync_status's knob sets (tests/sql_reader_gates.py L).
+SQL_DECLARATIONS_DEFAULT = False
+ENV_SQL_DECLARATIONS = "DEEPMAP_SQL_DECLARATIONS"
+# Suffixes the engine child removes from its parser table (graphify_case_shim.ENV_DROP_EXTS): .sql while the reader is
+# on and the engine's optional SQL grammar is installed here (Phase B2), so the engine never spends its time on them.
+ENV_ENGINE_DROP_EXTS = "DEEPMAP_ENGINE_DROP_EXTS"
+_READER_EXTS_FALLBACK = (".sql",)          # sql_reader.EXTS, for when that module cannot be loaded
+_PARSER_STATE: dict = {}                   # {module: (state, detail)}, filled once per process by _parser_state
+
+
+def sql_reader_enabled() -> bool:
+    """Whether DeepMap reads .sql itself (DEEPMAP_SQL_DECLARATIONS). Unset or blank: SQL_DECLARATIONS_DEFAULT. Set: read
+    the way sync_status reads a knob with that default (a default-off knob is on only for an ON word, a default-on
+    knob off only for an OFF word, in any case), so the build recipe it records and this switch always agree. Never
+    raises."""
+    try:
+        raw = str(os.environ.get(ENV_SQL_DECLARATIONS, "") or "").strip().lower()
+        if not raw:
+            return bool(SQL_DECLARATIONS_DEFAULT)
+        if SQL_DECLARATIONS_DEFAULT:
+            return raw not in _PRECISE_OFF_WORDS
+        return raw in _PRECISE_ON_WORDS
+    except Exception:  # noqa: BLE001
+        return bool(SQL_DECLARATIONS_DEFAULT)
+
+
+def sql_reader_off_how() -> str:
+    """How the reader is off: "env" when DEEPMAP_SQL_DECLARATIONS is set (the user switched it off), "default" when
+    it is not (off by default in this release). Never raises."""
+    try:
+        return "env" if str(os.environ.get(ENV_SQL_DECLARATIONS, "") or "").strip() else "default"
+    except Exception:  # noqa: BLE001
+        return "default"
+
+
+def _sql_reader():
+    """build/sql_reader (stdlib + summarize, no engine import), or None. Imported lazily: only a sync that reads .sql
+    needs it."""
+    try:
+        import sql_reader
+        return sql_reader
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _reader_exts() -> tuple:
+    """The suffixes DeepMap's own reader reads (sql_reader.EXTS), lowercase."""
+    sr = _sql_reader()
+    exts = getattr(sr, "EXTS", None) if sr is not None else None
+    return tuple(str(e).lower() for e in (exts or _READER_EXTS_FALLBACK))
+
+
+def _load_grammar(module: str):
+    """Load an optional engine grammar the way the engine's extractors do (`import tree_sitter_sql as m` then
+    `tree_sitter.Language(m.language())`); raises what they would meet. The load probe's one seam."""
+    import importlib
+    try:
+        from tree_sitter import Language
+    except ImportError as e:            # no tree-sitter binding: the grammar cannot be loaded either (unusable)
+        raise RuntimeError(f"tree_sitter is not importable ({e})") from e
+    mod = importlib.import_module(module)
+    return Language(mod.language())
+
+
+def _parser_state(module: str) -> tuple:
+    """("usable" | "package" | "unusable", detail) for an optional engine grammar in this Python (the engine runs under
+    this interpreter), probed once per process: find_spec finds nothing -> "package"; it is found but does not load
+    (_load_grammar) -> "unusable", the error as the detail (<= 160 characters); a find_spec that raises -> "usable"
+    (the files keep being counted, as before). Never raises."""
+    try:
+        if module not in _PARSER_STATE:
+            import importlib.util
+            try:
+                found = importlib.util.find_spec(module) is not None
+            except Exception:  # noqa: BLE001 - an unanswerable probe keeps today's census
+                found = None
+            if found is None:
+                state = ("usable", "")
+            elif not found:
+                state = ("package", "")
+            else:
+                try:
+                    _load_grammar(module)
+                    state = ("usable", "")
+                except Exception as e:  # noqa: BLE001 - the error is what doctor names
+                    state = ("unusable", f"{type(e).__name__}: {e}"[:160])
+            _PARSER_STATE[module] = state
+        return _PARSER_STATE[module]
+    except Exception:  # noqa: BLE001
+        return ("usable", "")
+
+
+def not_parsed_here() -> dict:
+    """THE rule for the source suffixes this install cannot turn into nodes: {suffix: (cause, package, detail)}.
+      * an OPTIONAL_PARSERS suffix the engine parses only with an optional grammar that is not usable here:
+        ("package", <pip name>, "") when the module is absent, ("unusable", <pip name>, <the error>) when it is found
+        but tree_sitter.Language(module.language()) fails;
+      * a suffix DeepMap's own reader reads (sql_reader.EXTS: .sql), only while that reader is off (sql_reader_enabled)
+        and the engine has no usable grammar for it: ("off", <pip name>, sql_reader_off_how());
+      * every ENGINE_UNPARSED_EXTS suffix: ("no-parser", "", "").
+    The grammar probe runs once per process (_parser_state); the switch is read on every call. The verdict leaves these
+    files out of every coverage count and names each with its cause (verdict._uncounted_exts, coverage "not_parsed").
+    Never raises: on any problem {} (count everything, as before)."""
+    try:
+        out: dict = {}
+        reader = _reader_exts()
+        for ext, module in OPTIONAL_PARSERS.items():
+            package = module.replace("_", "-")
+            if ext in reader:
+                if not sql_reader_enabled() and _parser_state(module)[0] != "usable":
+                    out[ext] = ("off", package, sql_reader_off_how())
+                continue
+            state, detail = _parser_state(module)
+            if state == "package":
+                out[ext] = ("package", package, "")
+            elif state == "unusable":
+                out[ext] = ("unusable", package, str(detail))
+        for ext in sorted(ENGINE_UNPARSED_EXTS):
+            out[ext] = ("no-parser", "", "")
+        return out
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def engine_parseable_exts() -> frozenset:
+    """The suffixes the installed engine can turn into nodes: SOURCE_CODE_EXTS minus DeepMap's own reader's
+    (sql_reader.EXTS), minus not_parsed_here(), minus those only a later in-range engine parses
+    (upgradeable_unparsed_exts). The zero-node rule asks it: a tree whose only source lies outside it is no engine
+    failure (a .sql + .R repo must not fall back to the Python-only ast extractor and lose its SQL). Never raises."""
+    try:
+        return (frozenset(SOURCE_CODE_EXTS) - set(_reader_exts()) - set(not_parsed_here())
+                - set(upgradeable_unparsed_exts()))
+    except Exception:  # noqa: BLE001
+        return frozenset(SOURCE_CODE_EXTS)
+
+
 def _never_rescue(part: str) -> bool:
     low = part.lower()
     return low in _NEVER_RESCUE_DIRS or low.endswith(_NEVER_RESCUE_SUFFIXES)
@@ -4757,6 +4919,464 @@ def _rescue_payload(root: Path, skipped: dict) -> str:
     if len(payload) > _RESCUE_ENV_MAX:
         payload = json.dumps({"root": str(root), "names": sorted({d.rsplit("/", 1)[-1] for d in dirs})})
     return payload
+
+
+# --- DeepMap's own SQL reader after the engine (design 2026-11 SQL, 5.1) -----------------------------------------
+_SQL_IGNORE_RULES = ("gitignore", "graphifyignore", "sensitive")
+_SQL_UNREAD_STATES = ("too_large", "budget", "slow")
+
+
+def _census_dir_rule():
+    """The census's directory rule (verdict._dir_ignore_rule: its static set, incl. bin obj public vendor node_modules
+    build dist, the engine's own skip rule and _never_rescue), so the census and the SQL reader count the same tree;
+    this module's own approximation when verdict cannot be loaded. `rule(part, parent)`."""
+    try:
+        import verdict
+        return verdict._dir_ignore_rule()
+    except Exception:  # noqa: BLE001
+        noise = _engine_noise_dir()
+
+        def rule(part, parent=None):
+            if part in _SCAN_IGNORE_DIRS or _never_rescue(part):
+                return True
+            return noise is not None and _is_engine_noise(noise, part, parent)
+        return rule
+
+
+def _rule_says(rule, part: str, parent) -> bool:
+    try:
+        try:
+            return bool(rule(part, parent))
+        except TypeError:
+            return bool(rule(part))
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _dirs_allowed(rule, root: Path):
+    """A memoized `ok(rel)`: no directory of the root-relative posix `rel` (below `root`) is one `rule` prunes."""
+    cache: dict = {(): True}
+
+    def ok_dirs(parts: tuple) -> bool:
+        if parts in cache:
+            return cache[parts]
+        good = ok_dirs(parts[:-1]) and not _rule_says(rule, parts[-1], root.joinpath(*parts[:-1]))
+        cache[parts] = good
+        return good
+
+    return lambda rel: ok_dirs(tuple(p for p in rel.split("/")[:-1] if p))
+
+
+# On Windows a path of _LONG_PATH+ characters is opened through its extended-length form (\\?\C:\... or
+# \\?\UNC\server\...), which the Win32 API reads at any length (sql_reader._os_path's rule: the reader opens such a
+# .sql file, so its file rule must list it). With LongPathsEnabled=0 a plain stat of a 260+ character path fails and a
+# plain walk cannot list a directory of 248+ characters.
+_LONG_PATH = 248
+_XLEN_PREFIX = "\\\\?\\"
+
+
+def _ext_path(path) -> str:
+    """`path` as the Win32 API reads it at any length: absolute, in its extended-length form on Windows once it is
+    _LONG_PATH+ characters; anything else (and every path on another OS) as it is."""
+    p = os.fspath(path)
+    if os.name != "nt":
+        return p
+    p = os.path.abspath(p)
+    if len(p) < _LONG_PATH or p.startswith(_XLEN_PREFIX):
+        return p
+    return _XLEN_PREFIX + "UNC\\" + p[2:] if p.startswith("\\\\") else _XLEN_PREFIX + p
+
+
+def _plain_path(p: str) -> str:
+    """The plain form of an extended-length path (`\\\\?\\C:\\x` -> `C:\\x`, `\\\\?\\UNC\\s\\x` -> `\\\\s\\x`)."""
+    if not p.startswith(_XLEN_PREFIX):
+        return p
+    rest = p[len(_XLEN_PREFIX):]
+    return "\\" + rest[3:] if rest[:4].upper() == "UNC\\" else rest
+
+
+def _is_file_any_length(path) -> bool:
+    """os.path.isfile through the extended-length form (a path past MAX_PATH too). Never raises."""
+    try:
+        return os.path.isfile(_ext_path(path))
+    except (OSError, ValueError):
+        return False
+
+
+def _walk_any_length(top: str):
+    """os.walk(top) top-down (the caller may prune `dirnames` in place), then, on Windows, every directory the plain
+    walk could not list because its path reached the limit, walked through the extended-length form; `dirpath` is
+    always the plain form. A directory that cannot be listed for another reason is skipped, as os.walk skips it."""
+    pending: list = []
+
+    def onerror(e):
+        name = os.path.abspath(str(getattr(e, "filename", "") or ""))
+        if os.name == "nt" and name and (len(name) >= _LONG_PATH or getattr(e, "winerror", None) == 206):
+            pending.append(name)
+
+    yield from os.walk(top, onerror=onerror)
+    while pending:
+        start = pending.pop(0)
+        xstart = (_XLEN_PREFIX + "UNC\\" + start[2:] if start.startswith("\\\\") else _XLEN_PREFIX + start)
+        for dirpath, dirnames, filenames in os.walk(xstart):
+            yield _plain_path(dirpath), dirnames, filenames
+
+
+def _include_vendor_on() -> bool:
+    """sync._include_vendor_enabled's switch (DEEPMAP_INCLUDE_VENDOR): sync then keeps vendored / gitignored files."""
+    return os.environ.get("DEEPMAP_INCLUDE_VENDOR", "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _ignore_lines(path: Path, parse) -> list:
+    """The non-blank pattern lines of one ignore file, through the engine's own parser (read at any path length). []
+    when unreadable."""
+    try:
+        if not _is_file_any_length(path):
+            return []
+        with open(_ext_path(path), encoding="utf-8", errors="ignore") as fh:
+            text = fh.read()
+        return [ln for ln in (parse(raw) for raw in text.splitlines()) if ln]
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def sql_source_files(root, *, skipped=None) -> dict:
+    """DeepMap's OWN rule for the files its SQL reader reads, the same on every engine end (graphify 0.8.39 and 0.8.51
+    answer ignore files differently): {"files": [(rel, Path)] sorted by rel, "ignored": {"gitignore": n,
+    "graphifyignore": n, "sensitive": n, "examples": {rule: [<= 3 rel]}}, "ignored_files": [rel], "filters_skipped":
+    [filter], "walk": "git" | "tree"}. `rel` is root-relative posix.
+      1. directories: the census's rule (_census_dir_rule) on every directory BELOW the root, so the census and the
+         reader count the same tree; a file under such a directory is read only when the re-include lists it
+         (`skipped`: skipped_source_dirs' qualifying files); macOS metadata never;
+      2. a git work tree: `git ls-files --cached --others --exclude-standard` over the reader's suffixes (tracked and
+         not ignored, or untracked and not ignored: every .gitignore level, .git/info/exclude and the global excludes)
+         minus the tracked files a .gitignore names; those and the untracked ignored ones count as "gitignore";
+      3. no git work tree (or git failing): an os.walk with the rule of 1; in each directory its .gitignore, then its
+         .graphifyignore (0.8.51's merge order), at every level, parsed with graphify.detect._parse_gitignore_line,
+         anchored there and matched with detect._is_ignored;
+      4. in both: the .graphifyignore files from the git root (or the root) down to the root, read here (never through
+         detect._load_graphifyignore), and the engine's sensitive-file rule (detect._is_sensitive on the absolute
+         path, as the engine asks it);
+      5. a missing or raising engine helper skips only its filter, named in "filters_skipped";
+      6. a path past the Windows limit is listed like any other (the reader opens it through the extended-length
+         form): git runs with core.longpaths, a file is looked for and a directory the plain walk cannot list is
+         walked through that form.
+    Left-out files count only outside pruned directories (the census does not count those either). A file listed but
+    not on disk is not listed. Never raises (a problem returns what was found so far)."""
+    return _source_listing(root, _reader_exts(), skipped=skipped)
+
+
+def _source_listing(root, exts, *, skipped=None, first: bool = False) -> dict:
+    """sql_source_files' rule over the suffixes `exts` (lowercase, with the dot); its result shape. `first`: the
+    zero-node rule's question instead, "a file the engine would have parsed and sync's graph would keep": it stops at
+    the first such file ("files" holds at most one), drops what sync's vendor filter drops (a minified / bundle suffix,
+    a root-.gitignore bare directory name; not with DEEPMAP_INCLUDE_VENDOR) and takes only the paths the engine can
+    read (a plain stat and walk, never the extended-length form: with LongPathsEnabled=0 the engine cannot read a path
+    past the limit, which the census names as a long path). Never raises."""
+    out: dict = {"files": [], "ignored": {r: 0 for r in _SQL_IGNORE_RULES}, "ignored_files": [],
+                 "filters_skipped": [], "walk": None}
+    out["ignored"]["examples"] = {}
+    skipped_filters: list = []
+    left: list = []                        # (rule, rel)
+    found: list = []                       # (rel, Path)
+
+    def skip_filter(name: str) -> None:
+        if name not in skipped_filters:
+            skipped_filters.append(name)
+
+    try:
+        root = Path(root).resolve()
+        exts = tuple(str(e).lower() for e in exts)
+        keep = {_norm_rel(f) for fs in (skipped or {}).values() for f in fs or () if str(f).lower().endswith(exts)}
+        allowed = _dirs_allowed(_census_dir_rule(), root)
+        vendor = first and not _include_vendor_on()
+        vendor_dirs = _gitignore_dir_parts(root) if vendor else set()
+        is_file = os.path.isfile if first else _is_file_any_length
+
+        def eligible(rel: str) -> bool:
+            if _is_macos_metadata(rel) or not (allowed(rel) or _norm_rel(rel) in keep):
+                return False
+            if vendor:
+                parts = rel.split("/")
+                if parts[-1].lower().endswith(_VENDOR_FILE_SUFFIXES):
+                    return False
+                if any(p.lower() in vendor_dirs for p in parts[:-1]):
+                    return False
+            return True
+
+        try:
+            import graphify.detect as det
+        except Exception:  # noqa: BLE001
+            det = None
+        parse = getattr(det, "_parse_gitignore_line", None)
+        is_ignored = getattr(det, "_is_ignored", None)
+        is_sensitive = getattr(det, "_is_sensitive", None)
+        patterns_ok = callable(parse) and callable(is_ignored)
+        if not callable(is_sensitive):
+            skip_filter("sensitive")
+
+        def ignored_by(path: Path, patterns, cache, name: str) -> bool:
+            if not patterns or not patterns_ok:
+                return False
+            try:
+                return bool(is_ignored(path, root, patterns, _cache=cache))
+            except Exception:  # noqa: BLE001
+                skip_filter(name)
+                return False
+
+        def sensitive(path: Path) -> bool:
+            if not callable(is_sensitive):
+                return False
+            try:
+                return bool(is_sensitive(path))
+            except Exception:  # noqa: BLE001
+                skip_filter("sensitive")
+                return False
+
+        git_top = next((p for p in (root, *root.parents) if (p / ".git").exists()), None)
+        listed = tracked_ignored = others_ignored = None
+        if git_top is not None and shutil.which("git"):
+            spec = [f":(icase)*{e}" for e in exts]
+            lsf = ("-c", "core.longpaths=true", "ls-files", "-z")
+            listed = _git_z(root, *lsf, "--cached", "--others", "--exclude-standard", "--", *spec)
+            tracked_ignored = _git_z(root, *lsf, "--cached", "--ignored", "--exclude-standard", "--", *spec)
+            others_ignored = ([] if first else
+                              _git_z(root, *lsf, "--others", "--ignored", "--exclude-standard", "--", *spec))
+        if listed is not None and tracked_ignored is not None and others_ignored is not None:
+            out["walk"] = "git"
+            if not patterns_ok:
+                skip_filter("graphifyignore")
+            chain = [root] + [p for p in root.parents if git_top in (p, *p.parents)]
+            gpats = [(d, ln) for d in reversed(chain) for ln in
+                     (_ignore_lines(d / ".graphifyignore", parse) if patterns_ok else [])]
+            gcache: dict = {}
+            t_ign = set(tracked_ignored)
+            for rel in sorted(set(listed)):
+                if not rel.lower().endswith(exts) or not eligible(rel):
+                    continue
+                path = root.joinpath(*rel.split("/"))
+                if not is_file(path):
+                    continue
+                if rel in t_ign:
+                    left.append(("gitignore", rel))
+                elif ignored_by(path, gpats, gcache, "graphifyignore"):
+                    left.append(("graphifyignore", rel))
+                elif sensitive(path):
+                    left.append(("sensitive", rel))
+                else:
+                    found.append((rel, path))
+                    if first:
+                        break
+            for rel in sorted(set(others_ignored)):
+                if rel.lower().endswith(exts) and eligible(rel) and is_file(root.joinpath(*rel.split("/"))):
+                    left.append(("gitignore", rel))
+        else:
+            out["walk"] = "tree"
+            if not patterns_ok:
+                skip_filter("gitignore")
+                skip_filter("graphifyignore")
+            rule = _census_dir_rule()
+            levels: dict = {}              # dirpath -> (gitignore patterns, merged patterns, their two caches)
+            for dirpath, dirnames, filenames in (os.walk(str(root)) if first else _walk_any_length(str(root))):
+                here = Path(dirpath)
+                up = levels.get(os.path.dirname(dirpath), ([], [], {}, {}))
+                own_gi = _ignore_lines(here / ".gitignore", parse) if patterns_ok else []
+                own_gf = _ignore_lines(here / ".graphifyignore", parse) if patterns_ok else []
+                if own_gi or own_gf:
+                    mine_gi, mine_gf = [(here, ln) for ln in own_gi], [(here, ln) for ln in own_gf]
+                    levels[dirpath] = (up[0] + mine_gi, up[1] + mine_gi + mine_gf, {}, {})
+                else:
+                    levels[dirpath] = up
+                gi, merged, gi_cache, all_cache = levels[dirpath]
+                dirnames[:] = sorted(d for d in dirnames
+                                     if not _is_macos_metadata(d, is_dir=True) and not _rule_says(rule, d, here))
+                for name in sorted(filenames):
+                    if not name.lower().endswith(exts) or name.startswith("._"):
+                        continue
+                    path = here / name
+                    try:
+                        rel = path.relative_to(root).as_posix()
+                    except ValueError:
+                        continue
+                    if _is_macos_metadata(rel) or (vendor and not eligible(rel)):
+                        continue
+                    if first and len(os.path.abspath(str(path))) >= 260 and not _long_paths_ok():
+                        continue
+                    if ignored_by(path, gi, gi_cache, "gitignore"):
+                        left.append(("gitignore", rel))
+                    elif ignored_by(path, merged, all_cache, "graphifyignore"):
+                        left.append(("graphifyignore", rel))
+                    elif sensitive(path):
+                        left.append(("sensitive", rel))
+                    else:
+                        found.append((rel, path))
+                        if first:
+                            break
+                if first and found:
+                    break
+    except Exception:  # noqa: BLE001 - what was found so far
+        pass
+    out["files"] = sorted(found, key=lambda t: t[0])
+    for rule_name in _SQL_IGNORE_RULES:
+        rels = sorted(rel for r, rel in left if r == rule_name)
+        out["ignored"][rule_name] = len(rels)
+        if rels:
+            out["ignored"]["examples"][rule_name] = rels[:3]
+    out["ignored_files"] = sorted(rel for _r, rel in left)
+    out["filters_skipped"] = skipped_filters
+    return out
+
+
+def _long_paths_ok() -> bool:
+    """verdict._long_paths_enabled: every non-Windows OS, Windows with LongPathsEnabled=1. Never raises."""
+    if os.name != "nt":
+        return True
+    try:
+        import verdict
+        return bool(verdict._long_paths_enabled())
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _is_reader_node(node) -> bool:
+    """A node DeepMap's SQL reader made (its keys start "sql:"; an engine id is [\\w]+, a recognizer key holds "::")."""
+    return isinstance(node, dict) and str(node.get("key") or "").startswith("sql:")
+
+
+def _sql_supplement(result, root, *, skipped=None, listing=None):
+    """DeepMap's own SQL reader, after the engine: returns (result, report or None). Never raises: any exception gives
+    (`result` unchanged, {"state": "error", "error": "<Type>: <message>"[:200]}).
+      * reader off (sql_reader_enabled): `result` unchanged, the very objects (the engine's own .sql nodes, if its
+        optional grammar made any, are kept: the pre-change graph exactly); report {"state": "off"} when it holds a node
+        from a .sql file, else None;
+      * reader on, no .sql file to read (sql_source_files, or `listing` when the caller made it), none left out by a
+        rule and no engine node from a .sql file: the SAME objects and None (byte identity for every SQL-free tree);
+      * reader on: every engine node whose source_file ends in .sql (any case) is dropped with its calls and imports and
+        the CallKey / resolved-import key that targets it (the _keep_rescued_only pattern); then each listed file, in
+        sorted rel order, becomes the reader's nodes (sql_reader.read_file: a :Module per file, a :Class / :Function
+        per declaration, every one `call_by_name: False`, no call and no import), through the per-file cache in
+        <graphify_out_dir(root)>/sqlcache and one per-sync byte budget; cache entries this run did not use are removed
+        one exact path at a time. The report: {"state": "read", "files" (files that got nodes), "declarations",
+        "modules", "too_large", "budget", "slow" (files read as a :Module only), "unreadable" (not opened),
+        "unread_examples" {state: [<= 3 rel]}, "dynamic_unread", "ignored" (sql_source_files'), "ignored_files",
+        "filters_skipped", "engine_nodes_dropped", "cache_hits", "long_files" (Windows: the listed rels at a path of
+        _LONG_PATH+ characters, which the verdict leaves out of its long-path finding)}."""
+    try:
+        nodes, calls, imports = result
+        if not sql_reader_enabled():
+            exts = _reader_exts()
+            held = any(str(n.get("source_file") or "").lower().endswith(exts) for n in nodes or ())
+            return result, ({"state": "off"} if held else None)
+        sr = _sql_reader()
+        if sr is None:
+            raise ImportError("build/sql_reader.py could not be imported")
+        exts = tuple(str(e).lower() for e in sr.EXTS)
+        root = Path(root).resolve()
+        if listing is None:
+            listing = sql_source_files(root, skipped=skipped)
+        files = list(listing.get("files") or [])
+        ignored = dict(listing.get("ignored") or {})
+        drop = {n.get("key") for n in nodes or () if str(n.get("source_file") or "").lower().endswith(exts)}
+        if not files and not drop and not any(int(ignored.get(r) or 0) for r in _SQL_IGNORE_RULES):
+            return result, None
+        if drop:
+            precise, keyed = keyed_calls_enabled(), resolved_imports_enabled()
+            nodes = [n for n in nodes if n.get("key") not in drop]
+            calls = [c for c in calls if c[0] not in drop and not (precise and is_call_key(c[1]) and c[1] in drop)]
+            imports = [i for i in imports if i[0] not in drop and not (keyed and i[1] in drop)]
+        report = {"state": "read", "files": 0, "declarations": 0, "modules": 0, "too_large": 0, "budget": 0, "slow": 0,
+                  "unreadable": 0, "unread_examples": {}, "dynamic_unread": 0, "ignored": ignored,
+                  "ignored_files": list(listing.get("ignored_files") or []),
+                  "filters_skipped": list(listing.get("filters_skipped") or []), "engine_nodes_dropped": len(drop),
+                  "cache_hits": 0, "long_files": []}
+        if os.name == "nt":
+            # the listed files at a path the census may name as past MAX_PATH: this reader reads them (verdict)
+            report["long_files"] = sorted(rel for rel, path in files if len(os.path.abspath(str(path))) >= _LONG_PATH)
+        cache = sr.Cache(graphify_out_dir(root) / "sqlcache")
+        budget = sr.Budget()
+        added: list = []
+
+        def example(state: str, rel: str) -> None:
+            ex = report["unread_examples"].setdefault(state, [])
+            if len(ex) < 3:
+                ex.append(rel)
+
+        for rel, path in sorted(files, key=lambda t: t[0]):
+            try:
+                got, info = sr.read_file(path, rel, cache=cache, budget=budget)
+            except OSError:
+                report["unreadable"] += 1
+                example("unreadable", rel)
+                continue
+            added.extend(got)
+            report["files"] += 1
+            state = info.get("state")
+            if state in _SQL_UNREAD_STATES:
+                report[state] += 1
+                example(state, rel)
+            report["declarations"] += int(info.get("declarations") or 0)
+            report["dynamic_unread"] += int(info.get("dynamic_unread") or 0)
+        report["modules"] = sum(1 for n in added if n.get("label") == "Module")
+        report["cache_hits"] = int(getattr(cache, "hits", 0) or 0)
+        cache.prune()
+        return (list(nodes) + added, calls, imports), report
+    except Exception as e:  # noqa: BLE001 - the engine's graph stands; the verdict names the failure
+        return result, {"state": "error", "error": f"{type(e).__name__}: {e}"[:200]}
+
+
+def _log_sql(report) -> None:
+    """One stderr line for the SQL step (sync's log keeps it; doctor and the verdict name the same facts). Never
+    raises."""
+    try:
+        if not isinstance(report, dict):
+            return
+        if report.get("state") == "error":
+            print(f"[graphify_extract] SQL: DeepMap's SQL reader failed ({report.get('error')}); the engine's graph is "
+                  f"kept as it was, without SQL declarations", file=sys.stderr)
+            return
+        if report.get("state") != "read":
+            return
+        notes = []
+        examples = report.get("unread_examples") or {}
+        partial = sum(int(report.get(k) or 0) for k in _SQL_UNREAD_STATES)
+        if partial:                        # read as a file node only: counted in "files", not read in full
+            why = [f"{report[k]} {w}" for k, w in (("too_large", "over the size limit"),
+                                                   ("budget", "past the per-sync budget"), ("slow", "too slow"))
+                   if report.get(k)]
+            ex = next((v[0] for v in (examples.get(k) for k in _SQL_UNREAD_STATES) if v), "")
+            notes.append(f"{partial} more as a file node only ({', '.join(why)})" + (f", e.g. {ex}" if ex else ""))
+        if report.get("unreadable"):
+            ex = next(iter(examples.get("unreadable") or []), "")
+            notes.append(f"{report['unreadable']} could not be opened" + (f" (e.g. {ex})" if ex else ""))
+        if report.get("dynamic_unread"):
+            notes.append(f"{report['dynamic_unread']} created by dynamic SQL not read")
+        ign = report.get("ignored") or {}
+        k = sum(int(ign.get(r) or 0) for r in _SQL_IGNORE_RULES)
+        if k:
+            notes.append(f"left out: {k} by .gitignore / .graphifyignore / the engine's sensitive-file rule")
+        full = max(0, int(report.get("files") or 0) - partial)
+        stop = f"{ENV_SQL_DECLARATIONS}=0" if SQL_DECLARATIONS_DEFAULT else f"unset {ENV_SQL_DECLARATIONS}"
+        print(f"[graphify_extract] SQL: read {full} .sql file(s): {report.get('declarations', 0)} "
+              f"declaration(s) (tables, views, types, procedures, functions, triggers), each file a :Module"
+              + "".join(f"; {n}" for n in notes)
+              + f" - {stop} to stop DeepMap reading .sql (the engine reads it only with tree-sitter-sql installed)",
+              file=sys.stderr)
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _first_engine_source(root: Path, skipped=None):
+    """The first file under `root` (root-relative posix) the installed engine would have turned into nodes and sync's
+    graph would keep: a suffix in engine_parseable_exts, under the filters of DeepMap's .sql rule (the census's
+    directory rule plus the re-included files `skipped` lists; git's answer in a work tree, else .gitignore and
+    .graphifyignore at every level; the ancestor .graphifyignore files; the engine's sensitive-file rule), sync's vendor
+    filter, at a path the engine can read (_source_listing, first=True). An ignored or sensitive file the engine never
+    saw is no engine failure. None when there is none. Stops at the first. Never raises (None)."""
+    try:
+        files = _source_listing(root, engine_parseable_exts(), skipped=skipped, first=True).get("files") or []
+        return files[0][0] if files else None
+    except Exception:  # noqa: BLE001
+        return None
 
 
 # --- run diagnostics (G4) -------------------------------------------------------------------------
@@ -5478,7 +6098,7 @@ def extract_with_report(workspace_root, *, timeout: int | None = None, source: _
             print(f"[graphify_extract] could not clear the previous graph.json ({e}); a graph this run "
                   f"does not rewrite is still rejected below", file=sys.stderr)
         env = dict(os.environ, PYTHONUTF8="1", GRAPHIFY_OUT=str(out))
-        for k in (ENV_CASE_ALIASES, ENV_RESCUE, ENV_SKIP_MACOS_METADATA):
+        for k in (ENV_CASE_ALIASES, ENV_RESCUE, ENV_SKIP_MACOS_METADATA, ENV_ENGINE_DROP_EXTS):
             env.pop(k, None)             # only this run's own decisions reach the shim
         # R8: a project module named like a stdlib one must not shadow the engine's own imports. `python -m`
         # puts the CWD (the project root) first on sys.path, so a root-level types.py / enum.py / token.py
@@ -5520,7 +6140,18 @@ def extract_with_report(workspace_root, *, timeout: int | None = None, source: _
         # macOS metadata (AppleDouble `._*` twins, __MACOSX/, .AppleDouble/) the engine would list as code and parse
         # — a twin even takes its original's node id. Looked for where the engine walks (re-included dirs too).
         metadata = macos_metadata_present(root, rescue=_rescue_spec(rescue_env) if skipped else None)
-        if odd or skipped or metadata:
+        # DeepMap's own SQL reader (on only with DEEPMAP_SQL_DECLARATIONS): its file list is made once, here, and the
+        # supplement after the engine reads it. Phase B2: when the engine's optional SQL grammar is installed here, the
+        # engine is told to leave .sql alone (it reads few SQL Server declarations, in superlinear time).
+        sql_listing = sql_source_files(root, skipped=skipped) if sql_reader_enabled() else None
+        drop_exts = []
+        if sql_listing is not None and sql_listing.get("files"):
+            try:
+                grammar = importlib.util.find_spec(OPTIONAL_PARSERS[".sql"]) is not None
+            except Exception:  # noqa: BLE001 - it may be there: leave .sql to DeepMap all the same
+                grammar = True
+            drop_exts = list(_reader_exts()) if grammar else []
+        if odd or skipped or metadata or drop_exts:
             cmd = [sys.executable, str(Path(__file__).resolve().parent / "graphify_case_shim.py"),
                    str(root), *odd]
             # Say so. The shim's own stderr is captured and discarded on the success path, and a
@@ -5543,6 +6174,11 @@ def extract_with_report(workspace_root, *, timeout: int | None = None, source: _
                       f"({', '.join(d + '/' for d in sorted(skipped)[:5])}"
                       f"{', ...' if len(skipped) > 5 else ''}) — DEEPMAP_RESCUE_SKIPPED_DIRS=0 to "
                       f"disable", file=sys.stderr)
+            if drop_exts:
+                env[ENV_ENGINE_DROP_EXTS] = ",".join(drop_exts)
+                report["engine_drop_exts"] = drop_exts
+                print(f"[deepmap] DeepMap's SQL reader reads the {'/'.join(drop_exts)} files: the engine is told to "
+                      f"leave them alone (its optional SQL grammar is installed here)", file=sys.stderr)
         # Round 11 (M1): the engine's time budget — an explicit `timeout`, else DEEPMAP_GRAPHIFY_TIMEOUT, else the
         # size-aware default. R11b/V4: the re-included directories count WHOLE, walked by the very rule handed to
         # the shim — the engine parses every source file in them (not only the tracked ones that qualified them).
@@ -5623,6 +6259,12 @@ def extract_with_report(workspace_root, *, timeout: int | None = None, source: _
                   f"moved to the caller's class, {stats.get('self_calls_ambiguous', 0)} left AMBIGUOUS, "
                   f"{stats.get('self_calls_dropped', 0)} dropped) — DEEPMAP_SELF_CALL_REBIND=0 to disable",
                   file=sys.stderr)
+        # DeepMap's own SQL reader (design 2026-11 SQL, 5.1): with DEEPMAP_SQL_DECLARATIONS off the very same result
+        # objects come back (the pre-change graph exactly), and so they do for every tree without .sql files.
+        result, sql_report = _sql_supplement(result, root, skipped=skipped, listing=sql_listing)
+        if sql_report is not None:
+            report["sql"] = sql_report
+            _log_sql(sql_report)
         if skipped:
             # The engine walked each re-included directory whole; keep only its qualifying files (D5).
             result, report["rescue_dropped"] = _keep_rescued_only(result, root, skipped)
@@ -5632,7 +6274,21 @@ def extract_with_report(workspace_root, *, timeout: int | None = None, source: _
         report["resolved_imports"] = bool(stats.get("resolved_imports"))
         report["imports_resolved"], report["imports_by_name"] = (
             import_key_counts(result[2], result[0]) if report["resolved_imports"] else (0, len(result[2])))
-        if not result[0]:
+        # The zero-node rule: the engine made nothing although the tree holds source it parses here (a C# repo whose
+        # engine run produced nothing) -> fail, and `auto` falls back. DeepMap's SQL nodes alone are no reason to keep
+        # such a result, but a tree whose only other source is outside engine_parseable_exts (.sql + .R / .pl) is no
+        # engine failure: its SQL graph stands.
+        engine_empty = bool(result[0]) and not any(not _is_reader_node(n) for n in result[0])
+        engine_source = (_first_engine_source(root, skipped)
+                         if engine_empty and (report.get("sql") or {}).get("state") == "read" else None)
+        if engine_source is not None:
+            result = ([], [c for c in result[1] if not str(c[0]).startswith("sql:")],
+                      [i for i in result[2] if not str(i[0]).startswith("sql:")])
+            fail(f"graphify produced 0 code nodes for the source it parses here (e.g. {engine_source}; DeepMap's SQL "
+                 f"reader read {report['sql'].get('files', 0)} .sql file(s))" + (
+                     f" ({len(failures)} file(s) failed, e.g. {failures[0][:200]})" if failures else
+                     f": {report['output_tail']}" if report["output_tail"] else ""))
+        elif not result[0]:
             fail("graphify produced 0 code nodes" + (
                 f" ({len(failures)} file(s) failed, e.g. {failures[0][:200]})" if failures else
                 f": {report['output_tail']}" if report["output_tail"] else ""))

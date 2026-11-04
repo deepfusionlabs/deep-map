@@ -223,7 +223,8 @@ def coverage_gaps(data) -> list:
 # 0.6.3: verdict.py leaves out of coverage the files whose engine parser is an optional package that was not installed
 # (.sql without tree_sitter_sql, .dm without tree_sitter_dm), so such a repo no longer reads a false DEGRADED; sync
 # records them in the manifest as coverage.parser_missing {suffix: {"files": N, "package": ...}}. They are still NOT in
-# the graph, so the READY announce, the coverage warning and the Grep/Glob reminder carry this one sentence.
+# the graph, so the READY announce, the coverage warning and the Grep/Glob reminder carry this one sentence. A 0.6.3
+# manifest keeps it, byte for byte, until its graph is rebuilt (not_parsed_note).
 PARSER_MISSING_NOTE = (
     " Not in the graph: {files} (the extraction engine's {langs} {parsers} DeepMap does not install); for {langs} "
     "use Grep/Read, and an empty deepmap_search/deepmap_impact result there means not indexed, not absent."
@@ -241,14 +242,12 @@ def _and_join(items) -> str:
         return ""
 
 
-def parser_missing_note(data) -> str:
-    """PARSER_MISSING_NOTE for the manifest's coverage.parser_missing block (the files the last sync could not put in
+def _parser_missing_note(cov) -> str:
+    """PARSER_MISSING_NOTE for a 0.6.3 manifest's coverage.parser_missing block (the files that sync could not put in
     the graph because the engine's parser for their suffix is not installed), or "" when there is no such block or
-    it is malformed. Reads only what sync stamped into the manifest: never imports verdict and never probes for the
-    parser (a hook may run under another Python than the sync did). Each entry must be a short lower-case suffix
-    ('.sql') with a positive integer `files`; any other entry is skipped. Never raises."""
+    it is malformed. Each entry must be a short lower-case suffix ('.sql') with a positive integer `files`; any other
+    entry is skipped. Never raises."""
     try:
-        cov = data.get("coverage") if isinstance(data, dict) else None
         block = cov.get("parser_missing") if isinstance(cov, dict) else None
         if not isinstance(block, dict):
             return ""
@@ -265,6 +264,121 @@ def parser_missing_note(data) -> str:
             files=_and_join(f"{n} {e} file(s)" for e, n in found),
             langs=_and_join(e[1:].upper() for e, _n in found),
             parsers="parser is an optional package" if len(found) == 1 else "parsers are optional packages")
+    except Exception:
+        return ""
+
+
+# Graph revision 1 (the 2026-11 SQL design, section 7): the census leaves out EVERY suffix this install cannot turn into
+# nodes (graphify_extract.not_parsed_here: an optional parser package not installed or not loadable, no in-range
+# graphify parser, .sql while DeepMap's SQL reader is off), and sync records each in coverage.not_parsed {suffix:
+# {"files": N, "cause": "package" | "unusable" | "no-parser" | "off", "package": <pip name> or None, "detail": ...}};
+# when DeepMap's SQL reader read the tree, coverage.sql counts the .sql files it did not read. None of them DEGRADES the
+# verdict, so the agent hears them here: at most _NOT_PARSED_MAX, most files first, on the READY announce, the coverage
+# warning and the Grep/Glob reminder (where 0.6.3 put its sentence). A tree whose .sql files were all read hears nothing
+# about SQL. The words are the hooks' own: a hook never imports verdict or graphify_extract.
+NOT_PARSED_NOTE = (
+    " NOT in the graph: {gaps}. For that code use Grep/Glob/Read (an empty deepmap_search/deepmap_impact result there "
+    "means not indexed, not absent)."
+)
+_NOT_PARSED_MAX = 3
+_NOT_PARSED_MORE = "and more (/deep-map:doctor lists them)"
+# verdict._SOURCE_EXTS's language for each suffix not_parsed_here can name today (any other: the suffix, upper-cased)
+_GAP_LANGS = {".sql": "SQL", ".dm": "DM", ".pl": "Perl", ".pm": "Perl", ".r": "R", ".pyi": "Python",
+              ".cjs": "JavaScript"}
+_PACKAGE_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,59}")
+
+
+def _gap_count(value) -> int:
+    """A positive whole count from the manifest, else 0 (a bool, a float, text or a negative number count 0)."""
+    return value if isinstance(value, int) and not isinstance(value, bool) and value > 0 else 0
+
+
+def _not_parsed_cause(cause, package, detail) -> str:
+    """Why a not_parsed suffix is not in the graph, in a few words for the agent (no em dash)."""
+    if cause == "no-parser":
+        return "no supported parser"
+    if cause == "package":
+        return f"needs {package}, not installed" if package else "needs an optional parser package, not installed"
+    if cause == "unusable":
+        return f"{package} is installed but cannot be loaded" if package else "its parser package cannot be loaded"
+    if cause == "off":
+        return "DeepMap's SQL reader is switched off" if detail == "env" else "DeepMap's SQL reader is off by default"
+    return "not parsed by this install"
+
+
+def _not_parsed_all(data) -> list:
+    """Every gap of coverage.not_parsed and coverage.sql as a short text, most files first (then by suffix). Each
+    not_parsed entry needs a short lower-case suffix, a positive int `files` and a string `cause` (a bad one is
+    skipped); a package name is used only when it looks like one. From coverage.sql: the files read as file nodes only
+    (too large, past the read budget, too slow), those that could not be opened and those left out as possible secrets
+    (the engine's sensitive-file rule); files the user's own .gitignore / .graphifyignore leave out and objects made by
+    dynamic SQL are not relayed (doctor names them). Never raises."""
+    try:
+        cov = data.get("coverage") if isinstance(data, dict) else None
+        if not isinstance(cov, dict):
+            return []
+        found = []     # (files, suffix, text)
+        block = cov.get("not_parsed")
+        for ext, entry in (block.items() if isinstance(block, dict) else ()):
+            try:
+                if not (isinstance(ext, str) and _PARSER_SUFFIX_RE.fullmatch(ext) and isinstance(entry, dict)):
+                    continue
+                n, cause = _gap_count(entry.get("files")), entry.get("cause")
+                if not n or not isinstance(cause, str):
+                    continue
+                pkg = entry.get("package")
+                pkg = pkg if isinstance(pkg, str) and _PACKAGE_RE.fullmatch(pkg) else ""
+                why = _not_parsed_cause(cause, pkg, entry.get("detail"))
+                found.append((n, ext, f"{_GAP_LANGS.get(ext, ext[1:].upper())}: {n} {ext} file(s) ({why})"))
+            except Exception:  # noqa: BLE001 - one bad entry never hides the others
+                continue
+        sql = cov.get("sql")
+        if isinstance(sql, dict):
+            unread = [(_gap_count(sql.get(k)), w) for k, w in (("too_large", "too large to read"),
+                                                                ("budget", "past the read budget"),
+                                                                ("slow", "too slow to read"))]
+            n = sum(c for c, _w in unread)
+            if n:
+                found.append((n, ".sql", f"SQL: the declarations in {n} .sql file(s) "
+                                         f"({', '.join(w for c, w in unread if c)})"))
+            n = _gap_count(sql.get("unreadable"))
+            if n:
+                found.append((n, ".sql", f"SQL: {n} .sql file(s) (could not be opened)"))
+            ign = sql.get("ignored")
+            n = _gap_count(ign.get("sensitive")) if isinstance(ign, dict) else 0
+            if n:
+                found.append((n, ".sql", f"SQL: {n} .sql file(s) (left out as possible secrets)"))
+        found.sort(key=lambda t: (-t[0], t[1]))
+        return [t[2] for t in found]
+    except Exception:
+        return []
+
+
+def not_parsed_gaps(data) -> list:
+    """What the manifest says is NOT in the graph although it is source (coverage.not_parsed with each cause, and the
+    .sql files DeepMap's SQL reader did not read): at most _NOT_PARSED_MAX short texts, most files first, e.g.
+    'R: 300 .r file(s) (no supported parser)'. [] when there is none or the block is malformed. Reads only what sync
+    stamped into the manifest: never imports verdict / graphify_extract and never probes for a parser (a hook may run
+    under another Python than the sync did). Never raises."""
+    return _not_parsed_all(data)[:_NOT_PARSED_MAX]
+
+
+def not_parsed_note(data) -> str:
+    """The sentence the READY announce, the coverage warning, the Grep/Glob reminder and the heal-recovered follow-up
+    end with: NOT_PARSED_NOTE naming not_parsed_gaps (plus 'and more' when there are more), or "" when there is none.
+    A 0.6.3 manifest (coverage.parser_missing, neither "not_parsed" nor "sql") keeps its 0.6.3 sentence
+    (PARSER_MISSING_NOTE) until its graph is rebuilt; a manifest of the newer shape never says it. Never raises."""
+    try:
+        cov = data.get("coverage") if isinstance(data, dict) else None
+        if not isinstance(cov, dict):
+            return ""
+        if "not_parsed" not in cov and "sql" not in cov:
+            return _parser_missing_note(cov)
+        gaps = _not_parsed_all(data)
+        if not gaps:
+            return ""
+        shown = gaps[:_NOT_PARSED_MAX] + ([_NOT_PARSED_MORE] if len(gaps) > _NOT_PARSED_MAX else [])
+        return NOT_PARSED_NOTE.format(gaps="; ".join(shown))
     except Exception:
         return ""
 

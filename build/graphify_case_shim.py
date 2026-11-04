@@ -58,6 +58,13 @@ J inventories every directory listing in the installed engine), so `hide_macos_m
 Path.glob / rglob / iterdir in the engine process — at import time, under the same variable — and the engine's own
 listings never yield metadata either.
 
+Fourth job (2026-11, DeepMap's own SQL reader): while DEEPMAP_SQL_DECLARATIONS is on, DeepMap reads .sql itself after
+the engine (graphify_extract._sql_supplement). When the engine's optional SQL grammar is installed it would parse those
+files too (few SQL Server declarations, in superlinear time), so the parent sets DEEPMAP_ENGINE_DROP_EXTS and
+`drop_suffixes` takes them out of `_DISPATCH` at import time (spawn workers re-import this file), BEFORE the odd-case
+aliasing, so a `.SQL` file is never aliased back onto the engine's SQL extractor. A cached engine result for such a
+file can still come back; DeepMap drops every engine node of a .sql file after the run anyway.
+
 Safety properties (this must never be worse than not running):
   * The PARENT (build/graphify_extract.extract) decides. It scans the tree once for suffixes that
     differ from their lowercase form but whose lowercase form IS a DeepMap source extension, and only
@@ -72,8 +79,8 @@ Safety properties (this must never be worse than not running):
     "uppercase files are skipped" behaviour, which the setup verdict already reports honestly.
 
 Invoked as:  python build/graphify_case_shim.py <root> [<suffix> ...]
-             (+ DEEPMAP_RESCUE_DIRS='{"root": ..., "dirs": [...]}' and/or DEEPMAP_SKIP_MACOS_METADATA=1 in the
-             environment)
+             (+ DEEPMAP_RESCUE_DIRS='{"root": ..., "dirs": [...]}', DEEPMAP_SKIP_MACOS_METADATA=1 and/or
+             DEEPMAP_ENGINE_DROP_EXTS=.sql in the environment)
 """
 from __future__ import annotations
 
@@ -90,6 +97,11 @@ ENV_RESCUE = "DEEPMAP_RESCUE_DIRS"
 #: "1" when the parent's pre-scan found macOS metadata in the tree (graphify_extract.macos_metadata_present):
 #: detect() then leaves it out of the engine's file lists. Read at import time too.
 ENV_SKIP_METADATA = "DEEPMAP_SKIP_MACOS_METADATA"
+#: Suffixes to take out of the engine's parser table (a JSON list or a comma list), set by the parent only when
+#: DeepMap's own reader reads them and the engine's optional grammar for them is installed (graphify_extract
+#: ENV_ENGINE_DROP_EXTS: .sql while DEEPMAP_SQL_DECLARATIONS is on). Read at import time, BEFORE the odd-case
+#: aliasing, so an upper-case `.SQL` is never aliased back onto the engine's SQL extractor.
+ENV_DROP_EXTS = "DEEPMAP_ENGINE_DROP_EXTS"
 
 # Mirror of build/framework_edges.is_macos_metadata (this file imports nothing of DeepMap's; drift-locked with the
 # other copies by tests/macos_appledouble_gates.py).
@@ -147,6 +159,41 @@ def _aliases_from_env() -> list:
     """The suffix list handed down through the environment. Never raises."""
     try:
         return [s for s in str(os.environ.get(ENV_ALIASES, "")).split(",") if s.strip()]
+    except Exception:
+        return []
+
+
+def drop_suffixes(suffixes) -> list:
+    """Take each suffix out of the engine's extractor table (`graphify.extract._DISPATCH`), so its files are neither
+    discovered nor parsed (detect() lists only suffixes in the table). Returns what was removed ([] if the engine's
+    table is unavailable or holds none of them). Never raises: an unpatchable engine simply parses them, and DeepMap's
+    own reader drops what it made of them after the run."""
+    try:
+        import graphify.extract as engine
+    except Exception:
+        return []
+    table = getattr(engine, "_DISPATCH", None)
+    if not isinstance(table, dict):
+        return []
+    dropped = []
+    for suffix in suffixes:
+        try:
+            if isinstance(suffix, str) and suffix in table:
+                table.pop(suffix, None)
+                dropped.append(suffix)
+        except Exception:
+            continue                           # one bad key must not cost the others
+    return dropped
+
+
+def _drop_from_env() -> list:
+    """The suffixes to take out of the engine's table, handed down through the environment. Never raises."""
+    try:
+        raw = str(os.environ.get(ENV_DROP_EXTS, "") or "").strip()
+        if not raw:
+            return []
+        values = json.loads(raw) if raw.startswith("[") else raw.split(",")
+        return [str(v).strip() for v in values if str(v).strip()]
     except Exception:
         return []
 
@@ -374,7 +421,9 @@ def _skip_metadata_from_env() -> bool:
 # inside every child. Without it, any tree of >= 20 files extracts to zero nodes. Guarded so importing
 # this module for a unit test (no env var set) has no side effect whatsoever. The directory rescue and the
 # macOS-metadata filter are applied the same way, so they hold in whichever process runs the engine's file
-# discovery.
+# discovery. The suffix drop (DeepMap's own SQL reader) comes FIRST, before any alias can point at what it removes.
+if _drop_from_env():
+    drop_suffixes(_drop_from_env())
 if _aliases_from_env():
     alias_suffixes(_aliases_from_env())
 if _rescue_from_env():
@@ -390,6 +439,11 @@ def main(argv=None) -> int:
         print("usage: graphify_case_shim.py <root> [<suffix> ...]", file=sys.stderr)
         return 2
     root, suffixes = argv[0], argv[1:]
+    drop = _drop_from_env()
+    if drop:
+        drop_suffixes(drop)                     # done at import time already (idempotent): this run says so
+        print(f"[deepmap] the engine leaves {', '.join(drop)} files to DeepMap's own reader (taken out of its parser "
+              f"table)", file=sys.stderr)
     if suffixes:
         # Publish BEFORE delegating so pool workers inherit it (they are spawned during the run).
         os.environ[ENV_ALIASES] = ",".join(suffixes)

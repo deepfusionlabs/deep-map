@@ -66,17 +66,14 @@ _SOURCE_EXTS = {
     # has no parser for them) would otherwise hide behind a repo's well-extracted .cpp files.
     ".cu": "CUDA", ".cuh": "CUDA", ".metal": "Metal",
 }
-# Census suffixes whose engine parser is an OPTIONAL package (graphifyy's extras) DeepMap does not install.
-# Without the module graphify returns {"nodes": [], "error": "<module> not installed"} for every such file (no
-# per-file warning line, so not a failed file either): the files can never reach the graph, and counting them
-# made a healthy graph read "LOW COVERAGE for SQL" on every sync (the 2026-11 .NET field report, 12 .sql files).
-# While the module is not importable (_uncounted_exts) every census counter leaves those files out and coverage
-# names them in "parser_missing" (informational, never a reason); with it installed they count as before.
-# _SOURCE_EXTS keeps both entries: the drift locks in tests/delphi_pascal_gates.py read the static map.
-# (Pascal is not here: graphify parses it without tree_sitter_pascal.) Locked by tests/sql_parser_census_gates.py.
-_OPTIONAL_PARSERS = {".sql": "tree_sitter_sql", ".dm": "tree_sitter_dm"}
-# {module: importable?}, filled once per process by _parser_present.
-_PARSER_PRESENT: dict = {}
+# Census suffixes this install cannot turn into nodes are decided by ONE rule, graphify_extract.not_parsed_here() (the
+# engine module owns what the engine can parse; KL-architecture:002): an optional engine grammar that is not installed
+# or not loadable (.dm; .sql while DeepMap's own SQL reader is off), and the suffixes no supported graphify parses
+# (graphify_extract.ENGINE_UNPARSED_EXTS: .pyi .cjs .pl .pm .r). Counting such files made a healthy graph read "LOW
+# COVERAGE" on every sync (the 2026-11 .NET field report, 12 .sql files). Every census counter leaves them out
+# (_uncounted_exts) and coverage names them in "not_parsed" with their cause (informational, never a reason).
+# _SOURCE_EXTS keeps every entry: the drift locks in tests/delphi_pascal_gates.py read the static map. Locked by
+# tests/unparsed_census_gates.py.
 # ".erb" is its OWN census language (NOT folded into Ruby): the Ruby recognizer emits ONE searchable
 # :Module view node per .erb, so an ERB density is ~1.0 — folding it into the Ruby bucket would dilute
 # the model-layer signal and could invent a false Ruby DEGRADED (F9).
@@ -201,38 +198,37 @@ def _engine_exts() -> set:
         return set(_SOURCE_EXTS)
 
 
-def _parser_present(module: str) -> bool:
-    """True iff the engine's optional parser `module` is importable in this Python: importlib.util.find_spec,
-    asked once per process (the engine runs under this same interpreter). Only a spec probe: nothing is
-    imported. A probe that raises counts as importable, so the census keeps counting those files as it always
-    did. Never raises."""
+def _not_parsed() -> dict:
+    """graphify_extract.not_parsed_here(), THE rule: {suffix: (cause, package, detail)} for the source suffixes this
+    install cannot turn into nodes. {} when that module cannot be loaded (count everything). Never raises."""
     try:
-        if module not in _PARSER_PRESENT:
-            try:
-                found = importlib.util.find_spec(module) is not None
-            except Exception:  # noqa: BLE001 — an unanswerable probe keeps today's census
-                found = True
-            _PARSER_PRESENT[module] = found
-        return bool(_PARSER_PRESENT[module])
+        gx = _extract_mod()
+        fn = getattr(gx, "not_parsed_here", None) if gx is not None else None
+        got = fn() if callable(fn) else {}
+        return {str(e).lower(): tuple(v) for e, v in got.items()} if isinstance(got, dict) else {}
     except Exception:
-        return True
+        return {}
 
 
 def _uncounted_exts() -> frozenset:
-    """The census suffixes left out of every coverage count: those of _OPTIONAL_PARSERS whose parser module is
-    not installed here. Never raises (an empty set on any problem: count everything, as before)."""
+    """The census suffixes left out of every coverage count: not_parsed_here()'s. Never raises (an empty set on any
+    problem: count everything, as before)."""
     try:
-        return frozenset(e for e, mod in _OPTIONAL_PARSERS.items() if not _parser_present(mod))
+        return frozenset(_not_parsed())
     except Exception:
         return frozenset()
 
 
-def _parser_package(ext: str) -> str:
-    """The pip name of the parser `ext` needs ('tree_sitter_sql' -> 'tree-sitter-sql'), '' if none. Never raises."""
+def _sql_reader_exts() -> tuple:
+    """The suffixes DeepMap's own SQL reader reads (sql_reader.EXTS), lowercase; ('.sql',) when unreadable."""
     try:
-        return str(_OPTIONAL_PARSERS.get(str(ext).lower()) or "").replace("_", "-")
+        here = str(Path(__file__).resolve().parent)
+        if here not in sys.path:
+            sys.path.insert(0, here)
+        import sql_reader
+        return tuple(str(e).lower() for e in sql_reader.EXTS)
     except Exception:
-        return ""
+        return (".sql",)
 
 
 def _long_paths_enabled() -> bool:
@@ -353,9 +349,8 @@ def _walk_source(base: Path, rule, limit: int, problems: dict | None = None, unc
     containing directory, as the engine's walker passes it. With `problems` ({"dirs": [], "files": []}),
     a directory that could not be listed because its path reached the Windows limit, and a source file
     whose path did, are recorded there instead of vanishing silently (they are never yielded — they can
-    not be read). A file whose engine parser is not installed (_uncounted_exts: .sql / .dm without their
-    optional package) is never yielded either; with `uncounted` ({suffix: files}) it is tallied there.
-    Never raises."""
+    not be read). A file this install cannot turn into nodes (_uncounted_exts: graphify_extract.not_parsed_here) is
+    never yielded either; with `uncounted` ({suffix: files}) it is tallied there. Never raises."""
     n = 0
     skip = _uncounted_exts()
     onerror = None
@@ -398,7 +393,7 @@ def _walk_source(base: Path, rule, limit: int, problems: dict | None = None, unc
 def _walk_long(dirpath: str, rule, limit: int):
     """Census-source files below a directory the normal walk could not list (its path reached the Windows
     limit): walked through the extended-length `\\\\?\\` form, which ignores the limit, honouring the same
-    ignore rule (and, like _walk_source, leaving out a suffix whose engine parser is not installed). Yields
+    ignore rule (and, like _walk_source, leaving out a suffix this install cannot turn into nodes). Yields
     plain (unprefixed) path strings. Never raises."""
     bs = chr(92)
     prefix = bs + bs + "?" + bs
@@ -428,12 +423,30 @@ def _walk_long(dirpath: str, rule, limit: int):
         return
 
 
-def _long_path_findings(root, rule, limit: int) -> dict:
+def _rel_under(path, root) -> str:
+    """`path` (absolute) relative to `root`, posix; the root as given, else resolved (the census walks the root as it
+    is given, the reader lists it resolved). str(path) when it is under neither. Never raises."""
+    p = str(path)
+    for base in (os.path.abspath(str(root)), str(Path(root).resolve())):
+        try:
+            if os.path.normcase(p).startswith(os.path.normcase(base.rstrip("\\/")) + os.sep):
+                return p[len(base.rstrip("\\/")) + 1:].replace("\\", "/")
+        except Exception:  # noqa: BLE001
+            continue
+    try:
+        return os.path.relpath(p, str(Path(root).resolve())).replace("\\", "/")
+    except Exception:  # noqa: BLE001
+        return p
+
+
+def _long_path_findings(root, rule, limit: int, read_rels=()) -> dict:
     """{"files": N, "examples": [relpath, ...]} — census-source files under `root` whose path is past the
     Windows MAX_PATH limit on a machine that cannot read such paths (LongPathsEnabled=0). The engine and
     DeepMap's own walkers skip them silently. Uses what the last extension_census(root) walk recorded (no
     second walk), else walks once. {} on any other OS, with long paths enabled, or when nothing is past the
-    limit. Never raises."""
+    limit. A file whose root-relative path is in `read_rels` is no finding (DeepMap's SQL reader listed it and opened
+    it through the extended-length form: graphify_extract._sql_supplement's "long_files"); any other file of any
+    suffix still is. Never raises."""
     try:
         if os.name != "nt" or _long_paths_enabled():
             return {}
@@ -445,16 +458,12 @@ def _long_path_findings(root, rule, limit: int) -> dict:
         files = list(probs.get("files") or [])
         for d in probs.get("dirs") or []:
             files.extend(_walk_long(d, rule, _LONG_PATH_WALK_LIMIT))
-        if not files:
+        done = {os.path.normcase(str(r).replace("/", os.sep)) for r in read_rels or () if isinstance(r, str)}
+        rels = [_rel_under(f, root) for f in files]
+        rels = [r for r in rels if os.path.normcase(r.replace("/", os.sep)) not in done]
+        if not rels:
             return {}
-        base = str(Path(root).resolve())
-        rels = []
-        for f in files[:3]:
-            try:
-                rels.append(os.path.relpath(f, base).replace("\\", "/"))
-            except ValueError:
-                rels.append(str(f))
-        return {"files": len(files), "examples": rels}
+        return {"files": len(rels), "examples": rels[:3]}
     except Exception:
         return {}
 
@@ -550,8 +559,82 @@ def _skipped_source_dirs(root) -> dict:
         return {}
 
 
+def _sql_report(extraction):
+    """sync's `.info["sql"]` (graphify_extract._sql_supplement's report) when it is a dict with a state, else None."""
+    rep = extraction.get("sql") if isinstance(extraction, dict) else None
+    return rep if isinstance(rep, dict) and isinstance(rep.get("state"), str) else None
+
+
+def _count(v) -> int:
+    """A non-negative int from a report field (a bool or anything else malformed counts 0)."""
+    return max(0, v) if isinstance(v, int) and not isinstance(v, bool) else 0
+
+
+def _sql_coverage_block(rep: dict) -> dict:
+    """coverage["sql"] for a read report: {"read", "declarations", "too_large", "budget", "slow", "unreadable",
+    "unread_examples" {state: [<= 3 rel]}, "dynamic_unread", "ignored" {"gitignore", "graphifyignore",
+    "sensitive", "examples" {rule: [<= 3 rel]}}}. Never raises."""
+    def examples(block) -> dict:
+        out = {}
+        for k, v in (block.items() if isinstance(block, dict) else ()):
+            if isinstance(k, str) and isinstance(v, list):
+                rels = [str(x) for x in v if isinstance(x, str)][:3]
+                if rels:
+                    out[k] = rels
+        return out
+
+    ign = rep.get("ignored") if isinstance(rep.get("ignored"), dict) else {}
+    return {"read": _count(rep.get("files")), "declarations": _count(rep.get("declarations")),
+            "too_large": _count(rep.get("too_large")), "budget": _count(rep.get("budget")),
+            "slow": _count(rep.get("slow")), "unreadable": _count(rep.get("unreadable")),
+            "unread_examples": examples(rep.get("unread_examples")),
+            "dynamic_unread": _count(rep.get("dynamic_unread")),
+            "ignored": {"gitignore": _count(ign.get("gitignore")), "graphifyignore": _count(ign.get("graphifyignore")),
+                        "sensitive": _count(ign.get("sensitive")), "examples": examples(ign.get("examples"))}}
+
+
+def _sql_off_text(detail) -> tuple:
+    """(why, fix) for DeepMap's SQL reader being off (no em dash). `detail`: "env" (DEEPMAP_SQL_DECLARATIONS is set) or
+    "default". The fix follows the release's default (graphify_extract.SQL_DECLARATIONS_DEFAULT), so it is one that
+    turns the reader on: while the default is off only an on word does (unsetting the variable keeps it off), while it
+    is on unsetting the variable does. The text never echoes the value the user set. Never raises."""
+    gx = _extract_mod()
+    try:
+        default_on = bool(getattr(gx, "SQL_DECLARATIONS_DEFAULT", False)) if gx is not None else False
+    except Exception:
+        default_on = False
+    if default_on:
+        return ("DeepMap's SQL reader is switched off, as DEEPMAP_SQL_DECLARATIONS is set to 0, false, no or off",
+                "unset DEEPMAP_SQL_DECLARATIONS and run /deep-map:refresh")
+    fix = "set DEEPMAP_SQL_DECLARATIONS=1 and run /deep-map:refresh"
+    if detail == "env":
+        return ("DeepMap's SQL reader is off, as DEEPMAP_SQL_DECLARATIONS is set to a value other than 1, true, yes or "
+                "on", fix)
+    return "DeepMap's SQL reader is off by default in this release", fix
+
+
+# DeepMap's reader runs inside the graphify extraction only (the Python-only ast fall-back reads no SQL).
+_SQL_ENGINE_NOTE = "DeepMap reads .sql when the graphify engine builds the graph"
+
+
+def _sql_off_cause() -> str:
+    """The SQL language's cause while DeepMap's reader is off and the engine's own SQL grammar made the nodes: SQL
+    density then counts declarations only, which a folder of ALTER / INSERT scripts never has, so the advice is worded
+    on that condition."""
+    gx = _extract_mod()
+    how = "default"
+    try:
+        how = gx.sql_reader_off_how() if gx is not None else "default"
+    except Exception:
+        pass
+    why, fix = _sql_off_text(how)
+    return (f"{why}, so only the engine's SQL parser read these files, and it finds few SQL Server declarations: if "
+            f"they declare tables, views or procedures, {fix} to read them; a folder of ALTER / INSERT scripts "
+            f"declares none")
+
+
 def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 20000,
-                   engine_keys=None) -> dict:
+                   engine_keys=None, extraction=None) -> dict:
     """Cross-reference the EXTRACTED nodes against the ON-DISK census: per-language and
     per-conventional-dir {files, nodes} counts, so classify() can tell "plenty of nodes overall"
     from "a whole layer of the codebase is invisible". Bounded; never raises; returns
@@ -576,13 +659,34 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
     a NON-git tree) — and "long_paths" {"files", "examples"} — source past the Windows MAX_PATH limit on
     a machine that cannot read it (_long_path_findings).
 
-    Files whose engine parser is an optional package that is not installed (_uncounted_exts: .sql without
-    tree_sitter_sql, .dm without tree_sitter_dm) count nowhere above: the census walk leaves them out, and so do
-    the conventional dirs, skipped_dirs, unindexed_dirs and long_paths. They are reported instead as
-    "parser_missing" {suffix: {"files", "package"}} (only when non-empty; informational, never a reason)."""
+    Files of a suffix this install cannot turn into nodes (_uncounted_exts: graphify_extract.not_parsed_here) count
+    nowhere above: the census walk leaves them out, and so do the conventional dirs, skipped_dirs, unindexed_dirs and
+    long_paths. They are reported instead as "not_parsed" {suffix: {"files": F, "cause": "package" | "unusable" |
+    "no-parser" | "off", "package": <pip name> or None, "detail": <the load error, how the SQL reader is off, or "">}}
+    (only when non-empty; informational, never a reason).
+
+    `extraction` (sync's `.info`) carries DeepMap's SQL reader's report as "sql" (graphify_extract._sql_supplement):
+      * state "read": SQL is judged by the files read, not by node density (a folder of ALTER / DML migrations is
+        covered: every read file is a :Module). The census's SQL files lose those the reader's file rule left out
+        (.gitignore, .graphifyignore, the engine's sensitive-file rule; they leave the conventional dirs and the
+        skipped / unindexed findings too), the SQL language rules never fire, a .sql path past MAX_PATH the reader
+        listed is no finding (its "long_files": it opens them through the extended-length form; any other long path
+        still is), and "sql" = {"read", "declarations", "too_large",
+        "budget", "slow", "unreadable", "unread_examples", "dynamic_unread", "ignored"} names what was not read;
+      * state "error": the SQL language rules apply, their cause naming the reader's error;
+      * state "off" (the reader is off and the engine's own SQL grammar made the nodes): SQL density counts only
+        declarations (:Class / :Function), not the file :Modules every parsed file gets, and the cause names the switch
+        on the condition that the files declare anything (a folder of ALTER / INSERT scripts does not: _sql_off_cause);
+      * no report (the ast extractor, an engine fall-back, a caller that passes none): as before."""
     try:
         census = census if census is not None else extension_census(root, limit=limit)
         skip_exts = _uncounted_exts()
+        causes = _not_parsed() if skip_exts else {}
+        rep = _sql_report(extraction)
+        state = rep.get("state") if rep else None
+        sql_exts = _sql_reader_exts()
+        left_out = ({str(f).replace("\\", "/") for f in rep.get("ignored_files") or [] if isinstance(f, str)}
+                    if state == "read" else set())
         uncounted: dict = {}
         walked = _CENSUS_UNCOUNTED.pop(_root_key(root), None)
         skipped = _skipped_source_dirs(root)
@@ -592,6 +696,10 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
                        for kept in [_without_uncounted(fs, skip_exts, uncounted)] if kept}
             unindexed = {d: {**u, "files": kept} for d, u in unindexed.items()
                          for kept in [_without_uncounted(u.get("files"), skip_exts, uncounted)] if kept}
+        if left_out:
+            skipped = {d: kept for d, fs in skipped.items() for kept in [[f for f in fs if f not in left_out]] if kept}
+            unindexed = {d: {**u, "files": kept} for d, u in unindexed.items()
+                         for kept in [[f for f in u.get("files") or [] if f not in left_out]] if kept}
         rule = _dir_ignore_rule()
         engine_exts = _engine_exts()
         registered = _ENGINE_KEYS.pop(_root_key(root), None)
@@ -615,7 +723,9 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
             engine = _is_engine_node(n, engine_exts, engine_keys)
             lang = _lang_of_path(sf)
             if lang:
-                if engine:
+                if state == "off" and n.get("label") == "Module" and sf.lower().endswith(sql_exts):
+                    pass             # the engine's file node of a .sql file is no declaration (density counts those)
+                elif engine:
                     lang_nodes[lang] = lang_nodes.get(lang, 0) + 1
                     ext = _ext_of(sf)
                     ext_nodes[ext] = ext_nodes.get(ext, 0) + 1
@@ -640,10 +750,20 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
             languages[lang] = {"files": int(files), "nodes": int(lang_nodes.get(lang, 0))}
             if rec_nodes.get(lang):
                 languages[lang]["recognizer_nodes"] = int(rec_nodes[lang])
+        sql_lang = _SOURCE_EXTS.get(sql_exts[0], "SQL") if sql_exts else "SQL"
+        if sql_lang in languages and state == "read":
+            gone = sum(1 for f in left_out if f.lower().endswith(sql_exts))
+            languages[sql_lang]["files"] = max(0, languages[sql_lang]["files"] - gone)
+        elif sql_lang in languages and state == "error":
+            languages[sql_lang]["cause"] = (f"DeepMap's SQL reader failed ({str(rep.get('error') or '?')[:200]}); "
+                                            f"re-run /deep-map:refresh and read its '[graphify_extract] SQL' line")
+        elif sql_lang in languages and state == "off":
+            languages[sql_lang]["cause"] = _sql_off_cause()
         dirs = {}
         for d in _CONVENTIONAL_DIRS:
             files = _count_source_files(Path(root) / Path(d), limit=limit, rule=rule)
-            if files:
+            files -= sum(1 for f in left_out if f.lower().startswith(d + "/"))
+            if files > 0:
                 dirs[d] = {"files": files, "nodes": dir_nodes[d]}
         out = {"languages": languages, "dirs": dirs}
         unparsed, in_skipped = _unparsed_upgradeable(root, census, rule, limit, ext_nodes, skipped)
@@ -661,7 +781,8 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
                           if u.get("files") and unidx_nodes[d] < len(u["files"]) * _DIR_DENSITY_FLOOR}
         if unindexed_dirs:
             out["unindexed_dirs"] = unindexed_dirs
-        long_paths = _long_path_findings(root, rule, limit)
+        read_long = rep.get("long_files") if state == "read" and isinstance(rep.get("long_files"), list) else ()
+        long_paths = _long_path_findings(root, rule, limit, read_rels=read_long)
         if long_paths:
             out["long_paths"] = long_paths
         if skip_exts:
@@ -671,10 +792,16 @@ def build_coverage(root, nodes, *, census: dict | None = None, limit: int = 2000
                     pass
             for e, n in (walked or {}).items():
                 uncounted[e] = uncounted.get(e, 0) + int(n)
-            missing = {e: {"files": int(n), "package": _parser_package(e)}
-                       for e, n in sorted(uncounted.items()) if int(n) > 0}
+            missing = {}
+            for e, n in sorted(uncounted.items()):
+                if int(n) > 0:
+                    cause, package, detail = (tuple(causes.get(e) or ()) + ("", "", ""))[:3]
+                    missing[e] = {"files": int(n), "cause": str(cause), "package": str(package) or None,
+                                  "detail": str(detail)}
             if missing:
-                out["parser_missing"] = missing
+                out["not_parsed"] = missing
+        if state == "read":
+            out["sql"] = _sql_coverage_block(rep)
         return out
     except Exception:
         return {"languages": {}, "dirs": {}}
@@ -811,7 +938,11 @@ def _coverage_reasons(coverage, *, engine_skips: bool = True) -> list:
                 f"{_graphify_install_command()}, then re-run /deep-map:refresh. Until then that code is "
                 f"invisible to deepmap_search/deepmap_impact.")
         excl_tests = _exclude_tests()
+        # DeepMap's SQL reader read the .sql files: SQL is judged by the files read (coverage "sql"), never by density.
+        sql_read = isinstance(coverage.get("sql"), dict)
         for lang, c in sorted((coverage.get("languages") or {}).items()):
+            if sql_read and lang == "SQL":
+                continue
             files, lnodes = int(c.get("files", 0)), int(c.get("nodes", 0))
             # Files already named above as unparseable by this engine are not ALSO a density problem.
             files -= int((unparsed.get(lang) or {}).get("files", 0))
@@ -819,20 +950,22 @@ def _coverage_reasons(coverage, *, engine_skips: bool = True) -> list:
             rec_note = (f" — its {rec} other node(s) are DeepMap's per-language recognizer shells (one per "
                         f"class/model, no functions or methods), which do not count as extraction"
                         if rec else "")
+            # The head (up to the first ";") is what the hooks relay; a known cause replaces the generic tail.
+            cause = c.get("cause") if isinstance(c.get("cause"), str) and c.get("cause") else None
+            tail = (f" ({cause})." if cause else
+                    " (check the extractor lines in the sync output — /deep-map:doctor shows the engine the last "
+                    "sync used).")
             if files >= _LANG_MIN_FILES and lnodes < max(1, files * _LANG_DENSITY_FLOOR):
                 out.append(
                     f"LOW COVERAGE for {lang} — {files} files on disk but only {lnodes} extracted "
-                    f"node(s); {lang} code is effectively invisible to search/impact{rec_note} (check the "
-                    f"extractor lines in the sync output — /deep-map:doctor shows the engine the last "
-                    f"sync used).")
+                    f"node(s); {lang} code is effectively invisible to search/impact{rec_note}{tail}")
             elif files >= _LANG_ZERO_MIN_FILES and lnodes == 0 and not excl_tests:
                 # T8d-B1: a small layer is still a layer — 5 C# files the engine produced nothing for used
                 # to pass as READY because the rule above waits for 10 files. (Skipped under
                 # DEEPMAP_EXCLUDE_TESTS, whose dropped test files the census cannot tell apart.)
                 out.append(
                     f"LOW COVERAGE for {lang} — {files} file(s) on disk but 0 extracted by the engine; "
-                    f"{lang} code is invisible to search/impact{rec_note} (check the extractor lines in "
-                    f"the sync output — /deep-map:doctor shows the engine the last sync used).")
+                    f"{lang} code is invisible to search/impact{rec_note}{tail}")
         lp = coverage.get("long_paths") or {}
         if int(lp.get("files") or 0):
             ex = str((lp.get("examples") or [""])[0])[:160]
@@ -978,32 +1111,134 @@ def format_coverage(coverage) -> list:
         if int(lp.get("files") or 0):
             lines.append(f"{int(lp['files'])} source file(s) past the Windows 260-char path limit "
                          f"(unreadable with LongPathsEnabled=0)")
-        for ext, n, pkg in _parser_missing_entries(coverage):
-            lang = _SOURCE_EXTS.get(ext, ext)
-            lines.append(f"{lang}: {n} {ext} file(s) not in the graph (not counted for coverage): the extraction "
-                         f"engine parses {ext} only with the optional package {pkg}, which DeepMap does not install")
+        for ext, n, cause, pkg, detail in _not_parsed_entries(coverage):
+            lines.append(_not_parsed_line(ext, n, cause, pkg, detail))
+        lines.extend(_sql_lines(coverage.get("sql")))
     except Exception:
         return []
     return lines
 
 
-def _parser_missing_entries(coverage) -> list:
-    """[(suffix, files, package)] from a build_coverage() dict's "parser_missing" block, well-formed entries only,
-    sorted by suffix. [] for anything malformed. Never raises."""
+def _not_parsed_line(ext: str, n: int, cause: str, pkg: str, detail: str) -> str:
+    """One doctor / status line for files of a suffix this install cannot parse, with its cause (no em dash)."""
+    head = f"{_SOURCE_EXTS.get(ext, ext)}: {n} {ext} file(s) not in the graph (not counted for coverage)"
+    if cause == "package":
+        return (f"{head}: the extraction engine parses {ext} only with the optional package {pkg}, which DeepMap does "
+                f"not install")
+    if cause == "unusable":
+        return f"{head}: {pkg} is installed but cannot be loaded ({detail})"
+    if cause == "no-parser":
+        return f"{head}: no graphify release DeepMap supports ({_graphify_spec()}) parses {ext}"
+    if cause == "off":
+        engine = f"the engine has no usable SQL parser ({pkg})" if pkg else "the engine has no usable SQL parser"
+        why, fix = _sql_off_text(detail)
+        return f"{head}: {why}, and {engine}; {fix} to read them ({_SQL_ENGINE_NOTE})"
+    return head
+
+
+def _legacy_not_parsed(block) -> dict:
+    """A 0.6.3 manifest's coverage "parser_missing" {suffix: {"files", "package"}} (released 2026-11-01) as "not_parsed"
+    entries of cause "package", so doctor / status print its 0.6.3 line until the graph is rebuilt. Entries need a
+    positive int of files and a package (named, or the engine's for that suffix). {} for anything malformed."""
+    out: dict = {}
+    gx = _extract_mod()
+    try:
+        known = {str(e).lower(): str(m).replace("_", "-") for e, m in getattr(gx, "OPTIONAL_PARSERS", {}).items()}
+    except Exception:
+        known = {}
+    for ext, c in (block.items() if isinstance(block, dict) else ()):
+        try:
+            if not isinstance(ext, str) or not isinstance(c, dict):
+                continue
+            n = c.get("files")
+            pkg = str(c.get("package") or known.get(ext.lower()) or "")
+            if isinstance(n, int) and not isinstance(n, bool) and n > 0 and pkg:
+                out[ext] = {"files": n, "cause": "package", "package": pkg, "detail": ""}
+        except Exception:  # noqa: BLE001: one bad entry never hides the others
+            continue
+    return out
+
+
+def _not_parsed_entries(coverage) -> list:
+    """[(suffix, files, cause, package, detail)] from a build_coverage() dict's "not_parsed" block, well-formed
+    entries only (a ".suffix" key, a positive int of files, a string cause), sorted by suffix; a dict without that
+    block reads a 0.6.3 "parser_missing" block instead (_legacy_not_parsed). [] for anything malformed. Never
+    raises."""
     out: list = []
     try:
-        pm = coverage.get("parser_missing") if isinstance(coverage, dict) else None
-        for ext, c in (pm.items() if isinstance(pm, dict) else ()):
+        block = coverage.get("not_parsed") if isinstance(coverage, dict) else None
+        if isinstance(coverage, dict) and "not_parsed" not in coverage:
+            block = _legacy_not_parsed(coverage.get("parser_missing"))
+        for ext, c in (block.items() if isinstance(block, dict) else ()):
             try:
-                e, n = str(ext).lower(), int((c or {}).get("files") or 0)
-                pkg = str((c or {}).get("package") or _parser_package(e) or "")
-            except Exception:  # noqa: BLE001 — one bad entry never hides the others
+                if not isinstance(ext, str) or not isinstance(c, dict):
+                    continue
+                e, n, cause = ext.lower(), c.get("files"), c.get("cause")
+                if not e.startswith(".") or isinstance(n, bool) or not isinstance(n, int) or n <= 0:
+                    continue
+                if not isinstance(cause, str):
+                    continue
+                out.append((e, n, cause, str(c.get("package") or ""), str(c.get("detail") or "")))
+            except Exception:  # noqa: BLE001: one bad entry never hides the others
                 continue
-            if e.startswith(".") and n > 0 and pkg:
-                out.append((e, n, pkg))
     except Exception:
         return []
     return sorted(out)
+
+
+def _bytes_text(n: int) -> str:
+    if n >= 1024 * 1024:
+        return f"{n / (1024 * 1024):g} MB"
+    return f"{n / 1024:g} KB" if n >= 1024 else f"{n} bytes"
+
+
+def _sql_lines(block) -> list:
+    """doctor / status lines from coverage "sql" (DeepMap's SQL reader): the files it read as a :Module only, those it
+    could not open, those a rule left out (one line per rule, with examples) and the objects created by dynamic SQL it
+    does not read. [] for anything malformed. Never raises."""
+    lines: list = []
+    try:
+        if not isinstance(block, dict):
+            return []
+        try:
+            here = str(Path(__file__).resolve().parent)
+            if here not in sys.path:
+                sys.path.insert(0, here)
+            import sql_reader as sr
+            limit, budget, slow = sr.MAX_BYTES, sr.TOTAL_BYTES, sr.DEADLINE_S
+        except Exception:
+            limit, budget, slow = 8 * 1024 * 1024, 256 * 1024 * 1024, 60.0
+        ex = block.get("unread_examples") if isinstance(block.get("unread_examples"), dict) else {}
+        parts, first = [], ""
+        for key, words in (("too_large", f"over {_bytes_text(limit)}"),
+                           ("budget", f"past the {_bytes_text(budget)} budget"), ("slow", f"over {slow:g} s")):
+            k = _count(block.get(key))
+            if k:
+                parts.append(f"{k} {words}")
+                first = first or next((str(x) for x in ex.get(key) or [] if isinstance(x, str)), "")
+        if parts:
+            n = sum(_count(block.get(k)) for k in ("too_large", "budget", "slow"))
+            lines.append(f"SQL: {n} .sql file(s) are file nodes only (not read: {', '.join(parts)})"
+                         + (f"; e.g. {first}" if first else ""))
+        u = _count(block.get("unreadable"))
+        if u:
+            rel = next((str(x) for x in ex.get("unreadable") or [] if isinstance(x, str)), "")
+            lines.append(f"SQL: {u} .sql file(s) could not be opened" + (f" (e.g. {rel})" if rel else ""))
+        ign = block.get("ignored") if isinstance(block.get("ignored"), dict) else {}
+        examples = ign.get("examples") if isinstance(ign.get("examples"), dict) else {}
+        for key, words in (("gitignore", ".gitignore"), ("graphifyignore", ".graphifyignore"),
+                           ("sensitive", "the engine's sensitive-file rule")):
+            k = _count(ign.get(key))
+            if k:
+                rels = [str(x) for x in examples.get(key) or [] if isinstance(x, str)][:3]
+                lines.append(f"SQL: {k} .sql file(s) left out by {words}"
+                             + (f" (e.g. {', '.join(rels)})" if rels else ""))
+        d = _count(block.get("dynamic_unread"))
+        if d:
+            lines.append(f"SQL: {d} object(s) created by dynamic SQL DeepMap does not read")
+    except Exception:
+        return lines
+    return lines
 
 
 def _unseen_source_files(coverage) -> int:
@@ -1046,9 +1281,9 @@ def ml_stack_ok() -> bool:
 
 def extension_census(root, *, limit: int = 20000) -> dict:
     """Count source files by human language under `root`, honoring the ignore set. Bounded (`limit`
-    files scanned) so a huge tree can't stall setup. Returns {language: count}. A suffix whose engine parser
-    is not installed (_uncounted_exts) is not counted; how many such files the walk saw is kept for
-    build_coverage's "parser_missing" block. Never raises."""
+    files scanned) so a huge tree can't stall setup. Returns {language: count}. A suffix this install cannot
+    turn into nodes (_uncounted_exts: graphify_extract.not_parsed_here) is not counted; how many such files the
+    walk saw is kept for build_coverage's "not_parsed" block. Never raises."""
     counts: dict = {}
     try:
         # Windows with LongPathsEnabled=0 only: note what the walk cannot read, for build_coverage.
@@ -1066,6 +1301,36 @@ def extension_census(root, *, limit: int = 20000) -> dict:
     except Exception:
         pass
     return counts
+
+
+def _unparsable_why(entries) -> str:
+    """Why each suffix of _not_parsed_entries cannot be parsed here, one clause per cause (no em dash)."""
+    by: dict = {}
+    for e, _n, cause, pkg, detail in entries:
+        by.setdefault(cause, []).append((e, pkg, detail))
+
+    def exts(items) -> str:
+        return "/".join(e for e, _p, _d in items)
+
+    def pkgs(items) -> str:
+        return ", ".join(sorted({p for _e, p, _d in items if p}))
+
+    out = []
+    if by.get("package"):
+        out.append(f"the extraction engine parses {exts(by['package'])} only with an optional package DeepMap does "
+                   f"not install ({pkgs(by['package'])})")
+    if by.get("unusable"):
+        out.append(f"the extraction engine's optional package for {exts(by['unusable'])} is installed but cannot be "
+                   f"loaded ({pkgs(by['unusable'])})")
+    if by.get("no-parser"):
+        out.append(f"no graphify release DeepMap supports parses {exts(by['no-parser'])}")
+    if by.get("off"):
+        why, fix = _sql_off_text("env" if any(d == "env" for _e, _p, d in by["off"]) else "default")
+        out.append(f"{why} ({fix} to read {exts(by['off'])})")
+    rest = [e for c, items in by.items() if c not in ("package", "unusable", "no-parser", "off") for e, _p, _d in items]
+    if rest:
+        out.append(f"this install cannot parse {'/'.join(rest)}")
+    return "; ".join(out)
 
 
 def _top(langs: dict, n: int) -> str:
@@ -1127,14 +1392,17 @@ def classify(*, neo4j_ok: bool, n_nodes: int, n_embedded: int, census: dict | No
     - coverage       : optional build_coverage() output; a dead conventional dir (app/models/ with
                        files but ~no nodes), a ~unextracted language or (on the graphify engine) an
                        engine-skipped dir whose tracked source never arrived DEGRADES with a named
-                       reason — plenty of nodes overall must not mask a blind layer. Its "parser_missing"
-                       block (files the engine has no installed parser for) never degrades; it only names
-                       them when they are all the source there is.
+                       reason — plenty of nodes overall must not mask a blind layer. Its "not_parsed"
+                       block (files of a suffix this install cannot turn into nodes, with their cause) never
+                       degrades; it only names them, with each cause, when they are all the source there is.
+                       Its "sql" block (DeepMap's SQL reader read the .sql files) means SQL is judged by the
+                       files read: the SQL density rules never fire then.
     - extraction     : optional sync._rebuild_code `.info` — {"requested", "fallback_reason",
-                       "engine_error", "maxpath", "failed_files", "failed_examples"}. Lets the verdict
+                       "engine_error", "maxpath", "failed_files", "failed_examples", "sql"}. Lets the verdict
                        say "fell back automatically" (with graphify's cause) instead of blaming a
                        "forced" ast the user never set, name the engine error of a failed forced-
-                       graphify run, and DEGRADE a run where graphify lost many files (G4).
+                       graphify run, and DEGRADE a run where graphify lost many files (G4). ("sql", DeepMap's
+                       SQL reader's report, is read by build_coverage, which sync hands the same `.info`.)
 
     Returns ("READY"|"DEGRADED"|"FAILED", [human reason strings]).
     """
@@ -1152,18 +1420,16 @@ def classify(*, neo4j_ok: bool, n_nodes: int, n_embedded: int, census: dict | No
 
     if n_nodes == 0:
         if not langs:
-            unparsable = _parser_missing_entries(coverage)
+            unparsable = _not_parsed_entries(coverage)
             if unparsable and not _unseen_source_files(coverage):
-                # The census left these out (their engine parser is not installed): "no source found, is this the
-                # right path?" would send the user looking for a problem that is not there. Only when coverage
+                # The census left these out (this install cannot turn them into nodes): "no source found, is this
+                # the right path?" would send the user looking for a problem that is not there. Only when coverage
                 # names no other source the census cannot see (an engine-skipped dir, a path past MAX_PATH, a
                 # suffix only a later engine parses): then these are NOT the only source, and the reason below
                 # stands as before.
-                found = " and ".join(f"{n} {e}" for e, n, _p in unparsable)
-                pkgs = ", ".join(p for _e, _n, p in unparsable)
-                return FAILED, [f"0 code nodes: the only source files found are {found} file(s), and the "
-                                f"extraction engine parses them only with an optional package DeepMap does not "
-                                f"install ({pkgs}), so there is nothing to search."]
+                found = " and ".join(f"{n} {e}" for e, n, _c, _p, _d in unparsable)
+                return FAILED, [f"0 code nodes: the only source files found are {found} file(s); "
+                                f"{_unparsable_why(unparsable)}, so there is nothing to search."]
             return FAILED, ["0 code nodes: no supported source files were found under the target "
                             "directory — is this the right path?"]
         if forced_ast and py == 0 and other:

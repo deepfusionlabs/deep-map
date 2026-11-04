@@ -262,12 +262,18 @@ project then uses that endpoint, and `status` / `doctor` report `isolation: OPER
 - **Incremental extraction is opt-in and `ast`-only.** `DEEPMAP_INCREMENTAL_SYNC=1` skips re-parsing unchanged files
   on the `ast` path and builds the same graph. graphify runs as one whole-tree process, so with it every sync
   extracts the whole tree, and the push to Neo4j is always a full push.
-- **SQL (`.sql`) and DreamMaker (`.dm`) files are not parsed.** The engine reads them only with optional parser
-  packages that DeepMap does not install, so `deepmap_search`, `deepmap_impact` and `deepmap_cypher` never return a
-  table, view, stored procedure or other SQL object. These files are not counted for coverage, so they never make the
-  verdict `DEGRADED`; `/deep-map:status` and `/deep-map:doctor` list them on a line of their own. The session-start
-  note and the reminder before the session's first Grep or Glob name them and tell the agent to use Grep or Read
-  there. **Workaround:** use Grep for SQL.
+- **SQL is read only when you switch it on.** DeepMap's own SQL reader is off by default until it passes its
+  measurement on real SQL code; with it off, `deepmap_search`, `deepmap_impact` and `deepmap_cypher` never return a
+  table, view, stored procedure or other SQL object. With it on (`DEEPMAP_SQL_DECLARATIONS=1`, then
+  `/deep-map:refresh`), SQL objects are declarations only: there are no SQL links, so impact analysis cannot list who
+  reads, writes or runs a table or procedure; SQL outside `.sql` files (strings in code, `.txt` scripts) and SQL built
+  at run time are not read; the reader runs only when the graphify engine builds the graph. **Workaround:** use Grep
+  for SQL and for its users.
+- **Some files are not parsed at all.** R, Perl, Python stub (`.pyi`) and CommonJS (`.cjs`) files, DreamMaker
+  (`.dm`) files without their optional parser, and `.sql` files while the SQL reader is off are not in the graph.
+  They are not counted for coverage, so they never make the verdict `DEGRADED`; `/deep-map:status` and
+  `/deep-map:doctor` list them with the reason, and the session-start note and the reminder before the session's
+  first Grep or Glob tell Claude to use Grep or Read there.
 - **The verdict can only flag what it can see.** A language whose files are on disk but not in the graph makes the
   verdict `DEGRADED` with a `LOW COVERAGE` reason, and the session-start note tells the agent that an empty result
   in that layer means not indexed, not absent. **Workaround:** check the per-language `N files, M nodes` table in
